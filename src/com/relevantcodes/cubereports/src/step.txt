@@ -1,0 +1,6 @@
+<tr>
+										<td><!--%%TIMESTAMP%%--></td>
+										<td class='status <!--%%STATUS%%-->'><i class='fa fa-<!--%%STATUSICON%%-->'></i></td>
+										<td><!--%%STEPNAME%%--></td>
+										<td><!--%%DETAILS%%--></td>
+									</tr>
