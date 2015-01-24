@@ -1,10 +1,27 @@
+/*
+Copyright 2015 Cube Reports committer(s)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+	
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+
 package com.relevantcodes.cubereports;
 
 import java.net.InetAddress;
 import com.relevantcodes.cubereports.support.*;
 
-class LogInsight {
-	public static void updateSummary(String filePath, String newSummary) {
+class Insight {
+	public static void changeIntroSummary(String filePath, String newSummary) {
 		String txtCurrent = FileOps.readAllText(filePath);
 		String pattern = "<p><!--%%REPORTSUMMARY%%-->.*<!--%%REPORTSUMMARY%%--></p>";
 		newSummary = pattern.replace(".*", newSummary); 
@@ -15,7 +32,7 @@ class LogInsight {
 		FileOps.write(filePath, txtCurrent);		
 	}
 	
-	public static void updateSystemSpecs(String filePath) {
+	public static void renewSystemSpecs(String filePath) {
 		String txtCurrent = FileOps.readAllText(filePath);
 		String hostName = "<!--%%HOSTNAME%%-->.*<!--%%HOSTNAME%%-->";
 		String ip = "<!--%%IP%%-->.*<!--%%IP%%-->";
@@ -56,7 +73,7 @@ class LogInsight {
 		FileOps.write(filePath, txtCurrent);
 	}
 	
-	public static void useCustomStylesheet(String filePath, String cssFilePath) {
+	public static void customStylesheet(String filePath, String cssFilePath) {
 		String txtCurrent = FileOps.readAllText(filePath);
 		String placeHolder = "<!--%%CUSTOMCSS%%-->.*<!--%%CUSTOMCSS%%-->";
 		String link = "<link href='file:///" + cssFilePath + "' rel='stylesheet' type='text/css' />";
