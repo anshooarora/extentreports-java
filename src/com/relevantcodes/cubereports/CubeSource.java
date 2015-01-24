@@ -18,28 +18,18 @@ limitations under the License.
 package com.relevantcodes.cubereports;
 
 import java.net.InetAddress;
+import com.relevantcodes.cubereports.markup.MarkupFlag;
 import com.relevantcodes.cubereports.support.*;
 
-class Insight {
-	public static void changeIntroSummary(String filePath, String newSummary) {
-		String txtCurrent = FileOps.readAllText(filePath);
-		String pattern = "<p><!--%%REPORTSUMMARY%%-->.*<!--%%REPORTSUMMARY%%--></p>";
-		newSummary = pattern.replace(".*", newSummary); 
-		
-		String oldSummary = RegexMatcher.getNthMatch(txtCurrent, pattern, 0);
-		txtCurrent = txtCurrent.replace(oldSummary, newSummary);
-		
-		FileOps.write(filePath, txtCurrent);		
-	}
-	
+class CubeSource {
 	public static void renewSystemSpecs(String filePath) {
-		String txtCurrent = FileOps.readAllText(filePath);
-		String hostName = "<!--%%HOSTNAME%%-->.*<!--%%HOSTNAME%%-->";
-		String ip = "<!--%%IP%%-->.*<!--%%IP%%-->";
-		String os = "<!--%%OS%%-->.*<!--%%OS%%-->";
-		String locale = "<!--%%LOCALE%%-->.*<!--%%LOCALE%%-->";
-		String totalMem = "<!--%%TOTALMEM%%-->.*<!--%%TOTALMEM%%-->";
-		String availMem = "<!--%%AVAILMEM%%-->.*<!--%%AVAILMEM%%-->";
+		String txtCurrent = FileReaderEx.readAllText(filePath);
+		String hostName = MarkupFlag.get("hostName") + ".*" + MarkupFlag.get("hostName");
+		String ip = MarkupFlag.get("ip") + ".*" + MarkupFlag.get("ip");
+		String os = MarkupFlag.get("os") + ".*" + MarkupFlag.get("os");
+		String locale = MarkupFlag.get("locale") + ".*" + MarkupFlag.get("locale");
+		String totalMem = MarkupFlag.get("totalMem") + ".*" + MarkupFlag.get("totalMem");
+		String availMem = MarkupFlag.get("availMem") + ".*" + MarkupFlag.get("availMem");
 		String oldValue = "";
 		
 		oldValue = RegexMatcher.getNthMatch(txtCurrent, hostName, 0);
@@ -70,17 +60,6 @@ class Insight {
 		oldValue = RegexMatcher.getNthMatch(txtCurrent, availMem, 0);
 		txtCurrent = txtCurrent.replace(oldValue, availMem.replace(".*", "" + Runtime.getRuntime().freeMemory() + ""));
 		
-		FileOps.write(filePath, txtCurrent);
-	}
-	
-	public static void customStylesheet(String filePath, String cssFilePath) {
-		String txtCurrent = FileOps.readAllText(filePath);
-		String placeHolder = "<!--%%CUSTOMCSS%%-->.*<!--%%CUSTOMCSS%%-->";
-		String link = "<link href='file:///" + cssFilePath + "' rel='stylesheet' type='text/css' />";
-		
-		String match = RegexMatcher.getNthMatch(txtCurrent, placeHolder, 0);
-		txtCurrent = txtCurrent.replace(match, placeHolder.replace(".*", link));
-		
-		FileOps.write(filePath, txtCurrent);
+		FileWriterEx.write(filePath, txtCurrent);
 	}
 }

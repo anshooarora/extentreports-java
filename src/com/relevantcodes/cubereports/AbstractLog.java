@@ -87,10 +87,6 @@ abstract class AbstractLog {
 		this.level = level;
 	}
 	
-	protected abstract void updateSummary(String summary);
-	
-	protected abstract void customStylesheet(String cssFilePath);
-	
 	public LogStatus getLastRunStatus() {
 		return lastRunStatus;
 	}
@@ -126,7 +122,12 @@ abstract class AbstractLog {
 	
 	private void trackLastRunStatus() {
 		switch (lastRunStatus) {
-			case FAIL: return;
+			case FATAL: return;
+			case FAIL: 
+				if (logStatus == LogStatus.FATAL) {
+					lastRunStatus = logStatus;
+				}	
+				return;
 			case ERROR: 
 				if (logStatus == LogStatus.FAIL) {
 					lastRunStatus = logStatus;

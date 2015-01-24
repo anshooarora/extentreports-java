@@ -14,9 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+package com.relevantcodes.cubereports.markup;
 
-package com.relevantcodes.cubereports;
-
-public enum LogStatus {
-	PASS, FAIL, FATAL, ERROR, WARNING, INFO
+public class MarkupFlag {
+	public static String get(String flag) {
+		return "<!--%%" + flag.toUpperCase() + "%%-->";
+	}
 }

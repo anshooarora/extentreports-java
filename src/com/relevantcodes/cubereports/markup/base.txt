@@ -11,7 +11,6 @@
 			$(document).ready(function() {
 				$('.test').click(function(evt) {
 					var target = $(this);
-
 					var i = target.find('.toggle-area').find('i');
 					if (i.hasClass('fa-minus')) {
 						if (evt.target.nodeName == "DIV" || evt.target.nodeName == "I" || evt.target.nodeName == "SPAN") {
@@ -30,10 +29,12 @@
 					var target = $(this); 
 					var t = evt.target.className;
 					evt.preventDefault();
+					/*
 					$('html, body').animate({
 						scrollTop: 0,
 						scrollLeft: 0
 					});
+					*/
 					if (target.find('#' + t.split(' ')[0]).is(':visible')) {
 						target.find('#' + t.split(' ')[0]).slideUp('200');
 						$('.' + t.split(' ')[0]).css('background-color', '');
@@ -139,7 +140,7 @@
 			  }
 		</script>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css' />
-		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
 		<style type='text/css'>
 			html {
 				overflow-y: scroll;
@@ -328,7 +329,7 @@
 				font-weight: 700;
 				text-align: center;
 			}
-			.status.fail {
+			.status.fail, .status.fatal {
 				color: red;
 			}
 			.status.error {
@@ -347,8 +348,8 @@
 				margin: 0;
 			}
 			#footer div {
-				display: inline-block;
-				margin-right: 25px;
+				float: left;
+				margin-right: 30px;
 			}
 			#footer h4 {
 				border-bottom: 2px solid #59a3df;
@@ -360,13 +361,18 @@
 			#footer span {
 				display: block;
 			}
+			#footer ul {
+			    margin-left: -20px;
+			}
 			/* temp for beta */
 			#footer p {
 			    font-size: 11px;
 			    text-align: right;
 			}
 			#footer a {
-				margin-left: 10px;
+			    font-size: 13px;
+			    font-weight: 300;
+			    margin-left: 10px;
 			}
 			/* /temp */
 			.cs-btn {
@@ -514,23 +520,16 @@
 				</div>
 			</div>
 			<div id='footer'>
-				<!--
 				<div id='footer-section-1'>
-					<h4>Footer Heading</h4>
-					<span><a href='#'>Item</a></span>
-					<span><a href='#'>Item</a></span>
-					<span><a href='#'>Item</a></span>
-					<span><a href='#'>Item</a></span>
+					<h4>CubeReports Library</h4>
+					<ul>
+						<li><a href='http://relevantcodes.com'>Project Home</a></span></li>
+						<li><a href='https://github.com/relevantcodes/cubereports/wiki'>Wiki</a></span></li>
+						<li><a href='https://github.com/relevantcodes/cubereports'>Sources</a></span></li>
+						<li><a href='https://github.com/relevantcodes/cubereports'>Committers</a></span></li>
+						<li><a href='https://github.com/relevantcodes/cubereports/issues'>Issues</a></span></li>
+					</ul>
 				</div>
-				<div id='footer-section-2'>
-					<h4>Footer Heading</h4>
-					<span><a href='#'>Item</a></span>
-					<span><a href='#'>Item</a></span>
-					<span><a href='#'>Item</a></span>
-					<span><a href='#'>Item</a></span>
-				</div>
-				-->
-				<p><a href='http://relevantcodes.com/presenting-relevantcodes2/'>CubeReports Library (beta) @ RelevantCodes</a></p>
 			</div>
 		</div>	
 	</body>

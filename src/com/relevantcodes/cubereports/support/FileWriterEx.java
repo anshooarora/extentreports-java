@@ -19,13 +19,11 @@ package com.relevantcodes.cubereports.support;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class FileOps {
+public class FileWriterEx {
 	public static void write(String filePath, String text) {
 		BufferedWriter writer = null;
 		
@@ -35,43 +33,17 @@ public class FileOps {
             writer = new BufferedWriter(new FileWriter(logFile));
             writer.write(text);
         } 
-        catch (Exception ex) {
-            
+        catch (Exception e) {
+            e.printStackTrace();
         } 
         finally {
             try {
               writer.close();
             } 
-            catch (Exception ex) {
-            	
+            catch (Exception e) {
+            	e.printStackTrace();
             }
         }
-	}
-	
-	public static String readAllText(String filePath) {
-		File file = new File(filePath);
-		
-		if (file.exists()) {
-		    FileInputStream fis;
-		    byte[] data;
-		    
-			try {
-				fis = new FileInputStream(file);
-				data = new byte[(int)file.length()];
-				fis.read(data);
-				fis.close();
-				
-				return new String(data, "UTF-8");
-			} 
-			catch (FileNotFoundException ex) {
-				
-			}
-			catch (IOException ex) {
-				
-			}   
-		}
-		
-		return null;
 	}
 	
 	public static void createNewFile(String filePath, String text) throws IOException {			
@@ -80,6 +52,8 @@ public class FileOps {
 			writer.print(text);
 			writer.close();
 		}
-		catch (IOException ex) {}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

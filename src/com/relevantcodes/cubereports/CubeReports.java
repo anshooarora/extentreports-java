@@ -17,12 +17,12 @@ limitations under the License.
 
 package com.relevantcodes.cubereports;
 
+import com.relevantcodes.cubereports.markup.Configuration;
+
 public class CubeReports {
-		//region Private Variables
-	
 		private final static CubeReports instance = new CubeReports();
 		private static Class<?> clazz;
-		private AbstractLog htmlLogger;
+		private AbstractLog cube;
 		private String filePath;
 		
 		
@@ -34,15 +34,15 @@ public class CubeReports {
 		}
 		
 		public void startTest(String testName) {
-			htmlLogger.startTest(testName);
+			cube.startTest(testName);
 		}
 		
 		public void endTest() {
-			htmlLogger.endTest("");
+			cube.endTest("");
 		}
 		
 		public void log(LogStatus logStatus, String stepName, String details, String screenCapturePath) {
-			htmlLogger.log(logStatus, "[" + clazz.getName() + "] " + stepName, details, screenCapturePath);
+			cube.log(logStatus, "[" + clazz.getName() + "] " + stepName, details, screenCapturePath);
 		}
 		
 		public void log(LogStatus logStatus, String stepName, String details) {
@@ -50,29 +50,26 @@ public class CubeReports {
 		}
 		
 		public void setLogLevel(LogLevel logLevel) {
-			htmlLogger.setLogLevel(logLevel);
+			cube.setLogLevel(logLevel);
 		}
 		
-		public void updateSummary(String summary) {
-			htmlLogger.updateSummary(summary);
-		}
-		
-		public void useCustomCSS(String cssFilePath) {
-			htmlLogger.customStylesheet(cssFilePath);
+		public Configuration configure() {
+			return Configuration.instance;
 		}
 		
 		public void init(String filePath, Boolean replaceExisting) {
 			this.filePath = filePath;
 			
-			htmlLogger = new Logger(filePath, replaceExisting);
-			updateSystemSpecs();
+			cube = new CubeLog(filePath, replaceExisting);
+			configure().params("filePath", filePath);
+			performInitialWrite();
 		}
 		
 		
 		// region Private Methods
 		
-		private void updateSystemSpecs() {
-			Insight.renewSystemSpecs(filePath);
+		private void performInitialWrite() {
+			CubeSource.renewSystemSpecs(filePath);
 		}
 		
 		
