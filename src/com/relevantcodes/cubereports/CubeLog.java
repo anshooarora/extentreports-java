@@ -25,11 +25,8 @@ import com.relevantcodes.cubereports.support.*;
 import com.relevantcodes.cubereports.markup.*;
 
 class CubeLog extends AbstractLog {
-
-	//region Private Variables
-	
 	private String filePath;
-	private String dirPath = "com/relevantcodes/cubereports/markup/";
+	private String packagePath = "com/relevantcodes/cubereports/markup/";
 
 	
 	//region Protected Methods
@@ -39,7 +36,7 @@ class CubeLog extends AbstractLog {
 		String statusIcon = FontAwesomeIco.get(logStatus);
 		
 		String txtCurrent = FileReaderEx.readAllText(filePath);
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("step"), Resources.getText(dirPath + "step.txt") + MarkupFlag.get("step"));
+		txtCurrent = txtCurrent.replace(MarkupFlag.get("step"), Resources.getText(packagePath + "step.txt") + MarkupFlag.get("step"));
 		txtCurrent = txtCurrent.replace(MarkupFlag.get("timestamp"), new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
 		txtCurrent = txtCurrent.replace(MarkupFlag.get("stepStatus"), logStatus.toString().toLowerCase());
 		txtCurrent = txtCurrent.replace(MarkupFlag.get("statusIcon"), statusIcon);
@@ -54,7 +51,7 @@ class CubeLog extends AbstractLog {
 		String txtCurrent = FileReaderEx.readAllText(filePath);
 		txtCurrent = txtCurrent.replace(MarkupFlag.get("testStatus"), getLastRunStatus().toString().toLowerCase());
 		txtCurrent = txtCurrent.replace(MarkupFlag.get("step"), "");
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("test"), MarkupFlag.get("test") + Resources.getText(dirPath + "test.txt"));
+		txtCurrent = txtCurrent.replace(MarkupFlag.get("test"), MarkupFlag.get("test") + Resources.getText(packagePath + "test.txt"));
 		txtCurrent = txtCurrent.replace(MarkupFlag.get("testName"), testName);
 		
 		FileWriterEx.write(filePath, txtCurrent);
@@ -76,7 +73,7 @@ class CubeLog extends AbstractLog {
 	
 	private void writeBaseMarkup(Boolean replaceExisting) throws IOException {
 		if (replaceExisting) {
-			FileWriterEx.createNewFile(filePath, Resources.getText(dirPath + "base.txt"));
+			FileWriterEx.createNewFile(filePath, Resources.getText(packagePath + "base.txt"));
 		}
 	}
 	
