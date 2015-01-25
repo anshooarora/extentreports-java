@@ -122,11 +122,8 @@ abstract class AbstractLog {
 	
 	private void trackLastRunStatus() {
 		switch (lastRunStatus) {
-			case FATAL: return;
+			case FATAL:
 			case FAIL: 
-				if (logStatus == LogStatus.FATAL) {
-					lastRunStatus = logStatus;
-				}	
 				return;
 			case ERROR: 
 				if (logStatus == LogStatus.FAIL) {
