@@ -6,7 +6,7 @@ View CubeReports sample <a href='http://relevantcodes.com/CubeReports/Cube.html'
 
 ### Current Version
 
-0.9 (cubereports-0.9.jar)
+0.9 (cubereports-java-0.9.jar)
 
 ### Download
 
