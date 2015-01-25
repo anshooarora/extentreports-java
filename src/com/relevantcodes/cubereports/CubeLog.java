@@ -44,7 +44,7 @@ class CubeLog extends AbstractLog {
 		txtCurrent = txtCurrent.replace(MarkupFlag.get("stepStatus"), logStatus.toString().toLowerCase());
 		txtCurrent = txtCurrent.replace(MarkupFlag.get("statusIcon"), statusIcon);
 		txtCurrent = txtCurrent.replace(MarkupFlag.get("stepName"), stepName);
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("stepDetails"), details);
+		txtCurrent = txtCurrent.replace(MarkupFlag.get("details"), details);
 		
 		FileWriterEx.write(filePath, txtCurrent);
 	}

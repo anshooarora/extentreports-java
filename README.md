@@ -2,11 +2,15 @@
 
 Cube Reports is a light-weight reporting library developed for Selenium WebDriver. Cube Reports uses jQuery, FontAwesome, Google Charts and Fonts for its presentation. It shows test and step summary, test steps and status in a toggle view for quick analysis. 
 
-View CubeReports sample <a href='http://relevantcodes.com/Articles/CubeReports/CubeReports.htm'>here</a>.
+View CubeReports sample <a href='http://relevantcodes.com/CubeReports/Cube.html'>here</a>.
 
 ### Current Version
 
 0.9 (cubereports-0.9.jar)
+
+### Download
+
+<a href='http://relevantcodes.com/CubeReports/cubereports-java-0.9.jar.zip'>cubereports-java-0.9.jar.zip</a>
 
 ### Basic Usage
 

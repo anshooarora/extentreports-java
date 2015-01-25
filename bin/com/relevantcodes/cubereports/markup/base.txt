@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'> 
 <!--
-	CubeReports Library v1.0.0 | Relevant Codes | Anshoo Arora
+	CubeReports Library v0.9 | https://github.com/relevantcodes/
 -->
 	<head>
 		<title>Cube Reports</title>
@@ -524,10 +524,9 @@
 				<div id='footer-section-1'>
 					<h4>CubeReports Library</h4>
 					<ul>
-						<li><a href='http://relevantcodes.com'>Project Home</a></span></li>
+						<li><a href='https://github.com/relevantcodes/cubereports'>Project Home</a></span></li>
 						<li><a href='https://github.com/relevantcodes/cubereports/wiki'>Wiki</a></span></li>
-						<li><a href='https://github.com/relevantcodes/cubereports'>Sources</a></span></li>
-						<li><a href='https://github.com/relevantcodes/cubereports'>Committers</a></span></li>
+						<li><a href='https://github.com/relevantcodes/cubereports/graphs/contributors'>Contributors</a></span></li>
 						<li><a href='https://github.com/relevantcodes/cubereports/issues'>Issues</a></span></li>
 					</ul>
 				</div>
