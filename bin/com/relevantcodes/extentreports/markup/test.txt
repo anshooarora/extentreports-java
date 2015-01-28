@@ -1,0 +1,26 @@
+<div class='test'>
+						<div class='name'>
+							<span><!--%%TESTNAME%%--></span>
+						</div>
+						<div class='teststatus <!--%%TESTSTATUS%%-->'>
+							<span class='status <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>
+						</div>
+						<div class='toggle-area'>
+							<span class='toggle-span'><i class='fa fa-plus'></i></span>
+						</div>
+						<div class='exec-info'>
+							<table class='simple-gray'>
+								<thead>
+									<tr>
+										<td>Timestamp</td>
+										<td>Status</td>
+										<td>Step</td>
+										<td>Details</td>
+									</tr>
+								</thead>
+								<tbody>
+									<!--%%STEP%%-->
+								</tbody>
+							</table>
+						</div>
+					</div>
