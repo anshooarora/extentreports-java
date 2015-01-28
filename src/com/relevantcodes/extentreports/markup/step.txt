@@ -1,0 +1,6 @@
+<tr>
+										<td><!--%%TIMESTAMP%%--></td>
+										<td alt='<!--%%STEPSTATUS%%-->' title='<!--%%STEPSTATUS%%-->' class='status <!--%%STEPSTATUS%%-->'><i class='fa fa-<!--%%STATUSICON%%-->'></i></td>
+										<td><!--%%STEPNAME%%--></td>
+										<td><!--%%DETAILS%%--></td>
+									</tr>
