@@ -12,6 +12,10 @@ View CubeReports sample <a href='http://relevantcodes.com/CubeReports/Cube.html'
 
 <a href='http://relevantcodes.com/CubeReports/cubereports-java-0.9.jar.zip'>cubereports-java-0.9.jar.zip</a>
 
+### Found a bug?
+
+Found an issue?  Please report it at the <a href='https://github.com/relevantcodes/cubereports/issues'>issues section</a>.
+
 ### Basic Usage
 
 CubeReports is very simple to use. Below is some basic usage to get you started using this library.  
