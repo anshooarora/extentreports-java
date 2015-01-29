@@ -375,9 +375,8 @@
 			    font-weight: 300;
 			    margin-left: 10px;
 			}
-			/* /temp */
 			.cs-btn {
-				border: 2px solid;
+				border: 1px solid;
 				border-radius: 0.2em;
 				font-size: 11px;
 				font-weight: 700;
@@ -521,6 +520,7 @@
 				</div>
 			</div>
 			<div id='footer'>
+				<!--%%PROJECTFOOTER%%-->
 				<div id='footer-section-1'>
 					<h4>ExtentReports Library</h4>
 					<ul>
@@ -530,6 +530,7 @@
 						<li><a href='https://github.com/relevantcodes/extentreports/issues'>Issues</a></span></li>
 					</ul>
 				</div>
+				<!--%%/PROJECTFOOTER%%-->
 			</div>
 		</div>	
 	</body>

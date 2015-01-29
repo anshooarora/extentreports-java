@@ -32,18 +32,6 @@ public class Configuration {
 		FontAwesomeIco.override(status, newIcon);
 	}
 	
-	public void introSummary(String newSummary) {
-		String filePath = map.get("filePath");
-		String txtCurrent = FileReaderEx.readAllText(filePath);
-		String pattern = MarkupFlag.get("reportsummary") + ".*" + MarkupFlag.get("reportsummary");
-		newSummary = pattern.replace(".*", newSummary); 
-		
-		String oldSummary = RegexMatcher.getNthMatch(txtCurrent, pattern, 0);
-		txtCurrent = txtCurrent.replace(oldSummary, newSummary);
-		
-		FileWriterEx.write(filePath, txtCurrent);		
-	}
-	
 	public void addCustomStylesheet(String cssFilePath) {
 		String filePath = map.get("filePath");
 		String txtCurrent = FileReaderEx.readAllText(filePath);
@@ -99,6 +87,14 @@ public class Configuration {
 	
 	public void params(String varName, String varValue) {
 		map.put(varName, varValue);
+	}
+	
+	public IHeader header() {
+		return new Header(map.get("filePath"));
+	}
+	
+	public IFooter footer() {
+		return new Footer(map.get("filePath"));
 	}
 	
 	private Configuration() {}
