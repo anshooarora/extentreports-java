@@ -18,5 +18,5 @@ class Header implements IHeader {
 	
 	public Header(String filePath) {
 		this.filePath = filePath;
-	}
+	} 
 }

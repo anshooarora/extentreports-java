@@ -42,7 +42,7 @@ public class Configuration {
 		txtCurrent = txtCurrent.replace(match, placeHolder.replace(".*", link));
 		
 		FileWriterEx.write(filePath, txtCurrent);
-	}
+	} 
 	
 	public void renewSystemSpecs(String filePath) {
 		String txtCurrent = FileReaderEx.readAllText(filePath);

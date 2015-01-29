@@ -16,7 +16,7 @@ class Footer implements IFooter {
 			
 			FileWriterEx.write(filePath, txtCurrent);
 		}
-	}
+	} 
 	
 	public void removeExtentFooter() {
 		String placeHolderStart = MarkupFlag.get("PROJECTFOOTER");
