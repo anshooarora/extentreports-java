@@ -5,141 +5,6 @@
 --> 
 	<head>
 		<title>Extent Reports</title>
-		<script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
-		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-		<script type='text/javascript'>
-			$(document).ready(function() {
-				$('.test').click(function(evt) {
-					var target = $(this);
-					var i = target.find('.toggle-area').find('i');
-					if (i.hasClass('fa-minus')) {
-						if (evt.target.nodeName == "DIV" || evt.target.nodeName == "I" || evt.target.nodeName == "SPAN") {
-							i.removeClass('fa-minus').addClass('fa-plus');
-							target.children('.exec-info').slideUp('200');
-							target.css('background-color', '#fdfeff');
-						}
-					}
-					else {
-						i.removeClass('fa-plus').addClass('fa-minus'); 
-						target.children('.exec-info').slideDown('200');
-						target.css('background-color', '#fff')
-					}
-				});
-				$('#tabs').click(function(evt) {
-					var target = $(this); 
-					var t = evt.target.className;
-					evt.preventDefault();
-					/*
-					$('html, body').animate({
-						scrollTop: 0,
-						scrollLeft: 0
-					});
-					*/
-					if (target.find('#' + t.split(' ')[0]).is(':visible')) {
-						target.find('#' + t.split(' ')[0]).slideUp('200');
-						$('.' + t.split(' ')[0]).css('background-color', '');
-					}
-					else {
-						target.find('#' + t.split(' ')[0]).slideDown('200');
-						$('.' + t.split(' ')[0]).css('background-color', '#ddd');
-					}
-				});
-				$('.btn-toggle').click(function() {
-					var target = $(this);
-					if (target.hasClass('btn-toggle-on')) {
-						target.removeClass('btn-toggle-on').css('background-color', 'white').css('color', target.css('border-left-color'));
-					} 
-					else {
-						target.addClass('btn-toggle-on').css('background-color', target.css('border-left-color')).css('color', 'white');
-					}
-					var allSelected = true;
-					$('.btn-toggle').each(function() {
-						if ($(this).hasClass('btn-toggle-on')) {
-							allSelected = false;
-						}
-					});
-					if (allSelected) {
-						location.reload();
-						return false;
-					}
-					$('.btn-toggle').each(function() {
-						if (!$(this).hasClass('btn-toggle-on')) {
-							$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeOut();
-						}
-						else {
-							$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeIn();
-							allSelected = false;
-						}
-					});
-				});
-				$('#expand').click(function(evt) {
-					var test = $('.test');
-					var i = test.find('.toggle-area').find('i');
-					i.removeClass('fa-plus').addClass('fa-minus');
-					test.css('background-color', '#fff').children('.exec-info').slideDown('200');
-				});
-				$('#collapse').click(function(evt) {
-					var test = $('.test');
-					test.css('background-color', '#fdfeff').children('.exec-info').slideUp('200');
-					var i = test.find('.toggle-area').find('i');
-					i.removeClass('fa-minus').addClass('fa-plus');
-				});
-				$('.toggle-span .fa-bar-chart-o').click(function() {
-					$('.tabs-1, .tabs-2').click();
-				});
-				$('.exec-info').toggle();
-				$('#tabs > div').toggle();
-			})
-		</script>
-		<script type='text/javascript'>
-			google.load('visualization', '1', {packages:['corechart']});
-			google.setOnLoadCallback(testSetChart);
-			google.setOnLoadCallback(testsChart);
-			
-			function testSetChart() {
-				var data = google.visualization.arrayToDataTable([
-				  ['Test Status', 'Count'],
-				  ['Pass',     $('.teststatus .pass').length + $('.teststatus .info').length],
-				  ['Error',     $('.teststatus .error').length],
-				  ['Warning',     $('.teststatus .warning').length],
-				  ['Fail',      $('.teststatus .fail').length + $('.teststatus .fatal').length]
-				]);
-				var options = {
-				  backgroundColor: { fill:'transparent' },
-				  colors: ['green', 'tomato', 'orange', 'red'],
-				  height: 275,
-				  pieHole: 0.4,
-				  pieSliceText: 'value', 
-				  title: 'TestSet Summary', 
-				  width: 400
-				};
-				var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
-				chart.draw(data, options);
-			  }
-			function testsChart() {
-				var data = google.visualization.arrayToDataTable([
-				  ['Test Status', 'Count'],
-				  ['Pass',     $('td.pass').length],
-				  ['Fail',      $('td.fail').length],
-				  ['Fatal',     $('td.fatal').length],
-				  ['Error',      $('td.error').length],
-				  ['Warning',    $('td.warning').length],
-				  ['Info',    $('td.info').length]
-				]);
-				var options = {
-				  backgroundColor: { fill:'transparent' },
-				  colors: ['green', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue'],
-				  height: 275,
-				  pieHole: 0.4,
-				  pieSliceText: 'value', 
-				  title: 'Step Summary', 
-				  width: 400
-				};
- 
-				var chart = new google.visualization.PieChart(document.getElementById('step-status-dashboard'));
-				chart.draw(data, options);
-			  }
-		</script>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css' />
 		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
 		<style type='text/css'>
@@ -534,4 +399,139 @@
 			</div>
 		</div>	
 	</body>
+	<script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type='text/javascript'>
+		$(document).ready(function() {
+			$('.test').click(function(evt) {
+				var target = $(this);
+				var i = target.find('.toggle-area').find('i');
+				if (i.hasClass('fa-minus')) {
+					if (evt.target.nodeName == "DIV" || evt.target.nodeName == "I" || evt.target.nodeName == "SPAN") {
+						i.removeClass('fa-minus').addClass('fa-plus');
+						target.children('.exec-info').slideUp('200');
+						target.css('background-color', '#fdfeff');
+					}
+				}
+				else {
+					i.removeClass('fa-plus').addClass('fa-minus'); 
+					target.children('.exec-info').slideDown('200');
+					target.css('background-color', '#fff')
+				}
+			});
+			$('#tabs').click(function(evt) {
+				var target = $(this); 
+				var t = evt.target.className;
+				evt.preventDefault();
+				/*
+				$('html, body').animate({
+					scrollTop: 0,
+					scrollLeft: 0
+				});
+				*/
+				if (target.find('#' + t.split(' ')[0]).is(':visible')) {
+					target.find('#' + t.split(' ')[0]).slideUp('200');
+					$('.' + t.split(' ')[0]).css('background-color', '');
+				}
+				else {
+					target.find('#' + t.split(' ')[0]).slideDown('200');
+					$('.' + t.split(' ')[0]).css('background-color', '#ddd');
+				}
+			});
+			$('.btn-toggle').click(function() {
+				var target = $(this);
+				if (target.hasClass('btn-toggle-on')) {
+					target.removeClass('btn-toggle-on').css('background-color', 'white').css('color', target.css('border-left-color'));
+				} 
+				else {
+					target.addClass('btn-toggle-on').css('background-color', target.css('border-left-color')).css('color', 'white');
+				}
+				var allSelected = true;
+				$('.btn-toggle').each(function() {
+					if ($(this).hasClass('btn-toggle-on')) {
+						allSelected = false;
+					}
+				});
+				if (allSelected) {
+					location.reload();
+					return false;
+				}
+				$('.btn-toggle').each(function() {
+					if (!$(this).hasClass('btn-toggle-on')) {
+						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeOut();
+					}
+					else {
+						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeIn();
+						allSelected = false;
+					}
+				});
+			});
+			$('#expand').click(function(evt) {
+				var test = $('.test');
+				var i = test.find('.toggle-area').find('i');
+				i.removeClass('fa-plus').addClass('fa-minus');
+				test.css('background-color', '#fff').children('.exec-info').slideDown('200');
+			});
+			$('#collapse').click(function(evt) {
+				var test = $('.test');
+				test.css('background-color', '#fdfeff').children('.exec-info').slideUp('200');
+				var i = test.find('.toggle-area').find('i');
+				i.removeClass('fa-minus').addClass('fa-plus');
+			});
+			$('.toggle-span .fa-bar-chart-o').click(function() {
+				$('.tabs-1, .tabs-2').click();
+			});
+			$('.exec-info').toggle();
+			$('#tabs > div').toggle();
+		})
+	</script>
+	<script type='text/javascript'>
+		google.load('visualization', '1', {packages:['corechart']});
+		google.setOnLoadCallback(testSetChart);
+		google.setOnLoadCallback(testsChart);
+		
+		function testSetChart() {
+			var data = google.visualization.arrayToDataTable([
+			  ['Test Status', 'Count'],
+			  ['Pass',     $('.teststatus .pass').length + $('.teststatus .info').length],
+			  ['Error',     $('.teststatus .error').length],
+			  ['Warning',     $('.teststatus .warning').length],
+			  ['Fail',      $('.teststatus .fail').length + $('.teststatus .fatal').length]
+			]);
+			var options = {
+			  backgroundColor: { fill:'transparent' },
+			  colors: ['green', 'tomato', 'orange', 'red'],
+			  height: 275,
+			  pieHole: 0.4,
+			  pieSliceText: 'value', 
+			  title: 'TestSet Summary', 
+			  width: 400
+			};
+			var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
+			chart.draw(data, options);
+		  }
+		function testsChart() {
+			var data = google.visualization.arrayToDataTable([
+			  ['Test Status', 'Count'],
+			  ['Pass',     $('td.pass').length],
+			  ['Fail',      $('td.fail').length],
+			  ['Fatal',     $('td.fatal').length],
+			  ['Error',      $('td.error').length],
+			  ['Warning',    $('td.warning').length],
+			  ['Info',    $('td.info').length]
+			]);
+			var options = {
+			  backgroundColor: { fill:'transparent' },
+			  colors: ['green', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue'],
+			  height: 275,
+			  pieHole: 0.4,
+			  pieSliceText: 'value', 
+			  title: 'Step Summary', 
+			  width: 400
+			};
+ 
+			var chart = new google.visualization.PieChart(document.getElementById('step-status-dashboard'));
+			chart.draw(data, options);
+		  }
+	</script>
 </html>

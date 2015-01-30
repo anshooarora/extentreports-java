@@ -8,6 +8,10 @@ View ExtentReports sample <a href='http://relevantcodes.com/ExtentReports/Extent
 
 Download the jar from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
 
+### Caution
+
+This library is in its very early stages, there may be significant modifications that may break your code.
+
 ### Basic Usage
 
 ExtentReports is very simple to use. Below is some basic usage to get you started using this library.  
@@ -30,7 +34,7 @@ public class Main {
         //        true - overwrite existing file (if any)
         //        false - use existing file to create reports, 
 		//					tests will be appended at the very top
-        extent.init("C:\\Extent.htm", true);
+        extent.init("C:\\Extent.html", true);
  
         // *REQUIRED
         // startTest( testName )
@@ -62,10 +66,16 @@ You can customize the report as you want. Changes can be easily made to the over
 ```java
 // use this if you have your own custom css to change the design
 // as per your needs
-extent.configure().addCustomStylesheet("C:\\custom.css");
+extent.configure().documentHead().addCustomStylesheet("C:\\css.css");
 
 // this changes the top level summary
-extent.configure().introSummary("Change the default summary under the main header");
+extent.configure().header().introSummary("HELLO WORLD");
+
+// this removes the Extent footer section
+extent.configure().footer().removeExtentFooter();
+
+// this adds the Extent footer section back
+extent.configure().footer().addExtentFooter();
 
 // this changes the icons
 // see http://fortawesome.github.io/Font-Awesome/3.2.1/icons/ for more info

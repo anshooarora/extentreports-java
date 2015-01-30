@@ -16,86 +16,60 @@ limitations under the License.
 
 package com.relevantcodes.extentreports.markup;
 
-import java.net.InetAddress;
 import java.util.HashMap;
 
 import com.relevantcodes.extentreports.LogStatus;
-import com.relevantcodes.extentreports.support.FileReaderEx;
-import com.relevantcodes.extentreports.support.FileWriterEx;
-import com.relevantcodes.extentreports.support.RegexMatcher;
 
 public class Configuration {
-	public static Configuration instance = new Configuration();
-	private HashMap<String, String> map = new HashMap<String, String>();
+	private HashMap<String, String> param = new HashMap<String, String>();
+	private IContent content;
+	private IDocumentHead documentHead;
+	private IHeader header;
+	private IFooter footer;
+	private IScripts scripts;
 	
 	public void statusIcon(LogStatus status, String newIcon) {
 		FontAwesomeIco.override(status, newIcon);
 	}
 	
-	public void addCustomStylesheet(String cssFilePath) {
-		String filePath = map.get("filePath");
-		String txtCurrent = FileReaderEx.readAllText(filePath);
-		String placeHolder = MarkupFlag.get("customCss") + ".*" + MarkupFlag.get("customCss");
-		String link = "<link href='file:///" + cssFilePath + "' rel='stylesheet' type='text/css' />";
-		
-		String match = RegexMatcher.getNthMatch(txtCurrent, placeHolder, 0);
-		txtCurrent = txtCurrent.replace(match, placeHolder.replace(".*", link));
-		
-		FileWriterEx.write(filePath, txtCurrent);
-	} 
-	
-	public void renewSystemSpecs(String filePath) {
-		String txtCurrent = FileReaderEx.readAllText(filePath);
-		String hostName = MarkupFlag.get("hostName") + ".*" + MarkupFlag.get("hostName");
-		String ip = MarkupFlag.get("ip") + ".*" + MarkupFlag.get("ip");
-		String os = MarkupFlag.get("os") + ".*" + MarkupFlag.get("os");
-		String locale = MarkupFlag.get("locale") + ".*" + MarkupFlag.get("locale");
-		String totalMem = MarkupFlag.get("totalMem") + ".*" + MarkupFlag.get("totalMem");
-		String availMem = MarkupFlag.get("availMem") + ".*" + MarkupFlag.get("availMem");
-		String oldValue = "";
-		
-		oldValue = RegexMatcher.getNthMatch(txtCurrent, hostName, 0);
-		try {
-			txtCurrent = txtCurrent.replace(oldValue, hostName.replace(".*", InetAddress.getLocalHost().getHostName()));
-		}
-		catch (Exception e) {
-			txtCurrent = txtCurrent.replace(oldValue, hostName.replace(".*", "NOT_AVAILABLE"));
-		}
-		
-		oldValue = RegexMatcher.getNthMatch(txtCurrent, ip, 0);
-		try {
-			txtCurrent = txtCurrent.replace(oldValue, ip.replace(".*", InetAddress.getLocalHost().getHostAddress()));
-		}
-		catch (Exception e) {
-			txtCurrent = txtCurrent.replace(oldValue, ip.replace(".*", "NOT_AVAILABLE"));
-		}
-		
-		oldValue = RegexMatcher.getNthMatch(txtCurrent, os, 0);
-		txtCurrent = txtCurrent.replace(oldValue, os.replace(".*", System.getProperty("os.name")));
-		
-		oldValue = RegexMatcher.getNthMatch(txtCurrent, locale, 0);
-		txtCurrent = txtCurrent.replace(oldValue, locale.replace(".*", System.getProperty("user.language")));
-		
-		oldValue = RegexMatcher.getNthMatch(txtCurrent, totalMem, 0);
-		txtCurrent = txtCurrent.replace(oldValue, totalMem.replace(".*", "" + Runtime.getRuntime().totalMemory() + ""));
-		
-		oldValue = RegexMatcher.getNthMatch(txtCurrent, availMem, 0);
-		txtCurrent = txtCurrent.replace(oldValue, availMem.replace(".*", "" + Runtime.getRuntime().freeMemory() + ""));
-		
-		FileWriterEx.write(filePath, txtCurrent);
+	public void params(String varName, String varValue) {
+		param.put(varName, varValue);
 	}
 	
-	public void params(String varName, String varValue) {
-		map.put(varName, varValue);
+	public IContent content() {
+		if (!(content instanceof IContent)) 
+			content = new Content(param.get("filePath"));
+		
+		return content;
+	}
+	
+	public IDocumentHead documentHead() {
+		if (!(documentHead instanceof IDocumentHead))
+			documentHead = new DocumentHead(param.get("filePath"));
+		
+		return documentHead;
 	}
 	
 	public IHeader header() {
-		return new Header(map.get("filePath"));
+		if (!(header instanceof IHeader))
+			header = new Header(param.get("filePath"));
+		
+		return header;
 	}
 	
 	public IFooter footer() {
-		return new Footer(map.get("filePath"));
+		if (!(footer instanceof IFooter))
+			footer = new Footer(param.get("filePath"));
+		
+		return footer;
 	}
 	
-	private Configuration() {}
+	public IScripts scripts() {
+		if (!(scripts instanceof IScripts))
+			scripts = new Scripts(param.get("filePath"));
+		
+		return scripts;
+	}
+	
+	public Configuration() {}
 }
