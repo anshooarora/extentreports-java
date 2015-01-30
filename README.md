@@ -8,9 +8,7 @@ View ExtentReports sample <a href='http://relevantcodes.com/ExtentReports/Extent
 
 Download the jar from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
 
-### Caution
-
-This library is in its very early stages, there may be significant modifications that may break your code.
+Caution:  This library is in its very early stages, there may be significant modifications that may break your code.
 
 ### Basic Usage
 
@@ -20,20 +18,20 @@ ExtentReports is very simple to use. Below is some basic usage to get you starte
 import com.relevantcodes.extentreports.*;
 
 public class Main {
-	// *REQUIRED
+    // *REQUIRED
     // put this in every class 
     // * Main.class will become TheClassName.class
-	static final ExtentReports extent = ExtentReports.get(Main.class); 
-	
-	public static void main(String[] args) {
-		// *REQUIRED
+    static final ExtentReports extent = ExtentReports.get(Main.class); 
+    
+    public static void main(String[] args) {
+    // *REQUIRED
         // init( filePath, replaceExisting )
         //    initializes the reporter at a given path
         //    filePath - path of new report filePath
         //    replaceExisting - 
         //        true - overwrite existing file (if any)
         //        false - use existing file to create reports, 
-		//					tests will be appended at the very top
+    //                    tests will be appended at the very top
         extent.init("C:\\Extent.html", true);
  
         // *REQUIRED
@@ -55,7 +53,7 @@ public class Main {
         //    use to end current toggle level
         //    not using this command may cause the test not have its final status
         extent.endTest();
-	}
+    }
 }
 ```
 
@@ -66,20 +64,20 @@ You can customize the report as you want. Changes can be easily made to the over
 ```java
 // use this if you have your own custom css to change the design
 // as per your needs
-extent.configure().documentHead().addCustomStylesheet("C:\\css.css");
+extent.configuration().documentHead().addCustomStylesheet("C:\\css.css");
 
 // this changes the top level summary
-extent.configure().header().introSummary("HELLO WORLD");
+extent.configuration().header().introSummary("HELLO WORLD");
 
 // this removes the Extent footer section
-extent.configure().footer().removeExtentFooter();
+extent.configuration().footer().removeExtentFooter();
 
 // this adds the Extent footer section back
-extent.configure().footer().addExtentFooter();
+extent.configuration().footer().addExtentFooter();
 
 // this changes the icons
 // see http://fortawesome.github.io/Font-Awesome/3.2.1/icons/ for more info
-extent.configure().statusIcon(LogStatus.PASS, "check-circle");
+extent.configuration().statusIcon(LogStatus.PASS, "check-circle");
 ```
 
 ### License
@@ -90,8 +88,8 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-	http://www.apache.org/licenses/LICENSE-2.0
-	
+    http://www.apache.org/licenses/LICENSE-2.0
+    
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
