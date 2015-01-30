@@ -24,7 +24,7 @@ public class Main {
     static final ExtentReports extent = ExtentReports.get(Main.class); 
     
     public static void main(String[] args) {
-    // *REQUIRED
+        // *REQUIRED
         // init( filePath, replaceExisting )
         //    initializes the reporter at a given path
         //    filePath - path of new report filePath
