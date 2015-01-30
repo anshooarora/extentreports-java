@@ -31,7 +31,7 @@ public class Main {
         //    replaceExisting - 
         //        true - overwrite existing file (if any)
         //        false - use existing file to create reports, 
-    //                    tests will be appended at the very top
+        //          tests will be appended at the very top
         extent.init("C:\\Extent.html", true);
  
         // *REQUIRED
