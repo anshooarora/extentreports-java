@@ -32,6 +32,7 @@ public class Main {
         //        true - overwrite existing file (if any)
         //        false - use existing file to create reports, 
         //          tests will be appended at the very top
+        // ** Use this method only once, at the beginning of the test session
         extent.init("C:\\Extent.html", true);
  
         // *REQUIRED
