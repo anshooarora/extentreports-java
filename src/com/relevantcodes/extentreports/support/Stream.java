@@ -18,7 +18,7 @@ limitations under the License.
 package com.relevantcodes.extentreports.support;
 
 public class Stream {
-	@SuppressWarnings("resource")
+	// @SuppressWarnings("resource")
 	public static String toString(java.io.InputStream is) {
 	    java.util.Scanner scanner = new java.util.Scanner(is).useDelimiter("\\A");
 	    return scanner.hasNext() ? scanner.next() : "";

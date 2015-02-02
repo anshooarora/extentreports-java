@@ -1,0 +1,30 @@
+ExtentReports 0.92 <01-10-2015>
+	Add Customization class
+		Added Content class
+			Responsible for making changes to the content section
+			Method: renewSystemInfo()
+		Added DocumentHead class
+			Responsible for making changes to the DOCUMENT_HEAD
+			Method: addCustomStylesheet(String cssFilePath)
+		Added Footer class
+			Responsible for making changes to the FOOTER section
+			Method: addExtentFooter()
+			Method: removeExtentFooter() 
+		Added Header class
+			Responsible for making changes to report's header area
+			Method: introSummary(String newSummary)
+		Added Scripts class
+			Responsible for making changes to the <SCRIPT> section
+
+ExtentReports 0.93 <02-02-2015>
+	Added DisplayOrder enum
+		Configures the chronological order of the test (DEFAULT: BY_OLDEST_TO_LATEST)
+			BY_LATEST_TO_OLDEST: shows the latest test at the top, followed by oldest
+			BY_OLDEST_TO_LATEST: shows the oldest test at the top, following by latest
+	Modified FontAwesomeIco class -> get()
+		Changed switch statements to if..then..else for jdk 1.6
+	Modified ExtentReports class -> init()
+		Added a new signature: init(String filePath, Boolean replaceExisting, DisplayOrder displayOrder)
+		This will allow users to select the order in which tests are to be displayed
+			BY_OLDEST_TO_LATEST (DEFAULT)
+			BY_LATEST_TO_OLDEST

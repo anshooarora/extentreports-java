@@ -60,6 +60,12 @@ public class Main {
 
 > Note: Use "init" method only once, at the beginning of the run session to set the reporting path.
 
+> Note: By default, the oldest test appears at the top. To change this behavior, or to allow the latest test to appear at the top, use the code below. Report started in one order will remain in that order unless the report is over-written or a new report is created.
+
+```
+extent.init(filePath, false, DisplayOrder.BY_LATEST_TO_OLDEST);
+```
+
 ### Customization
 
 You can customize the report as you want. Changes can be easily made to the overall CSS by bringing your own custom css, changes to the icons can be made by picking your own from font-awesome etc. Below is some basic usage to demonstrate this library's customization.

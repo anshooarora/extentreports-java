@@ -29,23 +29,28 @@ public class FontAwesomeIco {
 	
 	public static String get(LogStatus status) {
 		if (map.containsKey(status))
-			return map.get(status);
-		
-		switch (status.toString().toLowerCase()) {
-			case "fail":
-				return "times";
-			case "error":
-				return "exclamation-circle";
-			case "fatal":
-				return "exclamation-circle";
-			case "pass":
-				return "check";
-			case "info":
-				return "info";
-			case "warning":
-				return "warning";
-			default:
-				return null;
+	        return map.get(status);
+	
+		if(status.toString().toLowerCase().equals(new String("fail"))) {
+			return "times";
+		}
+		else if (status.toString().toLowerCase().equals(new String("error"))) {
+			return "exclamation-circle";
+		}
+		else if (status.toString().toLowerCase().equals(new String("fatal"))) {
+			return "exclamation-circle";
+		}
+		else if (status.toString().toLowerCase().equals(new String("pass"))) {
+			return "check";
+		}
+		else if (status.toString().toLowerCase().equals(new String("info"))) {
+			return "info";
+		}
+		else if (status.toString().toLowerCase().equals(new String("warning"))) {
+			return "warning";
+		}
+		else {
+	        return "question";
 		}
 	}
 }
