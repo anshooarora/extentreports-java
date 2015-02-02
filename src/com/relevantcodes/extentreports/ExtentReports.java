@@ -23,7 +23,7 @@ public class ExtentReports {
 	private Configuration configuration;
 	private final static ExtentReports instance = new ExtentReports();
 	private static Class<?> clazz;
-	private AbstractLog cube;
+	private AbstractLog extent;
 	private String filePath;
 	
 			
@@ -35,15 +35,15 @@ public class ExtentReports {
 	}
 	
 	public void startTest(String testName) {
-		cube.startTest(testName);
+		extent.startTest(testName);
 	}
 	
 	public void endTest() {
-		cube.endTest("");
+		extent.endTest("");
 	}
 	
 	public void log(LogStatus logStatus, String stepName, String details, String screenCapturePath) {
-		cube.log(logStatus, "[" + clazz.getName() + "] " + stepName, details, screenCapturePath);
+		extent.log(logStatus, "[" + clazz.getName() + "] " + stepName, details, screenCapturePath);
 	}
 	
 	public void log(LogStatus logStatus, String stepName, String details) {
@@ -51,7 +51,7 @@ public class ExtentReports {
 	}
 	
 	public void setLogLevel(LogLevel logLevel) {
-		cube.setLogLevel(logLevel);
+		extent.setLogLevel(logLevel);
 	}
 	
 	public Configuration configuration() {
@@ -62,9 +62,13 @@ public class ExtentReports {
 	}
 	
 	public void init(String filePath, Boolean replaceExisting) {
+		init(filePath, replaceExisting, DisplayOrder.BY_OLDEST_TO_LATEST);
+	}
+	
+	public void init(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {
 		this.filePath = filePath;
 		
-		cube = new Logger(filePath, replaceExisting);
+		extent = new Logger(filePath, replaceExisting, displayOrder);
 		
 		initialProc();
 	}
