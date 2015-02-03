@@ -14,13 +14,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
 package com.relevantcodes.extentreports.support;
+
+import java.util.Scanner;
 
 public class Stream {
 	// @SuppressWarnings("resource")
 	public static String toString(java.io.InputStream is) {
-	    java.util.Scanner scanner = new java.util.Scanner(is).useDelimiter("\\A");
-	    return scanner.hasNext() ? scanner.next() : "";
+		Scanner scanner= null;
+		
+	    try {
+	    	scanner = new Scanner(is).useDelimiter("\\A");
+	    	return scanner.hasNext() ? scanner.next() : "";
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    
+		return null;
 	}	
 }
