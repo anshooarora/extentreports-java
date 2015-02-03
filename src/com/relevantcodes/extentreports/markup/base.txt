@@ -189,7 +189,7 @@
 				width: 65px;
 			}
 			.simple-gray td:nth-child(2) {
-				width: 40px;
+				width: 100px;
 			}
 			.status {
 				font-size: 11px;
