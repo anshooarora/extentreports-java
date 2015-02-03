@@ -28,3 +28,8 @@ ExtentReports 0.93 <02-02-2015>
 		This will allow users to select the order in which tests are to be displayed
 			BY_OLDEST_TO_LATEST (DEFAULT)
 			BY_LATEST_TO_OLDEST
+	Fixed issue with long words going out-of-bounds for the details column
+	Fixed issue with cell for system IP being too small, increased width
+	Fixed issue for support -> Stream class
+		Removed suppress-warnings flag by using a try-catch
+		
