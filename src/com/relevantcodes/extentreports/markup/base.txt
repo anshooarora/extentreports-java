@@ -183,6 +183,7 @@
 			.simple-gray td {
 				padding: 7px 10px;
 				border-bottom: 1px solid #ddd;
+				word-break: break-all;
 			}
 			.simple-gray td:first-child {
 				width: 65px;
