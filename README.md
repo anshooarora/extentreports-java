@@ -26,12 +26,17 @@ public class Main {
     public static void main(String[] args) {
         // *REQUIRED
         // init( filePath, replaceExisting )
+        // init( filePath, replaceExisting, displayOrder )
         //    initializes the reporter at a given path
         //    filePath - path of new report filePath
         //    replaceExisting - 
         //        true - overwrite existing file (if any)
         //        false - use existing file to create reports, 
         //          tests will be appended at the very top
+        //    displayOrder
+        //        use this to configure the order in which tests are to be displayed
+        //            BY_OLDEST_TO_LATEST (default) - oldest test at the top, newest at the end
+        //            BY_LATEST_TO_OLDEST - newest test at the top, oldest at the end
         // ** Use init method only once, at the beginning of the test session
         extent.init("C:\\Extent.html", true);
  
