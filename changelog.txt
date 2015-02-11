@@ -34,7 +34,7 @@ ExtentReports 0.93 <02-02-2015>
 		Re-factored method for jdk 1.6 support
 		Removed suppress-warnings flag
 
-ExtentReports 0.94 <02-09-2015>
+ExtentReports 0.94 <02-11-2015>
 	Added ability to add screenshots in details cell
 		Images will be displayed within the container
 		Images can also be added using links as markup (see documentation)
