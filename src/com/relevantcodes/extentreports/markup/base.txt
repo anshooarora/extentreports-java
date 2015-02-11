@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'> 
 <!--
-	ExtentReports Library v0.9 | https://github.com/relevantcodes/
+	ExtentReports Library v0.94 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/relevantcodes/
 --> 
 	<head>
 		<title>Extent Reports</title>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css' />
 		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.css" type="text/css" rel="stylesheet" />
 		<style type='text/css'>
 			html {
-				overflow-y: scroll;
-			}
+				overflow-y: scroll;}
 			body {
 				font-family: 'Open Sans', Calibri;
 				font-size: 14px;
@@ -22,7 +22,7 @@
 				border-spacing: 0;
 			}
 			a {
-				color: inherit;
+				color: #43b4f9;
 				text-decoration: none;
 			}
 			a:hover {
@@ -160,9 +160,19 @@
 				font-size: 9pt;
 			}
 			.description {
-				border-left: 2px solid #ddd;
-				margin: 25px 0px 10px;
-				padding: 5px 2px 5px 10px;
+				background: #f5f6f8;
+				border: 1px solid #ddd;
+				font-size: 8pt;
+				margin: 20px 0 -10px;
+				padding: 12px 10px;
+			}
+			.description-title {
+				font-weight: 600;
+				text-transform: uppercase;
+			}
+			.description-content {
+				font-size: 10pt;
+				font-weight: 300;
 			}
 			.simple-gray {
 				border: 1px solid #ddd;
@@ -171,24 +181,31 @@
 				width: 100%;
 			}
 			.simple-gray thead td {
-			    border-bottom: 3px solid #ddd;
+				background: #f5f6f8;
+			    border-bottom: 1px solid #ddd;
 			    font-size: 8pt;
 			    font-weight: 600;
 			    padding: 12px 10px;
 			    text-transform: uppercase;
 			}
 			.simple-gray tbody tr:hover {
-				background-color: #f7f7f7;
+				background-color: #f5f6f8;
 			}
 			.simple-gray td {
 				padding: 7px 10px;
-				border-bottom: 1px solid #ddd;
+				border-bottom: 1px solid #e9e9e9;
 				word-break: break-all;
 			}
 			.simple-gray td:first-child {
 				width: 65px;
 			}
 			.simple-gray td:nth-child(2) {
+				width: 50px;
+			}
+			.exec-info .simple-gray td:nth-child(3) {
+			    min-width: 140px;
+			}
+			#tabs-2 .simple-gray td:nth-child(2) {
 				width: 100px;
 			}
 			.status {
@@ -241,6 +258,15 @@
 			    font-weight: 300;
 			    margin-left: 10px;
 			}
+			/* elements */
+			.report-img {
+			    border: 4px solid #eee;
+			    display: block;
+			    height: auto;
+			    margin-top: 15px;
+			    text-align: center;
+			    width: 95%;
+			}
 			.cs-btn {
 				border: 1px solid;
 				border-radius: 0.2em;
@@ -286,28 +312,6 @@
 				background-color: #e67672;
 				color: white;
 			}
-			/*---:[ media queries ]:---*/
-			@media all and (max-width: 1100px) {
-				#container {
-					width: 90% !important;
-				}
-				#header > div {
-				    width: 90%;
-				}
-				#controls {
-				    float: none;
-				    margin-left: 0;
-				    margin-top: 8px;
-				}
-				.fa-align-justify, .fa-cube {
-					display: inline;
-				}
-			}
-			@media all and (max-width: 600px) {
-				.filter1 {
-					display: none;
-				}
-			}
 		</style>
 		<!--%%CUSTOMCSS%%--><!--%%CUSTOMCSS%%-->
 	</head>
@@ -316,10 +320,9 @@
 			<div id='header'>
 				<div id='title'>
 					<h3>Extent Reports</h3>
-					<!--<img src='rr8.png' />-->
 				</div>
 				<div id='header-summary'>
-					<p><!--%%REPORTSUMMARY%%-->Extent Reports is a light-weight reporting library developed for Selenium WebDriver API. Extent Reports uses jQuery, FontAwesome, Google Charts and Fonts for presentation. It shows test and step summary, test steps and status in a toggle view for quick analysis. <!--%%REPORTSUMMARY%%--></p>
+					<p><!--%%REPORTSUMMARY%%-->ExtentReports is a HTML reporting library for Selenium WebDriver written in Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.<!--%%REPORTSUMMARY%%--></p>
 				</div>
 				<div id="test-filters">
 					<span class='filter1'>
@@ -361,6 +364,8 @@
 											<td>HostName</td>
 											<td>IP</td>
 											<td>OS</td>
+											<td>OS Arch</td>
+											<td>Java Version</td>
 											<td>Locale</td>
 											<td>TotalMemory</td>
 											<td>AvailableMemory</td>
@@ -371,6 +376,8 @@
 											<td><!--%%HOSTNAME%%--><!--%%HOSTNAME%%--></td>
 											<td><!--%%IP%%--><!--%%IP%%--></td>
 											<td><!--%%OS%%--><!--%%OS%%--></td>
+											<td><!--%%OSARCH%%--><!--%%OSARCH%%--></td>
+											<td><!--%%JAVAVERSION%%--><!--%%JAVAVERSION%%--></td>
 											<td><!--%%LOCALE%%--><!--%%LOCALE%%--></td>
 											<td><!--%%TOTALMEM%%--><!--%%TOTALMEM%%--></td>
 											<td><!--%%AVAILMEM%%--><!--%%AVAILMEM%%--></td>
@@ -390,7 +397,7 @@
 				<div id='footer-section-1'>
 					<h4>ExtentReports Library</h4>
 					<ul>
-						<li><a href='https://github.com/relevantcodes/extentreports'>Project Home</a></span></li>
+						<li><a href='http://relevantcodes.com/extentreports-for-selenium/'>Project Home</a></span></li>
 						<li><a href='https://github.com/relevantcodes/extentreports/wiki'>Wiki</a></span></li>
 						<li><a href='https://github.com/relevantcodes/extentreports/graphs/contributors'>Contributors</a></span></li>
 						<li><a href='https://github.com/relevantcodes/extentreports/issues'>Issues</a></span></li>
@@ -402,11 +409,16 @@
 	</body>
 	<script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 	<script type='text/javascript'>
 		$(document).ready(function() {
+			$(".description").filter(function() {
+				return $(this).text().trim() == 'Description:';
+			}).hide();
 			$('.test').click(function(evt) {
 				var target = $(this);
 				var i = target.find('.toggle-area').find('i');
+				if (target.children('.exec-info').children('.description').text() == 'Description: ') { target.children('.exec-info').children('.description').hide(); }
 				if (i.hasClass('fa-minus')) {
 					if (evt.target.nodeName == "DIV" || evt.target.nodeName == "I" || evt.target.nodeName == "SPAN") {
 						i.removeClass('fa-minus').addClass('fa-plus');

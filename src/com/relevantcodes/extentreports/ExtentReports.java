@@ -23,6 +23,7 @@ public class ExtentReports {
 	private Configuration configuration;
 	private final static ExtentReports instance = new ExtentReports();
 	private static Class<?> clazz;
+	private static String className;
 	private AbstractLog extent;
 	private String filePath;
 	
@@ -31,11 +32,22 @@ public class ExtentReports {
 	
 	public static ExtentReports get(Class<?> clazz) {
 		ExtentReports.clazz = clazz;
+		ExtentReports.className = "";
+		return instance;
+	}
+	
+	public static ExtentReports get(String className) {
+		ExtentReports.className = className;
+		ExtentReports.clazz = null;
 		return instance;
 	}
 	
 	public void startTest(String testName) {
-		extent.startTest(testName);
+		startTest(testName, "");
+	}
+	
+	public void startTest(String testName, String testDescription) {
+		extent.startTest(testName, testDescription);
 	}
 	
 	public void endTest() {
@@ -43,7 +55,9 @@ public class ExtentReports {
 	}
 	
 	public void log(LogStatus logStatus, String stepName, String details, String screenCapturePath) {
-		extent.log(logStatus, "[" + clazz.getName() + "] " + stepName, details, screenCapturePath);
+		String name = clazz == null ? className : clazz.getName().split("\\.")[clazz.getName().split("\\.").length - 1];
+
+		extent.log(logStatus, "[" + name + "] " + stepName, details, screenCapturePath);
 	}
 	
 	public void log(LogStatus logStatus, String stepName, String details) {

@@ -6,14 +6,14 @@ class Header implements IHeader {
 	private String filePath;
 	
 	public void introSummary(String newSummary) {
-		String txtCurrent = FileReaderEx.readAllText(filePath);
+		String markup = FileReaderEx.readAllText(filePath);
 		String pattern = MarkupFlag.get("reportsummary") + ".*" + MarkupFlag.get("reportsummary");
 		newSummary = pattern.replace(".*", newSummary); 
 		
-		String oldSummary = RegexMatcher.getNthMatch(txtCurrent, pattern, 0);
-		txtCurrent = txtCurrent.replace(oldSummary, newSummary);
+		String oldSummary = RegexMatcher.getNthMatch(markup, pattern, 0);
+		markup = markup.replace(oldSummary, newSummary);
 		
-		FileWriterEx.write(filePath, txtCurrent);		
+		FileWriterEx.write(filePath, markup);		
 	}
 	
 	public Header(String filePath) {

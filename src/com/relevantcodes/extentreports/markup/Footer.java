@@ -5,32 +5,41 @@ import com.relevantcodes.extentreports.support.*;
 class Footer implements IFooter {
 	private String filePath;
 	
+	public void useExtentFooter(Boolean use) {
+		if (use) {
+			addExtentFooter();
+			return;
+		}
+			
+		removeExtentFooter();
+	}
+	
 	public void addExtentFooter() {
 		String placeHolderStart = MarkupFlag.get("PROJECTFOOTER");
 		String placeHolderEnd = MarkupFlag.get("/PROJECTFOOTER");
-		String txtCurrent = FileReaderEx.readAllText(filePath);
+		String markup = FileReaderEx.readAllText(filePath);
 		
-		if (txtCurrent.contains(placeHolderStart + "<!--")) {
-			txtCurrent = txtCurrent.replace(placeHolderStart + "<!--", placeHolderStart);
-			txtCurrent = txtCurrent.replace("-->" + placeHolderEnd, placeHolderEnd);
+		if (markup.contains(placeHolderStart + "<!--")) {
+			markup = markup.replace(placeHolderStart + "<!--", placeHolderStart);
+			markup = markup.replace("-->" + placeHolderEnd, placeHolderEnd);
 			
-			FileWriterEx.write(filePath, txtCurrent);
+			FileWriterEx.write(filePath, markup);
 		}
-	} 
+	}
 	
 	public void removeExtentFooter() {
 		String placeHolderStart = MarkupFlag.get("PROJECTFOOTER");
 		String placeHolderEnd = MarkupFlag.get("/PROJECTFOOTER");
-		String txtCurrent = FileReaderEx.readAllText(filePath);
+		String markup = FileReaderEx.readAllText(filePath);
 		
-		if (txtCurrent.contains(placeHolderStart + "<!--")) {
+		if (markup.contains(placeHolderStart + "<!--")) {
 			return;
 		}
 		
-		txtCurrent = txtCurrent.replace(placeHolderStart, placeHolderStart + "<!--");
-		txtCurrent = txtCurrent.replace(placeHolderEnd, "-->" + placeHolderEnd);
+		markup = markup.replace(placeHolderStart, placeHolderStart + "<!--");
+		markup = markup.replace(placeHolderEnd, "-->" + placeHolderEnd);
 		
-		FileWriterEx.write(filePath, txtCurrent);
+		FileWriterEx.write(filePath, markup);
 	}
 	
 	public Footer(String filePath) {

@@ -31,5 +31,18 @@ ExtentReports 0.93 <02-02-2015>
 	Fixed issue with long words going out-of-bounds for the details column
 	Fixed issue with cell for system IP being too small, increased width
 	Fixed issue for support -> Stream class
-		Removed suppress-warnings flag by using a try-catch
-		
+		Re-factored method for jdk 1.6 support
+		Removed suppress-warnings flag
+
+ExtentReports 0.94 <02-09-2015>
+	Added ability to add screenshots in details cell
+		Images will be displayed within the container
+		Images can also be added using links as markup (see documentation)
+		Fixed issue of image not styling correctly inside the cell (reported by Bas)
+	Total memory and free memory will now be displayed in MB
+	Added OS Architecture and Java Version to System Specs table
+	Added a DIV for Test Description
+		Using startTest("testName", "description") will also append a description at the test level
+		Moved description container at the same level as the test so its visible without opening it (reported by Bas)
+	Several styling improvements 
+	Updated documentation to show latest features (above)

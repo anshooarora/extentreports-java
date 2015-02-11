@@ -37,13 +37,25 @@ class Logger extends AbstractLog {
 	protected void log() {
 		String statusIcon = FontAwesomeIco.get(logStatus);
 		
-		String txtCurrent = FileReaderEx.readAllText(filePath);
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("step"), Resources.getText(packagePath + "step.txt") + MarkupFlag.get("step"));
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("timestamp"), new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("stepStatus"), logStatus.toString().toLowerCase());
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("statusIcon"), statusIcon);
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("stepName"), stepName);
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("details"), details);
+		if (screenCapturePath != "") {
+			String img = MarkupFlag.img(screenCapturePath);
+			
+			if (screenCapturePath.indexOf("http") == 0) {
+				img = img.replace("file:///", "");
+			}
+			
+			details += img;
+			screenCapturePath = "";
+		}
+		
+		String txtCurrent = FileReaderEx
+				.readAllText(filePath)
+				.replace(MarkupFlag.get("step"), Resources.getText(packagePath + "step.txt") + MarkupFlag.get("step"))
+				.replace(MarkupFlag.get("timestamp"), new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()))
+				.replace(MarkupFlag.get("stepStatus"), logStatus.toString().toLowerCase())
+				.replace(MarkupFlag.get("statusIcon"), statusIcon)
+				.replace(MarkupFlag.get("stepName"), stepName)
+				.replace(MarkupFlag.get("details"), details);
 		
 		FileWriterEx.write(filePath, txtCurrent);
 	}
@@ -51,31 +63,37 @@ class Logger extends AbstractLog {
 	@Override
 	protected void startTest() {		
 		// this order of creating entries in markup is important
-		String txtCurrent = FileReaderEx.readAllText(filePath);
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("testStatus"), getLastRunStatus().toString().toLowerCase());
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("step"), "");
+		String markup = FileReaderEx
+				.readAllText(filePath)
+				.replace(MarkupFlag.get("testStatus"), getLastRunStatus().toString().toLowerCase())
+				.replace(MarkupFlag.get("step"), "");
 		
 		if (testDisplayOrder == DisplayOrder.BY_LATEST_TO_OLDEST) {
-			txtCurrent = txtCurrent.replace(MarkupFlag.get("test"), MarkupFlag.get("test") + Resources.getText(packagePath + "test.txt"));
+			markup = markup.replace(MarkupFlag.get("test"), MarkupFlag.get("test") + Resources.getText(packagePath + "test.txt"));
 		}
 		else {
-			txtCurrent = txtCurrent.replace(MarkupFlag.get("test"), Resources.getText(packagePath + "test.txt") + MarkupFlag.get("test"));
+			markup = markup.replace(MarkupFlag.get("test"), Resources.getText(packagePath + "test.txt") + MarkupFlag.get("test"));
 		}
 		
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("testName"), testName);
+		markup = markup
+				.replace(MarkupFlag.get("testName"), testName)
+				.replace(MarkupFlag.get("TESTDESCRIPTION"), testDescription);
 		
-		FileWriterEx.write(filePath, txtCurrent);
+		FileWriterEx.write(filePath, markup);
 	}
 	
 	@Override
 	protected void endTest() {
-		String txtCurrent = FileReaderEx.readAllText(filePath);
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("testStatus"), getLastRunStatus().toString().toLowerCase());	
-		txtCurrent = txtCurrent.replace(MarkupFlag.get("timeInfo"),  new SimpleDateFormat("HH:mm:ss").format(startTime) + " - " +  new SimpleDateFormat("HH:mm:ss").format(endTime) + " (" + timeDiff + " " + timeUnit + ")");
-				
+		String markup = FileReaderEx
+				.readAllText(filePath)
+				.replace(MarkupFlag.get("testStatus"), getLastRunStatus().toString().toLowerCase())	
+				.replace(MarkupFlag.get("timeInfo"),  new SimpleDateFormat("HH:mm:ss").format(startTime) + " - " +  new SimpleDateFormat("HH:mm:ss").format(endTime) + " (" + timeDiff + " " + timeUnit + ")");
+				//.replace("\n", "")
+				//.replace("\r", "");
+		
 		testName = "";
 		
-		FileWriterEx.write(filePath, txtCurrent);
+		FileWriterEx.write(filePath, markup);
 	}	
 	
 
@@ -83,7 +101,7 @@ class Logger extends AbstractLog {
 	
 	private void writeBaseMarkup(Boolean replaceExisting) throws IOException {
 		if (replaceExisting) {
-			FileWriterEx.createNewFile(filePath, Resources.getText(packagePath + "base.txt"));
+			FileWriterEx.createNewFile(filePath, Resources.getText(packagePath + "base.txt"));//.replace("\n", "").replace("\r", ""));
 		}
 	}
 	

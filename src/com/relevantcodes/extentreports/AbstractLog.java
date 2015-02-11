@@ -25,8 +25,9 @@ abstract class AbstractLog {
 	protected LogStatus logStatus;
 	protected String stepName;
 	protected String details;
-	protected String screenCapturePath;
+	protected String screenCapturePath = "";
 	protected String testName;
+	protected String testDescription;
 	protected String summary;
 	protected Date startTime;
 	protected Date endTime;
@@ -59,12 +60,17 @@ abstract class AbstractLog {
 	
 	protected abstract void log();
 	
-	public void startTest(String name) {
+	public void startTest(String name, String description) {
 		testName = name;
+		testDescription = description;
 		lastRunStatus = LogStatus.PASS;
 		startTime = Calendar.getInstance().getTime();
 		
 		startTest();
+	}
+	
+	public void startTest(String name) {
+		startTest(name, "");
 	}
 	
 	protected abstract void startTest();

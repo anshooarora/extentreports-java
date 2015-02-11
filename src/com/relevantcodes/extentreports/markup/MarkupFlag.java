@@ -20,4 +20,8 @@ public class MarkupFlag {
 	public static String get(String flag) {
 		return "<!--%%" + flag.toUpperCase() + "%%-->";
 	}
+	
+	public static String img(String imgPath) {
+		return "<img class='report-img' data-featherlight='file:///" + imgPath + "' src='file:///" + imgPath + "' height='50px' width='100px' />";
+	}
 }

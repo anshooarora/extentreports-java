@@ -8,6 +8,7 @@
 						<div class='toggle-area'>
 							<span class='toggle-span'><i class='fa fa-plus'></i></span>
 						</div>
+						<div class='description'><span class='description-title'>Description: </span><span class='description-content'><!--%%TESTDESCRIPTION%%--></span></div>
 						<div class='exec-info'>
 							<table class='simple-gray'>
 								<thead>
