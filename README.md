@@ -6,7 +6,7 @@ View ExtentReports sample <a href='http://relevantcodes.com/ExtentReports/Extent
 
 ### Download
 
-Download the jar from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
+Download the jar and view latest details & comments from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
 
 ### Basic Usage
 
