@@ -254,6 +254,7 @@
 			    text-align: right;
 			}
 			#footer a {
+				color: inherit;
 			    font-size: 13px;
 			    font-weight: 300;
 			    margin-left: 10px;
@@ -270,6 +271,8 @@
 			.cs-btn {
 				border: 1px solid;
 				border-radius: 0.2em;
+				cursor: pointer;
+				display: inline;
 				font-size: 11px;
 				font-weight: 700;
 				text-transform: uppercase;
@@ -279,6 +282,9 @@
 				text-align: center;
 				transition: all 0.2s ease-in-out 0s;
 				vertical-align: middle;
+			}
+			.cs-btn i {
+				padding-right: 5px;
 			}
 			.cs-btn-green {
 				border-color: #5cb85c;
@@ -329,10 +335,10 @@
 						Filter test by status: &nbsp; &nbsp;
 					</span>
 					<span class='filter2'>
-						<a href="#" id="filter-pass" class="cs-btn cs-btn-green btn-toggle">PASS</a>
-						<a href="#" id="filter-fail" class="cs-btn cs-btn-red btn-toggle">FAIL</a>
-						<a href="#" id="filter-error" class="cs-btn cs-btn-lightred btn-toggle">ERROR</a>
-						<a href="#" id="filter-warning" class="cs-btn cs-btn-orange btn-toggle">WARNING</a>
+						<div id="filter-pass" class="cs-btn cs-btn-green btn-toggle"><i class="fa fa-check"></i>PASS</div>
+						<div id="filter-fail" class="cs-btn cs-btn-red btn-toggle"><i class="fa fa-times"></i>FAIL</div>
+						<div id="filter-error" class="cs-btn cs-btn-lightred btn-toggle"><i class="fa fa-exclamation-circle"></i>ERROR</div>
+						<div id="filter-warning" class="cs-btn cs-btn-orange btn-toggle"><i class="fa fa-warning"></i>WARNING</div>
 					</span>
 				</div>
 			</div>
@@ -471,10 +477,10 @@
 				}
 				$('.btn-toggle').each(function() {
 					if (!$(this).hasClass('btn-toggle-on')) {
-						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeOut();
+						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeOut('fast');
 					}
 					else {
-						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeIn();
+						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeIn('fast');
 						allSelected = false;
 					}
 				});
