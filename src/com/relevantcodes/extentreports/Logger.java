@@ -87,9 +87,9 @@ class Logger extends AbstractLog {
 		String markup = FileReaderEx
 				.readAllText(filePath)
 				.replace(MarkupFlag.get("testStatus"), getLastRunStatus().toString().toLowerCase())	
-				.replace(MarkupFlag.get("timeInfo"),  new SimpleDateFormat("HH:mm:ss").format(startTime) + " - " +  new SimpleDateFormat("HH:mm:ss").format(endTime) + " (" + timeDiff + " " + timeUnit + ")");
-				//.replace("\n", "")
-				//.replace("\r", "");
+				.replace(MarkupFlag.get("timeInfo"),  new SimpleDateFormat("HH:mm:ss").format(startTime) + " - " +  new SimpleDateFormat("HH:mm:ss").format(endTime) + " (" + timeDiff + " " + timeUnit + ")")
+				.replace("\n", "")
+				.replace("\r", "");
 		
 		testName = "";
 		
@@ -101,7 +101,7 @@ class Logger extends AbstractLog {
 	
 	private void writeBaseMarkup(Boolean replaceExisting) throws IOException {
 		if (replaceExisting) {
-			FileWriterEx.createNewFile(filePath, Resources.getText(packagePath + "base.txt"));//.replace("\n", "").replace("\r", ""));
+			FileWriterEx.createNewFile(filePath, Resources.getText(packagePath + "base.txt"));
 		}
 	}
 	
