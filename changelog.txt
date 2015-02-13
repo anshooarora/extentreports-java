@@ -46,3 +46,4 @@ ExtentReports 0.94 <02-11-2015>
 		Moved description container at the same level as the test so its visible without opening it (reported by Bas)
 	Several styling improvements 
 	Updated documentation to show latest features (above)
+	[0.94.1]  Added logo
