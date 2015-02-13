@@ -325,7 +325,7 @@
 		<div id='container'>
 			<div id='header'>
 				<div id='title'>
-					<h3>Extent Reports</h3>
+					<img src='http://relevantcodes.com/ExtentReports/logo.png' />
 				</div>
 				<div id='header-summary'>
 					<p><!--%%REPORTSUMMARY%%-->ExtentReports is a HTML reporting library for Selenium WebDriver written in Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.<!--%%REPORTSUMMARY%%--></p>
