@@ -9,6 +9,7 @@ class Content implements IContent {
 	
 	public void renewSystemInfo() {
 		String markup = FileReaderEx.readAllText(filePath);
+		String userName = MarkupFlag.get("userName") + ".*" + MarkupFlag.get("userName");
 		String hostName = MarkupFlag.get("hostName") + ".*" + MarkupFlag.get("hostName");
 		String ip = MarkupFlag.get("ip") + ".*" + MarkupFlag.get("ip");
 		String os = MarkupFlag.get("os") + ".*" + MarkupFlag.get("os");
@@ -19,6 +20,9 @@ class Content implements IContent {
 		String availMem = MarkupFlag.get("availMem") + ".*" + MarkupFlag.get("availMem");
 		String temp = "";
 		int mb = 1024 * 2014;
+		
+		temp = RegexMatcher.getNthMatch(markup, userName, 0);
+		markup = markup.replace(temp, userName.replace(".*", System.getProperty("user.name")));
 		
 		temp = RegexMatcher.getNthMatch(markup, hostName, 0);
 		try {

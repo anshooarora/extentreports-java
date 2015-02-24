@@ -4,6 +4,8 @@ ExtentReports is a HTML reporting library for Selenium WebDriver for Java and cr
 
 View ExtentReports sample <a href='http://relevantcodes.com/ExtentReports/Extent.html'>here</a>.
 
+For most complete and up to date documentation, visit <a href='http://relevantcodes.com/extentreports-documentation/'>this link</a>.
+
 ### Download
 
 Download the jar and view latest details & comments from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
@@ -55,15 +57,20 @@ public class Main {
         // to report with snapshot (this feature will be introduced in v0.94)
         // log(logStatus, stepName, details, screenCapturePath)
         extent.log(LogStatus.INFO, "Image", "Image example:", "C:\\img.png");
- 
-        // *REQUIRED
+        
+        // *REQUIRED for v0.94 and earlier
+        // *OPTIONAL v1.0 onwards, this step is not required
         // endTest()
         //    use to end current toggle level
-        //    not using this command may cause the test not have its final status
+        //    not using this command may cause the test not have its final status (v0.94 and earlier)
         extent.endTest();
+        
+        // start other tests
     }
 }
 ```
+
+> ALERT:  It is not required to call endTest() version 1.0 onwards. 
 
 > Note: Use "init" method only once, at the beginning of the run session to set the reporting path.
 
@@ -109,26 +116,166 @@ extent.log(LogStatus.INFO, "HTML", "This will be <span style='font-weight:bold;'
 
 You can customize the report as you want. Changes can be easily made to the overall CSS by bringing your own custom css, changes to the icons can be made by picking your own from font-awesome etc. Below is some basic usage to demonstrate this library's customization.
 
+#### Using custom CSS
+
+You have options to use custom CSS directly (version 1.0+) in the document or bring in your own stylesheet.
+
 ```java
-// use this if you have your own custom css to change the design
-// as per your needs
+// custom styles
+String style = "p{font-size:20px;} .test{background-color:#000 !important;color:#fff !important;}";
+extent.configuration().documentHead().addCustomStyles(style);
+
+// custom stylesheet
 extent.configuration().documentHead().addCustomStylesheet("C:\\css.css");
- 
-// this changes the top level summary
-extent.configuration().header().introSummary("HELLO WORLD");
- 
-// this removes the Extent footer section 
-// v0.94 onwards, otherwise use removeExtentFooter() for version 0.93 and earlier
+```
+
+#### Using custom JS
+
+Just like having the ability to change document styles, you can also add your own custom scripts (version 1.0+).
+
+```java
+extent.configuration().scripts().insertJS("$('.test').click(function(){ alert('test clicked'); });");
+```
+
+#### Add/Remove Extent footer
+
+Its possible to add/remove the Extent footer using the following configuration:
+
+```java
+// remove the footer
 extent.configuration().footer().useExtentFooter(false);
- 
-// this adds the Extent footer section back 
-// v0.94 onwards, otherwise use addExtentFooter() for version 0.93 and earlier
+
+// use the footer
 extent.configuration().footer().useExtentFooter(true);
- 
-// this changes the icons
-// see http://fortawesome.github.io/Font-Awesome/3.2.1/icons/ for more info
+```
+
+#### Change status icons
+
+Not a lot of people would do this, but you can choose to use your own icons for log status (PASS, FAIL, WARNING etc.) by choosing one of the icons from Fontawesome website: http://fortawesome.github.io/Font-Awesome/icons/.
+
+```java
 extent.configuration().statusIcon(LogStatus.PASS, "check-circle");
 ```
+
+#### Changing the top-level summary
+
+You can remove or add your own summary by using the following configuration:
+
+```java
+// this changes the top level summary
+extent.configuration().header().introSummary("My custom report summary.");
+```
+
+### Examples
+
+Below is an example with multiple logical classes called by a single driver class. It will generate the following report: <a href='http://relevantcodes.com/ExtentReports/Example1.html'>Example 1</a>.
+
+```java
+import com.relevantcodes.extentreports.*;
+
+public class TestDriver {
+    static final ExtentReports extent = ExtentReports.get("FrameworkDriver");
+    
+    public static void main(String[] args) {
+        extent.init("C:\\Extent.html", false);
+        extent.configuration().footer().useExtentFooter(false);
+        
+        extent.startTest("Test Login");
+        new Login().test();
+
+        extent.startTest("Test Logout");
+        new Login().test();
+        new Logout().test();
+        
+        extent.startTest("Add Item To Cart");
+        new Login().test();
+        new AddToCart().test();
+        new Logout().test();
+        
+        extent.startTest("Checkout Test");
+        new Login().test();
+        new AddToCart().test();
+        new Checkout().test();
+        new Logout().test();
+    }
+}
+
+public class Login {
+    static final ExtentReports extent = ExtentReports.get(Login.class);
+    
+    public void test() {
+        extent.log(LogStatus.PASS, "Login->Step", "Some details");
+    }
+}
+
+public class AddToCart {
+    static final ExtentReports extent = ExtentReports.get(AddToCart.class);
+    
+    public void test() {
+        extent.log(LogStatus.PASS, "AddToCart->Step", "Some details");
+    }
+}
+
+public class Checkout {
+    static final ExtentReports extent = ExtentReports.get(Checkout.class);
+    
+    public void test() {
+        extent.log(LogStatus.WARNING, "Checkout->Step", "Some details");
+    }
+}
+
+public class Logout {
+    static final ExtentReports extent = ExtentReports.get("Logout");
+    
+    public void test() {
+        extent.log(LogStatus.INFO, "Logout->Step", "Some details");
+    }
+}
+```
+
+### Important Version Changes
+
+Below are version specific changes that you will find helpful.
+
+#### Version 1.0+
+
+<ul>
+<li>If you are coming from v0.94 or earlier, it is no longer required to call endTest after each test.  Its still recommend to use it at the very end of run-session, but not required. See below example:
+<pre>
+extent.startTest("Test 1");
+extent.log(LogStatus.PASS, "Step", "Details");
+
+// no need to call endTest here, you can now just start the next test
+// if you are already using endTest, you don't need to remove it or change your code
+
+extent.startTest("Test 2");
+extent.log(LogStatus.INFO, "Step", "Details");
+
+// .. more tests
+</pre>
+</li>
+<li>scripts().insertJS(script) introduced in this version</li>
+<li>documentHead().addCustomStyles(styles) introduced in this version</li>
+<li>footer().removeExtentFooter() is deprecated in this version, utilize useExtentFooter(false) instead</li>
+<li>footer().addExtentFooter() is deprecated in this version, utilize useExtentFooter(true) instead</li>
+</ul>
+        
+#### Version 0.94+
+
+<ul>
+<li>Ability to add snapshots directly to the report using log method:
+<pre>
+extent.log(LogStatus.INFO, "Image", "Image example:", "C:\\img.png");
+</pre>
+</li>
+
+<li>Ability to add description for the test when using startTest:
+<pre>
+etent.startTest("Test - With Description", "This description will show up under Test.");
+</pre>
+</li>
+</ul>
+
 
 ### License
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'> 
 <!--
-	ExtentReports Library v0.94 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/relevantcodes/
+	ExtentReports Library v1.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/relevantcodes/
 --> 
 	<head>
 		<title>Extent Reports</title>
@@ -14,6 +14,7 @@
 			body {
 				font-family: 'Open Sans', Calibri;
 				font-size: 14px;
+				margin: 0;
 			}
 			td {
 				font-size: 13px;
@@ -28,6 +29,21 @@
 			a:hover {
 				color: #59a3df;
 			}
+			.view, .resize {
+			    border: 1px solid #38a5dd;
+			    color: #777;
+			    cursor: pointer;
+			    float: right;
+			    font-size: 11px;
+			    font-weight: 600;
+			    margin-left: 2px;
+			    margin-top: 8px;
+			    padding: 4px 8px 6px;
+			}
+			.view-enabled {
+			    background-color: #38a5dd;
+			    color: white;
+			}
 			#container {
 				width: 1020px;
 			}
@@ -38,9 +54,6 @@
 			#header {
 				margin: 45px 0;
 			}
-			#header img {
-				
-			}
 			#header h3 {
 				border-bottom: 2px solid #59a3df;
 				line-height: 30px;
@@ -50,10 +63,8 @@
 				font-size: 14px;
 				font-weight: 300;
 				line-height: 25px;
+				margin-top: -5px;
 			    width: 80%;
-			}
-			#header-summary P {
-			
 			}
 			#test-filters {
 				font-weight: 300;
@@ -96,6 +107,10 @@
 			.test {
 				margin-bottom: -10px;
 			}
+			.test-expanded {
+				background-color: #fff;
+				border-color: #aaa;
+			}
 			.dashboard .toggle-area {
 				margin-top: 0;
 			}
@@ -136,7 +151,7 @@
 			}
 			.name {
 				color: #3a4249 !important;
-				font-size: 11px;
+				font-size: 11.5px;
 				font-weight: 600;
 				text-transform: uppercase;
 				width: 100%;
@@ -180,6 +195,9 @@
 				margin-top: 20px;
 				width: 100%;
 			}
+			#tabs .simple-gray {
+			    margin-top: 0;
+			}
 			.simple-gray thead td {
 				background: #f5f6f8;
 			    border-bottom: 1px solid #ddd;
@@ -189,7 +207,7 @@
 			    text-transform: uppercase;
 			}
 			.simple-gray tbody tr:hover {
-				background-color: #f5f6f8;
+				background-color: #f9fafc;
 			}
 			.simple-gray td {
 				padding: 7px 10px;
@@ -248,7 +266,6 @@
 			#footer ul {
 			    margin-left: -20px;
 			}
-			/* temp for beta */
 			#footer p {
 			    font-size: 11px;
 			    text-align: right;
@@ -259,7 +276,6 @@
 			    font-weight: 300;
 			    margin-left: 10px;
 			}
-			/* elements */
 			.report-img {
 			    border: 4px solid #eee;
 			    display: block;
@@ -319,13 +335,15 @@
 				color: white;
 			}
 		</style>
-		<!--%%CUSTOMCSS%%--><!--%%CUSTOMCSS%%-->
+		<!--%%CUSTOMCSS%%-->
 	</head>
 	<body>
 		<div id='container'>
 			<div id='header'>
 				<div id='title'>
-					<img src='http://relevantcodes.com/ExtentReports/logo.png' />
+					<a href='http://relevantcodes.com/extentreports-for-selenium/'><img src='http://relevantcodes.com/ExtentReports/logo/extent10.png' /></a>
+					<span class="resize expand"><i class='fa fa-expand'></i></span>	
+					<span class="view"><i class='fa fa-cog'></i></span>
 				</div>
 				<div id='header-summary'>
 					<p><!--%%REPORTSUMMARY%%-->ExtentReports is a HTML reporting library for Selenium WebDriver written in Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.<!--%%REPORTSUMMARY%%--></p>
@@ -367,6 +385,7 @@
 								<table class='simple-gray'>
 									<thead>
 										<tr>
+											<td>UserName</td>
 											<td>HostName</td>
 											<td>IP</td>
 											<td>OS</td>
@@ -379,6 +398,7 @@
 									</thead>
 									<tbody>
 										<tr>
+											<td><!--%%USERNAME%%--><!--%%USERNAME%%--></td>
 											<td><!--%%HOSTNAME%%--><!--%%HOSTNAME%%--></td>
 											<td><!--%%IP%%--><!--%%IP%%--></td>
 											<td><!--%%OS%%--><!--%%OS%%--></td>
@@ -407,6 +427,7 @@
 						<li><a href='https://github.com/relevantcodes/extentreports/wiki'>Wiki</a></span></li>
 						<li><a href='https://github.com/relevantcodes/extentreports/graphs/contributors'>Contributors</a></span></li>
 						<li><a href='https://github.com/relevantcodes/extentreports/issues'>Issues</a></span></li>
+						<li><a href='http://relevantcodes.com/extentreports-documentation/'>Documentation</a></span></li>
 					</ul>
 				</div>
 				<!--%%/PROJECTFOOTER%%-->
@@ -416,72 +437,98 @@
 	<script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script src="http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+	<!--%%CUSTOMSCRIPT%%-->
 	<script type='text/javascript'>
 		$(document).ready(function() {
 			$(".description").filter(function() {
-				return $(this).text().trim() == 'Description:';
+				return $(this).text() == 'Description: ';
 			}).hide();
+			if ($('.test').last().children('.teststatus').attr('class').indexOf('%') > 0) {
+				var lastTest = $('.test').last();
+				var elms = lastTest.find('td.status');
+				var status = '';
+				if (elms.hasClass('fail') || elms.hasClass('fatal'))
+					status = 'fail';
+				else if (elms.hasClass('error'))
+					status = 'error';
+				else if (elms.hasClass('warning'))
+					status = 'warning';
+				else
+					status = 'pass';
+				lastTest.html( lastTest.html().replace(new RegExp('<!--%%TESTSTATUS%%\-\->', 'g'), status) );
+			} 
+			$('.resize').click(function() {
+				var target = $(this);
+				if (target.hasClass('expand')) {
+					var winW = $(window).width();
+					var box = $('#container');
+					if (winW > 1020 && box.css('width') == '1020px') {
+						box.animate({ 'width' : ((winW - 1020) * .4) + 1020 + 'px' });
+						target.children().removeClass('fa-expand').addClass('fa-compress').parent().toggleClass('view-enabled');
+					} else {
+						box.animate({ 'width' : '1020px' });
+						target.children().removeClass('fa-compress').addClass('fa-expand').parent().toggleClass('view-enabled');
+					}
+				}
+			});
+			$('.view').click(function() {
+				var target = $(this);
+				if (!target.hasClass('view-enabled')) {
+					$('#test-filters').css('margin-top', '50px').slideUp('fast', function() {
+						$('#test-filters').detach().prependTo('#tests').slideDown('fast');
+					});
+					$('.filter1').hide();
+				}
+				else {
+					$('#test-filters').css('margin-top', '100px').slideUp('fast', function() {
+						$('#test-filters').detach().appendTo('#header').slideDown('fast');
+					});
+					$('.filter1').show();
+				}
+				$('.view').toggleClass('view-enabled');
+			});
 			$('.test').click(function(evt) {
 				var target = $(this);
 				var i = target.find('.toggle-area').find('i');
-				if (target.children('.exec-info').children('.description').text() == 'Description: ') { target.children('.exec-info').children('.description').hide(); }
 				if (i.hasClass('fa-minus')) {
 					if (evt.target.nodeName == "DIV" || evt.target.nodeName == "I" || evt.target.nodeName == "SPAN") {
 						i.removeClass('fa-minus').addClass('fa-plus');
-						target.children('.exec-info').slideUp('200');
-						target.css('background-color', '#fdfeff');
+						target.toggleClass('test-expanded').children('.exec-info').slideUp(300);
 					}
 				}
 				else {
 					i.removeClass('fa-plus').addClass('fa-minus'); 
-					target.children('.exec-info').slideDown('200');
-					target.css('background-color', '#fff')
+					target.toggleClass('test-expanded').children('.exec-info').slideDown(300);
 				}
 			});
 			$('#tabs').click(function(evt) {
 				var target = $(this); 
 				var t = evt.target.className;
 				evt.preventDefault();
-				/*
-				$('html, body').animate({
-					scrollTop: 0,
-					scrollLeft: 0
-				});
-				*/
 				if (target.find('#' + t.split(' ')[0]).is(':visible')) {
-					target.find('#' + t.split(' ')[0]).slideUp('200');
+					target.find('#' + t.split(' ')[0]).slideUp(400);
 					$('.' + t.split(' ')[0]).css('background-color', '');
 				}
 				else {
-					target.find('#' + t.split(' ')[0]).slideDown('200');
+					target.find('#' + t.split(' ')[0]).slideDown(400);
 					$('.' + t.split(' ')[0]).css('background-color', '#ddd');
 				}
 			});
 			$('.btn-toggle').click(function() {
-				var target = $(this);
-				if (target.hasClass('btn-toggle-on')) {
+				var target = $(this); 
+				if (target.hasClass('btn-toggle-on'))
 					target.removeClass('btn-toggle-on').css('background-color', 'white').css('color', target.css('border-left-color'));
-				} 
-				else {
+				else
 					target.addClass('btn-toggle-on').css('background-color', target.css('border-left-color')).css('color', 'white');
-				}
-				var allSelected = true;
-				$('.btn-toggle').each(function() {
-					if ($(this).hasClass('btn-toggle-on')) {
-						allSelected = false;
-					}
-				});
-				if (allSelected) {
-					location.reload();
-					return false;
+				if (!$('.btn-toggle').hasClass('btn-toggle-on')) {
+					$('.test').fadeIn();
+					return;
 				}
 				$('.btn-toggle').each(function() {
-					if (!$(this).hasClass('btn-toggle-on')) {
-						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeOut('fast');
-					}
-					else {
+					if ($(this).hasClass('btn-toggle-on'))
 						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeIn('fast');
-						allSelected = false;
+					else {
+						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeOut('fast');
 					}
 				});
 			});
@@ -489,11 +536,11 @@
 				var test = $('.test');
 				var i = test.find('.toggle-area').find('i');
 				i.removeClass('fa-plus').addClass('fa-minus');
-				test.css('background-color', '#fff').children('.exec-info').slideDown('200');
+				test.css('background-color', '#fff').children('.exec-info').slideDown(300);
 			});
 			$('#collapse').click(function(evt) {
 				var test = $('.test');
-				test.css('background-color', '#fdfeff').children('.exec-info').slideUp('200');
+				test.css('background-color', '#fdfeff').children('.exec-info').slideUp(300);
 				var i = test.find('.toggle-area').find('i');
 				i.removeClass('fa-minus').addClass('fa-plus');
 			});
@@ -508,7 +555,6 @@
 		google.load('visualization', '1', {packages:['corechart']});
 		google.setOnLoadCallback(testSetChart);
 		google.setOnLoadCallback(testsChart);
-		
 		function testSetChart() {
 			var data = google.visualization.arrayToDataTable([
 			  ['Test Status', 'Count'],
@@ -548,7 +594,6 @@
 			  title: 'Step Summary', 
 			  width: 400
 			};
- 
 			var chart = new google.visualization.PieChart(document.getElementById('step-status-dashboard'));
 			chart.draw(data, options);
 		  }

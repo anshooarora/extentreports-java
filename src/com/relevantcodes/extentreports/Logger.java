@@ -26,12 +26,14 @@ import com.relevantcodes.extentreports.markup.*;
 import com.relevantcodes.extentreports.support.*;
 
 class Logger extends AbstractLog {
+	// HTML report file path
 	private String filePath;
+	
+	// package where markup files are created 
 	private String packagePath = "com/relevantcodes/extentreports/markup/";
+	
+	// default DisplayOrder = OLDEST tests first, followed by NEWEST
 	private DisplayOrder testDisplayOrder = DisplayOrder.BY_OLDEST_TO_LATEST;
-	
-	
-	//region Protected Methods
 	
 	@Override
 	protected void log() {
@@ -48,25 +50,23 @@ class Logger extends AbstractLog {
 			screenCapturePath = "";
 		}
 		
-		String txtCurrent = FileReaderEx
-				.readAllText(filePath)
+		String markup = FileReaderEx.readAllText(filePath)
 				.replace(MarkupFlag.get("step"), Resources.getText(packagePath + "step.txt") + MarkupFlag.get("step"))
 				.replace(MarkupFlag.get("timestamp"), new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()))
-				.replace(MarkupFlag.get("stepStatus"), logStatus.toString().toLowerCase())
-				.replace(MarkupFlag.get("statusIcon"), statusIcon)
-				.replace(MarkupFlag.get("stepName"), stepName)
+				.replace(MarkupFlag.get("stepstatus"), logStatus.toString().toLowerCase())
+				.replace(MarkupFlag.get("statusicon"), statusIcon)
+				.replace(MarkupFlag.get("stepname"), stepName)
 				.replace(MarkupFlag.get("details"), details);
 		
-		FileWriterEx.write(filePath, txtCurrent);
+		FileWriterEx.write(filePath, markup);
 	}
 	
 	@Override
-	protected void startTest() {		
+	protected void startTest() {
 		// this order of creating entries in markup is important
-		String markup = FileReaderEx
-				.readAllText(filePath)
-				.replace(MarkupFlag.get("testStatus"), getLastRunStatus().toString().toLowerCase())
-				.replace(MarkupFlag.get("step"), "");
+		String markup = FileReaderEx.readAllText(filePath)
+				.replace(MarkupFlag.get("teststatus"), getLastRunStatus().toString().toLowerCase())
+				.replace(MarkupFlag.get("step"), "").replace("\n", "").replace("\r", "");
 		
 		if (testDisplayOrder == DisplayOrder.BY_LATEST_TO_OLDEST) {
 			markup = markup.replace(MarkupFlag.get("test"), MarkupFlag.get("test") + Resources.getText(packagePath + "test.txt"));
@@ -75,38 +75,28 @@ class Logger extends AbstractLog {
 			markup = markup.replace(MarkupFlag.get("test"), Resources.getText(packagePath + "test.txt") + MarkupFlag.get("test"));
 		}
 		
-		markup = markup
-				.replace(MarkupFlag.get("testName"), testName)
-				.replace(MarkupFlag.get("TESTDESCRIPTION"), testDescription);
+		markup = markup.replace(MarkupFlag.get("testname"), testName)
+				.replace(MarkupFlag.get("testdescription"), testDescription);
 		
 		FileWriterEx.write(filePath, markup);
 	}
 	
 	@Override
 	protected void endTest() {
-		String markup = FileReaderEx
-				.readAllText(filePath)
-				.replace(MarkupFlag.get("testStatus"), getLastRunStatus().toString().toLowerCase())	
-				.replace(MarkupFlag.get("timeInfo"),  new SimpleDateFormat("HH:mm:ss").format(startTime) + " - " +  new SimpleDateFormat("HH:mm:ss").format(endTime) + " (" + timeDiff + " " + timeUnit + ")")
-				.replace("\n", "")
-				.replace("\r", "");
+		String markup = FileReaderEx.readAllText(filePath)
+				.replace(MarkupFlag.get("teststatus"), getLastRunStatus().toString().toLowerCase())	
+				.replace(MarkupFlag.get("timeinfo"),  new SimpleDateFormat("HH:mm:ss").format(startTime) + " - " +  new SimpleDateFormat("HH:mm:ss").format(endTime) + " (" + timeDiff + " " + timeUnit + ")");
 		
 		testName = "";
 		
 		FileWriterEx.write(filePath, markup);
 	}	
 	
-
-	//region Private Methods
-	
 	private void writeBaseMarkup(Boolean replaceExisting) throws IOException {
 		if (replaceExisting) {
 			FileWriterEx.createNewFile(filePath, Resources.getText(packagePath + "base.txt"));
 		}
 	}
-	
-	
-	//region Constructor
 	
 	public Logger(String filePath, Boolean replaceExisting, DisplayOrder order) {
 		this.filePath = filePath;

@@ -14,31 +14,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
 package com.relevantcodes.extentreports;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.relevantcodes.extentreports.markup.Configuration;
+import com.relevantcodes.extentreports.support.RegexMatcher;
 
 public class ExtentReports {
 	private Configuration configuration;
 	private final static ExtentReports instance = new ExtentReports();
-	private static Class<?> clazz;
-	private static String className;
+	private static List<String> classList = new ArrayList<String>();
 	private AbstractLog extent;
 	private String filePath;
-	
 			
 	//region Public Methods
 	
 	public static ExtentReports get(Class<?> clazz) {
-		ExtentReports.clazz = clazz;
-		ExtentReports.className = "";
+		classList.add(clazz.getName());
 		return instance;
 	}
 	
 	public static ExtentReports get(String className) {
-		ExtentReports.className = className;
-		ExtentReports.clazz = null;
+		classList.add(className);
 		return instance;
 	}
 	
@@ -55,9 +53,14 @@ public class ExtentReports {
 	}
 	
 	public void log(LogStatus logStatus, String stepName, String details, String screenCapturePath) {
-		String name = clazz == null ? className : clazz.getName().split("\\.")[clazz.getName().split("\\.").length - 1];
-
-		extent.log(logStatus, "[" + name + "] " + stepName, details, screenCapturePath);
+		String cls = callerClass(Thread.currentThread().getStackTrace());
+		
+		if (cls != null) {
+			extent.log(logStatus, "[" + cls + "] " + stepName, details, screenCapturePath);
+		} 
+		else {
+			extent.log(logStatus, stepName, details, screenCapturePath);
+		}
 	}
 	
 	public void log(LogStatus logStatus, String stepName, String details) {
@@ -94,8 +97,33 @@ public class ExtentReports {
 		configuration().params("filePath", filePath);
 		configuration().content().renewSystemInfo();
 	}
+	
+	private String callerClass(StackTraceElement[] element) {
+		String name = null;
+				
+		try {
+			name = RegexMatcher.getNthMatch(element[3].toString(), "([\\w\\.]+)(:.*)?", 0);
+		}
+		catch (Exception e) {
+			try {
+				name = RegexMatcher.getNthMatch(element[2].toString(), "([\\w\\.]+)(:.*)?", 0);
+			}
+			catch (Exception ex) {
+				return name;
+			}
+		}
+		
+		String[] s = name.split("\\.");
+		
+		if (s.length >= 1) {
+			return s[s.length - 2] + "." + s[s.length - 1];
+		}
+		
+		return name;
+	}
+	
 
-
-//region Constructor(s)
+	//region Constructor(s)
+	
 	private ExtentReports() {}
 }

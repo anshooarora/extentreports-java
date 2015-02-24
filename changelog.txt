@@ -46,4 +46,21 @@ ExtentReports 0.94 <02-11-2015>
 		Moved description container at the same level as the test so its visible without opening it (reported by Bas)
 	Several styling improvements 
 	Updated documentation to show latest features (above)
-	[0.94.1]  Added logo
+[0.94.1] <02-13-2015>
+		Added logo
+
+ExtentReports 1.0 <02-24-2015>
+	Fixed issue with DocumentHead only being able to use the last added stylesheet
+		Any number of custom stylesheets can not be used
+	Fixed issue with the correct className.methodName not showing in the stepname
+	Several CSS fixes
+	Added UserName for System Info
+	Test toggles
+		Changed toggle speed and improved event performance
+		Several styling changes to increase clarity for big tests
+	Toggles for to filter tests by status: added new code to improve performance and smoother transitions
+	Added views: this feature adds ability to flip the type of view used
+	Expanded/compressed view: this feature adds the ability to change the horizontal size of content
+	Added ability to use custom css styles along with custom stylesheets
+	Added ability to use custom scripts
+	* It is not required to call endTest() after each test now

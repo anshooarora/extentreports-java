@@ -6,14 +6,30 @@ class Footer implements IFooter {
 	private String filePath;
 	
 	public void useExtentFooter(Boolean use) {
+		String start = MarkupFlag.get("PROJECTFOOTER");
+		String end = MarkupFlag.get("/PROJECTFOOTER");
+		String markup = FileReaderEx.readAllText(filePath);
+		
 		if (use) {
-			addExtentFooter();
+			markup = markup.replace(start + "<!--", start).replace("-->" + end, end);
+			FileWriterEx.write(filePath, markup);
+			
 			return;
 		}
 			
-		removeExtentFooter();
+		markup = markup.replace(start, start + "<!--").replace(end, "-->" + end);		
+		FileWriterEx.write(filePath, markup);
 	}
 	
+	// ToDo
+	// provide ability to add custom footers
+	// 	addCustomFooter("MyCompanyName", [ "<a href=''>Link1</a>", "<a href=''>Link2</a>" ]);
+	//		MyCompanyName
+	//			+ Link1
+	//			+ Link2
+	// private void addCustomFooter(String header, String[] chilren) { }
+	
+	@Deprecated
 	public void addExtentFooter() {
 		String placeHolderStart = MarkupFlag.get("PROJECTFOOTER");
 		String placeHolderEnd = MarkupFlag.get("/PROJECTFOOTER");
@@ -27,6 +43,7 @@ class Footer implements IFooter {
 		}
 	}
 	
+	@Deprecated
 	public void removeExtentFooter() {
 		String placeHolderStart = MarkupFlag.get("PROJECTFOOTER");
 		String placeHolderEnd = MarkupFlag.get("/PROJECTFOOTER");

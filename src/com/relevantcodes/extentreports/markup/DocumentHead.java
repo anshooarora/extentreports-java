@@ -1,17 +1,23 @@
 package com.relevantcodes.extentreports.markup;
 
-import com.relevantcodes.extentreports.support.*;
+import com.relevantcodes.extentreports.support.FileReaderEx;
+import com.relevantcodes.extentreports.support.FileWriterEx;
 
 class DocumentHead implements IDocumentHead {
 	private String filePath;
 	
 	public void addCustomStylesheet(String cssFilePath) {
-		String markup = FileReaderEx.readAllText(filePath);
-		String placeHolder = MarkupFlag.get("customCss") + ".*" + MarkupFlag.get("customCss");
 		String link = "<link href='file:///" + cssFilePath + "' rel='stylesheet' type='text/css' />";
+		String markup = FileReaderEx.readAllText(filePath)
+						.replace(MarkupFlag.get("customcss"), link + MarkupFlag.get("customcss"));
 		
-		String match = RegexMatcher.getNthMatch(markup, placeHolder, 0);
-		markup = markup.replace(match, placeHolder.replace(".*", link));
+		FileWriterEx.write(filePath, markup);
+	}
+	
+	public void addCustomStyles(String styles) {
+		styles = "<style type='text/css'>" + styles + "</style>";
+		String markup = FileReaderEx.readAllText(filePath)
+						.replace(MarkupFlag.get("customcss"), styles + MarkupFlag.get("customcss"));
 		
 		FileWriterEx.write(filePath, markup);
 	}

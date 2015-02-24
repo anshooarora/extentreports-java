@@ -33,6 +33,7 @@ abstract class AbstractLog {
 	protected Date endTime;
 	protected Long timeDiff;
 	protected String timeUnit;
+	protected Integer testCounter = 0;
 	
 	private LogLevel level = LogLevel.ALLOW_ALL;
 	private LogStatus lastRunStatus = LogStatus.PASS;
@@ -61,12 +62,15 @@ abstract class AbstractLog {
 	protected abstract void log();
 	
 	public void startTest(String name, String description) {
+		testCounter++;
+		
 		testName = name;
 		testDescription = description;
-		lastRunStatus = LogStatus.PASS;
 		startTime = Calendar.getInstance().getTime();
 		
 		startTest();
+		
+		lastRunStatus = LogStatus.PASS;
 	}
 	
 	public void startTest(String name) {
@@ -144,6 +148,9 @@ abstract class AbstractLog {
 			default: break;
 		}
 		
-		lastRunStatus = logStatus;
+		if (logStatus == LogStatus.INFO)
+			lastRunStatus = LogStatus.PASS;
+		else
+			lastRunStatus = logStatus;
 	}
 }
