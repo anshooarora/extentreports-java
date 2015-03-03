@@ -17,8 +17,6 @@ limitations under the License.
 
 package com.relevantcodes.extentreports.markup;
 
-import java.util.HashMap;
-
 import com.relevantcodes.extentreports.LogStatus;
 
 // proxy
