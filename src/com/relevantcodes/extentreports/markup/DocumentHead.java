@@ -39,6 +39,11 @@ class DocumentHead implements IDocumentHead {
 		FileWriterEx.write(filePath, markup);
 	}
 	
+	public DocumentHead setFile(String filePath) {
+		this.filePath = filePath;
+		return this;
+	}
+	
 	public DocumentHead(String filePath) {
 		this.filePath = filePath;
 	} 

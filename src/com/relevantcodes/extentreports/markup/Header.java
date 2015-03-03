@@ -33,6 +33,11 @@ class Header implements IHeader {
 		FileWriterEx.write(filePath, markup);
 	}
 	
+	public Header setFile(String filePath) {
+		this.filePath = filePath;
+		return this;
+	}
+	
 	public Header(String filePath) {
 		this.filePath = filePath;
 	} 

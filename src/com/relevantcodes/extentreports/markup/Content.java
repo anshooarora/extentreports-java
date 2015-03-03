@@ -75,6 +75,11 @@ class Content implements IContent {
 		FileWriterEx.write(filePath, markup);
 	}
 	
+	public Content setFile(String filePath) {
+		this.filePath = filePath;
+		return this;
+	}
+	
 	public Content(String filePath) {
 		this.filePath = filePath;
 	}

@@ -76,6 +76,11 @@ class Footer implements IFooter {
 		FileWriterEx.write(filePath, markup);
 	}
 	
+	public Footer setFile(String filePath) {
+		this.filePath = filePath;
+		return this;
+	}
+	
 	public Footer(String filePath) {
 		this.filePath = filePath;
 	}

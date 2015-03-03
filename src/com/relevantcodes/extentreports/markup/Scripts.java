@@ -31,6 +31,11 @@ class Scripts implements IScripts {
 		FileWriterEx.write(filePath, markup);
 	}
 	
+	public Scripts setFile(String filePath) {
+		this.filePath = filePath;
+		return this;
+	}
+	
 	public Scripts(String filePath) {
 		this.filePath = filePath;
 	}

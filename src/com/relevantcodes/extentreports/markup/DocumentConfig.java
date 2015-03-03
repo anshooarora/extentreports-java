@@ -17,6 +17,8 @@ limitations under the License.
 
 package com.relevantcodes.extentreports.markup;
 
+import java.util.HashMap;
+
 import com.relevantcodes.extentreports.LogStatus;
 
 // proxy
@@ -38,7 +40,7 @@ public class DocumentConfig {
 		if (null == footer)
 			footer = new Footer(filePath);
 		
-		footer.useExtentFooter(display);
+		footer.setFile(filePath).useExtentFooter(display);
 		
 		return this;
 	}
@@ -47,7 +49,7 @@ public class DocumentConfig {
 		if (null == scripts)
 	        scripts = new Scripts(filePath);
 		
-		scripts.insertJS(script);
+		scripts.setFile(filePath).insertJS(script);
 		
 		return this;
 	}
@@ -55,10 +57,13 @@ public class DocumentConfig {
 	public DocumentConfig reportHeadline(String headline) {
 		if (null == header)
 	        header = new Header(filePath);
-		
+				
 		Integer maxLength = 70;
 		
-		header.introSummary(headline.substring(0, maxLength - 1));
+		if (headline.length() > 70)
+			headline = headline.substring(0, maxLength - 1);
+		
+		header.setFile(filePath).introSummary(headline);
 		
 		return this;
 	}
@@ -67,7 +72,7 @@ public class DocumentConfig {
 		if (null == docHead)
 	        docHead = new DocumentHead(filePath);
 		
-		docHead.addCustomStylesheet(cssFilePath);
+		docHead.setFile(filePath).addCustomStylesheet(cssFilePath);
 		
 		return this;
 	}
@@ -76,7 +81,7 @@ public class DocumentConfig {
 		if (null == docHead)
 	        docHead = new DocumentHead(filePath);
 		
-		docHead.addCustomStyles(styles);
+		docHead.setFile(filePath).addCustomStyles(styles);
 		
 		return this;
 	}
@@ -85,7 +90,7 @@ public class DocumentConfig {
 		if (null == content)
 	        content = new Content(filePath);
 		
-		content.renewSystemInfo();
+		content.setFile(filePath).renewSystemInfo();
 		
 		return this;
 	}

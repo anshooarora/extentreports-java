@@ -96,6 +96,7 @@ public class ExtentReports {
 	
 	public void init(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {
 		this.filePath = filePath;
+		config = null;
 		
 		extent = new Logger(filePath, replaceExisting, displayOrder);
 		
