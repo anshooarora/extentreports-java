@@ -1,280 +1,329 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'> 
 <!--
-	ExtentReports Library v1.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/relevantcodes/
+	ExtentReports Library v1.1 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/relevantcodes/
+	Owner:  Anshoo Arora
+	Contributors:  Bas Dijkstra
 --> 
 	<head>
-		<title>Extent Reports</title>
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css' />
+		<title>Extent Reports 1.1</title>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Raleway:500' rel='stylesheet' type='text/css' />
 		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
 		<link href="http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.css" type="text/css" rel="stylesheet" />
 		<style type='text/css'>
 			html {
 				overflow-y: scroll;}
 			body {
+				color: #022b37;
 				font-family: 'Open Sans', Calibri;
 				font-size: 14px;
 				margin: 0;
 			}
-			td {
-				font-size: 13px;
-			}
-			table {
-				border-spacing: 0;
-			}
 			a {
-				color: #43b4f9;
+				color: #507fd6;
 				text-decoration: none;
 			}
-			a:hover {
-				color: #59a3df;
+			#extent-container {
+				width: 100%;
 			}
-			.view, .resize {
-			    border: 1px solid #38a5dd;
-			    color: #777;
-			    cursor: pointer;
-			    float: right;
-			    font-size: 11px;
-			    font-weight: 600;
-			    margin-left: 2px;
-			    margin-top: 8px;
-			    padding: 4px 8px 6px;
+			.topbar, .title, .menu, .dashboard, .filters, .content, .footer {
+				margin: 0 auto;
+				width: 1100px;
 			}
-			.view-enabled {
-			    background-color: #38a5dd;
-			    color: white;
+			#topbar {
+				background-color: #f1f1f1;
+				min-height: 30px;
 			}
-			#container {
-				width: 1020px;
+			.topbar {
+				font-size: 11px;
+				padding: 4px 0;
 			}
-			#container, #tests, #dashboard-container {
-				margin-left: auto;
-				margin-right: auto;
+			.topbar-items-right {
+				float: right;
 			}
-			#header {
-				margin: 45px 0;
+			.topbar-items-right span {
+				border-left: 1px solid #ccc;
+				padding: 0px 10px;
+				vertical-align: sub;
+			} .topbar-items-right span:first-child {
+				border-left: none;
 			}
-			#header h3 {
-				border-bottom: 2px solid #59a3df;
-				line-height: 30px;
-				width: 250px;
+			.headline {
+				color: #777;
 			}
-			#header-summary {
-				font-size: 14px;
-				font-weight: 300;
-				line-height: 25px;
-				margin-top: -5px;
-			    width: 80%;
+			#title {
+				margin: 25px 0 30px;
 			}
-			#test-filters {
-				font-weight: 300;
-				margin-top: 100px;
+			.logo {
+				font-family: Raleway;
+				font-size: 16px;
+				letter-spacing: 1px;
 			}
-			#summary {
-				padding-top: 60px;
+			.menu-items {
+				margin-top: -35px;
+				float: right;
 			}
-			#summary p {
-				font-size: 14px;
-				font-weight: 300;
-				line-height: 12px;
-			}
-			#content {
-				margin-bottom: 100px;
-			}
-			#controls {
-				float: left;
-				margin-left: -35px;
-				margin-top: 8px;
-			}
-			.fa-align-justify, .fa-cube {
-				color: #43b4f9;
-				cursor: pointer;
-				display: block;
-				font-size: 14pt;
-				margin-bottom: 2px;
-				padding-right: 5px;
-			}
-			.fa-cube {
-				font-size: 16pt;
-			}
-			.dashboard, .test {
-				background-color: #fdfeff;
-				border: 1px solid #d4d9dc;
-				cursor: pointer;
-				margin: 15px 0;
-				padding: 20px;
-			}
-			.test {
-				margin-bottom: -10px;
-			}
-			.test-expanded {
-				background-color: #fff;
-				border-color: #aaa;
-			}
-			.dashboard .toggle-area {
-				margin-top: 0;
-			}
-			#tabs a {
-				color: inherit;
-				text-decoration: none;
-			}
-			#tabs ul {
-				font-weight: 300;
-				margin: 0 0 0 -50px;
-			}
-			#tabs ul li {
+			.menu ul li {
 				display: inline;
-				white-space: nowrap;
+				list-style-image: none;
+				list-style-position: outside;
+				padding: 10px 10px 45px;
+			}			
+			.menu span {
+				color: #507fd6;
+				cursor: pointer;
+				font-family: raleway;
+				font-size: 12px;
+				text-transform: uppercase;
 			}
-			#tabs ul li a {
-				padding: 5px 10px;
+			.menu-item-selected {
+				background-color: #f7f7f7;
 			}
-			#tabs > div {
-				margin-top: 25px;
+			#dashboard {
+				background-color: #f9f9f9;
+				border-bottom: 1px solid #dbdbdb;
+				max-height: 320px !important;
+				height: 320px !important;
+				margin-top: 20px;
 			}
-			.fa-bar-chart-o {
-				color: #aaa;
-				font-size: 14pt;
+			.dashboard {
+				padding: 40px 0;
 			}
-			.fa-bar-chart-o:hover {
-				color: #43b4f9;
-				font-size: 14pt;
+			#tabs-2, #tabs-3 {
+				display: none;
 			}
 			.graphs {
 				margin-left: auto;
 				margin-right: auto;
 				text-align: center;
 			}
-			#ts-status-dashboard, #step-status-dashboard {
+			.graphs div {
 				display: inline-block;
 				margin-bottom: -40px;
 			}
-			.name {
-				color: #3a4249 !important;
-				font-size: 11.5px;
-				font-weight: 600;
-				text-transform: uppercase;
-				width: 100%;
+			.summary-items {
+				margin: 0 auto 20px;
+				width: 1000px;
 			}
-			.test-name {
-				margin: -20px -20px 0;
-				padding: 20px 20px 0 20px;
+			.summary-item {
+				border: 1px solid #b4bfc3;
+				display: inline-block;
+				margin: 10px;
+				padding: 15px 0 30px;
+				position: relative;
+				text-align: center;
+				width: 220px;
 			}
-			.teststatus {
-				float: right;
+			.summary-item span {
+				display: block;
+			}
+			.item-value {
+				color: #a4afb3;
+				font-size: 24px;
+				line-height: 40px;
+			}
+			.item-name {
+				color: #022b36;
+				font-size: 13px;
+			}
+			.filters {
+				margin: 50px auto 25px !important;
+			}
+			.by-status {
 				margin-right: 40px;
+			}
+			.by-status, .by-feature {
+				display: inline-block;
+			}
+			.content {
+				margin: 20px auto 100px !important;
+			}
+			.test {
+				border: 1px solid #b4bfc3;
+				color: #507fd6;
+				cursor: pointer;
+				margin: 5px 0;
+				padding: 20px;
+			}
+			.test-expanded {
+				border: 1px solid #6b767a;
+				color: #444;
+			}
+			.name {
+				font-size: 14px;
+			}
+			.test-info {
+				float: right;
+				margin-right: 30px;
 				margin-top: -20px;
 				text-transform: uppercase;
 			}
-			.toggle-area {
-				float: right;
-				margin-top: -20px;
+			.test-status, .startedAt, .endedAt {
+				font-family: Verdana, "Lucida Grande", Raleway, 'Open Sans';
+				font-size: 11px;
+				padding: 4px 10px;
 			}
-			i.fa-plus, i.fa-minus {
-				color: #bbb;
-				font-size: 9pt;
+			.test-status {
+				color: #fff !important;
+			}
+			.startedAt, .endedAt {
+				border: 1px solid #507fd6;
+				color: #121212;
+			}
+			.test-tooltip {
+				float: right;
+				margin-top: -22px;
+			}
+			.test-tooltip i {
+				color: #999;
+				font-size: 12px;
 			}
 			.description {
-				background: #f5f6f8;
-				border: 1px solid #ddd;
-				font-size: 8pt;
-				margin: 20px 0 -10px;
-				padding: 12px 10px;
+				background-color: #f7f7f7;
+				color: #444;
+				margin-top: 15px;
+				padding: 10px 15px;
 			}
 			.description-title {
+				font-size: 12px;
 				font-weight: 600;
 				text-transform: uppercase;
 			}
-			.description-content {
-				font-size: 10pt;
-				font-weight: 300;
+			.test-header {
+				/*background-color: #fdfeff;*/
+				margin: -20px;
+				padding: 20px;
 			}
-			.simple-gray {
+			.exec-info {
+				display: none;
+				margin-top: 25px;
+			}
+			.extent-table {
 				border: 1px solid #ddd;
 				border-collapse: collapse;
-				margin-top: 20px;
 				width: 100%;
 			}
-			#tabs .simple-gray {
-			    margin-top: 0;
+			.extent-table tr:hover {
+				background-color: #f9fafc;
 			}
-			.simple-gray thead td {
+			.extent-table th {
 				background: #f5f6f8;
 			    border-bottom: 1px solid #ddd;
+			    color: #242533;
 			    font-size: 8pt;
 			    font-weight: 600;
 			    padding: 12px 10px;
+				text-align: left;
 			    text-transform: uppercase;
 			}
-			.simple-gray tbody tr:hover {
-				background-color: #f9fafc;
-			}
-			.simple-gray td {
+			.extent-table td {
 				padding: 7px 10px;
 				border-bottom: 1px solid #e9e9e9;
 				word-break: break-all;
 			}
-			.simple-gray td:first-child {
-				width: 65px;
+			.extent-table td:first-child {
+				width: 67px;
 			}
-			.simple-gray td:nth-child(2) {
+			.extent-table td:nth-child(2) {
+				font-size: 12px;
+				text-align: center;
 				width: 50px;
 			}
-			.exec-info .simple-gray td:nth-child(3) {
-			    min-width: 140px;
+			.extent-table td:nth-child(3) {
+				min-width: 160px;
 			}
-			#tabs-2 .simple-gray td:nth-child(2) {
-				width: 100px;
+			.extent-button {
+				border: 1px solid;
+				cursor: pointer;
+				display: inline;
+				font-family: Raleway, 'Open Sans';
+				font-size: 11px;
+				text-transform: uppercase;
+				text-decoration: none;
+				line-height: 13.4667px;
+				padding: 6px 18px;
+				text-align: center;
+				transition: all 0.2s ease-in-out 0s;
+				vertical-align: middle;
+			}
+			.extent-button i {
+				padding-right: 5px;
+			}
+			.extent-button-green {
+				border-color: #5cb85c;
+				color: #5cb85c;
+			}
+			.extent-button-green:hover {
+				background-color: #5cb85c;
+				color: white;
+			}
+			.extent-button-red {
+				border-color: #d9534f;
+				color: #d9534f;
+			}
+			.extent-button-red:hover {
+				background-color: #d9534f;
+				color: white;
+			}
+			.extent-button-orange {
+				border-color: #f0ad4e;
+				color: #f0ad4e;
+			}
+			.extent-button-orange:hover {
+				background-color: #f0ad4e;
+				color: white;
+			}
+			.extent-button-lightred {
+				border-color: #e67672;
+				color: #e67672;
+			}
+			.extent-button-lightred:hover {
+				background-color: #e67672;
+				color: white;
 			}
 			.status {
-				font-size: 11px;
-				font-weight: 700;
+				font-family: Raleway;
+				font-size: 12px;
 				text-align: center;
 			}
-			.status.fail, .status.fatal {
+			.status.fail, .status.fail i {
 				color: red;
+			} .test-info .fail  {
+				background-color: red !important;
 			}
-			.status.error {
+			.status.fatal, .status.fatal i {
+				color: darkred;
+			} .test-info .fatal  {
+				background-color: darkred !important;
+			}
+			.status.error, .status.error i {
 				color: tomato;
+			} .test-info .error {
+				background-color: tomato !important;
 			}
-			.status.warning {
+			.status.warning, .status.warning i {
 				color: orange;
+			} .test-info .warning {
+				background-color: orange !important;
 			}
-			.status.pass {
-				color: green;
+			.status.pass, .status.pass i {
+				color: #32CD32;
+			} .test-info .pass {
+				background-color: #32CD32 !important;
 			}
-			.status.info {
+			.status.info, .status.info i {
 				color: blue;
+			} 
+			.status.skip, .status.skip i {
+				color: #777;
+			} .test-info .skip {
+				background-color: #999 !important;
+			}
+			.extent-button .fa, .status .fa {
+				font-size: 13px !important;
 			}
 			#footer {
-				margin: 0;
-			}
-			#footer div {
-				float: left;
-				margin-right: 30px;
-			}
-			#footer h4 {
-				border-bottom: 2px solid #59a3df;
-				font-size: 11px;
-				padding-bottom: 5px;
-				text-transform: uppercase;
-				width: 200px;
-			}
-			#footer span {
-				display: block;
-			}
-			#footer ul {
-			    margin-left: -20px;
-			}
-			#footer p {
-			    font-size: 11px;
-			    text-align: right;
-			}
-			#footer a {
-				color: inherit;
-			    font-size: 13px;
-			    font-weight: 300;
-			    margin-left: 10px;
+				padding: 20px 0 100px;
 			}
 			.report-img {
 			    border: 4px solid #eee;
@@ -282,168 +331,174 @@
 			    height: auto;
 			    margin-top: 15px;
 			    text-align: center;
-			    width: 95%;
+			    width: 70%;
 			}
-			.cs-btn {
-				border: 1px solid;
-				border-radius: 0.2em;
+			.pointer {
 				cursor: pointer;
-				display: inline;
-				font-size: 11px;
-				font-weight: 700;
-				text-transform: uppercase;
-				text-decoration: none;
-				line-height: 13.4667px;
-				padding: 6px 15px;
-				text-align: center;
-				transition: all 0.2s ease-in-out 0s;
-				vertical-align: middle;
-			}
-			.cs-btn i {
-				padding-right: 5px;
-			}
-			.cs-btn-green {
-				border-color: #5cb85c;
-				color: #5cb85c;
-			}
-			.cs-btn-green:hover {
-				background-color: #5cb85c;
-				color: white;
-			}
-			.cs-btn-red {
-				border-color: #d9534f;
-				color: #d9534f;
-			}
-			.cs-btn-red:hover {
-				background-color: #d9534f;
-				color: white;
-			}
-			.cs-btn-orange {
-				border-color: #f0ad4e;
-				color: #f0ad4e;
-			}
-			.cs-btn-orange:hover {
-				background-color: #f0ad4e;
-				color: white;
-			}
-			.cs-btn-lightred {
-				border-color: #e67672;
-				color: #e67672;
-			}
-			.cs-btn-lightred:hover {
-				background-color: #e67672;
-				color: white;
 			}
 		</style>
 		<!--%%CUSTOMCSS%%-->
 	</head>
-	<body>
-		<div id='container'>
+	<div id='extent-container'>
 			<div id='header'>
-				<div id='title'>
-					<a href='http://relevantcodes.com/extentreports-for-selenium/'><img src='http://relevantcodes.com/ExtentReports/logo/extent10.png' /></a>
-					<span class="resize expand"><i class='fa fa-expand'></i></span>	
-					<span class="view"><i class='fa fa-cog'></i></span>
-				</div>
-				<div id='header-summary'>
-					<p><!--%%REPORTSUMMARY%%-->ExtentReports is a HTML reporting library for Selenium WebDriver written in Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.<!--%%REPORTSUMMARY%%--></p>
-				</div>
-				<div id="test-filters">
-					<span class='filter1'>
-						Filter test by status: &nbsp; &nbsp;
-					</span>
-					<span class='filter2'>
-						<div id="filter-pass" class="cs-btn cs-btn-green btn-toggle"><i class="fa fa-check"></i>PASS</div>
-						<div id="filter-fail" class="cs-btn cs-btn-red btn-toggle"><i class="fa fa-times"></i>FAIL</div>
-						<div id="filter-error" class="cs-btn cs-btn-lightred btn-toggle"><i class="fa fa-exclamation-circle"></i>ERROR</div>
-						<div id="filter-warning" class="cs-btn cs-btn-orange btn-toggle"><i class="fa fa-warning"></i>WARNING</div>
-					</span>
-				</div>
-			</div>
-			<div id='content'>
-				<div id='controls'>
-					<span id='expand'><i class='fa fa-align-justify'></i></span>
-					<span id='collapse'><i class='fa fa-cube'></i></span>
-				</div>
-				<div id='dashboard-container'>
-					<div class='dashboard'>
-						<div class='toggle-area'>
-							<span class='toggle-span'><i class='fa fa-bar-chart-o'></i></span>
-						</div>
-						<div id='tabs'>
-							<ul>
-								<li><a href="#tabs-1" class='tabs-1 name'>Summary</a></li>
-								<li><a href="#tabs-2" class='tabs-2 name'>System Info</a></li>
-							</ul>
-							<div id='tabs-1'>
-								<div class='graphs'>
-									<div id='ts-status-dashboard'></div>
-									<div id='step-status-dashboard'></div>
-								</div>
+				<div id='topbar'>
+					<div class='topbar'>
+						<div class='topbar-items'>
+							<div class='topbar-items-left'>
+							
 							</div>
-							<div id='tabs-2'>
-								<table class='simple-gray'>
-									<thead>
-										<tr>
-											<td>UserName</td>
-											<td>HostName</td>
-											<td>IP</td>
-											<td>OS</td>
-											<td>OS Arch</td>
-											<td>Java Version</td>
-											<td>Locale</td>
-											<td>TotalMemory</td>
-											<td>AvailableMemory</td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td><!--%%USERNAME%%--><!--%%USERNAME%%--></td>
-											<td><!--%%HOSTNAME%%--><!--%%HOSTNAME%%--></td>
-											<td><!--%%IP%%--><!--%%IP%%--></td>
-											<td><!--%%OS%%--><!--%%OS%%--></td>
-											<td><!--%%OSARCH%%--><!--%%OSARCH%%--></td>
-											<td><!--%%JAVAVERSION%%--><!--%%JAVAVERSION%%--></td>
-											<td><!--%%LOCALE%%--><!--%%LOCALE%%--></td>
-											<td><!--%%TOTALMEM%%--><!--%%TOTALMEM%%--></td>
-											<td><!--%%AVAILMEM%%--><!--%%AVAILMEM%%--></td>
-										</tr>
-									</tbody>
-								</table>
+							<div class='topbar-items-right'>
+								<span class='headline'><!--%%REPORTSUMMARY%%-->Insert a quick summary here (max 70 chars).<!--%%REPORTSUMMARY%%--></span>
+								<span class='pointer resize expand' title='Resize view by enlarging/compressing tests area. Use this option if you have long test logs and would like to use broader viewing angles for analysis.'><i class='fa fa-expand'></i></span>	
+								<span class='pointer toggle-type' title='Convert Tests-toggles into accordion so only one test can remain open at a time. Turning this open will enable viewing only one test at a time and will close all others for a clean and organized view. Use this open if you intend to analyse only one test at a time.'><i class='fa fa-toggle-off'></i></span>	
+								<span>Extent 1.1</span>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div id='tests'>
-					<!--%%TEST%%-->
+				<div id='title'>
+					<div class='title'>
+						<div class='logo'>extent-reports</div>
+					</div>
+					<div class='menu'>
+						<div class='menu-items'>
+							<ul>
+								<li class='menu-item-selected'><span class='tabs-1'>Dashboard</span></li>
+								<li><span class='tabs-2'>Execution Info</span></li>
+								<li><span class='tabs-3'>System Details</span></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id='dashboard'>
+				<div class='dashboard'>
+					<div id='tabs-1'>
+						<div class='graphs'>
+							<div id='ts-status-dashboard'></div>
+							<div id='step-status-dashboard'></div>
+						</div>
+					</div>
+					<div id='tabs-2'>
+						<div class='summary-items'>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%STARTTIME%%-->02/28 16:33:13<!--%%STARTTIME%%--></span>
+								<span class='item-name'>Started At</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value total-tests'><!--%%TOTALTESTS%%--><!--%%TOTALTESTS%%--></span>
+								<span class='item-name'>Total Tests</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value tests-passed'><!--%%TESTSPASSED%%--><!--%%TESTSPASSED%%--></span>
+								<span class='item-name'>Tests Passed</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value tests-failed'><!--%%TESTSFAILED%%--><!--%%TESTSFAILED%%--></span>
+								<span class='item-name'>Tests Failed</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%TIMEENDED%%--><!--%%TIMEENDED%%--></span>
+								<span class='item-name'>Ended At</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value total-steps'><!--%%TOTALSTEPS%%--><!--%%TOTALSTEPS%%--></span>
+								<span class='item-name'>Total Steps</span>
+
+							</div>
+							<div class='summary-item'>
+								<span class='item-value steps-passed'><!--%%STEPSPASSED%%--><!--%%STEPSPASSED%%--></span>
+								<span class='item-name'>Steps Passed</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value steps-failed'><!--%%STEPSFAILED%%--><!--%%STEPSFAILED%%--></span>
+								<span class='item-name'>Steps Failed</span>
+							</div>
+						</div>
+					</div>
+					<div id='tabs-3'>
+						<div class='summary-items'>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%USERNAME%%--><!--%%USERNAME%%--></span>
+								<span class='item-name'>UserName</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%HOSTNAME%%--><!--%%HOSTNAME%%--></span>
+								<span class='item-name'>HostName</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%OS%%--><!--%%OS%%--></span>
+								<span class='item-name'>OS</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%OSARCH%%--><!--%%OSARCH%%--></span>
+								<span class='item-name'>OS Arch</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%JAVAVERSION%%--><!--%%JAVAVERSION%%--></span>
+								<span class='item-name'>JavaVersion</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%LOCALE%%--><!--%%LOCALE%%--></span>
+								<span class='item-name'>Locale</span>
+
+							</div>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%TOTALMEM%%--><!--%%TOTALMEM%%--></span>
+								<span class='item-name'>TotalMem</span>
+							</div>
+							<div class='summary-item'>
+								<span class='item-value'><!--%%AVAILMEM%%--><!--%%AVAILMEM%%--></span>
+								<span class='item-name'>AvailableMem</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id='filters'>
+				<div class='filters'>
+					<div class='filters-container'>
+						<div class='by-status'>
+							<div id="filter-pass" class="extent-button extent-button-green status-toggle"><i class="fa fa-check"></i>PASS</div>
+							<div id="filter-fail" class="extent-button extent-button-red status-toggle"><i class="fa fa-times-circle"></i>FAIL</div>
+							<div id="filter-error" class="extent-button extent-button-lightred status-toggle"><i class="fa fa-exclamation-circle"></i>ERROR</div>
+							<div id="filter-warning" class="extent-button extent-button-orange status-toggle"><i class="fa fa-warning"></i>WARNING</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id='content'>
+				<div class='content'>
+					<div id='tests'>
+						<!--%%TEST%%-->
+					</div>
 				</div>
 			</div>
 			<div id='footer'>
-				<!--%%PROJECTFOOTER%%-->
-				<div id='footer-section-1'>
-					<h4>ExtentReports Library</h4>
-					<ul>
-						<li><a href='http://relevantcodes.com/extentreports-for-selenium/'>Project Home</a></span></li>
-						<li><a href='https://github.com/relevantcodes/extentreports/wiki'>Wiki</a></span></li>
-						<li><a href='https://github.com/relevantcodes/extentreports/graphs/contributors'>Contributors</a></span></li>
-						<li><a href='https://github.com/relevantcodes/extentreports/issues'>Issues</a></span></li>
-						<li><a href='http://relevantcodes.com/extentreports-documentation/'>Documentation</a></span></li>
-					</ul>
+				<div class='footer'>
+					<!--%%PROJECTFOOTER%%-->
+					<div id='footer-section-1'>
+						<h4>ExtentReports Library</h4>
+						<ul>
+							<li><a href='http://relevantcodes.com/extentreports-for-selenium/'>Project Home</a></span></li>
+							<li><a href='https://github.com/relevantcodes/extentreports/wiki'>Wiki</a></span></li>
+							<li><a href='https://github.com/relevantcodes/extentreports/graphs/contributors'>Contributors</a></span></li>
+							<li><a href='https://github.com/relevantcodes/extentreports/issues'>Issues</a></span></li>
+							<li><a href='http://relevantcodes.com/extentreports-documentation/'>Documentation</a></span></li>
+						</ul>
+					</div>
+					<!--%%/PROJECTFOOTER%%-->
 				</div>
-				<!--%%/PROJECTFOOTER%%-->
 			</div>
-		</div>	
+		</div>
 	</body>
 	<script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script src="http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-	<!--%%CUSTOMSCRIPT%%-->
 	<script type='text/javascript'>
+		// user-events
 		$(document).ready(function() {
-			$(".description").filter(function() {
-				return $(this).text() == 'Description: ';
-			}).hide();
-			if ($('.test').last().children('.teststatus').attr('class').indexOf('%') > 0) {
+			if ($('.test').last().find('.test-status').attr('class').indexOf('%') > 0) {
 				var lastTest = $('.test').last();
 				var elms = lastTest.find('td.status');
 				var status = '';
@@ -456,121 +511,96 @@
 				else
 					status = 'pass';
 				lastTest.html( lastTest.html().replace(new RegExp('<!--%%TESTSTATUS%%\-\->', 'g'), status) );
-			} 
+			}
+			$('.total-tests').text( $('.test').length );
+			$('.tests-passed').text( $('.test-status.pass').length );
+			$('.tests-failed').text( $('.test-status.fail').length + $('.test-status.fatal').length + $('.test-status.warning').length + $('.test-status.error').length );
+			$('.total-steps').text( $('tbody .status').length );
+			$('.steps-passed').text( $('td.status.pass').length );
+			$('.steps-failed').text( $('td.status.fail').length + $('td.status.fatal').length );
+			$('.menu span').click(function() {
+				var elm = $(this);
+				if (elm.parent().attr('class') != 'menu-item-selected') {
+					var t = $('.menu-item-selected span');
+					$('.' + $('#' + t.attr('class')).hide().attr('id')).parent().removeClass('menu-item-selected');
+					$('#' + elm.attr('class')).fadeIn(400);
+					elm.parent().addClass('menu-item-selected');
+				}
+			});
+			$('.test-header').click(function() {
+				var elm = $(this).parent();
+				var execInfo = elm.children('.exec-info');
+				var useAccordion = $('.toggle-type').hasClass('accordion') ? true : false;
+				if (!execInfo.is(':visible')) {
+					if (useAccordion) $('.test-expanded').removeClass('test-expanded').children('.exec-info').slideUp(200);
+					elm.addClass('test-expanded'); execInfo.slideDown('fast');
+				}
+				else {
+					elm.removeClass('test-expanded'); execInfo.slideUp('fast');
+				}
+			});
+			$('.toggle-type').click(function() {
+				var elm = $(this).children('i');
+				if (elm.parent().hasClass('accordion'))
+					elm.removeClass('fa-toggle-on').addClass('fa-toggle-off').parent().removeClass('accordion');
+				else 
+					elm.addClass('fa-toggle-on').removeClass('fa-toggle-off').parent().addClass('accordion');
+			});
 			$('.resize').click(function() {
 				var target = $(this);
 				if (target.hasClass('expand')) {
 					var winW = $(window).width();
-					var box = $('#container');
-					if (winW > 1020 && box.css('width') == '1020px') {
-						box.animate({ 'width' : ((winW - 1020) * .4) + 1020 + 'px' });
+					var box = $('.content, .filters');
+					if (winW > 1100 && box.css('width') == '1100px') {
+						box.animate({ 'width' : ((winW - 1100) * .4) + 1100 + 'px' });
 						target.children().removeClass('fa-expand').addClass('fa-compress').parent().toggleClass('view-enabled');
 					} else {
-						box.animate({ 'width' : '1020px' });
+						box.animate({ 'width' : '1100px' });
 						target.children().removeClass('fa-compress').addClass('fa-expand').parent().toggleClass('view-enabled');
 					}
 				}
 			});
-			$('.view').click(function() {
-				var target = $(this);
-				if (!target.hasClass('view-enabled')) {
-					$('#test-filters').css('margin-top', '50px').slideUp('fast', function() {
-						$('#test-filters').detach().prependTo('#tests').slideDown('fast');
-					});
-					$('.filter1').hide();
-				}
-				else {
-					$('#test-filters').css('margin-top', '100px').slideUp('fast', function() {
-						$('#test-filters').detach().appendTo('#header').slideDown('fast');
-					});
-					$('.filter1').show();
-				}
-				$('.view').toggleClass('view-enabled');
-			});
-			$('.test').click(function(evt) {
-				var target = $(this);
-				var i = target.find('.toggle-area').find('i');
-				if (i.hasClass('fa-minus')) {
-					if (evt.target.nodeName == "DIV" || evt.target.nodeName == "I" || evt.target.nodeName == "SPAN") {
-						i.removeClass('fa-minus').addClass('fa-plus');
-						target.toggleClass('test-expanded').children('.exec-info').slideUp(300);
-					}
-				}
-				else {
-					i.removeClass('fa-plus').addClass('fa-minus'); 
-					target.toggleClass('test-expanded').children('.exec-info').slideDown(300);
-				}
-			});
-			$('#tabs').click(function(evt) {
+			$('.status-toggle').click(function() {
 				var target = $(this); 
-				var t = evt.target.className;
-				evt.preventDefault();
-				if (target.find('#' + t.split(' ')[0]).is(':visible')) {
-					target.find('#' + t.split(' ')[0]).slideUp(400);
-					$('.' + t.split(' ')[0]).css('background-color', '');
-				}
-				else {
-					target.find('#' + t.split(' ')[0]).slideDown(400);
-					$('.' + t.split(' ')[0]).css('background-color', '#ddd');
-				}
-			});
-			$('.btn-toggle').click(function() {
-				var target = $(this); 
-				if (target.hasClass('btn-toggle-on'))
-					target.removeClass('btn-toggle-on').css('background-color', 'white').css('color', target.css('border-left-color'));
+				if (target.hasClass('status-toggle-on'))
+					target.removeClass('status-toggle-on').css('background-color', 'white').css('color', target.css('border-left-color'));
 				else
-					target.addClass('btn-toggle-on').css('background-color', target.css('border-left-color')).css('color', 'white');
-				if (!$('.btn-toggle').hasClass('btn-toggle-on')) {
+					target.addClass('status-toggle-on').css('background-color', target.css('border-left-color')).css('color', 'white');
+				if (!$('.status-toggle').hasClass('status-toggle-on')) {
 					$('.test').fadeIn();
 					return;
 				}
-				$('.btn-toggle').each(function() {
-					if ($(this).hasClass('btn-toggle-on'))
-						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeIn('fast');
-					else {
-						$('.test').find('.teststatus .' + $(this).text().toLowerCase()).parents('.test').fadeOut('fast');
-					}
+				$('.status-toggle').each(function() {
+					if ($(this).hasClass('status-toggle-on'))
+						$('.test').find('.test-info .' + $(this).text().toLowerCase()).closest('.test').fadeIn('fast');
+					else
+						$('.test').find('.test-info .' + $(this).text().toLowerCase()).closest('.test').fadeOut('fast');
+						
 				});
 			});
-			$('#expand').click(function(evt) {
-				var test = $('.test');
-				var i = test.find('.toggle-area').find('i');
-				i.removeClass('fa-plus').addClass('fa-minus');
-				test.css('background-color', '#fff').children('.exec-info').slideDown(300);
-			});
-			$('#collapse').click(function(evt) {
-				var test = $('.test');
-				test.css('background-color', '#fdfeff').children('.exec-info').slideUp(300);
-				var i = test.find('.toggle-area').find('i');
-				i.removeClass('fa-minus').addClass('fa-plus');
-			});
-			$('.toggle-span .fa-bar-chart-o').click(function() {
-				$('.tabs-1, .tabs-2').click();
-			});
-			$('.exec-info').toggle();
-			$('#tabs > div').toggle();
 		})
-	</script>
-	<script type='text/javascript'>
+		// charts
 		google.load('visualization', '1', {packages:['corechart']});
 		google.setOnLoadCallback(testSetChart);
 		google.setOnLoadCallback(testsChart);
 		function testSetChart() {
 			var data = google.visualization.arrayToDataTable([
 			  ['Test Status', 'Count'],
-			  ['Pass',     $('.teststatus .pass').length + $('.teststatus .info').length],
-			  ['Error',     $('.teststatus .error').length],
-			  ['Warning',     $('.teststatus .warning').length],
-			  ['Fail',      $('.teststatus .fail').length + $('.teststatus .fatal').length]
+			  ['Pass',     $('.test-info .pass').length + $('.test-info .info').length],
+			  ['Error',     $('.test-info .error').length],
+			  ['Warning',     $('.test-info .warning').length],
+			  ['Fail',      $('.test-info .fail').length + $('.test-info .fatal').length],
+			  ['Skipped',      $('.test-info .skip').length]
 			]);
 			var options = {
 			  backgroundColor: { fill:'transparent' },
-			  colors: ['green', 'tomato', 'orange', 'red'],
+			  colors: ['green', 'tomato', 'orange', 'red', '#999'],
+			  fontSize: '11',
 			  height: 275,
-			  pieHole: 0.4,
+			  pieHole: 0.5,
 			  pieSliceText: 'value', 
-			  title: 'TestSet Summary', 
-			  width: 400
+			  title: 'TEST SUMMARY', 
+			  width: 450
 			};
 			var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
 			chart.draw(data, options);
@@ -583,16 +613,18 @@
 			  ['Fatal',     $('td.fatal').length],
 			  ['Error',      $('td.error').length],
 			  ['Warning',    $('td.warning').length],
-			  ['Info',    $('td.info').length]
+			  ['Info',    $('td.info').length],
+			  ['Skipped',    $('td.skip').length]
 			]);
 			var options = {
 			  backgroundColor: { fill:'transparent' },
-			  colors: ['green', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue'],
+			  colors: ['green', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue', '#999'],
+			  fontSize: '11',
 			  height: 275,
-			  pieHole: 0.4,
+			  pieHole: 0.5,
 			  pieSliceText: 'value', 
-			  title: 'Step Summary', 
-			  width: 400
+			  title: 'STEP SUMMARY', 
+			  width: 450
 			};
 			var chart = new google.visualization.PieChart(document.getElementById('step-status-dashboard'));
 			chart.draw(data, options);

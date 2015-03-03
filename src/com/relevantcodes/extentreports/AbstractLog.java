@@ -34,6 +34,11 @@ abstract class AbstractLog {
 	protected Long timeDiff;
 	protected String timeUnit;
 	protected Integer testCounter = 0;
+	protected Integer testsPassed = 0;
+	protected Integer testsFailed = 0;
+	protected Integer stepCounter = 0;
+	protected Integer stepsPassed = 0;
+	protected Integer stepsFailed = 0;
 	
 	private LogLevel level = LogLevel.ALLOW_ALL;
 	private LogStatus lastRunStatus = LogStatus.PASS;
@@ -41,6 +46,13 @@ abstract class AbstractLog {
 	public void log(LogStatus logStatus, String stepName, String details, String screenCapturePath)
 	{	
 		if (testName == "") return;
+		
+		stepCounter++;
+		
+		if (logStatus == LogStatus.PASS)
+			stepsPassed++;
+		else if (logStatus == LogStatus.FAIL || logStatus == LogStatus.FATAL)
+			stepsFailed++;
 		
 		this.logStatus = logStatus;
 		this.stepName = stepName;
@@ -62,11 +74,17 @@ abstract class AbstractLog {
 	protected abstract void log();
 	
 	public void startTest(String name, String description) {
+		if (testCounter != 0)
+			if (getLastRunStatus() == LogStatus.PASS)
+				testsPassed++;
+			else if (getLastRunStatus() == LogStatus.FAIL || getLastRunStatus() == LogStatus.FATAL || getLastRunStatus() == LogStatus.ERROR)
+				testsFailed++;
+		
 		testCounter++;
 		
 		testName = name;
 		testDescription = description;
-		startTime = Calendar.getInstance().getTime();
+		startTime = Calendar.getInstance().getTime();	
 		
 		startTest();
 		
@@ -97,7 +115,7 @@ abstract class AbstractLog {
 		this.level = level;
 	}
 	
-	public LogStatus getLastRunStatus() {
+	public LogStatus getLastRunStatus() {				
 		return lastRunStatus;
 	}
 	
@@ -133,7 +151,11 @@ abstract class AbstractLog {
 	private void trackLastRunStatus() {
 		switch (lastRunStatus) {
 			case FATAL:
-			case FAIL: 
+				return;
+			case FAIL:
+				if (logStatus == LogStatus.FATAL) {
+					lastRunStatus = logStatus;
+				}
 				return;
 			case ERROR: 
 				if (logStatus == LogStatus.FAIL) {
@@ -148,7 +170,7 @@ abstract class AbstractLog {
 			default: break;
 		}
 		
-		if (logStatus == LogStatus.INFO)
+		if (logStatus == LogStatus.INFO || logStatus == LogStatus.SKIP)
 			lastRunStatus = LogStatus.PASS;
 		else
 			lastRunStatus = logStatus;

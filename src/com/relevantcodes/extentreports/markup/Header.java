@@ -13,7 +13,7 @@ class Header implements IHeader {
 		String oldSummary = RegexMatcher.getNthMatch(markup, pattern, 0);
 		markup = markup.replace(oldSummary, newSummary);
 		
-		FileWriterEx.write(filePath, markup);		
+		FileWriterEx.write(filePath, markup);
 	}
 	
 	public Header(String filePath) {

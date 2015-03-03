@@ -49,6 +49,9 @@ public class FontAwesomeIco {
 		else if (status.toString().toLowerCase().equals(new String("warning"))) {
 			return "warning";
 		}
+		else if (status.toString().toLowerCase().equals(new String("skip"))) {
+			return "angle-double-right";
+		}
 		else {
 	        return "question";
 		}

@@ -18,5 +18,5 @@ limitations under the License.
 package com.relevantcodes.extentreports;
 
 public enum LogStatus {
-	PASS, FAIL, FATAL, ERROR, WARNING, INFO
+	PASS, FAIL, FATAL, ERROR, WARNING, INFO, SKIP
 }

@@ -64,3 +64,16 @@ ExtentReports 1.0 <02-24-2015>
 	Added ability to use custom css styles along with custom stylesheets
 	Added ability to use custom scripts
 	* It is not required to call endTest() after each test now
+	
+ExtentReports 1.1 <03-03-2015> [Complete redesign]
+	Feature Requests:
+		Added LogStatus -> SKIP [Madhu]
+		Added EXEC INFO tab for summary [Sujata, Roman]
+		Add test execution timestamp/duration and also for the entire suite [Roman]
+		Added tooltip for most controls showing what they do [Bas]
+		Added ability to use relative paths for snapshots [Bas, Madhu]
+		Case of TestName is default instead of uppercase [Madhu]
+	Configuration() is now deprecated, use fluent config() instead
+	configuration().introSummary(String) has been replaced with config().reportHeadline(String)
+	This version uses a complete revamp from 1.0
+	

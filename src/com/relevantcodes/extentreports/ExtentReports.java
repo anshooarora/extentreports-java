@@ -18,16 +18,19 @@ package com.relevantcodes.extentreports;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.relevantcodes.extentreports.markup.Configuration;
+import com.relevantcodes.extentreports.markup.DocumentConfig;
 import com.relevantcodes.extentreports.support.RegexMatcher;
 
 public class ExtentReports {
-	private Configuration configuration;
 	private final static ExtentReports instance = new ExtentReports();
+	private Configuration configuration;
+	private DocumentConfig config;
 	private static List<String> classList = new ArrayList<String>();
 	private AbstractLog extent;
 	private String filePath;
-			
+	
 	//region Public Methods
 	
 	public static ExtentReports get(Class<?> clazz) {
@@ -71,11 +74,19 @@ public class ExtentReports {
 		extent.setLogLevel(logLevel);
 	}
 	
+	@Deprecated
 	public Configuration configuration() {
 		if (!(configuration instanceof Configuration))
 			configuration = new Configuration();
 		
 		return configuration;
+	}
+	
+	public DocumentConfig config() {
+		if (!(config instanceof DocumentConfig))
+			config = new DocumentConfig(filePath);
+		
+		return config;
 	}
 	
 	public void init(String filePath, Boolean replaceExisting) {
@@ -95,7 +106,7 @@ public class ExtentReports {
 	
 	private void initialProc() {
 		configuration().params("filePath", filePath);
-		configuration().content().renewSystemInfo();
+		config().renewSystemInfo().useExtentFooter(false);
 	}
 	
 	private String callerClass(StackTraceElement[] element) {
