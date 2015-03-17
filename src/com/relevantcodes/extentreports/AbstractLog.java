@@ -22,23 +22,25 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 abstract class AbstractLog {
-	protected LogStatus logStatus;
-	protected String stepName;
-	protected String details;
-	protected String screenCapturePath = "";
-	protected String testName;
-	protected String testDescription;
-	protected String summary;
 	protected Date startTime;
 	protected Date endTime;
-	protected Long timeDiff;
-	protected String timeUnit;
 	protected Integer testCounter = 0;
 	protected Integer testsPassed = 0;
 	protected Integer testsFailed = 0;
 	protected Integer stepCounter = 0;
 	protected Integer stepsPassed = 0;
 	protected Integer stepsFailed = 0;
+	protected LogStatus logStatus;
+	protected Long timeDiff;
+	protected String stepName;
+	protected String details;
+	protected String message;
+	protected String screenCapturePath = "";
+	protected String testName;
+	protected String testDescription;
+	protected String summary;
+	protected String timeUnit;
+	protected String caller;
 	
 	private LogLevel level = LogLevel.ALLOW_ALL;
 	private LogStatus lastRunStatus = LogStatus.PASS;
@@ -59,6 +61,11 @@ abstract class AbstractLog {
 		this.details = details;
 		this.screenCapturePath = screenCapturePath;
 		
+		if (stepName != null)
+			this.stepName = "[" + caller + "] " + stepName;
+		else
+			this.details = "[" + caller + "] " + details;
+		
 		trackLastRunStatus();
 		
 		if (canLog()) {
@@ -66,11 +73,14 @@ abstract class AbstractLog {
 		}
 	}
 	
-	public void log(LogStatus logStatus, String stepName, String details)
-	{
+	public void log(LogStatus logStatus, String stepName, String details) {
         log(logStatus, stepName, details, "");
 	}
 	
+	public void log(LogStatus logStatus, String details) {
+		log(logStatus, null, details, "");
+	}
+
 	protected abstract void log();
 	
 	public void startTest(String name, String description) {
@@ -96,6 +106,18 @@ abstract class AbstractLog {
 	}
 	
 	protected abstract void startTest();
+	
+	public void attachScreenshot(String screenCapturePath, String message) {
+		this.message = message;
+		this.screenCapturePath = screenCapturePath;
+		
+		attachScreenshot();
+		
+		this.message = "";
+		this.screenCapturePath = "";
+	}
+	
+	protected abstract void attachScreenshot();
 	
 	protected void endTest(String name) {
 		endTime = Calendar.getInstance().getTime();
