@@ -77,3 +77,15 @@ ExtentReports 1.1 <03-03-2015> [Complete redesign]
 	configuration().introSummary(String) has been replaced with config().reportHeadline(String)
 	This version uses a complete revamp from 1.0
 	
+ExtentReports 1.2 <03-16-2015>
+	Added a new type of log with 2 possible argument: log(LogStatus, details)
+	Added ability to attach screenshot without a log: 
+		attachScreenshot(screenCapturePath, message)
+		attachScreenshot(screenCapturePath)
+	Added a control to expand all tests tree
+	Added a control to collapse all test tree
+	Added config().displayTestHeaders to show/hide TH tag of tests
+	Added config().documentTitle to change the title of the report
+	Changed status toggle buttons into a single dropdown (Filter Tests)
+	Several styling improvements, cleaner report
+	
