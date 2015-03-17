@@ -19,14 +19,11 @@ package com.relevantcodes.extentreports;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.relevantcodes.extentreports.markup.Configuration;
 import com.relevantcodes.extentreports.markup.DocumentConfig;
 import com.relevantcodes.extentreports.support.RegexMatcher;
 
 public class ExtentReports {
 	private final static ExtentReports instance = new ExtentReports();
-	private Configuration configuration;
 	private DocumentConfig config;
 	private static List<String> classList = new ArrayList<String>();
 	private AbstractLog extent;
@@ -57,31 +54,33 @@ public class ExtentReports {
 	}
 	
 	public void log(LogStatus logStatus, String stepName, String details, String screenCapturePath) {
-		String cls = callerClass(Thread.currentThread().getStackTrace());
-		
-		if (cls != null) {
-			extent.log(logStatus, "[" + cls + "] " + stepName, details, screenCapturePath);
-		} 
-		else {
-			extent.log(logStatus, stepName, details, screenCapturePath);
-		}
+		extent.caller = callerClass(Thread.currentThread().getStackTrace());
+		extent.log(logStatus, stepName, details, screenCapturePath);
 	}
 	
 	public void log(LogStatus logStatus, String stepName, String details) {
 		log(logStatus, stepName, details, "");
 	}
 	
+	public void log(LogStatus logStatus, String details) {
+		extent.caller = callerClass(Thread.currentThread().getStackTrace());
+		extent.log(logStatus, details);
+	}
+	
+	public void attachScreenshot(String screenCapturePath, String message) {
+		extent.attachScreenshot(screenCapturePath, message);
+	}
+
+	public void attachScreenshot(String screenCapturePath) {
+		attachScreenshot(screenCapturePath, "");
+	}
+
 	public void setLogLevel(LogLevel logLevel) {
 		extent.setLogLevel(logLevel);
 	}
 	
 	@Deprecated
-	public Configuration configuration() {
-		if (!(configuration instanceof Configuration))
-			configuration = new Configuration();
-		
-		return configuration;
-	}
+	public void configuration() { }
 	
 	public DocumentConfig config() {
 		if (!(config instanceof DocumentConfig))
@@ -107,7 +106,6 @@ public class ExtentReports {
 	// region Private Methods
 	
 	private void initialProc() {
-		configuration().params("filePath", filePath);
 		config().renewSystemInfo();
 	}
 	
@@ -115,11 +113,14 @@ public class ExtentReports {
 		String name = null;
 				
 		try {
-			name = RegexMatcher.getNthMatch(element[3].toString(), "([\\w\\.]+)(:.*)?", 0);
+			name = RegexMatcher.getNthMatch(element[element.length - 2].toString(), "([\\w\\.]+)(:.*)?", 0);
+			
+			if (name.indexOf("com.relevantcodes") >= 0)
+				name = RegexMatcher.getNthMatch(element[element.length - 1].toString(), "([\\w\\.]+)(:.*)?", 0);
 		}
 		catch (Exception e) {
 			try {
-				name = RegexMatcher.getNthMatch(element[2].toString(), "([\\w\\.]+)(:.*)?", 0);
+				name = RegexMatcher.getNthMatch(element[element.length - 3].toString(), "([\\w\\.]+)(:.*)?", 0);
 			}
 			catch (Exception ex) {
 				return name;
