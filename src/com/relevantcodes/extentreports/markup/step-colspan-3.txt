@@ -1,0 +1,4 @@
+<tr>
+										<td><!--%%TIMESTAMP%%--></td>
+										<td class='step-details' colspan='3'><!--%%DETAILS%%--></td>
+									</tr>
