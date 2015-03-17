@@ -2,7 +2,7 @@
 
 ExtentReports is a HTML reporting library for Selenium WebDriver for Java which is extremely easy to use and creates beautiful execution reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.
 
-View ExtentReports sample <a href='http://relevantcodes.com/ExtentReports/Extent.html'>here</a>.
+View ExtentReports sample <a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>here</a>.
 
 ### Download
 
