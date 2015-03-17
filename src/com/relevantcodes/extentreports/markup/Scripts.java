@@ -20,7 +20,7 @@ package com.relevantcodes.extentreports.markup;
 import com.relevantcodes.extentreports.support.FileReaderEx;
 import com.relevantcodes.extentreports.support.FileWriterEx;
 
-class Scripts implements IScripts {
+class Scripts {
 	private String filePath;
 	
 	public void insertJS(String script) {
@@ -35,6 +35,8 @@ class Scripts implements IScripts {
 		this.filePath = filePath;
 		return this;
 	}
+	
+	public Scripts() {}
 	
 	public Scripts(String filePath) {
 		this.filePath = filePath;

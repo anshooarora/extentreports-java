@@ -23,11 +23,20 @@ import java.util.Date;
 
 import com.relevantcodes.extentreports.support.*;
 
-class Content implements IContent {
+class Content {
 	private String filePath;
 
+	public void documentTitle(String title) {
+		String docTitle = "<title>.*</title>";
+		String html = FileReaderEx.readAllText(filePath);
+		
+		html = html.replace(RegexMatcher.getNthMatch(html, docTitle, 0), docTitle.replace(".*", title));
+		
+		FileWriterEx.write(filePath, html);
+	}
+	
 	public void renewSystemInfo() {
-		String markup = FileReaderEx.readAllText(filePath);
+		String html = FileReaderEx.readAllText(filePath);
 		String startedAt = MarkupFlag.get("starttime") + ".*" + MarkupFlag.get("starttime");
 		String userName = MarkupFlag.get("userName") + ".*" + MarkupFlag.get("userName");
 		String hostName = MarkupFlag.get("hostName") + ".*" + MarkupFlag.get("hostName");
@@ -40,45 +49,47 @@ class Content implements IContent {
 		String temp = "";
 		int mb = 1024 * 2014;
 		
-		temp = RegexMatcher.getNthMatch(markup, startedAt, 0);
-		markup = markup.replace(temp, startedAt.replace(".*", new SimpleDateFormat("MM/dd HH:mm:ss").format(new Date()).toString()));
+		temp = RegexMatcher.getNthMatch(html, startedAt, 0);
+		html = html.replace(temp, startedAt.replace(".*", new SimpleDateFormat("MM/dd HH:mm:ss").format(new Date()).toString()));
 		
-		temp = RegexMatcher.getNthMatch(markup, userName, 0);
-		markup = markup.replace(temp, userName.replace(".*", System.getProperty("user.name")));
+		temp = RegexMatcher.getNthMatch(html, userName, 0);
+		html = html.replace(temp, userName.replace(".*", System.getProperty("user.name")));
 		
-		temp = RegexMatcher.getNthMatch(markup, hostName, 0);
+		temp = RegexMatcher.getNthMatch(html, hostName, 0);
 		try {
-			markup = markup.replace(temp, hostName.replace(".*", InetAddress.getLocalHost().getHostName()));
+			html = html.replace(temp, hostName.replace(".*", InetAddress.getLocalHost().getHostName()));
 		}
 		catch (Exception e) {
-			markup = markup.replace(temp, hostName.replace(".*", "NOT_AVAILABLE"));
+			html = html.replace(temp, hostName.replace(".*", "NOT_AVAILABLE"));
 		}
 		
-		temp = RegexMatcher.getNthMatch(markup, os, 0);
-		markup = markup.replace(temp, os.replace(".*", System.getProperty("os.name")));
+		temp = RegexMatcher.getNthMatch(html, os, 0);
+		html = html.replace(temp, os.replace(".*", System.getProperty("os.name")));
 		
-		temp = RegexMatcher.getNthMatch(markup, osArch, 0);
-		markup = markup.replace(temp, osArch.replace(".*", System.getProperty("os.arch")));
+		temp = RegexMatcher.getNthMatch(html, osArch, 0);
+		html = html.replace(temp, osArch.replace(".*", System.getProperty("os.arch")));
 		
-		temp = RegexMatcher.getNthMatch(markup, javaVersion, 0);
-		markup = markup.replace(temp, javaVersion.replace(".*", System.getProperty("java.version")));
+		temp = RegexMatcher.getNthMatch(html, javaVersion, 0);
+		html = html.replace(temp, javaVersion.replace(".*", System.getProperty("java.version")));
 		
-		temp = RegexMatcher.getNthMatch(markup, locale, 0);
-		markup = markup.replace(temp, locale.replace(".*", System.getProperty("user.language")));
+		temp = RegexMatcher.getNthMatch(html, locale, 0);
+		html = html.replace(temp, locale.replace(".*", System.getProperty("user.language")));
 		
-		temp = RegexMatcher.getNthMatch(markup, totalMem, 0);
-		markup = markup.replace(temp, totalMem.replace(".*", "" + Runtime.getRuntime().totalMemory() / mb + "MB"));
+		temp = RegexMatcher.getNthMatch(html, totalMem, 0);
+		html = html.replace(temp, totalMem.replace(".*", "" + Runtime.getRuntime().totalMemory() / mb + "MB"));
 		
-		temp = RegexMatcher.getNthMatch(markup, availMem, 0);
-		markup = markup.replace(temp, availMem.replace(".*", "" + Runtime.getRuntime().freeMemory() / mb + "MB"));
+		temp = RegexMatcher.getNthMatch(html, availMem, 0);
+		html = html.replace(temp, availMem.replace(".*", "" + Runtime.getRuntime().freeMemory() / mb + "MB"));
 		
-		FileWriterEx.write(filePath, markup);
+		FileWriterEx.write(filePath, html);
 	}
 	
 	public Content setFile(String filePath) {
 		this.filePath = filePath;
 		return this;
 	}
+	
+	public Content() {}
 	
 	public Content(String filePath) {
 		this.filePath = filePath;

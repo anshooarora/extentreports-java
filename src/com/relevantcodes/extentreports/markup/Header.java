@@ -19,10 +19,10 @@ package com.relevantcodes.extentreports.markup;
 
 import com.relevantcodes.extentreports.support.*;
 
-class Header implements IHeader {
+class Header {
 	private String filePath;
 	
-	public void introSummary(String newSummary) {
+	public void setHeadline(String newSummary) {
 		String markup = FileReaderEx.readAllText(filePath);
 		String pattern = MarkupFlag.get("reportsummary") + ".*" + MarkupFlag.get("reportsummary");
 		newSummary = pattern.replace(".*", newSummary); 
@@ -37,6 +37,8 @@ class Header implements IHeader {
 		this.filePath = filePath;
 		return this;
 	}
+	
+	public Header() {}
 	
 	public Header(String filePath) {
 		this.filePath = filePath;

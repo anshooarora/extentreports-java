@@ -20,7 +20,7 @@ package com.relevantcodes.extentreports.markup;
 import com.relevantcodes.extentreports.support.FileReaderEx;
 import com.relevantcodes.extentreports.support.FileWriterEx;
 
-class DocumentHead implements IDocumentHead {
+class DocumentHead {
 	private String filePath;
 	
 	public void addCustomStylesheet(String cssFilePath) {
@@ -43,6 +43,8 @@ class DocumentHead implements IDocumentHead {
 		this.filePath = filePath;
 		return this;
 	}
+	
+	public DocumentHead() {}
 	
 	public DocumentHead(String filePath) {
 		this.filePath = filePath;

@@ -19,7 +19,7 @@ package com.relevantcodes.extentreports.markup;
 
 import com.relevantcodes.extentreports.support.*;
 
-class Footer implements IFooter {
+class Footer {
 	private String filePath;
 	
 	public void useExtentFooter(Boolean use) {
@@ -80,6 +80,8 @@ class Footer implements IFooter {
 		this.filePath = filePath;
 		return this;
 	}
+	
+	public Footer() {}
 	
 	public Footer(String filePath) {
 		this.filePath = filePath;
