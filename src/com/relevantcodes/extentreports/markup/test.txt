@@ -8,9 +8,9 @@
 									<span class='endedAt' alt='Test ended time' title='Test ended time'><!--%%TESTENDTIME%%--><!--%%TESTENDTIME%%--></span>
 									<span class='test-status status <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>
 								</div>
-								<div class='test-tooltip'>
+								<!--<div class='test-tooltip'>
 									<span class='toggle-span'><i class='fa fa-circle-thin'></i></span>
-								</div>
+								</div>-->
 								<div class='description' <!--%%DESCVIS%%-->>
 									<span class='description-title'>Description: </span>
 									<span class='description-content'><!--%%TESTDESCRIPTION%%--></span>
