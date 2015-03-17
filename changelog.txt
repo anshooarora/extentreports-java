@@ -77,7 +77,7 @@ ExtentReports 1.1 <03-03-2015> [Complete redesign]
 	configuration().introSummary(String) has been replaced with config().reportHeadline(String)
 	This version uses a complete revamp from 1.0
 	
-ExtentReports 1.2 <03-16-2015>
+ExtentReports 1.2 <03-17-2015>
 	Added a new type of log with 2 possible argument: log(LogStatus, details)
 	Added ability to attach screenshot without a log: 
 		attachScreenshot(screenCapturePath, message)
