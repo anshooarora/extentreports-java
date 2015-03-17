@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.relevantcodes</groupId>
+	<artifactId>extentreports</artifactId>
+	<version>1.2</version>
+	<packaging>jar</packaging>
+
+	<name>ExtentReports for Selenium</name>
+	<url>http://relevantcodes.com/extentreports-for-selenium/</url>
+	
+	<description>
+		ExtentReports is a HTML reporting library for Selenium WebDriver for Java which is extremely easy to use and creates beautiful execution reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.
+	</description>
+	
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
+	<scm>
+		<connection>scm:git:https://github.com/relevantcodes/extentreports.git</connection>
+		<developerConnection>scm:git:https://github.com/relevantcodes/extentreports.git</developerConnection>
+		<url>https://github.com/relevantcodes/extentreports</url>
+	</scm>
+	
+	<developers>
+		<developer>
+			<name>Anshoo Arora</name>
+			<url>http://relevantcodes.com</url>
+			<id>anshoo.arora</id>
+			<roles>
+				<role>Owner</role>
+			</roles> 
+		</developer>
+		<developer>
+			<name>Bas Dijkstra</name>
+			<url>http://www.ontestautomation.com/</url>
+			<id>bas.dijkstra</id>
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+	</distributionManagement>
+</project>
