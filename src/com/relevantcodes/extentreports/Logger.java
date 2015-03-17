@@ -38,12 +38,12 @@ class Logger extends AbstractLog {
 	
 	@Override
 	protected void log() {
-		String statusIcon = FontAwesomeIco.get(logStatus);
+		String markup = "";
 		
 		if (screenCapturePath != "") {
 			String img = MarkupFlag.img(screenCapturePath);
 			
-			if (screenCapturePath.indexOf("http") == 0 || screenCapturePath.indexOf(".") == 0) {
+			if (screenCapturePath.indexOf("http") == 0 || screenCapturePath.indexOf(".") == 0 || screenCapturePath.indexOf("/") == 0) {
 				img = img.replace("file:///", "");
 			}
 			
@@ -51,17 +51,23 @@ class Logger extends AbstractLog {
 			screenCapturePath = "";
 		}
 		
-		String markup = FileReaderEx.readAllText(filePath)
-				.replace(MarkupFlag.get("step"), Resources.getText(packagePath + "step.txt") + MarkupFlag.get("step"))
-				.replace(MarkupFlag.get("timestamp"), new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()))
-				.replace(MarkupFlag.get("stepstatus"), logStatus.toString().toLowerCase())
-				.replace(MarkupFlag.get("stepstatusu"), logStatus.toString().toUpperCase())
-				.replace(MarkupFlag.get("statusicon"), statusIcon)
-				.replace(MarkupFlag.get("stepname"), stepName)
-				.replace(MarkupFlag.get("details"), details);
-		
-		markup = markup.replace(RegexMatcher.getNthMatch(markup, MarkupFlag.get("testEndTime") + ".*" + MarkupFlag.get("testEndTime"), 0), MarkupFlag.get("testEndTime") + new SimpleDateFormat("MM/dd HH:mm:ss").format(new Date()).toString() + MarkupFlag.get("testEndTime"))
-				.replace(RegexMatcher.getNthMatch(markup, MarkupFlag.get("timeEnded") + ".*" + MarkupFlag.get("timeEnded"), 0), MarkupFlag.get("timeEnded") + new SimpleDateFormat("MM/dd HH:mm:ss").format(new Date()).toString() + MarkupFlag.get("timeEnded"));
+		markup = FileReaderEx.readAllText(filePath);
+				
+		if (stepName == null && logStatus != null && details != null) {
+			markup = markup.replace(MarkupFlag.get("step"), Resources.getText(packagePath + "step-colspan-2.txt") + MarkupFlag.get("step"));
+		}
+		else {
+			markup = markup.replace(MarkupFlag.get("step"), Resources.getText(packagePath + "step.txt") + MarkupFlag.get("step"))
+					.replace(MarkupFlag.get("stepname"), stepName);
+		}
+
+		markup = markup.replace(MarkupFlag.get("stepstatus"), logStatus.toString().toLowerCase())
+					.replace(MarkupFlag.get("stepstatusu"), logStatus.toString().toUpperCase())
+					.replace(MarkupFlag.get("statusicon"), FontAwesomeIco.get(logStatus))
+					.replace(MarkupFlag.get("details"), details)
+					.replace(MarkupFlag.get("timestamp"), new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()))
+					.replace(RegexMatcher.getNthMatch(markup, MarkupFlag.get("testEndTime") + ".*" + MarkupFlag.get("testEndTime"), 0), MarkupFlag.get("testEndTime") + new SimpleDateFormat("MM/dd HH:mm:ss").format(new Date()).toString() + MarkupFlag.get("testEndTime"))
+					.replace(RegexMatcher.getNthMatch(markup, MarkupFlag.get("timeEnded") + ".*" + MarkupFlag.get("timeEnded"), 0), MarkupFlag.get("timeEnded") + new SimpleDateFormat("MM/dd HH:mm:ss").format(new Date()).toString() + MarkupFlag.get("timeEnded"));
 				
 		FileWriterEx.write(filePath, markup);
 	}
@@ -72,7 +78,7 @@ class Logger extends AbstractLog {
 		String markup = FileReaderEx.readAllText(filePath)
 				.replace(MarkupFlag.get("teststatus"), getLastRunStatus().toString().toLowerCase())
 				.replace(MarkupFlag.get("step"), "")
-				.replace(MarkupFlag.get("testEndTime"), "");  //.replace("\n", "").replace("\r", "");
+				.replace(MarkupFlag.get("testEndTime"), "");
 		
 		if (testDisplayOrder == DisplayOrder.BY_LATEST_TO_OLDEST) {
 			markup = markup.replace(MarkupFlag.get("test"), MarkupFlag.get("test") + Resources.getText(packagePath + "test.txt"));
@@ -104,6 +110,29 @@ class Logger extends AbstractLog {
 		
 		FileWriterEx.write(filePath, markup);
 	}	
+	
+	@Override
+	protected void attachScreenshot() {
+		if (screenCapturePath != "") {
+			String img = MarkupFlag.imgSingle(screenCapturePath);
+			
+			if (screenCapturePath.indexOf("http") == 0 || screenCapturePath.indexOf(".") == 0 || screenCapturePath.indexOf("/") == 0) {
+				img = img.replace("file:///", "");
+			}
+			
+			message += img;
+			
+			String markup = FileReaderEx.readAllText(filePath)
+								.replace(MarkupFlag.get("step"), Resources.getText(packagePath + "step-colspan-3.txt") + MarkupFlag.get("step"))
+								.replace(MarkupFlag.get("details"), message)
+								.replace(MarkupFlag.get("timestamp"), new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
+			
+			markup = markup.replace(RegexMatcher.getNthMatch(markup, MarkupFlag.get("testEndTime") + ".*" + MarkupFlag.get("testEndTime"), 0), MarkupFlag.get("testEndTime") + new SimpleDateFormat("MM/dd HH:mm:ss").format(new Date()).toString() + MarkupFlag.get("testEndTime"))
+								.replace(RegexMatcher.getNthMatch(markup, MarkupFlag.get("timeEnded") + ".*" + MarkupFlag.get("timeEnded"), 0), MarkupFlag.get("timeEnded") + new SimpleDateFormat("MM/dd HH:mm:ss").format(new Date()).toString() + MarkupFlag.get("timeEnded"));
+			
+			FileWriterEx.write(filePath, markup);
+		}
+	}
 	
 	private void writeBaseMarkup(Boolean replaceExisting) throws IOException {
 		if (replaceExisting) {
