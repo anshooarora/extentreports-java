@@ -11,8 +11,10 @@ Download the jar and view latest details & comments from <a href='http://relevan
 
 ### Developers
 
-Anshoo Arora (owner)
-Bas Dijkstra (contributor)
+<ul>
+    <li>Anshoo Arora (owner)</li>
+    <li>Bas Dijkstra (contributor)</li>
+</ul>
 
 ### Usage and Documentation
 
