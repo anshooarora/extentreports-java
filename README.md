@@ -1,12 +1,18 @@
 # ExtentReports Library
 
-ExtentReports is a HTML reporting library for Selenium WebDriver for Java which is extremely easy to use and creates beautiful execution reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.
+ExtentReports is a HTML reporting library by <a href='http://relevantcodes.com'>Anshoo Arora</a> for Selenium WebDriver for Java which is extremely easy to use and creates beautiful execution reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.
 
 View ExtentReports sample <a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>here</a>.
 
 ### Download
 
 Download the jar and view latest details & comments from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
+
+
+### Developers
+
+Anshoo Arora (owner)
+Bas Dijkstra (contributor)
 
 ### Usage and Documentation
 
