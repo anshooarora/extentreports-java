@@ -9,6 +9,12 @@
 
 package com.relevantcodes.extentreports;
 
+/**
+ * Specifies the log status of the log-event
+ * 
+ * @author Anshoo Arora
+ *
+ */
 public enum LogStatus {
 	PASS, FAIL, FATAL, ERROR, WARNING, INFO, SKIP
 }

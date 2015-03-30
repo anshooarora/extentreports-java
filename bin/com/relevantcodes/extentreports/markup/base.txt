@@ -35,7 +35,7 @@
 			.summary-items {margin: 0 auto 20px;width: 1000px;}
 			.summary-item {border: 1px solid #b4bfc3;display: inline-block;margin: 10px;padding: 15px 0 30px;position: relative;text-align: center;width: 220px;}
 			.summary-item span {display: block;}
-			.item-value {color: #a4afb3;font-size: 24px;line-height: 40px;}
+			.item-value {color: #495458;font-size: 24px;line-height: 40px;}
 			.item-name {color: #022b36;font-size: 13px;}
 			.filters {margin: 60px auto 5px !important;}
 			.by-status {margin-right: 40px;}
@@ -73,7 +73,7 @@
 			.extent-button-orange:hover {background-color: #f0ad4e;color: white;}
 			.extent-button-lightred {border-color: #e67672;color: #e67672;}
 			.extent-button-lightred:hover {background-color: #e67672;color: white;}
-			.status {font-family: 'Source Sans Pro';font-size: 13px;text-align: center;}
+			.status {border-radius: 3px; font-family: 'Source Sans Pro';font-size: 13px;text-align: center;}
 			.status.fail, .status.fail i {color: red;} .test-info .fail{background-color: red !important;}
 			.status.fatal, .status.fatal i {color: darkred;} .test-info .fatal{background-color: darkred !important;}
 			.status.error, .status.error i {color: tomato;} .test-info .error {background-color: tomato !important;}
