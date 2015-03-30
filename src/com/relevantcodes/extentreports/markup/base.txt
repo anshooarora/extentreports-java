@@ -22,7 +22,7 @@
 			.topbar-items-right span {border-left: 1px solid #ccc;padding: 0px 8px;vertical-align: sub;} .topbar-items-right span:first-child {border-left: none;}
 			.headline {color: #777;font-size: 12px;}
 			#title {margin: 25px 0 30px;}
-			.logo {font-family: 'Source Sans Pro', Verdana;font-size: 16px;letter-spacing: 1px;}
+			.logo {color: #999; font-family: 'Source Sans Pro', Verdana;font-size: 16px;letter-spacing: 1px;}
 			.menu-items {margin-top: -32px;float: right;}
 			.menu ul li {display: inline;list-style-image: none;list-style-position: outside;padding: 10px 8px;}			
 			.menu span {color: #0054a6;cursor: pointer;font-family: Verdana;font-size: 11px;text-transform: uppercase;}
