@@ -89,3 +89,5 @@ ExtentReports 1.2 <03-17-2015>
 	Changed status toggle buttons into a single dropdown (Filter Tests)
 	Several styling improvements, cleaner report
 	
+ExtentReports 1.2.1 <03-30-2015>
+	Updated license details to BSD

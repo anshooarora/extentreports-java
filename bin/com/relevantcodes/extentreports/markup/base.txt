@@ -2,7 +2,7 @@
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'> 
 <!--
 	ExtentReports Library v1.2 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/relevantcodes/
-	Owner:  Anshoo Arora
+	Owner & Developer:  Anshoo Arora
 	Contributors:  Bas Dijkstra
 --> 
 	<head>
@@ -94,8 +94,8 @@
 			 */
 			.btn {display: inline-block;margin-bottom: 0;font-weight: normal;text-align: center;vertical-align: middle;-ms-touch-action: manipulation;touch-action: manipulation;cursor: pointer;background-image: none;white-space: nowrap;padding: 6px 12px;font-size: 14px;line-height: 1.42857143;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 			.btn:focus,.btn:active:focus,.btn.active:focus,.btn.focus,.btn:active.focus,.btn.active.focus {outline: thin dotted;outline: 5px auto -webkit-focus-ring-color;outline-offset: -2px;}
-			.btn:hover,.btn:focus,.btn.focus {color: #333333;text-decoration: none;}
-			.btn-default {color: #333333;}
+			.btn:hover,.btn:focus,.btn.focus {color: #222;text-decoration: none;}
+			.btn-default {color: #222;}
 			.btn-default:hover,.btn-default:focus,.btn-default.focus,.btn-default:active,.btn-default.active,.open > .dropdown-toggle.btn-default {color: #333333;background-color: #e6e6e6;border-color: #adadad;}
 			.caret {display: inline-block;width: 0;height: 0;margin-left: 2px;vertical-align: middle;border-top: 4px solid;border-right: 4px solid transparent;border-left: 4px solid transparent;}
 			.dropup,.dropdown {position: relative;}
