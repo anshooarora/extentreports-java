@@ -37,7 +37,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			</roles> 
 		</developer>
 	</developers>
-
+	
+	<contributors>
+		<contributor>
+			<name>Bas Dijkstra</name>
+			<url>http://ontestautomation.com</url>
+		</contributor>
+	</contributors>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
