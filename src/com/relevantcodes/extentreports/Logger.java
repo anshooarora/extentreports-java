@@ -28,6 +28,10 @@ class Logger extends AbstractLog {
 	// default DisplayOrder = OLDEST tests first, followed by NEWEST
 	private DisplayOrder testDisplayOrder = DisplayOrder.BY_OLDEST_TO_LATEST;
 	
+	// default GridType = STANDARD
+	private GridType gridType = GridType.STANDARD;
+	
+	
 	@Override
 	protected void log() {
 		String markup = "";
@@ -127,13 +131,20 @@ class Logger extends AbstractLog {
 	}
 	
 	private void writeBaseMarkup(Boolean replaceExisting) throws IOException {
+		String targetHTML = "standard.html";
+		
+		if (gridType == GridType.MASONRY) {
+			targetHTML = "masonry.html";
+		}
+		
 		if (replaceExisting) {
-			FileWriterEx.createNewFile(filePath, Resources.getText(packagePath + "base.txt"));
+			FileWriterEx.createNewFile(filePath, Resources.getText(packagePath + targetHTML));
 		}
 	}
 	
-	public Logger(String filePath, Boolean replaceExisting, DisplayOrder order) {
+	public Logger(String filePath, Boolean replaceExisting, DisplayOrder order, GridType gridType) {
 		this.filePath = filePath;
+		this.gridType = gridType;
 		
 		if (!new File(filePath).isFile()) {
 			replaceExisting = true;
@@ -153,10 +164,14 @@ class Logger extends AbstractLog {
 	}
 	
 	public Logger(String filePath, Boolean replaceExisting) {
-		this(filePath, replaceExisting, DisplayOrder.BY_OLDEST_TO_LATEST);
+		this(filePath, replaceExisting, DisplayOrder.BY_OLDEST_TO_LATEST, GridType.STANDARD);
+	}
+	
+	public Logger(String filePath, Boolean replaceExisting, GridType gridType) {
+		this(filePath, replaceExisting, DisplayOrder.BY_OLDEST_TO_LATEST, gridType);
 	}
 	
 	public Logger(String filePath, DisplayOrder order) {
-		this(filePath, false, order);
+		this(filePath, false, order, GridType.STANDARD);
 	}
 }
