@@ -8,12 +8,6 @@ View ExtentReports sample <a href='http://relevantcodes.com/Tools/ExtentReports/
 
 Download the jar and view latest details & comments from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
 
-### Owner / Developer
-
-<ul>
-    <li>Anshoo Arora</li>
-</ul>
-
 ### Snapshots
 
 ![](http://relevantcodes.com/Tools/ExtentReports/snapshots/extent.png)
