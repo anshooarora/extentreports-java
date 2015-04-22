@@ -13,6 +13,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import com.relevantcodes.extentreports.markup.MarkupFlag;
+
 abstract class AbstractLog {
 	protected Date startTime;
 	protected Date endTime;
@@ -53,10 +55,12 @@ abstract class AbstractLog {
 		this.details = details;
 		this.screenCapturePath = screenCapturePath;
 		
-		if (stepName != null)
-			this.stepName = "[" + caller + "] " + stepName;
-		else
-			this.details = "[" + caller + "] " + details;
+		if (caller != null) {
+			if (stepName != null)
+				this.stepName = MarkupFlag.createSingleNode("span", "caller-class", "[" + caller + "] ") + stepName;
+			else
+				this.details = MarkupFlag.createSingleNode("span", "caller-class", "[" + caller + "] ") + details;
+		}
 		
 		trackLastRunStatus();
 		
