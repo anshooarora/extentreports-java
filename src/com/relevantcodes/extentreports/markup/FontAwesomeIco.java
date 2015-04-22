@@ -23,27 +23,29 @@ public class FontAwesomeIco {
 	public static String get(LogStatus status) {
 		if (map.containsKey(status))
 	        return map.get(status);
-	
-		if(status.toString().toLowerCase().equals(new String("fail"))) {
-			return "times";
+		
+		String s = status.toString().toLowerCase();
+		
+		if(s.equals(new String("fail"))) {
+			return "times-circle-o";
 		}
-		else if (status.toString().toLowerCase().equals(new String("error"))) {
+		else if (s.equals(new String("error"))) {
 			return "exclamation-circle";
 		}
-		else if (status.toString().toLowerCase().equals(new String("fatal"))) {
+		else if (s.equals(new String("fatal"))) {
 			return "exclamation-circle";
 		}
-		else if (status.toString().toLowerCase().equals(new String("pass"))) {
-			return "check";
+		else if (s.equals(new String("pass"))) {
+			return "check-circle-o";
 		}
-		else if (status.toString().toLowerCase().equals(new String("info"))) {
-			return "info";
+		else if (s.equals(new String("info"))) {
+			return "info-circle";
 		}
-		else if (status.toString().toLowerCase().equals(new String("warning"))) {
+		else if (s.equals(new String("warning"))) {
 			return "warning";
 		}
-		else if (status.toString().toLowerCase().equals(new String("skip"))) {
-			return "angle-double-right";
+		else if (s.equals(new String("skip"))) {
+			return "chevron-circle-right";
 		}
 		else {
 	        return "question";
