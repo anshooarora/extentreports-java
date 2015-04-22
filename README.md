@@ -16,8 +16,8 @@ Download the jar and view latest details & comments from <a href='http://relevan
 
 ### Snapshots
 
-![] http://relevantcodes.com/Tools/ExtentReports/snapshots/extent.png
-![] http://relevantcodes.com/Tools/ExtentReports/snapshots/extent-masonry.png
+![](http://relevantcodes.com/Tools/ExtentReports/snapshots/extent.png)
+![](http://relevantcodes.com/Tools/ExtentReports/snapshots/extent-masonry.png)
 
 ### Usage and Documentation
 
