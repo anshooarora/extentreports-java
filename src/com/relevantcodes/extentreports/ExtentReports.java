@@ -19,6 +19,7 @@ import com.relevantcodes.extentreports.support.RegexMatcher;
  * for Java which is extremely easy to use and creates beautiful execution reports. 
  * It shows test and step summary, test steps and status in a toggle view for quick analysis
  * 
+ * <p>
  * Project URL: http://relevantcodes.com/extentreports-for-selenium/
  * 
  * @author Anshoo Arora
@@ -49,7 +50,8 @@ public class ExtentReports {
 	 * This is path of the file in which the HTML source is written by ExtentReports
 	 */
 	private String filePath;
-
+	
+	
 	/**
 	 * @param clazz The class that uses a region level ExtentReports object 
 	 * @return an ExtentReports object
@@ -74,7 +76,7 @@ public class ExtentReports {
 	 * the toggle will not be created for the test and the log events may not appear, or
 	 * appear under an incorrect test.
 	 *  
-	 * Usage:
+	 * <p><b>Usage:</b>
 	 * 		extent.startTest("MyTestName");
 	 *  
 	 * @param testName Name of the test that is currently being run and report is being generated for
@@ -89,10 +91,11 @@ public class ExtentReports {
 	 * the toggle will not be created for the test and the log events may not appear, or
 	 * appear under an incorrect test. 
 	 * 
-	 * Usage:
-	 * 		extent.startTest("Test - With Description", "This description will show up under Test.");
-	 * 
+	 * <p>
 	 * This overloaded method allows a description to be written for the testName.
+	 * 
+	 * <p><b>Usage:</b>
+	 * 		extent.startTest("Test - With Description", "This description will show up under Test.");
 	 * 
 	 * @param testName Name of the test that is currently being run and report is being generated for
 	 * @param testDescription Description of the test
@@ -111,16 +114,17 @@ public class ExtentReports {
 	/**
 	 * Provides ability to log events for each started test. 
 	 * 
-	 * Usage:
+	 * <p><b>Usage:</b>
 	 * 		extent.log(LogStatus.INFO, "Image", "Image example:", "C:\\img.png");
 	 * 
-	 *  It is possible to use relative path for the snapshot. Note: Relative paths starting
+	 * <p>
+	 *  It is possible to use relative path for the snapshot. <b>Note:</b> Relative paths starting
 	 *  with '/' and '.' are supported. If you are using an absolute path, 'file:///' will 
 	 *  be automatically appended for the image to load correctly.
 	 * 
-	 * Usage:
-	 * 		extent.log(LogStatus.INFO, "Image", "Image example:", "./pathToImg.png");
-	 * 		extent.log(LogStatus.INFO, "Image", "Image example:", "/pathToImg.png");
+	 * <p><b>Usage</b>
+	 * 		<br>extent.log(LogStatus.INFO, "Image", "Image example:", "./pathToImg.png");
+	 * 		<br>extent.log(LogStatus.INFO, "Image", "Image example:", "/pathToImg.png");
 	 * 
 	 * @param logStatus LogStatus of the log event
 	 * @param stepName Name of the step
@@ -128,14 +132,16 @@ public class ExtentReports {
 	 * @param screenCapturePath Path of the snapshot to be attached to step
 	 */
 	public void log(LogStatus logStatus, String stepName, String details, String screenCapturePath) {
-		extent.caller = callerClass(Thread.currentThread().getStackTrace());
+		if (LogSettings.displayCallerClass)
+			extent.caller = callerClass(Thread.currentThread().getStackTrace());
+
 		extent.log(logStatus, stepName, details, screenCapturePath);
 	}
 	
 	/**
 	 * Overloaded method to allow LogStatus, stepName and details for the log event
 	 * 
-	 * Usage:
+	 * <p><b>Usage:</b>
 	 * 		extent.log(LogStatus.PASS, "StepName", "PASS Details"); 
 	 * 
 	 * @param logStatus LogStatus of the log event
@@ -149,28 +155,30 @@ public class ExtentReports {
 	/**
 	 * Overloaded method to allow only setting the LogStatus and details of the log event
 	 * 
-	 * Usage:
+	 * <p><b>Usage:</b>
 	 * 		extent.log(LogStatus.INFO, "This step shows usage of log(logStatus, details)");
 	 * 
 	 * @param logStatus LogStatus of the log event
 	 * @param details Details of the step
 	 */
 	public void log(LogStatus logStatus, String details) {
-		extent.caller = callerClass(Thread.currentThread().getStackTrace());
+		if (LogSettings.displayCallerClass)
+			extent.caller = callerClass(Thread.currentThread().getStackTrace());
+		
 		extent.log(logStatus, details);
 	}
 	
 	/**
 	 * Allows attaching a snapshot as a step.
 	 * 
-	 * Usage:
+	 * <p><b>Usage:</b>
 	 * 		extent.attachScreenshot("pathToImg.png", "This step only attaches a screenshot without a status.");
 	 * 
-	 *  It is possible to use relative path for the snapshot. Note: Relative paths starting
+	 *  <p>It is possible to use relative path for the snapshot. Note: Relative paths starting
 	 *  with '/' and '.' are supported. If you are using an absolute path, 'file:///' will 
 	 *  be automatically appended for the image to load correctly.
 	 * 
-	 * @param screenCapturePath Path of the snapshot
+	 * @param screenCapturePath Path of the snapshot file
 	 * @param message Message to attach for the step
 	 */
 	public void attachScreenshot(String screenCapturePath, String message) {
@@ -180,14 +188,14 @@ public class ExtentReports {
 	/**
 	 * Allows attaching a snapshot as a step.
 	 * 
-	 * Usage:
+	 * <p>Usage:
 	 * 		extent.attachScreenshot("pathToImg.png");
 	 * 
-	 *  It is possible to use relative path for the snapshot. Note: Relative paths starting
+	 *  <p>It is possible to use relative path for the snapshot. Note: Relative paths starting
 	 *  with '/' and '.' are supported. If you are using an absolute path, 'file:///' will 
 	 *  be automatically appended for the image to load correctly.
 	 * 
-	 * @param screenCapturePath Path of the snapshot
+	 * @param screenCapturePath Path of the snapshot file
 	 */
 	public void attachScreenshot(String screenCapturePath) {
 		attachScreenshot(screenCapturePath, "");
@@ -197,14 +205,12 @@ public class ExtentReports {
 	 * This allows a log level for the report. It filters any LogStatus that does not conform
 	 * to the level set. 
 	 * 
-	 * ALLOW_ALL, FAIL, WARNING, ERROR, ERRORS_AND_WARNINGS, OFF
-	 * 
-	 * ALLOW_ALL: default setting which passes all log events to the report
-	 * FAIL:  Allows FAIL and FATAL events sent to the report
-	 * WARNING:  Allows WARNING and FAIL events to be sent to the report
-	 * ERROR:  Allows ERROR and FAIL events to be sent to the report
-	 * ERRORS_AND_WARNING:  Allows Errors, Warnings and FAIL/FATAL events 
-	 * OFF:  No events are allowed to be written to the report  
+	 * <p><b>ALLOW_ALL</b>: default setting which passes all log events to the report
+	 * <br><b>FAI</b>L:  Allows FAIL and FATAL events sent to the report
+	 * <br><b>WARNING</b>:  Allows WARNING and FAIL events to be sent to the report
+	 * <br><b>ERROR</b>:  Allows ERROR and FAIL events to be sent to the report
+	 * <br><b>ERRORS_AND_WARNING</b>:  Allows Errors, Warnings and FAIL/FATAL events 
+	 * <br><b>OFF</b>:  No events are allowed to be written to the report  
 	 * 
 	 * @param logLevel Level of logging to be used
 	 */
@@ -222,12 +228,12 @@ public class ExtentReports {
 	public DocumentConfig config() {
 		if (!(config instanceof DocumentConfig))
 			config = new DocumentConfig(filePath);
-		
+
 		return config;
 	}
 	
 	/**
-	 * Initializes the reporting by setting the path
+	 * Initializes the reporting by setting the file-path
 	 * 
 	 * @param filePath Path of the file, in .htm or .html format
 	 * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
@@ -241,7 +247,7 @@ public class ExtentReports {
 	}
 	
 	/**
-	 * Initializes the reporting by setting the path
+	 * Initializes the reporting by setting the file-path and test DisplayOrder
 	 * 
 	 * @param filePath Path of the file, in .htm or .html format
 	 * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
@@ -254,16 +260,51 @@ public class ExtentReports {
      *     		BY_LATEST_TO_OLDEST - newest test at the top, oldest at the end
 	 */
 	public void init(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {
+		init(filePath, replaceExisting, displayOrder, GridType.STANDARD);
+	}
+	
+	/**
+	 * Initializes the reporting by setting the file-path and GridType
+	 * 
+	 * @param filePath Path of the file, in .htm or .html format
+	 * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+	 * 			using the DisplayOrder order
+	 * 			true:  the file will be replaced with brand new markup, 
+	 *	                and all existing data will be lost. Use this option to create a brand new report
+	 *	        false:  existing data will remain, new tests will be appended to the existing report
+	 * @param gridType Determines the type of grid to be used
+	 * 			STANDARD (default) - standard grid with 1 test per row
+	 * 			MASONRY - creates a masonry style grid with 2 tests per row
+	 */
+	public void init(String filePath, Boolean replaceExisting, GridType gridType) {
+		init(filePath, replaceExisting, DisplayOrder.BY_OLDEST_TO_LATEST, gridType);
+	}
+	
+	/**
+	 * Initializes the reporting by setting the file-path, test DisplayOrder and GridType
+	 * 
+	 * @param filePath Path of the file, in .htm or .html format
+	 * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+	 * 			using the DisplayOrder order
+	 * 			true:  the file will be replaced with brand new markup, 
+	 *	                and all existing data will be lost. Use this option to create a brand new report
+	 *	        false:  existing data will remain, new tests will be appended to the existing report
+	 * @param displayOrder Determines the order in which your tests will be displayed
+	 * 			BY_OLDEST_TO_LATEST (default) - oldest test at the top, newest at the end
+     *     		BY_LATEST_TO_OLDEST - newest test at the top, oldest at the end
+	 * @param gridType Determines the type of grid to be used
+	 * 			STANDARD (default) - standard grid with 1 test per row
+	 * 			MASONRY - creates a masonry style grid with 2 tests per row
+	 */
+	public void init(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, GridType gridType) {
 		this.filePath = filePath;
 		config = null;
 		
-		extent = new Logger(filePath, replaceExisting, displayOrder);
+		extent = new Logger(filePath, replaceExisting, displayOrder, gridType);
 		
 		initialProc();
 	}
 	
-	
-	// region Private Methods
 	
 	private void initialProc() {
 		config().renewSystemInfo();
@@ -271,16 +312,17 @@ public class ExtentReports {
 	
 	private String callerClass(StackTraceElement[] element) {
 		String name = null;
-				
+		String pattern = "([\\w\\.]+)(:.*)?";
+		
 		try {
-			name = RegexMatcher.getNthMatch(element[element.length - 2].toString(), "([\\w\\.]+)(:.*)?", 0);
+			name = RegexMatcher.getNthMatch(element[element.length - 2].toString(), pattern, 0);
 			
 			if (name.indexOf("com.relevantcodes") >= 0)
-				name = RegexMatcher.getNthMatch(element[element.length - 1].toString(), "([\\w\\.]+)(:.*)?", 0);
+				name = RegexMatcher.getNthMatch(element[element.length - 1].toString(), pattern, 0);
 		}
 		catch (Exception e) {
 			try {
-				name = RegexMatcher.getNthMatch(element[element.length - 3].toString(), "([\\w\\.]+)(:.*)?", 0);
+				name = RegexMatcher.getNthMatch(element[element.length - 3].toString(), pattern, 0);
 			}
 			catch (Exception ex) {
 				return name;
@@ -297,7 +339,5 @@ public class ExtentReports {
 	}
 	
 
-	//region Constructor(s)
-	
-	private ExtentReports() {}
+	public ExtentReports() {}
 }
