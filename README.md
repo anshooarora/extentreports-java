@@ -8,18 +8,17 @@ View ExtentReports sample <a href='http://relevantcodes.com/Tools/ExtentReports/
 
 Download the jar and view latest details & comments from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
 
-
 ### Owner / Developer
 
 <ul>
-    <li>Anshoo Arora (owner)</li>
+    <li>Anshoo Arora</li>
 </ul>
 
 ### Usage and Documentation
 
 For most complete and up-to-date documentation, visit <a href='http://relevantcodes.com/extentreports-documentation/'>this link</a>.
 
-### Software License Agreement (BSD License)
+### Software License Agreement (<a href='http://opensource.org/licenses/BSD-3-Clause'>BSD License</a>)
 
 #### Copyright 2015 Anshoo Arora (Relevant Codes)
 
