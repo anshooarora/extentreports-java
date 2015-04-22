@@ -16,6 +16,10 @@ class DocumentHead {
 	
 	public void addCustomStylesheet(String cssFilePath) {
 		String link = "<link href='file:///" + cssFilePath + "' rel='stylesheet' type='text/css' />";
+		
+		if (cssFilePath.substring(0, 1).equals(new String(".")) || cssFilePath.substring(0, 1).equals(new String("/")))
+			link = "<link href='" + cssFilePath + "' rel='stylesheet' type='text/css' />";		
+			
 		String markup = FileReaderEx.readAllText(filePath)
 						.replace(MarkupFlag.get("customcss"), link + MarkupFlag.get("customcss"));
 		

@@ -14,13 +14,24 @@ import com.relevantcodes.extentreports.support.*;
 class Header {
 	private String filePath;
 	
-	public void setHeadline(String newSummary) {
+	public void setHeadline(String summary) {
 		String markup = FileReaderEx.readAllText(filePath);
 		String pattern = MarkupFlag.get("reportsummary") + ".*" + MarkupFlag.get("reportsummary");
-		newSummary = pattern.replace(".*", newSummary); 
+		summary = pattern.replace(".*", summary); 
 		
 		String oldSummary = RegexMatcher.getNthMatch(markup, pattern, 0);
-		markup = markup.replace(oldSummary, newSummary);
+		markup = markup.replace(oldSummary, summary);
+		
+		FileWriterEx.write(filePath, markup);
+	}
+	
+	public void setTitle(String title) {
+		String markup = FileReaderEx.readAllText(filePath);
+		String pattern = MarkupFlag.get("logo") + ".*" + MarkupFlag.get("logo");
+		title = pattern.replace(".*", title); 
+		
+		String oldSummary = RegexMatcher.getNthMatch(markup, pattern, 0);
+		markup = markup.replace(oldSummary, title);
 		
 		FileWriterEx.write(filePath, markup);
 	}
