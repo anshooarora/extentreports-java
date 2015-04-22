@@ -89,8 +89,16 @@ ExtentReports 1.2 <03-17-2015>
 	Changed status toggle buttons into a single dropdown (Filter Tests)
 	Several styling improvements, cleaner report
 	
-ExtentReports 1.2.1 <03-30-2015>
-	Updated license details to BSD
+ExtentReports 1.3 <03-30-2015>
+	Styling changes
 	
-ExtentReports 1.3 <>
-	Several styling fixes
+ExtentReport 1.4 <04-21-2015>
+	Added Masonry grid added [GridType.MASONRY]
+	Ability to add labels to reports
+	Add code-blocks to report via <pre></pre> tags
+	Ability to change size of attached images [setImageSize]
+	Hide the caller class using [displayCallerClass]
+	Modify chart titles [chartTitle]
+	Lots of styling improvements and even a more cleaner report
+	Fixed bug where JavaScript does not get embedded when calling addCustomScripts()
+	

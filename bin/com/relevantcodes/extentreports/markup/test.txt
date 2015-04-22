@@ -4,8 +4,8 @@
 									<span><!--%%TESTNAME%%--></span>
 								</div>
 								<div class='test-info'>
-									<span class='startedAt' alt='Test started time' title='Test started time'><!--%%TESTSTARTTIME%%--></span>
-									<span class='endedAt' alt='Test ended time' title='Test ended time'><!--%%TESTENDTIME%%--><!--%%TESTENDTIME%%--></span>
+									<span class='startedAt' alt='Test started time' title='Test started time'><i class='fa fa-clock-o'></i><!--%%TESTSTARTTIME%%--></span>
+									<span class='endedAt' alt='Test ended time' title='Test ended time'><i class='fa fa-clock-o'></i><!--%%TESTENDTIME%%--><!--%%TESTENDTIME%%--></span>
 									<span class='test-status status <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>
 								</div>
 								<!--<div class='test-tooltip'>
