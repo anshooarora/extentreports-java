@@ -10,5 +10,6 @@
 package com.relevantcodes.extentreports;
 
 public enum Chart {
-	TEST_SET, TEST
+	TEST_SET, 
+	TEST
 }

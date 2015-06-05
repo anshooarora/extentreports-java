@@ -92,7 +92,7 @@ ExtentReports 1.2 <03-17-2015>
 ExtentReports 1.3 <03-30-2015>
 	Styling changes
 	
-ExtentReport 1.4 <04-21-2015>
+ExtentReports 1.4 <04-21-2015>
 	Added Masonry grid added [GridType.MASONRY]
 	Ability to add labels to reports
 	Add code-blocks to report via <pre></pre> tags
@@ -101,4 +101,7 @@ ExtentReport 1.4 <04-21-2015>
 	Modify chart titles [chartTitle]
 	Lots of styling improvements and even a more cleaner report
 	Fixed bug where JavaScript does not get embedded when calling addCustomScripts()
+	Fixed bug for cell text going out of bounds
+	
+ExtentReports 2.0 <ALPHA>
 	

@@ -16,5 +16,12 @@ package com.relevantcodes.extentreports;
  *
  */
 public enum LogStatus {
-	PASS, FAIL, FATAL, ERROR, WARNING, INFO, SKIP
+	PASS, 
+	FAIL, 
+	FATAL, 
+	ERROR, 
+	WARNING, 
+	INFO, 
+	SKIP,
+	UNKNOWN
 }

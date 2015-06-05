@@ -30,7 +30,6 @@ public class RegexMatcher {
 			return getMatch(line, pattern).group(n);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}

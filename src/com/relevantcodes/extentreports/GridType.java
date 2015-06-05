@@ -10,5 +10,6 @@
 package com.relevantcodes.extentreports;
 
 public enum GridType {
-	STANDARD, MASONRY
+	STANDARD, 
+	MASONRY
 }
