@@ -154,7 +154,7 @@ public class ExtentReports {
 		systemInfo = new SystemInfo();
 		
 		runInfo.startedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), "yyyy-MM-dd HH:mm:ss");
-		systemProperties.info = systemInfo.get();
+		systemProperties.info = systemInfo.getInfo();
 		
 		if (!new File(filePath).isFile()) {
 			replaceExisting = true;
@@ -167,7 +167,7 @@ public class ExtentReports {
 			src = FileReaderEx.readAllText(filePath);			
 		}
 		
-		ReportSource.getInstance().setSrc(src);
+		ReportSource.getInstance().setSource(src);
 	}
 	
 	public void init(String filePath, Boolean replaceExisting) {
@@ -186,20 +186,20 @@ public class ExtentReports {
 		String[] flags = { ExtentFlag.getPlaceHolder("suiteStartTime"), ExtentFlag.getPlaceHolder("suiteEndTime") };
 		String[] values = { runInfo.startedAt, runInfo.endedAt };
 			
-		String src = SourceBuilder.build(ReportSource.getInstance().getSrc(), flags, values);
+		String src = SourceBuilder.build(ReportSource.getInstance().getSource(), flags, values);
 		
-		systemProperties.info = systemInfo.get();
+		systemProperties.info = systemInfo.getInfo();
 		String systemSrc = SystemInfoViewBuilder.getSource(systemProperties);
 		src = SourceBuilder.build(src, new String[] { ExtentFlag.getPlaceHolder("systemInfoView") }, new String[] { systemSrc +ExtentFlag.getPlaceHolder("systemInfoView") });
 				
 		String imageSrc = ImageViewBuilder.getSource(reportInstance.screenCapture);
 		src = SourceBuilder.build(src, new String[] { ExtentFlag.getPlaceHolder("imagesView") }, new String[] { imageSrc + ExtentFlag.getPlaceHolder("imagesView") });
 		
-		ReportSource.getInstance().setSrc(src);
+		ReportSource.getInstance().setSource(src);
 	}
 	
 	public void terminate() {
-		Writer.getInstance().write(new File(filePath), ReportSource.getInstance().getSrc());
+		Writer.getInstance().write(new File(filePath), ReportSource.getInstance().getSource());
 	}
 	
 	public ExtentReports() {

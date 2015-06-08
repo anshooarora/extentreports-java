@@ -8,7 +8,7 @@ import com.relevantcodes.extentreports.source.TestHtml;
 
 class TestBuilder {
 	public static String getSource(Test test) {
-		String src = TestHtml.get();
+		String src = TestHtml.getSource();
 		
 		if (test.description == null) {
 			src = src.replace(ExtentFlag.getPlaceHolder("descVis"), "style='display:none;'");
@@ -22,11 +22,11 @@ class TestBuilder {
 				.replace(ExtentFlag.getPlaceHolder("testDescription"), test.description)
 				.replace(ExtentFlag.getPlaceHolder("descVis"), "");	
 		
-		String stepSrc = StepHtml.get(2);
+		String stepSrc = StepHtml.getSrc(2);
 		
 		if (test.log.size() > 0) {
 			if (test.log.get(0).stepName != "") {
-				stepSrc = StepHtml.get(0);
+				stepSrc = StepHtml.getSrc(0);
 			}
 			
 			for (int ix = 0; ix < test.log.size(); ix++) {
@@ -34,7 +34,7 @@ class TestBuilder {
 						.replace(ExtentFlag.getPlaceHolder("timeStamp"), test.log.get(ix).timestamp)
 						.replace(ExtentFlag.getPlaceHolder("stepStatusU"), test.log.get(ix).logStatus.toString().toUpperCase())
 						.replace(ExtentFlag.getPlaceHolder("stepStatus"), test.log.get(ix).logStatus.toString().toLowerCase())
-						.replace(ExtentFlag.getPlaceHolder("statusIcon"), Icon.get(test.log.get(ix).logStatus))
+						.replace(ExtentFlag.getPlaceHolder("statusIcon"), Icon.getIcon(test.log.get(ix).logStatus))
 						.replace(ExtentFlag.getPlaceHolder("stepName"), test.log.get(ix).stepName)
 						.replace(ExtentFlag.getPlaceHolder("details"), test.log.get(ix).details);
 			}

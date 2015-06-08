@@ -1,7 +1,7 @@
 package com.relevantcodes.extentreports.source;
 
 public class StepHtml {
-	public static String get(int colSpan) {
+	public static String getSrc(int colSpan) {
 		if (colSpan == 2) {
 			return "<tr>" +
 						"<td><!--%%TIMESTAMP%%--></td>" +

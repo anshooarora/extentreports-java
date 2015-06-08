@@ -1,7 +1,7 @@
 package com.relevantcodes.extentreports.source;
 
 public class TestHtml {
-	public static String get() {
+	public static String getSource() {
 		return "<div class='row'>" +
 					"<div class='col s12'>" +
 					"<div class='test card-panel <!--%%TESTSTATUS%%-->'>" +

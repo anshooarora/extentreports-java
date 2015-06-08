@@ -6,11 +6,11 @@ class ReportSource {
 	private static ReportSource instance = null;
 	private String source;
 	
-	public synchronized void setSrc(String source) {
+	public synchronized void setSource(String source) {
 		this.source = source;
 	}
 	
-	public synchronized String getSrc() {
+	public synchronized String getSource() {
 		return source;
 	}
 	

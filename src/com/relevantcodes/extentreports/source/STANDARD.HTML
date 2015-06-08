@@ -209,6 +209,9 @@
 			.test-head .label {
 				text-transform: uppercase;
 			}
+			.test-head .right {
+			    margin-top: 6px;
+			}
 			.test-head .right span {
 				background-color: #f6f7fa;
 				padding: 4px 10px;
@@ -300,6 +303,29 @@
 			}
 			.label.skip, .label.skipped {
 				background-color: #2196f3 !important;
+			}
+			
+			/* -- [ media queries ] -- */
+			@media all and (max-width: 1400px) {
+				.container {
+					width: 80%;
+				}
+			}
+			@media all and (max-width: 1200px) {
+				.container {
+					width: 90%;
+				}
+			}
+			@media all and (max-width: 800px) {
+				.test-head .left, .test-head .right {
+					float: none !important;
+				}
+				.test-head .right {
+					margin-top: 20px;
+				}
+				.test-desc {
+					padding-top: 20px;
+				}
 			}
 		</style>
 		<!--%%CUSTOMCSS%%-->

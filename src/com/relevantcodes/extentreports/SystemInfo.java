@@ -7,7 +7,7 @@ import java.util.Map;
 public class SystemInfo {
 	Map<String, String> map;
 	
-	public Map<String, String> get() {
+	public Map<String, String> getInfo() {
 		return map;
 	}
 	

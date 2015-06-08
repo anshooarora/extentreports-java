@@ -11,7 +11,7 @@ public class Icon {
 		map.put(status, icon);
 	}
 	
-	public static String get(LogStatus status) {
+	public static String getIcon(LogStatus status) {
 		if (map.containsKey(status))
 	        return map.get(status);
 		
