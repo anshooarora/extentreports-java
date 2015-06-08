@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class Writer {
-    private static final Writer instance = new Writer();
+    private static Writer instance = new Writer();
 
     public void write(final File f, String text) {
         synchronized (f) {
@@ -34,6 +34,18 @@ public class Writer {
     }
     
     public static Writer getInstance() {
-        return instance;
-    }
+		if (instance == null) {
+			synchronized (Writer.class) {
+				if (instance == null) {
+					instance = new Writer();
+				}
+			}
+		}
+		
+		return instance;
+	}
+    
+    //public static Writer getInstance() {
+        //return instance;
+    //}
 }

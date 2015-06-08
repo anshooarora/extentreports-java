@@ -92,7 +92,7 @@
 				line-height: 100px;
 				z-index: 2;
 			}
-			.percent:after {
+			.percent.sign:after {
 				content: '%';
 			}
 			.chart-o > div {
@@ -171,8 +171,8 @@
 					min-height: 194px;
 				}
 				
-				/* -- [ images ] -- */
-				.images-view .card-panel {
+				/* -- [ media ] -- */
+				.images-view .card-panel, .videos-view .card-panel {
 				    height: 160px;
 				    max-height: 160px;
 				    min-height: 160px;
@@ -340,7 +340,7 @@
 				<li class='videos-view'><a href='#!'>Videos</a></li>
 			</ul>
 			<a href='#' data-activates='slide-out' class='button-collapse show-on-large'><i class='mdi-navigation-menu'></i></a>
-			<span class='report-name'>Your Report Name - Your Report Summary</span>
+			<span class='report-name'><!--%%LOGO%%-->Your Report Name<!--%%LOGO%%--> - <!--%%HEADLINE%%-->Your Report Summary<!--%%HEADLINE%%--></span>
 			<span class='right'>ExtentReports</span>
 		</nav>
 		<div class='main'>
@@ -353,7 +353,7 @@
 									<span class='panel-name'>Tests View</span>
 									<div class='chart-o text-centered' id='ts-status-dashboard'></div>
 									<span class='weight-light'><span class='t-pass-count weight-normal'></span> test(s) passed</span>
-									<span class='weight-light'><span class='t-fail-count weight-normal'></span> test(s) failed, <span class='others-count weight-normal'></span> others</span>
+									<span class='weight-light'><span class='t-fail-count weight-normal'></span> test(s) failed, <span class='t-others-count weight-normal'></span> others</span>
 								</div>
 							</div>
 							<div class='col s12 m6 l4'>
@@ -395,7 +395,7 @@
 								<div class='card-panel'>
 									<span class='panel-name'>Tests Passed</span>
 									<div class='chart tests-passed' data-percent=''>
-										<span class='percent'></span>
+										<span class='percent sign'></span>
 									</div>
 								</div>
 							</div>
@@ -403,7 +403,7 @@
 								<div class='card-panel'>
 									<span class='panel-name'>Tests Failed</span>
 									<div class='chart tests-failed' data-percent=''>
-										<span class='percent'></span>
+										<span class='percent sign'></span>
 									</div>
 								</div>
 							</div>
@@ -427,7 +427,7 @@
 								<div class='card-panel'>
 									<span class='panel-name'>Steps Passed</span>
 									<div class='chart steps-passed' data-percent=''>
-										<span class='percent'></span>
+										<span class='percent sign'></span>
 									</div>
 								</div>
 							</div>
@@ -435,7 +435,7 @@
 								<div class='card-panel'>
 									<span class='panel-name'>Steps Failed</span>
 									<div class='chart steps-failed' data-percent=''>
-										<span class='percent'></span>
+										<span class='percent sign'></span>
 									</div>
 								</div>
 							</div>
@@ -477,7 +477,8 @@
 				var fatalTests = $('.test.fatal').length;
 				var warningTests = $('.test.warning').length;
 				var errorTests = $('.test.error').length;
-				var skippedTests = $('.test.skipped').length;
+				var skippedTests = $('.test.skip').length;
+				var unknownTests = $('.test.unknown').length;
 				var totalSteps = $('td.status').length;
 				var passedSteps = $('td.status.pass').length;
 				var failedSteps = $('td.status.fail').length;
@@ -489,7 +490,7 @@
 				var passedPercentage = Math.round((passedTests * 100) / (passedTests + failedTests + fatalTests + warningTests + errorTests)) + '%';
 				$('.t-pass-count').text(passedTests);
 				$('.t-fail-count').text(failedTests + fatalTests);
-				$('.others-count').text(warningTests + errorTests + skippedTests);
+				$('.t-others-count').text(warningTests + errorTests + skippedTests + unknownTests);
 				$('.t-warning-count').text(warningTests);
 				$('.t-fatal-count').text(fatalTests);
 				$('.t-error-count').text(errorTests);
@@ -514,15 +515,15 @@
 				$('.dashboard-view .panel-lead').text(passedPercentage);
 				$('.dashboard-view .determinate').attr('style', 'width:' + passedPercentage);
 				$('nav li').click(function() {
-					if (!$('.views > .' + $(this).prop('class')).is(':visible')) {
+					if (!$(this).hasClass('active')) {
 						var cls = $(this).prop('class');
 						$('nav li').removeClass('active');
 						$(this).addClass('active');
 						$('.views > div').not('.' + cls).slideUp().parent().children('.' + cls).slideDown();
 						if (cls == 'runinfo-view') 
 							showRunInfo();
-						$('.button-collapse').sideNav('hide');
 					}
+					$('.button-collapse').sideNav('hide');
 				});
 				$('.test-list .test').click(function(evt) {
 					if (evt.target.nodeName == 'DIV' || evt.target.nodeName == 'SPAN') {
@@ -599,5 +600,6 @@
 				  }
 			});
 		</script>
+		<!--%%CUSTOMSCRIPT%%-->
 	</body>
 </html>

@@ -17,6 +17,8 @@ class SystemInfoViewBuilder {
 						.replace(ExtentFlag.getPlaceHolder("systemInfoValue"), entry.getValue());
 		}
 		
+		systemProperties.info.clear();
+		
 		return src;
 	}
 }

@@ -10,7 +10,7 @@ class TestBuilder {
 	public static String getSource(Test test) {
 		String src = TestHtml.getSource();
 		
-		if (test.description == null) {
+		if (test.description == null || test.description == "") {
 			src = src.replace(ExtentFlag.getPlaceHolder("descVis"), "style='display:none;'");
 		}
 		
