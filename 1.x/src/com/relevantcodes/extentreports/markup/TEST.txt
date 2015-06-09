@@ -1,0 +1,34 @@
+<div class='test'>
+							<div class='test-header'>
+								<div class='name'>
+									<span><!--%%TESTNAME%%--></span>
+								</div>
+								<div class='test-info'>
+									<span class='startedAt' alt='Test started time' title='Test started time'><i class='fa fa-clock-o'></i><!--%%TESTSTARTTIME%%--></span>
+									<span class='endedAt' alt='Test ended time' title='Test ended time'><i class='fa fa-clock-o'></i><!--%%TESTENDTIME%%--><!--%%TESTENDTIME%%--></span>
+									<span class='test-status status <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>
+								</div>
+								<!--<div class='test-tooltip'>
+									<span class='toggle-span'><i class='fa fa-circle-thin'></i></span>
+								</div>-->
+								<div class='description' <!--%%DESCVIS%%-->>
+									<span class='description-title'>Description: </span>
+									<span class='description-content'><!--%%TESTDESCRIPTION%%--></span>
+								</div>
+							</div>
+							<div class='exec-info'>
+								<table class='extent-table'>
+									<thead>
+										<tr>
+											<th>Timestamp</th>
+											<th>Status</th>
+											<th>Step</th>
+											<th>Details</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!--%%STEP%%-->
+									</tbody>
+								</table>
+							</div>
+						</div>

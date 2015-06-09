@@ -1,0 +1,105 @@
+ExtentReports 0.92 <01-10-2015>
+	Add Customization class
+		Added Content class
+			Responsible for making changes to the content section
+			Method: renewSystemInfo()
+		Added DocumentHead class
+			Responsible for making changes to the DOCUMENT_HEAD
+			Method: addCustomStylesheet(String cssFilePath)
+		Added Footer class
+			Responsible for making changes to the FOOTER section
+			Method: addExtentFooter()
+			Method: removeExtentFooter() 
+		Added Header class
+			Responsible for making changes to report's header area
+			Method: introSummary(String newSummary)
+		Added Scripts class
+			Responsible for making changes to the <SCRIPT> section
+
+ExtentReports 0.93 <02-02-2015>
+	Added DisplayOrder enum
+		Configures the chronological order of the test (DEFAULT: BY_OLDEST_TO_LATEST)
+			BY_LATEST_TO_OLDEST: shows the latest test at the top, followed by oldest
+			BY_OLDEST_TO_LATEST: shows the oldest test at the top, following by latest
+	Modified FontAwesomeIco class -> get()
+		Changed switch statements to if..then..else for jdk 1.6
+	Modified ExtentReports class -> init()
+		Added a new signature: init(String filePath, Boolean replaceExisting, DisplayOrder displayOrder)
+		This will allow users to select the order in which tests are to be displayed
+			BY_OLDEST_TO_LATEST (DEFAULT)
+			BY_LATEST_TO_OLDEST
+	Fixed issue with long words going out-of-bounds for the details column
+	Fixed issue with cell for system IP being too small, increased width
+	Fixed issue for support -> Stream class
+		Re-factored method for jdk 1.6 support
+		Removed suppress-warnings flag
+
+ExtentReports 0.94 <02-11-2015>
+	Added ability to add screenshots in details cell
+		Images will be displayed within the container
+		Images can also be added using links as markup (see documentation)
+		Fixed issue of image not styling correctly inside the cell (reported by Bas)
+	Total memory and free memory will now be displayed in MB
+	Added OS Architecture and Java Version to System Specs table
+	Added a DIV for Test Description
+		Using startTest("testName", "description") will also append a description at the test level
+		Moved description container at the same level as the test so its visible without opening it (reported by Bas)
+	Several styling improvements 
+	Updated documentation to show latest features (above)
+[0.94.1] <02-13-2015>
+		Added logo
+
+ExtentReports 1.0 <02-24-2015>
+	Fixed issue with DocumentHead only being able to use the last added stylesheet
+		Any number of custom stylesheets can not be used
+	Fixed issue with the correct className.methodName not showing in the stepname
+	Several CSS fixes
+	Added UserName for System Info
+	Test toggles
+		Changed toggle speed and improved event performance
+		Several styling changes to increase clarity for big tests
+	Toggles for to filter tests by status: added new code to improve performance and smoother transitions
+	Added views: this feature adds ability to flip the type of view used
+	Expanded/compressed view: this feature adds the ability to change the horizontal size of content
+	Added ability to use custom css styles along with custom stylesheets
+	Added ability to use custom scripts
+	* It is not required to call endTest() after each test now
+	
+ExtentReports 1.1 <03-03-2015> [Complete redesign]
+	Feature Requests:
+		Added LogStatus -> SKIP [Madhu]
+		Added EXEC INFO tab for summary [Sujata, Roman]
+		Add test execution timestamp/duration and also for the entire suite [Roman]
+		Added tooltip for most controls showing what they do [Bas]
+		Added ability to use relative paths for snapshots [Bas, Madhu]
+		Case of TestName is default instead of uppercase [Madhu]
+	Configuration() is now deprecated, use fluent config() instead
+	configuration().introSummary(String) has been replaced with config().reportHeadline(String)
+	This version uses a complete revamp from 1.0
+	
+ExtentReports 1.2 <03-17-2015>
+	Added a new type of log with 2 possible argument: log(LogStatus, details)
+	Added ability to attach screenshot without a log: 
+		attachScreenshot(screenCapturePath, message)
+		attachScreenshot(screenCapturePath)
+	Added a control to expand all tests tree
+	Added a control to collapse all test tree
+	Added config().displayTestHeaders to show/hide TH tag of tests
+	Added config().documentTitle to change the title of the report
+	Changed status toggle buttons into a single dropdown (Filter Tests)
+	Several styling improvements, cleaner report
+	
+ExtentReports 1.3 <03-30-2015>
+	Styling changes
+	
+ExtentReport 1.4 <04-21-2015>
+	Added Masonry grid added [GridType.MASONRY]
+	Ability to add labels to reports
+	Add code-blocks to report via <pre></pre> tags
+	Ability to change size of attached images [setImageSize]
+	Hide the caller class using [displayCallerClass]
+	Modify chart titles [chartTitle]
+	Lots of styling improvements and even a more cleaner report
+	Fixed bug where JavaScript does not get embedded when calling addCustomScripts()
+	Fixed bug for cell text going out of bounds
+	
