@@ -12,9 +12,8 @@ package com.relevantcodes.extentreports.support;
 import java.util.Scanner;
 
 public class Stream {
-	// @SuppressWarnings("resource")
 	public static String toString(java.io.InputStream is) {
-		Scanner scanner= null;
+		Scanner scanner = null;
 		
 	    try {
 	    	scanner = new Scanner(is).useDelimiter("\\A");

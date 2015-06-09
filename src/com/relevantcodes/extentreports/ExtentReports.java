@@ -92,7 +92,7 @@ public class ExtentReports {
 		}
 	}
 	
-	public void init(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {
+	public void init(String filePath, boolean replaceExisting, DisplayOrder displayOrder) {
 		this.filePath = filePath;
 		this.displayOrder = displayOrder;
 		runStatus = LogStatus.UNKNOWN;
@@ -108,7 +108,7 @@ public class ExtentReports {
 		ReportSource.getInstance().initialize(filePath, replaceExisting);
 	}
 	
-	public void init(String filePath, Boolean replaceExisting) {
+	public void init(String filePath, boolean replaceExisting) {
 		init(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST);
 	}
 	

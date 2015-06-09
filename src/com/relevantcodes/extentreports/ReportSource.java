@@ -8,11 +8,10 @@ import com.relevantcodes.extentreports.support.FileReaderEx;
 import com.relevantcodes.extentreports.support.Resources;
 
 class ReportSource {
-	private static ReportSource instance = null;
+	//private static ReportSource instance = null;
 	private AtomicInteger seed = new AtomicInteger();
 	private volatile String src = null;
 	private final Object lock = new Object();
-	private String sourcePackage = "com/relevantcodes/extentreports/source/";
 	private volatile String testSrc = "";
 	
 	public void setSource(String source) {
@@ -43,27 +42,29 @@ class ReportSource {
 			//setSource(src.replace(ExtentFlag.getPlaceHolder("test"), source + ExtentFlag.getPlaceHolder("test")));
 		}
 		
-		System.out.println(testSrc);
+		//System.out.println(testSrc);
 	}
 	
 	public void initialize(String filePath, Boolean replace) {
 		synchronized (lock) {
-			System.out.println("1: " + replace);
+			String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.html";
+			
+			//System.out.println("1: " + replace);
 			
 			if (!new File(filePath).isFile()) {
 				replace = true;
 			}
 			
-			System.out.println("2: " + replace);
+			//System.out.println("2: " + replace);
 			
 			if (src != null) {
 				return;
 			}
 			
-			System.out.println("3: success");
+			//System.out.println("3: success");
 			
 			if (replace) {
-				src = Resources.getText(sourcePackage + "STANDARD.html");
+				src = Resources.getText(sourceFile);
 			} 
 			else {
 				src = FileReaderEx.readAllText(filePath);			
@@ -83,10 +84,23 @@ class ReportSource {
 		return seed.incrementAndGet();
 	}
 	
+	/*
 	protected ReportSource() {
 	}
- 
+	*/
+	
+	private ReportSource() { }
+	
+	private static class Instance {
+        static final ReportSource INSTANCE = new ReportSource();
+    }
+	
 	public static ReportSource getInstance() {
+		return Instance.INSTANCE;
+	}
+
+	/*
+	 * public static ReportSource getInstance() {
 		if (instance == null) {
 			synchronized (ReportSource.class) {
 				if (instance == null) {
@@ -96,5 +110,5 @@ class ReportSource {
 		}
 		
 		return instance;
-	}
+	} */
 }
