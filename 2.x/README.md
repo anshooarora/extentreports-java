@@ -2,7 +2,7 @@
 
 ExtentReports is a HTML reporting library by <a href='http://relevantcodes.com'>Anshoo Arora</a> for Selenium WebDriver for Java which is extremely easy to use and creates beautiful execution reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.
 
-View ExtentReports sample <a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>here</a>.
+View ExtentReports sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.html'>here</a>.
 
 ### Download
 
@@ -10,12 +10,13 @@ Download the jar and view latest details & comments from <a href='http://relevan
 
 ### Snapshots
 
-![](http://relevantcodes.com/Tools/ExtentReports/snapshots/extent.png)
-![](http://relevantcodes.com/Tools/ExtentReports/snapshots/extent-masonry.png)
+![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent1.png)
+![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent2.png)
+![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent3.png)
 
 ### Usage and Documentation
 
-For most complete and up-to-date documentation, visit <a href='http://relevantcodes.com/extentreports-documentation/'>this link</a>.
+For most complete and up-to-date documentation, visit <a href='http://extentreports.relevantcodes.com'>this link</a>.
 
 ### Software License Agreement (<a href='http://opensource.org/licenses/BSD-3-Clause'>BSD License</a>)
 
