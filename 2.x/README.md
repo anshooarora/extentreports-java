@@ -10,9 +10,9 @@ Download the jar and view latest details & comments from <a href='http://relevan
 
 ### Snapshots
 
-![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent1.png)
-![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent2.png)
-![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent3.png)
+![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-1.png)
+![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-2.png)
+![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-3.png)
 
 ### Usage and Documentation
 
