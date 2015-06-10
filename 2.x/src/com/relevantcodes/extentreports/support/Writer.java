@@ -5,10 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class Writer {
-    private static Writer instance = new Writer();
+    //private static Writer instance = new Writer();
 
-    public void write(final File f, String text) {
-        synchronized (f) {
+    public synchronized void write(final File f, String text) {
+        //synchronized (f) {
         	BufferedWriter writer = null;
         	
             try {
@@ -26,9 +26,20 @@ public class Writer {
                 	e.printStackTrace();
                 }
             }
-        }
+        //}
     }
     
+    private Writer() { }
+	
+	private static class Instance {
+        static final Writer INSTANCE = new Writer();
+    }
+	
+	public static Writer getInstance() {
+		return Instance.INSTANCE;
+	}
+	
+    /*
     private Writer() {
         super();
     }
@@ -47,5 +58,5 @@ public class Writer {
     
     //public static Writer getInstance() {
         //return instance;
-    //}
+    //} */
 }

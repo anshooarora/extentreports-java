@@ -5,11 +5,9 @@ import java.util.Calendar;
 
 import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Log;
-import com.relevantcodes.extentreports.model.ReportInstance;
+import com.relevantcodes.extentreports.model.RunInstance;
 import com.relevantcodes.extentreports.model.RunInfo;
-import com.relevantcodes.extentreports.model.SystemProperties;
 import com.relevantcodes.extentreports.model.Test;
-import com.relevantcodes.extentreports.source.ExtentFlag;
 import com.relevantcodes.extentreports.source.ImageHtml;
 import com.relevantcodes.extentreports.support.DateTimeHelper;
 import com.relevantcodes.extentreports.support.Writer;
@@ -18,10 +16,7 @@ public class ExtentReports {
 	private String filePath;
 	private DisplayOrder displayOrder;
 	private Test test;
-	private ReportInstance reportInstance;
-	private RunInfo runInfo;
-	private SystemProperties systemProperties;
-	private SystemInfo systemInfo;
+	//private ReportInstance reportInstance;
 	private LogStatus runStatus = LogStatus.UNKNOWN;
 	private ReportConfig config;
 
@@ -34,8 +29,6 @@ public class ExtentReports {
 		evt.details = details;
 				
 		test.log.add(evt);
-		
-		runInfo.endedAt = evt.timestamp;
 		
 		trackLastRunStatus(logStatus);
 	}
@@ -56,7 +49,13 @@ public class ExtentReports {
 		img.src = imgPath;
 		img.testName = test.name;
 		
-		reportInstance.screenCapture.add(img);
+		if (RunInstance.getInstance().screenCapture == null) {
+			RunInstance.getInstance().init();
+		}
+		
+		RunInstance.getInstance().screenCapture.add(img);
+		
+		//reportInstance.screenCapture.add(img);
 
 		return imgPath;
 	}
@@ -82,8 +81,13 @@ public class ExtentReports {
 			test.endedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
 			test.status = runStatus;
 			
-			reportInstance.tests.add(test);
-			reportInstance.runInfo = runInfo;
+			//reportInstance.tests.add(test);
+			if (RunInstance.getInstance().tests == null) {
+				RunInstance.getInstance().init();
+			}
+			
+			RunInstance.getInstance().tests.add(test);
+			//reportInstance.runInfo = runInfo;
 			
 			ReportSource.getInstance().addTest(TestBuilder.getSource(test), displayOrder);
 			
@@ -97,13 +101,21 @@ public class ExtentReports {
 		this.displayOrder = displayOrder;
 		runStatus = LogStatus.UNKNOWN;
 		
-		reportInstance = new ReportInstance();
-		runInfo = new RunInfo();
-		systemProperties = new SystemProperties();
-		systemInfo = new SystemInfo();
+		//reportInstance = new ReportInstance();
 		
-		runInfo.startedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
-		systemProperties.info = systemInfo.getInfo();
+		if (RunInfo.getInstance().startedAt == null) {
+			RunInfo.getInstance().startedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
+		}
+		
+		if (SystemInfo.getInstance().getInfo() == null) {
+			SystemInfo.getInstance().setInfo();
+		}
+		
+		//systemProperties = new SystemProperties();
+		//systemInfo = new SystemInfo();
+		
+		//runInfo.startedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
+		//systemProperties.info = systemInfo.getInfo();
 		
 		ReportSource.getInstance().initialize(filePath, replaceExisting);
 	}
@@ -124,6 +136,7 @@ public class ExtentReports {
 	public void update() {
 		endTest();
 		
+		/*
 		// reported endedAt time
 		runInfo.endedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
 		
@@ -134,33 +147,42 @@ public class ExtentReports {
 		String src = SourceBuilder.build(ReportSource.getInstance().getSource(), flags, values);
 		
 		ReportSource.getInstance().setSource(src);
+		*/
 	}
 	
 	public void terminate() {
-		String src = getUpdatedMediaSource(ReportSource.getInstance().getSource());
+		RunInfo.getInstance().endedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
+		/*String src = getUpdatedMediaSource(ReportSource.getInstance().getSource());*/
 		
 		if (ReportSource.getInstance().getIndex() == 1) {
-			systemProperties.info = systemInfo.getInfo();
-			String systemSrc = SystemInfoViewBuilder.getSource(systemProperties);
+			//SystemProperties.getInstance().info = 
+			//systemProperties.info = systemInfo.getInfo();
+			//String systemSrc = SystemInfoViewBuilder.getSource(SystemInfo.getInstance().getInfo());
 			
 			// set system information in the report
-			String[] flags = new String[] { ExtentFlag.getPlaceHolder("systemInfoView") };
-			String[] values = new String[] { systemSrc + ExtentFlag.getPlaceHolder("systemInfoView") };
+			//String[] flags = new String[] { ExtentFlag.getPlaceHolder("systemInfoView") };
+			//String[] values = new String[] { systemSrc + ExtentFlag.getPlaceHolder("systemInfoView") };
 			
-			src = SourceBuilder.build(src, flags, values);
-			systemProperties.info.clear();
+			//ReportSource.getInstance().setSource(SourceBuilder.build(ReportSource.getInstance().getSource(), flags, values));
+			
+			//systemProperties.info.clear();
 		}
 		
-		ReportSource.getInstance().setSource(src);
+		//ReportSource.getInstance().setSource(src);
+		
+		ReportSource.getInstance().updateSuiteExecutionTime(RunInfo.getInstance().startedAt, RunInfo.getInstance().endedAt);
+		ReportSource.getInstance().updateSystemInfo(SystemInfo.getInstance().getInfo());
+		ReportSource.getInstance().updateMediaInfo(RunInstance.getInstance().screenCapture);
 		ReportSource.getInstance().terminate();
 		
 		Writer.getInstance().write(new File(filePath), ReportSource.getInstance().getSource());
 	}
 	
-	public SystemInfo systemInfo() {
-		return systemInfo;
-	}
+	//public SystemInfo systemInfo() {
+		//return systemInfo;
+	//}
 	
+	/*
 	private String getUpdatedMediaSource(String src) {
 		// get all images from screenCapture list
 		// MediaViewBuilder creates the HTML source by using all the images added
@@ -188,7 +210,7 @@ public class ExtentReports {
 		src = SourceBuilder.build(src, flags, values);
 		
 		return src;
-	}
+	} */
 	
 	private void trackLastRunStatus(LogStatus logStatus) {
 		if (runStatus == LogStatus.UNKNOWN) {
@@ -239,6 +261,6 @@ public class ExtentReports {
 	}
 	
 	public ExtentReports() {
-		reportInstance = new ReportInstance();
+		//reportInstance = new ReportInstance();
 	}
 }

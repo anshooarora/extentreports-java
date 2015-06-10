@@ -16,11 +16,11 @@ public class MediaViewBuilder {
 			return src;
 		}
 		
-		for (ScreenCapture s : mediaList) {
+		for (ScreenCapture sc : mediaList) {
 			src += ObjectEmbedHtml.getColumn();
 			
-			src = src.replace(ExtentFlag.getPlaceHolder("objectViewParam"), s.testName)
-					.replace(ExtentFlag.getPlaceHolder("objectViewValue"), s.src); 
+			src = src.replace(ExtentFlag.getPlaceHolder("objectViewParam"), sc.testName)
+					.replace(ExtentFlag.getPlaceHolder("objectViewValue"), sc.src); 
 		}
 		
 		return src;

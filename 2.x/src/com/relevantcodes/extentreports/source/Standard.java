@@ -12,7 +12,7 @@ public class Standard {
 					"<meta name='description' content='ReportUnit description' />" +
 					"<meta name='robots' content='noodp, noydir' />" +
 					"<meta name='viewport' content='width=device-width, initial-scale=1' />" +
-					"<link href='http://fonts.googleapis.com/css?family=Nunito:300,400|Source+Sans+Pro:300,400|Ubuntu:300,400,500' rel='stylesheet' type='text/css'>" +
+					"<link href='http://fonts.googleapis.com/css?family=Nunito:300,400|Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>" +
 					"<link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>" +
 					"<link href='http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />" +
 					"<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css'>" +
