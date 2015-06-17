@@ -1,3 +1,4 @@
+package com.relevantcodes.extentreports;
 /*
 * Copyright (c) 2015, Anshoo Arora (Relevant Codes).  All rights reserved.
 * 
@@ -7,7 +8,7 @@
 */
 
 
-package com.relevantcodes.extentreports;
+
 
 /**
  * Sets the maximum logging level for the log events

@@ -316,6 +316,15 @@
 					width: 90%;
 				}
 			}
+			@media all and (max-width: 992px) {
+				.test th:nth-child(2), .test td:nth-child(2) {
+					max-width: inherit;
+					width: inherit;
+				}
+				test th:nth-child(2) {
+					text-align: right;
+				}
+			}
 			@media all and (max-width: 800px) {
 				.test-head .left, .test-head .right {
 					float: none !important;
@@ -325,6 +334,11 @@
 				}
 				.test-desc {
 					padding-top: 20px;
+				}
+			}
+			@media all and (max-width: 530px) {
+				.test-head .right span {
+					display: block;
 				}
 			}
 		</style>

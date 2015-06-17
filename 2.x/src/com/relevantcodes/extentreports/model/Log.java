@@ -7,5 +7,4 @@ public class Log {
 	public LogStatus logStatus;
 	public String stepName;
 	public String details;
-	public String screenCapturePath;
 }

@@ -22,9 +22,4 @@ public class RunInstance {
 	public static RunInstance getInstance() {
 		return Instance.INSTANCE;
 	}
-	
-	/* public ReportInstance() {
-		tests = new ArrayList<Test>();
-		screenCapture = new ArrayList<ScreenCapture>();
-	}	*/
 }

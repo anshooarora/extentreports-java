@@ -1,3 +1,4 @@
+package com.relevantcodes.extentreports;
 /*
 * Copyright (c) 2015, Anshoo Arora (Relevant Codes).  All rights reserved.
 * 
@@ -6,7 +7,7 @@
 * See the accompanying LICENSE file for terms.
 */
 
-package com.relevantcodes.extentreports;
+
 
 public enum DisplayOrder {
 	NEWEST_FIRST,

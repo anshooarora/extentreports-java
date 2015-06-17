@@ -17,13 +17,13 @@ public class Icon {
 		
 		String s = status.toString().toLowerCase();
 		
-		if (s.equals(new String("fail"))) { return "times-circle-o"; }
-		if (s.equals(new String("error"))) { return "exclamation-circle"; }
-		if (s.equals(new String("fatal"))) { return "exclamation-circle"; }
-		if (s.equals(new String("pass"))) { return "check-circle-o"; }
-		if (s.equals(new String("info"))) { return "info-circle"; }
-		if (s.equals(new String("warning"))) { return "warning"; }
-		if (s.equals(new String("skip"))) { return "chevron-circle-right"; }
+		if (s.equals("fail")) { return "times-circle-o"; }
+		if (s.equals("error")) { return "exclamation-circle"; }
+		if (s.equals("fatal")) { return "exclamation-circle"; }
+		if (s.equals("pass")) { return "check-circle-o"; }
+		if (s.equals("info")) { return "info-circle"; }
+		if (s.equals("warning")) { return "warning"; }
+		if (s.equals("skip")) { return "chevron-circle-right"; }
 
 		return "question";
 	}

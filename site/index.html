@@ -4,8 +4,9 @@
         <meta name='description' content='ExtentReports 2.0 (by Anshoo Arora) is a HTML reporting library for Selenium WebDriver for Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro|Open+Sans:400,600' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
 		<link rel='stylesheet' href='./css/kube.min.css'>
 		<link rel='stylesheet' href='./css/css.css'>
         <title>ExtentReports</title>
@@ -22,9 +23,9 @@
 						</div>
 						<div class='menu right'>
 							<ul class='menu-items'>
-								<li class='menu-item'><a href='/'>Home</a></li>
-								<li class='menu-item'><a href='./version/1x/docs.html'>1.x Docs</a></li>
-								<li class='menu-item'><a href='./version/2x/docs.html'>2.x Docs</a></li>
+								<li class='menu-item active'><a href='#'>Home</a></li>
+								<li class='menu-item'><a href='./1x/docs.html'>1.x Docs</a></li>
+								<li class='menu-item'><a href='./2x/docs.html'>2.x Docs</a></li>
 							</ul>
 						</div>
 					</div>
@@ -34,19 +35,19 @@
 				
 			</div>
 			<div class='main'>
-				<div class='intro-area bg-gray'>
+				<div class='intro-area'>
 					<div class='units-row'>
 						<div class='unit-80 centered top-unit'>
 							<div class="units-row end">
 								<h1>Intro</h1>
-								<p>ExtentReports 2.0 (by Anshoo Arora) is a HTML reporting library for Selenium WebDriver for Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.</p>
+								<p>ExtentReports (by Anshoo Arora) is a HTML reporting library for Selenium WebDriver for Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.</p>
 								<p>Features:</p>
 								<ul>
 									<li>Very simple to use</li>
 									<li>Beautiful and responsive UI</li>
-									<li>Dashboard for the entire run</li>
-									<li></li>
-									<li></li>
+									<li>Provides dashboard for the entire run</li>
+									<li>Organizes all used media (screen-captures, videos) for the run in a single view (2.x)</li>
+									<li>Supports using parallel runs via TestNG (2.x)</li>
 								</ul>
 								<a class='text-white' href='http://relevantcodes.com/wp-content/plugins/download-monitor/download.php?id=15'><button class='btn btn-green btn-smaller' onclick='$("#message-feedback").message();'><i class='fa fa-download'></i>Download</button></a>
 								<a href='https://github.com/anshooarora/extentreports'><button class='btn btn-smaller'><i class='fa fa-github'></i>GitHub</button></a>
@@ -55,8 +56,39 @@
 						</div>
 					</div>
 				</div>
+				<div class='version-area'>
+					<div class='units-row'>
+						<div class='unit-80 centered top-unit'>
+							<div class="units-row end">
+								<h1>Versions</h1>
+								<p>A major difference between the two (besides the UI) is that version 2.0 is thread-safe and you can integrate it with your parallel run environment if you use TestNG or other test-runners. If your environment does not require this, or if you are running a single test at a time only, then you can choose either.</p>
+								<p>Below is a quick breakdown of both versions:</p>
+								<h4>Version 1.x</h4>
+								<p>Even though version 1 does not support multi-threaded runs, you may want to use it because:</p>
+								<ul>
+									<li>Stable, already being used by many users</li>
+									<li>More feature intensive</li>
+									<li>Choice of Standard and Masonry grids</li>
+									<li>Many more options for customization than 2.0</li>
+								</ul>
+								<p>Samples:  <a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>Standard Grid</a>, <a href='http://relevantcodes.com/Tools/ExtentReports/ExtentMasonry.html'>Masonry Grid</a>.</p>
+								<h4>Version 2.x</h4>
+								<p>ExtentReports 2.0 is the future direction of this library. The main advantages of using this over versions 1.x are:</p>
+								<ul>
+									<li>Thread safe - easily configurable for parallel classes or methods via TestNG</li>
+									<li>Clean and beautiful UI</li>
+									<li>Various options for dashboards, views for all used media type</li>
+									<li>Responsive grid compatible with all devices</li>
+									<li>Much better performance</li>
+									<li>More active development</li>
+								</ul>
+								<p><a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.html'>Click here</a> to see a sample of ExtentReports 2.0.</p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class='footer bg-gray'>
+			<div class='footer bg-inverse'>
 				<div class='units-row'>
 					<div class='unit-100'>
 						<div class='unit-80 centered top-unit'>
@@ -72,6 +104,7 @@
 			</div>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
 		<script src="./js/kube.min.js"></script> 
 		<script src="./js/scripts.js"></script> 
 	</body>

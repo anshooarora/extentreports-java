@@ -8,7 +8,11 @@ import com.relevantcodes.extentreports.source.TestHtml;
 
 class TestBuilder {
 	public static String getSource(Test test) {
-		String src = TestHtml.getSource();
+		String src = TestHtml.getSource(3);
+		
+		if (test.log.size() > 0 && test.log.get(0).stepName != "") {
+			src = TestHtml.getSource(4);
+		}
 		
 		if (test.description == null || test.description == "") {
 			src = src.replace(ExtentFlag.getPlaceHolder("descVis"), "style='display:none;'");

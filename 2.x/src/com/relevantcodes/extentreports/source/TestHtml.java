@@ -1,7 +1,13 @@
 package com.relevantcodes.extentreports.source;
 
 public class TestHtml {
-	public static String getSource() {
+	public static String getSource(int cols) {
+		String colStepName = "";
+		
+		if (cols == 4) {
+			colStepName = "<th>StepName</th>";
+		}
+		
 		return "<div class='row'>" +
 					"<div class='col s12'>" +
 					"<div class='test card-panel <!--%%TESTSTATUS%%-->'>" +
@@ -19,11 +25,12 @@ public class TestHtml {
 							"</div>" +
 						"</div>" +
 						"<div class='test-body'>" +
-							"<table class='responsive-table bordered table-results'>" +
+							"<table class='bordered table-results'>" +
 								"<thead>" +
 									"<tr>" +
 										"<th>Timestamp</th>" +
 										"<th>Status</th>" +
+										colStepName +
 										"<th>Details</th>" +
 									"</tr>" +
 								"</thead>" +

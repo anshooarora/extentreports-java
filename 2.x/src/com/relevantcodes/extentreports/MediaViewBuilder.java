@@ -3,11 +3,12 @@ package com.relevantcodes.extentreports;
 import java.util.ArrayList;
 
 import com.relevantcodes.extentreports.model.ScreenCapture;
+import com.relevantcodes.extentreports.model.Screencast;
 import com.relevantcodes.extentreports.source.ExtentFlag;
 import com.relevantcodes.extentreports.source.ObjectEmbedHtml;
 
 public class MediaViewBuilder {
-	public static String getSource(ArrayList<ScreenCapture> mediaList) {
+	public static String getSource(ArrayList<?> mediaList) {
 		String src = "";
 		
 		if (mediaList == null || mediaList.size() == 0) {
@@ -16,11 +17,18 @@ public class MediaViewBuilder {
 			return src;
 		}
 		
-		for (ScreenCapture sc : mediaList) {
+		for (Object sc : mediaList) {
 			src += ObjectEmbedHtml.getColumn();
 			
-			src = src.replace(ExtentFlag.getPlaceHolder("objectViewParam"), sc.testName)
-					.replace(ExtentFlag.getPlaceHolder("objectViewValue"), sc.src); 
+			if (sc instanceof ScreenCapture) {
+				src = src.replace(ExtentFlag.getPlaceHolder("objectViewParam"), ((ScreenCapture) sc).testName)
+					.replace(ExtentFlag.getPlaceHolder("objectViewValue"), ((ScreenCapture) sc).src);
+			}
+			
+			if (sc instanceof Screencast) {
+				src = src.replace(ExtentFlag.getPlaceHolder("objectViewParam"), ((Screencast) sc).testName)
+					.replace(ExtentFlag.getPlaceHolder("objectViewValue"), ((Screencast) sc).src);
+			}
 		}
 		
 		return src;

@@ -6,8 +6,12 @@ import java.util.Map;
 
 import com.relevantcodes.extentreports.model.SystemProperties;
 
-public class SystemInfo {
+class SystemInfo {
 	private SystemProperties systemProperties;
+	
+	public void clear() {
+		systemProperties.info.clear();
+	}
 	
 	public Map<String, String> getInfo() {
 		if (systemProperties == null) {
@@ -27,7 +31,7 @@ public class SystemInfo {
 		systemProperties.info.put(param, value);
 	}
 	
-	public void setInfo() {
+	private void setInfo() {
 		if (systemProperties == null) {
 			systemProperties = new SystemProperties();
 		}
@@ -42,24 +46,7 @@ public class SystemInfo {
 		catch(Exception e) { }
 	}
 	
-	private SystemInfo() { }
-	
-	private static class Instance {
-        static final SystemInfo INSTANCE = new SystemInfo();
-    }
-	
-	public static SystemInfo getInstance() {
-		//if (map == null) {
-			//map = new HashMap<String, String>();
-			//setInfo();
-		//}
-		
-		return Instance.INSTANCE;
-	}
-	/*
 	public SystemInfo() { 
-		map = new HashMap<String, String>();
-		
 		setInfo();
-	}*/
+	}
 }

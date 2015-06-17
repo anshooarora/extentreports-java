@@ -3,17 +3,34 @@ html, body {
 	padding: 0;
 }
 body {
-	font-family: 'Source Sans Pro', 'Open Sans', Arial;
+	font-family: Lato, 'Open Sans', Arial;
 	font-size: 15px;
 }
+h1, h2, h3 {
+	font-family: 'Open Sans';
+}
+h1, h2 {
+	padding-top: 40px;
+}
+h3 {
+	padding-top: 20px;
+}
 a {
+	color: #119ee7;
 	text-decoration: none;
 }
-pre {
+pre, pre code, .hljs {
 	background: #f7f8fa;
 	border-radius: 5px;
 	font-size: 13px;
-	padding: 15px;
+	line-height: 18px;
+}
+pre {
+	padding: 0 15px;
+}
+pre code {
+	padding-bottom: 15px !important;
+	padding-top: 0 !important;
 }
 button {
 	margin-right: 5px !important;
@@ -26,6 +43,16 @@ button a {
 }
 
 /* ---- [ global structure ] ---- */
+.bg-inverse {
+	background-color: #1a2a42;
+	color: #fff;
+}
+.bg-inverse p, .bg-inverse span, .bg-inverse li {
+	color: #fff;
+}
+.bg-inverse a {
+	color: #3bc8e1;
+}
 .left { 
 	float: left !important; 
 }
@@ -37,6 +64,9 @@ button a {
 }
 .bordered-img {
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.22), 0 2px 10px 0 rgba(0, 0, 0, 0.20);
+	display: block;
+	height: 100%;
+	margin: auto;
 	margin-bottom: 20px;
 }
 .alert {
@@ -48,6 +78,12 @@ button a {
 	border: 1px solid dodgerblue;
 	border-radius: 5px;
 	padding: 10px 20px;
+}
+.screenshot {
+	margin-bottom: 20px;
+	margin-right: 20px;
+	text-align: center;
+	width: 30%;
 }
 
 /* ---- [ header ] ---- */
@@ -84,10 +120,13 @@ button a {
 	font-size: 14px;
 	padding: 5px 10px;
 }
+.menu-item.active {
+	border: 1px solid #119ee7;
+}
 
 /* ---- [ main ] ---- */
 .main {
-	padding: 60px 0;
+	padding: 0 0 60px;
 }
 
 /* ---- [ footer ] ---- */
