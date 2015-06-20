@@ -39,7 +39,9 @@
 			.item-value {color: #393939;font-size: 24px;line-height: 40px;}
 			.item-name {color: #022b36;font-size: 13px;}
 			.filters {margin: 60px auto 5px !important;}
-			.by-status {margin-right: 40px;}
+			.by-status {}
+			.by-name-desc { display: inline-block; float: right; }
+			input.form-control { border: 1px solid #ccc; padding: 11px; width: 200px;}
 			.by-status, .by-feature {display: inline-block;}
 			.by-status div {margin-right: 2px;}
 			.content {margin: 0 auto 100px !important;}
@@ -53,6 +55,7 @@
 			.endedAt i {color:#d9534f;}
 			.test-status {color: #fff !important;}
 			.startedAt, .endedAt {border: 1px solid #507fd6;color: #121212;}
+			.time-diff {border: 1px solid #507fd6;color: #121212;font-family: Verdana,"Lucida Grande";font-size: 11px;margin-left: 3px;padding: 6px 10px;text-transform: lowercase !important;}
 			.description {color: #444;margin-top: 15px;padding:2px;}
 			.description-title {font-size: 13px;font-weight: 600;text-transform: uppercase;}
 			.description-content {}
@@ -267,6 +270,9 @@
 								</ul>
 							</div>
 						</div>
+						<div class='by-name-desc'>
+							<input type="text" class="form-control" id='test-name-filter' placeholder="Search tests..">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -403,6 +409,28 @@
 					});
 				});
 			})
+			$('.test').each(function() {
+				var start = new Date().getFullYear() + '/' + $(this).find('.test-info .startedAt').text();
+				var end = new Date().getFullYear() + '/' + $(this).find('.test-info .endedAt').text();
+				var diff = Math.round((new Date(end) - new Date(start)) / 1000);
+				var mins = Math.floor(diff / 60);
+				var secs = diff- mins * 60;
+				diff = mins + 'm ' + secs + 's';
+				$('<span class=\"time-diff\">' + diff + '</span>').insertAfter($(this).find('.endedAt')); 
+			});
+			$(document).keypress(function(e) {
+				if(e.which == 13) {
+					if ($('#test-name-filter').is(':focus')) {
+						var txt = $('#test-name-filter').val();
+						$('.test').hide(0);
+						$('.test .name > span, .test .description-content').each(function() {
+							if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
+								$(this).closest('.test').show();
+							}
+						});
+					}
+				}
+			});
 			/*!
 			 * Bootstrap v3.3.2 (http://getbootstrap.com)
 			 * Copyright 2011-2015 Twitter, Inc.

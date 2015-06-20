@@ -47,12 +47,13 @@
                             
                             <h1>Docs</h1>
                             <ul class='index'>
-								<li><a href='#author'>Owner / Developer</a>
-								<li><a href='#contributors'>Contributors</a>
-								<li><a href='#maven'>Maven</a>
+                                <li><a href='#author'>Owner / Developer</a>
+                                <li><a href='#contributors'>Contributors</a>
+                                <li><a href='#maven'>Maven</a>
                                 <li><a href='#basic-usage'>Basic Usage</a>
                                     <ul>
                                         <li><a href='#initialize-report'>Initializing Report</a></li>
+										<li><a href='#write-to-report'>Writing to Report</a></li>
                                         <li><a href='#append-to-report'>Appending to an Existing Report</a></li>
                                         <li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
                                         <li><a href='#create-step-logs'>Creating Step Logs</a></li>
@@ -93,7 +94,7 @@
 <h3 id='contributors'>Contributors</h3>
 <ul>
     <li>Martin Skarbala</li>
-	<li>Roman Hesteric</li>
+    <li>Roman Hesteric</li>
 </ul>
 
 <h3 id='maven'>Maven</h3>
@@ -118,6 +119,14 @@ where:
         OLDEST_FIRST (default) - oldest test at the top, newest at the end
         NEWEST_FIRST - newest test at the top, oldest at the end
 </code></pre>
+
+<h3 id='write-to-report'>Writing to Report</h3>
+<p>Once your session is complete and you are ready to write all logs to the report, simply call the <code>flush()</code> method.</p>
+<pre><code class='java'>
+// writing everything to document
+extent.flush();
+</code></pre>
+<p class='note'>It is recommended to call <code>flush</code> only once at the end of your session because calling it multiple times will reduce the performance as the log file will be written/updated multiple times.</p>
 
 <h3 id='append-to-report'>Appending to an Existing Report</h3>
 <p>To append to a report you had previously created, simply mark <code>replaceExisting = false</code> and new tests will be appended to the same report.</p>
@@ -182,8 +191,12 @@ extent.log(LogStatus.INFO, "Screencast below: " + vid);
 <h3 id='basic-usage-example'>Basic Usage Example</h3>
 <p>A simple example with a static method.</p>
 <pre><code class='java'>
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
 public class Main {
-    private ExtentReports extent;
+    private static ExtentReports extent;
 
     public static void main(String[] args) {
         extent = new ExtentReports("file-path", true);
@@ -238,6 +251,22 @@ public class TestNGExample {
 
 <h3 id='basic-multiple-testng-classes'>Multiple TestNG Classes with Global ExtentReports</h3>
 <p>A simple example that uses a global ExtentReports instance shared by multiple classes. This section demonstrates for cases which run single threaded, for multi-threaded execution models, see section <a href='#parallel-runs'>Creating Parallel Runs</a>.</p>
+
+<pre><code class='xml'>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;suite name="TestNgSimple"&gt;
+    &lt;test name="TestNgSimpleGlobalExtent1 Test" allow-return-values="true"&gt;
+        &lt;classes&gt;
+            &lt;class name="package.TestNGClass1" /&gt;
+        &lt;/classes&gt;
+    &lt;/test&gt;
+    &lt;test name="TestNgSimpleGlobalExtent2 Test" allow-return-values="true"&gt;
+        &lt;classes&gt;
+            &lt;class name="package.TestNGClass2" /&gt;
+        &lt;/classes&gt;
+    &lt;/test&gt;
+&lt;/suite&gt;
+</code></pre>
 <pre><code class='java'>
 public class ExtentManager {
     private static ExtentReports extent;
@@ -250,7 +279,7 @@ public class ExtentManager {
             extent.config()
                 .documentTitle("Automation Report")
                 .reportName("Regression")
-                .reportTitle("");
+                .reportHeadline("");
                
             // optional
             extent
@@ -327,7 +356,7 @@ public class ExtentManager {
             extent.config()
                 .documentTitle("Automation Report")
                 .reportName("Regression")
-                .reportTitle("");
+                .reportHeadline("");
                
             // optional
             extent
@@ -408,7 +437,7 @@ public class ExtentManager {
             extent.config()
                 .documentTitle("Automation Report")
                 .reportName("Regression")
-                .reportTitle("");
+                .reportHeadline("");
                
             // optional
             extent

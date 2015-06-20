@@ -18,6 +18,10 @@ public class ExtentReports {
 		this(filePath, replace, DisplayOrder.OLDEST_FIRST);
 	}
 	
+	public ExtentTest startTest(String testName) {
+		return new ExtentTest(testName, "");
+	}
+	
 	public ExtentTest startTest(String testName, String description) {
 		return new ExtentTest(testName, description);
 	}
@@ -28,7 +32,7 @@ public class ExtentReports {
 	
 	public ReportInstance.ReportConfig config() {
 		if (reportConfig == null) {
-			return reportInstance.new ReportConfig();
+			reportConfig = reportInstance.new ReportConfig();
 		}
 		
 		return reportConfig;
