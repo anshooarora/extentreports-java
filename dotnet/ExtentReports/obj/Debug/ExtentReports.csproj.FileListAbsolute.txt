@@ -1,1 +1,2 @@
 C:\Users\Anshoo\git\extentreports\dotnet\ExtentReports\ExtentReports\bin\Debug\ExtentReports.exe.config
+C:\Users\Anshoo\git\extentreports\dotnet\ExtentReports\bin\Debug\ExtentReports.exe.config
