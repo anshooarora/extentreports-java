@@ -6,7 +6,6 @@
 * See the accompanying LICENSE file for terms.
 */
 
-
 package com.relevantcodes.extentreports;
 
 abstract class LogSettings {

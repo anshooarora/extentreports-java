@@ -1,3 +1,11 @@
+/*
+* Copyright (c) 2015, Anshoo Arora (Relevant Codes).  All rights reserved.
+* 
+* Copyrights licensed under the New BSD License.
+* 
+* See the accompanying LICENSE file for terms.
+*/
+
 package com.relevantcodes.extentreports;
 
 import java.util.Calendar;
@@ -14,6 +22,11 @@ public class ExtentTest {
     private Test test;
     private LogStatus runStatus = LogStatus.UNKNOWN;
     
+    /**
+     * 
+     * @param testName
+     * @param description
+     */
     public ExtentTest(String testName, String description) {
         test = new Test();
         
@@ -22,6 +35,12 @@ public class ExtentTest {
         test.startedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
     }
     
+    /**
+     * 
+     * @param logStatus
+     * @param stepName
+     * @param details
+     */
     public void log(LogStatus logStatus, String stepName, String details) {
         Log evt = new Log();
         
@@ -35,10 +54,20 @@ public class ExtentTest {
         trackLastRunStatus(logStatus);
     }
     
+    /**
+     * 
+     * @param logStatus
+     * @param details
+     */
     public void log(LogStatus logStatus, String details) {
         log(logStatus, "", details);
     }
     
+    /**
+     * 
+     * @param imgPath
+     * @return
+     */
     public String addScreenCapture(String imgPath) {
         String screenCaptureHtml;
         
@@ -58,6 +87,11 @@ public class ExtentTest {
         return screenCaptureHtml;
     }
     
+    /**
+     * 
+     * @param screencastPath
+     * @return
+     */
     public String addScreencast(String screencastPath) {
         String screencastHtml;
         
