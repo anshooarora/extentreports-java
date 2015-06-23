@@ -37,7 +37,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -54,6 +53,15 @@
     <Compile Include="Model\Test.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\ExtentFlag.cs" />
+    <Compile Include="Source\Icon.cs" />
+    <Compile Include="Source\ImageHtml.cs" />
+    <Compile Include="Source\ObjectEmbedHtml.cs" />
+    <Compile Include="Source\ScreencastHtml.cs" />
+    <Compile Include="Source\Standard.cs" />
+    <Compile Include="Source\StepHtml.cs" />
+    <Compile Include="Source\SystemInfoHtml.cs" />
+    <Compile Include="Source\TestHtml.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -67,6 +67,7 @@
                                         <li><a href='#basic-usage-example'>Basic Usage Example</a></li>
                                         <li><a href='#basic-testng-example'>TestNG Example</a></li>
                                         <li><a href='#basic-multiple-testng-classes'>Multiple TestNG Classes</a></li>
+										<li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#parallel-runs'>Creating Parallel Runs</a>
@@ -319,6 +320,42 @@ public class TestNGClass2 {
     @AfterTest
     public void afterTest() {
         extent.endTest(test);
+    }
+}
+</code></pre>
+
+<h3 id='multiple-report-files'>Creating Multiple Reports For a Run Session</h3>
+<p>ExtentReports 2 makes it extremely easy to create multiple reports for a run session.</p>
+
+<pre><code class='java'>
+public class ReportFruit {
+    private ExtentReports extent1;
+    private ExtentReports extent2;
+    
+    @BeforeClass
+    public void beforeClass() {
+        extent1 = new ExtentReports("directory/Orange.html", true);
+        extent2 = new ExtentReports("directory/Apple.html", true);
+    }
+    
+    @Test
+    public void testOne() {
+        ExtentTest test = extent1.startTest("My First Test", "Sample description");
+        test.log(LogStatus.PASS, "details");
+        extent1.endTest(test);
+    }
+    
+    @Test
+    public void testTwo() {
+        ExtentTest test = extent2.startTest("My Second Test", "Sample description");
+        test.log(LogStatus.INFO, "details");
+        extent2.endTest(test);
+    }
+    
+    @AfterSuite
+    public void afterSuite() {
+        extent1.flush();
+        extent2.flush();
     }
 }
 </code></pre>

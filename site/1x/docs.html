@@ -201,7 +201,7 @@ extent.init(filePath, true, DisplayOrder.BY_LATEST_TO_OLDEST);
 
 <p>To initialize, simple call the init method:</p>
 
-<pre>
+<pre><code>
 init(filePath, replaceExisting)
 init(filePath, overwriteExisting, DisplayOrder)
 init(filePath, overwriteExisting, GridType)
@@ -221,7 +221,7 @@ where:
     GridType:  determines the type of grid to be used
         STANDARD (default) - standard grid with 1 test per row
         MASONRY - creates a masonry style grid with 2 tests per row
-</pre>
+</code></pre>
 
 <h3 id='logging'>Creating step logs</h3>
 <p>It is possible to log your execution steps in 3 ways:</p>
@@ -286,18 +286,11 @@ extent.log(LogStatus.INFO, "Image", "Image example:", "/pathToImg.png");
 <h3 id='add-label'>Inserting a Label</h3>
 <p>You can add labels to your log events using <code>&lt;span class='label labelName'&gt;label message&lt;/span&gt;</code>.</p>
 <img class='bordered-img center' src='http://relevantcodes.com/Tools/ExtentReports/snapshots/labels.png' />    
-<p>There are 4 labels available:</p>
-<ul>
-    <li>success</li>
-    <li>failure</li>
-    <li>info</li>
-    <li>warn</li>
-</ul>
 <pre><code class='java'>
-extent.log(LogStatus.INFO, "Example: <span class='label success'>success</span>");
-extent.log(LogStatus.INFO, "Example: <span class='label failure'>fail</span>");
-extent.log(LogStatus.INFO, "Example: <span class='label info'>info</span>");
-extent.log(LogStatus.INFO, "Example: <span class='label warn'>warning</span>");
+extent.log(LogStatus.INFO, "Example: &lt;span class='label success'&gt;success&lt;/span&gt;");
+extent.log(LogStatus.INFO, "Example: &lt;span class='label failure'&gt;fail&lt;/span&gt;");
+extent.log(LogStatus.INFO, "Example: &lt;span class='label info'&gt;info&lt;/span&gt;");
+extent.log(LogStatus.INFO, "Example: &lt;span class='label warn'&gt;warning&lt;/span&gt;");
 </code></pre>
 
 <h3 id='add-link'>Inserting a Link</h3>
@@ -311,11 +304,11 @@ extent.log(LogStatus.PASS, "Link", "Usage: <a href='http://relevantcodes.com'>li
 <pre><code class='java'>
 extent.log(LogStatus.INFO, "HTML", "Usage: <span style='font-weight:bold;'>BOLD</span>");
 </code></pre>
-<h3 id='customization'>Customization</h3>
+<h2 id='customization'>Customization</h2>
 
 <p>You can customize the report as you want. Changes can be easily made to the overall CSS by bringing your own custom css, changes to the icons can be made by picking your own from font-awesome etc. Below is some basic usage to demonstrate this library's customization.</p>
 
-<h4 id='custom-css'>Using custom CSS</h4>
+<h3 id='custom-css'>Using custom CSS</h3>
 
 <p>You can use your custom CSS directly in the document or load a custom css-stylesheet.</p>
 
@@ -331,13 +324,13 @@ extent.config().addCustomStyles(style);
 extent.config().addCustomStylesheet("C:\\css.css");
 </code></pre>
 
-<h4 id='report-title'>Changing Report Title</h4>
+<h3 id='report-title'>Changing Report Title</h3>
 <p>It is possible to change the title of the report file (v1.2+) using:</p>
 <pre><code class='java'>
 extent.config().documentTitle("MyTestReport");
 </code></pre>
 
-<h4 id='themes'>Themes*</h4>
+<h3 id='themes'>Themes*</h3>
 
 <p>ExtentReports can be heavily themed/modified to suit a layout as per your needs. The example below shows a Cucumber like color-scheme:</p>
 
@@ -359,7 +352,7 @@ extent.config().addCustomStyles(css);
 
 <p>The above will result in the following <a href='http://relevantcodes.com/Tools/ExtentReports/ExtentTheme.html'>output</a>. Its a small change, but quite different from the <a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>original</a>.</p>
 
-<h4 id='custom-js'>Using custom JS</h4>
+<h3 id='custom-js'>Using custom JS</h3>
 
 <p>Just like having the ability to change document styles, you can also add your own custom scripts.</p>
 
@@ -367,7 +360,7 @@ extent.config().addCustomStyles(css);
 extent.config().insertJS("$('.test').click(function(){ alert('test clicked'); });");
 </code></pre>
 
-<h4 id='add-remove-footer'>Add/Remove Extent footer</h4>
+<h3 id='add-remove-footer'>Add/Remove Extent footer</h3>
 
 <p>Its possible to add/remove the Extent footer using the following configuration:</p>
 
@@ -379,7 +372,7 @@ extent.config().useExtentFooter(false);
 extent.config().useExtentFooter(true);
 </code></pre>
 
-<h4 id='change-status-icon'>Change status icons</h4>
+<h3 id='change-status-icon'>Change status icons</h3>
 
 <p>Not a lot of people would do this, but you can choose to use your own icons for log status (PASS, FAIL, WARNING etc.) by choosing one of the icons from Fontawesome website: http://fortawesome.github.io/Font-Awesome/icons/.</p>
 
@@ -387,13 +380,13 @@ extent.config().useExtentFooter(true);
 extent.config().statusIcon(LogStatus.PASS, "check-circle");
 </code></pre>
 
-<h4 id='change-summary'>Changing the top-level summary</h4>
+<h3 id='change-summary'>Changing the top-level summary</h3>
 <p>You can remove or add your own summary by using the following config:</p>
 <pre><code class='java'>
 extent.config().reportHeadline("My custom report summary.");
 </code></pre>
 
-<h4 id='change-chart-title'>Change chart title</h4>
+<h3 id='change-chart-title'>Change chart title</h3>
 <p>It is possible (v1.4+) to customize the chart-title text by using the following config:</p>
 <pre><code class='java'>
 extent.config()
@@ -402,19 +395,30 @@ extent.config()
 </code></pre>
 <img class='bordered-img' src='http://relevantcodes.com/Tools/ExtentReports/snapshots/change-chart-title.png' />   
 
-<h4 id='change-img-size'>Change Screenshot size</h4>
+<h3 id='change-img-size'>Change Screenshot size</h3>
 <p>The default screenshot size attached to the report is <code>50%</code>.  It is possible to change screenshot size (v1.4+) by specifying a percentage:</p>
 <pre><code class='java'>
 extent.config().setImageSize("30%");
 </code></pre>
 
-<h4 id='caller-class-display'>CallerClass display setting</h4>
+<h3 id='caller-class-display'>CallerClass display setting</h3>
 <p>It is now possible to hide the caller class by this simple setting:</p>
 <pre><code class='java'>
 extent.config().displayCallerClass(false);
 </code></pre>
 <img class='bordered-img' src='http://relevantcodes.com/Tools/ExtentReports/snapshots/caller-class.png' />  
 
+<h2 id='license'>License</h2>
+<h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ol>
+    <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+    <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+    <li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Anshoo Arora or RelevantCodes.com BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
                             </div>
                         </div>
                     </div>
