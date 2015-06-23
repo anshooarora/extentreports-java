@@ -116,8 +116,12 @@ public class ReportInstance {
     }
     
     private void updateSystemInfo(Map<String, String> info) {
+    	if (src.indexOf(ExtentFlag.getPlaceHolder("systemInfoApplied")) > 0) {
+    		return;
+    	}
+    	
         if (info.size() > 0) {
-            String systemSrc = SourceBuilder.getSource(info);
+            String systemSrc = SourceBuilder.getSource(info) + ExtentFlag.getPlaceHolder("systemInfoApplied");
             
             String[] flags = new String[] { ExtentFlag.getPlaceHolder("systemInfoView") };
             String[] values = new String[] { systemSrc + ExtentFlag.getPlaceHolder("systemInfoView") };

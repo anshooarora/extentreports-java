@@ -74,7 +74,7 @@ public class ExtentTest {
         
         test.screencast.add(sc);
         
-        return screencastPath;
+        return screencastHtml;
     }
     
     private Boolean isPathRelative(String path) {

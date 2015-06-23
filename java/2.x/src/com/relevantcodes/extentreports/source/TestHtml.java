@@ -16,8 +16,8 @@ public class TestHtml {
                                 "<!--%%TESTNAME%%-->" +
                             "</div>" +
                             "<div class='right'>" +
-                                "<span class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +
-                                "<span class='test-ended-time label'><!--%%TESTENDTIME%%--></span>" +
+                                "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +
+                                "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>" +
                                 "<span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>" +
                             "</div>" +
                             "<div class='test-desc' <!--%%DESCVIS%%-->>" +

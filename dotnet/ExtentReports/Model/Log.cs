@@ -1,8 +1,10 @@
 ﻿namespace RelevantCodes.ExtentReports.Model
 {
+    using System;
+
     internal class Log
     {
-        public string Timestamp;
+        public DateTime Timestamp;
         public LogStatus LogStatus;
         public string StepName;
         public string Details;

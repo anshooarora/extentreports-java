@@ -19,7 +19,7 @@ namespace RelevantCodes.ExtentReports.Source
                             <meta name='description' content='ReportUnit description' />
                             <meta name='robots' content='noodp, noydir' />
                             <meta name='viewport' content='width=device-width, initial-scale=1' />
-                            <link href='http://fonts.googleapis.com/css?family=Nunito:300,400|Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
+                            <link href='http://fonts.googleapis.com/css?family=Nunito:300,400|Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
                             <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
                             <link href='http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
                             <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css'>
@@ -146,7 +146,7 @@ namespace RelevantCodes.ExtentReports.Source
                                     padding-left: 50px;
                                 }
                                 nav .right {
-                                    color: #999;
+                                    color: #c8c8c8;
                                     font-weight: 300;
                                     padding-right: 50px;
                                 }
@@ -187,10 +187,15 @@ namespace RelevantCodes.ExtentReports.Source
                                     }
                 
                                     /* -- [ media ] -- */
-                                    .images-view .card-panel, .videos-view .card-panel {
+                                    .images-view .card-panel, {
                                         height: 160px;
                                         max-height: 160px;
                                         min-height: 160px;
+                                    }
+                                    .videos-view .card-panel {
+                	                    height: 180px;
+                                        max-height: 180px;
+                                        min-height: 180px;
                                     }
                                     .images-view img {
                                         cursor: pointer;
@@ -198,6 +203,11 @@ namespace RelevantCodes.ExtentReports.Source
                                         max-height: 100px;
                                         max-width: 150px;
                                     }
+                                    .panel-object #video {
+				                        display: block;
+				                        margin: 15px auto 0;
+				                        text-align: center;
+				                    }
             
                                 /* -- [ filters ] -- */
                                 .filters {
@@ -278,6 +288,9 @@ namespace RelevantCodes.ExtentReports.Source
                                     max-width: 65px;
                                     width: 65px;
                                 }
+                                td.status {
+			                        padding-left: 20px;
+			                    }
             
                                 /* -- [ status styles ] -- */
                                 .status.fail, .fail i {
@@ -346,7 +359,7 @@ namespace RelevantCodes.ExtentReports.Source
                                     }
                                 }
                                 @media all and (max-width: 992px) {
-                                    .test th:nth-child(2), .test td:nth-child(2) {
+                                    .test th:first-child, .test td:first-child, .test th:nth-child(2), .test td:nth-child(2) {
                                         max-width: inherit;
                                         width: inherit;
                                     }
@@ -412,8 +425,8 @@ namespace RelevantCodes.ExtentReports.Source
                                                         <span class='panel-name'>Pass Percentage</span>
                                                         <span class='pass-percentage panel-lead'></span>
                                                         <div class='progress'>
-                                                             <div class='determinate'></div>
-                                                         </div>
+                                                                <div class='determinate'></div>
+                                                            </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -500,8 +513,8 @@ namespace RelevantCodes.ExtentReports.Source
                                             </div>
                                         </div>
                                     </div>
-                                     <div class='filters'>
-                                         <div class='row'>
+                                        <div class='filters'>
+                                            <div class='row'>
                                             <div class='input-field col l3 m6 s12 tests-toggle'>
                                                 <select>
                                                     <option value='0' selected>Choose your option</option>
@@ -587,11 +600,6 @@ namespace RelevantCodes.ExtentReports.Source
                                             $(this).toggleClass('is-expanded').find('.test-body').slideToggle(300);
                                         }
                                     });
-                                    /*function getTimeDiff(dt1, dt2) {
-                                        var d1 = new Date(dt1);
-                                        var d2 = new Date(dt2);
-                                        return ((d2 - d1)/1000)
-                                    }*/
                                     // charts
                                     function showRunInfo() {
                                         $('.total-tests > .percent').text(totalTests).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#9c27b0', lineCap: 'butt', scaleColor: '#fff', size: 100 });
@@ -638,55 +646,55 @@ namespace RelevantCodes.ExtentReports.Source
                                     google.setOnLoadCallback(testsChart);
                                     function testSetChart() {
                                         var data = google.visualization.arrayToDataTable([
-                                          ['Test Status', 'Count'],
-                                          ['Pass', passedTests],
-                                          ['Error', errorTests],
-                                          ['Warning', warningTests],
-                                          ['Fail', failedTests],
-                                          ['Fatal', fatalTests],
-                                          ['Skipped', skippedTests]
+                                            ['Test Status', 'Count'],
+                                            ['Pass', passedTests],
+                                            ['Error', errorTests],
+                                            ['Warning', warningTests],
+                                            ['Fail', failedTests],
+                                            ['Fatal', fatalTests],
+                                            ['Skipped', skippedTests]
                                         ]);
                                         var options = {
-                                          backgroundColor: { fill:'transparent' },
-                                          chartArea: {'width': '92%', 'height': '100%'},
-                                          colors: ['#00af00', 'tomato', 'orange', 'red', 'darkred', '#999'],
-                                          fontName: 'Roboto',
-                                          fontSize: '11',
-                                          titleTextStyle: { color: '#1366d7', fontSize: '14' },
-                                          pieHole: 0.55,
-                                          height: 180,
-                                          pieSliceText: 'value', 
-                                          width: 220
+                                            backgroundColor: { fill:'transparent' },
+                                            chartArea: {'width': '92%', 'height': '100%'},
+                                            colors: ['#00af00', 'tomato', 'orange', 'red', 'darkred', '#999'],
+                                            fontName: 'Roboto',
+                                            fontSize: '11',
+                                            titleTextStyle: { color: '#1366d7', fontSize: '14' },
+                                            pieHole: 0.55,
+                                            height: 180,
+                                            pieSliceText: 'value', 
+                                            width: 220
                                         };
                                         var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
                                         chart.draw(data, options);
-                                      }
+                                        }
                                     function testsChart() {
                                         var data = google.visualization.arrayToDataTable([
-                                          ['Test Status', 'Count'],
-                                          ['Pass', passedSteps],
-                                          ['Fail', failedSteps],
-                                          ['Fatal', fatalSteps],
-                                          ['Error', errorSteps],
-                                          ['Warning', warningSteps],
-                                          ['Info', infoSteps],
-                                          ['Skipped', skippedSteps]
+                                            ['Test Status', 'Count'],
+                                            ['Pass', passedSteps],
+                                            ['Fail', failedSteps],
+                                            ['Fatal', fatalSteps],
+                                            ['Error', errorSteps],
+                                            ['Warning', warningSteps],
+                                            ['Info', infoSteps],
+                                            ['Skipped', skippedSteps]
                                         ]);
                                         var options = {
-                                          backgroundColor: { fill:'transparent' },
-                                          chartArea: {'width': '92%', 'height': '100%'},
-                                          colors: ['#00af00', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue', '#999'],
-                                          fontName: 'Roboto',
-                                          fontSize: '11',
-                                          titleTextStyle: { color: '#1366d7', fontSize: '14' },
-                                          pieHole: 0.55,
-                                          height: 180,
-                                          pieSliceText: 'value', 
-                                          width: 220
+                                            backgroundColor: { fill:'transparent' },
+                                            chartArea: {'width': '92%', 'height': '100%'},
+                                            colors: ['#00af00', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue', '#999'],
+                                            fontName: 'Roboto',
+                                            fontSize: '11',
+                                            titleTextStyle: { color: '#1366d7', fontSize: '14' },
+                                            pieHole: 0.55,
+                                            height: 180,
+                                            pieSliceText: 'value', 
+                                            width: 220
                                         };
                                         var chart = new google.visualization.PieChart(document.getElementById('step-status-dashboard'));
                                         chart.draw(data, options);
-                                      }
+                                        }
                                 });
                             </script>
                             <!--%%CUSTOMSCRIPT%%-->

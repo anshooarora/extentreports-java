@@ -8,7 +8,7 @@
         <meta name='description' content='ReportUnit description' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link href='http://fonts.googleapis.com/css?family=Nunito:300,400|Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Nunito:300,400|Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
         <link href='http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css'>
@@ -135,7 +135,7 @@
                 padding-left: 50px;
             }
             nav .right {
-                color: #999;
+                color: #c8c8c8;
                 font-weight: 300;
                 padding-right: 50px;
             }
@@ -176,10 +176,15 @@
                 }
                 
                 /* -- [ media ] -- */
-                .images-view .card-panel, .videos-view .card-panel {
+                .images-view .card-panel, {
                     height: 160px;
                     max-height: 160px;
                     min-height: 160px;
+                }
+                .videos-view .card-panel {
+                	height: 180px;
+                    max-height: 180px;
+                    min-height: 180px;
                 }
                 .images-view img {
                     cursor: pointer;
@@ -187,6 +192,11 @@
                     max-height: 100px;
                     max-width: 150px;
                 }
+                .panel-object #video {
+				    display: block;
+				    margin: 15px auto 0;
+				    text-align: center;
+				}
             
             /* -- [ filters ] -- */
             .filters {
@@ -267,6 +277,9 @@
                 max-width: 65px;
                 width: 65px;
             }
+            td.status {
+			    padding-left: 20px;
+			}
             
             /* -- [ status styles ] -- */
             .status.fail, .fail i {
@@ -335,7 +348,7 @@
                 }
             }
             @media all and (max-width: 992px) {
-                .test th:nth-child(2), .test td:nth-child(2) {
+                .test th:first-child, .test td:first-child, .test th:nth-child(2), .test td:nth-child(2) {
                     max-width: inherit;
                     width: inherit;
                 }
@@ -505,9 +518,9 @@
                             </select>
                             <label>Filter Tests</label>
                         </div>
-                        <div class="input-field col s12 m6 l3 find-tests">
-                            <input id="test-name-filter" type="text" class="validate">
-                            <label for="test-name-filter">Find Test(s)</label>
+                        <div class='input-field col s12 m6 l3 find-tests'>
+                            <input id='test-name-filter' type='text' class='validate'>
+                            <label for='test-name-filter'>Find Test(s)</label>
                         </div>
                     </div>
                 </div>
@@ -558,8 +571,6 @@
                 $('.s-skipped-count').text(skippedSteps);
                 $('.t-others-count').text(warningTests + errorTests + skippedTests + unknownTests);
                 $('.s-others-count').text(warningSteps + errorSteps + skippedSteps + unknownSteps + infoSteps);
-                //$('.suite-started-time').text($('.test').first().find('.test-started-time').text());
-                //$('.suite-ended-time').text($('.test').first().find('.test-started-time').text());
                 /*var row = 0;
                 var test, src;
                 for (var ix = 0; ix < $('img.report-img').length; ix++) {
@@ -589,11 +600,6 @@
                         $(this).toggleClass('is-expanded').find('.test-body').slideToggle(300);
                     }
                 });
-                /*function getTimeDiff(dt1, dt2) {
-                    var d1 = new Date(dt1);
-                    var d2 = new Date(dt2);
-                    return ((d2 - d1)/1000)
-                }*/
                 // charts
                 function showRunInfo() {
                     $('.total-tests > .percent').text(totalTests).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#9c27b0', lineCap: 'butt', scaleColor: '#fff', size: 100 });

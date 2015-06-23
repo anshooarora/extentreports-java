@@ -2,13 +2,13 @@
 {
     public enum LogStatus
     {
-        PASS,
-        FAIL,
-        FATAL,
-        ERROR,
-        WARNING,
-        INFO,
-        SKIP,
-        UNKNOWN
+        Pass,
+        Fail,
+        Fatal,
+        Error,
+        Warning,
+        Info,
+        Skip,
+        Unknown
     }
 }

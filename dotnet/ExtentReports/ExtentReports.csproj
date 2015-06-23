@@ -41,7 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayOrder.cs" />
+    <Compile Include="ExtentReports.cs" />
+    <Compile Include="ExtentTest.cs" />
+    <Compile Include="LogSettings.cs" />
     <Compile Include="LogStatus.cs" />
+    <Compile Include="MediaViewBuilder.cs" />
     <Compile Include="Model\Dashboard.cs" />
     <Compile Include="Model\Log.cs" />
     <Compile Include="Model\MediaList.cs" />
@@ -53,6 +58,7 @@
     <Compile Include="Model\Test.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportConfig.cs" />
     <Compile Include="Source\ExtentFlag.cs" />
     <Compile Include="Source\Icon.cs" />
     <Compile Include="Source\ImageHtml.cs" />
@@ -62,9 +68,11 @@
     <Compile Include="Source\StepHtml.cs" />
     <Compile Include="Source\SystemInfoHtml.cs" />
     <Compile Include="Source\TestHtml.cs" />
+    <Compile Include="Support\RegexMatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Compile Include="SourceBuilder.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
