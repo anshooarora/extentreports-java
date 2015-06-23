@@ -5,14 +5,12 @@
 
     public class ExtentReports : IDisposable
     {
-        public ExtentReports(String filePath, Boolean replace, DisplayOrder displayOrder)
-        {
-            
-        }
+        private ReportInstance reportInstance;
 
-        public ExtentReports(String filePath, Boolean replace)
+        public ExtentReports(string FilePath, bool ReplaceExisting, DisplayOrder DisplayOrder = DisplayOrder.OldestFirst)
         {
-            
+            reportInstance = new ReportInstance();
+            reportInstance.Initialize(FilePath, ReplaceExisting, DisplayOrder);
         }
 
         public ExtentTest StartTest(String testName)

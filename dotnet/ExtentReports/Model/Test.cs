@@ -9,8 +9,8 @@
         public List<ScreenCapture> ScreenCapture;
         public List<Screencast> Screencast;
         public string Name;
-        public DateTime StartedAt;
-        public DateTime EndedAt;
+        public DateTime StartedTime;
+        public DateTime EndedTime;
         public LogStatus Status;
         public string StatusMessage;
         public string Description;

@@ -12,7 +12,6 @@
         {
             for (int ix = 0; ix < Flags.Length; ix++)
             {
-
                 string matcher = Flags[ix] + ".*" + Flags[ix];
                 string match = RegexMatcher.GetNthMatch(Source, matcher, 0);
 
