@@ -72,6 +72,12 @@
 											<li><a href='#add-html'>Inserting custom HTML</a></li>
 										</ul>
 									</li>
+									<li><a href='#examples'>Examples</a>
+										<ul>
+											<li><a href='#basic-example'>Basic Usage Example</a></li>
+											<li><a href='#testng-basic-example'>TestNG Basic Example</a></li>
+										</ul>
+									</li>
 									<li><a href='#customization'>Customization</a>
 										<ul>
 											<li><a href='#custom-css'>Using custom CSS</a></li>
@@ -153,52 +159,9 @@ extent.config().displayCallerClass(false);
 &lt;/dependency&gt;
 </code></pre>
 <h2 id='basic-usage'>Basic Usage</h2>
-<pre><code class='java'>
-import com.relevantcodes.extentreports.*;
-
-public class Main {
-    // *REQUIRED
-    // put this in every class 
-    // * Main.class will become TheClassName.class
-    static final ExtentReports extent = ExtentReports.get(Main.class); 
-
-    public static void main(String[] args) {
-        extent.init("C:\\Extent.html", true);
-
-        // *REQUIRED
-        // startTest( testName )
-        //    creates a toggle for the given test, adds all log events under it    
-        extent.startTest("Main");
-
-        // log(logStatus, stepName, details)
-        extent.log(LogStatus.PASS, "StepName", "PASS Details"); 
-
-        // log(LogStatus, details)
-        extent.log(LogStatus.INFO, "This step shows usage of log(logStatus, details)");
-
-        // report with snapshot
-        // log(logStatus, stepName, details, screenCapturePath)
-        extent.log(LogStatus.INFO, "Image", "Image example:", "C:\\img.png");
-
-        // only report a snapshot, without status
-        extent.attachScreenshot("pathtoImg.png", "This step attaches a screenshot without status.");
-
-        // start other tests..
-    }
-}
-</code></pre>
-<p class='alert'>It is not required to call endTest() version 1.0 onwards. However, calling it at the end of run session is still recommended.</p>
-
-<p class='note'>Its not required to call the <code>init</code> method before each test. Its recommended to use "init" method only once, at the beginning of the run session to set the reporting path.</p>
-
-<p class='note'>By default, the oldest test appears at the top. To change this behavior, or to allow the latest test to appear at the top, use the code below. Report started in one order will remain in that order unless the report is over-written or a new report is created.</p>
-
-<pre><code class='java'>
-extent.init(filePath, true, DisplayOrder.BY_LATEST_TO_OLDEST);
-</code></pre>
+This section demonstrates basic methods that you will be using with this library.
 
 <h3 id='initialize-report'>Initializing Report</h3>
-
 <p>To initialize, simple call the init method:</p>
 
 <pre><code>
@@ -222,6 +185,10 @@ where:
         STANDARD (default) - standard grid with 1 test per row
         MASONRY - creates a masonry style grid with 2 tests per row
 </code></pre>
+
+<p class='note'>Its not required to call the <code>init</code> method before each test. Its recommended to use "init" method only once, at the beginning of the run session to set the reporting path.</p>
+
+<p class='note'>By default, the oldest test appears at the top. To change this behavior, or to allow the latest test to appear at the top, use the code below. Report started in one order will remain in that order unless the report is over-written or a new report is created.</p>
 
 <h3 id='logging'>Creating step logs</h3>
 <p>It is possible to log your execution steps in 3 ways:</p>
@@ -304,6 +271,81 @@ extent.log(LogStatus.PASS, "Link", "Usage: <a href='http://relevantcodes.com'>li
 <pre><code class='java'>
 extent.log(LogStatus.INFO, "HTML", "Usage: <span style='font-weight:bold;'>BOLD</span>");
 </code></pre>
+
+<h2 id='examples'>Examples</h2>
+<p>This section shows basic examples to get started with ExtentReports.</p>
+
+<h3 id='basic-example'>Basic Usage Example</h3>
+<p>A simple example with a static method.</p>
+<pre><code class='java'>
+import com.relevantcodes.extentreports.*;
+
+public class Main {
+    // *REQUIRED
+    // put this in every class 
+    // * Main.class will become TheClassName.class
+    static final ExtentReports extent = ExtentReports.get(Main.class); 
+
+    public static void main(String[] args) {
+        extent.init("C:\\Extent.html", true);
+
+        // *REQUIRED
+        // startTest( testName )
+        //    creates a toggle for the given test, adds all log events under it    
+        extent.startTest("Main");
+
+        // log(logStatus, stepName, details)
+        extent.log(LogStatus.PASS, "StepName", "PASS Details"); 
+
+        // log(LogStatus, details)
+        extent.log(LogStatus.INFO, "This step shows usage of log(logStatus, details)");
+
+        // report with snapshot
+        // log(logStatus, stepName, details, screenCapturePath)
+        extent.log(LogStatus.INFO, "Image", "Image example:", "C:\\img.png");
+
+        // only report a snapshot, without status
+        extent.attachScreenshot("pathtoImg.png", "This step attaches a screenshot without status.");
+
+        // end test
+        extent.endTest();
+    }
+}
+</code></pre>
+
+<h3 id='testng-basic-example'>TestNG Basic Example</h3>
+<p>A basic TestNG example that creates a local class instance.</p>
+
+<pre><code class='java'>
+public class TestNGExample {
+    private ExtentReports extent = ExtentReports.get(TestNGExample.class);
+
+    @BeforeClass
+    public void beforeClass() {
+        extent.init("C:/TestNGBasicExample.html", true);
+    }
+    
+    @Test
+    public void testOne() {
+        extent.startTest("My First Test", "Sample description");
+        extent.log(LogStatus.PASS, "Details");
+        extent.log(LogStatus.ERROR, "Details");
+    }
+    
+    @Test
+    public void testTwo() {
+        extent.startTest("My Second Test", "Sample description");
+        extent.log(LogStatus.INFO, "Details");
+        extent.log(LogStatus.WARNING, "Details");
+    }
+	
+    @AfterTest
+    public void afterTest() {
+        extent.endTest();
+    }
+}
+</code></pre>
+
 <h2 id='customization'>Customization</h2>
 
 <p>You can customize the report as you want. Changes can be easily made to the overall CSS by bringing your own custom css, changes to the icons can be made by picking your own from font-awesome etc. Below is some basic usage to demonstrate this library's customization.</p>
