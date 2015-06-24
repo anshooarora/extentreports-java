@@ -8,7 +8,7 @@
 
 package com.relevantcodes.extentreports;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class ExtentReports {
     private ReportInstance reportInstance;
@@ -100,7 +100,7 @@ public class ExtentReports {
      * @param info SystemInfo values as Key-Value pairs
      * @return {@link ExtentReports}
      */
-    public ExtentReports addSystemInfo(HashMap<String, String> info) {
+    public ExtentReports addSystemInfo(Map<String, String> info) {
         systemInfo.setInfo(info);
         
         return this;

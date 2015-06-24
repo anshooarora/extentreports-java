@@ -9,7 +9,6 @@
 package com.relevantcodes.extentreports;
 
 import java.net.InetAddress;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.relevantcodes.extentreports.model.SystemProperties;
@@ -29,7 +28,7 @@ class SystemInfo {
         return systemProperties.info;
     }
     
-    public void setInfo(HashMap<String, String> info) {
+    public void setInfo(Map<String, String> info) {
         for (Map.Entry<String, String> entry : info.entrySet()) {
             systemProperties.info.put(entry.getKey(), entry.getValue());
         }
