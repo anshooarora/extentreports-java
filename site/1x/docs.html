@@ -94,49 +94,14 @@
 									</li>
 									<li><a href='#license'>License</a></li>
 								</ul>
-<h2>What's new in version 1.4</h2>
+<h2>What's new in version 1.41</h2>
 <p>The following have been added to the the latest version:</p>
 
-<p class='alert'>Versions 1.2 and earlier are no longer supported. If you are using an earlier version, please consider upgrading.</p>
-
 <ol>
-    <li>*New grid type available:  MASONRY. View <a href='http://relevantcodes.com/Tools/ExtentReports/ExtentMasonry.html'>sample</a>.  To use this grid system, simply add <code>GridType.MASONRY</code> to <code>init()</code>:
-<pre><code>
-extent.init(filePath, replaceExisting, gridType);
-extent.init(filePath, replaceExisting, displayOrder, gridType);
-</code></pre>
-    </li>
-    <li>You can now add labels to your log events:
-<img class='bordered-img' src='http://relevantcodes.com/Tools/ExtentReports/snapshots/labels.png' />    
-<pre><code class='java'>
-extent.log(LogStatus.INFO, "Example: <span class='label success'>success</span>");
-extent.log(LogStatus.INFO, "Example: <span class='label failure'>fail</span>");
-extent.log(LogStatus.INFO, "Example: <span class='label info'>info</span>");
-extent.log(LogStatus.INFO, "Example: <span class='label warn'>warning</span>");
-</code></pre>
-    </li>
-    <li>Insert code-blocks using the <code>&lt;pre&gt;</code> tag:
-	<br/><br/><img class='bordered-img' src='http://relevantcodes.com/Tools/ExtentReports/snapshots/codeblock.png' />    
-    </li>
-    <li>You can now change title for your charts using:
-<pre><code class='java'>
-extent.config()
-    .chartTitle(Chart.TEST, "Your New Title")
-    .chartTitle(Chart.TEST_SET, "Your New Title");
-</code></pre>
+	<li>The report by default shows the difference between start and end times:
+		<img class='bordered-img' src='./img/time-diff.png' />    
 	</li>
-	<li>It is possible to change the size of images by specifying a size in percentage:
-<pre><code class='java'>
-extent.config().setImageSize("30%");
-</code></pre>
-	Default size is <code>50%</code>.
-	</li>
-	<li>It is now possible to hide the caller class by this simple setting:
-<pre><code class='java'>
-extent.config().displayCallerClass(false);
-</code></pre>
-<img class='bordered-img' src='http://relevantcodes.com/Tools/ExtentReports/snapshots/caller-class.png' />    
-	</li>
+	<li>New test search functionality that finds tests by matching keywords in the test name and description.</li>
 </ol>
     
 <h3 id='author'>Owner / Developer</h3>
@@ -432,10 +397,10 @@ extent.config().reportHeadline("My custom report summary.");
 <p>It is possible (v1.4+) to customize the chart-title text by using the following config:</p>
 <pre><code class='java'>
 extent.config()
-    .chartTitleText(Chart.TEST, "Your New Title")
-    .chartTitleText(Chart.TEST_SET, "Your New Title");
+    .chartTitleText(Chart.TEST, "Test Summary")
+    .chartTitleText(Chart.STEP, "Step Summary");
 </code></pre>
-<img class='bordered-img' src='http://relevantcodes.com/Tools/ExtentReports/snapshots/change-chart-title.png' />   
+<img class='bordered-img' src='./img/chart-title.png' />   
 
 <h3 id='change-img-size'>Change Screenshot size</h3>
 <p>The default screenshot size attached to the report is <code>50%</code>.  It is possible to change screenshot size (v1.4+) by specifying a percentage:</p>

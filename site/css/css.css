@@ -44,6 +44,9 @@ button i {
 button a {
 	color: #000; 
 }
+li img {
+	margin-top: 20px !important;
+}
 
 /* ---- [ global structure ] ---- */
 .bg-inverse {

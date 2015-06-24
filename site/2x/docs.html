@@ -205,9 +205,6 @@ public class Main {
         // creates a toggle for the given test, adds all log events under it    
         ExtentTest test = extent.startTest("My First Test", "Sample description");
 
-        // log(logStatus, stepName, details)
-        test.log(LogStatus.PASS, "StepName", "PASS Details");
-
         // log(LogStatus, details)
         test.log(LogStatus.INFO, "This step shows usage of log(logStatus, details)");
 
@@ -218,8 +215,7 @@ public class Main {
         // end test
         extent.endTest(test);
         
-        // calling terminate writes everything to the log file
-        // use this only once, at the end of execution
+        // calling flush writes everything to the log file
         extent.flush();
     }
 }
@@ -534,11 +530,12 @@ public class Fruit {
 
 <pre><code class='java'>
 extent.config()
-        .documentTitle("ExtentReports - DocumentTitle")
-        .reportName("ExtentReports - ReportName")
-        .reportHeadline("ExtentReports - ReportHeadline")
+        .documentTitle("Title of the Report")
+        .reportName("ExtentReports")
+        .reportHeadline("A short headline.")
         .insertCustomStyles(".test { border:2px solid #444; }");
 </code></pre>
+<p>Output: <a href='./samples/Customization.html'>Customization.html</a></p>
 
 <h3 id='using-custom-css'>Using custom CSS</h3>
 <p>You can use your custom CSS directly in the document or load a custom css-stylesheet.</p>
