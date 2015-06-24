@@ -23,9 +23,10 @@ public class ExtentTest {
     private LogStatus runStatus = LogStatus.UNKNOWN;
     
     /**
+     * Builds a test toggle in the report with the TestName
      * 
-     * @param testName
-     * @param description
+     * @param testName Test name
+     * @param description A short description of the test
      */
     public ExtentTest(String testName, String description) {
         test = new Test();
@@ -36,10 +37,11 @@ public class ExtentTest {
     }
     
     /**
+     * Logs events for the test
      * 
-     * @param logStatus
-     * @param stepName
-     * @param details
+     * @param logStatus Status (see {@link LogStatus})
+     * @param stepName Name of the step
+     * @param details Details of the step
      */
     public void log(LogStatus logStatus, String stepName, String details) {
         Log evt = new Log();
@@ -55,18 +57,20 @@ public class ExtentTest {
     }
     
     /**
+     * Logs events for the test
      * 
-     * @param logStatus
-     * @param details
+     * @param logStatus Status (see {@link LogStatus})
+     * @param details Details of the step
      */
     public void log(LogStatus logStatus, String details) {
         log(logStatus, "", details);
     }
     
     /**
+     * Allows for adding a snapshot to the log event
      * 
-     * @param imgPath
-     * @return
+     * @param imgPath Path of the image
+     * @return A formed HTML img tag with the supplied path
      */
     public String addScreenCapture(String imgPath) {
         String screenCaptureHtml;
@@ -88,9 +92,10 @@ public class ExtentTest {
     }
     
     /**
+     * Allows for adding a screen cast to the log event
      * 
-     * @param screencastPath
-     * @return
+     * @param screencastPath Path of the screencast
+     * @return A formed HTML video tag with the supplied path
      */
     public String addScreencast(String screencastPath) {
         String screencastHtml;

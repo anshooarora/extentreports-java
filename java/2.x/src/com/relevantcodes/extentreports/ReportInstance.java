@@ -24,15 +24,16 @@ import com.relevantcodes.extentreports.support.RegexMatcher;
 import com.relevantcodes.extentreports.support.Resources;
 import com.relevantcodes.extentreports.support.Writer;
 
-public class ReportInstance {
-    private volatile String src = null;
-    private final Object lock = new Object();
+class ReportInstance extends LogSettings {
+	private DisplayOrder displayOrder;
+	private String filePath;
+	private volatile int infoWrite = 0;
+	private final Object lock = new Object();
+	private MediaList mediaList;
+	private RunInfo runInfo;
+	private volatile String src = null;    
     private volatile String testSrc = "";
-    private DisplayOrder displayOrder;
-    private String filePath;
-    private RunInfo runInfo;
-    private MediaList mediaList;
-    private volatile int infoWrite = 0;
+    
     
     public synchronized void addTest(String source) {
         synchronized (lock) {

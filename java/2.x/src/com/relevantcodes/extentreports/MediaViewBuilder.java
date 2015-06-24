@@ -15,7 +15,7 @@ import com.relevantcodes.extentreports.model.Screencast;
 import com.relevantcodes.extentreports.source.ExtentFlag;
 import com.relevantcodes.extentreports.source.ObjectEmbedHtml;
 
-public class MediaViewBuilder {
+class MediaViewBuilder {
     public static String getSource(ArrayList<?> mediaList) {
         String src = "";
         

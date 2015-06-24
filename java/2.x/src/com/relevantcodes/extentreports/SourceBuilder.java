@@ -14,7 +14,7 @@ import com.relevantcodes.extentreports.source.ExtentFlag;
 import com.relevantcodes.extentreports.source.SystemInfoHtml;
 import com.relevantcodes.extentreports.support.RegexMatcher;
 
-public class SourceBuilder {
+class SourceBuilder {
     public static String build(String source, String[] flags, String[] values) {
         for (int ix = 0; ix < flags.length; ix++) {
             

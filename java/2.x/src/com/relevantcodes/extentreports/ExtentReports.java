@@ -16,31 +16,43 @@ public class ExtentReports {
     private ReportInstance.ReportConfig reportConfig;
     
     /**
-     * 
-     * @param filePath
-     * @param replace
-     * @param displayOrder
+     * Initializes the reporting by setting the file-path and test DisplayOrder
+	 * 
+	 * @param filePath Path of the file, in .htm or .html format
+	 * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+	 * 			<br>&nbsp;&nbsp;<b>true</b>:  the file will be replaced with brand new markup, and all existing data
+	 *	                will be lost. Use this option to create a brand new report
+	 *	        <br>&nbsp;&nbsp;<b>false</b>:  existing data will remain, new tests will be appended to the existing report
+	 * @param displayOrder Determines the order in which your tests will be displayed
+	 * 			<br>&nbsp;&nbsp;<b>OLDEST_FIRST</b> (default) - oldest test at the top, newest at the end
+     *     		<br>&nbsp;&nbsp;<b>NEWEST_FIRST</b> - newest test at the top, oldest at the end
      */
-    public ExtentReports(String filePath, Boolean replace, DisplayOrder displayOrder) {
+    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {
         reportInstance = new ReportInstance();
-        reportInstance.initialize(filePath, replace, displayOrder);
+        reportInstance.initialize(filePath, replaceExisting, displayOrder);
         
         systemInfo = new SystemInfo();
     }
     
     /**
-     * 
-     * @param filePath
-     * @param replace
+     * Initializes the reporting by setting the file-path
+	 * 
+	 * @param filePath Path of the file, in .htm or .html format
+	 * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+	 * 			<br>&nbsp;&nbsp;<b>true</b>:  the file will be replaced with brand new markup, and all existing data
+	 *	                will be lost. Use this option to create a brand new report
+	 *	        <br>&nbsp;&nbsp;<b>false</b>:  existing data will remain, new tests will be appended to the existing report
      */
-    public ExtentReports(String filePath, Boolean replace) {
-        this(filePath, replace, DisplayOrder.OLDEST_FIRST);
+    public ExtentReports(String filePath, Boolean replaceExisting) {
+        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST);
     }
     
     /**
+     * Calling startTest() generates a toggle for the test in the HTML file and adds all
+     * log events under this level. This is a required step and without calling this method
+     * the toggle will not be created for the test and log will not be added.
      * 
-     * 
-     * @param testName
+     * @param testName Name of the test
      * @return {@link ExtentTest}
      */
     public ExtentTest startTest(String testName) {
@@ -48,26 +60,31 @@ public class ExtentReports {
     }
     
     /**
+     * Calling startTest() generates a toggle for the test in the HTML file and adds all
+     * log events under this level. This is a required step and without calling this method
+     * the toggle will not be created for the test and log will not be added.
      * 
-     * @param testName
-     * @param description
-     * @return
+     * @param testName Name of the test
+     * @param description A short description of the test
+     * @return {@link ExtentTest}
      */
     public ExtentTest startTest(String testName, String description) {
         return new ExtentTest(testName, description);
     }
     
     /**
+     * Ends the current toggle level
      * 
-     * @param test
+     * @param test {@link ExtentTest}
      */
     public void endTest(ExtentTest test) {
         reportInstance.addTest(test.getTest());
     }
     
     /**
+     * Allows various configurations to be applied to the report file
      * 
-     * @return
+     * @return {@link ReportInstance.ReportConfig}
      */
     public ReportInstance.ReportConfig config() {
         if (reportConfig == null) {
@@ -78,9 +95,10 @@ public class ExtentReports {
     }
     
     /**
+     * Add system information to the SystemInfo view
      * 
-     * @param info
-     * @return
+     * @param info SystemInfo values as Key-Value pairs
+     * @return {@link ExtentReports}
      */
     public ExtentReports addSystemInfo(HashMap<String, String> info) {
         systemInfo.setInfo(info);
@@ -89,10 +107,11 @@ public class ExtentReports {
     }
 
     /**
+     * Add system information to the SystemInfo view
      * 
-     * @param param
-     * @param value
-     * @return
+     * @param param Name of system parameter
+     * @param value Value
+     * @return {@link ExtentReports}
      */
     public ExtentReports addSystemInfo(String param, String value) {
         systemInfo.setInfo(param, value);
@@ -100,6 +119,9 @@ public class ExtentReports {
         return this;
     }
     
+    /**
+     * Writes all info to the report file
+     */
     public void flush() {
         reportInstance.terminate(systemInfo);
     }
