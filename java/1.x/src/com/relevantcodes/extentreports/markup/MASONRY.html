@@ -6,13 +6,13 @@
 --> 
 	<head>
 		<title>Extent Reports 1.2</title>
-		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css' />
+		<link href='http://fonts.googleapis.com/css?family=Nunito:300|Source+Sans+Pro:400,600' rel='stylesheet' type='text/css' />
 		<link href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel='stylesheet' />
 		<link href='http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
 		<style type='text/css'>
 			html {overflow-y: scroll;}
 			body {color: #022b37;font-family: 'Source Sans Pro', Calibri;font-size: 16px;margin: 0;}
-			a {color: #1366d7;text-decoration: none;}
+			a {color: #0089d2;text-decoration: none;}
 			pre {background: none repeat scroll 0 0 #f5f6f8;color: #222;font-family: Consolas;font-size: 13px;margin: 5px 0;padding: 7px 10px;white-space: pre-wrap;}
 			#extent-container, #header, #dashboard, #filters, #content, #footer {width: 100%;}
 			.topbar, .title, .menu, .dashboard, .filters, .footer {margin: 0 auto;width: 1050px;}
@@ -21,18 +21,19 @@
 			.topbar-items-left {color: #bbb;display: none;float: left;font-size: 12px;}
 			.topbar-items-right {float: right;}
 			.topbar-items-right span {border-left: 1px solid #ccc;padding: 0px 8px;vertical-align: sub;} .topbar-items-right span:first-child {border-left: none;}
-			.headline {font-size: 12px;}
+			.headline {font-family: Nunito; font-size: 12px; font-weight: 300;}
 			#title {margin: 25px 0 35px;}
-			.logo {color: #bbb; font-family: 'Source Sans Pro', Verdana;font-size: 16px;letter-spacing: 1px;}
+			.logo {color: #494949; font-family: 'Source Sans Pro', Verdana;font-size: 16px;letter-spacing: 1px;}
 			.menu-items {margin-top: -32px;float: right;}
 			.menu ul li {display: inline;list-style-image: none;list-style-position: outside;padding: 10px 8px;}			
-			.menu span {cursor: pointer;font-size: 13px; text-transform: uppercase;}
-			.menu-item-selected span {color: #1366d7;}
-			#dashboard {background-color: #f9f9f9;border-bottom: 1px solid #dbdbdb;max-height: 320px !important;height: 320px !important;margin-top: 20px;}
+			.menu span {cursor: pointer;font-family: Nunito; font-size: 14px; font-weight: 300; }
+			.menu-item-selected span {color: #0089d2;}
+			#dashboard {background-color: #f9f9f9;max-height: 320px !important;height: 320px !important;margin-top: 20px;}
 			.dashboard {padding: 40px 0;}
 			#tabs-2, #tabs-3 {display: none;}
 			.graphs {margin-left: auto;margin-right: auto;text-align: center;}
-			.graphs div {display: inline-block;margin-bottom: -40px;}
+			.graphs div {display: inline-block; }
+			#ts-status-dashboard { margin-right: 50px; }
 			.summary-items {margin: 0 auto 20px;width: 1000px;}
 			.summary-item {border: 1px solid #b4bfc3;display: inline-block;margin: 10px;padding: 15px 0 30px;position: relative;text-align: center;width: 220px;}
 			.summary-item span {display: block;}
@@ -41,7 +42,7 @@
 			.filters {margin: 60px auto 5px !important;}
 			.by-status {}
 			.by-name-desc { display: inline-block; float: right; margin-top: 3px; }
-			input.form-control { border: 1px solid #ccc; padding: 11px; width: 200px;}
+			input.form-control { border: 1px solid #c4c8cb; margin-top: 1px; padding: 11px; width: 200px;}
 			.by-status, .by-feature {display: inline-block;}
 			.by-status div {margin-right: 2px;}
 			.content {margin: 0 auto 100px !important;}
@@ -132,7 +133,7 @@
 			.btn-group .btn + .btn,.btn-group .btn + .btn-group,.btn-group .btn-group + .btn,.btn-group .btn-group + .btn-group {margin-left: -1px;}
 			.dropdown-menu i { font-size: 11px; padding-right: 10px; }
 			.dropdown-menu div { display: inline-block; width: 24px !important; }
-			.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {background-color:#f1f5f8; border: medium none; border-bottom-right-radius: 0; border-top-right-radius: 0; font-family: 'Source Sans Pro';font-size:13px;padding: 11px 22px; }
+			.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {background-color:transparent; border: 1px solid #c4c8cb; border-bottom-right-radius: 0; border-top-right-radius: 0; font-family: 'Source Sans Pro';font-size:13px;padding: 11px 22px; }
 		</style>
 		<!--%%CUSTOMCSS%%-->
 	</head>
@@ -428,24 +429,24 @@
 			function testSetChart() {
 				var data = google.visualization.arrayToDataTable([
 				  ['Test Status', 'Count'],
-				  ['Pass', $('.test-info .pass').length + $('.test-info .info').length],
-				  ['Error', $('.test-info .error').length],
-				  ['Warning', $('.test-info .warning').length],
-				  ['Fail', $('.test-info .fail').length + $('.test-info .fatal').length],
-				  ['Skipped', $('.test-info .skip').length]
+				  ['Pass',     $('.test-info .pass').length + $('.test-info .info').length],
+				  ['Error',     $('.test-info .error').length],
+				  ['Warning',     $('.test-info .warning').length],
+				  ['Fail',      $('.test-info .fail').length + $('.test-info .fatal').length],
+				  ['Skipped',      $('.test-info .skip').length]
 				]);
 				var options = {
 				  backgroundColor: { fill:'transparent' },
 				  chartArea: {'width': '65%', 'height': '65%'},
 				  colors: ['#00af00', 'tomato', 'orange', 'red', '#999'],
-				  fontName: 'Source Sans Pro',
-				  fontSize: '12',
-				  titleTextStyle: { color: '#1366d7', fontSize: '14' },
-				  height: 275,
-				  is3D: true,
+				  fontName: 'Nunito',
+				  fontSize: '11',
+				  titleTextStyle: { fontSize: '12', bold: false },
+				  height: 225,
+				  pieHole: 0.55,
 				  pieSliceText: 'value', 
-				  title: /*TEST_SETCHARTTITLE*/'Test Summary'/*TEST_SETCHARTTITLE*/, 
-				  width: 450
+				  title: /*TESTCHARTTITLE*/'Test Summary'/*TESTCHARTTITLE*/, 
+				  width: 350
 				};
 				var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
 				chart.draw(data, options);
@@ -453,26 +454,26 @@
 			function testsChart() {
 				var data = google.visualization.arrayToDataTable([
 				  ['Test Status', 'Count'],
-				  ['Pass', $('td.pass').length],
-				  ['Fail', $('td.fail').length],
-				  ['Fatal', $('td.fatal').length],
-				  ['Error', $('td.error').length],
-				  ['Warning', $('td.warning').length],
-				  ['Info', $('td.info').length],
-				  ['Skipped', $('td.skip').length]
+				  ['Pass',     $('td.pass').length],
+				  ['Fail',      $('td.fail').length],
+				  ['Fatal',     $('td.fatal').length],
+				  ['Error',      $('td.error').length],
+				  ['Warning',    $('td.warning').length],
+				  ['Info',    $('td.info').length],
+				  ['Skipped',    $('td.skip').length]
 				]);
 				var options = {
 				  backgroundColor: { fill:'transparent' },
 				  chartArea: {'width': '65%', 'height': '65%'},
 				  colors: ['#00af00', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue', '#999'],
-				  fontName: 'Source Sans Pro',
-				  fontSize: '12',
-				  titleTextStyle: { color: '#1366d7', fontSize: '14' },
-				  height: 275,
-				  is3D: true,
+				  fontName: 'Nunito',
+				  fontSize: '11',
+				  titleTextStyle: { fontSize: '12', bold: false },
+				  height: 225,
+				  pieHole: 0.55,
 				  pieSliceText: 'value', 
-				  title: /*TESTCHARTTITLE*/'Step Summary'/*TESTCHARTTITLE*/, 
-				  width: 450
+				  title: /*STEPCHARTTITLE*/'Step Summary'/*STEPCHARTTITLE*/, 
+				  width: 350
 				};
 				var chart = new google.visualization.PieChart(document.getElementById('step-status-dashboard'));
 				chart.draw(data, options);
