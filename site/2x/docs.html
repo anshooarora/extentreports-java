@@ -60,6 +60,7 @@
                                         <li><a href='#insert-custom-html'>Inserting Custom HTML</a></li>
                                         <li><a href='#insert-screenshots'>Insert Screenshots</a></li>
                                         <li><a href='#insert-screencast'>Insert Screencasts</a></li>
+										<li><a href='#add-system-info'>Adding System Info</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#examples'>Examples</a>
@@ -179,12 +180,32 @@ extent.log(LogStatus.INFO, "Snapshot below: " + img);
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the image to load.</p>
 
 <h3 id='insert-screencast'>Insert Screencast</h3>
-<p>To add a screencast/video to the report, simply call <code>addScreencast</code> anywhere in the log details:</p>
+<p>To add a screencast/recording of your test run, use the <code>addScreencast</code> method anywhere in the log details:</p>
 <pre><code class='java'>
 String vid = test.addScreencast("screencast-path");
 extent.log(LogStatus.INFO, "Screencast below: " + vid);
 </code></pre>
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the screencst to load.</p>
+
+<h3 id='add-system-info'>Adding System Info</h3>
+<p>It is possible to add system or environment info for your using using the <code>addSystemInfo</code> method. It is an overloaded method that allows you to add via a <code>Map</code> or string pairs.</p>
+
+<p class='note'>By default, the <code>OS</code>, <code>User Name</code>, <code>Java Version</code> and <code>Host Name</code> will be available. You do not have to add these 4 items manually.</p>
+
+<pre><code class='java'>
+extent.addSystemInfo("Selenium Version", "2.46");
+extent.addSystemInfo("Environment", "Prod");
+</code></pre>
+
+<pre><code class='java'>
+Map<String, String> sysInfo = new HashMap<String, String>();
+sysInfo.put("Selenium Version", "2.46");
+sysInfo.put("Environment", "Prod");
+
+extent.addSystemInfo(sysInfo);
+</code></pre>
+
+<img class='bordered-img center' src='./img/system-info.png' /> 
 
 <h2 id='examples'>Examples</h2>
 <p>This section shows basic examples to get started with ExtentReports 2.0. For multi-threaded execution models, see section <a href='#parallel-runs'>Creating Parallel Runs</a>.</p>
@@ -360,7 +381,7 @@ public class ReportFruit {
 <h2 id='parallel-runs'>Creating Parallel Runs</h2>
 <p>This section is going to be helpful for users that use a multi-threaded execution model. </p>
 <p class='alert'>If you are running one test at a time, or do not use multiple threads for execution, see section <a href='#basic-usage'>Basic Usage</a> for more info. For single threaded run environments, setup is extremely simple and nearly no configuration is required.</p>
-<p>Structure for parallel classes and methods differ. Depending on how your tests are structured, usage may differ for parallel classes and methods.</p>
+<p>Depending on how your tests are structured, usage may differ for parallel classes and methods. If you require a single report for the run session, only use one instance of ExtentReports, as shown via <code>ExtentManager</code> class below.</p>
 
 <h3 id='parallel-classes'>Parallel Classes</h3>
 <p>Below is a sample <code>testng.xml</code> file for running parallel classes.</p>
@@ -589,7 +610,7 @@ extent.config().reportHeadline("ExtentReports - ReportHeadline");
                                 <span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
                             </div>
                             <div class='right'>
-                                <span><a href='http://relevantcodes.com/wp-content/plugins/download-monitor/download.php?id=15'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
+                                <span><a href='#'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
                             </div>
                         </div>
                     </div>
