@@ -269,6 +269,9 @@
 								</ul>
 							</div>
 						</div>
+						<div class='by-name-desc'>
+							<input type="text" class="form-control" id='test-name-filter' placeholder="Search tests..">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -413,6 +416,7 @@
 								$(this).closest('.test').show();
 							}
 						});
+						$('#tests').masonry();
 					}
 				}
 			});
