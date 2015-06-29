@@ -56,4 +56,44 @@ class TestBuilder {
         
         return src;
     }
+    
+	public static String getQuickTestSummary(Test test) {
+    	String src = TestHtml.getSourceQuickView();
+    	Integer passed, failed, fatal, error, warning, info, skipped, unknown;
+    	
+    	passed = failed = fatal = error = warning = info = skipped = unknown = 0;
+    	
+    	for (int ix = 0; ix < test.log.size(); ix++) {
+    		if (test.log.get(ix).logStatus == LogStatus.PASS)
+    			passed++; 
+    		else if (test.log.get(ix).logStatus == LogStatus.FAIL)
+    			failed++;
+    		else if (test.log.get(ix).logStatus == LogStatus.FATAL)
+    			fatal++;
+    		else if (test.log.get(ix).logStatus == LogStatus.ERROR)
+    			error++;
+    		else if (test.log.get(ix).logStatus == LogStatus.WARNING)
+    			warning++;
+    		else if (test.log.get(ix).logStatus == LogStatus.INFO)
+    			info++;
+    		else if (test.log.get(ix).logStatus == LogStatus.SKIP)
+    			skipped++;
+    		else if (test.log.get(ix).logStatus == LogStatus.UNKNOWN)
+    			unknown++;
+    	}
+    	
+    	src = src.replace(ExtentFlag.getPlaceHolder("testName"), test.name)
+    			.replace(ExtentFlag.getPlaceHolder("currentTestPassedCount"), "" + passed)
+    			.replace(ExtentFlag.getPlaceHolder("currentTestFailedCount"), "" + failed)
+    			.replace(ExtentFlag.getPlaceHolder("currentTestFatalCount"), "" + fatal)
+    			.replace(ExtentFlag.getPlaceHolder("currentTestErrorCount"), "" + error)
+    			.replace(ExtentFlag.getPlaceHolder("currentTestWarningCount"), "" + warning)
+    			.replace(ExtentFlag.getPlaceHolder("currentTestInfoCount"), "" + info)
+    			.replace(ExtentFlag.getPlaceHolder("currentTestSkippedCount"), "" + skipped)
+    			.replace(ExtentFlag.getPlaceHolder("currentTestUnknownCount"), "" + unknown)
+    			.replace(ExtentFlag.getPlaceHolder("currentTestRunStatus"), "" + test.status.toString().toLowerCase())
+    			.replace(ExtentFlag.getPlaceHolder("currentTestRunStatusU"), "" + test.status.toString());
+    	
+    	return src;
+    }
 }

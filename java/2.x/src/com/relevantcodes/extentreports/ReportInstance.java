@@ -25,26 +25,16 @@ import com.relevantcodes.extentreports.support.Resources;
 import com.relevantcodes.extentreports.support.Writer;
 
 class ReportInstance extends LogSettings {
-	private DisplayOrder displayOrder;
-	private String filePath;
-	private volatile int infoWrite = 0;
-	private final Object lock = new Object();
-	private MediaList mediaList;
-	private RunInfo runInfo;
-	private volatile String src = null;    
+    private DisplayOrder displayOrder;
+    private String filePath;
+    private volatile int infoWrite = 0;
+    private final Object lock = new Object();
+    private MediaList mediaList;
+    private String quickSummarySrc = "";
+    private RunInfo runInfo;
+    private volatile String src = null;    
     private volatile String testSrc = "";
-    
-    
-    public synchronized void addTest(String source) {
-        synchronized (lock) {
-            if (displayOrder == DisplayOrder.OLDEST_FIRST) {
-                testSrc = source + testSrc;
-            }
-            else {
-                testSrc += source;
-            }
-        }
-    }
+
     
     public void addTest(Test test) {
         test.endedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
@@ -58,7 +48,28 @@ class ReportInstance extends LogSettings {
         }
         
         String src = TestBuilder.getSource(test);
-        addTest(src);        
+        addTest(src);
+        
+        src = TestBuilder.getQuickTestSummary(test);
+        addQuickTestSummary(src);
+    }
+    
+    private synchronized void addTest(String source) {
+        if (displayOrder == DisplayOrder.OLDEST_FIRST) {
+            testSrc += source;
+        }
+        else {
+            testSrc = source + testSrc;
+        }
+    }
+    
+    private synchronized void addQuickTestSummary(String source) {
+        if (displayOrder == DisplayOrder.OLDEST_FIRST) {
+            quickSummarySrc += source;
+        }
+        else {
+            quickSummarySrc = source + quickSummarySrc;
+        }
     }
     
     public void initialize(String filePath, Boolean replace, DisplayOrder displayOrder) {
@@ -110,6 +121,8 @@ class ReportInstance extends LogSettings {
                 src = src.replace(ExtentFlag.getPlaceHolder("test"), ExtentFlag.getPlaceHolder("test") + testSrc);
             }
             
+            src = src.replace(ExtentFlag.getPlaceHolder("quickTestSummary"), quickSummarySrc + ExtentFlag.getPlaceHolder("quickTestSummary"));
+            
             Writer.getInstance().write(new File(filePath), src);
             testSrc = "";
         }
@@ -125,10 +138,10 @@ class ReportInstance extends LogSettings {
     }
     
     private void updateSystemInfo(Map<String, String> info) {
-    	if (src.indexOf(ExtentFlag.getPlaceHolder("systemInfoApplied")) > 0) {
-    		return;
-    	}
-    	
+        if (src.indexOf(ExtentFlag.getPlaceHolder("systemInfoApplied")) > 0) {
+            return;
+        }
+        
         if (info.size() > 0) {
             String systemSrc = SourceBuilder.getSource(info) + ExtentFlag.getPlaceHolder("systemInfoApplied");
             
@@ -203,6 +216,11 @@ class ReportInstance extends LogSettings {
         }
         
         public ReportConfig reportHeadline(String headline) {
+            Integer maxLength = 70;
+            
+            if (headline.length() > maxLength)
+                headline = headline.substring(0, maxLength - 1);
+            
             String html = ReportInstance.this.src;
             String pattern = ExtentFlag.getPlaceHolder("headline") + ".*" + ExtentFlag.getPlaceHolder("headline");
             headline = pattern.replace(".*", headline); 
@@ -214,6 +232,11 @@ class ReportInstance extends LogSettings {
         }
         
         public ReportConfig reportName(String name) {
+            Integer maxLength = 20;
+            
+            if (name.length() > maxLength)
+                name = name.substring(0, maxLength - 1);
+            
             String html = ReportInstance.this.src;
             String pattern = ExtentFlag.getPlaceHolder("logo") + ".*" + ExtentFlag.getPlaceHolder("logo");
             name = pattern.replace(".*", name); 

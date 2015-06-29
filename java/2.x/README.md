@@ -16,7 +16,7 @@ Download the jar and view latest details & comments from <a href='http://relevan
 
 ### Usage and Documentation
 
-For most complete and up-to-date documentation, visit <a href='http://relevantcodes.com/extentreports/'>this link</a>.
+For most complete and up-to-date documentation, visit <a href='http://extentreports.relevantcodes.com'>this link</a>.
 
 ### Software License Agreement (<a href='http://opensource.org/licenses/BSD-3-Clause'>BSD License</a>)
 

@@ -16,7 +16,7 @@ public class TestHtml {
             colStepName = "<th>StepName</th>";
         }
         
-        return "<div class='row'>" +
+        return "<div class='test-section'>" +
                     "<div class='col s12'>" +
                     "<div class='test card-panel <!--%%TESTSTATUS%%-->'>" +
                         "<div class='test-head'>" +
@@ -50,5 +50,20 @@ public class TestHtml {
                     "</div>" +
                 "</div>" +
             "</div>";
+    }
+    
+    public static String getSourceQuickView() {
+    	return "<tr>" +
+	    			"<td><span class='quick-view-test'><!--%%TESTNAME%%--></span></td>" +
+	    			"<td><!--%%CURRENTTESTPASSEDCOUNT%%--></td>" +
+	    			"<td><!--%%CURRENTTESTFAILEDCOUNT%%--></td>" +
+	    			"<td><!--%%CURRENTTESTFATALCOUNT%%--></td>" +
+	    			"<td><!--%%CURRENTTESTERRORCOUNT%%--></td>" +
+	    			"<td><!--%%CURRENTTESTWARNINGCOUNT%%--></td>" +
+	    			"<td><!--%%CURRENTTESTINFOCOUNT%%--></td>" +
+	    			"<td><!--%%CURRENTTESTSKIPPEDCOUNT%%--></td>" +
+	    			"<td><!--%%CURRENTTESTUNKNOWNCOUNT%%--></td>" +
+	    			"<td><span class='status <!--%%CURRENTTESTRUNSTATUS%%--> label'><!--%%CURRENTTESTRUNSTATUSU%%--></span></td>" +
+	    		"</tr>";
     }
 }
