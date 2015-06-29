@@ -86,6 +86,7 @@
                                         <li><a href='#report-headline'>Setting Report Headline</a></li>
                                     </ul>
                                 </li>
+								<li><a href='#license'>License</a></li>
                             </ul>
 <h3 id='author'>Owner / Developer</h3>
 <p>This library is developed and maintained by:</p>
@@ -95,12 +96,21 @@
 
 <h3 id='beta-testers'>Beta Testers</h3>
 <ul>
-    <li>Martin Skarbala</li>
+    <li>Virender Singh</li>
+	<li>Sujata Kalluri</li>
+	<li>Martin Skarbala</li>
     <li>Roman Hesteric</li>
 </ul>
 
 <h3 id='maven'>Maven</h3>
-<p>Since ExtentReports 2.0 is in beta, a maven package has not been created. Please use the download link from <a href='http://relevantcodes.com/extentreports-for-selenium/'>here</a> to download the jar.</p>
+<p>Simply add the following to your pom.xml:</p>
+<pre><code class='xml'>
+&lt;dependency>
+    &lt;groupId&gt;com.relevantcodes&lt;/groupId&gt;
+    &lt;artifactId&gt;extentreports&lt;/artifactId&gt;
+    &lt;version&gt;2.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
 
 <h2 id='basic-usage'>Basic Usage</h2>
 <p>This section demonstrates basic methods that you will be using with this library.</p>
@@ -172,18 +182,16 @@ extent.log(LogStatus.INFO, "HTML", "Usage: &lt;span style='font-weight:bold;'&gt
 </code></pre>
 
 <h3 id='insert-screenshots'>Insert Snapshots</h3>
-<p>To add a screen-shot, simply call <code>addScreenCapture</code> anywhere in the log details:</p>
+<p>To add a screen-shot, simply call <code>addScreenCapture</code>. This method returns the HTML with &lt;img&gt; tag which can be used anywhere in the log details. Calling <code>addScreenCapture</code> will also add the image to the ImageCollectionView from where you can see all images used by your tests.</p>
 <pre><code class='java'>
-String img = test.addScreenCapture("screenshot-path");
-extent.log(LogStatus.INFO, "Snapshot below: " + img);
+extent.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("screenshot-path"));
 </code></pre>
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the image to load.</p>
 
 <h3 id='insert-screencast'>Insert Screencast</h3>
 <p>To add a screencast/recording of your test run, use the <code>addScreencast</code> method anywhere in the log details:</p>
 <pre><code class='java'>
-String vid = test.addScreencast("screencast-path");
-extent.log(LogStatus.INFO, "Screencast below: " + vid);
+extent.log(LogStatus.INFO, "Screencast below: " + test.addScreencast("screencast-path"));
 </code></pre>
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the screencst to load.</p>
 
@@ -589,14 +597,26 @@ extent.config().documentTitle("ExtentReports - DocumentTitle");
 <pre><code class='java'>
 extent.config().reportName("ExtentReports - ReportName");
 </code></pre>
+<p>The max length allowed for report-name is 20 characters.</p>
 
 <h3 id='report-headline'>Change Report Headline</h3>
 <p>You can remove or add your own summary by using the following config:</p>
 <pre><code class='java'>
 extent.config().reportHeadline("ExtentReports - ReportHeadline");
 </code></pre>
+<p>The max length allowed for report-headline is 70 characters.</p>
 
-                                        
+<h2 id='license'>License</h2>
+<h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ol>
+    <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+    <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+    <li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Anshoo Arora or RelevantCodes.com BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
                             </div>
                         </div>
                     </div>
@@ -610,7 +630,7 @@ extent.config().reportHeadline("ExtentReports - ReportHeadline");
                                 <span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
                             </div>
                             <div class='right'>
-                                <span><a href='#'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
+                                <span><a href='http://relevantcodes.com/extentreports-for-selenium/'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
                             </div>
                         </div>
                     </div>
