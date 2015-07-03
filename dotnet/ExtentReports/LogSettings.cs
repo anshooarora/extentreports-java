@@ -1,9 +1,9 @@
 ﻿namespace RelevantCodes.ExtentReports
 {
-    internal class LogSettings
+    internal abstract class LogSettings
     {
-        public static string LogTimeFormat = "HH:mm:ss";
-        public static string LogDateFormat = "yyyy-MM-dd";
-        public static string LogDateTimeFormat = LogDateFormat + " " + LogTimeFormat;
+        protected static string LogTimeFormat = "HH:mm:ss";
+        protected static string LogDateFormat = "yyyy-MM-dd";
+        protected static string LogDateTimeFormat = LogDateFormat + " " + LogTimeFormat;
     }
 }

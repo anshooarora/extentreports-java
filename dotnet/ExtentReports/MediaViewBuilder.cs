@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using RelevantCodes.ExtentReports.Model;
-    using RelevantCodes.ExtentReports.Source;
+    using Model;
+    using Source;
 
     internal class MediaViewBuilder
     {

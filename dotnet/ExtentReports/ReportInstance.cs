@@ -10,7 +10,7 @@
     using Source;
     using Support;
     
-    internal class ReportInstance
+    public class ReportInstance
     {
         private DisplayOrder displayOrder;
         private string filePath;
@@ -19,9 +19,9 @@
         private RunInfo runInfo;
         private string extentSource = null;
         private string testSource = "";
-        private object locker = new object();
+        private object sourcelock = new object();
 
-        public void AddTest(Test Test)
+        internal void AddTest(Test Test)
         {
             Test.EndedTime = DateTime.Now;
 
@@ -39,40 +39,43 @@
             AddQuickTestSummary(TestBuilder.GetQuickSummary(Test));
         }
 
-        public void Initialize(string FilePath, bool ReplaceExisting, DisplayOrder DisplayOrder)
+        internal void Initialize(string FilePath, bool ReplaceExisting, DisplayOrder DisplayOrder)
         {
             this.displayOrder = DisplayOrder;
             this.filePath = FilePath;
 
-            lock (locker)
+            if (!File.Exists(FilePath))
             {
-                if (!File.Exists(FilePath))
-                {
-                    ReplaceExisting = true;
-                }
+                ReplaceExisting = true;
+            }
 
-                if (extentSource != null)
-                {
-                    return;
-                }
+            if (extentSource != null)
+            {
+                return;
+            }
 
-                if (ReplaceExisting)
+            if (ReplaceExisting)
+            {
+                lock (sourcelock)
                 {
                     extentSource = Standard.GetSource();
                 }
-                else
+            }
+            else
+            {
+                lock (sourcelock)
                 {
                     extentSource = File.ReadAllText(FilePath);
                 }
-
-                runInfo = new RunInfo();
-                runInfo.StartedTime = DateTime.Now;
-
-                mediaList = new MediaList();
             }
+
+            runInfo = new RunInfo();
+            runInfo.StartedTime = DateTime.Now;
+
+            mediaList = new MediaList();
         }
 
-        public void Terminate(SystemInfo SystemInfo)
+        internal void Terminate(SystemInfo SystemInfo)
         {
             if (testSource == "")
             {
@@ -90,7 +93,7 @@
 
             if (this.displayOrder == DisplayOrder.OldestFirst)
             {
-                lock (locker)
+                lock (sourcelock)
                 {
                     extentSource = extentSource.Replace(ExtentFlag.GetPlaceHolder("test"), testSource + ExtentFlag.GetPlaceHolder("test"))
                                             .Replace(ExtentFlag.GetPlaceHolder("quickTestSummary"), quickSummarySource + ExtentFlag.GetPlaceHolder("quickTestSummary"));
@@ -98,7 +101,7 @@
             }
             else
             {
-                lock (locker)
+                lock (sourcelock)
                 {
                     extentSource = extentSource.Replace(ExtentFlag.GetPlaceHolder("test"), ExtentFlag.GetPlaceHolder("test") + testSource)
                                             .Replace(ExtentFlag.GetPlaceHolder("quickTestSummary"), ExtentFlag.GetPlaceHolder("quickTestSummary") + quickSummarySource);
@@ -109,7 +112,6 @@
             {
                 TextWriter.Synchronized(file).WriteLine(extentSource);
             }
-            //TextWriter.Synchronized(new StreamWriter(filePath)).Write(extentSource);
 
             testSource = "";
             quickSummarySource = "";
@@ -120,7 +122,7 @@
             string[] flags = { ExtentFlag.GetPlaceHolder("suiteStartTime"), ExtentFlag.GetPlaceHolder("suiteEndTime") };
             string[] values = { runInfo.StartedTime.ToString(), runInfo.EndedTime.ToString() };
 
-            lock (locker)
+            lock (sourcelock)
             {
                 extentSource = SourceBuilder.Build(extentSource, flags, values);
             }
@@ -139,7 +141,7 @@
                 string[] flags = new string[] { ExtentFlag.GetPlaceHolder("systemInfoView") };
                 string[] values = new string[] { systemSource + ExtentFlag.GetPlaceHolder("systemInfoView") };
 
-                lock (locker)
+                lock (sourcelock)
                 {
                     extentSource = SourceBuilder.Build(extentSource, flags, values);
                 }
@@ -154,7 +156,7 @@
             
             if (values[0].IndexOf("No media") >= 0)
             {
-                lock (locker)
+                lock (sourcelock)
                 {
                     extentSource = SourceBuilder.Build(extentSource, flags, values);
                     mediaList.ScreenCapture.Clear();
@@ -167,7 +169,7 @@
             
             if (values[0].IndexOf("No media") >= 0)
             {
-                lock (locker)
+                lock (sourcelock)
                 {
                     extentSource = SourceBuilder.Build(extentSource, flags, values);
                     mediaList.Screencast.Clear();                    
@@ -196,6 +198,22 @@
             else
             {
                 quickSummarySource = Summary + quickSummarySource;
+            }
+        }
+
+        internal protected virtual string Source
+        {
+            get
+            {
+                return extentSource;
+            }
+        }
+
+        internal protected virtual void UpdateSource(string NewSource)
+        {
+            lock (sourcelock)
+            {
+                extentSource = NewSource;
             }
         }
 

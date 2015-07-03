@@ -7,6 +7,7 @@
     {
         private ReportInstance reportInstance;
         private SystemInfo systemInfo;
+        private ReportConfig config;
 
         public ExtentReports(string FilePath, bool ReplaceExisting, DisplayOrder DisplayOrder = DisplayOrder.OldestFirst)
         {
@@ -29,6 +30,16 @@
         public void EndTest(ExtentTest Test)
         {
             reportInstance.AddTest(Test.GetTest());
+        }
+
+        public ReportConfig Config()
+        {
+            if (config == null)
+            {
+                config = new ReportConfig();
+            }
+
+            return config;
         }
 
         public ExtentReports AddSystemInfo(Dictionary<string, string> SystemInfo)

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace RelevantCodes.ExtentReports.Source
+﻿namespace RelevantCodes.ExtentReports.Source
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     internal class Standard
     {
         public static string GetSource()
@@ -295,7 +295,11 @@ namespace RelevantCodes.ExtentReports.Source
                             }
                             .test-head .right span {
                                 background-color: #f6f7fa;
+                                margin-left: -2px;
                                 padding: 4px 10px;
+                            }
+                            .test-status.label {
+                                font-size: 12px;
                             }
                             .test-name {
                                 font-size: 20px;
