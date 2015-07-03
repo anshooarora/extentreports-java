@@ -105,7 +105,11 @@
                 }
             }
 
-            TextWriter.Synchronized(new StreamWriter(filePath)).Write(extentSource);
+            using (var file = new StreamWriter(filePath))
+            {
+                TextWriter.Synchronized(file).WriteLine(extentSource);
+            }
+            //TextWriter.Synchronized(new StreamWriter(filePath)).Write(extentSource);
 
             testSource = "";
             quickSummarySource = "";
