@@ -4,8 +4,8 @@
 
     internal class RunInfo
     {
-        public DateTime StartedAt;
-        public DateTime EndedAt;
+        public DateTime StartedTime;
+        public DateTime EndedTime;
 
         public RunInfo() { } 
     }

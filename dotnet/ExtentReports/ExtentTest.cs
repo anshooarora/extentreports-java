@@ -5,45 +5,45 @@
     using System.Linq;
     using System.Text;
 
-    using RelevantCodes.ExtentReports.Model;
-    using RelevantCodes.ExtentReports.Source;
+    using Model;
+    using Source;
 
-    public class ExtentTest : IDisposable
+    public class ExtentTest// : IDisposable
     {
         private Test test;
         private LogStatus runStatus = LogStatus.Unknown;
 
-        public ExtentTest(String TestName, String Description)
+        public ExtentTest(string TestName, string Description)
         {
             test = new Test();
 
             test.Name = TestName;
             test.Description = Description;
-            test.StartedAt = DateTime.Now;
+            test.StartedTime = DateTime.Now;
         }
 
-        public void Log(LogStatus logStatus, String stepName, String details)
+        public void Log(LogStatus LogStatus, string StepName, string Details)
         {
             Log evt = new Log();
 
             evt.Timestamp = DateTime.Now;
-            evt.LogStatus = logStatus;
-            evt.StepName = stepName;
-            evt.Details = details;
+            evt.LogStatus = LogStatus;
+            evt.StepName = StepName;
+            evt.Details = Details;
 
-            test.Log.Add(evt);
+            test.Logs.Add(evt);
 
-            TrackLastRunStatus(logStatus);
+            TrackLastRunStatus(LogStatus);
         }
 
-        public void Log(LogStatus logStatus, String details)
+        public void Log(LogStatus LogStatus, string Details)
         {
-            Log(logStatus, "", details);
+            Log(LogStatus, "", Details);
         }
 
-        public String AddScreenCapture(String ImagePath)
+        public string AddScreenCapture(string ImagePath)
         {
-            String screenCaptureHtml;
+            string screenCaptureHtml;
 
             if (IsPathRelative(ImagePath))
             {
@@ -63,9 +63,9 @@
             return screenCaptureHtml;
         }
 
-        public String AddScreencast(String screencastPath)
+        public string AddScreencast(String screencastPath)
         {
-            String screencastHtml;
+            string screencastHtml;
 
             if (IsPathRelative(screencastPath))
             {
@@ -85,16 +85,16 @@
             return screencastPath;
         }
 
-        public Test GetTest()
+        internal Test GetTest()
         {
             test.Status = runStatus;
 
             return test;
         }
 
-        private Boolean IsPathRelative(String path)
+        private Boolean IsPathRelative(String FilePath)
         {
-            if (path.IndexOf("http") == 0 || path.IndexOf(".") == 0 || path.IndexOf("/") == 0)
+            if (FilePath.IndexOf("http") == 0 || FilePath.IndexOf(".") == 0 || FilePath.IndexOf("/") == 0)
             {
                 return true;
             }
@@ -102,17 +102,17 @@
             return false;
         }
 
-        private void TrackLastRunStatus(LogStatus logStatus)
+        private void TrackLastRunStatus(LogStatus LogStatus)
         {
             if (runStatus == LogStatus.Unknown)
             {
-                if (logStatus == LogStatus.Info)
+                if (LogStatus == LogStatus.Info)
                 {
                     runStatus = LogStatus.Pass;
                 }
                 else
                 {
-                    runStatus = logStatus;
+                    runStatus = LogStatus;
                 }
 
                 return;
@@ -120,33 +120,33 @@
 
             if (runStatus == LogStatus.Fatal) return;
 
-            if (logStatus == LogStatus.Fatal)
+            if (LogStatus == LogStatus.Fatal)
             {
-                runStatus = logStatus;
+                runStatus = LogStatus;
                 return;
             }
 
             if (runStatus == LogStatus.Fail) return;
 
-            if (logStatus == LogStatus.Fail)
+            if (LogStatus == LogStatus.Fail)
             {
-                runStatus = logStatus;
+                runStatus = LogStatus;
                 return;
             }
 
             if (runStatus == LogStatus.Error) return;
 
-            if (logStatus == LogStatus.Error)
+            if (LogStatus == LogStatus.Error)
             {
-                runStatus = logStatus;
+                runStatus = LogStatus;
                 return;
             }
 
             if (runStatus == LogStatus.Warning) return;
 
-            if (logStatus == LogStatus.Warning)
+            if (LogStatus == LogStatus.Warning)
             {
-                runStatus = logStatus;
+                runStatus = LogStatus;
                 return;
             }
 

@@ -5,7 +5,7 @@
 
     internal class Test
     {
-        public List<Log> Log;
+        public List<Log> Logs;
         public List<ScreenCapture> ScreenCapture;
         public List<Screencast> Screencast;
         public string Name;
@@ -17,7 +17,7 @@
 
         public Test()
         {
-            Log = new List<Log>();
+            Logs = new List<Log>();
             ScreenCapture = new List<ScreenCapture>();
             Screencast = new List<Screencast>();
         }

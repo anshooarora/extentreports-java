@@ -8,7 +8,7 @@
 
     internal class SourceBuilder
     {
-        public static string build(string Source, string[] Flags, string[] Values)
+        public static string Build(string Source, string[] Flags, string[] Values)
         {
             for (int ix = 0; ix < Flags.Length; ix++)
             {
@@ -28,7 +28,7 @@
             return Source;
         }
 
-        public static string getSource(Dictionary<string, string> Info) {
+        public static string GetSource(Dictionary<string, string> Info) {
             string src = "";
         
             foreach (KeyValuePair<string, string> entry in Info) {

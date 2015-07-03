@@ -70,6 +70,8 @@
     <Compile Include="Source\SystemInfoHtml.cs" />
     <Compile Include="Source\TestHtml.cs" />
     <Compile Include="Support\RegexMatcher.cs" />
+    <Compile Include="SystemInfo.cs" />
+    <Compile Include="TestBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

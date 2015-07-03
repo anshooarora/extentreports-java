@@ -19,19 +19,19 @@
 
             switch (LogStatus.ToString().ToUpper())
             {
-                case "fail":
+                case "FAIL":
                     return "times-circle-o";
-                case "error": 
+                case "ERROR": 
                     return "exclamation-circle";
-                case "fatal": 
+                case "FATAL": 
                     return "exclamation-circle";
-                case "pass": 
+                case "PASS": 
                     return "check-circle-o";
-                case "info": 
+                case "INFO": 
                     return "info-circle";
-                case "warning": 
+                case "WARNING": 
                     return "warning";
-                case "skip": 
+                case "SKIP": 
                     return "chevron-circle-right";
                 default:
                     return "question";

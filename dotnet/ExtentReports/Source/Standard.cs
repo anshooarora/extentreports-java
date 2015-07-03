@@ -13,20 +13,21 @@ namespace RelevantCodes.ExtentReports.Source
                     <html>
                         <head>
                             <!--
-                                ExtentReports Library 2.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+                                ExtentReports Library 2.02 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
                                 Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
+                                Documentation: http://extentreports.relevantcodes.com
                             --> 
-                            <meta name='description' content='ReportUnit description' />
+                            <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing, written in Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
                             <meta name='robots' content='noodp, noydir' />
                             <meta name='viewport' content='width=device-width, initial-scale=1' />
                             <link href='http://fonts.googleapis.com/css?family=Nunito:300,400|Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
                             <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
                             <link href='http://cdn.rawgit.com/noelboss/featherlight/1.0.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
                             <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css'>
-                            <title>Extent</title>
+                            <title>ExtentReports 2.0</title>
                             <style>
                                 body {
-                                    background-color: #f6f7fa;
+                                    background-color: #f2f5f9;
                                     font-family: Nunito, 'Open Sans', Arial;
                                     font-size: 13px;
                                 }
@@ -66,10 +67,17 @@ namespace RelevantCodes.ExtentReports.Source
                                     font-weight: 400;
                                     word-break: break-all;
                                 }
+                                label {
+                                    font-size: 13px;
+                                    font-weight: 300;
+                                }
                     
                                 /* -- [ global structure ] -- */
                                 .container {
                                     padding-top: 20px;
+                                }
+                                .tabs {
+                                    margin-bottom: 20px;
                                 }
                                 .card-panel {
                                     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16);
@@ -78,12 +86,26 @@ namespace RelevantCodes.ExtentReports.Source
                                     font-family: Nunito;
                                     font-weight: 300;
                                 }
+                                .panel-setting {
+                                    float: right;
+                                }
+                                .panel-setting a {
+                                    color: #bbb;
+                                }
                                 .panel-lead {
                                     display: block;
                                     font-size: 20px;
                                     margin-top: 45px;
                                     text-align: center;
                                 }
+                                .tabs .tab a {
+                                    color: #26a69a;
+                                    font-size: 12px;
+                                    font-weight: 300;
+                                }
+                                .tabs .tab a:hover {
+                                    color: #43c3b7;
+                                }    
                                 .chart-o {
                                     text-align: center;
                                 }
@@ -193,7 +215,7 @@ namespace RelevantCodes.ExtentReports.Source
                                         min-height: 160px;
                                     }
                                     .videos-view .card-panel {
-                	                    height: 180px;
+                                        height: 180px;
                                         max-height: 180px;
                                         min-height: 180px;
                                     }
@@ -204,16 +226,14 @@ namespace RelevantCodes.ExtentReports.Source
                                         max-width: 150px;
                                     }
                                     .panel-object #video {
-				                        display: block;
-				                        margin: 15px auto 0;
-				                        text-align: center;
-				                    }
+                                        display: block;
+                                        margin: 15px auto 0;
+                                        text-align: center;
+                                    }
             
                                 /* -- [ filters ] -- */
                                 .filters {
-                                    margin-bottom: -15px;
-                                    margin-left: 4px;
-                                    margin-top: 40px;
+                                    margin-left: 5px;
                                 }
                                 .dropdown-content li > a, .dropdown-content li > span {
                                     font-size: 0.9rem;
@@ -222,13 +242,36 @@ namespace RelevantCodes.ExtentReports.Source
 
                                 /* -- [ main ] -- */
                                 .main {
-                                    padding-bottom: 100px;
+                                    padding-bottom: 200px;
                                 }
-            
+
+                                /* -- [ texts-quick-view] -- */
+                                .tests-quick-view th:first-child, .test-quick-view td:first-child {
+                                    min-width: 40%;
+                                }
+                                .tests-quick-view td {
+                                    font-size: 14px;
+                                    font-weight: 300;
+                                }
+                                .quick-test-summary {
+                                    margin-bottom: 20px;
+                                }
+                                .tests-quick-view tbody tr:hover {
+                                    background-color: #f6f7fa;
+                                }
+                                .tests-quick-view .label {
+                                    font-size: 11px;
+                                    font-weight: 400;
+                                }
+                                .quick-view-test {
+                                    color: #039be5;
+                                    cursor: pointer;
+                                }
+                        
                                 /* -- [ test-list ] -- */
                                 .test {
-                                    border: 1px solid #bbb;
-                                    box-shadow: none !important;
+                                    /* border: 1px solid #bbb;
+                                    box-shadow: none !important; */
                                     color: #222 !important;
                                     cursor: pointer;
                                     margin-bottom: 5px;
@@ -254,7 +297,7 @@ namespace RelevantCodes.ExtentReports.Source
                                     padding: 4px 10px;
                                 }
                                 .test-name {
-                                    font-size: 21px;
+                                    font-size: 20px;
                                     font-weight: 400;
                                 }
                                 .test-desc {
@@ -278,9 +321,9 @@ namespace RelevantCodes.ExtentReports.Source
                                 .test-ended-time {
                                     border-left-color: #eea236;
                                 }
-                                .test th:first-child, table td:first-child {
-                                    max-width: 100px;
-                                    width: 100px;
+                                .test th:first-child, .test td:first-child {
+                                    max-width: 90px;
+                                    width: 90px;
                                 }
                                 .test th:nth-child(2), .test td:nth-child(2) {
                                     font-size: 13px;
@@ -289,8 +332,8 @@ namespace RelevantCodes.ExtentReports.Source
                                     width: 65px;
                                 }
                                 td.status {
-			                        padding-left: 20px;
-			                    }
+                                    padding-left: 20px;
+                                }
             
                                 /* -- [ status styles ] -- */
                                 .status.fail, .fail i {
@@ -313,7 +356,10 @@ namespace RelevantCodes.ExtentReports.Source
                                 } 
                                 .status.skip, .skip > i {
                                     color: #999;
-                                } 
+                                }
+                                .status.unknown, .unknown > i {
+                                    color: #222;
+                                }
             
                                 /* -- [ labels ] -- */
                                 .label {
@@ -322,7 +368,7 @@ namespace RelevantCodes.ExtentReports.Source
                                     padding: 2px 5px;
                                     text-transform: none;
                                 }
-                                .label.success, .label.failure, .label.info, .label.warn, .label.pass, .label.fail, .label.warning, .label.fatal, .label.skip, .label.error {
+                                .label.success, .label.failure, .label.info, .label.warn, .label.pass, .label.fail, .label.warning, .label.fatal, .label.skip, .label.error, .label.unknown {
                                     color: #fff;
                                 }
                                 .label.success, .label.pass {
@@ -346,14 +392,17 @@ namespace RelevantCodes.ExtentReports.Source
                                 .label.skip, .label.skipped {
                                     background-color: #2196f3 !important;
                                 }
+                                .label.unknown {
+                                    background-color: #222 !important;
+                                }
             
                                 /* -- [ media queries ] -- */
-                                @media all and (max-width: 1400px) {
+                                @media all and (max-width: 1550px) {
                                     .container {
-                                        width: 80%;
+                                        width: 85%;
                                     }
                                 }
-                                @media all and (max-width: 1200px) {
+                                @media all and (max-width: 1400px) {
                                     .container {
                                         width: 90%;
                                     }
@@ -379,6 +428,9 @@ namespace RelevantCodes.ExtentReports.Source
                                     }
                                 }
                                 @media all and (max-width: 530px) {
+                                    .controls {
+                                        margin-left: -30px;
+                                    }
                                     .test-head .right span {
                                         display: block;
                                     }
@@ -396,7 +448,7 @@ namespace RelevantCodes.ExtentReports.Source
                                     <li class='videos-view'><a href='#!'>Videos</a></li>
                                 </ul>
                                 <a href='#' data-activates='slide-out' class='button-collapse show-on-large'><i class='mdi-navigation-menu'></i></a>
-                                <span class='report-name'><!--%%LOGO%%-->Your Report Name<!--%%LOGO%%--> <!--%%HEADLINE%%-->Your Report Summary<!--%%HEADLINE%%--></span>
+                                <span class='report-name'><!--%%LOGO%%-->Report Name<!--%%LOGO%%--> <!--%%HEADLINE%%-->[Report Headline]<!--%%HEADLINE%%--></span>
                                 <span class='right'>ExtentReports</span>
                             </nav>
                             <div class='main'>
@@ -415,6 +467,7 @@ namespace RelevantCodes.ExtentReports.Source
                                                 <div class='col s12 m6 l4'>
                                                     <div class='card-panel'>
                                                         <span class='panel-name'>Steps View</span>
+                                                        <span class='panel-setting modal-trigger step-dashboard-status-filter'><a href='#step-dashboard-status-filter'><i class='fa fa-gear'></i></a></span>
                                                         <div class='chart-o text-centered' id='step-status-dashboard'></div>
                                                         <span class='weight-light'><span class='s-pass-count weight-normal'></span> step(s) passed</span>
                                                         <span class='weight-light'><span class='s-fail-count weight-normal'></span> step(s) failed, <span class='s-others-count weight-normal'></span> others</span>
@@ -513,30 +566,99 @@ namespace RelevantCodes.ExtentReports.Source
                                             </div>
                                         </div>
                                     </div>
-                                        <div class='filters'>
-                                            <div class='row'>
-                                            <div class='input-field col l3 m6 s12 tests-toggle'>
-                                                <select>
-                                                    <option value='0' selected>Choose your option</option>
-                                                    <option value='1'>Pass</option>
-                                                    <option value='2'>Fatal</option>
-                                                    <option value='3'>Fail</option>
-                                                    <option value='4'>Error</option>
-                                                    <option value='5'>Warning</option>
-                                                    <option value='6'>Skipped</option>
-                                                    <option value='7'>Unknown</option>
-                                                    <option value='8'>Clear Filters</option>
-                                                </select>
-                                                <label>Filter Tests</label>
+                                    <div class='row'>
+                                        <div class='col s12'>
+                                            <ul class='tabs'>
+                                                <li class='tab col s3'><a class='active' href='#tests-quick-view'>Summary</a></li>
+                                                <li class='tab col s3'><a href='#tests-details-view'>Details</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class='tests-quick-view' id='tests-quick-view'>
+                                            <div class='col s12 m12 l12 selected-test'>
+                                                <div class='card-panel'>
+                                                    <div class='panel-view panel-name quick-test-summary'>
+                                                        Quick Test Summary
+                                                    </div>
+                                                    <table class='bordered responsive-table'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Test Name</th>
+                                                                <th>Passed</th>
+                                                                <th>Failed</th>
+                                                                <th>Fatal</th>
+                                                                <th>Error</th>
+                                                                <th>Warning</th>
+                                                                <th>Info</th>
+                                                                <th>Skipped</th>
+                                                                <th>Unknown</th>
+                                                                <th>RunStatus</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!--%%QUICKTESTSUMMARY%%-->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                            <div class='input-field col s12 m6 l3 find-tests'>
-                                                <input id='test-name-filter' type='text' class='validate'>
-                                                <label for='test-name-filter'>Find Test(s)</label>
+                                        </div>
+                                        <div class='tests-details-view' id='tests-details-view'>
+                                            <div class='filters'>
+                                                <div class='col l12'>
+                                                    <div class='input-field col l3 m6 s12 tests-toggle'>
+                                                        <select>
+                                                            <option value='0' selected>Choose your option</option>
+                                                            <option value='1'>Pass</option>
+                                                            <option value='2'>Fatal</option>
+                                                            <option value='3'>Fail</option>
+                                                            <option value='4'>Error</option>
+                                                            <option value='5'>Warning</option>
+                                                            <option value='6'>Skipped</option>
+                                                            <option value='7'>Unknown</option>
+                                                            <option value='8'>Clear Filters</option>
+                                                        </select>
+                                                        <label>Filter Tests</label>
+                                                    </div>
+                                                    <div class='input-field col s12 m6 l3 find-tests'>
+                                                        <input id='test-name-filter' type='text' class='validate'>
+                                                        <label for='test-name-filter'>Find Test(s)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class='test-list'>
+                                                <!--%%TEST%%-->
                                             </div>
                                         </div>
                                     </div>
-                                    <div class='test-list'>
-                                        <!--%%TEST%%-->
+                                </div>
+                                <div id='step-dashboard-status-filter' class='modal bottom-sheet'>
+                                    <div class='modal-content'>
+                                        <h5>Select status</h5>
+                                        <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-pass'  />
+                                        <label for='step-dashboard-filter-pass'>Pass</label>
+                                        <br />
+                                        <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-fail'  />
+                                        <label for='step-dashboard-filter-fail'>Fail</label>
+                                        <br />
+                                        <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-fatal'  />
+                                        <label for='step-dashboard-filter-fatal'>Fatal</label>
+                                        <br />
+                                        <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-error'  />
+                                        <label for='step-dashboard-filter-error'>Error</label>
+                                        <br />
+                                        <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-warning'  />
+                                        <label for='step-dashboard-filter-warning'>Warning</label>
+                                        <br />
+                                        <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-skip'  />
+                                        <label for='step-dashboard-filter-skip'>Skipped</label>
+                                        <br />
+                                        <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-info'  />
+                                        <label for='step-dashboard-filter-info'>Info</label>
+                                        <br />
+                                        <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-unknown'  />
+                                        <label for='step-dashboard-filter-unknown'>Unknown</label>
+                                    </div>
+                                    <div class='modal-footer'>
+                                        <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a>
                                     </div>
                                 </div>
                             </div>
@@ -550,6 +672,12 @@ namespace RelevantCodes.ExtentReports.Source
                                 $(document).ready(function() {
                                     $('.button-collapse').sideNav();
                                     $('select').material_select();
+                                    $('ul.tabs').tabs();
+                                    $('.step-dashboard-status-filter').click(function() {
+                                        $('#step-dashboard-status-filter').openModal();
+                                    });
+                                    $('#step-dashboard-status-filter input').prop('checked', 'checked');
+                                    $('.indicator').addClass('teal lighten-4');
                                     var totalTests = $('.test').length;
                                     var passedTests = $('.test.pass').length;
                                     var failedTests = $('.test.fail').length;
@@ -561,7 +689,7 @@ namespace RelevantCodes.ExtentReports.Source
                                     var totalSteps = $('td.status').length;
                                     var passedSteps = $('td.status.pass').length;
                                     var failedSteps = $('td.status.fail').length;
-                                    var fatalSteps = $('td.status.fail').length;
+                                    var fatalSteps = $('td.status.fatal').length;
                                     var warningSteps = $('td.status.warning').length;
                                     var errorSteps = $('td.status.error').length;
                                     var infoSteps = $('td.status.info').length;
@@ -595,12 +723,48 @@ namespace RelevantCodes.ExtentReports.Source
                                         }
                                         $('.button-collapse').sideNav('hide');
                                     });
+                                    $('.quick-view-test').click(function() {
+                                        var index = $(this).closest('tr').index();
+                                        var el = $('.test-list .test:eq(' + index + ')');
+                                        $('.tabs .tab:nth-child(2) a').click();
+                                        $('html, body').animate({
+                                            scrollTop: el.offset().top
+                                        }, 1000);
+                                        if (!el.hasClass('is-expanded'))
+                                            el.toggleClass('is-expanded').find('.test-body').slideToggle(300);
+                                    });
                                     $('.test-list .test').click(function(evt) {
                                         if (evt.target.nodeName == 'DIV' || evt.target.nodeName == 'SPAN') {
                                             $(this).toggleClass('is-expanded').find('.test-body').slideToggle(300);
                                         }
                                     });
-                                    // charts
+                                    $('#step-dashboard-status-filter input').click(function() {
+                                        if ($(this).prop('checked') == false) {
+                                            $('#step-dashboard-status-filter').addClass($(this).prop('id').replace('step-dashboard-filter-', ''));
+                                        }
+                                        else {
+                                            $('#step-dashboard-status-filter').removeClass($(this).prop('id').replace('step-dashboard-filter-', ''));
+                                        }
+                                    });
+                                    $('.modal-footer').click(function() {
+                                        passedSteps = $('td.status.pass').length;
+                                        failedSteps = $('td.status.fail').length;
+                                        fatalSteps = $('td.status.fatal').length;
+                                        warningSteps = $('td.status.warning').length;
+                                        errorSteps = $('td.status.error').length;
+                                        infoSteps = $('td.status.info').length;
+                                        skippedSteps = $('td.status.skipped').length;
+                                        unknownSteps = $('td.status.unknown').length;
+                                        if ($('#step-dashboard-status-filter').hasClass('pass')) { passedSteps = 0; }
+                                        if ($('#step-dashboard-status-filter').hasClass('fail')) { failedSteps = 0; }
+                                        if ($('#step-dashboard-status-filter').hasClass('fatal')) { fatalSteps = 0; }
+                                        if ($('#step-dashboard-status-filter').hasClass('warning')) { warningSteps = 0; }
+                                        if ($('#step-dashboard-status-filter').hasClass('error')) { errorSteps = 0; }
+                                        if ($('#step-dashboard-status-filter').hasClass('info')) { infoSteps = 0; }
+                                        if ($('#step-dashboard-status-filter').hasClass('skip')){ skippedSteps = 0; }
+                                        if ($('#step-dashboard-status-filter').hasClass('unknown')) { unknownSteps = 0; }
+                                        testsChart();
+                                    });
                                     function showRunInfo() {
                                         $('.total-tests > .percent').text(totalTests).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#9c27b0', lineCap: 'butt', scaleColor: '#fff', size: 100 });
                                         $('.total-tests').data('easyPieChart').update('100');
@@ -668,7 +832,7 @@ namespace RelevantCodes.ExtentReports.Source
                                         };
                                         var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
                                         chart.draw(data, options);
-                                        }
+                                        }  
                                     function testsChart() {
                                         var data = google.visualization.arrayToDataTable([
                                             ['Test Status', 'Count'],
@@ -678,12 +842,13 @@ namespace RelevantCodes.ExtentReports.Source
                                             ['Error', errorSteps],
                                             ['Warning', warningSteps],
                                             ['Info', infoSteps],
-                                            ['Skipped', skippedSteps]
+                                            ['Skipped', skippedSteps],
+                                            ['Unknown', unknownSteps],
                                         ]);
                                         var options = {
                                             backgroundColor: { fill:'transparent' },
                                             chartArea: {'width': '92%', 'height': '100%'},
-                                            colors: ['#00af00', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue', '#999'],
+                                            colors: ['#00af00', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue', '#999', '#000'],
                                             fontName: 'Roboto',
                                             fontSize: '11',
                                             titleTextStyle: { color: '#1366d7', fontSize: '14' },
