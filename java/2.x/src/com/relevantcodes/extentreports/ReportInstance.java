@@ -124,7 +124,10 @@ class ReportInstance extends LogSettings {
             src = src.replace(ExtentFlag.getPlaceHolder("quickTestSummary"), quickSummarySrc + ExtentFlag.getPlaceHolder("quickTestSummary"));
             
             Writer.getInstance().write(new File(filePath), src);
+            
+            // clear test and summary sources
             testSrc = "";
+            quickSummarySrc = "";
         }
     }
     

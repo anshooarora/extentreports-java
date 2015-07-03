@@ -2,7 +2,7 @@
 <html>
     <head>
         <!--
-            ExtentReports Library 2.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentReports Library 2.02 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         --> 
@@ -16,7 +16,7 @@
         <title>ExtentReports 2.0</title>
         <style>
             body {
-                background-color: #f6f7fa;
+                background-color: #f2f5f9;
                 font-family: Nunito, 'Open Sans', Arial;
                 font-size: 13px;
             }
@@ -74,6 +74,12 @@
             .panel-name {
                 font-family: Nunito;
                 font-weight: 300;
+            }
+            .panel-setting {
+                float: right;
+            }
+            .panel-setting a {
+                color: #bbb;
             }
             .panel-lead {
                 display: block;
@@ -245,7 +251,11 @@
             .tests-quick-view .label {
                 font-size: 11px;
                 font-weight: 400;
-               }
+            }
+            .quick-view-test {
+                color: #039be5;
+                cursor: pointer;
+            }
                         
             /* -- [ test-list ] -- */
             .test {
@@ -446,6 +456,7 @@
                             <div class='col s12 m6 l4'>
                                 <div class='card-panel'>
                                     <span class='panel-name'>Steps View</span>
+                                    <span class='panel-setting modal-trigger step-dashboard-status-filter'><a href='#step-dashboard-status-filter'><i class='fa fa-gear'></i></a></span>
                                     <div class='chart-o text-centered' id='step-status-dashboard'></div>
                                     <span class='weight-light'><span class='s-pass-count weight-normal'></span> step(s) passed</span>
                                     <span class='weight-light'><span class='s-fail-count weight-normal'></span> step(s) failed, <span class='s-others-count weight-normal'></span> others</span>
@@ -544,11 +555,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col s12">
-                        <ul class="tabs">
-                            <li class="tab col s3"><a class='active' href="#tests-quick-view">Summary</a></li>
-                            <li class="tab col s3"><a href="#tests-details-view">Details</a></li>
+                <div class='row'>
+                    <div class='col s12'>
+                        <ul class='tabs'>
+                            <li class='tab col s3'><a class='active' href='#tests-quick-view'>Summary</a></li>
+                            <li class='tab col s3'><a href='#tests-details-view'>Details</a></li>
                         </ul>
                     </div>
                     <div class='tests-quick-view' id='tests-quick-view'>
@@ -608,6 +619,38 @@
                     </div>
                 </div>
             </div>
+            // #10: checkboxes for charts
+            <div id='step-dashboard-status-filter' class='modal bottom-sheet'>
+                <div class='modal-content'>
+                    <h5>Select status</h5>
+                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-pass'  />
+                    <label for='step-dashboard-filter-pass'>Pass</label>
+                    <br />
+                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-fail'  />
+                    <label for='step-dashboard-filter-fail'>Fail</label>
+                    <br />
+                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-fatal'  />
+                    <label for='step-dashboard-filter-fatal'>Fatal</label>
+                    <br />
+                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-error'  />
+                    <label for='step-dashboard-filter-error'>Error</label>
+                    <br />
+                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-warning'  />
+                    <label for='step-dashboard-filter-warning'>Warning</label>
+                    <br />
+                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-skip'  />
+                    <label for='step-dashboard-filter-skip'>Skipped</label>
+                    <br />
+                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-info'  />
+                    <label for='step-dashboard-filter-info'>Info</label>
+                    <br />
+                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-unknown'  />
+                    <label for='step-dashboard-filter-unknown'>Unknown</label>
+                </div>
+                <div class='modal-footer'>
+                    <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a>
+                </div>
+            </div>
         </div>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
         <script type='text/javascript' src='https://www.google.com/jsapi'></script>
@@ -620,6 +663,10 @@
                 $('.button-collapse').sideNav();
                 $('select').material_select();
                 $('ul.tabs').tabs();
+                $('.step-dashboard-status-filter').click(function() {
+                    $('#step-dashboard-status-filter').openModal();
+                });
+                $('#step-dashboard-status-filter input').prop('checked', 'checked');
                 $('.indicator').addClass('teal lighten-4');
                 var totalTests = $('.test').length;
                 var passedTests = $('.test.pass').length;
@@ -653,17 +700,6 @@
                 $('.s-skipped-count').text(skippedSteps);
                 $('.t-others-count').text(warningTests + errorTests + skippedTests + unknownTests);
                 $('.s-others-count').text(warningSteps + errorSteps + skippedSteps + unknownSteps + infoSteps);
-                /*var row = 0;
-                var test, src;
-                for (var ix = 0; ix < $('img.report-img').length; ix++) {
-                    if (ix % 4 == 0) {
-                        ++row;
-                        $('.views > .images-view').append('<div class="row"></div>');
-                    }
-                    test = $('img.report-img:eq(' + ix + ')').closest('.test').find('.test-name').text();
-                    src = $('img.report-img:eq(' + ix + ')').prop('src');
-                    $('.views > .images-view .row:nth-child(' + row + ')').append('<div class="col s12 m6 l3"><div class="card-panel"><span class="panel-name">' + test + '</span><img data-featherlight="' + src + '" src="' + src + '" /></div></div>')
-                }*/
                 $('.dashboard-view .panel-lead').text(passedPercentage);
                 $('.dashboard-view .determinate').attr('style', 'width:' + passedPercentage);
                 $('nav li').click(function() {
@@ -677,10 +713,49 @@
                     }
                     $('.button-collapse').sideNav('hide');
                 });
+                // #11: Link Test Case in Summary section to Details
+                $('.quick-view-test').click(function() {
+                    var index = $(this).closest('tr').index();
+                    var el = $('.test-list .test:eq(' + index + ')');
+                    $('.tabs .tab:nth-child(2) a').click();
+                    $('html, body').animate({
+                        scrollTop: el.offset().top
+                    }, 1000);
+                    if (!el.hasClass('is-expanded'))
+                        el.toggleClass('is-expanded').find('.test-body').slideToggle(300);
+                });
                 $('.test-list .test').click(function(evt) {
                     if (evt.target.nodeName == 'DIV' || evt.target.nodeName == 'SPAN') {
                         $(this).toggleClass('is-expanded').find('.test-body').slideToggle(300);
                     }
+                });
+                $('#step-dashboard-status-filter input').click(function() {
+                    if ($(this).prop('checked') == false) {
+                        $('#step-dashboard-status-filter').addClass($(this).prop('id').replace('step-dashboard-filter-', ''));
+                    }
+                    else {
+                        $('#step-dashboard-status-filter').removeClass($(this).prop('id').replace('step-dashboard-filter-', ''));
+                    }
+                });
+                // #10: checkboxes for charts
+                $('.modal-footer').click(function() {
+                    passedSteps = $('td.status.pass').length;
+                    failedSteps = $('td.status.fail').length;
+                    fatalSteps = $('td.status.fatal').length;
+                    warningSteps = $('td.status.warning').length;
+                    errorSteps = $('td.status.error').length;
+                    infoSteps = $('td.status.info').length;
+                    skippedSteps = $('td.status.skipped').length;
+                    unknownSteps = $('td.status.unknown').length;
+                    if ($('#step-dashboard-status-filter').hasClass('pass')) { passedSteps = 0; }
+                    if ($('#step-dashboard-status-filter').hasClass('fail')) { failedSteps = 0; }
+                    if ($('#step-dashboard-status-filter').hasClass('fatal')) { fatalSteps = 0; }
+                    if ($('#step-dashboard-status-filter').hasClass('warning')) { warningSteps = 0; }
+                    if ($('#step-dashboard-status-filter').hasClass('error')) { errorSteps = 0; }
+                    if ($('#step-dashboard-status-filter').hasClass('info')) { infoSteps = 0; }
+                    if ($('#step-dashboard-status-filter').hasClass('skip')){ skippedSteps = 0; }
+                    if ($('#step-dashboard-status-filter').hasClass('unknown')) { unknownSteps = 0; }
+                    testsChart();
                 });
                 function showRunInfo() {
                     $('.total-tests > .percent').text(totalTests).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#9c27b0', lineCap: 'butt', scaleColor: '#fff', size: 100 });
@@ -749,7 +824,7 @@
                     };
                     var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
                     chart.draw(data, options);
-                  }
+                  }  
                 function testsChart() {
                     var data = google.visualization.arrayToDataTable([
                       ['Test Status', 'Count'],
