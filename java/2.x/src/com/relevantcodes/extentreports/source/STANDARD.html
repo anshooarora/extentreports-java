@@ -269,17 +269,17 @@
                 margin-bottom: 5px;
             }
             .test-warning {
-			    color: red;
-			    cursor: pointer;
-			    font-size: 12px;
-			    margin-left: 5px;
-			    vertical-align: top;
-			}
+                color: red;
+                cursor: pointer;
+                font-size: 12px;
+                margin-left: 5px;
+                vertical-align: top;
+            }
             .test div, .test span, .test td  {
                 font-family: 'Source Sans Pro';
             }
             .test td {
-            	vertical-align: top;
+                vertical-align: top;
             }
             .is-expanded {
                 border: 1px solid #222;
@@ -292,8 +292,8 @@
                 text-transform: uppercase;
             }
             .test-time-taken {
-            	border-left: 2px solid #bbb;
-            	text-transform: lowercase !important;
+                border-left: 2px solid #bbb;
+                text-transform: lowercase !important;
             }
             .test-head .right {
                 margin-top: 6px;
@@ -314,12 +314,12 @@
                 padding-top: 45px;
             }
             .test-attributes .category {
-			    background: #f9f2f4 none repeat scroll 0 0;
-			    border-radius: 2px;
-			    color: #c7254e;
-			    margin-right: 3px;
-			    padding: 2px 4px;
-			}
+                background: #f9f2f4 none repeat scroll 0 0;
+                border-radius: 2px;
+                color: #c7254e;
+                margin-right: 3px;
+                padding: 2px 4px;
+            }
             .test-body {
                 cursor: auto !important;
                 display: none;
@@ -806,9 +806,9 @@
                     $('.steps-failed').data('easyPieChart').update((failedSteps / totalSteps) * 100);
                 }
                 $('.categories').each(function() {
-                	if ($(this).children().length > 0) {
-						$(this).prop('style', 'margin-top: 5px;');                	
-                	}
+                    if ($(this).children().length > 0) {
+                        $(this).prop('style', 'margin-top: 5px;');                    
+                    }
                 });
                 $(document).keypress(function(e) {
                     if(e.which == 13) {
@@ -842,11 +842,11 @@
                             resetFilters();
                         } else {
                             $('.test, .test-section').hide(0);
-							$('.test .category').each(function() {
-								if ($(this).text() == opt) {
-									$(this).closest('.test').fadeIn(200).closest('.test-section').fadeIn(400);
-								}
-							});
+                            $('.test .category').each(function() {
+                                if ($(this).text() == opt) {
+                                    $(this).closest('.test').fadeIn(200).closest('.test-section').fadeIn(400);
+                                }
+                            });
                         }
                     }                                
                 });
