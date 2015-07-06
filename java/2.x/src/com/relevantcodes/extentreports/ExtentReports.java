@@ -8,12 +8,15 @@
 
 package com.relevantcodes.extentreports;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ExtentReports {
     private ReportInstance reportInstance;
     private SystemInfo systemInfo;
     private ReportInstance.ReportConfig reportConfig;
+    private List<ExtentTest> testList;
     
     /**
      * Initializes the reporting by setting the file-path and test DisplayOrder
@@ -57,7 +60,7 @@ public class ExtentReports {
      * @return {@link ExtentTest}
      */
     public ExtentTest startTest(String testName) {
-        return new ExtentTest(testName, "");
+    	return startTest(testName, "");
     }
     
     /**
@@ -70,7 +73,14 @@ public class ExtentReports {
      * @return {@link ExtentTest}
      */
     public ExtentTest startTest(String testName, String description) {
-        return new ExtentTest(testName, description);
+    	if (testList == null) {
+    		testList = new ArrayList<ExtentTest>();
+    	}
+    	
+    	ExtentTest test = new ExtentTest(testName, "");
+        testList.add(test);
+        
+        return test;
     }
     
     /**
@@ -79,6 +89,8 @@ public class ExtentReports {
      * @param test {@link ExtentTest}
      */
     public void endTest(ExtentTest test) {
+    	test.getTest().hasEnded = true;
+    	
         reportInstance.addTest(test.getTest());
     }
     
@@ -120,6 +132,9 @@ public class ExtentReports {
      * Writes all info to the report file
      */
     public void flush() {
-        reportInstance.terminate(systemInfo);
+        reportInstance.terminate(testList, systemInfo);
+        
+        testList.clear();
+        systemInfo.clear();
     }
 }

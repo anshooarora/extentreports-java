@@ -21,7 +21,7 @@ public class TestHtml {
                     "<div class='test card-panel <!--%%TESTSTATUS%%-->'>" +
                         "<div class='test-head'>" +
                             "<div class='test-name left'>" +
-                                "<!--%%TESTNAME%%-->" +
+                                "<!--%%TESTNAME%%--><!--%%TESTWARNINGS%%-->" +
                             "</div>" +
                             "<div class='right'>" +
                                 "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +
@@ -60,7 +60,7 @@ public class TestHtml {
     
     public static String getSourceQuickView() {
         return "<tr>" +
-                    "<td><span class='quick-view-test'><!--%%TESTNAME%%--></span></td>" +
+                    "<td><span class='quick-view-test'><!--%%TESTNAME%%--></span><!--%%TESTWARNINGS%%--></td>" +
                     "<td><!--%%CURRENTTESTPASSEDCOUNT%%--></td>" +
                     "<td><!--%%CURRENTTESTFAILEDCOUNT%%--></td>" +
                     "<td><!--%%CURRENTTESTFATALCOUNT%%--></td>" +
@@ -75,5 +75,13 @@ public class TestHtml {
     
     public static String getCategorySource() {
     	return "<span class='category'><!--%%CATEGORY%%--></span>";
+    }
+    
+    public static String getWarningSource(String warning) {
+    	if (warning == "") {
+    		return "";
+    	}
+    		
+    	return "<span class='test-warning tooltipped' data-tooltip='" + warning + "' data-position='top'><i class='fa fa-info' alt='" + warning + "' title='" + warning + "'></i></span>";
     }
 }

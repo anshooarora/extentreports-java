@@ -19,14 +19,18 @@ public class Test {
     public ArrayList<Log> log;
     public ArrayList<ScreenCapture> screenCapture;
     public ArrayList<Screencast> screencast;
-    public String name;
+    public Boolean hasEnded = false;
     public Date startedTime;
     public Date endedTime;
     public LogStatus status;
-    public String statusMessage;
     public String description;
-    
+    public String internalWarning;
+    public String name;
+    public String statusMessage;
+        
     public Test() {
+    	internalWarning = "";
+    	
         log = new ArrayList<Log>();
         categoryList = new ArrayList<TestAttribute>();
         authorList = new ArrayList<TestAttribute>();

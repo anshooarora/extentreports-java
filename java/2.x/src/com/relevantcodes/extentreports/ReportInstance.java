@@ -11,6 +11,7 @@ package com.relevantcodes.extentreports;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.relevantcodes.extentreports.model.CategoryList;
@@ -28,8 +29,8 @@ import com.relevantcodes.extentreports.support.Resources;
 import com.relevantcodes.extentreports.support.Writer;
 
 class ReportInstance extends LogSettings {
-    private DisplayOrder displayOrder;
-    private CategoryList categoryList;
+	private CategoryList categoryList;
+	private DisplayOrder displayOrder;
     private String filePath;
     private volatile int infoWrite = 0;
     private final Object lock = new Object();
@@ -113,15 +114,21 @@ class ReportInstance extends LogSettings {
         mediaList = new MediaList();
     }
     
-    public void terminate(SystemInfo systemInfo) {
+    public void terminate(List<ExtentTest> testList, SystemInfo systemInfo) {
+        // #16: Add warning message if test ended abruptly, endTest() wasn't called 
+    	for (ExtentTest t : testList) {
+        	if (!t.getTest().hasEnded) {
+        		t.getTest().internalWarning = "Test did not end safely because endTest() was not called. There may be errors.";
+        		addTest(t.getTest());
+        	}
+        }
+        
         if (testSource == "")
             return;
-
+        
         runInfo.endedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
         
-        updateSystemInfo(systemInfo.getInfo());
-        systemInfo.clear();
-        
+        updateSystemInfo(systemInfo.getInfo());       
         updateCategoryList();
         updateSuiteExecutionTime();
         updateMediaInfo();

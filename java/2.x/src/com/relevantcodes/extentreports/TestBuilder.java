@@ -41,7 +41,8 @@ class TestBuilder {
                 .replace(ExtentFlag.getPlaceHolder("testStatus"), test.status.toString().toLowerCase())
                 .replace(ExtentFlag.getPlaceHolder("testDescription"), test.description)
                 .replace(ExtentFlag.getPlaceHolder("descVis"), "")
-                .replace(ExtentFlag.getPlaceHolder("category"), "");
+                .replace(ExtentFlag.getPlaceHolder("category"), "")
+                .replace(ExtentFlag.getPlaceHolder("testWarnings"), TestHtml.getWarningSource(test.internalWarning));
         
         for (TestAttribute t : test.categoryList) {
         	testSource = testSource.replace(ExtentFlag.getPlaceHolder("testCategory"), TestHtml.getCategorySource() + ExtentFlag.getPlaceHolder("testCategory"))
@@ -97,6 +98,7 @@ class TestBuilder {
     	}
     	
     	src = src.replace(ExtentFlag.getPlaceHolder("testName"), test.name)
+    			.replace(ExtentFlag.getPlaceHolder("testWarnings"), TestHtml.getWarningSource(test.internalWarning))
     			.replace(ExtentFlag.getPlaceHolder("currentTestPassedCount"), "" + passed)
     			.replace(ExtentFlag.getPlaceHolder("currentTestFailedCount"), "" + failed)
     			.replace(ExtentFlag.getPlaceHolder("currentTestFatalCount"), "" + fatal)
