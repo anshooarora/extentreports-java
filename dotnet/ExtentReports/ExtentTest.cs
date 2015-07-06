@@ -85,6 +85,16 @@
             return screencastPath;
         }
 
+        public ExtentTest AssignCategory(params string[] CategoryName)
+        {
+            foreach (string c in CategoryName)
+            {
+                test.CategoryList.Add(new Category(c));
+            }
+
+            return this;
+        }
+
         internal Test GetTest()
         {
             test.Status = runStatus;

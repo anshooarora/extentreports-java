@@ -12,6 +12,7 @@
     
     public class ReportInstance
     {
+        private CategoryList categoryList;
         private DisplayOrder displayOrder;
         private string filePath;
         private MediaList mediaList;
@@ -37,6 +38,17 @@
 
             AddTest(TestBuilder.GetTestSource(Test));
             AddQuickTestSummary(TestBuilder.GetQuickSummary(Test));
+            AddCategories(Test);
+        }
+
+        private void AddCategories(Test test) {
+            foreach (TestAttribute t in test.CategoryList)
+            {
+                if (!categoryList.Categories.Contains(t.GetName()))
+                {
+                    categoryList.Categories.Add(t.GetName());
+                }
+            }
         }
 
         internal void Initialize(string FilePath, bool ReplaceExisting, DisplayOrder DisplayOrder)
@@ -71,12 +83,20 @@
 
             runInfo = new RunInfo();
             runInfo.StartedTime = DateTime.Now;
-
+            
+            categoryList = new CategoryList();
             mediaList = new MediaList();
         }
 
-        internal void Terminate(SystemInfo SystemInfo)
+        internal void Terminate(List<ExtentTest> TestList, SystemInfo SystemInfo)
         {
+            foreach (ExtentTest t in TestList) {
+                if (!t.GetTest().HasEnded) {
+                    t.GetTest().InternalWarning = "Test did not end safely because endTest() was not called. There may be errors.";
+                    AddTest(t.GetTest());
+                }
+            }
+
             if (testSource == "")
             {
                 return;
@@ -84,12 +104,10 @@
 
             runInfo.EndedTime = DateTime.Now;
 
-            Dictionary<string, string> n = SystemInfo.GetInfo();
             UpdateSystemInfo(SystemInfo.GetInfo());
+            UpdateCategoryList();
             UpdateSuiteExecutionTime();
             UpdateMediaList();
-
-            SystemInfo.Clear();
 
             if (this.displayOrder == DisplayOrder.OldestFirst)
             {
@@ -115,6 +133,33 @@
 
             testSource = "";
             quickSummarySource = "";
+        }
+
+        private void UpdateCategoryList() {
+            String catsAdded = "";
+            String c = "";
+            
+            for (int ix = categoryList.Categories.Count - 1; ix > -1; ix--)
+            {
+                if (extentSource.IndexOf(ExtentFlag.GetPlaceHolder("categoryAdded" + c)) > 0)
+                {
+                    categoryList.Categories.RemoveAt(ix);
+                }
+                else
+                {
+                    catsAdded += ExtentFlag.GetPlaceHolder("categoryAdded" + c);
+                }
+            }
+        
+            string source = CategoryOptionBuilder.build(categoryList.Categories);
+        
+            if (source != "") {
+                lock (sourcelock) {
+                    extentSource = extentSource
+                            .Replace(ExtentFlag.GetPlaceHolder("categoryListOptions"), source + ExtentFlag.GetPlaceHolder("categoryListOptions"))
+                            .Replace(ExtentFlag.GetPlaceHolder("categoryAdded"), catsAdded + ExtentFlag.GetPlaceHolder("categoryAdded"));
+                }
+            }
         }
 
         private void UpdateSuiteExecutionTime()

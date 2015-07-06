@@ -5,10 +5,11 @@
 
     public class ExtentReports// : IDisposable
     {
+        private List<ExtentTest> testList;
+        private ReportConfig config; 
         private ReportInstance reportInstance;
         private SystemInfo systemInfo;
-        private ReportConfig config;
-
+        
         public ExtentReports(string FilePath, bool ReplaceExisting, DisplayOrder DisplayOrder = DisplayOrder.OldestFirst)
         {
             reportInstance = new ReportInstance();
@@ -24,11 +25,21 @@
 
         public ExtentTest StartTest(string TestName, string Description)
         {
-            return new ExtentTest(TestName, Description);
+            if (testList == null)
+            {
+                testList = new List<ExtentTest>();
+            }
+
+            var test = new ExtentTest(TestName, Description);
+            testList.Add(test);
+
+            return test;
         }
 
         public void EndTest(ExtentTest Test)
         {
+            Test.GetTest().HasEnded = true;
+
             reportInstance.AddTest(Test.GetTest());
         }
 
@@ -58,7 +69,10 @@
 
         public void Flush()
         {
-            reportInstance.Terminate(systemInfo);
+            reportInstance.Terminate(testList, systemInfo);
+
+            testList.Clear();
+            systemInfo.Clear();
         }
     }
 }

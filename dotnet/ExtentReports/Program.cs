@@ -10,7 +10,15 @@ namespace RelevantCodes.ExtentReports
         static void Main(string[] args)
         {
             var r = new ExtentReports("Extent.html", true);
-            
+            /*
+            r.Config()
+                .AddStylesheet("C:\test.css")
+                .DocumentTitle("New Title")
+                .InsertJs("function a() {}")
+                .ReportHeadline("headline")
+                .ReportName("reportname");
+            */
+
             var t = r.StartTest("Test 1", "desc");
             t.Log(LogStatus.Pass, "First step");
             t.Log(LogStatus.Error, "First step");

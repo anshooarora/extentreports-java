@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryOptionBuilder.cs" />
     <Compile Include="DisplayOrder.cs" />
     <Compile Include="ExtentReports.cs" />
     <Compile Include="ExtentTest.cs" />
@@ -48,6 +49,9 @@
     <Compile Include="LogSettings.cs" />
     <Compile Include="LogStatus.cs" />
     <Compile Include="MediaViewBuilder.cs" />
+    <Compile Include="Model\Author.cs" />
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\CategoryList.cs" />
     <Compile Include="Model\Dashboard.cs" />
     <Compile Include="Model\Log.cs" />
     <Compile Include="Model\MediaList.cs" />
@@ -57,10 +61,12 @@
     <Compile Include="Model\Screencast.cs" />
     <Compile Include="Model\SystemProperties.cs" />
     <Compile Include="Model\Test.cs" />
+    <Compile Include="Model\TestAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportConfig.cs" />
     <Compile Include="ReportInstance.cs" />
+    <Compile Include="Source\CategoryFilterHtml.cs" />
     <Compile Include="Source\ExtentFlag.cs" />
     <Compile Include="Source\Icon.cs" />
     <Compile Include="Source\ImageHtml.cs" />

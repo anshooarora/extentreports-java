@@ -18,15 +18,21 @@
                             <div class='test card-panel <!--%%TESTSTATUS%%-->'>
                                 <div class='test-head'>
                                     <div class='test-name left'>
-                                        <!--%%TESTNAME%%-->
+                                        <!--%%TESTNAME%%--><!--%%TESTWARNINGS%%-->
                                     </div>
                                     <div class='right'>
                                         <span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>
                                         <span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>
+                                        <span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%TESTTIMETAKEN%%--></span>
                                         <span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>
                                     </div>
                                     <div class='test-desc' <!--%%DESCVIS%%-->>
                                         <span><!--%%TESTDESCRIPTION%%--></span>
+                                    </div>
+                                </div>
+                                <div class='test-attributes'>
+                                    <div class='categories'>
+                                        <!--%%TESTCATEGORY%%-->
                                     </div>
                                 </div>
                                 <div class='test-body'>
@@ -52,7 +58,7 @@
         public static string GetQuickSummarySource()
         {
             return @"<tr>
-	    			    <td><span class='quick-view-test'><!--%%TESTNAME%%--></span></td>
+	    			    <td><span class='quick-view-test'><!--%%TESTNAME%%--></span><!--%%TESTWARNINGS%%--></td>
 	    			    <td><!--%%CURRENTTESTPASSEDCOUNT%%--></td>
 	    			    <td><!--%%CURRENTTESTFAILEDCOUNT%%--></td>
 	    			    <td><!--%%CURRENTTESTFATALCOUNT%%--></td>
@@ -63,6 +69,21 @@
 	    			    <td><!--%%CURRENTTESTUNKNOWNCOUNT%%--></td>
 	    			    <td><span class='status <!--%%CURRENTTESTRUNSTATUS%%--> label'><!--%%CURRENTTESTRUNSTATUSU%%--></span></td>
 	    		    </tr>";
+        }
+
+        public static string GetCategorySource()
+        {
+            return "<span class='category'><!--%%CATEGORY%%--></span>";
+        }
+
+        public static string GetWarningSource(string Warning)
+        {
+            if (Warning == "")
+            {
+                return "";
+            }
+
+            return "<span class='test-warning tooltipped' data-tooltip='" + Warning + "' data-position='top'><i class='fa fa-info' alt='" + Warning + "' title='" + Warning + "'></i></span>";
         }
     }
 }
