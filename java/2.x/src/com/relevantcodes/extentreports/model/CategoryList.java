@@ -8,13 +8,12 @@
 
 package com.relevantcodes.extentreports.model;
 
-import java.util.Date;
+import java.util.ArrayList;
 
-import com.relevantcodes.extentreports.LogStatus;
-
-public class Log {
-    public Date timestamp;
-    public LogStatus logStatus;
-    public String stepName;
-    public String details;
+public class CategoryList {
+    public ArrayList<String> categories;
+    
+    public CategoryList() {
+        categories = new ArrayList<String>();
+    }
 }

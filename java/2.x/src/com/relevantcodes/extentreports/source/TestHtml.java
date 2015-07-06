@@ -26,10 +26,16 @@ public class TestHtml {
                             "<div class='right'>" +
                                 "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +
                                 "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>" +
+                                "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%TESTTIMETAKEN%%--></span>" +
                                 "<span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>" +
                             "</div>" +
                             "<div class='test-desc' <!--%%DESCVIS%%-->>" +
                                 "<span><!--%%TESTDESCRIPTION%%--></span>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class='test-attributes'>" +
+                            "<div class='categories'>" +
+                                "<!--%%TESTCATEGORY%%-->" +
                             "</div>" +
                         "</div>" +
                         "<div class='test-body'>" +
@@ -53,17 +59,21 @@ public class TestHtml {
     }
     
     public static String getSourceQuickView() {
-    	return "<tr>" +
-	    			"<td><span class='quick-view-test'><!--%%TESTNAME%%--></span></td>" +
-	    			"<td><!--%%CURRENTTESTPASSEDCOUNT%%--></td>" +
-	    			"<td><!--%%CURRENTTESTFAILEDCOUNT%%--></td>" +
-	    			"<td><!--%%CURRENTTESTFATALCOUNT%%--></td>" +
-	    			"<td><!--%%CURRENTTESTERRORCOUNT%%--></td>" +
-	    			"<td><!--%%CURRENTTESTWARNINGCOUNT%%--></td>" +
-	    			"<td><!--%%CURRENTTESTINFOCOUNT%%--></td>" +
-	    			"<td><!--%%CURRENTTESTSKIPPEDCOUNT%%--></td>" +
-	    			"<td><!--%%CURRENTTESTUNKNOWNCOUNT%%--></td>" +
-	    			"<td><span class='status <!--%%CURRENTTESTRUNSTATUS%%--> label'><!--%%CURRENTTESTRUNSTATUSU%%--></span></td>" +
-	    		"</tr>";
+        return "<tr>" +
+                    "<td><span class='quick-view-test'><!--%%TESTNAME%%--></span></td>" +
+                    "<td><!--%%CURRENTTESTPASSEDCOUNT%%--></td>" +
+                    "<td><!--%%CURRENTTESTFAILEDCOUNT%%--></td>" +
+                    "<td><!--%%CURRENTTESTFATALCOUNT%%--></td>" +
+                    "<td><!--%%CURRENTTESTERRORCOUNT%%--></td>" +
+                    "<td><!--%%CURRENTTESTWARNINGCOUNT%%--></td>" +
+                    "<td><!--%%CURRENTTESTINFOCOUNT%%--></td>" +
+                    "<td><!--%%CURRENTTESTSKIPPEDCOUNT%%--></td>" +
+                    "<td><!--%%CURRENTTESTUNKNOWNCOUNT%%--></td>" +
+                    "<td><span class='status <!--%%CURRENTTESTRUNSTATUS%%--> label'><!--%%CURRENTTESTRUNSTATUSU%%--></span></td>" +
+                "</tr>";
+    }
+    
+    public static String getCategorySource() {
+    	return "<span class='category'><!--%%CATEGORY%%--></span>";
     }
 }

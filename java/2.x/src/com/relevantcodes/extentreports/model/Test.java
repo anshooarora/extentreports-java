@@ -9,22 +9,27 @@
 package com.relevantcodes.extentreports.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.relevantcodes.extentreports.LogStatus;
 
 public class Test {
+	public ArrayList<TestAttribute> categoryList;
+	public ArrayList<TestAttribute> authorList;
     public ArrayList<Log> log;
     public ArrayList<ScreenCapture> screenCapture;
     public ArrayList<Screencast> screencast;
     public String name;
-    public String startedAt;
-    public String endedAt;
+    public Date startedTime;
+    public Date endedTime;
     public LogStatus status;
     public String statusMessage;
     public String description;
     
     public Test() {
         log = new ArrayList<Log>();
+        categoryList = new ArrayList<TestAttribute>();
+        authorList = new ArrayList<TestAttribute>();
         screenCapture = new ArrayList<ScreenCapture>();
         screencast = new ArrayList<Screencast>();
     }

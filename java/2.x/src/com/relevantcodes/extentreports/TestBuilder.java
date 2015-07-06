@@ -9,30 +9,44 @@
 package com.relevantcodes.extentreports;
 
 import com.relevantcodes.extentreports.model.Test;
+import com.relevantcodes.extentreports.model.TestAttribute;
 import com.relevantcodes.extentreports.source.ExtentFlag;
 import com.relevantcodes.extentreports.source.Icon;
 import com.relevantcodes.extentreports.source.StepHtml;
 import com.relevantcodes.extentreports.source.TestHtml;
+import com.relevantcodes.extentreports.support.DateTimeHelper;
 
 class TestBuilder {
     public static String getSource(Test test) {
-        String src = TestHtml.getSource(3);
+        String testSource = TestHtml.getSource(3);
         
         if (test.log.size() > 0 && test.log.get(0).stepName != "") {
-            src = TestHtml.getSource(4);
+            testSource = TestHtml.getSource(4);
         }
         
         if (test.description == null || test.description == "") {
-            src = src.replace(ExtentFlag.getPlaceHolder("descVis"), "style='display:none;'");
+            testSource = testSource.replace(ExtentFlag.getPlaceHolder("descVis"), "style='display:none;'");
         }
         
-        src = src.replace(ExtentFlag.getPlaceHolder("testName"), test.name)
+        long diff = test.endedTime.getTime() - test.startedTime.getTime();
+        long hours = diff / (60 * 60 * 1000) % 24;
+        long mins = diff / (60 * 1000) % 60;
+        long secs = diff / 1000 % 60;
+        
+        testSource = testSource.replace(ExtentFlag.getPlaceHolder("testName"), test.name)
                 .replace(ExtentFlag.getPlaceHolder("testStatus"), test.status.toString().toLowerCase())
-                .replace(ExtentFlag.getPlaceHolder("testStartTime"), test.startedAt)
-                .replace(ExtentFlag.getPlaceHolder("testEndTime"), test.endedAt)
+                .replace(ExtentFlag.getPlaceHolder("testStartTime"), DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat))
+                .replace(ExtentFlag.getPlaceHolder("testEndTime"),  DateTimeHelper.getFormattedDateTime(test.endedTime, LogSettings.logDateTimeFormat))
+                .replace(ExtentFlag.getPlaceHolder("testTimeTaken"), hours + "h " + mins + "m " + secs + "s")
                 .replace(ExtentFlag.getPlaceHolder("testStatus"), test.status.toString().toLowerCase())
                 .replace(ExtentFlag.getPlaceHolder("testDescription"), test.description)
-                .replace(ExtentFlag.getPlaceHolder("descVis"), "");    
+                .replace(ExtentFlag.getPlaceHolder("descVis"), "")
+                .replace(ExtentFlag.getPlaceHolder("category"), "");
+        
+        for (TestAttribute t : test.categoryList) {
+        	testSource = testSource.replace(ExtentFlag.getPlaceHolder("testCategory"), TestHtml.getCategorySource() + ExtentFlag.getPlaceHolder("testCategory"))
+        			.replace(ExtentFlag.getPlaceHolder("category"), t.getName());
+        }
         
         String stepSrc = StepHtml.getSrc(2);
         
@@ -42,8 +56,8 @@ class TestBuilder {
             }
             
             for (int ix = 0; ix < test.log.size(); ix++) {
-                src = src.replace(ExtentFlag.getPlaceHolder("step"), stepSrc + ExtentFlag.getPlaceHolder("step"))
-                        .replace(ExtentFlag.getPlaceHolder("timeStamp"), test.log.get(ix).timestamp)
+                testSource = testSource.replace(ExtentFlag.getPlaceHolder("step"), stepSrc + ExtentFlag.getPlaceHolder("step"))
+                        .replace(ExtentFlag.getPlaceHolder("timeStamp"), DateTimeHelper.getFormattedDateTime(test.log.get(ix).timestamp, LogSettings.logTimeFormat))
                         .replace(ExtentFlag.getPlaceHolder("stepStatusU"), test.log.get(ix).logStatus.toString().toUpperCase())
                         .replace(ExtentFlag.getPlaceHolder("stepStatus"), test.log.get(ix).logStatus.toString().toLowerCase())
                         .replace(ExtentFlag.getPlaceHolder("statusIcon"), Icon.getIcon(test.log.get(ix).logStatus))
@@ -52,9 +66,9 @@ class TestBuilder {
             }
         }
         
-        src = src.replace(ExtentFlag.getPlaceHolder("step"), "");
+        testSource = testSource.replace(ExtentFlag.getPlaceHolder("step"), "");
         
-        return src;
+        return testSource;
     }
     
 	public static String getQuickTestSummary(Test test) {

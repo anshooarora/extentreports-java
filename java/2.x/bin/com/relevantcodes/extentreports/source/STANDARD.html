@@ -16,7 +16,7 @@
         <title>ExtentReports 2.0</title>
         <style>
             body {
-                background-color: #f2f5f9;
+                background-color: #f1f4f8;
                 font-family: Nunito, 'Open Sans', Arial;
                 font-size: 13px;
             }
@@ -35,7 +35,6 @@
                 border: 4px solid #f6f7fa;
                 display: block;
                 height: auto;
-                margin-left: 5px;
                 margin-top: 15px;
                 width: 50%;
             }
@@ -45,15 +44,16 @@
             th, td {
                 border-bottom: 1px solid #ddd !important;
                 color: #222 !important;
-                padding: 10px;
             }
             th {
                 font-family: Nunito;
                 font-weight: 400 !important;
+                padding: 10px;
             }
             td {
-                font-size: 16px;
+                font-size: 15px;
                 font-weight: 400;
+                padding: 7px 10px;
                 word-break: break-all;
             }
             label {
@@ -154,7 +154,7 @@
             }
             .report-name {
                 font-weight: 300;
-                padding-left: 50px;
+                padding-left: 15px;
             }
             nav .right {
                 color: #c8c8c8;
@@ -226,6 +226,8 @@
             }
             .dropdown-content li > a, .dropdown-content li > span {
                 font-size: 0.9rem;
+                font-weight: 300;
+                line-height: 1.2rem;
                 padding: 0.5rem 1rem;
             }
 
@@ -241,6 +243,7 @@
             .tests-quick-view td {
                 font-size: 14px;
                 font-weight: 300;
+                padding: 10px;
             }
             .quick-test-summary {
                 margin-bottom: 20px;
@@ -268,6 +271,9 @@
             .test div, .test span, .test td  {
                 font-family: 'Source Sans Pro';
             }
+            .test td {
+            	vertical-align: top;
+            }
             .is-expanded {
                 border: 1px solid #222;
             }
@@ -277,6 +283,10 @@
             .test-head .label {
                 font-size: 13px;
                 text-transform: uppercase;
+            }
+            .test-time-taken {
+            	border-left: 2px solid #bbb;
+            	text-transform: lowercase !important;
             }
             .test-head .right {
                 margin-top: 6px;
@@ -296,6 +306,13 @@
                 margin-bottom: -30px;
                 padding-top: 45px;
             }
+            .test-attributes .category {
+			    background: #f9f2f4 none repeat scroll 0 0;
+			    border-radius: 2px;
+			    color: #c7254e;
+			    margin-right: 3px;
+			    padding: 2px 4px;
+			}
             .test-body {
                 cursor: auto !important;
                 display: none;
@@ -353,7 +370,7 @@
             /* -- [ labels ] -- */
             .label {
                 border-radius: 2px;
-                font-size: 15px;
+                font-size: 14px;
                 padding: 2px 5px;
                 text-transform: none;
             }
@@ -607,6 +624,16 @@
                                     </select>
                                     <label>Filter Tests</label>
                                 </div>
+                                <!-- #12: Ability to add categories and category-filters to tests -->
+                                <div class='input-field col l3 m6 s12 category-toggle'>
+                                    <select>
+                                        <option value='0' selected>Choose your option</option>
+                                        <!--%%CATEGORYLISTOPTIONS%%-->
+                                        <option value='8'>Clear Filters</option>
+                                    </select>
+                                    <label>Filter Category</label>
+                                </div>
+                                <!--%%CATEGORYADDED%%-->
                                 <div class='input-field col s12 m6 l3 find-tests'>
                                     <input id='test-name-filter' type='text' class='validate'>
                                     <label for='test-name-filter'>Find Test(s)</label>
@@ -619,7 +646,7 @@
                     </div>
                 </div>
             </div>
-            // #10: checkboxes for charts
+            <!-- #10: checkboxes for charts -->
             <div id='step-dashboard-status-filter' class='modal bottom-sheet'>
                 <div class='modal-content'>
                     <h5>Select status</h5>
@@ -771,6 +798,11 @@
                     $('.steps-failed > .percent').text(Math.round((failedSteps / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
                     $('.steps-failed').data('easyPieChart').update((failedSteps / totalSteps) * 100);
                 }
+                $('.categories').each(function() {
+                	if ($(this).children().length > 0) {
+						$(this).prop('style', 'margin-top: 5px;');                	
+                	}
+                });
                 $(document).keypress(function(e) {
                     if(e.which == 13) {
                         if ($('#test-name-filter').is(':focus')) {
@@ -790,13 +822,29 @@
                         if (opt == 'clear filters') {
                             resetFilters();
                         } else {
-                            $('.test').hide(0);
-                            $('.test.' + opt).fadeIn(0);
+                            $('.test, .test-section').hide(0);
+                            $('.test.' + opt).fadeIn(200).closest('.test-section').fadeIn(400);
+                        }
+                    }                                
+                });
+                // #12: Ability to add categories and category-filters to tests
+                $('.category-toggle li').click(function() {
+                    var opt = $(this).text();
+                    if (opt != 'Choose your option') {
+                        if (opt == 'Clear Filters') {
+                            resetFilters();
+                        } else {
+                            $('.test, .test-section').hide(0);
+							$('.test .category').each(function() {
+								if ($(this).text() == opt) {
+									$(this).closest('.test').fadeIn(200).closest('.test-section').fadeIn(400);
+								}
+							});
                         }
                     }                                
                 });
                 function resetFilters() {
-                    $('.test').show(0);
+                    $('.test, .test-section').show(0);
                 }
                 google.setOnLoadCallback(testSetChart);
                 google.setOnLoadCallback(testsChart);

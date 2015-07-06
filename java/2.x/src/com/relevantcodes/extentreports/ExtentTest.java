@@ -10,17 +10,17 @@ package com.relevantcodes.extentreports;
 
 import java.util.Calendar;
 
+import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Screencast;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.source.ImageHtml;
 import com.relevantcodes.extentreports.source.ScreencastHtml;
-import com.relevantcodes.extentreports.support.DateTimeHelper;
 
 public class ExtentTest {
-    private Test test;
-    private LogStatus runStatus = LogStatus.UNKNOWN;
+	private LogStatus runStatus = LogStatus.UNKNOWN;
+	private Test test;
     
     /**
      * Builds a test toggle in the report with the TestName
@@ -31,9 +31,9 @@ public class ExtentTest {
     public ExtentTest(String testName, String description) {
         test = new Test();
         
-        test.name = testName;
-        test.description = description;
-        test.startedAt = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logDateTimeFormat);
+        test.name = testName.trim();
+        test.description = description.trim();
+        test.startedTime = Calendar.getInstance().getTime();
     }
     
     /**
@@ -46,10 +46,10 @@ public class ExtentTest {
     public void log(LogStatus logStatus, String stepName, String details) {
         Log evt = new Log();
         
-        evt.timestamp = DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), LogSettings.logTimeFormat);
+        evt.timestamp = Calendar.getInstance().getTime();
         evt.logStatus = logStatus;
-        evt.stepName = stepName;
-        evt.details = details;
+        evt.stepName = stepName.trim();
+        evt.details = details.trim();
                 
         test.log.add(evt);
         
@@ -114,6 +114,22 @@ public class ExtentTest {
         test.screencast.add(sc);
         
         return screencastHtml;
+    }
+    
+    /**
+     * Assigns category to test
+     * 
+     * <p><b>Usage:</b> test.assignCategory(new Category("ExtentAPI"));
+     * 
+     * @param category Category object
+     * @return {@link ExtentTest}
+     */
+    public ExtentTest assignCategory(String... category) {
+    	for (String c : category) {
+    		test.categoryList.add(new Category(c));
+    	}
+
+    	return this;
     }
     
     private Boolean isPathRelative(String path) {

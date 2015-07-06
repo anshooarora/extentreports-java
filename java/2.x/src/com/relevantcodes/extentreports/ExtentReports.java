@@ -27,8 +27,9 @@ public class ExtentReports {
 	 * 			<br>&nbsp;&nbsp;<b>OLDEST_FIRST</b> (default) - oldest test at the top, newest at the end
      *     		<br>&nbsp;&nbsp;<b>NEWEST_FIRST</b> - newest test at the top, oldest at the end
      */
-    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {
-        reportInstance = new ReportInstance();
+    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {    	
+    	reportInstance = new ReportInstance();
+    	reportConfig = reportInstance.new ReportConfig();
         reportInstance.initialize(filePath, replaceExisting, displayOrder);
         
         systemInfo = new SystemInfo();
@@ -87,10 +88,6 @@ public class ExtentReports {
      * @return {@link ReportInstance.ReportConfig}
      */
     public ReportInstance.ReportConfig config() {
-        if (reportConfig == null) {
-            reportConfig = reportInstance.new ReportConfig();
-        }
-        
         return reportConfig;
     }
     
