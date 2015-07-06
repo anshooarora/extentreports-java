@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name='description' content='ExtentReports 2.0 (by Anshoo Arora) is a HTML reporting library for Selenium WebDriver for Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.' />
+        <meta name='robots' content='noodp, noydir' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+        <link rel='stylesheet' href='../css/kube.min.css'>
+        <link rel='stylesheet' href='../css/dropit.css'>
+        <link rel='stylesheet' href='../css/css.css'>
+        <title>ExtentReports</title>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                <div class='units-row'>
+                    <div class='unit-centered unit-80 top-unit'>
+                        <div class='left'>
+                            <div class='logo'>
+                                <a href='http://extentreports.relevantcodes.com'>ExtentReports</a>
+                            </div>
+                        </div>
+                        <div class='menu right'>
+                            <ul class='menu-items'>
+                                <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+                                <li class='menu-item'>
+                                    <a href='#'>Java</a>
+                                    <ul>
+                                        <li class='menu-item dropdown-item'><a href='../1x/docs.html'>Version 1.x Docs</a></li>
+                                        <li class='menu-item dropdown-item'><a href='#'>Version 2.x Docs</a></li>
+                                    </ul>
+                                </li>
+                                <li class='menu-item active'><a href='../net/docs.html'>.NET</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='slider'>
+                
+            </div>
+             <div class='main'>
+                <div class='intro-area bg-gray'>
+                    <div class='units-row'>
+                        <div class='unit-80 centered top-unit'>
+                            <div class="units-row end">
+                            <h1>Sample</h1>
+                            <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.html'>here</a>.</p>
+                            
+                            <h1>Current Version</h1>
+                            <p>2.01</p>
+                            
+                            <h1>Docs</h1>
+                            <ul class='index'>
+                                <li><a href='#author'>Owner / Developer</a>
+                                <li><a href='#basic-usage'>Basic Usage</a>
+                                    <ul>
+                                        <li><a href='#initialize-report'>Initializing Report</a></li>
+                                        <li><a href='#write-to-report'>Writing to Report</a></li>
+                                        <li><a href='#append-to-report'>Appending to an Existing Report</a></li>
+                                        <li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
+                                        <li><a href='#create-step-logs'>Creating Step Logs</a></li>
+                                        <li><a href='#insert-custom-html'>Inserting Custom HTML</a></li>
+                                        <li><a href='#insert-screenshots'>Insert Screenshots</a></li>
+                                        <li><a href='#insert-screencast'>Insert Screencasts</a></li>
+                                        <li><a href='#add-system-info'>Adding System Info</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href='#examples'>Examples</a>
+                                    <ul>
+                                        <li><a href='#basic-usage-example'>Basic Usage Example</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href='#customization'>Customization</a>
+                                    <ul>
+                                        <li><a href='#using-custom-css'>Using custom CSS</a></li>
+                                        <li><a href='#using-custom-js'>Using custom JS</a></li>
+                                        <li><a href='#document-title'>Setting Document/Report Title</a></li>
+                                        <li><a href='#report-name'>Setting Report Name</a></li>
+                                        <li><a href='#report-headline'>Setting Report Headline</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href='#license'>License</a></li>
+                            </ul>
+<h3 id='author'>Owner / Developer</h3>
+<p>This library is developed and maintained by:</p>
+<ul>
+    <li>Anshoo Arora</li>
+</ul>
+
+<h2 id='basic-usage'>Basic Usage</h2>
+<p>This section demonstrates basic methods that you will be using with this library.</p>
+
+<h3 id='initialize-report'>Initializing Report</h3>
+<p>To initialize the report, you must create an instance of <code>ExtentReports</code>. It is possible to initialize in 2 different ways as shown below.</p>
+<pre><code>
+var extent = new ExtentReports(file-path, replaceExisting);
+var extent = new ExtentReports(file-path, replaceExisting, DisplayOrder);
+
+where:
+    filePath (string):  path of the file, in .htm or .html format
+    overwriteExisting (boolean):  (true|false) 
+        true:  the file will be replaced with brand new markup, 
+            and all existing data will be lost. Use this option to create a brand new report
+        false:  existing data will remain, new tests will be appended to the existing report
+    DisplayOrder:  this determines the order in which your tests will be displayed
+        OLDEST_FIRST (default) - oldest test at the top, newest at the end
+        NEWEST_FIRST - newest test at the top, oldest at the end
+</code></pre>
+
+<h3 id='write-to-report'>Writing to Report</h3>
+<p>Once your session is complete and you are ready to write all logs to the report, simply call the <code>Flush()</code> method.</p>
+<pre><code class='java'>
+// writing everything to document
+extent.Flush();
+</code></pre>
+<p class='note'>It is recommended to call <code>Flush</code> only once at the end of your session because calling it multiple times will reduce the performance as the log file will be written/updated multiple times.</p>
+
+<h3 id='append-to-report'>Appending to an Existing Report</h3>
+<p>To append to a report you had previously created, simply mark <code>replaceExisting = false</code> and new tests will be appended to the same report.</p>
+<pre><code class='java'>
+var extent = new ExtentReports(file-path, false);
+</code></pre>
+
+<h3 id='start-end-tests'>Starting and Ending Tests</h3>
+<p>To start tests, a new instance of <code>ExtentTest</code> must be created. To end, simply call <code>EndTest(testInstance)</code>.</p>
+<pre><code class='java'>
+// new instance
+var extent = new ExtentReports(file-path, replaceExisting);
+
+// starting test
+var test = extent.StartTest("Test Name", "Sample description");
+
+// step log
+test.Log(LogStatus.PASS, "Step details");
+
+// ending test
+extent.EndTest(test);
+
+// writing everything to document
+extent.Flush();
+</code></pre>
+
+<h3 id='create-step-logs'>Creating Step Logs</h3>
+<p>There are 2 ways logs can be created: one that creates 3 columns and other that creates 4.  Always use only 1 type of log for the test otherwise the table will become malformed.</p>
+<pre><code class='java'>
+// creates 3 columns in table: TimeStamp, Status, Details
+log(LogStatus, details);
+
+// creates 4 columns in table: TimeStamp, Status, StepName, Details
+log(LogStatus, stepName, details);
+</code></pre>
+
+<h3 id='insert-custom-html'>Inserting custom HTML</h3>
+<p>Simply insert any custom HTML in the logs by using an HTML tag:</p>
+<pre><code class='java'>
+extent.Log(LogStatus.INFO, "HTML", "Usage: &lt;span style='font-weight:bold;'&gt;BOLD TEXT&lt;/span&gt;");
+</code></pre>
+
+<h3 id='insert-screenshots'>Insert Snapshots</h3>
+<p>To add a screen-shot, simply call <code>AddScreenCapture</code>. This method returns the HTML with &lt;img&gt; tag which can be used anywhere in the log details. Calling <code>AddScreenCapture</code> will also add the image to the ImageCollectionView from where you can see all images used by your tests.</p>
+<pre><code class='java'>
+extent.Log(LogStatus.INFO, "Snapshot below: " + test.AddScreenCapture("screenshot-path"));
+</code></pre>
+<p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the image to load.</p>
+
+<h3 id='insert-screencast'>Insert Screencast</h3>
+<p>To add a screencast/recording of your test run, use the <code>AddScreencast</code> method anywhere in the log details:</p>
+<pre><code class='java'>
+extent.Log(LogStatus.INFO, "Screencast below: " + test.AddScreencast("screencast-path"));
+</code></pre>
+<p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the screencst to load.</p>
+
+<h3 id='add-system-info'>Adding System Info</h3>
+<p>It is possible to add system or environment info for your using using the <code>AddSystemInfo</code> method. It is an overloaded method that allows you to add via a <code>Map</code> or string pairs.</p>
+
+<p class='note'>By default, the <code>OS</code>, <code>User Name</code>, <code>Java Version</code> and <code>Host Name</code> will be available. You do not have to add these 4 items manually.</p>
+
+<pre><code class='java'>
+extent.AddSystemInfo("Selenium Version", "2.46");
+extent.AddSystemInfo("Environment", "Prod");
+</code></pre>
+
+<pre><code class='java'>
+Map<String, String> sysInfo = new HashMap<String, String>();
+sysInfo.put("Selenium Version", "2.46");
+sysInfo.put("Environment", "Prod");
+
+extent.AddSystemInfo(sysInfo);
+</code></pre>
+
+<img class='bordered-img center' src='./img/system-info.png' /> 
+
+<h2 id='examples'>Examples</h2>
+<p>This section shows basic examples to get started with ExtentReports 2.0. For multi-threaded execution models, see section <a href='#parallel-runs'>Creating Parallel Runs</a>.</p>
+
+<h3 id='basic-usage-example'>Basic Usage Example</h3>
+<p>A simple example with a static method.</p>
+<pre><code class='java'>
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
+public class Main {
+    private static ExtentReports extent;
+
+    public static void main(String[] args) {
+        extent = new ExtentReports("file-path", true);
+
+        // creates a toggle for the given test, adds all log events under it    
+        ExtentTest test = extent.StartTest("My First Test", "Sample description");
+
+        // log(LogStatus, details)
+        test.Log(LogStatus.INFO, "This step shows usage of log(logStatus, details)");
+
+        // report with snapshot
+        String img = test.AddScreenCapture("img-path");
+        test.Log(LogStatus.INFO, "Image", "Image example: " + img);
+        
+        // end test
+        extent.EndTest(test);
+        
+        // calling Flush writes everything to the log file
+        extent.Flush();
+    }
+}
+</code></pre>
+
+<h2 id='customization'>Customization</h2>
+<p>All customization is done at the report level and by using the <code>config()</code> method of ExtentReports. Remember, you can chain these methods as <code>config()</code> is fluent as shown below:</p>
+
+<pre><code class='java'>
+extent.Config()
+        .DocumentTitle("Title of the Report")
+        .ReportName("ExtentReports")
+        .ReportHeadline("A short headline.")
+        .InsertCustomStyles(".test { border:2px solid #444; }");
+</code></pre>
+<p>Output: <a href='./samples/Customization.html'>Customization.html</a></p>
+
+<h3 id='using-custom-css'>Using custom CSS</h3>
+<p>You can use your custom CSS directly in the document or load a custom css-stylesheet.</p>
+
+<pre><code class='java'>
+// custom styles
+String style = ".test { border: 2px solid #444; }";
+extent.Config().InsertCustomStyles(style);
+</code></pre>
+<pre><code class='java'>
+// custom stylesheet
+extent.Config().AddCustomStylesheet("C:\\css.css");
+</code></pre>
+
+<h3 id='using-custom-js'>Using custom JS</h3>
+<p>Just like having the ability to change document styles, you can also add your own custom scripts.</p>
+
+<pre><code class='java'>
+extent.Config().InsertJs("$('.test').click(function(){ alert('test clicked'); });");
+</code></pre>
+
+<h3 id='document-title'>Setting Document Title</h3>
+<p>It is possible to change the title of the report file using:</p>
+<pre><code class='java'>
+extent.Config().DocumentTitle("ExtentReports - DocumentTitle");
+</code></pre>
+
+<h3 id='report-name'>Setting Report Name</h3>
+<p>To set the report name, simply call the <code>reportName()</code> method:</p>
+<pre><code class='java'>
+extent.Config().ReportName("ExtentReports - ReportName");
+</code></pre>
+<p>The max length allowed for report-name is 20 characters.</p>
+
+<h3 id='report-headline'>Change Report Headline</h3>
+<p>You can remove or add your own summary by using the following config:</p>
+<pre><code class='java'>
+extent.Config().ReportHeadline("ExtentReports - ReportHeadline");
+</code></pre>
+<p>The max length allowed for report-headline is 70 characters.</p>
+
+<h2 id='license'>License</h2>
+<h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ol>
+    <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+    <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+    <li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Anshoo Arora or RelevantCodes.com BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='footer bg-inverse'>
+                <div class='units-row'>
+                    <div class='unit-100'>
+                        <div class='unit-80 centered top-unit'>
+                            <div class='left'>
+                                <span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
+                            </div>
+                            <div class='right'>
+                                <span><a href='http://relevantcodes.com/extentreports-for-selenium/'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+        <script src="../js/kube.min.js"></script> 
+        <script src="../js/dropit.js"></script>
+        <script src="../js/scripts.js"></script> 
+    </body>
+</html>

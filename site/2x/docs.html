@@ -8,6 +8,7 @@
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
         <link rel='stylesheet' href='../css/kube.min.css'>
+        <link rel='stylesheet' href='../css/dropit.css'>
         <link rel='stylesheet' href='../css/css.css'>
         <title>ExtentReports</title>
     </head>
@@ -18,14 +19,20 @@
                     <div class='unit-centered unit-80 top-unit'>
                         <div class='left'>
                             <div class='logo'>
-                                <span>ExtentReports</span>
+                                <a href='http://extentreports.relevantcodes.com'>ExtentReports</a>
                             </div>
                         </div>
                         <div class='menu right'>
                             <ul class='menu-items'>
-                                <li class='menu-item'><a href='../index.html'>Home</a></li>
-                                <li class='menu-item'><a href='../1x/docs.html'>1.x Docs</a></li>
-                                <li class='menu-item active'><a href='#'>2.x Docs</a></li>
+                                <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+                                <li class='menu-item active'>
+                                    <a href='#'>Java</a>
+                                    <ul>
+                                        <li class='menu-item dropdown-item'><a href='../1x/docs.html'>Version 1.x Docs</a></li>
+                                        <li class='menu-item dropdown-item'><a href='#'>Version 2.x Docs</a></li>
+                                    </ul>
+                                </li>
+                                <li class='menu-item'><a href='../net/docs.html'>.NET</a></li>
                             </ul>
                         </div>
                     </div>
@@ -42,9 +49,9 @@
                             <h1>Sample</h1>
                             <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.html'>here</a>.</p>
                             
-							<h1>Current Version</h1>
-							<p>2.01</p>
-							
+                            <h1>Current Version</h1>
+                            <p>2.01</p>
+                            
                             <h2>If you are coming from Version 1.x</h2>
                             <p>ExtentReports 2.0 is a complete re-write of this library so a lot of things have changed. There is currently no straight-forward migration path and you will have to modify your scripts to make them work with the new version.</p>
                             
@@ -56,14 +63,14 @@
                                 <li><a href='#basic-usage'>Basic Usage</a>
                                     <ul>
                                         <li><a href='#initialize-report'>Initializing Report</a></li>
-										<li><a href='#write-to-report'>Writing to Report</a></li>
+                                        <li><a href='#write-to-report'>Writing to Report</a></li>
                                         <li><a href='#append-to-report'>Appending to an Existing Report</a></li>
                                         <li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
                                         <li><a href='#create-step-logs'>Creating Step Logs</a></li>
                                         <li><a href='#insert-custom-html'>Inserting Custom HTML</a></li>
                                         <li><a href='#insert-screenshots'>Insert Screenshots</a></li>
                                         <li><a href='#insert-screencast'>Insert Screencasts</a></li>
-										<li><a href='#add-system-info'>Adding System Info</a></li>
+                                        <li><a href='#add-system-info'>Adding System Info</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#examples'>Examples</a>
@@ -71,7 +78,7 @@
                                         <li><a href='#basic-usage-example'>Basic Usage Example</a></li>
                                         <li><a href='#basic-testng-example'>TestNG Example</a></li>
                                         <li><a href='#basic-multiple-testng-classes'>Multiple TestNG Classes</a></li>
-										<li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
+                                        <li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#parallel-runs'>Creating Parallel Runs</a>
@@ -89,7 +96,7 @@
                                         <li><a href='#report-headline'>Setting Report Headline</a></li>
                                     </ul>
                                 </li>
-								<li><a href='#license'>License</a></li>
+                                <li><a href='#license'>License</a></li>
                             </ul>
 <h3 id='author'>Owner / Developer</h3>
 <p>This library is developed and maintained by:</p>
@@ -100,8 +107,8 @@
 <h3 id='beta-testers'>Beta Testers</h3>
 <ul>
     <li>Virender Singh</li>
-	<li>Sujata Kalluri</li>
-	<li>Martin Skarbala</li>
+    <li>Sujata Kalluri</li>
+    <li>Martin Skarbala</li>
     <li>Roman Hesteric</li>
 </ul>
 
@@ -447,8 +454,8 @@ public class Fruit {
         test = extent.startTest("Pass Test", "Sample description");
         test.log(LogStatus.PASS, "Details");
     }
-	
-	@Test
+    
+    @Test
     public void testError() {
         test = extent.startTest("Error Test", "Sample description");
         test.log(LogStatus.ERROR, "Details");
@@ -478,8 +485,8 @@ public class Vegetable {
         test.log(LogStatus.WARNING, "Details");
         extent.endTest(test);
     }
-	
-	@Test
+    
+    @Test
     public void testFail() {
         ExtentTest test = extent.startTest("Fail Test", "Sample description");
         test.log(LogStatus.FAIL, "Details");
@@ -643,6 +650,7 @@ extent.config().reportHeadline("ExtentReports - ReportHeadline");
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
         <script src="../js/kube.min.js"></script> 
+        <script src="../js/dropit.js"></script>
         <script src="../js/scripts.js"></script> 
     </body>
 </html>

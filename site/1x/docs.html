@@ -6,8 +6,9 @@
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
         <link rel='stylesheet' href='../css/kube.min.css'>
+        <link rel='stylesheet' href='../css/dropit.css'>
         <link rel='stylesheet' href='../css/css.css'>
         <title>ExtentReports</title>
     </head>
@@ -18,14 +19,20 @@
                     <div class='unit-centered unit-80 top-unit'>
                         <div class='left'>
                             <div class='logo'>
-                                <span>ExtentReports</span>
+                                <a href='http://extentreports.relevantcodes.com'>ExtentReports</a>
                             </div>
                         </div>
                         <div class='menu right'>
                             <ul class='menu-items'>
-                                <li class='menu-item'><a href='../index.html'>Home</a></li>
-                                <li class='menu-item active'><a href='#'>1.x Docs</a></li>
-                                <li class='menu-item'><a href='../2x/docs.html'>2.x Docs</a></li>
+                                <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+                                <li class='menu-item active'>
+                                    <a href='#'>Java</a>
+                                    <ul>
+                                        <li class='menu-item dropdown-item'><a href='#'>Version 1.x Docs</a></li>
+                                        <li class='menu-item dropdown-item'><a href='../2x/docs.html'>Version 2.x Docs</a></li>
+                                    </ul>
+                                </li>
+                                <li class='menu-item'><a href='../net/docs.html'>.NET</a></li>
                             </ul>
                         </div>
                     </div>
@@ -46,62 +53,62 @@
                                     <li>Creating HTML reports for your Selenium tests using ExtentReports by Bas Dijkstra: <a href='http://www.ontestautomation.com/creating-html-reports-for-your-selenium-tests-using-extentreports/'>here</a></li>
                                     <li>Selenium web driver tests using testng and HTML reports using ExtentReports by Madhu: <a href='http://tipsontestautomation.blogspot.com/'>here</a></li>
                                 </ul>
-								<h1>Samples</h1>
-								<p>Version 1.x can create 2 types of grids, sample for each below:</p>
-								<ul>
-									<li><a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>Standard Grid</a></li>
-									<li><a href='http://relevantcodes.com/Tools/ExtentReports/ExtentMasonry.html'>Masonry Grid</a></li>
-								</ul>
+                                <h1>Samples</h1>
+                                <p>Version 1.x can create 2 types of grids, sample for each below:</p>
+                                <ul>
+                                    <li><a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>Standard Grid</a></li>
+                                    <li><a href='http://relevantcodes.com/Tools/ExtentReports/ExtentMasonry.html'>Masonry Grid</a></li>
+                                </ul>
                                 <h1>Docs</h1>
-								<ul class='index'>
-									<li><a href='#whats-new'>What's new in version 1.41</a>
-									<li><a href='#author'>Owner / Developers</a>
-									<li><a href='#contributors'>Contributors</a>
-									<li><a href='#maven'>Maven / pom.xml</a></li>
-									<li><a href='#basic-usage'>Basic Usage</a>
-										<ul>
-											<li><a href='#initialize-report'>Initializing Report</a></li>
-											<li><a href='#logging'>Creating step logs</a></li>
-											<li><a href='#append-existing'>Appending to an existing report</a></li>
-											<li><a href='#add-test-desc'>Adding a test description</a></li>
-											<li><a href='#add-snapshot'>Inserting a snapshot</a></li>
-											<li><a href='#attach-snapshot'>Attaching a Snapshot without Status</a></li>
-											<li><a href='#relative-paths'>Using Relative paths for snapshots</a></li>
-											<li><a href='#add-label'>Inserting a label</a></li>
-											<li><a href='#add-link'>Inserting a link</a></li>
-											<li><a href='#add-html'>Inserting custom HTML</a></li>
-										</ul>
-									</li>
-									<li><a href='#examples'>Examples</a>
-										<ul>
-											<li><a href='#basic-example'>Basic Usage Example</a></li>
-											<li><a href='#testng-basic-example'>TestNG Basic Example</a></li>
-										</ul>
-									</li>
-									<li><a href='#customization'>Customization</a>
-										<ul>
-											<li><a href='#custom-css'>Using custom CSS</a></li>
-											<li><a href='#report-title'>Changing Report Title</a></li>
-											<li><a href='#themes'>Themes*</a></li>
-											<li><a href='#custom-js'>Using custom JS</a></li>
-											<li><a href='#add-remove-footer'>Add/Remove Extent footer</a></li>
-											<li><a href='#change-status-icon'>Changing status icon</a></li>
-											<li><a href='#change-summary'>Change top-level summary</a></li>
-											<li><a href='#change-chart-title'>Change chart title</a></li>
-											<li><a href='#change-img-size'>Change Screenshot Size</a></li>
-											<li><a href='#caller-class-display'>CallerClass display setting</a></li>
-										</ul>
-									</li>
-									<li><a href='#license'>License</a></li>
-								</ul>
+                                <ul class='index'>
+                                    <li><a href='#whats-new'>What's new in version 1.41</a>
+                                    <li><a href='#author'>Owner / Developers</a>
+                                    <li><a href='#contributors'>Contributors</a>
+                                    <li><a href='#maven'>Maven / pom.xml</a></li>
+                                    <li><a href='#basic-usage'>Basic Usage</a>
+                                        <ul>
+                                            <li><a href='#initialize-report'>Initializing Report</a></li>
+                                            <li><a href='#logging'>Creating step logs</a></li>
+                                            <li><a href='#append-existing'>Appending to an existing report</a></li>
+                                            <li><a href='#add-test-desc'>Adding a test description</a></li>
+                                            <li><a href='#add-snapshot'>Inserting a snapshot</a></li>
+                                            <li><a href='#attach-snapshot'>Attaching a Snapshot without Status</a></li>
+                                            <li><a href='#relative-paths'>Using Relative paths for snapshots</a></li>
+                                            <li><a href='#add-label'>Inserting a label</a></li>
+                                            <li><a href='#add-link'>Inserting a link</a></li>
+                                            <li><a href='#add-html'>Inserting custom HTML</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#examples'>Examples</a>
+                                        <ul>
+                                            <li><a href='#basic-example'>Basic Usage Example</a></li>
+                                            <li><a href='#testng-basic-example'>TestNG Basic Example</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#customization'>Customization</a>
+                                        <ul>
+                                            <li><a href='#custom-css'>Using custom CSS</a></li>
+                                            <li><a href='#report-title'>Changing Report Title</a></li>
+                                            <li><a href='#themes'>Themes*</a></li>
+                                            <li><a href='#custom-js'>Using custom JS</a></li>
+                                            <li><a href='#add-remove-footer'>Add/Remove Extent footer</a></li>
+                                            <li><a href='#change-status-icon'>Changing status icon</a></li>
+                                            <li><a href='#change-summary'>Change top-level summary</a></li>
+                                            <li><a href='#change-chart-title'>Change chart title</a></li>
+                                            <li><a href='#change-img-size'>Change Screenshot Size</a></li>
+                                            <li><a href='#caller-class-display'>CallerClass display setting</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#license'>License</a></li>
+                                </ul>
 <h2>What's new in version 1.41</h2>
 <p>The following have been added to the the latest version:</p>
 
 <ol>
-	<li>The report by default shows the difference between start and end times:
-		<img class='bordered-img' src='./img/time-diff.png' />    
-	</li>
-	<li>New test search functionality that finds tests by matching keywords in the test name and description.</li>
+    <li>The report by default shows the difference between start and end times:
+        <img class='bordered-img' src='./img/time-diff.png' />    
+    </li>
+    <li>New test search functionality that finds tests by matching keywords in the test name and description.</li>
 </ol>
     
 <h3 id='author'>Owner / Developer</h3>
@@ -303,7 +310,7 @@ public class TestNGExample {
         extent.log(LogStatus.INFO, "Details");
         extent.log(LogStatus.WARNING, "Details");
     }
-	
+    
     @AfterTest
     public void afterTest() {
         extent.endTest();
@@ -431,24 +438,25 @@ extent.config().displayCallerClass(false);
                     </div>
                 </div>
             </div>
-			<div class='footer bg-inverse'>
-				<div class='units-row'>
-					<div class='unit-100'>
-						<div class='unit-80 centered top-unit'>
-							<div class='left'>
-								<span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
-							</div>
-							<div class='right'>
-								<span><a href='http://relevantcodes.com/extentreports-for-selenium/'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+            <div class='footer bg-inverse'>
+                <div class='units-row'>
+                    <div class='unit-100'>
+                        <div class='unit-80 centered top-unit'>
+                            <div class='left'>
+                                <span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
+                            </div>
+                            <div class='right'>
+                                <span><a href='http://relevantcodes.com/extentreports-for-selenium/'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
-        <script src="../js/kube.min.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+        <script src="../js/kube.min.js"></script>
+        <script src="../js/dropit.js"></script>
         <script src="../js/scripts.js"></script> 
     </body>
 </html>
