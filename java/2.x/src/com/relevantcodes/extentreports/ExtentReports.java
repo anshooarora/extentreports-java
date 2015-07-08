@@ -20,19 +20,19 @@ public class ExtentReports {
     
     /**
      * Initializes the reporting by setting the file-path and test DisplayOrder
-	 * 
-	 * @param filePath Path of the file, in .htm or .html format
-	 * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-	 * 			<br>&nbsp;&nbsp;<b>true</b>:  the file will be replaced with brand new markup, and all existing data
-	 *	                will be lost. Use this option to create a brand new report
-	 *	        <br>&nbsp;&nbsp;<b>false</b>:  existing data will remain, new tests will be appended to the existing report
-	 * @param displayOrder Determines the order in which your tests will be displayed
-	 * 			<br>&nbsp;&nbsp;<b>OLDEST_FIRST</b> (default) - oldest test at the top, newest at the end
-     *     		<br>&nbsp;&nbsp;<b>NEWEST_FIRST</b> - newest test at the top, oldest at the end
+     * 
+     * @param filePath Path of the file, in .htm or .html format
+     * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *             <br>&nbsp;&nbsp;<b>true</b>:  the file will be replaced with brand new markup, and all existing data
+     *                    will be lost. Use this option to create a brand new report
+     *            <br>&nbsp;&nbsp;<b>false</b>:  existing data will remain, new tests will be appended to the existing report
+     * @param displayOrder Determines the order in which your tests will be displayed
+     *             <br>&nbsp;&nbsp;<b>OLDEST_FIRST</b> (default) - oldest test at the top, newest at the end
+     *             <br>&nbsp;&nbsp;<b>NEWEST_FIRST</b> - newest test at the top, oldest at the end
      */
-    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {    	
-    	reportInstance = new ReportInstance();
-    	reportConfig = reportInstance.new ReportConfig();
+    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {        
+        reportInstance = new ReportInstance();
+        reportConfig = reportInstance.new ReportConfig();
         reportInstance.initialize(filePath, replaceExisting, displayOrder);
         
         systemInfo = new SystemInfo();
@@ -40,12 +40,12 @@ public class ExtentReports {
     
     /**
      * Initializes the reporting by setting the file-path
-	 * 
-	 * @param filePath Path of the file, in .htm or .html format
-	 * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-	 * 			<br>&nbsp;&nbsp;<b>true</b>:  the file will be replaced with brand new markup, and all existing data
-	 *	                will be lost. Use this option to create a brand new report
-	 *	        <br>&nbsp;&nbsp;<b>false</b>:  existing data will remain, new tests will be appended to the existing report
+     * 
+     * @param filePath Path of the file, in .htm or .html format
+     * @param replaceExisting Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *             <br>&nbsp;&nbsp;<b>true</b>:  the file will be replaced with brand new markup, and all existing data
+     *                    will be lost. Use this option to create a brand new report
+     *            <br>&nbsp;&nbsp;<b>false</b>:  existing data will remain, new tests will be appended to the existing report
      */
     public ExtentReports(String filePath, Boolean replaceExisting) {
         this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST);
@@ -60,7 +60,7 @@ public class ExtentReports {
      * @return {@link ExtentTest}
      */
     public ExtentTest startTest(String testName) {
-    	return startTest(testName, "");
+        return startTest(testName, "");
     }
     
     /**
@@ -73,11 +73,11 @@ public class ExtentReports {
      * @return {@link ExtentTest}
      */
     public ExtentTest startTest(String testName, String description) {
-    	if (testList == null) {
-    		testList = new ArrayList<ExtentTest>();
-    	}
-    	
-    	ExtentTest test = new ExtentTest(testName, "");
+        if (testList == null) {
+            testList = new ArrayList<ExtentTest>();
+        }
+        
+        ExtentTest test = new ExtentTest(testName, description);
         testList.add(test);
         
         return test;
@@ -89,8 +89,9 @@ public class ExtentReports {
      * @param test {@link ExtentTest}
      */
     public void endTest(ExtentTest test) {
-    	test.getTest().hasEnded = true;
-    	
+        test.getTest().hasEnded = true;
+        test.getTest().internalWarning = "";
+        
         reportInstance.addTest(test.getTest());
     }
     
@@ -132,9 +133,22 @@ public class ExtentReports {
      * Writes all info to the report file
      */
     public void flush() {
-        reportInstance.terminate(testList, systemInfo);
+        reportInstance.writeAllResources(testList, systemInfo);
         
-        testList.clear();
         systemInfo.clear();
+    }
+    
+    /**
+     * Closes the underlying stream and clears all resources
+     * <br><br>
+     * If any of your test ended abruptly causing any side-affects 
+     * (not all logs sent to ExtentReports, information missing), 
+     * this method will ensure that the test is still appended to the report 
+     * with a warning message.
+     */
+    public void close() {
+    	reportInstance.terminate(testList);
+    	
+    	testList.clear();
     }
 }

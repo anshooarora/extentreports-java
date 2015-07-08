@@ -16,11 +16,13 @@ import com.relevantcodes.extentreports.source.ExtentFlag;
 import com.relevantcodes.extentreports.source.ObjectEmbedHtml;
 
 class MediaViewBuilder {
-    public static String getSource(ArrayList<?> mediaList) {
+    public static String getSource(ArrayList<?> mediaList, String type) {
         String src = "";
         
         if (mediaList == null || mediaList.size() == 0) {
-            src = ObjectEmbedHtml.getFullWidth().replace(ExtentFlag.getPlaceHolder("objectViewValue"), "No media was embed for the tests in this report.");
+            src = ObjectEmbedHtml.getFullWidth()
+            		.replace(ExtentFlag.getPlaceHolder("objectViewValue"), "No media was embed for the tests in this report.")
+            		.replace(ExtentFlag.getPlaceHolder("objectViewNull"), ExtentFlag.getPlaceHolder("objectViewNull" + type));
             
             return src;
         }

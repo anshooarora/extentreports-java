@@ -133,6 +133,11 @@
             .select-wrapper input.select-dropdown, .input-field label {
                 font-size: 0.9rem;
             }
+            .material-tooltip {
+                font-family: Nunito;
+                font-size: 13px;
+                font-weight: 300;
+            }
                         
             /* -- [ side-nav ] -- */
             nav {
@@ -145,16 +150,25 @@
             nav, .side-nav {
                 background-color: #1a2a42;
             }
+            .side-nav {
+                width: 60px;
+            }
+            .side-nav li {
+                padding: 0 7px;
+            }
             .side-nav .active, .side-nav li:hover {
                 background-color: #293951 !important;
             }
             .side-nav a {
-                color: #b5c0d2 !important;
+                color: #e1ecfe !important;
                 font-size: 13px !important;
+            }
+            #sidenav-overlay {
+                background: transparent;
             }
             .report-name {
                 font-weight: 300;
-                padding-left: 15px;
+                padding-left: 40px;
             }
             nav .right {
                 color: #c8c8c8;
@@ -311,7 +325,7 @@
                 font-size: 16px;
                 font-weight: 400;
                 margin-bottom: -30px;
-                padding-top: 45px;
+                padding-top: 40px;
             }
             .test-attributes .category {
                 background: #f9f2f4 none repeat scroll 0 0;
@@ -454,11 +468,11 @@
     <body>
         <nav>
             <ul id='slide-out' class='side-nav'>
-                <li class='dashboard-view active'><a href='#!'>Dashboard</a></li>
-                <li class='runinfo-view'><a href='#!'>RunInfo</a></li>
-                <li class='system-view'><a href='#!'>System</a></li>
-                <li class='images-view'><a href='#!'>Images</a></li>
-                <li class='videos-view'><a href='#!'>Videos</a></li>
+                <li class='dashboard-view active tooltipped' data-delay='0' data-position='right' data-tooltip='Dashboard view'><a href='#!'><i class='fa fa-dashboard'></i></a></li>
+                <li class='runinfo-view tooltipped' data-delay='0' data-position='right' data-tooltip='Run Info view'><a href='#!'><i class='fa fa-circle-o-notch'></i></a></li>
+                <li class='system-view tooltipped' data-delay='0' data-position='right' data-tooltip='System Info view'><a href='#!'><i class='fa fa-desktop'></i></a></li>
+                <li class='images-view tooltipped' data-delay='0' data-position='right' data-tooltip='Images view'><a href='#!'><i class='fa fa-image'></i></a></li>
+                <li class='videos-view tooltipped' data-delay='0' data-position='right' data-tooltip='Screencast view'><a href='#!'><i class='fa fa-video-camera'></i></a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse show-on-large'><i class='mdi-navigation-menu'></i></a>
             <span class='report-name'><!--%%LOGO%%-->Report Name<!--%%LOGO%%--> <!--%%HEADLINE%%-->[Report Headline]<!--%%HEADLINE%%--></span>
@@ -694,12 +708,15 @@
         <script>
             google.load('visualization', '1', {packages:['corechart']});
             $(document).ready(function() {
-                $('.button-collapse').sideNav();
+                $('.button-collapse').sideNav({ closeOnClick: false, menuWidth: 60 });
                 $('select').material_select();
                 $('ul.tabs').tabs();
                 $('.step-dashboard-status-filter').click(function() {
                     $('#step-dashboard-status-filter').openModal();
                 });
+                if ($('.category-toggle option').length == 2) {
+                  $('.category-toggle').hide();
+                }
                 $('#step-dashboard-status-filter input').prop('checked', 'checked');
                 $('.indicator').addClass('teal lighten-4');
                 var totalTests = $('.test').length;
@@ -738,14 +755,14 @@
                 $('.dashboard-view .determinate').attr('style', 'width:' + passedPercentage);
                 $('nav li').click(function() {
                     if (!$(this).hasClass('active')) {
-                        var cls = $(this).prop('class');
+                        var cls = $(this).prop('class').split(' ')[0];
                         $('nav li').removeClass('active');
                         $(this).addClass('active');
                         $('.views > div').not('.' + cls).slideUp().parent().children('.' + cls).slideDown();
                         if (cls == 'runinfo-view') 
                             showRunInfo();
                     }
-                    $('.button-collapse').sideNav('hide');
+                    //$('.button-collapse').sideNav('hide');
                 });
                 // #11: Link Test Case in Summary section to Details
                 $('.quick-view-test').click(function() {
@@ -759,7 +776,15 @@
                         el.toggleClass('is-expanded').find('.test-body').slideToggle(300);
                 });
                 $('.test-list .test').click(function(evt) {
-                    if (evt.target.nodeName == 'DIV' || evt.target.nodeName == 'SPAN') {
+                    if (evt.target.className.toLowerCase() == 'category') {
+                        $('.category-toggle li').each(function() {
+                            if ($(this).text() == $(evt.target).text()) {
+                                $(this).click();
+                                return;
+                            }
+                        });
+                    }
+                    else if (evt.target.nodeName == 'DIV' || evt.target.nodeName == 'SPAN') {
                         $(this).toggleClass('is-expanded').find('.test-body').slideToggle(300);
                     }
                 });

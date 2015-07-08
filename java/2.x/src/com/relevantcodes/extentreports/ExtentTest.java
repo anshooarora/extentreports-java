@@ -19,8 +19,8 @@ import com.relevantcodes.extentreports.source.ImageHtml;
 import com.relevantcodes.extentreports.source.ScreencastHtml;
 
 public class ExtentTest {
-	private LogStatus runStatus = LogStatus.UNKNOWN;
-	private Test test;
+    private LogStatus runStatus = LogStatus.UNKNOWN;
+    private Test test;
     
     /**
      * Builds a test toggle in the report with the TestName
@@ -119,17 +119,17 @@ public class ExtentTest {
     /**
      * Assigns category to test
      * 
-     * <p><b>Usage:</b> test.assignCategory(new Category("ExtentAPI"));
+     * <p><b>Usage:</b> test.assignCategory("ExtentAPI", "Regression");
      * 
      * @param category Category object
      * @return {@link ExtentTest}
      */
     public ExtentTest assignCategory(String... category) {
-    	for (String c : category) {
-    		test.categoryList.add(new Category(c));
-    	}
+        for (String c : category) {
+            test.categoryList.add(new Category(c));
+        }
 
-    	return this;
+        return this;
     }
     
     private Boolean isPathRelative(String path) {
