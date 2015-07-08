@@ -80,6 +80,8 @@
                                 <li><a href='#examples'>Examples</a>
                                     <ul>
                                         <li><a href='#basic-usage-example'>Basic Usage Example</a></li>
+                                        <li><a href='#basic-junit-example'>JUnit Example</a></li>
+                                        <li><a href='#basic-junit-example-assert'>JUnit Example With Assert</a></li>
                                         <li><a href='#basic-testng-example'>TestNG Example</a></li>
                                         <li><a href='#basic-multiple-testng-classes'>Multiple TestNG Classes</a></li>
                                         <li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
@@ -291,6 +293,114 @@ public class Main {
         
         // calling flush writes everything to the log file
         extent.flush();
+    }
+}
+</code></pre>
+
+<h3 id='basic-junit-example'>JUnit Example</h3>
+<p>A basic JUnit example.</p>
+<pre><code class='java'>
+public class ExtentManager {
+    private static ExtentReports extent;
+    
+    public static ExtentReports getInstance() {
+        if (extent == null) {
+            extent = new ExtentReports("file-path", true);
+            
+            // optional
+            extent.config()
+                .documentTitle("Automation Report")
+                .reportName("Regression")
+                .reportHeadline("");
+               
+            // optional
+            extent
+                .addSystemInfo("Selenium Version", "2.46")
+                .addSystemInfo("Environment", "QA");
+        }
+        return extent;
+    }
+}
+
+public class JUnitDemo {
+    private ExtentReports extent = ExtentManager.getInstance();
+    private ExtentTest test;
+    
+    @Test
+    public void first() {
+        test = extent.startTest("My First Test");
+        test.log(LogStatus.PASS, "This test passed");
+    }
+    
+    @Test
+    public void second() {
+        test = extent.startTest("My Second Test");
+        test.log(LogStatus.ERROR, "This test has an error.");
+    }
+    
+    @After
+    public void after() {
+        extent.endTest(test);
+    }
+
+    @AfterClass
+    public static void afterClass() {
+        ExtentManager.getInstance().flush();
+    }
+}
+</code></pre>
+
+<h3 id='basic-junit-example-assert'>JUnit Example With Assert</h3>
+<p>A basic JUnit example with an Assert.</p>
+<pre><code class='java'>
+public class ExtentManager {
+    private static ExtentReports extent;
+    
+    public static ExtentReports getInstance() {
+        if (extent == null) {
+            extent = new ExtentReports("file-path", true);
+            
+            // optional
+            extent.config()
+                .documentTitle("Automation Report")
+                .reportName("Regression")
+                .reportHeadline("");
+               
+            // optional
+            extent
+                .addSystemInfo("Selenium Version", "2.46")
+                .addSystemInfo("Environment", "QA");
+        }
+        return extent;
+    }
+}
+
+public class JUnitDemo {
+    private ExtentReports extent = ExtentManager.getInstance();
+    private ExtentTest test;
+    
+    @Test
+    public void assertEx() {
+        test = extent.startTest("Assert Example");
+        test.log(LogStatus.ERROR, "Step 1.");
+        
+        try {
+            Assert.assertSame(true, false);
+            test.log(LogStatus.PASS, "Test Passed");
+        }
+        catch (AssertionError e) {
+            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.toString() + "&lt;/pre&gt;");
+        }
+    }
+    
+    @After
+    public void after() {
+        extent.endTest(test);
+    }
+
+    @AfterClass
+    public static void afterClass() {
+        ExtentManager.getInstance().flush();
     }
 }
 </code></pre>

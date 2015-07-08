@@ -25,7 +25,7 @@
                         <div class='menu right'>
                             <ul class='menu-items'>
                                 <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
-								<li class='menu-item'><a href='../faqs.html'>FAQs</a></li>
+                                <li class='menu-item'><a href='../faqs.html'>FAQs</a></li>
                                 <li class='menu-item'>
                                     <a href='#'>Java</a>
                                     <ul>
@@ -72,7 +72,8 @@
                                 <li><a href='#examples'>Examples</a>
                                     <ul>
                                         <li><a href='#basic-usage-example'>Basic Usage Example</a></li>
-										<li><a href='#nunit-example'>NUnit Example</a></li>
+                                        <li><a href='#nunit-example'>NUnit Example</a></li>
+										<li><a href='#nunit-assert-example'>NUnit Assert Example</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#customization'>Customization</a>
@@ -271,7 +272,7 @@ namespace NUnitDemo
         [Test]
         public void FirstTest()
         {
-            test = extent.StartTest("First Test", "With Description");
+            test = extent.StartTest("First Test", "Test Description");
             test.Log(LogStatus.Info, "Info");
         }
 
@@ -280,6 +281,58 @@ namespace NUnitDemo
         {
             test = extent.StartTest("Second Test");
             test.Log(LogStatus.Error, "Error");
+        }
+    }
+}
+</code></pre>
+
+<h3 id='nunit-assert-example'>Nunit Assert Example</h3>
+<p>A basic NUnit example with 2 tests - one passed and one with an failure, both using asserts.</p>
+<pre><code class='csharp'>
+[TestFixture]
+public class AssertDemo
+{
+    private ExtentReports extent = ExtentManager.Instance;
+    private ExtentTest test;
+
+    [TearDown]
+    public void Teardown()
+    {
+        extent.EndTest(test);
+        extent.Flush();
+    }
+
+    [Test]
+    public void AssertTestFail()
+    {
+        test = extent.StartTest("Assert Test - Failure", "Test Description");
+        test.Log(LogStatus.Info, "Info");
+
+        try
+        {
+            Assert.AreEqual(true, false);
+            test.Log(LogStatus.Pass, "Test passed");
+        }
+        catch (AssertionException ex)
+        {
+            test.Log(LogStatus.Fail, "&lt;pre&gt;" + ex.StackTrace + "&lt;/pre&gt;");
+        }
+    }
+
+    [Test]
+    public void AssertTestPass()
+    {
+        test = extent.StartTest("Assert Test - Pass");
+        test.Log(LogStatus.Info, "Info");
+
+        try
+        {
+            Assert.AreEqual(true, true);
+            test.Log(LogStatus.Pass, "Test passed");
+        }
+        catch (AssertionException ex)
+        {
+            test.Log(LogStatus.Fail, "&lt;pre&gt;" + ex.StackTrace + "&lt;/pre&gt;");
         }
     }
 }
