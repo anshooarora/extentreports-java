@@ -9,11 +9,13 @@
 
     internal class MediaViewBuilder
     {
-        public static string GetSource<T>(List<T> MediaList) {
+        public static string GetSource<T>(List<T> MediaList, string type) {
             string source = "";
         
             if (MediaList == null || MediaList.Count == 0) {
-                source = ObjectEmbedHtml.GetFullWidth().Replace(ExtentFlag.GetPlaceHolder("objectViewValue"), "No media was embed for the tests in this report.");
+                source = ObjectEmbedHtml.GetFullWidth()
+                    .Replace(ExtentFlag.GetPlaceHolder("objectViewValue"), "No media was embed for the tests in this report.")
+                    .Replace(ExtentFlag.GetPlaceHolder("objectViewNull"), ExtentFlag.GetPlaceHolder("objectViewNull" + type));
             
                 return source;
             }

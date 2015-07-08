@@ -29,22 +29,26 @@ namespace RelevantCodes.ExtentReports
             t.Log(LogStatus.Unknown, "First step");
             t.Log(LogStatus.Warning, "First step");
             r.EndTest(t);
+            r.Flush();
 
             t = r.StartTest("Test 2", "desc");
-            t.Log(LogStatus.Pass, "First step");
-            t.Log(LogStatus.Error, "First step");
-            t.Log(LogStatus.Info, "First step");
+            t.AssignCategory("Extent", "ExtentAPI");
+            t.Log(LogStatus.Pass, "First step " + t.AddScreenCapture("./1.png"));
+            t.Log(LogStatus.Error, "First step" + t.AddScreenCapture("./1.png"));
+            t.Log(LogStatus.Info, "First step" + t.AddScreenCapture("./1.png"));
             t.Log(LogStatus.Skip, "First step");
             t.Log(LogStatus.Unknown, "First step");
             t.Log(LogStatus.Warning, "First step");
             r.EndTest(t);
+            r.Flush();
 
-            t = r.StartTest("Test 3", "desc");
-            t.Log(LogStatus.Pass, "First step");
-            t.Log(LogStatus.Info, "First step");
+            t = r.StartTest("Test 3, Ends Abruptly", "desc");
+            t.AssignCategory("Regression", "Cat1", "Cat2");
+            t.AssignCategory("ExtentAPI");
+            t.Log(LogStatus.Pass, "First step" + t.AddScreenCapture("./1.png"));
+            t.Log(LogStatus.Info, "First step" + t.AddScreencast("./1.mp4"));
             t.Log(LogStatus.Skip, "First step");
             t.Log(LogStatus.Warning, "First step");
-            r.EndTest(t);
 
             t = r.StartTest("Test 4");
             t.Log(LogStatus.Pass, "First step");
@@ -53,6 +57,7 @@ namespace RelevantCodes.ExtentReports
             r.EndTest(t);
 
             r.Flush();
+            r.Close();
         }
     }
 }

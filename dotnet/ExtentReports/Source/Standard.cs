@@ -336,7 +336,7 @@
                 font-size: 16px;
                 font-weight: 400;
                 margin-bottom: -30px;
-                padding-top: 45px;
+                padding-top: 40px;
             }
             .test-attributes .category {
                 background: #f9f2f4 none repeat scroll 0 0;

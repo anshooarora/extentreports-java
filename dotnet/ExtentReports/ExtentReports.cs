@@ -79,6 +79,8 @@
 
         public void Close()
         {
+            reportInstance.Terminate(testList);
+
             testList.Clear();
         }
     }

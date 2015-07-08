@@ -30,7 +30,7 @@
                         .Replace(ExtentFlag.GetPlaceHolder("testStatus"), Test.Status.ToString().ToLower())
                         .Replace(ExtentFlag.GetPlaceHolder("testStartTime"), Test.StartedTime.ToString())
                         .Replace(ExtentFlag.GetPlaceHolder("testEndTime"), Test.EndedTime.ToString())
-                        .Replace(ExtentFlag.GetPlaceHolder("testTimeTaken"), Test.EndedTime.Subtract(Test.StartedTime).TotalMinutes + "m " + Test.EndedTime.Subtract(Test.StartedTime).TotalSeconds + "s")
+                        .Replace(ExtentFlag.GetPlaceHolder("testTimeTaken"), (Test.EndedTime - Test.StartedTime).Minutes + "m " + (Test.EndedTime - Test.StartedTime).Seconds + "s")
                         .Replace(ExtentFlag.GetPlaceHolder("testDescription"), Test.Description)
                         .Replace(ExtentFlag.GetPlaceHolder("descVis"), "")
                         .Replace(ExtentFlag.GetPlaceHolder("category"), "")
@@ -72,6 +72,7 @@
             int unknown = Test.Logs.Count(x => x.LogStatus == LogStatus.Unknown);
 
             source = source.Replace(ExtentFlag.GetPlaceHolder("testName"), Test.Name)
+                .Replace(ExtentFlag.GetPlaceHolder("testWarnings"), TestHtml.GetWarningSource(Test.InternalWarning))
                 .Replace(ExtentFlag.GetPlaceHolder("currentTestPassedCount"), "" + passed)
                 .Replace(ExtentFlag.GetPlaceHolder("currentTestFailedCount"), "" + failed)
                 .Replace(ExtentFlag.GetPlaceHolder("currentTestFatalCount"), "" + fatal)

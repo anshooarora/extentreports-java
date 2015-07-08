@@ -15,6 +15,7 @@
         private bool terminated = false;
         private CategoryList categoryList;
         private DisplayOrder displayOrder;
+        private int infoWrite = 0;
         private string filePath;
         private MediaList mediaList;
         private string quickSummarySource = "";
@@ -96,12 +97,14 @@
                 throw new IOException("Stream closed");
             }
 
+            if (SystemInfo != null)
+                UpdateSystemInfo(SystemInfo.GetInfo());
+
             if (testSource == "")
                 return;
 
             runInfo.EndedTime = DateTime.Now;
 
-            UpdateSystemInfo(SystemInfo.GetInfo());
             UpdateCategoryList();
             UpdateSuiteExecutionTime();
             UpdateMediaList();
@@ -143,34 +146,8 @@
                 }
             }
 
-            UpdateCategoryList();
-            UpdateSuiteExecutionTime();
-            UpdateMediaList();
+            WriteAllResources(null, null);
 
-            if (this.displayOrder == DisplayOrder.OldestFirst)
-            {
-                lock (sourcelock)
-                {
-                    extentSource = extentSource.Replace(ExtentFlag.GetPlaceHolder("test"), testSource + ExtentFlag.GetPlaceHolder("test"))
-                                            .Replace(ExtentFlag.GetPlaceHolder("quickTestSummary"), quickSummarySource + ExtentFlag.GetPlaceHolder("quickTestSummary"));
-                }
-            }
-            else
-            {
-                lock (sourcelock)
-                {
-                    extentSource = extentSource.Replace(ExtentFlag.GetPlaceHolder("test"), ExtentFlag.GetPlaceHolder("test") + testSource)
-                                            .Replace(ExtentFlag.GetPlaceHolder("quickTestSummary"), ExtentFlag.GetPlaceHolder("quickTestSummary") + quickSummarySource);
-                }
-            }
-
-            using (var file = new StreamWriter(filePath))
-            {
-                TextWriter.Synchronized(file).WriteLine(extentSource);
-            }
-
-            testSource = "";
-            quickSummarySource = "";
             extentSource = "";
             categoryList = null;
             runInfo = null;
@@ -238,31 +215,55 @@
 
         private void UpdateMediaList()
         {
-            string mediaSource = MediaViewBuilder.GetSource(mediaList.ScreenCapture);
+            string mediaSource = MediaViewBuilder.GetSource(mediaList.ScreenCapture, "img");
             string[] flags = new string[] { ExtentFlag.GetPlaceHolder("imagesView") };
             string[] values = new string[] { mediaSource + ExtentFlag.GetPlaceHolder("imagesView") };
-            
-            if (values[0].IndexOf("No media") >= 0)
+
+            if (!(infoWrite >= 1 && values[0].IndexOf("No media") >= 0))
             {
                 lock (sourcelock)
                 {
                     extentSource = SourceBuilder.Build(extentSource, flags, values);
+
+                    if (mediaList.ScreenCapture.Count > 0)
+                    {
+                        try
+                        {
+                            string match = RegexMatcher.GetNthMatch(extentSource, ExtentFlag.GetPlaceHolder("objectViewNullImg") + ".*" + ExtentFlag.GetPlaceHolder("objectViewNullImg"), 0);
+                            extentSource = extentSource.Replace(match, "");
+                        }
+                        catch { }
+                    }
+
                     mediaList.ScreenCapture.Clear();
                 }
             }
 
-            mediaSource = MediaViewBuilder.GetSource(mediaList.Screencast);
+            mediaSource = MediaViewBuilder.GetSource(mediaList.Screencast, "vid");
             flags = new String[] { ExtentFlag.GetPlaceHolder("videosView") };
             values = new String[] { mediaSource + ExtentFlag.GetPlaceHolder("videosView") };
-            
-            if (values[0].IndexOf("No media") >= 0)
+
+            if (!(infoWrite >= 1 && values[0].IndexOf("No media") >= 0))
             {
                 lock (sourcelock)
                 {
                     extentSource = SourceBuilder.Build(extentSource, flags, values);
+
+                    if (mediaList.Screencast.Count > 0)
+                    {
+                        try
+                        {
+                            string match = RegexMatcher.GetNthMatch(extentSource, ExtentFlag.GetPlaceHolder("objectViewNullVid") + ".*" + ExtentFlag.GetPlaceHolder("objectViewNullVid"), 0);
+                            extentSource = extentSource.Replace(match, "");
+                        }
+                        catch { }
+                    }
+
                     mediaList.Screencast.Clear();                    
                 }
             }
+
+            infoWrite++;
         }
 
         private void AddTest(string TestSource)
