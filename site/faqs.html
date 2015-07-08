@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name='description' content='ExtentReports 2.0 (by Anshoo Arora) is an extremely easy to use reporting library which creates detailed and attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.' />
+        <meta name='robots' content='noodp, noydir' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+        <link rel='stylesheet' href='./css/kube.min.css'>
+        <link rel='stylesheet' href='./css/dropit.css'>
+        <link rel='stylesheet' href='./css/css.css'>
+        <title>ExtentReports</title>
+    </head>
+    <body>    
+        <div class='container'>
+            <div class='header'>
+                <div class='units-row'>
+                    <div class='unit-centered unit-80 top-unit'>
+                        <div class='left'>
+                            <div class='logo'>
+                                <a href='http://extentreports.relevantcodes.com'>ExtentReports</a>
+                            </div>
+                        </div>
+                        <div class='menu right'>
+                            <ul class='menu-items'>
+                                <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+                                <li class='menu-item active'><a href='#'>FAQs</a></li>
+                                <li>
+                                    <a href='#'>Java</a>
+                                    <ul>
+                                        <li class='menu-item dropdown-item'><a href='./1x/docs.html'>Version 1.x Docs</a></li>
+                                        <li class='menu-item dropdown-item'><a href='./2x/docs.html'>Version 2.x Docs</a></li>
+                                    </ul>
+                                </li>
+                                <li class='menu-item'><a href='./net/docs.html'>.NET</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='slider'>
+                
+            </div>
+            <div class='main'>
+                <div class='intro-area'>
+                    <div class='units-row'>
+                        <div class='unit-80 centered top-unit'>
+                            <div class="units-row end">
+                                <h1>FAQs</h1>
+                                <ul>
+									<li><a href='#show-me-an-example'>Can you show me an example of how to use this reporting?</a></li>
+                                    <li><a href='#correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</a></li>
+                                    <li><a href='#categories'>How can I categorize my tests?</a></li>
+									<li><a href='#append-report'>Is it possible to keep results from my previous run and append my tests to the same file?</a></li>
+									<li><a href='#issue'>Something is not working correctly, what should I do?</a></li>
+                                </ul>
+                                
+								<h4 id='show-me-an-example'>Can you show me an example of how to use this reporting?</h4>
+								<p>There are plenty of examples in the documentation: <a href='./2x/docs.html'>Java</a>, <a href='./net/docs.html'>.NET</a>. Other than the docs, Bas has also written a great <a href='http://www.ontestautomation.com/creating-html-reports-for-your-selenium-tests-using-extentreports/'>review</a> which shows usage.</p>
+								
+                                <h4 id='correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</h4>
+                                <p>There is generally only 1 reason why this happens. The statement that sends a <code>failed</code> event to ExtentReports never gets executed. Consider the following example:</p>
+<pre><code class='java'>
+public static void main(String[] args) {
+    ExtentReports extent = new ExtentReports("file-path", true);
+    ExtentTest t = extent.startTest("Demo");
+    
+    // will be logged
+    t.log(LogStatus.PASS, "I am logged correctly");
+    
+    // executing stops right here
+    Assert.assertEquals(false, true);
+    
+    // will not be logged
+    t.log(LogStatus.FAIL, "I am not logged");
+}
+</code></pre>
+
+<p>TestNG example:</p>
+<pre><code class='java'>
+public class Demo {
+    private ExtentReports extent = ExtentManager.getInstance();
+    private ExtentTest t;
+    
+    @Test
+    public void test() {
+        t = extent.startTest("Demo");
+        
+        // will be logged
+        t.log(LogStatus.PASS, "I am logged correctly");
+    
+        // executing stops right here
+        Assert.assertEquals(false, true);
+        
+        // will not be logged
+        t.log(LogStatus.FAIL, "I am not logged");
+    }
+    
+    @AfterTest
+    public void afterTest() {
+        extent.endTest(t);
+        extent.flush();
+    }
+}
+</code></pre>
+<p>Because the assert failed the test, even though the result will show up in the test-runner's log, it will not show up in the report file unless the <code>failed</code> step gets executed. I would recommend using soft asserts as normal (hard) asserts will stop the test the moment they encounter a failure.</p>
+<p>Another safe measure is to call <code>extent.close()</code> at the very end, for example, as the last step in <code>@AfterSuite</code>. If any of your test ended abruptly causing any side-affects (not all logs sent to ExtentReports, information missing), this method will ensure that the test is still appended to the report with a warning message.</p>
+<pre><code class='java'>
+extent.close();
+</code></pre>
+
+								<h4 id='categories'>How can I categorize my tests?</h4>
+                                <p>Started version 2.02, simply assign a category to your test using <code>assignCategory</code>:</p>
+<pre><code class='java'>
+ExtentTest t = extent.startTest("Demo");
+t.assignCategory("Regression");
+t.assignCategory("Regression", "ExtentAPI");
+t.assignCategory("Regression", "ExtentAPI", "category-3", "cagegory-4", ..);
+</code></pre>
+
+								<h4 id='append-report'>Is it possible to keep results from my previous run and append my tests to the same file?</h4>
+                                <p>Yes, it can be done by using <code>replaceExisting = false</code> in the instance itself:</p>
+<pre><code class='java'>
+// replaceExisting = false
+// will not create a brand new report, it will simply append new tests to it
+private ExtentReports extent = new ExtentReports("file-path", false);
+</code></pre>								
+								
+								<h4 id='issue'>Something is not working correctly, what should I do?</h4>
+								<p>You can log all bugs or features <a href='https://github.com/anshooarora/extentreports/issues'>here</a>. Provide as much information as possible, i.e. steps to reproduce, code examples, type of test runner, Extent version etc.</p>
+								
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='footer bg-inverse'>
+                <div class='units-row'>
+                    <div class='unit-100'>
+                        <div class='unit-80 centered top-unit'>
+                            <div class='left'>
+                                <span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
+                            </div>
+                            <div class='right'>
+                                <span><a href='http://relevantcodes.com/extentreports-for-selenium/'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+        <script src="./js/kube.min.js"></script> 
+        <script src="./js/dropit.js"></script> 
+        <script src="./js/scripts.js"></script> 
+    </body>
+</html>

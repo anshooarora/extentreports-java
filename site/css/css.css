@@ -102,7 +102,7 @@ li img {
 }
 .logo a {
     color: #000;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 /* ---- [ slider ] ---- */
@@ -116,6 +116,9 @@ li img {
 }
 
 /* ---- [ menu ] ---- */
+.menu {
+	margin-top: 3px;
+}
 .menu-items {
     list-style: none;
 }
@@ -274,7 +277,7 @@ li img {
         padding: 0 30px 0;
     }
     .header {
-        padding: 20px 30px 0;
+        padding: 20px 30px;
     }
 }
 @media all and (max-width: 600px) {

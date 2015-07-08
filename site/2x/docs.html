@@ -25,6 +25,7 @@
                         <div class='menu right'>
                             <ul class='menu-items'>
                                 <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+                                <li class='menu-item'><a href='../faqs.html'>FAQs</a></li>
                                 <li class='menu-item active'>
                                     <a href='#'>Java</a>
                                     <ul>
@@ -50,13 +51,14 @@
                             <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.html'>here</a>.</p>
                             
                             <h1>Current Version</h1>
-                            <p>2.01</p>
+                            <p>2.02</p>
                             
                             <h2>If you are coming from Version 1.x</h2>
                             <p>ExtentReports 2.0 is a complete re-write of this library so a lot of things have changed. There is currently no straight-forward migration path and you will have to modify your scripts to make them work with the new version.</p>
                             
                             <h1>Docs</h1>
                             <ul class='index'>
+                                <li><a href='#whats-new'>What's new in 2.02</a></li>
                                 <li><a href='#author'>Owner / Developer</a>
                                 <li><a href='#beta-testers'>Beta Testers</a>
                                 <li><a href='#maven'>Maven</a>
@@ -67,10 +69,12 @@
                                         <li><a href='#append-to-report'>Appending to an Existing Report</a></li>
                                         <li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
                                         <li><a href='#create-step-logs'>Creating Step Logs</a></li>
+                                        <li><a href='#assign-category'>Assign Test Categories</a></li>
                                         <li><a href='#insert-custom-html'>Inserting Custom HTML</a></li>
                                         <li><a href='#insert-screenshots'>Insert Screenshots</a></li>
                                         <li><a href='#insert-screencast'>Insert Screencasts</a></li>
                                         <li><a href='#add-system-info'>Adding System Info</a></li>
+                                        <li><a href='#close-extent'>Clear all resources</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#examples'>Examples</a>
@@ -98,6 +102,25 @@
                                 </li>
                                 <li><a href='#license'>License</a></li>
                             </ul>
+                            
+<h2 id='whats-new'>What's new in 2.02</h2>
+<p>Version 2.02 launched on LAUNCH_DATE. Here is what's new:</p>
+<ul>
+    <li>You can now add categories to your tests using:
+<pre><code class='java'>
+test.assignCategory("Regression");
+test.assignCategory("Regression", "ExtentAPI");
+test.assignCategory("Regression", "ExtentAPI", "category-3", "cagegory-4", ..);
+</code></pre>
+<p>Each category will show under the test-name along with a list to filter tests:<img class='bordered-img center' src='./img/category.png' /></p>
+    </li>
+    <li>There is now an option to select the steps you want displayed in the steps chart:
+    <img class='bordered-img center' src='./img/step-selection-1.png' />
+    </li>
+    <li>Time taken by tests will now be displayed by default</li>
+    <li>Test case name in the summary view will link to the test case in details view. Clicking the test case will take you directly to the test details</li>
+</ul>
+
 <h3 id='author'>Owner / Developer</h3>
 <p>This library is developed and maintained by:</p>
 <ul>
@@ -185,6 +208,16 @@ log(LogStatus, details);
 log(LogStatus, stepName, details);
 </code></pre>
 
+<h3 id='assign-category'>Assign Test Categories</h3>
+<p>You can assign categories to tests using <code>assignCategory(String... params)</code> method:</p>
+<pre><code class='java'>
+test.assignCategory("Regression");
+test.assignCategory("Regression", "ExtentAPI");
+test.assignCategory("Regression", "ExtentAPI", "category-3", "cagegory-4", ..);
+</code></pre>
+<p>Each category will show under the test-name along with a list to filter tests:</p>
+<img class='bordered-img center' src='./img/category.png' />
+
 <h3 id='insert-custom-html'>Inserting custom HTML</h3>
 <p>Simply insert any custom HTML in the logs by using an HTML tag:</p>
 <pre><code class='java'>
@@ -207,14 +240,11 @@ extent.log(LogStatus.INFO, "Screencast below: " + test.addScreencast("screencast
 
 <h3 id='add-system-info'>Adding System Info</h3>
 <p>It is possible to add system or environment info for your using using the <code>addSystemInfo</code> method. It is an overloaded method that allows you to add via a <code>Map</code> or string pairs.</p>
-
 <p class='note'>By default, the <code>OS</code>, <code>User Name</code>, <code>Java Version</code> and <code>Host Name</code> will be available. You do not have to add these 4 items manually.</p>
-
 <pre><code class='java'>
 extent.addSystemInfo("Selenium Version", "2.46");
 extent.addSystemInfo("Environment", "Prod");
 </code></pre>
-
 <pre><code class='java'>
 Map<String, String> sysInfo = new HashMap<String, String>();
 sysInfo.put("Selenium Version", "2.46");
@@ -222,8 +252,13 @@ sysInfo.put("Environment", "Prod");
 
 extent.addSystemInfo(sysInfo);
 </code></pre>
-
 <img class='bordered-img center' src='./img/system-info.png' /> 
+
+<h3 id='close-extent'>Clear all resources</h3>
+<p>Call <code>close()</code> at the very end of your session to clear all resources. If any of your test ended abruptly causing any side-affects (not all logs sent to ExtentReports, information missing), this method will ensure that the test is still appended to the report with a warning message.</p>
+<pre><code class='java'>
+extent.close();
+</code></pre>
 
 <h2 id='examples'>Examples</h2>
 <p>This section shows basic examples to get started with ExtentReports 2.0. For multi-threaded execution models, see section <a href='#parallel-runs'>Creating Parallel Runs</a>.</p>
@@ -280,7 +315,11 @@ public class TestNGExample {
     
     @AfterSuite
     public void afterSuite() {
+        // write all resources to report file
         extent.flush();
+        
+        // terminates extent and clears the underlying stream
+        extent.close();
     }
 }
 </code></pre>
@@ -338,7 +377,11 @@ public class TestNGClass1 {
     
     @AfterSuite
     public void afterSuite() {
+        // write all resources to report file
         extent.flush();
+        
+        // terminates extent and clears the underlying stream
+        extent.close();
     }
 }
 
@@ -390,6 +433,7 @@ public class ReportFruit {
     
     @AfterSuite
     public void afterSuite() {
+        // write all resources to report file
         extent1.flush();
         extent2.flush();
     }
@@ -469,6 +513,9 @@ public class Fruit {
     @AfterSuite
     public void afterSuite() {
         extent.flush();
+        
+        // terminates extent and clears the underlying stream
+        extent.close();
     }
 }
 
@@ -560,6 +607,9 @@ public class Fruit {
     @AfterSuite
     public void afterSuite() {
         extent.flush();
+        
+        // terminates extent and clears the underlying stream
+        extent.close();
     }
 }
 </code></pre>

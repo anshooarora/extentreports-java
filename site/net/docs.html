@@ -25,6 +25,7 @@
                         <div class='menu right'>
                             <ul class='menu-items'>
                                 <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+								<li class='menu-item'><a href='../faqs.html'>FAQs</a></li>
                                 <li class='menu-item'>
                                     <a href='#'>Java</a>
                                     <ul>
@@ -71,6 +72,7 @@
                                 <li><a href='#examples'>Examples</a>
                                     <ul>
                                         <li><a href='#basic-usage-example'>Basic Usage Example</a></li>
+										<li><a href='#nunit-example'>NUnit Example</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#customization'>Customization</a>
@@ -112,7 +114,7 @@ where:
 
 <h3 id='write-to-report'>Writing to Report</h3>
 <p>Once your session is complete and you are ready to write all logs to the report, simply call the <code>Flush()</code> method.</p>
-<pre><code class='java'>
+<pre><code class='csharp'>
 // writing everything to document
 extent.Flush();
 </code></pre>
@@ -120,13 +122,13 @@ extent.Flush();
 
 <h3 id='append-to-report'>Appending to an Existing Report</h3>
 <p>To append to a report you had previously created, simply mark <code>replaceExisting = false</code> and new tests will be appended to the same report.</p>
-<pre><code class='java'>
+<pre><code class='csharp'>
 var extent = new ExtentReports(file-path, false);
 </code></pre>
 
 <h3 id='start-end-tests'>Starting and Ending Tests</h3>
 <p>To start tests, a new instance of <code>ExtentTest</code> must be created. To end, simply call <code>EndTest(testInstance)</code>.</p>
-<pre><code class='java'>
+<pre><code class='csharp'>
 // new instance
 var extent = new ExtentReports(file-path, replaceExisting);
 
@@ -145,31 +147,31 @@ extent.Flush();
 
 <h3 id='create-step-logs'>Creating Step Logs</h3>
 <p>There are 2 ways logs can be created: one that creates 3 columns and other that creates 4.  Always use only 1 type of log for the test otherwise the table will become malformed.</p>
-<pre><code class='java'>
+<pre><code class='csharp'>
 // creates 3 columns in table: TimeStamp, Status, Details
-log(LogStatus, details);
+Log(LogStatus, details);
 
 // creates 4 columns in table: TimeStamp, Status, StepName, Details
-log(LogStatus, stepName, details);
+Log(LogStatus, stepName, details);
 </code></pre>
 
 <h3 id='insert-custom-html'>Inserting custom HTML</h3>
 <p>Simply insert any custom HTML in the logs by using an HTML tag:</p>
-<pre><code class='java'>
-extent.Log(LogStatus.INFO, "HTML", "Usage: &lt;span style='font-weight:bold;'&gt;BOLD TEXT&lt;/span&gt;");
+<pre><code class='csharp'>
+test.Log(LogStatus.INFO, "HTML", "Usage: &lt;span style='font-weight:bold;'&gt;BOLD TEXT&lt;/span&gt;");
 </code></pre>
 
 <h3 id='insert-screenshots'>Insert Snapshots</h3>
 <p>To add a screen-shot, simply call <code>AddScreenCapture</code>. This method returns the HTML with &lt;img&gt; tag which can be used anywhere in the log details. Calling <code>AddScreenCapture</code> will also add the image to the ImageCollectionView from where you can see all images used by your tests.</p>
-<pre><code class='java'>
-extent.Log(LogStatus.INFO, "Snapshot below: " + test.AddScreenCapture("screenshot-path"));
+<pre><code class='csharp'>
+test.Log(LogStatus.INFO, "Snapshot below: " + test.AddScreenCapture("screenshot-path"));
 </code></pre>
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the image to load.</p>
 
 <h3 id='insert-screencast'>Insert Screencast</h3>
 <p>To add a screencast/recording of your test run, use the <code>AddScreencast</code> method anywhere in the log details:</p>
-<pre><code class='java'>
-extent.Log(LogStatus.INFO, "Screencast below: " + test.AddScreencast("screencast-path"));
+<pre><code class='csharp'>
+test.Log(LogStatus.INFO, "Screencast below: " + test.AddScreencast("screencast-path"));
 </code></pre>
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the screencst to load.</p>
 
@@ -178,12 +180,12 @@ extent.Log(LogStatus.INFO, "Screencast below: " + test.AddScreencast("screencast
 
 <p class='note'>By default, the <code>OS</code>, <code>User Name</code>, <code>Java Version</code> and <code>Host Name</code> will be available. You do not have to add these 4 items manually.</p>
 
-<pre><code class='java'>
+<pre><code class='csharp'>
 extent.AddSystemInfo("Selenium Version", "2.46");
 extent.AddSystemInfo("Environment", "Prod");
 </code></pre>
 
-<pre><code class='java'>
+<pre><code class='csharp'>
 Map<String, String> sysInfo = new HashMap<String, String>();
 sysInfo.put("Selenium Version", "2.46");
 sysInfo.put("Environment", "Prod");
@@ -198,32 +200,87 @@ extent.AddSystemInfo(sysInfo);
 
 <h3 id='basic-usage-example'>Basic Usage Example</h3>
 <p>A simple example with a static method.</p>
-<pre><code class='java'>
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
+<pre><code class='csharp'>
+namespace RelevantCodes.ExtentReports
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var extent = new ExtentReports("file-path", true);
 
-public class Main {
-    private static ExtentReports extent;
+            // creates a toggle for the given test, adds all log events under it    
+            var test = extent.StartTest("My First Test", "Sample description");
 
-    public static void main(String[] args) {
-        extent = new ExtentReports("file-path", true);
+            // log(LogStatus, details)
+            test.Log(LogStatus.Info, "This step shows usage of log(logStatus, details)");
 
-        // creates a toggle for the given test, adds all log events under it    
-        ExtentTest test = extent.StartTest("My First Test", "Sample description");
+            // report with snapshot
+            String img = test.AddScreenCapture("img-path");
+            test.Log(LogStatus.Info, "Image example: " + img);
+            
+            // end test
+            extent.EndTest(test);
+            
+            // calling Flush writes everything to the log file
+            extent.Flush();
+        }
+    }
+}
+</code></pre>
 
-        // log(LogStatus, details)
-        test.Log(LogStatus.INFO, "This step shows usage of log(logStatus, details)");
+<h3 id='nunit-example'>Nunit Example</h3>
+<p>A basic NUnit example with 2 tests - one passed and one with an error.</p>
+<pre><code class='csharp'>
+namespace NUnitDemo
+{
+    using System;
+    using NUnit.Framework;
+    using RelevantCodes.ExtentReports;
 
-        // report with snapshot
-        String img = test.AddScreenCapture("img-path");
-        test.Log(LogStatus.INFO, "Image", "Image example: " + img);
-        
-        // end test
-        extent.EndTest(test);
-        
-        // calling Flush writes everything to the log file
-        extent.Flush();
+    public class ExtentManager
+    {
+        private static ExtentReports extent;
+
+        public static ExtentReports Instance
+        {
+            get
+            {
+                if (extent == null)
+                {
+                    extent = new ExtentReports(@"C:\Users\Anshoo\Documents\workspace\extent2examples\Extent.NET.html", true);
+                }
+                return extent;
+            }
+        }
+    }
+
+    [TestFixture]
+    public class Demo
+    {
+        private ExtentReports extent = ExtentManager.Instance;
+        private ExtentTest test;
+
+        [TearDown]
+        public void Teardown()
+        {
+            extent.EndTest(test);
+            extent.Flush();
+        }
+
+        [Test]
+        public void FirstTest()
+        {
+            test = extent.StartTest("First Test", "With Description");
+            test.Log(LogStatus.Info, "Info");
+        }
+
+        [Test]
+        public void SecondTest()
+        {
+            test = extent.StartTest("Second Test");
+            test.Log(LogStatus.Error, "Error");
+        }
     }
 }
 </code></pre>
@@ -231,7 +288,7 @@ public class Main {
 <h2 id='customization'>Customization</h2>
 <p>All customization is done at the report level and by using the <code>config()</code> method of ExtentReports. Remember, you can chain these methods as <code>config()</code> is fluent as shown below:</p>
 
-<pre><code class='java'>
+<pre><code class='csharp'>
 extent.Config()
         .DocumentTitle("Title of the Report")
         .ReportName("ExtentReports")
@@ -243,12 +300,12 @@ extent.Config()
 <h3 id='using-custom-css'>Using custom CSS</h3>
 <p>You can use your custom CSS directly in the document or load a custom css-stylesheet.</p>
 
-<pre><code class='java'>
+<pre><code class='csharp'>
 // custom styles
 String style = ".test { border: 2px solid #444; }";
 extent.Config().InsertCustomStyles(style);
 </code></pre>
-<pre><code class='java'>
+<pre><code class='csharp'>
 // custom stylesheet
 extent.Config().AddCustomStylesheet("C:\\css.css");
 </code></pre>
@@ -256,26 +313,26 @@ extent.Config().AddCustomStylesheet("C:\\css.css");
 <h3 id='using-custom-js'>Using custom JS</h3>
 <p>Just like having the ability to change document styles, you can also add your own custom scripts.</p>
 
-<pre><code class='java'>
+<pre><code class='csharp'>
 extent.Config().InsertJs("$('.test').click(function(){ alert('test clicked'); });");
 </code></pre>
 
 <h3 id='document-title'>Setting Document Title</h3>
 <p>It is possible to change the title of the report file using:</p>
-<pre><code class='java'>
+<pre><code class='csharp'>
 extent.Config().DocumentTitle("ExtentReports - DocumentTitle");
 </code></pre>
 
 <h3 id='report-name'>Setting Report Name</h3>
 <p>To set the report name, simply call the <code>reportName()</code> method:</p>
-<pre><code class='java'>
+<pre><code class='csharp'>
 extent.Config().ReportName("ExtentReports - ReportName");
 </code></pre>
 <p>The max length allowed for report-name is 20 characters.</p>
 
 <h3 id='report-headline'>Change Report Headline</h3>
 <p>You can remove or add your own summary by using the following config:</p>
-<pre><code class='java'>
+<pre><code class='csharp'>
 extent.Config().ReportHeadline("ExtentReports - ReportHeadline");
 </code></pre>
 <p>The max length allowed for report-headline is 70 characters.</p>
