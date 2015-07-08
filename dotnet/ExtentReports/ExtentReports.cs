@@ -47,7 +47,10 @@
         {
             if (config == null)
             {
-                config = new ReportConfig();
+                if (reportInstance == null)
+                    throw new Exception("Cannot apply config before ExtentReports is initialized");
+
+                config = new ReportConfig(reportInstance);
             }
 
             return config;
@@ -69,10 +72,14 @@
 
         public void Flush()
         {
-            reportInstance.Terminate(testList, systemInfo);
+            reportInstance.WriteAllResources(testList, systemInfo);
 
-            testList.Clear();
             systemInfo.Clear();
+        }
+
+        public void Close()
+        {
+            testList.Clear();
         }
     }
 }

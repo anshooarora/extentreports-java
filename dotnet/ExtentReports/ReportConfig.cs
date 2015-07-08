@@ -8,12 +8,14 @@
     using Source;
     using Support;
 
-    public class ReportConfig : ReportInstance
+    public class ReportConfig
     {
+        private ReportInstance report;
+
         public ReportConfig InsertJs(string Script)
         {
             Script = "<script type='text/javascript'>" + Script + "</script>";
-            UpdateSource(Source.Replace(ExtentFlag.GetPlaceHolder("customscript"), Script + ExtentFlag.GetPlaceHolder("customscript")));
+            report.UpdateSource(report.Source.Replace(ExtentFlag.GetPlaceHolder("customscript"), Script + ExtentFlag.GetPlaceHolder("customscript")));
 
             return this;
         }
@@ -21,7 +23,7 @@
         public ReportConfig InsertStyles(string Styles)
         {
             Styles = "<style type='text/css'>" + Styles + "</style>";
-            UpdateSource(Source.Replace(ExtentFlag.GetPlaceHolder("customcss"), Styles + ExtentFlag.GetPlaceHolder("customcss")));
+            report.UpdateSource(report.Source.Replace(ExtentFlag.GetPlaceHolder("customcss"), Styles + ExtentFlag.GetPlaceHolder("customcss")));
 
             return this;
         }
@@ -35,7 +37,7 @@
                 link = "<link href='" + StylesheetPath + "' rel='stylesheet' type='text/css' />";
             }
 
-            UpdateSource(Source.Replace(ExtentFlag.GetPlaceHolder("customcss"), link + ExtentFlag.GetPlaceHolder("customcss")));
+            report.UpdateSource(report.Source.Replace(ExtentFlag.GetPlaceHolder("customcss"), link + ExtentFlag.GetPlaceHolder("customcss")));
 
             return this;
         }
@@ -44,11 +46,12 @@
         {
             int maxlength = 70;
 
-            Headline = Headline.Substring(0, maxlength - 1);
+            if (Headline.Length >= maxlength)
+                Headline = Headline.Substring(0, maxlength - 1);
 
             string pattern = ExtentFlag.GetPlaceHolder("headline") + ".*" + ExtentFlag.GetPlaceHolder("headline");
             Headline = pattern.Replace(".*", Headline);
-            UpdateSource(Source.Replace(RegexMatcher.GetNthMatch(Source, pattern, 0), Headline));
+            report.UpdateSource(report.Source.Replace(RegexMatcher.GetNthMatch(report.Source, pattern, 0), Headline));
 
             return this;
         }
@@ -57,11 +60,12 @@
         {
             int maxlength = 20;
 
-            Name = Name.Substring(0, maxlength - 1);
+            if (Name.Length >= maxlength)
+                Name = Name.Substring(0, maxlength - 1);
 
             string pattern = ExtentFlag.GetPlaceHolder("logo") + ".*" + ExtentFlag.GetPlaceHolder("logo");
             Name = pattern.Replace(".*", Name);
-            UpdateSource(Source.Replace(RegexMatcher.GetNthMatch(Source, pattern, 0), Name));
+            report.UpdateSource(report.Source.Replace(RegexMatcher.GetNthMatch(report.Source, pattern, 0), Name));
 
             return this;
         }
@@ -69,11 +73,14 @@
         public ReportConfig DocumentTitle(string Title)
         {
             string docTitle = "<title>.*</title>";
-            UpdateSource(Source.Replace(RegexMatcher.GetNthMatch(Source, docTitle, 0), docTitle.Replace(".*", Title)));
+            report.UpdateSource(report.Source.Replace(RegexMatcher.GetNthMatch(report.Source, docTitle, 0), docTitle.Replace(".*", Title)));
 
             return this;
         }
 
-        public ReportConfig() { }
+        public ReportConfig(ReportInstance report)
+        {
+            this.report = report;
+        }
     }
 }

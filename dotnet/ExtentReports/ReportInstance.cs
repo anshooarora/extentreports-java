@@ -12,6 +12,7 @@
     
     public class ReportInstance
     {
+        private bool terminated = false;
         private CategoryList categoryList;
         private DisplayOrder displayOrder;
         private string filePath;
@@ -88,19 +89,15 @@
             mediaList = new MediaList();
         }
 
-        internal void Terminate(List<ExtentTest> TestList, SystemInfo SystemInfo)
+        internal void WriteAllResources(List<ExtentTest> TestList, SystemInfo SystemInfo)
         {
-            foreach (ExtentTest t in TestList) {
-                if (!t.GetTest().HasEnded) {
-                    t.GetTest().InternalWarning = "Test did not end safely because endTest() was not called. There may be errors.";
-                    AddTest(t.GetTest());
-                }
+            if (terminated)
+            {
+                throw new IOException("Stream closed");
             }
 
             if (testSource == "")
-            {
                 return;
-            }
 
             runInfo.EndedTime = DateTime.Now;
 
@@ -133,6 +130,52 @@
 
             testSource = "";
             quickSummarySource = "";
+        }
+
+        internal void Terminate(List<ExtentTest> TestList)
+        {
+            foreach (ExtentTest t in TestList)
+            {
+                if (!t.GetTest().HasEnded)
+                {
+                    t.GetTest().InternalWarning = "Test did not end safely because endTest() was not called. There may be errors.";
+                    AddTest(t.GetTest());
+                }
+            }
+
+            UpdateCategoryList();
+            UpdateSuiteExecutionTime();
+            UpdateMediaList();
+
+            if (this.displayOrder == DisplayOrder.OldestFirst)
+            {
+                lock (sourcelock)
+                {
+                    extentSource = extentSource.Replace(ExtentFlag.GetPlaceHolder("test"), testSource + ExtentFlag.GetPlaceHolder("test"))
+                                            .Replace(ExtentFlag.GetPlaceHolder("quickTestSummary"), quickSummarySource + ExtentFlag.GetPlaceHolder("quickTestSummary"));
+                }
+            }
+            else
+            {
+                lock (sourcelock)
+                {
+                    extentSource = extentSource.Replace(ExtentFlag.GetPlaceHolder("test"), ExtentFlag.GetPlaceHolder("test") + testSource)
+                                            .Replace(ExtentFlag.GetPlaceHolder("quickTestSummary"), ExtentFlag.GetPlaceHolder("quickTestSummary") + quickSummarySource);
+                }
+            }
+
+            using (var file = new StreamWriter(filePath))
+            {
+                TextWriter.Synchronized(file).WriteLine(extentSource);
+            }
+
+            testSource = "";
+            quickSummarySource = "";
+            extentSource = "";
+            categoryList = null;
+            runInfo = null;
+
+            terminated = true;
         }
 
         private void UpdateCategoryList() {
@@ -246,7 +289,7 @@
             }
         }
 
-        internal protected virtual string Source
+        internal string Source
         {
             get
             {
@@ -254,7 +297,7 @@
             }
         }
 
-        internal protected virtual void UpdateSource(string NewSource)
+        internal void UpdateSource(string NewSource)
         {
             lock (sourcelock)
             {
