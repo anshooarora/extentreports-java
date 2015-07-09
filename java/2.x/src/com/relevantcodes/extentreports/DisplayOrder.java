@@ -8,6 +8,12 @@
 
 package com.relevantcodes.extentreports;
 
+/**
+ * Sets the order in which tests will be sorted
+ * 
+ * @author Anshoo Arora
+ *
+ */
 public enum DisplayOrder {
     NEWEST_FIRST,
     OLDEST_FIRST

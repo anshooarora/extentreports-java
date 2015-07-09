@@ -18,6 +18,12 @@ import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.source.ImageHtml;
 import com.relevantcodes.extentreports.source.ScreencastHtml;
 
+/** 
+ * Defines a node in the report file
+ * 
+ * @author Anshoo
+ *
+ */
 public class ExtentTest {
     private LogStatus runStatus = LogStatus.UNKNOWN;
     private Test test;

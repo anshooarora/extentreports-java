@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * @author Anshoo
+ *
+ */
 public class ExtentReports {
     private ReportInstance reportInstance;
     private SystemInfo systemInfo;
