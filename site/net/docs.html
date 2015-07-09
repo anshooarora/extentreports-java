@@ -73,7 +73,7 @@
                                     <ul>
                                         <li><a href='#basic-usage-example'>Basic Usage Example</a></li>
                                         <li><a href='#nunit-example'>NUnit Example</a></li>
-										<li><a href='#nunit-assert-example'>NUnit Assert Example</a></li>
+                                        <li><a href='#nunit-selenium-example'>Nunit Selenium Example With and Without Assert</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#customization'>Customization</a>
@@ -177,7 +177,7 @@ test.Log(LogStatus.INFO, "Screencast below: " + test.AddScreencast("screencast-p
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the screencst to load.</p>
 
 <h3 id='add-system-info'>Adding System Info</h3>
-<p>It is possible to add system or environment info for your using using the <code>AddSystemInfo</code> method. It is an overloaded method that allows you to add via a <code>Map</code> or string pairs.</p>
+<p>It is possible to add system or environment info for your using using the <code>AddSystemInfo</code> method. It is an overloaded method that allows you to add via a <code>Dictionary</code> or string pairs.</p>
 
 <p class='note'>By default, the <code>OS</code>, <code>User Name</code>, <code>Java Version</code> and <code>Host Name</code> will be available. You do not have to add these 4 items manually.</p>
 
@@ -187,11 +187,13 @@ extent.AddSystemInfo("Environment", "Prod");
 </code></pre>
 
 <pre><code class='csharp'>
-Map<String, String> sysInfo = new HashMap<String, String>();
-sysInfo.put("Selenium Version", "2.46");
-sysInfo.put("Environment", "Prod");
+Dictionary<string, string> si = new Dictionary<string, string>()
+{
+    {"Selenium Version", "2.46"},
+    {"Environment", "Prod"}
+};
 
-extent.AddSystemInfo(sysInfo);
+extent.AddSystemInfo(si);
 </code></pre>
 
 <img class='bordered-img center' src='./img/system-info.png' /> 
@@ -249,7 +251,7 @@ namespace NUnitDemo
             {
                 if (extent == null)
                 {
-                    extent = new ExtentReports(@"C:\Users\Anshoo\Documents\workspace\extent2examples\Extent.NET.html", true);
+                    extent = new ExtentReports(@"file-path", true);
                 }
                 return extent;
             }
@@ -286,57 +288,84 @@ namespace NUnitDemo
 }
 </code></pre>
 
-<h3 id='nunit-assert-example'>Nunit Assert Example</h3>
-<p>A basic NUnit example with 2 tests - one passed and one with an failure, both using asserts.</p>
+<h3 id='nunit-selenium-example'>Nunit Selenium Example With and Without Assert</h3>
+<p>A basic NUnit example showing a test with simple try-catch mechanism and an assert.</p>
 <pre><code class='csharp'>
 [TestFixture]
-public class AssertDemo
+public class NUnitTests
 {
     private ExtentReports extent = ExtentManager.Instance;
     private ExtentTest test;
+    private IWebDriver driver;
+
+    [Test]
+    public void GoogleWithoutAssert()
+    {
+        test = extent.StartTest("Google Search Without Assert", "Verifies if Google search button is displayed");
+
+        test.Log(LogStatus.Info, "Launching browser");
+        driver = new ChromeDriver();
+
+        test.Log(LogStatus.Info, "Navigating to google.com");
+        driver.Navigate().GoToUrl("http://google.com");
+
+        try
+        {
+            driver.FindElement(By.CssSelector("input[value*='Google Search']"));
+            test.Log(LogStatus.Pass, "Search button displayed");
+        }
+        catch (NoSuchElementException ex)
+        {
+            test.Log(LogStatus.Fail, "&lt;pre&gt;" + ex.StackTrace + "&lt;/pre&gt;");
+            throw;
+        }
+    }
+
+    [Test]
+    public void GoogleWithAssert()
+    {
+        test = extent.StartTest("Google Search With Assert", "Verifies if Google search button is displayed");
+
+        test.Log(LogStatus.Info, "Launching browser");
+        driver = new ChromeDriver();
+
+        test.Log(LogStatus.Info, "Navigating to google.com");
+        driver.Navigate().GoToUrl("http://google.com");
+
+        var isFound = IsElementPresent(driver, By.CssSelector("input[value*='Googl Search']"));
+
+        try
+        {
+            Assert.AreEqual(true, isFound);
+            test.Log(LogStatus.Pass, "Search button displayed");
+        }
+        catch (AssertionException ex)
+        {
+            test.Log(LogStatus.Fail, "&lt;pre&gt;" + ex.StackTrace + "&lt;/pre&gt;");
+            throw;
+        }
+    }
+
+    private bool IsElementPresent(IWebDriver driver, By by)
+    {
+        try
+        {
+            driver.FindElement(by);
+            return true;
+        }
+        catch (NoSuchElementException) { return false; }
+    }
 
     [TearDown]
     public void Teardown()
     {
+        driver.Quit();
         extent.EndTest(test);
         extent.Flush();
     }
-
-    [Test]
-    public void AssertTestFail()
-    {
-        test = extent.StartTest("Assert Test - Failure", "Test Description");
-        test.Log(LogStatus.Info, "Info");
-
-        try
-        {
-            Assert.AreEqual(true, false);
-            test.Log(LogStatus.Pass, "Test passed");
-        }
-        catch (AssertionException ex)
-        {
-            test.Log(LogStatus.Fail, "&lt;pre&gt;" + ex.StackTrace + "&lt;/pre&gt;");
-        }
-    }
-
-    [Test]
-    public void AssertTestPass()
-    {
-        test = extent.StartTest("Assert Test - Pass");
-        test.Log(LogStatus.Info, "Info");
-
-        try
-        {
-            Assert.AreEqual(true, true);
-            test.Log(LogStatus.Pass, "Test passed");
-        }
-        catch (AssertionException ex)
-        {
-            test.Log(LogStatus.Fail, "&lt;pre&gt;" + ex.StackTrace + "&lt;/pre&gt;");
-        }
-    }
 }
 </code></pre>
+<p>View the <a href='./samples/SeleniumExample.html'>result</a>.</p>
 
 <h2 id='customization'>Customization</h2>
 <p>All customization is done at the report level and by using the <code>config()</code> method of ExtentReports. Remember, you can chain these methods as <code>config()</code> is fluent as shown below:</p>
