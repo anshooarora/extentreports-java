@@ -137,12 +137,15 @@
 
         internal void Terminate(List<ExtentTest> TestList)
         {
-            foreach (ExtentTest t in TestList)
+            if (TestList != null)
             {
-                if (!t.GetTest().HasEnded)
+                foreach (ExtentTest t in TestList)
                 {
-                    t.GetTest().InternalWarning = "Test did not end safely because endTest() was not called. There may be errors.";
-                    AddTest(t.GetTest());
+                    if (!t.GetTest().HasEnded)
+                    {
+                        t.GetTest().InternalWarning = "Test did not end safely because endTest() was not called. There may be errors.";
+                        AddTest(t.GetTest());
+                    }
                 }
             }
 

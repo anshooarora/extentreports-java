@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class ExtentReports// : IDisposable
+    public class ExtentReports
     {
         private List<ExtentTest> testList;
         private ReportConfig config; 
@@ -18,12 +18,7 @@
             systemInfo = new SystemInfo();
         }
 
-        public ExtentTest StartTest(string TestName)
-        {
-            return new ExtentTest(TestName, "");
-        }
-
-        public ExtentTest StartTest(string TestName, string Description)
+        public ExtentTest StartTest(string TestName, string Description = "")
         {
             if (testList == null)
             {
@@ -81,7 +76,8 @@
         {
             reportInstance.Terminate(testList);
 
-            testList.Clear();
+            if (testList != null)
+                testList.Clear();
         }
     }
 }

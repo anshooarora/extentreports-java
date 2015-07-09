@@ -8,7 +8,7 @@
     using Model;
     using Source;
 
-    public class ExtentTest// : IDisposable
+    public class ExtentTest : IDisposable
     {
         private Test test;
         private LogStatus runStatus = LogStatus.Unknown;
@@ -167,6 +167,20 @@
             }
 
             runStatus = LogStatus.Skip;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                
+            }
         }
     }
 }
