@@ -83,7 +83,7 @@
                                         <li><a href='#basic-junit-example'>JUnit Example</a></li>
                                         <li><a href='#basic-junit-selenium-example'>JUnit Selenium Example With and Without Assert</a></li>
                                         <li><a href='#basic-testng-example'>TestNG Example</a></li>
-                                        <li><a href='#basic-multiple-testng-classes'>Multiple TestNG Classes</a></li>
+                                        <li><a href='#testng-selenium-assert'>TestNG Selenium Example With and Without <span class='bold'>Soft</span> Assert</a></li>
                                         <li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
                                     </ul>
                                 </li>
@@ -351,7 +351,7 @@ public class JUnitDemo {
 </code></pre>
 
 <h3 id='basic-junit-selenium-example'>JUnit Selenium Example With and Without Assert</h3>
-<p>A basic JUnit example with an Assert.</p>
+<p>A basic JUnit example using Selenium with and without an Assert. The test with Assert will fail.</p>
 <pre><code class='java'>
 public class ExtentManager {
     private static ExtentReports extent;
@@ -443,6 +443,7 @@ public class SeleniumExample {
     }
 }
 </code></pre>
+<p>View the <a href='./samples/JUnitSeleniumExample.html'>result</a>.</p>
 
 <h3 id='basic-testng-example'>TestNG Example</h3>
 <p>A basic TestNG example that creates a local class instance.</p>
@@ -473,24 +474,9 @@ public class TestNGExample {
 }
 </code></pre>
 
-<h3 id='basic-multiple-testng-classes'>Multiple TestNG Classes with Global ExtentReports</h3>
-<p>A simple example that uses a global ExtentReports instance shared by multiple classes. This section demonstrates for cases which run single threaded, for multi-threaded execution models, see section <a href='#parallel-runs'>Creating Parallel Runs</a>.</p>
+<h3 id='testng-selenium-assert'>TestNG Selenium Example With and Without <span class='bold'>Soft</span> Assert</h3>
+<p>A simple example that uses a global ExtentReports instance showing 2 tests that check for Google search button text. The test with the assert will fail. </p>
 
-<pre><code class='xml'>
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;suite name="TestNgSimple"&gt;
-    &lt;test name="TestNgSimpleGlobalExtent1 Test" allow-return-values="true"&gt;
-        &lt;classes&gt;
-            &lt;class name="package.TestNGClass1" /&gt;
-        &lt;/classes&gt;
-    &lt;/test&gt;
-    &lt;test name="TestNgSimpleGlobalExtent2 Test" allow-return-values="true"&gt;
-        &lt;classes&gt;
-            &lt;class name="package.TestNGClass2" /&gt;
-        &lt;/classes&gt;
-    &lt;/test&gt;
-&lt;/suite&gt;
-</code></pre>
 <pre><code class='java'>
 public class ExtentManager {
     private static ExtentReports extent;
@@ -514,44 +500,84 @@ public class ExtentManager {
     }
 }
 
-public class TestNGClass1 {
+public class TestNgSeleniumExample {
     private ExtentReports extent = ExtentManager.getInstance();
+    private ExtentTest test;
+    private WebDriver driver;
     
     @Test
-    public void testOne() {
-        ExtentTest test = extent.startTest("My First Test", "Sample description");
-        test.log(LogStatus.PASS, "StepName", "PASS Details");
-        extent.endTest(test);
+    public void googleWithoutAssert() {
+        test = extent.startTest("Google Search Without Assert", "Verifies if Google search button is displayed");
+
+        test.log(LogStatus.INFO, "Launching browser");
+        driver = new FirefoxDriver();
+
+        test.log(LogStatus.INFO, "Navigating to google.com");
+        driver.get("http://google.com");
+
+        try
+        {
+            driver.findElement(By.cssSelector("input[value*='Google Search']"));
+            test.log(LogStatus.PASS, "Search button displayed");
+        }
+        catch (NoSuchElementException e)
+        {
+            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.toString() + "&lt;/pre&gt;");
+            throw e;
+        }
     }
-    
-    @AfterSuite
-    public void afterSuite() {
-        // write all resources to report file
+
+    @Test
+    public void googleWithAssert() {
+        test = extent.startTest("Google Search With Assert", "Verifies if Google search button is displayed");
+
+        test.log(LogStatus.INFO, "Launching browser");
+        driver = new FirefoxDriver();
+
+        test.log(LogStatus.INFO, "Navigating to google.com");
+        driver.get("http://google.com");
+
+        Boolean isFound = IsElementPresent(driver, By.cssSelector("input[value*='Googl Search']"));
+
+        try
+        {
+            SoftAssert.assertTrue(isFound);
+            test.log(LogStatus.PASS, "Search button displayed");
+        }
+        catch (AssertionError e)
+        {
+            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.toString() + "&lt;/pre&gt;");
+            throw e;
+        }
+    }
+
+    private Boolean IsElementPresent(WebDriver driver, By by) {
+        try
+        {
+            driver.findElement(by);
+            return true;
+        }
+        catch (NoSuchElementException e) { return false; }
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        driver.quit();
+        extent.endTest(test);
         extent.flush();
-        
-        // terminates extent and clears the underlying stream
-        extent.close();
     }
 }
 
-// Note: test ended in @AfterTest
-public class TestNGClass2 {
-    private ExtentReports extent = ExtentManager.getInstance();
-    private ExtentTest test;
-    
-    @Test
-    public void testTwo() {
-        test = extent.startTest("My Second Test", "Sample description");
-        test.log(LogStatus.PASS, "StepName", "PASS Details");
-    }
-    
-    @AfterTest
-    public void afterTest() {
-        extent.endTest(test);
+public class SoftAssert {
+    public static void assertTrue(Boolean actual) {
+        if (!actual) {
+            throw new AssertionError("Expected [true] but found [" + actual + "]");
+        }
     }
 }
 </code></pre>
-
+<p>View the <a href='./samples/TestNGSeleniumExample.html'>result</a>.</p>
+    
 <h3 id='multiple-report-files'>Creating Multiple Reports For a Run Session</h3>
 <p>ExtentReports 2 makes it extremely easy to create multiple reports for a run session. Simply create the same number of </p>
 
