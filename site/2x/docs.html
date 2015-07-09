@@ -81,7 +81,7 @@
                                     <ul>
                                         <li><a href='#basic-usage-example'>Basic Usage Example</a></li>
                                         <li><a href='#basic-junit-example'>JUnit Example</a></li>
-                                        <li><a href='#basic-junit-example-assert'>JUnit Example With Assert</a></li>
+                                        <li><a href='#basic-junit-selenium-example'>JUnit Selenium Example With and Without Assert</a></li>
                                         <li><a href='#basic-testng-example'>TestNG Example</a></li>
                                         <li><a href='#basic-multiple-testng-classes'>Multiple TestNG Classes</a></li>
                                         <li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
@@ -350,7 +350,7 @@ public class JUnitDemo {
 }
 </code></pre>
 
-<h3 id='basic-junit-example-assert'>JUnit Example With Assert</h3>
+<h3 id='basic-junit-selenium-example'>JUnit Selenium Example With and Without Assert</h3>
 <p>A basic JUnit example with an Assert.</p>
 <pre><code class='java'>
 public class ExtentManager {
@@ -375,32 +375,71 @@ public class ExtentManager {
     }
 }
 
-public class JUnitDemo {
+public class SeleniumExample {
     private ExtentReports extent = ExtentManager.getInstance();
     private ExtentTest test;
+    private WebDriver driver;
     
     @Test
-    public void assertEx() {
-        test = extent.startTest("Assert Example");
-        test.log(LogStatus.ERROR, "Step 1.");
-        
-        try {
-            Assert.assertSame(true, false);
-            test.log(LogStatus.PASS, "Test Passed");
+    public void GoogleWithoutAssert() {
+        test = extent.startTest("Google Search Without Assert", "Verifies if Google search button is displayed");
+
+        test.log(LogStatus.INFO, "Launching browser");
+        driver = new FirefoxDriver();
+
+        test.log(LogStatus.INFO, "Navigating to google.com");
+        driver.get("http://google.com");
+
+        try
+        {
+            driver.findElement(By.cssSelector("input[value*='Google Search']"));
+            test.log(LogStatus.PASS, "Search button displayed");
         }
-        catch (AssertionError e) {
+        catch (NoSuchElementException e)
+        {
             test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.toString() + "&lt;/pre&gt;");
+            throw e;
         }
-    }
-    
-    @After
-    public void after() {
-        extent.endTest(test);
     }
 
-    @AfterClass
-    public static void afterClass() {
-        ExtentManager.getInstance().flush();
+    @Test
+    public void GoogleWithAssert() {
+        test = extent.startTest("Google Search With Assert", "Verifies if Google search button is displayed");
+
+        test.log(LogStatus.INFO, "Launching browser");
+        driver = new FirefoxDriver();
+
+        test.log(LogStatus.INFO, "Navigating to google.com");
+        driver.get("http://google.com");
+
+        Boolean isFound = IsElementPresent(driver, By.cssSelector("input[value*='Googl Search']"));
+
+        try
+        {
+            Assert.assertTrue(isFound);
+            test.log(LogStatus.PASS, "Search button displayed");
+        }
+        catch (AssertionError e)
+        {
+            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.toString() + "&lt;/pre&gt;");
+            throw e;
+        }
+    }
+
+    private Boolean IsElementPresent(WebDriver driver, By by) {
+        try
+        {
+            driver.findElement(by);
+            return true;
+        }
+        catch (NoSuchElementException e) { return false; }
+    }
+
+    @After
+    public void Teardown() {
+        driver.quit();
+        extent.endTest(test);
+        extent.flush();
     }
 }
 </code></pre>
