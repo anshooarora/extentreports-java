@@ -8,12 +8,20 @@
     using Model;
     using Source;
 
-    public class ExtentTest : IDisposable
+    /// <summary>
+    /// Defines a test toggle in the report
+    /// </summary>
+    public class ExtentTest
     {
         private Test test;
         private LogStatus runStatus = LogStatus.Unknown;
 
-        public ExtentTest(string TestName, string Description)
+        /// <summary>
+        /// Builds a test toggle in the report with the TestName
+        /// </summary>
+        /// <param name="TestName">Test name</param>
+        /// <param name="Description">A short description of the test</param>
+        internal ExtentTest(string TestName, string Description)
         {
             test = new Test();
 
@@ -22,6 +30,12 @@
             test.StartedTime = DateTime.Now;
         }
 
+        /// <summary>
+        /// Logs events for the test
+        /// </summary>
+        /// <param name="LogStatus">LogStatus</param>
+        /// <param name="StepName">Name of the step</param>
+        /// <param name="Details">Step details</param>
         public void Log(LogStatus LogStatus, string StepName, string Details)
         {
             Log evt = new Log();
@@ -36,11 +50,21 @@
             TrackLastRunStatus(LogStatus);
         }
 
+        /// <summary>
+        /// Logs events for the test
+        /// </summary>
+        /// <param name="LogStatus">LogStatus</param>
+        /// <param name="Details">Step details</param>
         public void Log(LogStatus LogStatus, string Details)
         {
             Log(LogStatus, "", Details);
         }
 
+        /// <summary>
+        /// Allows for adding a snapshot to the log event
+        /// </summary>
+        /// <param name="ImagePath">Path of the image</param>
+        /// <returns>A formed HTML img tag with the supplied path</returns>
         public string AddScreenCapture(string ImagePath)
         {
             string screenCaptureHtml;
@@ -63,6 +87,11 @@
             return screenCaptureHtml;
         }
 
+        /// <summary>
+        /// Allows for adding a screen cast to the log event
+        /// </summary>
+        /// <param name="screencastPath">Path of the screencast</param>
+        /// <returns>A formed HTML video tag with the supplied path</returns>
         public string AddScreencast(String screencastPath)
         {
             string screencastHtml;
@@ -85,6 +114,11 @@
             return screencastPath;
         }
 
+        /// <summary>
+        /// Assigns category to test
+        /// </summary>
+        /// <param name="CategoryName">Category</param>
+        /// <returns>ExtentTest object</returns>
         public ExtentTest AssignCategory(params string[] CategoryName)
         {
             foreach (string c in CategoryName)
@@ -167,20 +201,6 @@
             }
 
             runStatus = LogStatus.Skip;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                
-            }
         }
     }
 }

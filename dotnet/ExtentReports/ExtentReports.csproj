@@ -48,7 +48,6 @@
     <Compile Include="DisplayOrder.cs" />
     <Compile Include="ExtentReports.cs" />
     <Compile Include="ExtentTest.cs" />
-    <Compile Include="IReport.cs" />
     <Compile Include="LogSettings.cs" />
     <Compile Include="LogStatus.cs" />
     <Compile Include="MediaViewBuilder.cs" />

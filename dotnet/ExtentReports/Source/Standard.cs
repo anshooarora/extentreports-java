@@ -13,7 +13,7 @@
 <html>
     <head>
         <!--
-            ExtentReports Library 2.02 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentReports Library 2.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         --> 
@@ -287,8 +287,6 @@
                         
             /* -- [ test-list ] -- */
             .test {
-                /* border: 1px solid #bbb;
-                box-shadow: none !important; */
                 color: #222 !important;
                 cursor: pointer;
                 margin-bottom: 5px;
@@ -307,7 +305,7 @@
                 vertical-align: top;
             }
             .is-expanded {
-                border: 1px solid #222;
+                border: 1px solid #999;
             }
             .test-head {
                 padding: 0 0 35px;
@@ -333,7 +331,7 @@
             }
             .test-desc {
                 color: #444;
-                font-size: 16px;
+                font-size: 15px;
                 font-weight: 400;
                 margin-bottom: -30px;
                 padding-top: 40px;
@@ -368,6 +366,9 @@
                 text-align: left !important;
                 max-width: 65px;
                 width: 65px;
+            }
+            td.step-name { 
+                white-space: nowrap; 
             }
             td.status {
                 padding-left: 20px;

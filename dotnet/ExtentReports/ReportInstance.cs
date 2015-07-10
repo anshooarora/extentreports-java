@@ -13,7 +13,7 @@
     public class ReportInstance
     {
         private bool terminated = false;
-        private CategoryList categoryList;
+        private AttributeList categoryList;
         private DisplayOrder displayOrder;
         private int infoWrite = 0;
         private string filePath;
@@ -46,9 +46,9 @@
         private void AddCategories(Test test) {
             foreach (TestAttribute t in test.CategoryList)
             {
-                if (!categoryList.Categories.Contains(t.GetName()))
+                if (!categoryList.Contains((Category) t))
                 {
-                    categoryList.Categories.Add(t.GetName());
+                    categoryList.Categories.Add(t);
                 }
             }
         }
@@ -86,7 +86,7 @@
             runInfo = new RunInfo();
             runInfo.StartedTime = DateTime.Now;
             
-            categoryList = new CategoryList();
+            categoryList = new AttributeList();
             mediaList = new MediaList();
         }
 
@@ -159,22 +159,26 @@
         }
 
         private void UpdateCategoryList() {
-            String catsAdded = "";
-            String c = "";
-            
+            string catsAdded = "";
+            string c = "";
+            var placeholder = "";
+
             for (int ix = categoryList.Categories.Count - 1; ix > -1; ix--)
             {
-                if (extentSource.IndexOf(ExtentFlag.GetPlaceHolder("categoryAdded" + c)) > 0)
-                {
-                    categoryList.Categories.RemoveAt(ix);
-                }
-                else
+                c = categoryList.GetItem(ix);
+                placeholder = ExtentFlag.GetPlaceHolder("categoryAdded" + c);
+
+                if (extentSource.IndexOf(placeholder) == -1 && catsAdded.IndexOf(placeholder) == -1)
                 {
                     catsAdded += ExtentFlag.GetPlaceHolder("categoryAdded" + c);
                 }
+                else
+                {
+                    categoryList.Categories.RemoveAt(ix);
+                }
             }
         
-            string source = CategoryOptionBuilder.build(categoryList.Categories);
+            string source = CategoryOptionBuilder.Build(categoryList.Categories);
         
             if (source != "") {
                 lock (sourcelock) {

@@ -8,10 +8,18 @@
     using Source;
     using Support;
 
+    /// <summary>
+    /// Report configuration
+    /// </summary>
     public class ReportConfig
     {
         private ReportInstance report;
 
+        /// <summary>
+        /// Inject javascript into the report
+        /// </summary>
+        /// <param name="Script">JavaScript as string</param>
+        /// <returns>ReportConfig object</returns>
         public ReportConfig InsertJs(string Script)
         {
             Script = "<script type='text/javascript'>" + Script + "</script>";
@@ -20,6 +28,11 @@
             return this;
         }
 
+        /// <summary>
+        /// Inject custom CSS into the report
+        /// </summary>
+        /// <param name="Styles">CSS styles as string</param>
+        /// <returns>ReportConfig object</returns>
         public ReportConfig InsertStyles(string Styles)
         {
             Styles = "<style type='text/css'>" + Styles + "</style>";
@@ -28,6 +41,11 @@
             return this;
         }
 
+        /// <summary>
+        /// Add a CSS stylesheet
+        /// </summary>
+        /// <param name="StylesheetPath">Path of .css file</param>
+        /// <returns>ReportConfig object</returns>
         public ReportConfig AddStylesheet(string StylesheetPath)
         {
             string link = "<link href='file:///" + StylesheetPath + "' rel='stylesheet' type='text/css' />";
@@ -42,6 +60,11 @@
             return this;
         }
 
+        /// <summary>
+        /// Report headline
+        /// </summary>
+        /// <param name="Headline">A short headline</param>
+        /// <returns>ReportConfig object</returns>
         public ReportConfig ReportHeadline(string Headline)
         {
             int maxlength = 70;
@@ -56,6 +79,11 @@
             return this;
         }
 
+        /// <summary>
+        /// Report Header
+        /// </summary>
+        /// <param name="Name">Header of the report</param>
+        /// <returns>ReportConfig object</returns>
         public ReportConfig ReportName(string Name)
         {
             int maxlength = 20;
@@ -70,6 +98,11 @@
             return this;
         }
 
+        /// <summary>
+        /// Document Title
+        /// </summary>
+        /// <param name="Title">Title</param>
+        /// <returns>ReportConfig object</returns>
         public ReportConfig DocumentTitle(string Title)
         {
             string docTitle = "<title>.*</title>";
@@ -78,7 +111,7 @@
             return this;
         }
 
-        public ReportConfig(ReportInstance report)
+        internal ReportConfig(ReportInstance report)
         {
             this.report = report;
         }

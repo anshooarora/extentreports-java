@@ -5,13 +5,37 @@ using System.Text;
 
 namespace RelevantCodes.ExtentReports.Model
 {
-    internal class CategoryList
+    internal class AttributeList
     {
-        public List<string> Categories;
+        public List<TestAttribute> Categories;
 
-        public CategoryList()
+        public string GetItem(int Index)
         {
-            Categories = new List<string>();
+            if (Categories.Count > Index)
+                return Categories[Index].GetName();
+
+            return null;
+        }
+
+        public int Count
+        {
+            get
+            { 
+                return Categories.Count; 
+            }
+        }
+
+        public bool Contains(Category c)
+        {
+            if (Categories.Contains(c))
+                return true;
+
+            return false;
+        }
+
+        public AttributeList()
+        {
+            Categories = new List<TestAttribute>();
         }
     }
 }

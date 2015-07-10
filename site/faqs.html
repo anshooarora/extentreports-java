@@ -104,7 +104,8 @@ public class Demo {
     }
 }
 </code></pre>
-<p>Because the assert failed the test, even though the result will show up in the test-runner's log, it will not show up in the report file unless the <code>failed</code> step gets executed. I would recommend using soft asserts as normal (hard) asserts will stop the test the moment they encounter a failure.</p>
+<p>Because the assert failed the test, even though the result will show up in the test-runner's log, it will not show up in the report file unless the <code>failed</code> step gets executed. I would recommend using soft asserts (for TestNG) as normal (hard) asserts will stop the test the moment they encounter a failure.</p>
+<p>See examples with asserts for <a href='./2x/docs.html#basic-junit-selenium-example'>JUnit</a> and <a href='./2x/docs.html#testng-selenium-assert'>TestNG</a>.</p>
 <p>Another safe measure is to call <code>extent.close()</code> at the very end, for example, as the last step in <code>@AfterSuite</code>. If any of your test ended abruptly causing any side-affects (not all logs sent to ExtentReports, information missing), this method will ensure that the test is still appended to the report with a warning message.</p>
 <pre><code class='java'>
 extent.close();
