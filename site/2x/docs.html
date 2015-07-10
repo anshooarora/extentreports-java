@@ -502,6 +502,7 @@ public class ExtentManager {
 
 public class TestNgSeleniumExample {
     private ExtentReports extent = ExtentManager.getInstance();
+    private SoftAssert softAssert = new SoftAssert();
     private ExtentTest test;
     private WebDriver driver;
     
@@ -541,12 +542,13 @@ public class TestNgSeleniumExample {
 
         try
         {
-            SoftAssert.assertTrue(isFound);
+            softAssert.assertTrue(isFound, "googleWithAssert-&gt;IsFound");
+            softAssert.assertAll();
             test.log(LogStatus.PASS, "Search button displayed");
         }
         catch (AssertionError e)
         {
-            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.toString() + "&lt;/pre&gt;");
+            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.getMessage() + "&lt;/pre&gt;");
             throw e;
         }
     }
@@ -565,14 +567,6 @@ public class TestNgSeleniumExample {
         driver.quit();
         extent.endTest(test);
         extent.flush();
-    }
-}
-
-public class SoftAssert {
-    public static void assertTrue(Boolean actual) {
-        if (!actual) {
-            throw new AssertionError("Expected [true] but found [" + actual + "]");
-        }
     }
 }
 </code></pre>
