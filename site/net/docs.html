@@ -63,6 +63,7 @@
                                         <li><a href='#append-to-report'>Appending to an Existing Report</a></li>
                                         <li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
                                         <li><a href='#create-step-logs'>Creating Step Logs</a></li>
+                                        <li><a href='#assign-category'>Assign Test Categories</a></li>
                                         <li><a href='#insert-custom-html'>Inserting Custom HTML</a></li>
                                         <li><a href='#insert-screenshots'>Insert Screenshots</a></li>
                                         <li><a href='#insert-screencast'>Insert Screencasts</a></li>
@@ -154,6 +155,20 @@ Log(LogStatus, details);
 
 // creates 4 columns in table: TimeStamp, Status, StepName, Details
 Log(LogStatus, stepName, details);
+</code></pre>
+
+<h3 id='assign-category'>Assign Test Categories</h3>
+<p>You can assign categories to tests using <code>assignCategory(String... params)</code> method:</p>
+<pre><code class='java'>
+test.AssignCategory("Regression");
+test.AssignCategory("Regression", "ExtentAPI");
+test.AssignCategory("Regression", "ExtentAPI", "category-3", "cagegory-4", ..);
+</code></pre>
+<p>Or simply assign them when you start your test:</p>
+<pre><code class='java'>
+var test = extent
+    .StartTest("Categories")
+    .AssignCategory("Regression", "ExtentAPI");
 </code></pre>
 
 <h3 id='insert-custom-html'>Inserting custom HTML</h3>
@@ -301,7 +316,9 @@ public class NUnitTests
     [Test]
     public void GoogleWithoutAssert()
     {
-        test = extent.StartTest("Google Search Without Assert", "Verifies if Google search button is displayed");
+        test = extent
+            .StartTest("Google Search Without Assert", "Verifies if Google search button is displayed")
+            .AssignCategory("ExtentAPI", "NoAssert");
 
         test.Log(LogStatus.Info, "Launching browser");
         driver = new ChromeDriver();
@@ -324,7 +341,9 @@ public class NUnitTests
     [Test]
     public void GoogleWithAssert()
     {
-        test = extent.StartTest("Google Search With Assert", "Verifies if Google search button is displayed");
+        test = extent
+            .StartTest("Google Search With Assert", "Verifies if Google search button is displayed")
+            .AssignCategory("ExtentAPI", "Assert");
 
         test.Log(LogStatus.Info, "Launching browser");
         driver = new ChromeDriver();

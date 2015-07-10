@@ -114,6 +114,12 @@ test.assignCategory("Regression");
 test.assignCategory("Regression", "ExtentAPI");
 test.assignCategory("Regression", "ExtentAPI", "category-3", "cagegory-4", ..);
 </code></pre>
+<p>Or simply assign them when you start your test:</p>
+<pre><code class='java'>
+ExtentTest test = extent
+    .startTest("Categories")
+    .assignCategory("Regression", "ExtentAPI");
+</code></pre>
 <p>Each category will show under the test-name along with a list to filter tests:<img class='bordered-img center' src='./img/category.png' /></p>
     </li>
     <li>There is now an option to select the steps you want displayed in the steps chart:
@@ -216,6 +222,12 @@ log(LogStatus, stepName, details);
 test.assignCategory("Regression");
 test.assignCategory("Regression", "ExtentAPI");
 test.assignCategory("Regression", "ExtentAPI", "category-3", "cagegory-4", ..);
+</code></pre>
+<p>Or simply assign them when you start your test:</p>
+<pre><code class='java'>
+ExtentTest test = extent
+    .startTest("Categories")
+    .assignCategory("Regression", "ExtentAPI");
 </code></pre>
 <p>Each category will show under the test-name along with a list to filter tests:</p>
 <img class='bordered-img center' src='./img/category.png' />
@@ -382,7 +394,9 @@ public class SeleniumExample {
     
     @Test
     public void GoogleWithoutAssert() {
-        test = extent.startTest("Google Search Without Assert", "Verifies if Google search button is displayed");
+        test = extent
+            .startTest("Google Search Without Assert", "Verifies if Google search button is displayed")
+            .assignCategory("NoAssert", "ExtentAPI");
 
         test.log(LogStatus.INFO, "Launching browser");
         driver = new FirefoxDriver();
@@ -404,7 +418,9 @@ public class SeleniumExample {
 
     @Test
     public void GoogleWithAssert() {
-        test = extent.startTest("Google Search With Assert", "Verifies if Google search button is displayed");
+        test = extent
+            .startTest("Google Search With Assert", "Verifies if Google search button is displayed")
+            .assignCategory("Assert", "ExtentAPI");
 
         test.log(LogStatus.INFO, "Launching browser");
         driver = new FirefoxDriver();
@@ -508,7 +524,9 @@ public class TestNgSeleniumExample {
     
     @Test
     public void googleWithoutAssert() {
-        test = extent.startTest("Google Search Without Assert", "Verifies if Google search button is displayed");
+        test = extent
+            .startTest("Google Search Without Assert", "Verifies if Google search button is displayed")
+            .assignCategory("NoAssert", "ExtentAPI");
 
         test.log(LogStatus.INFO, "Launching browser");
         driver = new FirefoxDriver();
@@ -530,7 +548,9 @@ public class TestNgSeleniumExample {
 
     @Test
     public void googleWithAssert() {
-        test = extent.startTest("Google Search With Assert", "Verifies if Google search button is displayed");
+        test = extent
+            .startTest("Google Search With Assert", "Verifies if Google search button is displayed")
+            .assignCategory("NoAssert", "ExtentAPI");
 
         test.log(LogStatus.INFO, "Launching browser");
         driver = new FirefoxDriver();
