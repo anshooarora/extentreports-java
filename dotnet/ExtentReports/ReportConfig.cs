@@ -18,7 +18,7 @@
         /// <summary>
         /// Inject javascript into the report
         /// </summary>
-        /// <param name="Script">JavaScript as string</param>
+        /// <param name="Script">JavaScript</param>
         /// <returns>ReportConfig object</returns>
         public ReportConfig InsertJs(string Script)
         {
@@ -31,7 +31,7 @@
         /// <summary>
         /// Inject custom CSS into the report
         /// </summary>
-        /// <param name="Styles">CSS styles as string</param>
+        /// <param name="Styles">CSS styles</param>
         /// <returns>ReportConfig object</returns>
         public ReportConfig InsertStyles(string Styles)
         {

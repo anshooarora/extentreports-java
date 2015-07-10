@@ -6,7 +6,7 @@
     {
         public static string GetSource(String ImgPath)
         {
-            return "<img class='report-img' data-featherlight='file:///" + ImgPath + "' src='file:///" + ImgPath + "' />";
+            return "<img class='report-img materialboxed' src='file:///" + ImgPath + "' />";
         }
     }
 }
