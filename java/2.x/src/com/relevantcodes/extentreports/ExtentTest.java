@@ -127,7 +127,7 @@ public class ExtentTest {
      * 
      * <p><b>Usage:</b> test.assignCategory("ExtentAPI", "Regression");
      * 
-     * @param category Category object
+     * @param category Category name
      * @return {@link ExtentTest}
      */
     public ExtentTest assignCategory(String... category) {

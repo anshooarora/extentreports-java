@@ -293,13 +293,25 @@ class ReportInstance {
     public ReportInstance() { 
     }
     
+    /**
+     * Report Configuration
+     * 
+     * @author Anshoo
+     *
+     */
     public class ReportConfig {
         private String extentSource;
-        
+
         private void updateSource() {
             extentSource = ReportInstance.this.extentSource;
         }
         
+        /**
+         * Inject javascript into the report
+         * 
+         * @param js - Javascript
+         * @return {@link ReportConfig}
+         */
         public ReportConfig insertJs(String js) {
             js = "<script type='text/javascript'>" + js + "</script>";
             
@@ -309,6 +321,12 @@ class ReportInstance {
             return this;
         }
         
+        /**
+         * Inject custom css into the report
+         * 
+         * @param styles CSS styles
+         * @return {@link ReportConfig}
+         */
         public ReportConfig insertCustomStyles(String styles) {
             styles = "<style type='text/css'>" + styles + "</style>";
             
@@ -318,6 +336,12 @@ class ReportInstance {
             return this;
         }
         
+        /**
+         * Add a CSS stylesheet
+         * 
+         * @param cssFilePath Path of the .css file
+         * @return {@link ReportConfig}
+         */
         public ReportConfig addCustomStylesheet(String cssFilePath) {
             String link = "<link href='file:///" + cssFilePath + "' rel='stylesheet' type='text/css' />";
             
@@ -330,6 +354,12 @@ class ReportInstance {
             return this;
         }
         
+        /**
+         * Report headline
+         * 
+         * @param headline A short report summary or headline
+         * @return {@link ReportConfig}
+         */
         public ReportConfig reportHeadline(String headline) {
             Integer maxLength = 70;
             
@@ -348,6 +378,12 @@ class ReportInstance {
             return this;
         }
         
+        /**
+         * Report name or title
+         * 
+         * @param name Name of the report
+         * @return {@link ReportConfig}
+         */
         public ReportConfig reportName(String name) {
             Integer maxLength = 20;
             
@@ -365,6 +401,12 @@ class ReportInstance {
             return this;
         }
         
+        /**
+         * Document Title
+         * 
+         * @param title Title
+         * @return {@link ReportConfig}
+         */
         public ReportConfig documentTitle(String title) {
             updateSource();
             
