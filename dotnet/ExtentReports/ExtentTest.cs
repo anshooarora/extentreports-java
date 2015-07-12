@@ -92,7 +92,7 @@
         /// </summary>
         /// <param name="screencastPath">Path of the screencast</param>
         /// <returns>A formed HTML video tag with the supplied path</returns>
-        public string AddScreencast(String screencastPath)
+        public string AddScreencast(string screencastPath)
         {
             string screencastHtml;
 
@@ -136,12 +136,10 @@
             return test;
         }
 
-        private Boolean IsPathRelative(String FilePath)
+        private Boolean IsPathRelative(string FilePath)
         {
-            if (FilePath.IndexOf("http") == 0 || FilePath.IndexOf(".") == 0 || FilePath.IndexOf("/") == 0)
-            {
+            if (FilePath.StartsWith("http") || FilePath.StartsWith(".") || FilePath.StartsWith("/"))
                 return true;
-            }
 
             return false;
         }

@@ -4,7 +4,7 @@
 
     internal class ExtentFlag
     {
-        public static string GetPlaceHolder(String flag)
+        public static string GetPlaceHolder(string flag)
         {
             return "<!--%%" + flag.ToUpper() + "%%-->";
         }

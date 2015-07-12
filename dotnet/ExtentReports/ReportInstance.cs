@@ -247,8 +247,8 @@
             }
 
             mediaSource = MediaViewBuilder.GetSource(mediaList.Screencast, "vid");
-            flags = new String[] { ExtentFlag.GetPlaceHolder("videosView") };
-            values = new String[] { mediaSource + ExtentFlag.GetPlaceHolder("videosView") };
+            flags = new string[] { ExtentFlag.GetPlaceHolder("videosView") };
+            values = new string[] { mediaSource + ExtentFlag.GetPlaceHolder("videosView") };
 
             if (!(infoWrite >= 1 && values[0].IndexOf("No media") >= 0))
             {

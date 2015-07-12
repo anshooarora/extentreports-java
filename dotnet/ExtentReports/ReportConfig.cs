@@ -50,7 +50,7 @@
         {
             string link = "<link href='file:///" + StylesheetPath + "' rel='stylesheet' type='text/css' />";
 
-            if (StylesheetPath.Substring(0, 1).Equals(".") || StylesheetPath.Substring(0, 1).Equals("/"))
+            if (StylesheetPath.StartsWith(".") || StylesheetPath.StartsWith("/"))
             {
                 link = "<link href='" + StylesheetPath + "' rel='stylesheet' type='text/css' />";
             }
