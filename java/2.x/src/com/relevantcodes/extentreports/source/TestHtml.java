@@ -20,14 +20,14 @@ public class TestHtml {
                     "<div class='col s12'>" +
                     "<div class='test card-panel <!--%%TESTSTATUS%%-->'>" +
                         "<div class='test-head'>" +
-                            "<div class='test-name left'>" +
+	                        "<div class='right test-info'>" +
+		                        "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +
+		                        "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>" +
+		                        "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%TESTTIMETAKEN%%--></span>" +
+		                        "<span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>" +
+		                    "</div>" +
+                            "<div class='test-name'>" +
                                 "<!--%%TESTNAME%%--><!--%%TESTWARNINGS%%-->" +
-                            "</div>" +
-                            "<div class='right'>" +
-                                "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +
-                                "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>" +
-                                "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%TESTTIMETAKEN%%--></span>" +
-                                "<span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>" +
                             "</div>" +
                             "<div class='test-desc' <!--%%DESCVIS%%-->>" +
                                 "<span><!--%%TESTDESCRIPTION%%--></span>" +

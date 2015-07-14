@@ -1,2 +1,12 @@
 #2.01 <06-29-2015>
 	Initial
+
+#2.02 <07-14-2015>
+	It is possible to assign categories to test using assignCategory()
+	Option to select the steps to view in the Steps-View dashboard
+	Time taken by the test will be displayed
+	RunInfo view will show passed and failed counts along with percentages
+	Fixed issues:
+		Long test names will no longer overflow to hide the description and the time
+		Unknown status tests will now show in the tests dashboard
+		Skipped steps will now show in the steps dashboard
