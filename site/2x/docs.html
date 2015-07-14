@@ -34,6 +34,7 @@
                                     </ul>
                                 </li>
                                 <li class='menu-item'><a href='../net/docs.html'>.NET</a></li>
+								<li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
                             </ul>
                         </div>
                     </div>
@@ -106,7 +107,7 @@
                             </ul>
                             
 <h2 id='whats-new'>What's new in 2.02</h2>
-<p>Version 2.02 launched on LAUNCH_DATE. Here is what's new:</p>
+<p>Version 2.02 launched on 07/14/2015. Here is what's new:</p>
 <ul>
     <li>You can now add categories to your tests using:
 <pre><code class='java'>
@@ -127,6 +128,9 @@ ExtentTest test = extent
     </li>
     <li>Time taken by tests will now be displayed by default</li>
     <li>Test case name in the summary view will link to the test case in details view. Clicking the test case will take you directly to the test details</li>
+	<li>Fixed issue where a long test name overflows causing timestamp area to shift down</li>
+	<li>Fixed issue to show Unknown status tests, skipped steps</li>
+	<li>RunInfo view shows passed and failed counts along with percentages</li>
 </ul>
 
 <h3 id='author'>Owner / Developer</h3>
@@ -138,6 +142,8 @@ ExtentTest test = extent
 <h3 id='beta-testers'>Beta Testers</h3>
 <ul>
     <li>Virender Singh</li>
+	<li>Vishwanath T S</li>
+	<li>Jawlit</li>
     <li>Sujata Kalluri</li>
     <li>Martin Skarbala</li>
     <li>Roman Hesteric</li>
@@ -149,7 +155,7 @@ ExtentTest test = extent
 &lt;dependency>
     &lt;groupId&gt;com.relevantcodes&lt;/groupId&gt;
     &lt;artifactId&gt;extentreports&lt;/artifactId&gt;
-    &lt;version&gt;2.01&lt;/version&gt;
+    &lt;version&gt;2.02&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
 
@@ -891,5 +897,6 @@ extent.config().reportHeadline("ExtentReports - ReportHeadline");
         <script src="../js/kube.min.js"></script> 
         <script src="../js/dropit.js"></script>
         <script src="../js/scripts.js"></script> 
+		<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
     </body>
 </html>

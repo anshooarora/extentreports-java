@@ -47,6 +47,10 @@ button a {
 li img {
     margin-top: 20px !important;
 }
+iframe {
+    margin-bottom: -8px;
+	margin-left: 20px;
+}
 
 /* ---- [ global structure ] ---- */
 .bg-inverse {
