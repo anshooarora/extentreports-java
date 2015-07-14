@@ -1,4 +1,12 @@
-﻿namespace RelevantCodes.ExtentReports.Source
+﻿// ***********************************************************************
+// Copyright (c) 2015, Anshoo Arora (Relevant Codes). All rights reserved.
+//
+// Copyrights licensed under the New BSD License.
+//
+// See the accompanying LICENSE file for terms.
+// ***********************************************************************
+
+namespace RelevantCodes.ExtentReports.Source
 {
     using System;
     using System.Collections.Generic;
@@ -20,15 +28,16 @@
         <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing, written in Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link href='http://fonts.googleapis.com/css?family=Nunito:300,400|Source+Sans+Pro:400' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400|Roboto:400,500' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css' type='text/css'>
         <title>ExtentReports 2.0</title>
         <style type='text/css'>
             body {
                 background-color: #f1f4f8;
-                font-family: Nunito, 'Open Sans', Arial;
+                font-family: Roboto, Nunito, 'Source Sans Pro', Arial;
                 font-size: 13px;
+                font-weight: 400;
             }
             pre {
                 border: 1px solid #ebedef;
@@ -56,8 +65,8 @@
                 color: #222 !important;
             }
             th {
-                font-family: Nunito;
-                font-weight: 400 !important;
+            	font-family: Roboto;
+                font-weight: 500 !important;
                 padding: 10px;
             }
             td {
@@ -68,7 +77,6 @@
             }
             label {
                 font-size: 13px;
-                font-weight: 300;
             }
                     
             /* -- [ global structure ] -- */
@@ -81,10 +89,7 @@
             .card-panel {
                 box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16);
             }
-            .panel-name {
-                font-family: Nunito;
-                font-weight: 300;
-            }
+            .panel-name { }
             .panel-setting {
                 float: right;
             }
@@ -100,7 +105,6 @@
             .tabs .tab a {
                 color: #26a69a;
                 font-size: 12px;
-                font-weight: 300;
             }
             .tabs .tab a:hover {
                 color: #43c3b7;
@@ -132,26 +136,27 @@
                 display: inline-block;
             }
             .weight-light {
-                font-weight: 300;
-            }
-            .weight-normal {
                 font-weight: 400;
             }
+            .weight-normal {
+                font-weight: 500;
+            }
             .weight-bold {
-                font-weight: 600;
+                font-weight: 700;
             }
             .select-wrapper input.select-dropdown, .input-field label {
                 font-size: 0.9rem;
             }
             .material-tooltip {
-                font-family: Nunito;
                 font-size: 13px;
-                font-weight: 300;
             }
                         
             /* -- [ side-nav ] -- */
             nav {
                 box-shadow: none;
+            }
+            .show-on-large {
+            	display: inline-block !important;
             }
             nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
                 height: 40px;
@@ -177,12 +182,10 @@
                 background: transparent;
             }
             .report-name {
-                font-weight: 300;
                 padding-left: 40px;
             }
             nav .right {
                 color: #c8c8c8;
-                font-weight: 300;
                 padding-right: 50px;
             }
             
@@ -228,8 +231,6 @@
                     min-height: 160px;
                 }
                 .videos-view .card-panel {
-                    height: 180px;
-                    max-height: 180px;
                     min-height: 180px;
                 }
                 .images-view img {
@@ -247,8 +248,7 @@
                 margin-left: 5px;
             }
             .dropdown-content li > a, .dropdown-content li > span {
-                font-size: 0.9rem;
-                font-weight: 300;
+                font-size: 0.85rem;
                 line-height: 1.2rem;
                 padding: 0.5rem 1rem;
             }
@@ -264,7 +264,6 @@
             }
             .tests-quick-view td {
                 font-size: 14px;
-                font-weight: 300;
                 padding: 10px;
             }
             .quick-test-summary {
@@ -304,12 +303,13 @@
             .is-expanded {
                 border: 1px solid #999;
             }
-            .test-head {
-                padding: 0 0 35px;
-            }
+            .test-head { }
             .test-head .label {
                 font-size: 13px;
                 text-transform: uppercase;
+            }
+            .test-info {
+            	margin-left: 100px;
             }
             .test-time-taken {
                 border-left: 2px solid #bbb;
@@ -327,11 +327,10 @@
                 font-weight: 400;
             }
             .test-desc {
-                color: #444;
-                font-size: 15px;
+                color: #222;
+                font-size: 16px;
                 font-weight: 400;
-                margin-bottom: -30px;
-                padding-top: 40px;
+                padding-top: 7px;
             }
             .test-attributes .category {
                 background-color: #e1f2fa;
@@ -448,26 +447,24 @@
                     max-width: inherit;
                     width: inherit;
                 }
-                test th:nth-child(2) {
-                    text-align: right;
+                th, td {
+                	padding: 10px;
                 }
             }
             @media all and (max-width: 800px) {
                 .test-head .left, .test-head .right {
                     float: none !important;
+                    margin-left: 0;
                 }
-                .test-head .right {
-                    margin-top: 20px;
+                .test-info {
+                	margin-bottom: 10px;
                 }
                 .test-desc {
-                    padding-top: 20px;
+                    padding-top: 10px;
                 }
             }
-            @media all and (max-width: 530px) {
-                .controls {
-                    margin-left: -30px;
-                }
-                .test-head .right span {
+            @media all and (max-width: 575px) {
+                .test-info span {
                     display: block;
                 }
             }
@@ -538,7 +535,7 @@
                             </div>
                             <div class='col s12 m6 l3'>
                                 <div class='card-panel'>
-                                    <span class='panel-name'>Tests Passed</span>
+                                    <span class='panel-name'>Tests Passed [<span class='t-pass-count'></span>]</span>
                                     <div class='chart tests-passed' data-percent=''>
                                         <span class='percent sign'></span>
                                     </div>
@@ -546,7 +543,7 @@
                             </div>
                             <div class='col s12 m6 l3'>
                                 <div class='card-panel'>
-                                    <span class='panel-name'>Tests Failed</span>
+                                    <span class='panel-name'>Tests Failed + Fatal [<span class='t-fail-count'></span>]</span>
                                     <div class='chart tests-failed' data-percent=''>
                                         <span class='percent sign'></span>
                                     </div>
@@ -570,7 +567,7 @@
                             </div>
                             <div class='col s12 m6 l3'>
                                 <div class='card-panel'>
-                                    <span class='panel-name'>Steps Passed</span>
+                                    <span class='panel-name'>Steps Passed [<span class='s-pass-count'></span>]</span>
                                     <div class='chart steps-passed' data-percent=''>
                                         <span class='percent sign'></span>
                                     </div>
@@ -578,7 +575,7 @@
                             </div>
                             <div class='col s12 m6 l3'>
                                 <div class='card-panel'>
-                                    <span class='panel-name'>Steps Failed</span>
+                                    <span class='panel-name'>Steps Failed + Fatal [<span class='s-fail-count'></span>]</span>
                                     <div class='chart steps-failed' data-percent=''>
                                         <span class='percent sign'></span>
                                     </div>
@@ -753,7 +750,7 @@
                 var warningSteps = $('td.status.warning').length;
                 var errorSteps = $('td.status.error').length;
                 var infoSteps = $('td.status.info').length;
-                var skippedSteps = $('td.status.skipped').length;
+                var skippedSteps = $('td.status.skip').length;
                 var unknownSteps = $('td.status.unknown').length;
                 var passedPercentage = Math.round((passedTests * 100) / (passedTests + failedTests + fatalTests + warningTests + errorTests)) + '%';
                 $('.t-pass-count').text(passedTests);
@@ -763,7 +760,7 @@
                 $('.t-error-count').text(errorTests);
                 $('.t-skipped-count').text(skippedTests);
                 $('.s-pass-count').text(passedSteps);
-                $('.s-fail-count').text(failedSteps);
+                $('.s-fail-count').text(failedSteps + fatalSteps);
                 $('.s-warning-count').text(warningSteps);
                 $('.s-fatal-count').text(fatalSteps);
                 $('.s-error-count').text(errorSteps);
@@ -823,7 +820,7 @@
                     warningSteps = $('td.status.warning').length;
                     errorSteps = $('td.status.error').length;
                     infoSteps = $('td.status.info').length;
-                    skippedSteps = $('td.status.skipped').length;
+                    skippedSteps = $('td.status.skip').length;
                     unknownSteps = $('td.status.unknown').length;
                     if ($('#step-dashboard-status-filter').hasClass('pass')) { passedSteps = 0; }
                     if ($('#step-dashboard-status-filter').hasClass('fail')) { failedSteps = 0; }
@@ -840,18 +837,18 @@
                     $('.total-tests').data('easyPieChart').update('100');
                     $('.tests-passed > .percent').text(Math.round((passedTests / totalTests) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#53b657', lineCap: 'butt', scaleColor: '#fff', size: 100 });
                     $('.tests-passed').data('easyPieChart').update((passedTests / totalTests) * 100);
-                    $('.tests-failed > .percent').text(Math.round((failedTests / totalTests) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
-                    $('.tests-failed').data('easyPieChart').update((failedTests / totalTests) * 100);
+                    $('.tests-failed > .percent').text(Math.round(((failedTests + fatalTests) / totalTests) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
+                    $('.tests-failed').data('easyPieChart').update(((failedTests + fatalTests) / totalTests) * 100);
                     $('.total-steps > .percent').text(totalSteps).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#1366d7', lineCap: 'butt', scaleColor: '#fff', size: 100 });
                     $('.total-steps').data('easyPieChart').update('100');
                     $('.steps-passed > .percent').text(Math.round((passedSteps / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#53b657', lineCap: 'butt', scaleColor: '#fff', size: 100 });
                     $('.steps-passed').data('easyPieChart').update((passedSteps / totalSteps) * 100);
-                    $('.steps-failed > .percent').text(Math.round((failedSteps / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
-                    $('.steps-failed').data('easyPieChart').update((failedSteps / totalSteps) * 100);
+                    $('.steps-failed > .percent').text(Math.round(((failedSteps + fatalSteps) / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
+                    $('.steps-failed').data('easyPieChart').update(((failedSteps + fatalSteps) / totalSteps) * 100);
                 }
                 $('.categories').each(function() {
                     if ($(this).children().length > 0) {
-                        $(this).prop('style', 'margin-top: 5px;');                    
+                        $(this).css('margin-top', '10px');                    
                     }
                 });
                 $(document).keypress(function(e) {
@@ -897,61 +894,62 @@
                 function resetFilters() {
                     $('.test, .test-section').show(0);
                 }
-                google.setOnLoadCallback(testSetChart);
-                google.setOnLoadCallback(testsChart);
-                function testSetChart() {
-                    var data = google.visualization.arrayToDataTable([
-                      ['Test Status', 'Count'],
-                      ['Pass', passedTests],
-                      ['Error', errorTests],
-                      ['Warning', warningTests],
-                      ['Fail', failedTests],
-                      ['Fatal', fatalTests],
-                      ['Skipped', skippedTests]
-                    ]);
-                    var options = {
-                      backgroundColor: { fill:'transparent' },
-                      chartArea: {'width': '92%', 'height': '100%'},
-                      colors: ['#00af00', 'tomato', 'orange', 'red', 'darkred', '#999'],
-                      fontName: 'Roboto',
-                      fontSize: '11',
-                      titleTextStyle: { color: '#1366d7', fontSize: '14' },
-                      pieHole: 0.55,
-                      height: 180,
-                      pieSliceText: 'value', 
-                      width: 220
-                    };
-                    var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
-                    chart.draw(data, options);
-                  }  
-                function testsChart() {
-                    var data = google.visualization.arrayToDataTable([
-                      ['Test Status', 'Count'],
-                      ['Pass', passedSteps],
-                      ['Fail', failedSteps],
-                      ['Fatal', fatalSteps],
-                      ['Error', errorSteps],
-                      ['Warning', warningSteps],
-                      ['Info', infoSteps],
-                      ['Skipped', skippedSteps],
-                      ['Unknown', unknownSteps],
-                    ]);
-                    var options = {
-                      backgroundColor: { fill:'transparent' },
-                      chartArea: {'width': '92%', 'height': '100%'},
-                      colors: ['#00af00', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue', '#999', '#000'],
-                      fontName: 'Roboto',
-                      fontSize: '11',
-                      titleTextStyle: { color: '#1366d7', fontSize: '14' },
-                      pieHole: 0.55,
-                      height: 180,
-                      pieSliceText: 'value', 
-                      width: 220
-                    };
-                    var chart = new google.visualization.PieChart(document.getElementById('step-status-dashboard'));
-                    chart.draw(data, options);
-                  }
             });
+            google.setOnLoadCallback(testSetChart);
+            google.setOnLoadCallback(testsChart);
+            function testSetChart() {
+                var data = google.visualization.arrayToDataTable([
+                  ['Test Status', 'Count'],
+                  ['Pass', $('.test.pass').length],
+                  ['Error', $('.test.error').length],
+                  ['Warning', $('.test.warning').length],
+                  ['Fail', $('.test.fail').length],
+                  ['Fatal', $('.test.fatal').length],
+                  ['Skipped', $('.test.skip').length],
+                  ['Unknown', $('.test.unknown').length],
+                ]);
+                var options = {
+                  backgroundColor: { fill:'transparent' },
+                  chartArea: {'width': '92%', 'height': '100%'},
+                  colors: ['#00af00', 'tomato', 'orange', 'red', 'darkred', '#999', '#000'],
+                  fontName: 'Roboto',
+                  fontSize: '11',
+                  titleTextStyle: { color: '#1366d7', fontSize: '14' },
+                  pieHole: 0.55,
+                  height: 180,
+                  pieSliceText: 'value', 
+                  width: 220
+                };
+                var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
+                chart.draw(data, options);
+              }  
+            function testsChart() {
+                var data = google.visualization.arrayToDataTable([
+                  ['Test Status', 'Count'],
+                  ['Pass', $('td.status.pass').length],
+                  ['Fail', $('td.status.fail').length],
+                  ['Fatal', $('td.status.fatal').length],
+                  ['Error', $('td.status.error').length],
+                  ['Warning', $('td.status.warning').length],
+                  ['Info', $('td.status.info').length],
+                  ['Skipped', $('td.status.skip').length],
+                  ['Unknown', $('td.status.unknown').length]
+                ]);
+                var options = {
+                  backgroundColor: { fill:'transparent' },
+                  chartArea: {'width': '92%', 'height': '100%'},
+                  colors: ['#00af00', 'red', 'darkred', 'tomato', 'orange', 'dodgerblue', '#999', '#000'],
+                  fontName: 'Roboto',
+                  fontSize: '11',
+                  titleTextStyle: { color: '#1366d7', fontSize: '14' },
+                  pieHole: 0.55,
+                  height: 180,
+                  pieSliceText: 'value', 
+                  width: 220
+                };
+                var chart = new google.visualization.PieChart(document.getElementById('step-status-dashboard'));
+                chart.draw(data, options);
+              }
         </script>
         <!--%%CUSTOMSCRIPT%%-->
     </body>

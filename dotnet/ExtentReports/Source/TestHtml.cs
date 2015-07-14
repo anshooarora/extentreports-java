@@ -1,4 +1,12 @@
-﻿namespace RelevantCodes.ExtentReports.Source
+﻿// ***********************************************************************
+// Copyright (c) 2015, Anshoo Arora (Relevant Codes). All rights reserved.
+//
+// Copyrights licensed under the New BSD License.
+//
+// See the accompanying LICENSE file for terms.
+// ***********************************************************************
+
+namespace RelevantCodes.ExtentReports.Source
 {
     using System;
 
@@ -17,15 +25,13 @@
                         <div class='col s12'>
                             <div class='test card-panel <!--%%TESTSTATUS%%-->'>
                                 <div class='test-head'>
-                                    <div class='test-name left'>
-                                        <!--%%TESTNAME%%--><!--%%TESTWARNINGS%%-->
-                                    </div>
-                                    <div class='right'>
+                                    <div class='text-info right'>
                                         <span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>
                                         <span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>
                                         <span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%TESTTIMETAKEN%%--></span>
                                         <span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>
                                     </div>
+                                    <div class='test-name'><!--%%TESTNAME%%--><!--%%TESTWARNINGS%%--></div>
                                     <div class='test-desc' <!--%%DESCVIS%%-->>
                                         <span><!--%%TESTDESCRIPTION%%--></span>
                                     </div>
