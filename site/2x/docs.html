@@ -85,6 +85,7 @@
                                         <li><a href='#basic-junit-selenium-example'>JUnit Selenium Example With and Without Assert</a></li>
                                         <li><a href='#basic-testng-example'>TestNG Example</a></li>
                                         <li><a href='#testng-selenium-assert'>TestNG Selenium Example With and Without <span class='bold'>Soft</span> Assert</a></li>
+										<li><a href='#testng-listener'>Creating TestNG Listener using ExtentReports</a></li>
                                         <li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
                                     </ul>
                                 </li>
@@ -247,14 +248,14 @@ extent.log(LogStatus.INFO, "HTML", "Usage: &lt;span style='font-weight:bold;'&gt
 <h3 id='insert-screenshots'>Insert Snapshots</h3>
 <p>To add a screen-shot, simply call <code>addScreenCapture</code>. This method returns the HTML with &lt;img&gt; tag which can be used anywhere in the log details. Calling <code>addScreenCapture</code> will also add the image to the ImageCollectionView from where you can see all images used by your tests.</p>
 <pre><code class='java'>
-extent.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("screenshot-path"));
+test.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("screenshot-path"));
 </code></pre>
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the image to load.</p>
 
 <h3 id='insert-screencast'>Insert Screencast</h3>
 <p>To add a screencast/recording of your test run, use the <code>addScreencast</code> method anywhere in the log details:</p>
 <pre><code class='java'>
-extent.log(LogStatus.INFO, "Screencast below: " + test.addScreencast("screencast-path"));
+test.log(LogStatus.INFO, "Screencast below: " + test.addScreencast("screencast-path"));
 </code></pre>
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the screencst to load.</p>
 
@@ -597,7 +598,10 @@ public class TestNgSeleniumExample {
 }
 </code></pre>
 <p>View the <a href='./samples/TestNGSeleniumExample.html'>result</a>.</p>
-    
+
+<h3 id='testng-listener'>Creating TestNG Listener using ExtentReports</h3>
+<p>If you use ExtentReports and do not want to use it like a normal logger, it is also possible to use it as a listener for TestNG to still be able to generate a beautiful report with dashboards. See <a href='http://relevantcodes.com/extentreports-listener-for-testng/'>this post</a> for more information.</p>
+
 <h3 id='multiple-report-files'>Creating Multiple Reports For a Run Session</h3>
 <p>ExtentReports 2 makes it extremely easy to create multiple reports for a run session. Simply create the same number of </p>
 
