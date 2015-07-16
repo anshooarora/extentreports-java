@@ -30,7 +30,7 @@ import com.relevantcodes.extentreports.support.Resources;
 import com.relevantcodes.extentreports.support.Writer;
 
 class ReportInstance {
-	private Boolean terminated = false;
+    private Boolean terminated = false;
     private CategoryList categoryList;
     private DisplayOrder displayOrder;
     private String filePath;
@@ -117,7 +117,7 @@ class ReportInstance {
     }
     
     public void terminate(List<ExtentTest> testList) {
-    	// #16: Add warning message if test ended abruptly, endTest() wasn't called 
+        // #16: Add warning message if test ended abruptly, endTest() wasn't called 
         for (ExtentTest t : testList) {
             if (!t.getTest().hasEnded) {
                 t.getTest().internalWarning = "Test did not end safely because endTest() was not called.There may be errors which are not reported correctly.";
@@ -133,22 +133,22 @@ class ReportInstance {
         
         terminated = true;
     }
-    		
-	public void writeAllResources(List<ExtentTest> testList, SystemInfo systemInfo) {
-    	if (terminated) {
-    		try {
-    			throw new IOException("Stream closed");
-    		} 
-    		catch (IOException e) {
-    			e.printStackTrace();
-    		}
-    		
-    		return;
-    	}
-    	
-    	if (systemInfo != null)
-    		updateSystemInfo(systemInfo.getInfo());
-    	
+            
+    public void writeAllResources(List<ExtentTest> testList, SystemInfo systemInfo) {
+        if (terminated) {
+            try {
+                throw new IOException("Stream closed");
+            } 
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+            return;
+        }
+        
+        if (systemInfo != null)
+            updateSystemInfo(systemInfo.getInfo());
+        
         if (testSource == "")
             return;
         
@@ -216,9 +216,9 @@ class ReportInstance {
     }
     
     private void updateSystemInfo(Map<String, String> info) {
-    	if (info == null)
-    		return;
-    	
+        if (info == null)
+            return;
+        
         if (extentSource.indexOf(ExtentFlag.getPlaceHolder("systemInfoApplied")) > 0)
             return;
         
@@ -246,11 +246,11 @@ class ReportInstance {
                 extentSource = SourceBuilder.build(extentSource, flags, values);
                 
                 if (mediaList.screenCapture.size() > 0) {
-                	try {
-                		String match = RegexMatcher.getNthMatch(extentSource, ExtentFlag.getPlaceHolder("objectViewNullImg") + ".*" + ExtentFlag.getPlaceHolder("objectViewNullImg"), 0);
-                		extentSource = extentSource.replace(match, "");
-                	}
-                	catch (Exception e) { }
+                    try {
+                        String match = RegexMatcher.getNthMatch(extentSource, ExtentFlag.getPlaceHolder("objectViewNullImg") + ".*" + ExtentFlag.getPlaceHolder("objectViewNullImg"), 0);
+                        extentSource = extentSource.replace(match, "");
+                    }
+                    catch (Exception e) { }
                 }
             }
             
@@ -269,11 +269,11 @@ class ReportInstance {
                 extentSource = SourceBuilder.build(extentSource, flags, values);
                 
                 if (mediaList.screencast.size() > 0) {
-                	try {
-                		String match = RegexMatcher.getNthMatch(extentSource, ExtentFlag.getPlaceHolder("objectViewNullVid") + ".*" + ExtentFlag.getPlaceHolder("objectViewNullVid"), 0);
-                		extentSource = extentSource.replace(match, "");
-                	}
-                	catch (Exception e) { }
+                    try {
+                        String match = RegexMatcher.getNthMatch(extentSource, ExtentFlag.getPlaceHolder("objectViewNullVid") + ".*" + ExtentFlag.getPlaceHolder("objectViewNullVid"), 0);
+                        extentSource = extentSource.replace(match, "");
+                    }
+                    catch (Exception e) { }
                 }
             }
             

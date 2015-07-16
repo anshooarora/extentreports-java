@@ -863,31 +863,38 @@
                         if (opt == 'Clear Filters') {
                             resetFilters();
                         } else {
-                            $('.test, .test-section').hide(0);
+                            $('.test, .test-section').hide(0).removeClass('displayed');
                             $('.test .category').each(function() {
                                 if ($(this).text() == opt) {
-                                    $(this).closest('.test').fadeIn(200).closest('.test-section').fadeIn(400);
+                                    $(this).closest('.test').fadeIn(200).addClass('displayed').closest('.test-section').fadeIn(400);
+                                    redrawCharts();
                                 }
                             });
                         }
                     }                                
                 });
                 function resetFilters() {
+                    $('.test').addClass('displayed');
                     $('.test, .test-section').show(0);
+					redrawCharts();
                 }
             });
+            function redrawCharts() {
+            	testsChart();
+            	testSetChart();
+            }
             google.setOnLoadCallback(testSetChart);
             google.setOnLoadCallback(testsChart);
             function testSetChart() {
                 var data = google.visualization.arrayToDataTable([
                   ['Test Status', 'Count'],
-                  ['Pass', $('.test.pass').length],
-                  ['Error', $('.test.error').length],
-                  ['Warning', $('.test.warning').length],
-                  ['Fail', $('.test.fail').length],
-                  ['Fatal', $('.test.fatal').length],
-                  ['Skipped', $('.test.skip').length],
-                  ['Unknown', $('.test.unknown').length],
+                  ['Pass', $('.test.displayed.pass').length],
+                  ['Error', $('.test.displayed.error').length],
+                  ['Warning', $('.test.displayed.warning').length],
+                  ['Fail', $('.test.displayed.fail').length],
+                  ['Fatal', $('.test.displayed.fatal').length],
+                  ['Skipped', $('.test.displayed.skip').length],
+                  ['Unknown', $('.test.displayed.unknown').length],
                 ]);
                 var options = {
                   backgroundColor: { fill:'transparent' },
@@ -903,18 +910,18 @@
                 };
                 var chart = new google.visualization.PieChart(document.getElementById('ts-status-dashboard'));
                 chart.draw(data, options);
-              }  
+              }
             function testsChart() {
                 var data = google.visualization.arrayToDataTable([
                   ['Test Status', 'Count'],
-                  ['Pass', $('td.status.pass').length],
-                  ['Fail', $('td.status.fail').length],
-                  ['Fatal', $('td.status.fatal').length],
-                  ['Error', $('td.status.error').length],
-                  ['Warning', $('td.status.warning').length],
-                  ['Info', $('td.status.info').length],
-                  ['Skipped', $('td.status.skip').length],
-                  ['Unknown', $('td.status.unknown').length]
+                  ['Pass', $('.test.displayed td.status.pass').length],
+                  ['Fail', $('.test.displayed td.status.fail').length],
+                  ['Fatal', $('.test.displayed td.status.fatal').length],
+                  ['Error', $('.test.displayed td.status.error').length],
+                  ['Warning', $('.test.displayed td.status.warning').length],
+                  ['Info', $('.test.displayed td.status.info').length],
+                  ['Skipped', $('.test.displayed td.status.skip').length],
+                  ['Unknown', $('.test.displayed td.status.unknown').length]
                 ]);
                 var options = {
                   backgroundColor: { fill:'transparent' },

@@ -18,7 +18,7 @@ public class TestHtml {
         
         return "<div class='test-section'>" +
                     "<div class='col s12'>" +
-                    "<div class='test card-panel <!--%%TESTSTATUS%%-->'>" +
+                    "<div class='test card-panel displayed <!--%%TESTSTATUS%%-->'>" +
                         "<div class='test-head'>" +
 	                        "<div class='right test-info'>" +
 		                        "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +

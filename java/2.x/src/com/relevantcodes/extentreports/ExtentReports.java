@@ -95,7 +95,8 @@ public class ExtentReports {
      */
     public void endTest(ExtentTest test) {
         test.getTest().hasEnded = true;
-        test.getTest().internalWarning = "";
+        // #19 - allow user to set warning message for tests
+        //test.getTest().internalWarning = "";
         
         reportInstance.addTest(test.getTest());
     }
