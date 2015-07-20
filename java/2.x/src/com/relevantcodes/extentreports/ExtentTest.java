@@ -138,6 +138,19 @@ public class ExtentTest {
         return this;
     }
     
+    public ExtentTest appendChild(ExtentTest node) {
+        node.getTest().endedTime = Calendar.getInstance().getTime();
+        node.getTest().child = true;
+        
+        for (Log log : node.getTest().log) {
+            trackLastRunStatus(log.logStatus);
+        }
+        
+        this.test.nodeList.add(node.getTest());
+        
+        return this;
+    }
+    
     private Boolean isPathRelative(String path) {
         if (path.indexOf("http") == 0 || path.indexOf(".") == 0 || path.indexOf("/") == 0) {
             return true;            

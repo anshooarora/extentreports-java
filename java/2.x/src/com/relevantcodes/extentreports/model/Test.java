@@ -10,6 +10,7 @@ package com.relevantcodes.extentreports.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import com.relevantcodes.extentreports.LogStatus;
 
@@ -19,7 +20,9 @@ public class Test {
     public ArrayList<Log> log;
     public ArrayList<ScreenCapture> screenCapture;
     public ArrayList<Screencast> screencast;
-    public Boolean hasEnded = false;
+    public ArrayList<Test> nodeList;
+    public boolean hasEnded = false;
+    public boolean child = false;
     public Date startedTime;
     public Date endedTime;
     public LogStatus status;
@@ -27,14 +30,18 @@ public class Test {
     public String internalWarning;
     public String name;
     public String statusMessage;
-        
+    public UUID id;
+    
     public Test() {
     	internalWarning = "";
+    	
+    	id = UUID.randomUUID();
     	
         log = new ArrayList<Log>();
         categoryList = new ArrayList<TestAttribute>();
         authorList = new ArrayList<TestAttribute>();
         screenCapture = new ArrayList<ScreenCapture>();
         screencast = new ArrayList<Screencast>();
+        nodeList = new ArrayList<Test>();
     }
 }

@@ -120,7 +120,7 @@ class ReportInstance {
         // #16: Add warning message if test ended abruptly, endTest() wasn't called 
         for (ExtentTest t : testList) {
             if (!t.getTest().hasEnded) {
-                t.getTest().internalWarning = "Test did not end safely because endTest() was not called.There may be errors which are not reported correctly.";
+                t.getTest().internalWarning += "Test did not end safely because endTest() was not called. There may be errors which are not reported correctly.";
                 addTest(t.getTest());
             }
         }
@@ -134,7 +134,7 @@ class ReportInstance {
         terminated = true;
     }
             
-    public void writeAllResources(List<ExtentTest> testList, SystemInfo systemInfo) {
+    public synchronized void writeAllResources(List<ExtentTest> testList, SystemInfo systemInfo) {
         if (terminated) {
             try {
                 throw new IOException("Stream closed");
@@ -146,7 +146,7 @@ class ReportInstance {
             return;
         }
         
-        if (systemInfo != null)
+        if (systemInfo != null && systemInfo.getInfo() != null)
             updateSystemInfo(systemInfo.getInfo());
         
         if (testSource == "")
@@ -159,16 +159,12 @@ class ReportInstance {
         updateMediaInfo();
         
         if (displayOrder == DisplayOrder.OLDEST_FIRST) {
-            synchronized (lock) {
-                extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("test"), testSource + ExtentFlag.getPlaceHolder("test"))
-                    .replace(ExtentFlag.getPlaceHolder("quickTestSummary"), quickSummarySource + ExtentFlag.getPlaceHolder("quickTestSummary"));
-            }
+            extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("test"), testSource + ExtentFlag.getPlaceHolder("test"))
+                .replace(ExtentFlag.getPlaceHolder("quickTestSummary"), quickSummarySource + ExtentFlag.getPlaceHolder("quickTestSummary"));
         }
         else {
-            synchronized (lock) {
-                extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("test"), ExtentFlag.getPlaceHolder("test") + testSource)
-                    .replace(ExtentFlag.getPlaceHolder("quickTestSummary"), ExtentFlag.getPlaceHolder("quickTestSummary") + quickSummarySource);
-            }
+            extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("test"), ExtentFlag.getPlaceHolder("test") + testSource)
+                .replace(ExtentFlag.getPlaceHolder("quickTestSummary"), ExtentFlag.getPlaceHolder("quickTestSummary") + quickSummarySource);
         }
             
         Writer.getInstance().write(new File(filePath), extentSource);

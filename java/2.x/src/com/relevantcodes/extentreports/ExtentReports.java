@@ -9,8 +9,11 @@
 package com.relevantcodes.extentreports;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.relevantcodes.extentreports.model.Test;
 
 /**
  * 
@@ -139,6 +142,8 @@ public class ExtentReports {
      * Writes all info to the report file
      */
     public void flush() {
+    	removeChildTests();
+    	
         reportInstance.writeAllResources(testList, systemInfo);
         
         systemInfo.clear();
@@ -153,8 +158,23 @@ public class ExtentReports {
      * with a warning message.
      */
     public void close() {
+    	removeChildTests();
+    	
     	reportInstance.terminate(testList);
     	
     	testList.clear();
+    }
+    
+    private void removeChildTests() {
+    	Iterator<ExtentTest> iterator = testList.iterator();
+        Test t;
+        
+        while (iterator.hasNext()) {
+        	t = iterator.next().getTest();
+        	
+        	if (t.child) {
+        		iterator.remove();
+        	}
+        }
     }
 }

@@ -6,10 +6,9 @@
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         --> 
-        <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing, written in Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
+        <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing, written for Java and .NET.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400|Roboto:400,500' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css' type='text/css'>
         <title>ExtentReports 2.0</title>
@@ -46,12 +45,12 @@
                 color: #222 !important;
             }
             th {
-            	font-family: Roboto;
+                font-family: Roboto;
                 font-weight: 500 !important;
                 padding: 10px;
             }
             td {
-                font-size: 15px;
+                font-size: 13px;
                 font-weight: 400;
                 padding: 7px 10px;
                 word-break: break-all;
@@ -69,6 +68,9 @@
             }
             .card-panel {
                 box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16);
+            }
+            img.active {
+                max-width: inherit !important;
             }
             .panel-name { }
             .panel-setting {
@@ -134,36 +136,43 @@
                         
             /* -- [ side-nav ] -- */
             nav {
-                box-shadow: none;
+                background-color: #37444e !important;
+                box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.05);
+                border-bottom: 1px solid #ccc;
             }
             .show-on-large {
-            	display: inline-block !important;
+                display: inline-block !important;
             }
             nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
-                height: 40px;
-                line-height: 40px;
+                color: #fff;
+                height: 48px;
+                line-height: 47px;
+                padding-left: 5px;
             }
-            nav, .side-nav {
-                background-color: #1a2a42;
+            nav .button-collapse i {
+                font-size: 1rem;
             }
             .side-nav {
+            	background-color: #fff;
                 width: 60px;
             }
             .side-nav li {
                 padding: 0 7px;
             }
             .side-nav .active, .side-nav li:hover {
-                background-color: #293951 !important;
+                background-color: #f6f7fa !important;
             }
             .side-nav a {
-                color: #e1ecfe !important;
+                color: #4d586a !important;
                 font-size: 13px !important;
+                height: 55px;
+                line-height: 55px;
             }
             #sidenav-overlay {
                 background: transparent;
             }
             .report-name {
-                padding-left: 40px;
+                padding-left: 45px;
             }
             nav .right {
                 color: #c8c8c8;
@@ -250,6 +259,9 @@
             .quick-test-summary {
                 margin-bottom: 20px;
             }
+            .quick-test-summary-details {
+                margin-top: 10px;
+            }
             .tests-quick-view tbody tr:hover {
                 background-color: #f6f7fa;
             }
@@ -268,6 +280,31 @@
                 cursor: pointer;
                 margin-bottom: 5px;
             }
+            .is-expanded.card-panel {
+                padding: 20px 20px 10px;
+            }
+            .test-node-name {
+                float: left;
+            }
+            .collapsible-header {
+                border-bottom: none;
+            }
+            .collapsible-body {
+                padding: 0 10px 5px;
+                width: 100%;
+            }
+            .collapsible-body table {
+                margin-top: -20px;
+            }
+            .collapsible.popout > li.active {
+            	border: 1px solid #bbb;
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+            }
+            .test-node-name {
+                font-family: Roboto !important;
+                font-size: 14px;
+                font-weight: 500;
+            }
             .test-warning {
                 color: red;
                 cursor: pointer;
@@ -275,9 +312,7 @@
                 margin-left: 5px;
                 vertical-align: top;
             }
-            .test div, .test span, .test td  {
-                font-family: 'Source Sans Pro';
-            }
+            .test div, .test span, .test td  { }
             .test td {
                 vertical-align: top;
             }
@@ -285,12 +320,15 @@
                 border: 1px solid #999;
             }
             .test-head { }
-            .test-head .label {
-                font-size: 13px;
+            .test-head .label, .test-info .label {
+                font-size: 11px;
                 text-transform: uppercase;
             }
             .test-info {
-            	margin-left: 100px;
+                margin-left: 100px;
+            }
+            .collapsible .test-info {
+                height: 40px;
             }
             .test-time-taken {
                 border-left: 2px solid #bbb;
@@ -299,24 +337,25 @@
             .test-head .right {
                 margin-top: 6px;
             }
-            .test-head .right span {
+            .test .right span {
                 background-color: #f6f7fa;
                 padding: 4px 10px;
             }
             .test-name {
-                font-size: 20px;
+                font-size: 17px;
                 font-weight: 400;
             }
             .test-desc {
                 color: #222;
-                font-size: 16px;
+                font-size: 13px;
                 font-weight: 400;
                 padding-top: 7px;
             }
             .test-attributes .category {
-                background-color: #e1f2fa;
+                background-color: #55bad8;
                 border-radius: 2px;
-                color: #5992aa;
+                color: #fff;
+                font-size: 12px;
                 margin-right: 3px;
                 padding: 2px 4px;
             }
@@ -380,7 +419,7 @@
             /* -- [ labels ] -- */
             .label {
                 border-radius: 2px;
-                font-size: 14px;
+                font-size: 13px;
                 padding: 2px 5px;
                 text-transform: none;
             }
@@ -429,7 +468,7 @@
                     width: inherit;
                 }
                 th, td {
-                	padding: 10px;
+                    padding: 10px;
                 }
             }
             @media all and (max-width: 800px) {
@@ -438,7 +477,7 @@
                     margin-left: 0;
                 }
                 .test-info {
-                	margin-bottom: 10px;
+                    margin-bottom: 10px;
                 }
                 .test-desc {
                     padding-top: 10px;
@@ -592,6 +631,9 @@
                             <div class='card-panel'>
                                 <div class='panel-view panel-name quick-test-summary'>
                                     Quick Test Summary
+                                    <div class='quick-test-summary-details'>
+                                        <span class='label info'>Total time taken: <span class='suite-total-time-taken'></span></span>
+                                    </div>
                                 </div>
                                 <table class='bordered responsive-table'>
                                     <thead>
@@ -603,7 +645,7 @@
                                             <th>Error</th>
                                             <th>Warning</th>
                                             <th>Info</th>
-                                            <th>Skipped</th>
+                                            <th>Skip</th>
                                             <th>Unknown</th>
                                             <th>RunStatus</th>
                                         </tr>
@@ -626,7 +668,7 @@
                                         <option value='3'>Fail</option>
                                         <option value='4'>Error</option>
                                         <option value='5'>Warning</option>
-                                        <option value='6'>Skipped</option>
+                                        <option value='6'>Skip</option>
                                         <option value='7'>Unknown</option>
                                         <option value='8'>Clear Filters</option>
                                     </select>
@@ -704,7 +746,7 @@
         <script type='text/javascript'>
             google.load('visualization', '1', {packages:['corechart']});
             $(document).ready(function() {
-                $('.button-collapse').sideNav({ closeOnClick: false, menuWidth: 60 });
+                $('.button-collapse').sideNav({ menuWidth: 60 });
                 $('select').material_select();
                 $('ul.tabs').tabs();
                 $('.materialboxed').materialbox();
@@ -714,6 +756,9 @@
                 if ($('.category-toggle option').length == 2) {
                   $('.category-toggle').hide();
                 }
+                $('.table-results').filter(function() {
+                    return ($(this).find('tr').length == 1);
+                }).hide(0);
                 $('#step-dashboard-status-filter input').prop('checked', 'checked');
                 $('.indicator').addClass('teal lighten-4');
                 var totalTests = $('.test').length;
@@ -759,9 +804,7 @@
                         if (cls == 'runinfo-view') 
                             showRunInfo();
                     }
-                    //$('.button-collapse').sideNav('hide');
                 });
-                // #11: Link Test Case in Summary section to Details
                 $('.quick-view-test').click(function() {
                     var index = $(this).closest('tr').index();
                     var el = $('.test-list .test:eq(' + index + ')');
@@ -773,7 +816,8 @@
                         el.toggleClass('is-expanded').find('.test-body').slideToggle(300);
                 });
                 $('.test-list .test').click(function(evt) {
-                    if (evt.target.className.toLowerCase() == 'category') {
+                	var cls = evt.target.className.toLowerCase();
+                    if (cls == 'category') {
                         $('.category-toggle li').each(function() {
                             if ($(this).text() == $(evt.target).text()) {
                                 $(this).click();
@@ -781,6 +825,7 @@
                             }
                         });
                     }
+                    else if (cls.indexOf('collapsible') > -1 || cls.indexOf('node') > -1) { }
                     else if (evt.target.nodeName == 'DIV' || evt.target.nodeName == 'SPAN') {
                         $(this).toggleClass('is-expanded').find('.test-body').slideToggle(300);
                     }
@@ -793,25 +838,8 @@
                         $('#step-dashboard-status-filter').removeClass($(this).prop('id').replace('step-dashboard-filter-', ''));
                     }
                 });
-                // #10: checkboxes for charts
                 $('.modal-footer').click(function() {
-                    passedSteps = $('td.status.pass').length;
-                    failedSteps = $('td.status.fail').length;
-                    fatalSteps = $('td.status.fatal').length;
-                    warningSteps = $('td.status.warning').length;
-                    errorSteps = $('td.status.error').length;
-                    infoSteps = $('td.status.info').length;
-                    skippedSteps = $('td.status.skip').length;
-                    unknownSteps = $('td.status.unknown').length;
-                    if ($('#step-dashboard-status-filter').hasClass('pass')) { passedSteps = 0; }
-                    if ($('#step-dashboard-status-filter').hasClass('fail')) { failedSteps = 0; }
-                    if ($('#step-dashboard-status-filter').hasClass('fatal')) { fatalSteps = 0; }
-                    if ($('#step-dashboard-status-filter').hasClass('warning')) { warningSteps = 0; }
-                    if ($('#step-dashboard-status-filter').hasClass('error')) { errorSteps = 0; }
-                    if ($('#step-dashboard-status-filter').hasClass('info')) { infoSteps = 0; }
-                    if ($('#step-dashboard-status-filter').hasClass('skip')){ skippedSteps = 0; }
-                    if ($('#step-dashboard-status-filter').hasClass('unknown')) { unknownSteps = 0; }
-                    testsChart();
+                    redrawCharts();
                 });
                 function showRunInfo() {
                     $('.total-tests > .percent').text(totalTests).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#9c27b0', lineCap: 'butt', scaleColor: '#fff', size: 100 });
@@ -847,41 +875,84 @@
                 });
                 $('.tests-toggle li').click(function() {
                     var opt = $(this).text().toLowerCase();
+                    var opt2 = $('.category-toggle li.active').text();
+                    if (opt2 == 'Choose your option' || opt2 == 'Clear Filters') opt2 = "";
                     if (opt != 'choose your option') {
                         if (opt == 'clear filters') {
                             resetFilters();
                         } else {
-                            $('.test, .test-section').hide(0);
-                            $('.test.' + opt).fadeIn(200).closest('.test-section').fadeIn(400);
+                            $('.tests-toggle li').removeClass('active');
+                            $(this).addClass('active');
+                            $('.test').hide(0).removeClass('displayed');
+                            if (opt2 != "") {
+                                $('.test').each(function() {
+                                    if ($(this).hasClass(opt) && $(this).find('.category').length > 0) {
+                                        for (var i = 0; i < $(this).find('.category').length; i++) {
+                                            if ($(this).find('.category').eq(i).text() == opt2) {
+                                                $(this).addClass('displayed').show(0);
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                $('.test').hide(0).removeClass('displayed');
+                                $('.test.' + opt).fadeIn(200).addClass('displayed');
+                            }
+                            redrawCharts();
                         }
-                    }                                
+                    }
                 });
-                // #12: Ability to add categories and category-filters to tests
                 $('.category-toggle li').click(function() {
                     var opt = $(this).text();
+                    var opt2 = $('.tests-toggle li.active').text().toLowerCase();
+                    if (opt2 == 'choose your option' || opt2 == 'clear filters') opt2 = "";
                     if (opt != 'Choose your option') {
-                        if (opt == 'Clear Filters') {
+                        if (opt.toLowerCase() == 'clear filters') {
                             resetFilters();
                         } else {
-                            $('.test, .test-section').hide(0).removeClass('displayed');
-                            $('.test .category').each(function() {
-                                if ($(this).text() == opt) {
-                                    $(this).closest('.test').fadeIn(200).addClass('displayed').closest('.test-section').fadeIn(400);
-                                    redrawCharts();
-                                }
-                            });
+                            $('.category-toggle li').removeClass('active');
+                            $(this).addClass('active');
+                            $('.test').hide(0).removeClass('displayed');
+                            if (opt2 != "") {
+                                $('.test').each(function() {
+                                    if ($(this).hasClass(opt2) && $(this).find('.category').length > 0) {
+                                        for (var i = 0; i < $(this).find('.category').length; i++) {
+                                            if ($(this).find('.category').eq(i).text() == opt) {
+                                                $(this).addClass('displayed').show(0);
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                $('.test .category').each(function() {
+                                    if ($(this).text() == opt) {
+                                        $(this).closest('.test').fadeIn(200).addClass('displayed');
+                                    }
+                                });
+                            }
+                            redrawCharts();
                         }
                     }                                
                 });
                 function resetFilters() {
-                    $('.test').addClass('displayed');
-                    $('.test, .test-section').show(0);
-					redrawCharts();
+                    $('.dropdown-content li').removeClass('active');
+                    $('.test').addClass('displayed').show(0);
+                    redrawCharts();
+                    $('.dropdown-content li:first-child').addClass('active').click();
                 }
+                function updateTotalTimeTaken() {
+                    var ended = $('.suite-ended-time').text().replace('-', '/').replace('-', '/');
+                    var started = $('.suite-started-time').text().replace('-', '/').replace('-', '/');
+                    var diff = new Date(new Date(ended) - new Date(started));
+                    diff = diff.getMinutes() + 'm ' + diff.getSeconds() + 's';
+                    $('.suite-total-time-taken').text(diff);
+                }
+                resetFilters();
+                updateTotalTimeTaken();
             });
             function redrawCharts() {
-            	testsChart();
-            	testSetChart();
+                testsChart();
+                testSetChart();
             }
             google.setOnLoadCallback(testSetChart);
             google.setOnLoadCallback(testsChart);
@@ -912,16 +983,32 @@
                 chart.draw(data, options);
               }
             function testsChart() {
+               var pass = $('.test.displayed td.status.pass').length;
+				var fail = $('.test.displayed td.status.fail').length;
+				var fatal = $('.test.displayed td.status.fatal').length;
+				var warn = $('.test.displayed td.status.warning').length;
+				var error = $('.test.displayed td.status.error').length;
+				var info = $('.test.displayed td.status.info').length;
+				var skip = $('.test.displayed td.status.skip').length;
+				var unknown = $('.test.displayed td.status.unknown').length;
+				if ($('#step-dashboard-status-filter').hasClass('pass')) { passed = 0; }
+				if ($('#step-dashboard-status-filter').hasClass('fail')) { fail = 0; }
+				if ($('#step-dashboard-status-filter').hasClass('fatal')) { fatal = 0; }
+				if ($('#step-dashboard-status-filter').hasClass('warning')) { warn = 0; }
+				if ($('#step-dashboard-status-filter').hasClass('error')) { error = 0; }
+				if ($('#step-dashboard-status-filter').hasClass('info')) { info = 0; }
+				if ($('#step-dashboard-status-filter').hasClass('skip')){ skipped = 0; }
+				if ($('#step-dashboard-status-filter').hasClass('unknown')) { unknown = 0; }
                 var data = google.visualization.arrayToDataTable([
                   ['Test Status', 'Count'],
-                  ['Pass', $('.test.displayed td.status.pass').length],
-                  ['Fail', $('.test.displayed td.status.fail').length],
-                  ['Fatal', $('.test.displayed td.status.fatal').length],
-                  ['Error', $('.test.displayed td.status.error').length],
-                  ['Warning', $('.test.displayed td.status.warning').length],
-                  ['Info', $('.test.displayed td.status.info').length],
-                  ['Skipped', $('.test.displayed td.status.skip').length],
-                  ['Unknown', $('.test.displayed td.status.unknown').length]
+                  ['Pass', pass],
+                  ['Fail', fail],
+                  ['Fatal', fatal],
+                  ['Error', error],
+                  ['Warning', warn],
+                  ['Info', info],
+                  ['Skipped', skip],
+                  ['Unknown', unknown]
                 ]);
                 var options = {
                   backgroundColor: { fill:'transparent' },

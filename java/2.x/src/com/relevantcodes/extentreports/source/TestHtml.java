@@ -20,12 +20,12 @@ public class TestHtml {
                     "<div class='col s12'>" +
                     "<div class='test card-panel displayed <!--%%TESTSTATUS%%-->'>" +
                         "<div class='test-head'>" +
-	                        "<div class='right test-info'>" +
-		                        "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +
-		                        "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>" +
-		                        "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%TESTTIMETAKEN%%--></span>" +
-		                        "<span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>" +
-		                    "</div>" +
+                            "<div class='right test-info'>" +
+                                "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +
+                                "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>" +
+                                "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%TESTTIMETAKEN%%--></span>" +
+                                "<span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>" +
+                            "</div>" +
                             "<div class='test-name'>" +
                                 "<!--%%TESTNAME%%--><!--%%TESTWARNINGS%%-->" +
                             "</div>" +
@@ -52,6 +52,9 @@ public class TestHtml {
                                 "<!--%%STEP%%-->" +
                             "</tbody>" +
                             "</table>" +
+                            "<ul class='collapsible popout' data-collapsible='accordion'>" +
+                                "<!--%%NODELIST%%-->" +
+                            "</ul>" +
                         "</div>" +
                     "</div>" +
                 "</div>" +
@@ -73,15 +76,54 @@ public class TestHtml {
                 "</tr>";
     }
     
+    public static String getNodeSource(int cols) {
+        String colStepName = "";
+        
+        if (cols == 4) {
+            colStepName = "<th>StepName</th>";
+        }
+        
+        return "<li>" +
+                    "<div class='collapsible-header test-node <!--%%NODESTATUS%%-->'>" +
+                        "<div class='test-node-name'>" +
+                            "<!--%%NODENAME%%-->" +
+                        "</div>" +
+                        "<div class='right test-info'>" +
+                            "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%NODESTARTTIME%%--></span>" +
+                            "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%NODEENDTIME%%--></span>" +
+                            "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%NODETIMETAKEN%%--></span>" +
+                            "<span class='test-status label <!--%%NODESTATUS%%-->'><!--%%NODESTATUS%%--></span>" +
+                        "</div>" +
+                    "</div>" +
+                    "<div class='collapsible-body'>" +
+                        "<div class='test-body'>" +
+                            "<table class='bordered table-results'>" +
+                                "<thead>" +
+                                    "<tr>" +
+                                        "<th>Timestamp</th>" +
+                                        "<th>Status</th>" +
+                                        colStepName +
+                                        "<th>Details</th>" +
+                                    "</tr>" +
+                                "</thead>" +
+                                "<tbody>" +
+                                    "<!--%%NODESTEP%%-->" +
+                                "</tbody>" +
+                            "</table>" +
+                        "</div>" +
+                    "</div>" +
+                "</li>";
+    }
+    
     public static String getCategorySource() {
-    	return "<span class='category'><!--%%CATEGORY%%--></span>";
+        return "<span class='category'><!--%%CATEGORY%%--></span>";
     }
     
     public static String getWarningSource(String warning) {
-    	if (warning == "") {
-    		return "";
-    	}
-    		
-    	return "<span class='test-warning tooltipped' data-tooltip='" + warning + "' data-position='top'><i class='fa fa-info' alt='" + warning + "' title='" + warning + "'></i></span>";
+        if (warning == "") {
+            return "";
+        }
+            
+        return "<span class='test-warning tooltipped' data-tooltip='" + warning + "' data-position='top'><i class='fa fa-info' alt='" + warning + "' title='" + warning + "'></i></span>";
     }
 }
