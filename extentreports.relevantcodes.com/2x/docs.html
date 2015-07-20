@@ -34,7 +34,7 @@
                                     </ul>
                                 </li>
                                 <li class='menu-item'><a href='../net/docs.html'>.NET</a></li>
-								<li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
+                                <li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
                             </ul>
                         </div>
                     </div>
@@ -52,14 +52,14 @@
                             <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.html'>here</a>.</p>
                             
                             <h1>Current Version</h1>
-                            <p>2.02</p>
+                            <p>2.03</p>
                             
                             <h2>If you are coming from Version 1.x</h2>
                             <p>ExtentReports 2.0 is a complete re-write of this library so a lot of things have changed. There is currently no straight-forward migration path and you will have to modify your scripts to make them work with the new version.</p>
                             
                             <h1>Docs</h1>
                             <ul class='index'>
-                                <li><a href='#whats-new'>What's new in 2.02</a></li>
+                                <li><a href='#whats-new'>What's new in 2.03</a></li>
                                 <li><a href='#author'>Owner / Developer</a>
                                 <li><a href='#beta-testers'>Beta Testers</a>
                                 <li><a href='#maven'>Maven</a>
@@ -71,6 +71,7 @@
                                         <li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
                                         <li><a href='#create-step-logs'>Creating Step Logs</a></li>
                                         <li><a href='#assign-category'>Assign Test Categories</a></li>
+                                        <li><a href='#child-tests'>Adding Child Tests</a></li>
                                         <li><a href='#insert-custom-html'>Inserting Custom HTML</a></li>
                                         <li><a href='#insert-screenshots'>Insert Screenshots</a></li>
                                         <li><a href='#insert-screencast'>Insert Screencasts</a></li>
@@ -85,7 +86,7 @@
                                         <li><a href='#basic-junit-selenium-example'>JUnit Selenium Example With and Without Assert</a></li>
                                         <li><a href='#basic-testng-example'>TestNG Example</a></li>
                                         <li><a href='#testng-selenium-assert'>TestNG Selenium Example With and Without <span class='bold'>Soft</span> Assert</a></li>
-										<li><a href='#testng-listener'>Creating TestNG Listener using ExtentReports</a></li>
+                                        <li><a href='#testng-listener'>Creating TestNG Listener using ExtentReports</a></li>
                                         <li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
                                     </ul>
                                 </li>
@@ -107,31 +108,28 @@
                                 <li><a href='#license'>License</a></li>
                             </ul>
                             
-<h2 id='whats-new'>What's new in 2.02</h2>
-<p>Version 2.02 launched on 07/14/2015. Here is what's new:</p>
+<h2 id='whats-new'>What's new in 2.03</h2>
+<p>Version 2.03 launched on LAUNCH_DATE. Here is what's new:</p>
 <ul>
-    <li>You can now add categories to your tests using:
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/5'>#5</a>, <a href='https://github.com/anshooarora/extentreports/issues/15'>#15</a>) You can now add child tests using <code>appendChild</code> method:
 <pre><code class='java'>
-test.assignCategory("Regression");
-test.assignCategory("Regression", "ExtentAPI");
-test.assignCategory("Regression", "ExtentAPI", "category-3", "cagegory-4", ..);
+ExtentTest parent = extent.startTest("Parent");
+
+ExtentTest child1 = extent.startTest("Child 1");
+child1.log(LogStatus.INFO, "Info");
+
+ExtentTest child2 = extent.startTest("Child 2");
+child2.log(LogStatus.PASS, "Pass");
+
+parent
+    .appendChild(child1)
+    .appendChild(child2);
+    
+extent.endTest(parent);
 </code></pre>
-<p>Or simply assign them when you start your test:</p>
-<pre><code class='java'>
-ExtentTest test = extent
-    .startTest("Categories")
-    .assignCategory("Regression", "ExtentAPI");
-</code></pre>
-<p>Each category will show under the test-name along with a list to filter tests:<img class='bordered-img center' src='./img/category.png' /></p>
-    </li>
-    <li>There is now an option to select the steps you want displayed in the steps chart:
-    <img class='bordered-img center' src='./img/step-selection-1.png' />
-    </li>
-    <li>Time taken by tests will now be displayed by default</li>
-    <li>Test case name in the summary view will link to the test case in details view. Clicking the test case will take you directly to the test details</li>
-	<li>Fixed issue where a long test name overflows causing timestamp area to shift down</li>
-	<li>Fixed issue to show Unknown status tests, skipped steps</li>
-	<li>RunInfo view shows passed and failed counts along with percentages</li>
+	</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/23'>#23</a>) Ability to filter by category and test status at the same time</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/13'>#13</a>) Add total execution time in test report</li>
 </ul>
 
 <h3 id='author'>Owner / Developer</h3>
@@ -143,8 +141,8 @@ ExtentTest test = extent
 <h3 id='beta-testers'>Beta Testers</h3>
 <ul>
     <li>Virender Singh</li>
-	<li>Vishwanath T S</li>
-	<li>Jawlit</li>
+    <li>Vishwanath T S</li>
+    <li>Jawlit</li>
     <li>Sujata Kalluri</li>
     <li>Martin Skarbala</li>
     <li>Roman Hesteric</li>
@@ -156,7 +154,7 @@ ExtentTest test = extent
 &lt;dependency>
     &lt;groupId&gt;com.relevantcodes&lt;/groupId&gt;
     &lt;artifactId&gt;extentreports&lt;/artifactId&gt;
-    &lt;version&gt;2.02&lt;/version&gt;
+    &lt;version&gt;2.03&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
 
@@ -238,6 +236,24 @@ ExtentTest test = extent
 </code></pre>
 <p>Each category will show under the test-name along with a list to filter tests:</p>
 <img class='bordered-img center' src='./img/category.png' />
+
+<h3 id='child-tests'>Adding Child Tests</h3>
+<p>To add a test node as a child of another test, use the <code>appendChild</code> method.</p>
+<pre><code class='java'>
+ExtentTest parent = extent.startTest("Parent");
+
+ExtentTest child1 = extent.startTest("Child 1");
+child1.log(LogStatus.INFO, "Info");
+
+ExtentTest child2 = extent.startTest("Child 2");
+child2.log(LogStatus.PASS, "Pass");
+
+parent
+    .appendChild(child1)
+    .appendChild(child2);
+    
+extent.endTest(parent);
+</code></pre>
 
 <h3 id='insert-custom-html'>Inserting custom HTML</h3>
 <p>Simply insert any custom HTML in the logs by using an HTML tag:</p>
@@ -901,6 +917,6 @@ extent.config().reportHeadline("ExtentReports - ReportHeadline");
         <script src="../js/kube.min.js"></script> 
         <script src="../js/dropit.js"></script>
         <script src="../js/scripts.js"></script> 
-		<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+        <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
     </body>
 </html>
