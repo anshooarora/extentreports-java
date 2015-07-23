@@ -85,14 +85,14 @@ public class TestHtml {
         
         return "<li>" +
                     "<div class='collapsible-header test-node <!--%%NODESTATUS%%-->'>" +
-                        "<div class='test-node-name'>" +
+                    	"<div class='right test-info'>" +
+		                    "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%NODESTARTTIME%%--></span>" +
+		                    "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%NODEENDTIME%%--></span>" +
+		                    "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%NODETIMETAKEN%%--></span>" +
+		                    "<span class='test-status label <!--%%NODESTATUS%%-->'><!--%%NODESTATUS%%--></span>" +
+		                "</div>" +
+                    	"<div class='test-node-name'>" +
                             "<!--%%NODENAME%%-->" +
-                        "</div>" +
-                        "<div class='right test-info'>" +
-                            "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%NODESTARTTIME%%--></span>" +
-                            "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%NODEENDTIME%%--></span>" +
-                            "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%NODETIMETAKEN%%--></span>" +
-                            "<span class='test-status label <!--%%NODESTATUS%%-->'><!--%%NODESTATUS%%--></span>" +
                         "</div>" +
                     "</div>" +
                     "<div class='collapsible-body'>" +

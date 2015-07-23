@@ -32,6 +32,14 @@ class SourceBuilder {
         return source;
     }
     
+    public static String buildSimple(String source, String[] flags, String[] values) {
+        for (int ix = 0; ix < flags.length; ix++) {            
+            source = source.replace(flags[ix], values[ix]);
+        }
+        
+        return source;
+    }
+    
     public static String getSource(Map<String, String> info) {
         String src = "";
         

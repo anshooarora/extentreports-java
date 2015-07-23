@@ -8,13 +8,17 @@
 
 package com.relevantcodes.extentreports;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Screencast;
 import com.relevantcodes.extentreports.model.Test;
+import com.relevantcodes.extentreports.model.TestAttribute;
 import com.relevantcodes.extentreports.source.ImageHtml;
 import com.relevantcodes.extentreports.source.ScreencastHtml;
 
@@ -131,13 +135,25 @@ public class ExtentTest {
      * @return {@link ExtentTest}
      */
     public ExtentTest assignCategory(String... category) {
+        List<String> list = new ArrayList<String>();
+        
         for (String c : category) {
-            test.categoryList.add(new Category(c));
+            if (!list.contains(c)) {
+                test.categoryList.add(new Category(c));
+            }
+            
+            list.add(c);
         }
 
         return this;
     }
     
+    /**
+     * Appends a child test to the current test
+     * 
+     * @param node {@link ExtentTest}
+     * @return {@link ExtentTest}
+     */
     public ExtentTest appendChild(ExtentTest node) {
         node.getTest().endedTime = Calendar.getInstance().getTime();
         node.getTest().child = true;
@@ -146,14 +162,28 @@ public class ExtentTest {
             trackLastRunStatus(log.logStatus);
         }
         
+        List<String> list = new ArrayList<String>();
+        
+        for (TestAttribute attr : this.test.categoryList) {
+            if (!list.contains(attr.getName())) {            
+                list.add(attr.getName());
+            }
+        }
+        
+        for (TestAttribute attr : node.getTest().categoryList) {
+            if (!list.contains(attr.getName())) {
+                this.test.categoryList.add(attr);
+            }
+        }
+        
         this.test.nodeList.add(node.getTest());
         
         return this;
     }
     
     private Boolean isPathRelative(String path) {
-        if (path.indexOf("http") == 0 || path.indexOf(".") == 0 || path.indexOf("/") == 0) {
-            return true;            
+        if (path.indexOf("http") == 0 || !new File(path).isAbsolute()) {
+            return true;
         }
         
         return false;

@@ -2,7 +2,7 @@
 <html>
     <head>
         <!--
-            ExtentReports Library 2.02 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentReports Library 2.03 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         --> 
@@ -47,7 +47,7 @@
             th {
                 font-family: Roboto;
                 font-weight: 500 !important;
-                padding: 10px;
+                padding: 7px 10px;
             }
             td {
                 font-size: 13px;
@@ -147,13 +147,13 @@
                 color: #fff;
                 height: 48px;
                 line-height: 47px;
-                padding-left: 5px;
+                padding-left: 10px;
             }
             nav .button-collapse i {
                 font-size: 1rem;
             }
             .side-nav {
-            	background-color: #fff;
+                background-color: #fff;
                 width: 60px;
             }
             .side-nav li {
@@ -165,14 +165,14 @@
             .side-nav a {
                 color: #4d586a !important;
                 font-size: 13px !important;
-                height: 55px;
-                line-height: 55px;
+                height: 48px;
+                line-height: 48px;
             }
             #sidenav-overlay {
                 background: transparent;
             }
             .report-name {
-                padding-left: 45px;
+                padding-left: 30px;
             }
             nav .right {
                 color: #c8c8c8;
@@ -247,14 +247,14 @@
             .main {
                 padding-bottom: 200px;
             }
-
-            /* -- [ texts-quick-view] -- */
+            
+            /* -- [ tests-quick-view ] -- */
             .tests-quick-view th:first-child, .test-quick-view td:first-child {
                 min-width: 40%;
             }
             .tests-quick-view td {
                 font-size: 14px;
-                padding: 10px;
+                padding: 8px 10px;
             }
             .quick-test-summary {
                 margin-bottom: 20px;
@@ -269,9 +269,25 @@
                 font-size: 11px;
                 font-weight: 400;
             }
-            .quick-view-test {
+            .quick-view-test, .category-link {
                 color: #039be5;
                 cursor: pointer;
+            }
+
+            /* -- [ category view ] -- */
+            .category-header {
+                padding: 0 0 10px;
+                font-weight: 500;
+            }
+            .category-view .label {
+                font-size: 11px;
+                text-transform: uppercase;
+            }
+            .category-view th, .category-view td {
+                width: 20%;
+            }
+            .category-view th:nth-child(2), .category-view td:nth-child(2) {
+                width: 60%;
             }
                         
             /* -- [ test-list ] -- */
@@ -283,22 +299,25 @@
             .is-expanded.card-panel {
                 padding: 20px 20px 10px;
             }
-            .test-node-name {
-                float: left;
-            }
             .collapsible-header {
                 border-bottom: none;
+                height: auto;
+                line-height: inherit;
+                padding: .8rem 1rem;
             }
             .collapsible-body {
-                padding: 0 10px 5px;
+                padding: 0 15px 15px;
                 width: 100%;
             }
             .collapsible-body table {
                 margin-top: -20px;
             }
             .collapsible.popout > li.active {
-            	border: 1px solid #bbb;
+                border: 1px solid #bbb;
                 box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+            }
+            .collapsible .test-info {
+                margin-left: 20px;
             }
             .test-node-name {
                 font-family: Roboto !important;
@@ -312,14 +331,12 @@
                 margin-left: 5px;
                 vertical-align: top;
             }
-            .test div, .test span, .test td  { }
             .test td {
                 vertical-align: top;
             }
             .is-expanded {
                 border: 1px solid #999;
             }
-            .test-head { }
             .test-head .label, .test-info .label {
                 font-size: 11px;
                 text-transform: uppercase;
@@ -623,6 +640,7 @@
                     <div class='col s12'>
                         <ul class='tabs'>
                             <li class='tab col s3'><a class='active' href='#tests-quick-view'>Summary</a></li>
+                            <li class='tab col s3'><a href='#category-quick-view'>Categories</a></li>
                             <li class='tab col s3'><a href='#tests-details-view'>Details</a></li>
                         </ul>
                     </div>
@@ -657,6 +675,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class='category-quick-view' id='category-quick-view'>
+                         <div class='col s12 m12 l12 no-categories-message'>
+                            <div class='card-panel'>
+                                <div class='panel-view panel-name category-summary'>
+                                    <p>No categories were added. Please add categories to your tests for this view to show data.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--%%EXTENTCATEGORYDETAILS%%-->
+                    </div>
                     <div class='tests-details-view' id='tests-details-view'>
                         <div class='filters'>
                             <div class='col l12'>
@@ -674,7 +702,6 @@
                                     </select>
                                     <label>Filter Tests</label>
                                 </div>
-                                <!-- #12: Ability to add categories and category-filters to tests -->
                                 <div class='input-field col l3 m6 s12 category-toggle'>
                                     <select>
                                         <option value='0' selected>Choose your option</option>
@@ -696,7 +723,6 @@
                     </div>
                 </div>
             </div>
-            <!-- #10: checkboxes for charts -->
             <div id='step-dashboard-status-filter' class='modal bottom-sheet'>
                 <div class='modal-content'>
                     <h5>Select status</h5>
@@ -759,6 +785,9 @@
                 $('.table-results').filter(function() {
                     return ($(this).find('tr').length == 1);
                 }).hide(0);
+                if ($('.category-view').length > 0) {
+                    $('.no-categories-message').hide();
+                }
                 $('#step-dashboard-status-filter input').prop('checked', 'checked');
                 $('.indicator').addClass('teal lighten-4');
                 var totalTests = $('.test').length;
@@ -778,23 +807,6 @@
                 var infoSteps = $('td.status.info').length;
                 var skippedSteps = $('td.status.skip').length;
                 var unknownSteps = $('td.status.unknown').length;
-                var passedPercentage = Math.round((passedTests * 100) / (passedTests + failedTests + fatalTests + warningTests + errorTests)) + '%';
-                $('.t-pass-count').text(passedTests);
-                $('.t-fail-count').text(failedTests + fatalTests);
-                $('.t-warning-count').text(warningTests);
-                $('.t-fatal-count').text(fatalTests);
-                $('.t-error-count').text(errorTests);
-                $('.t-skipped-count').text(skippedTests);
-                $('.s-pass-count').text(passedSteps);
-                $('.s-fail-count').text(failedSteps + fatalSteps);
-                $('.s-warning-count').text(warningSteps);
-                $('.s-fatal-count').text(fatalSteps);
-                $('.s-error-count').text(errorSteps);
-                $('.s-skipped-count').text(skippedSteps);
-                $('.t-others-count').text(warningTests + errorTests + skippedTests + unknownTests);
-                $('.s-others-count').text(warningSteps + errorSteps + skippedSteps + unknownSteps + infoSteps);
-                $('.dashboard-view .panel-lead').text(passedPercentage);
-                $('.dashboard-view .determinate').attr('style', 'width:' + passedPercentage);
                 $('nav li').click(function() {
                     if (!$(this).hasClass('active')) {
                         var cls = $(this).prop('class').split(' ')[0];
@@ -808,15 +820,31 @@
                 $('.quick-view-test').click(function() {
                     var index = $(this).closest('tr').index();
                     var el = $('.test-list .test:eq(' + index + ')');
-                    $('.tabs .tab:nth-child(2) a').click();
+                    $('.tabs .tab:nth-child(3) a').click();
                     $('html, body').animate({
                         scrollTop: el.offset().top
                     }, 1000);
                     if (!el.hasClass('is-expanded'))
                         el.toggleClass('is-expanded').find('.test-body').slideToggle(300);
                 });
+                $('.category-link').click(function() {
+                    var name = $(this).text();
+                    var ts = $(this).parent().prev().text();
+                    var index = -1;
+                    $('.test').each(function() {
+                        if ($(this).find('.test-name').text() == name && $(this).find('.test-started-time:eq(0)').text() == ts) {
+                            $('.tabs .tab:nth-child(3) a').click();
+                            $('html, body').animate({
+                                scrollTop: $(this).offset().top
+                            }, 1000);
+                            if (!$(this).hasClass('is-expanded'))
+                                $(this).toggleClass('is-expanded').find('.test-body').slideToggle(300);
+                            return false;
+                        }
+                    });
+                });
                 $('.test-list .test').click(function(evt) {
-                	var cls = evt.target.className.toLowerCase();
+                    var cls = evt.target.className.toLowerCase();
                     if (cls == 'category') {
                         $('.category-toggle li').each(function() {
                             if ($(this).text() == $(evt.target).text()) {
@@ -876,7 +904,7 @@
                 $('.tests-toggle li').click(function() {
                     var opt = $(this).text().toLowerCase();
                     var opt2 = $('.category-toggle li.active').text();
-                    if (opt2 == 'Choose your option' || opt2 == 'Clear Filters') opt2 = "";
+                    if (opt2 == 'Choose your option' || opt2 == 'Clear Filters') opt2 = '';
                     if (opt != 'choose your option') {
                         if (opt == 'clear filters') {
                             resetFilters();
@@ -884,7 +912,7 @@
                             $('.tests-toggle li').removeClass('active');
                             $(this).addClass('active');
                             $('.test').hide(0).removeClass('displayed');
-                            if (opt2 != "") {
+                            if (opt2 != '') {
                                 $('.test').each(function() {
                                     if ($(this).hasClass(opt) && $(this).find('.category').length > 0) {
                                         for (var i = 0; i < $(this).find('.category').length; i++) {
@@ -905,7 +933,7 @@
                 $('.category-toggle li').click(function() {
                     var opt = $(this).text();
                     var opt2 = $('.tests-toggle li.active').text().toLowerCase();
-                    if (opt2 == 'choose your option' || opt2 == 'clear filters') opt2 = "";
+                    if (opt2 == 'choose your option' || opt2 == 'clear filters') opt2 = '';
                     if (opt != 'Choose your option') {
                         if (opt.toLowerCase() == 'clear filters') {
                             resetFilters();
@@ -913,7 +941,7 @@
                             $('.category-toggle li').removeClass('active');
                             $(this).addClass('active');
                             $('.test').hide(0).removeClass('displayed');
-                            if (opt2 != "") {
+                            if (opt2 != '') {
                                 $('.test').each(function() {
                                     if ($(this).hasClass(opt2) && $(this).find('.category').length > 0) {
                                         for (var i = 0; i < $(this).find('.category').length; i++) {
@@ -957,15 +985,32 @@
             google.setOnLoadCallback(testSetChart);
             google.setOnLoadCallback(testsChart);
             function testSetChart() {
+                var pass = $('.test.displayed.pass').length;
+                var error = $('.test.displayed.error').length;
+                var warn = $('.test.displayed.warning').length;
+                var fail = $('.test.displayed.fail').length;
+                var fatal = $('.test.displayed.fatal').length;
+                var skip = $('.test.displayed.skip').length;
+                var unknown = $('.test.displayed.unknown').length;
+                $('.t-pass-count').text(pass);
+                $('.t-fail-count').text(fail + fatal);
+                $('.t-warning-count').text(warn);
+                $('.t-fatal-count').text(fatal);
+                $('.t-error-count').text(error);
+                $('.t-skipped-count').text(skip);
+                $('.t-others-count').text(warn + error + skip + unknown);
+                var percentage = Math.round((pass * 100) / (pass + fail + fatal + warn + error + unknown + skip)) + '%';
+                $('.dashboard-view .panel-lead').text(percentage);
+                $('.dashboard-view .determinate').attr('style', 'width:' + percentage);
                 var data = google.visualization.arrayToDataTable([
                   ['Test Status', 'Count'],
-                  ['Pass', $('.test.displayed.pass').length],
-                  ['Error', $('.test.displayed.error').length],
-                  ['Warning', $('.test.displayed.warning').length],
-                  ['Fail', $('.test.displayed.fail').length],
-                  ['Fatal', $('.test.displayed.fatal').length],
-                  ['Skipped', $('.test.displayed.skip').length],
-                  ['Unknown', $('.test.displayed.unknown').length],
+                  ['Pass', pass],
+                  ['Error', error],
+                  ['Warning', warn],
+                  ['Fail', fail],
+                  ['Fatal', fatal],
+                  ['Skipped', skip],
+                  ['Unknown', unknown],
                 ]);
                 var options = {
                   backgroundColor: { fill:'transparent' },
@@ -974,7 +1019,7 @@
                   fontName: 'Roboto',
                   fontSize: '11',
                   titleTextStyle: { color: '#1366d7', fontSize: '14' },
-                  pieHole: 0.55,
+                  pieHole: 0.45,
                   height: 180,
                   pieSliceText: 'value', 
                   width: 220
@@ -984,21 +1029,27 @@
               }
             function testsChart() {
                var pass = $('.test.displayed td.status.pass').length;
-				var fail = $('.test.displayed td.status.fail').length;
-				var fatal = $('.test.displayed td.status.fatal').length;
-				var warn = $('.test.displayed td.status.warning').length;
-				var error = $('.test.displayed td.status.error').length;
-				var info = $('.test.displayed td.status.info').length;
-				var skip = $('.test.displayed td.status.skip').length;
-				var unknown = $('.test.displayed td.status.unknown').length;
-				if ($('#step-dashboard-status-filter').hasClass('pass')) { passed = 0; }
-				if ($('#step-dashboard-status-filter').hasClass('fail')) { fail = 0; }
-				if ($('#step-dashboard-status-filter').hasClass('fatal')) { fatal = 0; }
-				if ($('#step-dashboard-status-filter').hasClass('warning')) { warn = 0; }
-				if ($('#step-dashboard-status-filter').hasClass('error')) { error = 0; }
-				if ($('#step-dashboard-status-filter').hasClass('info')) { info = 0; }
-				if ($('#step-dashboard-status-filter').hasClass('skip')){ skipped = 0; }
-				if ($('#step-dashboard-status-filter').hasClass('unknown')) { unknown = 0; }
+                var fail = $('.test.displayed td.status.fail').length;
+                var fatal = $('.test.displayed td.status.fatal').length;
+                var warn = $('.test.displayed td.status.warning').length;
+                var error = $('.test.displayed td.status.error').length;
+                var info = $('.test.displayed td.status.info').length;
+                var skip = $('.test.displayed td.status.skip').length;
+                var unknown = $('.test.displayed td.status.unknown').length;
+                if ($('#step-dashboard-status-filter').hasClass('pass')) { passed = 0; }
+                if ($('#step-dashboard-status-filter').hasClass('fail')) { fail = 0; }
+                if ($('#step-dashboard-status-filter').hasClass('fatal')) { fatal = 0; }
+                if ($('#step-dashboard-status-filter').hasClass('warning')) { warn = 0; }
+                if ($('#step-dashboard-status-filter').hasClass('error')) { error = 0; }
+                if ($('#step-dashboard-status-filter').hasClass('info')) { info = 0; }
+                if ($('#step-dashboard-status-filter').hasClass('skip')){ skipped = 0; }
+                if ($('#step-dashboard-status-filter').hasClass('unknown')) { unknown = 0; }
+                $('.s-pass-count').text(pass);
+                $('.s-fail-count').text(fail + fatal);
+                $('.s-warning-count').text(warn);
+                $('.s-error-count').text(error);
+                $('.s-skipped-count').text(skip);
+                $('.s-others-count').text(warn + error + skip + unknown + info);
                 var data = google.visualization.arrayToDataTable([
                   ['Test Status', 'Count'],
                   ['Pass', pass],
@@ -1017,7 +1068,7 @@
                   fontName: 'Roboto',
                   fontSize: '11',
                   titleTextStyle: { color: '#1366d7', fontSize: '14' },
-                  pieHole: 0.55,
+                  pieHole: 0.45,
                   height: 180,
                   pieSliceText: 'value', 
                   width: 220

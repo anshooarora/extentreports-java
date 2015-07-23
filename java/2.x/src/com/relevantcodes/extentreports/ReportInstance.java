@@ -22,6 +22,7 @@ import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Screencast;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
+import com.relevantcodes.extentreports.source.CategoryHtml;
 import com.relevantcodes.extentreports.source.ExtentFlag;
 import com.relevantcodes.extentreports.support.DateTimeHelper;
 import com.relevantcodes.extentreports.support.FileReaderEx;
@@ -56,6 +57,7 @@ class ReportInstance {
         addTest(TestBuilder.getSource(test));
         addQuickTestSummary(TestBuilder.getQuickTestSummary(test));
         addCategories(test);
+        updateCategoryView(test);
     }
     
     private synchronized void addTest(String source) {
@@ -77,9 +79,9 @@ class ReportInstance {
     }
     
     private void addCategories(Test test) {
-        for (TestAttribute t : test.categoryList) {
-            if (!categoryList.categories.contains(t.getName())) {
-                categoryList.categories.add(t.getName());
+        for (TestAttribute attr : test.categoryList) {
+            if (!categoryList.categories.contains(attr.getName())) {
+                categoryList.categories.add(attr.getName());
             }
         }
     }
@@ -191,7 +193,7 @@ class ReportInstance {
             }
         }
         
-        String source = CategoryOptionBuilder.build(categoryList.categories);
+        String source = CategorySourceBuilder.buildOptions(categoryList.categories);
         
         if (source != "") {
             synchronized (lock) {
@@ -202,12 +204,58 @@ class ReportInstance {
         }
     }
     
+    // #24: Create summary section for each category 
+    private synchronized void updateCategoryView(Test test) {
+        String s = "", testSource = "";
+        String addedFlag = "";
+        String[] sourceKeys = { ExtentFlag.getPlaceHolder("categoryViewName"), ExtentFlag.getPlaceHolder("categoryViewTestDetails") };
+        String[] testKeys = { ExtentFlag.getPlaceHolder("categoryViewTestRunTime"), ExtentFlag.getPlaceHolder("categoryViewTestName"), ExtentFlag.getPlaceHolder("categoryViewTestStatus") };
+        String[] testValues = { DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat), test.name, test.status.toString().toLowerCase()};
+        
+        // new categories
+        for (TestAttribute attr : test.categoryList) {
+            addedFlag = ExtentFlag.getPlaceHolder("categoryViewTestDetails" + attr.getName());
+            
+            if (extentSource.indexOf(addedFlag) == -1) {
+                String[] sourceValues = { attr.getName(), addedFlag };
+
+                s += SourceBuilder.buildSimple(CategoryHtml.getCategoryViewSource(), sourceKeys, sourceValues);
+                testSource = SourceBuilder.buildSimple(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);    
+                s = SourceBuilder.buildSimple(s, new String[] { addedFlag }, new String[] { testSource + addedFlag });
+                
+                /* s += CategoryHtml
+                        .getCategoryViewSource()
+                        .replace(ExtentFlag.getPlaceHolder("categoryViewName"), attr.getName())
+                        .replace(ExtentFlag.getPlaceHolder("categoryViewTestDetails"), addedFlag)
+                        .replace(addedFlag, CategoryHtml.getCategoryViewTestSource()
+                                            .replace(ExtentFlag.getPlaceHolder("categoryViewTestRunTime"), DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat))
+                                            .replace(ExtentFlag.getPlaceHolder("categoryViewTestName"), test.name)
+                                            .replace(ExtentFlag.getPlaceHolder("categoryViewTestStatus"), test.status.toString().toLowerCase())
+                                            + addedFlag); */
+            }
+            else {
+                testSource = SourceBuilder.buildSimple(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);
+                extentSource = SourceBuilder.buildSimple(extentSource, new String[] { addedFlag }, new String[] { testSource + addedFlag });
+                
+                /*
+                extentSource = extentSource
+                        .replace(addedFlag, CategoryHtml.getCategoryViewTestSource()
+                                .replace(ExtentFlag.getPlaceHolder("categoryViewTestRunTime"), DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat))
+                                .replace(ExtentFlag.getPlaceHolder("categoryViewTestName"), test.name)
+                                .replace(ExtentFlag.getPlaceHolder("categoryViewTestStatus"), test.status.toString().toLowerCase())
+                                + addedFlag); */
+            }
+        }
+        
+        extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("extentCategoryDetails"), s + ExtentFlag.getPlaceHolder("extentCategoryDetails"));
+    }
+    
     private void updateSuiteExecutionTime() {
-        String[] flags = { ExtentFlag.getPlaceHolder("suiteStartTime"), ExtentFlag.getPlaceHolder("suiteEndTime") };
+        String[] keys = { ExtentFlag.getPlaceHolder("suiteStartTime"), ExtentFlag.getPlaceHolder("suiteEndTime") };
         String[] values = { runInfo.startedAt, runInfo.endedAt };
         
         synchronized (lock) {
-            extentSource = SourceBuilder.build(extentSource, flags, values);
+            extentSource = SourceBuilder.build(extentSource, keys, values);
         }
     }
     
@@ -221,11 +269,11 @@ class ReportInstance {
         if (info.size() > 0) {
             String systemSrc = SourceBuilder.getSource(info) + ExtentFlag.getPlaceHolder("systemInfoApplied");
             
-            String[] flags = new String[] { ExtentFlag.getPlaceHolder("systemInfoView") };
+            String[] keys = new String[] { ExtentFlag.getPlaceHolder("systemInfoView") };
             String[] values = new String[] { systemSrc + ExtentFlag.getPlaceHolder("systemInfoView") };
             
             synchronized (lock) {
-                extentSource = SourceBuilder.build(extentSource, flags, values);
+                extentSource = SourceBuilder.build(extentSource, keys, values);
             }
         }
     }
@@ -233,13 +281,13 @@ class ReportInstance {
     private void updateMediaInfo() {
         String imageSrc = MediaViewBuilder.getSource(mediaList.screenCapture, "img");
         
-        String[] flags = new String[] { ExtentFlag.getPlaceHolder("imagesView") };
+        String[] keys = new String[] { ExtentFlag.getPlaceHolder("imagesView") };
         String[] values = new String[] { imageSrc + ExtentFlag.getPlaceHolder("imagesView") };
         
         if (!(infoWrite >= 1 && values[0].indexOf("No media") >= 0)) {
             synchronized (lock) {
                 // build sources by replacing the flag with the values
-                extentSource = SourceBuilder.build(extentSource, flags, values);
+                extentSource = SourceBuilder.build(extentSource, keys, values);
                 
                 if (mediaList.screenCapture.size() > 0) {
                     try {
@@ -256,13 +304,13 @@ class ReportInstance {
         
         String scSrc = MediaViewBuilder.getSource(mediaList.screencast, "vid");
         
-        flags = new String[] { ExtentFlag.getPlaceHolder("videosView") };
+        keys = new String[] { ExtentFlag.getPlaceHolder("videosView") };
         values = new String[] { scSrc + ExtentFlag.getPlaceHolder("videosView") };
         
         if (!(infoWrite >= 1 && values[0].indexOf("No media") >= 0)) {
             synchronized (lock) {
                 // build sources by replacing the flag with the values
-                extentSource = SourceBuilder.build(extentSource, flags, values);
+                extentSource = SourceBuilder.build(extentSource, keys, values);
                 
                 if (mediaList.screencast.size() > 0) {
                     try {
@@ -286,8 +334,7 @@ class ReportInstance {
         }
     }
     
-    public ReportInstance() { 
-    }
+    public ReportInstance() { }
     
     /**
      * Report Configuration

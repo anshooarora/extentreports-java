@@ -45,14 +45,13 @@ class TestBuilder {
                 .replace(ExtentFlag.getPlaceHolder("category"), "")
                 .replace(ExtentFlag.getPlaceHolder("testWarnings"), TestHtml.getWarningSource(test.internalWarning));
         
-        for (TestAttribute t : test.categoryList) {
-            testSource = testSource.replace(ExtentFlag.getPlaceHolder("testCategory"), TestHtml.getCategorySource() + ExtentFlag.getPlaceHolder("testCategory"))
-                    .replace(ExtentFlag.getPlaceHolder("category"), t.getName());
+        for (TestAttribute attr : test.categoryList) {
+               testSource = testSource
+                    .replace(ExtentFlag.getPlaceHolder("testCategory"), TestHtml.getCategorySource() + ExtentFlag.getPlaceHolder("testCategory"))
+                    .replace(ExtentFlag.getPlaceHolder("category"), attr.getName());
         }
         
-        String stepSrc;
-        
-        stepSrc = StepHtml.getSrc(2);
+        String stepSrc = StepHtml.getSrc(2);
         
         if (test.log.size() > 0) {
             if (test.log.get(0).stepName != "") {
