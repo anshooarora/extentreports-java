@@ -103,6 +103,7 @@
                                         <li><a href='#document-title'>Setting Document/Report Title</a></li>
                                         <li><a href='#report-name'>Setting Report Name</a></li>
                                         <li><a href='#report-headline'>Setting Report Headline</a></li>
+										<li><a href='#themes'>Creating Themes Using Customization*</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#license'>License</a></li>
@@ -127,9 +128,15 @@ parent
     
 extent.endTest(parent);
 </code></pre>
+<p>Note: a category assigned to a child test will automatically be assigned to its parent. In the report, the categories assigned to child tests will not be displayed as child tests are hidden by default.</p>
+	</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/24'>#24</a>) Each category has a summary section with all tests assigned
+	<img class='bordered-img center' src='./img/category-view.png' />
 	</li>
 	<li>(<a href='https://github.com/anshooarora/extentreports/issues/23'>#23</a>) Ability to filter by category and test status at the same time</li>
 	<li>(<a href='https://github.com/anshooarora/extentreports/issues/13'>#13</a>) Add total execution time in test report</li>
+	<li>Graphs will change depending upon the filter applied (status, category)</li>
+	<li>Fixed issues with relative paths not showing up correctly</li>
 </ul>
 
 <h3 id='author'>Owner / Developer</h3>
@@ -880,6 +887,10 @@ extent.config().reportName("ExtentReports - ReportName");
 extent.config().reportHeadline("ExtentReports - ReportHeadline");
 </code></pre>
 <p>The max length allowed for report-headline is 70 characters.</p>
+
+<h3 id='themes'>Creating Themes Using Customization*</h3>
+<p>You can use your own styles to build themes to customize the layout as per your needs. Below is an example of a dark theme:</p>
+<img class='bordered-img center' src='../img/darktheme.png' />
 
 <h2 id='license'>License</h2>
 <h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>
