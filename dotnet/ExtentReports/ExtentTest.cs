@@ -10,6 +10,7 @@ namespace RelevantCodes.ExtentReports
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text;
 
@@ -102,19 +103,17 @@ namespace RelevantCodes.ExtentReports
         /// <returns>A formed HTML video tag with the supplied path</returns>
         public string AddScreencast(string screencastPath)
         {
-            string screencastHtml;
-
             if (IsPathRelative(screencastPath))
             {
-                screencastHtml = ScreencastHtml.GetSource(screencastPath).Replace("file:///", "");
+                screencastPath = ScreencastHtml.GetSource(screencastPath).Replace("file:///", "");
             }
             else
             {
-                screencastHtml = ScreencastHtml.GetSource(screencastPath);
+                screencastPath = ScreencastHtml.GetSource(screencastPath);
             }
 
             Screencast sc = new Screencast();
-            sc.Source = screencastHtml;
+            sc.Source = screencastPath;
             sc.TestName = test.Name;
 
             test.Screencast.Add(sc);
@@ -129,10 +128,7 @@ namespace RelevantCodes.ExtentReports
         /// <returns>ExtentTest object</returns>
         public ExtentTest AssignCategory(params string[] CategoryName)
         {
-            foreach (string c in CategoryName)
-            {
-                test.CategoryList.Add(new Category(c));
-            }
+            CategoryName.ToList().ForEach(c => test.CategoryList.Add(new Category(c)));
 
             return this;
         }
@@ -146,7 +142,7 @@ namespace RelevantCodes.ExtentReports
 
         private Boolean IsPathRelative(string FilePath)
         {
-            if (FilePath.StartsWith("http") || FilePath.StartsWith(".") || FilePath.StartsWith("/"))
+            if (FilePath.StartsWith("http") || !Path.IsPathRooted(FilePath))
                 return true;
 
             return false;

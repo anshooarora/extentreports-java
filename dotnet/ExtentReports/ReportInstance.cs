@@ -49,6 +49,7 @@ namespace RelevantCodes.ExtentReports
             AddTest(TestBuilder.GetTestSource(Test));
             AddQuickTestSummary(TestBuilder.GetQuickSummary(Test));
             AddCategories(Test);
+            UpdateCategoryView(Test);
         }
 
         private void AddCategories(Test test) {
@@ -121,16 +122,18 @@ namespace RelevantCodes.ExtentReports
             {
                 lock (sourcelock)
                 {
-                    extentSource = extentSource.Replace(ExtentFlag.GetPlaceHolder("test"), testSource + ExtentFlag.GetPlaceHolder("test"))
-                                            .Replace(ExtentFlag.GetPlaceHolder("quickTestSummary"), quickSummarySource + ExtentFlag.GetPlaceHolder("quickTestSummary"));
+                    extentSource = SourceBuilder.BuildSimple(extentSource,
+                        new string[] { ExtentFlag.GetPlaceHolder("test"), ExtentFlag.GetPlaceHolder("quickTestSummary") },
+                        new string[] { testSource + ExtentFlag.GetPlaceHolder("test"), quickSummarySource + ExtentFlag.GetPlaceHolder("quickTestSummary") });
                 }
             }
             else
             {
                 lock (sourcelock)
                 {
-                    extentSource = extentSource.Replace(ExtentFlag.GetPlaceHolder("test"), ExtentFlag.GetPlaceHolder("test") + testSource)
-                                            .Replace(ExtentFlag.GetPlaceHolder("quickTestSummary"), ExtentFlag.GetPlaceHolder("quickTestSummary") + quickSummarySource);
+                    extentSource = SourceBuilder.BuildSimple(extentSource,
+                        new string[] { ExtentFlag.GetPlaceHolder("test"), ExtentFlag.GetPlaceHolder("quickTestSummary") },
+                        new string[] { ExtentFlag.GetPlaceHolder("test") + testSource, ExtentFlag.GetPlaceHolder("quickTestSummary") + quickSummarySource });
                 }
             }
 
@@ -188,12 +191,47 @@ namespace RelevantCodes.ExtentReports
         
             string source = CategoryOptionBuilder.Build(categoryList.Categories);
         
-            if (source != "") {
-                lock (sourcelock) {
-                    extentSource = extentSource
-                            .Replace(ExtentFlag.GetPlaceHolder("categoryListOptions"), source + ExtentFlag.GetPlaceHolder("categoryListOptions"))
-                            .Replace(ExtentFlag.GetPlaceHolder("categoryAdded"), catsAdded + ExtentFlag.GetPlaceHolder("categoryAdded"));
+            if (source != "") 
+            {
+                lock (sourcelock) 
+                {
+                    extentSource = SourceBuilder.BuildSimple(extentSource,
+                        new string[] { ExtentFlag.GetPlaceHolder("categoryListOptions"), ExtentFlag.GetPlaceHolder("categoryAdded") },
+                        new string[] { source + ExtentFlag.GetPlaceHolder("categoryListOptions"), catsAdded + ExtentFlag.GetPlaceHolder("categoryAdded") });
                 }
+            }
+        }
+
+        private void UpdateCategoryView(Test test) {
+            string s = "", testSource = "";
+            string addedFlag = "";
+            string[] sourceKeys = { ExtentFlag.GetPlaceHolder("categoryViewName"), ExtentFlag.GetPlaceHolder("categoryViewTestDetails") };
+            string[] testKeys = { ExtentFlag.GetPlaceHolder("categoryViewTestRunTime"), ExtentFlag.GetPlaceHolder("categoryViewTestName"), ExtentFlag.GetPlaceHolder("categoryViewTestStatus") };
+            string[] testValues = { test.StartedTime.ToString(), test.Name, test.Status.ToString().ToLower()};
+        
+            foreach (TestAttribute attr in test.CategoryList) {
+                addedFlag = ExtentFlag.GetPlaceHolder("categoryViewTestDetails" + attr.GetName());
+            
+                if (!extentSource.Contains(addedFlag)) {
+                    string[] sourceValues = { attr.GetName(), addedFlag };
+
+                    s += SourceBuilder.BuildSimple(CategoryHtml.GetCategoryViewSource(), sourceKeys, sourceValues);
+                    testSource = SourceBuilder.BuildSimple(CategoryHtml.GetCategoryViewTestSource(), testKeys, testValues);    
+                    s = SourceBuilder.BuildSimple(s, new string[] { addedFlag }, new string[] { testSource + addedFlag });
+                }
+                else {
+                    testSource = SourceBuilder.BuildSimple(CategoryHtml.GetCategoryViewTestSource(), testKeys, testValues);
+                    
+                    lock (sourcelock)
+                    {
+                        extentSource = SourceBuilder.BuildSimple(extentSource, new string[] { addedFlag }, new string[] { testSource + addedFlag });
+                    }
+                }
+            }
+        
+            lock (sourcelock)
+            {
+                extentSource = SourceBuilder.BuildSimple(extentSource, new string[] { ExtentFlag.GetPlaceHolder("extentCategoryDetails") }, new string[] { s + ExtentFlag.GetPlaceHolder("extentCategoryDetails") });
             }
         }
 

@@ -36,6 +36,16 @@ namespace RelevantCodes.ExtentReports
             return Source;
         }
 
+        public static string BuildSimple(String source, String[] flags, String[] values)
+        {
+            for (int ix = 0; ix < flags.Length; ix++)
+            {
+                source = source.Replace(flags[ix], values[ix]);
+            }
+
+            return source;
+        }
+
         public static string GetSource(Dictionary<string, string> Info) {
             string src = "";
         

@@ -14,7 +14,10 @@ namespace RelevantCodes.ExtentReports.Source
     {
         public static string GetSource(string ScreencastPath)
         {
-            return "<video id='video' src='file:///" + ScreencastPath + "' width='50%' controls />";
+            return "<video id='video' width='50%' controls>" +
+                    "<source src='file:///" + ScreencastPath + "'>" +
+                    "Your browser does not support the video tag." +
+                "</video>";
         }
     }
 }
