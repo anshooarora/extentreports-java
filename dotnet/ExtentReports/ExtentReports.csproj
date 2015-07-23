@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D54B169F-6D10-4AEF-9B98-7165E2AE70A7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RelevantCodes.ExtentReports</RootNamespace>
     <AssemblyName>ExtentReports</AssemblyName>
@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryOptionBuilder.cs" />
-    <Compile Include="CategorySourceBuilder.cs" />
     <Compile Include="DisplayOrder.cs" />
     <Compile Include="ExtentReports.cs" />
     <Compile Include="ExtentTest.cs" />
@@ -71,7 +70,6 @@
     <Compile Include="ReportConfig.cs" />
     <Compile Include="ReportInstance.cs" />
     <Compile Include="Source\CategoryFilterHtml.cs" />
-    <Compile Include="Source\CategoryHtml.cs" />
     <Compile Include="Source\ExtentFlag.cs" />
     <Compile Include="Source\Icon.cs" />
     <Compile Include="Source\ImageHtml.cs" />

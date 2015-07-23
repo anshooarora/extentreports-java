@@ -21,49 +21,44 @@ namespace RelevantCodes.ExtentReports.Source
                 colStepName = "<th>StepName</th>";
             }
 
-            return "<div class='test-section'>" +
-                        "<div class='col s12'>" +
-                            "<div class='test card-panel displayed <!--%%TESTSTATUS%%-->'>" +
-                                "<div class='test-head'>" +
-                                    "<div class='right test-info'>" +
-                                        "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>" +
-                                        "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>" +
-                                        "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%TESTTIMETAKEN%%--></span>" +
-                                        "<span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>" +
-                                    "</div>" +
-                                    "<div class='test-name'>" +
-                                        "<!--%%TESTNAME%%--><!--%%TESTWARNINGS%%-->" +
-                                    "</div>" +
-                                    "<div class='test-desc' <!--%%DESCVIS%%-->>" +
-                                        "<span><!--%%TESTDESCRIPTION%%--></span>" +
-                                    "</div>" +
-                                "</div>" +
-                                "<div class='test-attributes'>" +
-                                    "<div class='categories'>" +
-                                        "<!--%%TESTCATEGORY%%-->" +
-                                    "</div>" +
-                                "</div>" +
-                                "<div class='test-body'>" +
-                                    "<table class='bordered table-results'>" +
-                                        "<thead>" +
-                                            "<tr>" +
-                                                "<th>Timestamp</th>" +
-                                                "<th>Status</th>" +
+            return @"<div class='test-section'>
+                        <div class='col s12'>
+                            <div class='test card-panel <!--%%TESTSTATUS%%-->'>
+                                <div class='test-head'>
+                                    <div class='text-info right'>
+                                        <span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%TESTSTARTTIME%%--></span>
+                                        <span alt='Test ended time' title='Test ended time' class='test-ended-time label'><!--%%TESTENDTIME%%--></span>
+                                        <span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'><!--%%TESTTIMETAKEN%%--></span>
+                                        <span class='test-status label <!--%%TESTSTATUS%%-->'><!--%%TESTSTATUS%%--></span>
+                                    </div>
+                                    <div class='test-name'><!--%%TESTNAME%%--><!--%%TESTWARNINGS%%--></div>
+                                    <div class='test-desc' <!--%%DESCVIS%%-->>
+                                        <span><!--%%TESTDESCRIPTION%%--></span>
+                                    </div>
+                                </div>
+                                <div class='test-attributes'>
+                                    <div class='categories'>
+                                        <!--%%TESTCATEGORY%%-->
+                                    </div>
+                                </div>
+                                <div class='test-body'>
+                                    <table class='bordered table-results'>
+                                        <thead>
+                                            <tr>
+                                                <th>Timestamp</th>
+                                                <th>Status</th>" + 
                                                 colStepName +
-                                                "<th>Details</th>" +
-                                            "</tr>" +
-                                        "</thead>" +
-                                    "<tbody>" +
-                                        "<!--%%STEP%%-->" +
-                                    "</tbody>" +
-                                    "</table>" +
-                                    "<ul class='collapsible popout' data-collapsible='accordion'>" +
-                                        "<!--%%NODELIST%%-->" +
-                                    "</ul>" +
-                                "</div>" +
-                            "</div>" +
-                        "</div>" +
-                    "</div>";
+                                                @"<th>Details</th>
+                                            </tr>
+                                        </thead>
+                                    <tbody>
+                                        <!--%%STEP%%-->
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>";
         }
 
         public static string GetQuickSummarySource()
