@@ -41,7 +41,7 @@ public class ExtentTest {
     public ExtentTest(String testName, String description) {
         test = new Test();
         
-        test.name = testName == null ? "" : testName.trim();
+        test.name = testName == null ? "" : testName.trim(); 
         test.description = description.trim();
         test.startedTime = Calendar.getInstance().getTime();
     }
@@ -56,10 +56,10 @@ public class ExtentTest {
     public void log(LogStatus logStatus, String stepName, String details) {
         Log evt = new Log();
         
-        evt.timestamp = Calendar.getInstance().getTime();
         evt.logStatus = logStatus;
-        evt.stepName = stepName == null ? "" : stepName.trim();
-        evt.details = details == null ? "" : details.trim();
+        evt.stepName = stepName == null ? "" : stepName.trim(); 
+        evt.details = details == null ? "" : details.trim(); 
+        evt.timestamp = Calendar.getInstance().getTime();
                 
         test.log.add(evt);
         
