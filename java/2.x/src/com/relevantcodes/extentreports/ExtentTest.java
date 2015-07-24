@@ -41,7 +41,7 @@ public class ExtentTest {
     public ExtentTest(String testName, String description) {
         test = new Test();
         
-        test.name = testName.trim();
+        test.name = testName == null ? "" : testName.trim();
         test.description = description.trim();
         test.startedTime = Calendar.getInstance().getTime();
     }
@@ -58,8 +58,8 @@ public class ExtentTest {
         
         evt.timestamp = Calendar.getInstance().getTime();
         evt.logStatus = logStatus;
-        evt.stepName = stepName.trim();
-        evt.details = details.trim();
+        evt.stepName = stepName == null ? "" : stepName.trim();
+        evt.details = details == null ? "" : details.trim();
                 
         test.log.add(evt);
         
@@ -179,6 +179,15 @@ public class ExtentTest {
         this.test.nodeList.add(node.getTest());
         
         return this;
+    }
+    
+    /**
+     * Provides the current run status of the test
+     * 
+     * @return {@link LogStatus}
+     */
+    public LogStatus getRunStatus() {
+        return runStatus;
     }
     
     private Boolean isPathRelative(String path) {
