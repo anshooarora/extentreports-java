@@ -23,9 +23,7 @@ namespace RelevantCodes.ExtentReports
             Categories.Sort();
         
             foreach (string c in Categories) {
-                source += CategoryHtml.GetOptionSource()
-                        .Replace(ExtentFlag.GetPlaceHolder("testCategory"), c)
-                        .Replace(ExtentFlag.GetPlaceHolder("testCategoryU"), c.ToLower().Replace(" ", ""));
+                source += SourceBuilder.BuildSimple(CategoryHtml.GetOptionSource(), new string[] { ExtentFlag.GetPlaceHolder("testCategory"), ExtentFlag.GetPlaceHolder("testCategoryU") }, new string[] { c, c.ToLower().Replace(" ", "") });
             }
         
             return source;

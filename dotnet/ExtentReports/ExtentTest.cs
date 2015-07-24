@@ -143,7 +143,9 @@ namespace RelevantCodes.ExtentReports
         private Boolean IsPathRelative(string FilePath)
         {
             if (FilePath.StartsWith("http") || !Path.IsPathRooted(FilePath))
+            {
                 return true;
+            }
 
             return false;
         }

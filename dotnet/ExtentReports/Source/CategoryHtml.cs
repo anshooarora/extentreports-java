@@ -13,7 +13,6 @@ namespace RelevantCodes.ExtentReports.Source
     using System.Linq;
     using System.Text;
 
-
     internal class CategoryHtml
     {
         public static string GetOptionSource()

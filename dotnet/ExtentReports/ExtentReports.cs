@@ -78,7 +78,9 @@ namespace RelevantCodes.ExtentReports
             if (config == null)
             {
                 if (reportInstance == null)
+                {
                     throw new Exception("Cannot apply config before ExtentReports is initialized");
+                }
 
                 config = new ReportConfig(reportInstance);
             }

@@ -205,9 +205,14 @@ namespace RelevantCodes.ExtentReports
         private void UpdateCategoryView(Test test) {
             string s = "", testSource = "";
             string addedFlag = "";
-            string[] sourceKeys = { ExtentFlag.GetPlaceHolder("categoryViewName"), ExtentFlag.GetPlaceHolder("categoryViewTestDetails") };
-            string[] testKeys = { ExtentFlag.GetPlaceHolder("categoryViewTestRunTime"), ExtentFlag.GetPlaceHolder("categoryViewTestName"), ExtentFlag.GetPlaceHolder("categoryViewTestStatus") };
-            string[] testValues = { test.StartedTime.ToString(), test.Name, test.Status.ToString().ToLower()};
+            string[] sourceKeys = { ExtentFlag.GetPlaceHolder("categoryViewName"), 
+                                      ExtentFlag.GetPlaceHolder("categoryViewTestDetails") };
+            string[] testKeys = { ExtentFlag.GetPlaceHolder("categoryViewTestRunTime"), 
+                                    ExtentFlag.GetPlaceHolder("categoryViewTestName"), 
+                                    ExtentFlag.GetPlaceHolder("categoryViewTestStatus") };
+            string[] testValues = { test.StartedTime.ToString(),
+                                      test.Name, 
+                                      test.Status.ToString().ToLower()};
         
             foreach (TestAttribute attr in test.CategoryList) {
                 addedFlag = ExtentFlag.GetPlaceHolder("categoryViewTestDetails" + attr.GetName());
@@ -231,7 +236,9 @@ namespace RelevantCodes.ExtentReports
         
             lock (sourcelock)
             {
-                extentSource = SourceBuilder.BuildSimple(extentSource, new string[] { ExtentFlag.GetPlaceHolder("extentCategoryDetails") }, new string[] { s + ExtentFlag.GetPlaceHolder("extentCategoryDetails") });
+                extentSource = SourceBuilder.BuildSimple(extentSource, 
+                    new string[] { ExtentFlag.GetPlaceHolder("extentCategoryDetails") }, 
+                    new string[] { s + ExtentFlag.GetPlaceHolder("extentCategoryDetails") });
             }
         }
 

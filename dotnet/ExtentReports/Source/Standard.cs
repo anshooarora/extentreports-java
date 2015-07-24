@@ -17,7 +17,8 @@ namespace RelevantCodes.ExtentReports.Source
     {
         public static string GetSource()
         {
-            return @"<!DOCTYPE html>
+            return @"
+<!DOCTYPE html>
 <html>
     <head>
         <!--
