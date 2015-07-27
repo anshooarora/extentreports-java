@@ -49,7 +49,7 @@
                         <div class='unit-80 centered top-unit'>
                             <div class="units-row end">
                             <h1>Sample</h1>
-                            <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.html'>here</a>.</p>
+                            <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.</p>
                             
                             <h1>Current Version</h1>
                             <p>2.03</p>
@@ -61,6 +61,7 @@
                             <ul class='index'>
                                 <li><a href='#whats-new'>What's new in 2.03</a></li>
                                 <li><a href='#author'>Owner / Developer</a>
+								<li><a href='#contributors'>Contributors</a>
                                 <li><a href='#beta-testers'>Beta Testers</a>
                                 <li><a href='#maven'>Maven</a>
                                 <li><a href='#basic-usage'>Basic Usage</a>
@@ -111,7 +112,7 @@
                             </ul>
                             
 <h2 id='whats-new'>What's new in 2.03</h2>
-<p>Version 2.03 launched on LAUNCH_DATE. Here is what's new:</p>
+<p>Version 2.03 launched on 07/26/2015. Here is what's new:</p>
 <ul>
     <li>(<a href='https://github.com/anshooarora/extentreports/issues/5'>#5</a>, <a href='https://github.com/anshooarora/extentreports/issues/15'>#15</a>) You can now add child tests using <code>appendChild</code> method:
 <pre><code class='java'>
@@ -149,6 +150,11 @@ LogStatus status = test.getRunStatus();
 <p>This library is developed and maintained by:</p>
 <ul>
     <li>Anshoo Arora</li>
+</ul>
+
+<h3 id='contributors'>Contributors</h3>
+<ul>
+    <li>Virender Singh</li>
 </ul>
 
 <h3 id='beta-testers'>Beta Testers</h3>
@@ -866,7 +872,7 @@ extent.config()
 <pre><code class='java'>
 // custom styles
 String style = ".test { border: 2px solid #444; }";
-extent.config()..insertCustomStyles(style);
+extent.config().insertCustomStyles(style);
 </code></pre>
 <pre><code class='java'>
 // custom stylesheet
