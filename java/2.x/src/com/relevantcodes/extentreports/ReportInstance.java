@@ -94,7 +94,7 @@ class ReportInstance {
             return;
         }
         
-        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.html";
+        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.min.html";
                         
         if (!new File(filePath).isFile()) {
             replace = true;

@@ -21,10 +21,10 @@ public class CategorySourceBuilder {
         categories = categories.subList(0, categories.size());
         Collections.sort(categories);
         
+        String[] flags = { ExtentFlag.getPlaceHolder("testCategory"), ExtentFlag.getPlaceHolder("testCategoryU") };
+        
         for (String c : categories) {
-            source += CategoryHtml.getOptionSource()
-                    .replace(ExtentFlag.getPlaceHolder("testCategory"), c)
-                    .replace(ExtentFlag.getPlaceHolder("testCategoryU"), c.toLowerCase().replace(" ", ""));
+        	source += SourceBuilder.buildSimple(CategoryHtml.getOptionSource(), flags, new String[] { c, c.toLowerCase().replace(" ", "") });
         }
         
         return source;
