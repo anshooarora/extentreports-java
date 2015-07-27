@@ -24,7 +24,6 @@ namespace RelevantCodes.ExtentReports.Model
         public LogStatus Status;
         public string Description;
         public string InternalWarning;
-        public string StatusMessage;
         public string Name;
 
         public Test()
