@@ -968,6 +968,18 @@
                     redrawCharts();
                     $('.dropdown-content li:first-child').addClass('active').click();
                 }
+                function formatDt(d) {
+					return d.getFullYear() + "-" +
+						("00" + (d.getMonth() + 1)).slice(-2) + "-" + 
+						("00" + d.getDate()).slice(-2) + " " + 
+						("00" + d.getHours()).slice(-2) + ":" + 
+						("00" + d.getMinutes()).slice(-2) + ":" + 
+						("00" + d.getSeconds()).slice(-2);
+				}
+                Number.prototype.padLeft = function(base,chr){
+				    var  len = (String(base || 10).length - String(this).length)+1;
+				    return len > 0? new Array(len).join(chr || '0')+this : this;
+				}
                 function updateTotalTimeTaken() {
                 	var dates=[];
 					$('.test-started-time, .test-ended-time').each(function() { 
@@ -975,8 +987,8 @@
 					});
 					var maxDate=new Date(Math.max.apply(null,dates));
 					var minDate=new Date(Math.min.apply(null,dates));
-					$('.suite-started-time').text(minDate.toLocaleFormat('%Y-%m-%d %H:%M:%S'));
-					$('.suite-ended-time').text(maxDate.toLocaleFormat('%Y-%m-%d %H:%M:%S'));
+					$('.suite-started-time').text(formatDt(minDate));
+					$('.suite-ended-time').text(formatDt(maxDate));
                     var ended = $('.suite-ended-time').text().replace('-', '/').replace('-', '/');
                     var started = $('.suite-started-time').text().replace('-', '/').replace('-', '/');
                     var diff = new Date(new Date(ended) - new Date(started));
