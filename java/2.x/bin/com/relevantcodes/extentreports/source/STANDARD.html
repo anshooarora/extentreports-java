@@ -969,11 +969,19 @@
                     $('.dropdown-content li:first-child').addClass('active').click();
                 }
                 function updateTotalTimeTaken() {
+                	var dates=[];
+					$('.test-started-time, .test-ended-time').each(function() { 
+						dates.push(new Date($(this).text().replace('-', '/').replace('-', '/'))); 
+					});
+					var maxDate=new Date(Math.max.apply(null,dates));
+					var minDate=new Date(Math.min.apply(null,dates));
+					$('.suite-started-time').text(minDate.toLocaleFormat('%Y-%m-%d %H:%M:%S'));
+					$('.suite-ended-time').text(maxDate.toLocaleFormat('%Y-%m-%d %H:%M:%S'));
                     var ended = $('.suite-ended-time').text().replace('-', '/').replace('-', '/');
                     var started = $('.suite-started-time').text().replace('-', '/').replace('-', '/');
                     var diff = new Date(new Date(ended) - new Date(started));
-                    diff = diff.getMinutes() + 'm ' + diff.getSeconds() + 's';
-                    $('.suite-total-time-taken').text(diff);
+                    var hours = Math.floor(diff / 36e5),minutes = Math.floor(diff % 36e5 / 60000),seconds = Math.floor(diff % 60000 / 1000);
+					$('.suite-total-time-taken').text(hours + 'h ' + minutes + 'm ' + seconds + 's');
                 }
                 resetFilters();
                 updateTotalTimeTaken();
