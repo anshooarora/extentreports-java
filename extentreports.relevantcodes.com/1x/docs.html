@@ -26,6 +26,7 @@
                             <ul class='menu-items'>
                                 <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
 								<li class='menu-item'><a href='../faqs.html'>FAQs</a></li>
+								<!--<li class='menu-item'><a href='../users/showcase.html'>Showcase</a></li>-->
                                 <li class='menu-item active'>
                                     <a href='#'>Java</a>
                                     <ul>
@@ -244,7 +245,7 @@ extent.log(LogStatus.PASS, "Link", "Usage: <a href='http://relevantcodes.com'>li
 <h3 id='add-html'>Inserting Custom HTML</h3>
 <p>Just like above, you can insert any HTML tag to your report:</p>
 <pre><code class='java'>
-extent.log(LogStatus.INFO, "HTML", "Usage: <span style='font-weight:bold;'>BOLD</span>");
+test.log(LogStatus.INFO, "HTML", "Usage: &lt;span style='font-weight:bold;'&gt;BOLD TEXT&lt;/span&gt;");
 </code></pre>
 
 <h2 id='examples'>Examples</h2>

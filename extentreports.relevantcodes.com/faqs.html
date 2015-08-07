@@ -26,6 +26,7 @@
                             <ul class='menu-items'>
                                 <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
                                 <li class='menu-item active'><a href='#'>FAQs</a></li>
+								<!--<li class='menu-item'><a href='./users/showcase.html'>Showcase</a></li>-->
                                 <li>
                                     <a href='#'>Java</a>
                                     <ul>
@@ -34,7 +35,7 @@
                                     </ul>
                                 </li>
                                 <li class='menu-item'><a href='./net/docs.html'>.NET</a></li>
-								<li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
+                                <li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
                             </ul>
                         </div>
                     </div>
@@ -50,16 +51,16 @@
                             <div class="units-row end">
                                 <h1>FAQs</h1>
                                 <ul>
-									<li><a href='#show-me-an-example'>Can you show me an example of how to use this reporting?</a></li>
+                                    <li><a href='#show-me-an-example'>Can you show me an example of how to use this reporting?</a></li>
                                     <li><a href='#correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</a></li>
                                     <li><a href='#categories'>How can I categorize my tests?</a></li>
-									<li><a href='#append-report'>Is it possible to keep results from my previous run and append my tests to the same file?</a></li>
-									<li><a href='#issue'>Something is not working correctly, what should I do?</a></li>
+                                    <li><a href='#append-report'>Is it possible to keep results from my previous run and append my tests to the same file?</a></li>
+                                    <li><a href='#issue'>Something is not working correctly, what should I do?</a></li>
                                 </ul>
                                 
-								<h4 id='show-me-an-example'>Can you show me an example of how to use this reporting?</h4>
-								<p>There are plenty of examples in the documentation: <a href='./2x/docs.html'>Java</a>, <a href='./net/docs.html'>.NET</a>. Other than the docs, Bas has also written a great <a href='http://www.ontestautomation.com/creating-html-reports-for-your-selenium-tests-using-extentreports/'>review</a> which shows usage.</p>
-								
+                                <h4 id='show-me-an-example'>Can you show me an example of how to use this reporting?</h4>
+                                <p>There are plenty of examples in the documentation: <a href='./2x/docs.html'>Java</a>, <a href='./net/docs.html'>.NET</a>. Other than the docs, Bas has also written a great <a href='http://www.ontestautomation.com/creating-html-reports-for-your-selenium-tests-using-extentreports/'>review</a> which shows usage.</p>
+                                
                                 <h4 id='correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</h4>
                                 <p>There is generally only 1 reason why this happens. The statement that sends a <code>failed</code> event to ExtentReports never gets executed. Consider the following example:</p>
 <pre><code class='java'>
@@ -105,14 +106,29 @@ public class Demo {
     }
 }
 </code></pre>
+
 <p>Because the assert failed the test, even though the result will show up in the test-runner's log, it will not show up in the report file unless the <code>failed</code> step gets executed. I would recommend using soft asserts (for TestNG) as normal (hard) asserts will stop the test the moment they encounter a failure.</p>
+
+<p>If you are using TestNG, an extremely simple way to handle this scenario is checking the test status in <code>@AfterMethod</code> and reporting fail if the test failed:</p>
+
+<pre><code class='java'>
+@AfterMethod
+public void tearDown(ITestResult result) {
+    if (result.getStatus() == ITestResult.FAILURE) {
+      test.log(LogStatus.FAIL, "&lt;pre&gt;" + result.getThrowable().getMessage() + "&lt;/pre&gt;");
+    }        
+}
+</code></pre>
+
 <p>See examples with asserts for <a href='./2x/docs.html#basic-junit-selenium-example'>JUnit</a> and <a href='./2x/docs.html#testng-selenium-assert'>TestNG</a>.</p>
+
 <p>Another safe measure is to call <code>extent.close()</code> at the very end, for example, as the last step in <code>@AfterSuite</code>. If any of your test ended abruptly causing any side-affects (not all logs sent to ExtentReports, information missing), this method will ensure that the test is still appended to the report with a warning message.</p>
+
 <pre><code class='java'>
 extent.close();
 </code></pre>
 
-								<h4 id='categories'>How can I categorize my tests?</h4>
+                                <h4 id='categories'>How can I categorize my tests?</h4>
                                 <p>Started version 2.02, simply assign a category to your test using <code>assignCategory</code>:</p>
 <pre><code class='java'>
 ExtentTest t = extent.startTest("Demo");
@@ -121,17 +137,17 @@ t.assignCategory("Regression", "ExtentAPI");
 t.assignCategory("Regression", "ExtentAPI", "category-3", "cagegory-4", ..);
 </code></pre>
 
-								<h4 id='append-report'>Is it possible to keep results from my previous run and append my tests to the same file?</h4>
+                                <h4 id='append-report'>Is it possible to keep results from my previous run and append my tests to the same file?</h4>
                                 <p>Yes, it can be done by using <code>replaceExisting = false</code> in the instance itself:</p>
 <pre><code class='java'>
 // replaceExisting = false
 // will not create a brand new report, it will simply append new tests to it
 private ExtentReports extent = new ExtentReports("file-path", false);
-</code></pre>								
-								
-								<h4 id='issue'>Something is not working correctly, what should I do?</h4>
-								<p>You can log all bugs or features <a href='https://github.com/anshooarora/extentreports/issues'>here</a>. Provide as much information as possible, i.e. steps to reproduce, code examples, type of test runner, Extent version etc.</p>
-								
+</code></pre>                                
+                                
+                                <h4 id='issue'>Something is not working correctly, what should I do?</h4>
+                                <p>You can log all bugs or features <a href='https://github.com/anshooarora/extentreports/issues'>here</a>. Provide as much information as possible, i.e. steps to reproduce, code examples, type of test runner, Extent version etc.</p>
+                                
                             </div>
                         </div>
                     </div>
@@ -157,6 +173,6 @@ private ExtentReports extent = new ExtentReports("file-path", false);
         <script src="./js/kube.min.js"></script> 
         <script src="./js/dropit.js"></script> 
         <script src="./js/scripts.js"></script> 
-		<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+        <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
     </body>
 </html>

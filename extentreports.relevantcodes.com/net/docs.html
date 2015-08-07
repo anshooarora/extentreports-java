@@ -26,6 +26,7 @@
                             <ul class='menu-items'>
                                 <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
                                 <li class='menu-item'><a href='../faqs.html'>FAQs</a></li>
+								<!--<li class='menu-item'><a href='../users/showcase.html'>Showcase</a></li>-->
                                 <li class='menu-item'>
                                     <a href='#'>Java</a>
                                     <ul>
@@ -459,6 +460,19 @@ extent.Config().ReportHeadline("ExtentReports - ReportHeadline");
 <h3 id='themes'>Creating Themes Using Customization*</h3>
 <p>You can use your own styles to build themes to customize the layout as per your needs. Below is an example of a dark theme:</p>
 <img class='bordered-img center' src='../img/darktheme.png' />
+<pre><code class='java'>
+String css = "body, .test .right span, .collapsible-header { background: #333; color: #fff; }" +
+                "nav, .tab, .card-panel { background: #000 !important; }" +
+                "table { border: 1px solid #555 !important; }" +
+                "pre { background: #333; border: 1px solid #777 !important; color: #eee !important; }" +
+                ".select-dropdown { background: #333; border-bottom: 1px solid #777 !important; }" +
+                ".select-dropdown li:hover, .select-dropdown li.active { background: #555; }" +
+                "table.bordered > thead > tr, table.bordered > tbody > tr, th, td { border-bottom: 1px solid #555 !important; }" +
+                "th, td, .test-name, .test-desc, .test .right span { color: #fff !important; }" +
+                ".test-body .collapsible > li { border: 1px solid #777; }";
+
+extent.config().insertCustomStyles(css);
+</code></pre>
 
 <h2 id='license'>License</h2>
 <h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>
