@@ -21,8 +21,9 @@ public class Test {
     public ArrayList<ScreenCapture> screenCapture;
     public ArrayList<Screencast> screencast;
     public ArrayList<Test> nodeList;
+    public boolean isChildNode = false;
     public boolean hasEnded = false;
-    public boolean child = false;
+    public boolean hasChildNodes = false;
     public Date startedTime;
     public Date endedTime;
     public LogStatus status;
@@ -31,6 +32,70 @@ public class Test {
     public String name;
     public String statusMessage;
     public UUID id;
+    
+    public void trackLastRunStatusRecursively() {
+    	getTestStatus(this);
+    }
+    
+    public void trackLastRunStatus() {
+    	for (Log l : log) {
+    		findStatus(l.logStatus);
+    	}
+    }
+    
+    private void getTestStatus(Test test) {
+    	for (Log log : test.log) {
+    		findStatus(log.logStatus);
+    	}
+    	
+    	if (test.hasChildNodes) {
+    		for (Test node : test.nodeList) {
+    			getTestStatus(node);
+    		}
+    	}
+    }
+    
+    private void findStatus(LogStatus logStatus) {
+        if (status == LogStatus.FATAL) return;
+        
+        if (logStatus == LogStatus.FATAL) {
+            status = logStatus;
+            return;
+        }
+        
+        if (status == LogStatus.FAIL) return;
+        
+        if (logStatus == LogStatus.FAIL) {
+            status = logStatus;
+            return;
+        }
+        
+        if (status == LogStatus.ERROR) return;
+        
+        if (logStatus == LogStatus.ERROR) {
+            status = logStatus;
+            return;
+        }
+        
+        if (status == LogStatus.WARNING) return;
+        
+        if (logStatus == LogStatus.WARNING) {
+            status = logStatus;
+            return;
+        }
+        
+        if (status == LogStatus.PASS || status == LogStatus.INFO) {
+            status = LogStatus.PASS;
+            return;
+        }
+        
+        if (logStatus == LogStatus.PASS || logStatus == LogStatus.INFO) {
+            status = LogStatus.PASS;
+            return;
+        }
+        
+        status = LogStatus.SKIP;     
+    }
     
     public Test() {
     	internalWarning = "";

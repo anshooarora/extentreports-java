@@ -44,7 +44,9 @@ class ReportInstance {
     private volatile String testSource = "";
     
     public void addTest(Test test) {
-        test.endedTime = Calendar.getInstance().getTime();
+    	if (test.endedTime == null) {
+    		test.endedTime = Calendar.getInstance().getTime();
+    	}
         
         for (ScreenCapture s : test.screenCapture) {
             mediaList.screenCapture.add(s);
@@ -53,6 +55,8 @@ class ReportInstance {
         for (Screencast s : test.screencast) {
             mediaList.screencast.add(s);
         }
+        
+        test.trackLastRunStatusRecursively();
         
         addTest(TestBuilder.getSource(test));
         addQuickTestSummary(TestBuilder.getQuickTestSummary(test));

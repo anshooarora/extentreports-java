@@ -8,9 +8,6 @@
 
 package com.relevantcodes.extentreports.model;
 
-public class ScreenCapture {
-    public String src;
-    public String testName;
-    
+public class ScreenCapture extends Media {   
     public ScreenCapture() { }
 }

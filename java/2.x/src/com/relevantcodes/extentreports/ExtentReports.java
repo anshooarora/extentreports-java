@@ -90,7 +90,7 @@ public class ExtentReports {
         
         return test;
     }
-    
+
     /**
      * Ends the current toggle level
      * 
@@ -98,9 +98,7 @@ public class ExtentReports {
      */
     public void endTest(ExtentTest test) {
         test.getTest().hasEnded = true;
-        // #19 - allow user to set warning message for tests
-        //test.getTest().internalWarning = "";
-        
+
         reportInstance.addTest(test.getTest());
     }
     
@@ -172,7 +170,7 @@ public class ExtentReports {
         while (iterator.hasNext()) {
             t = iterator.next().getTest();
             
-            if (t.child) {
+            if (t.hasChildNodes) {
                 iterator.remove();
             }
         }

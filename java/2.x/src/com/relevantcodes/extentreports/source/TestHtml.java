@@ -52,7 +52,7 @@ public class TestHtml {
                                 "<!--%%STEP%%-->" +
                             "</tbody>" +
                             "</table>" +
-                            "<ul class='collapsible popout' data-collapsible='accordion'>" +
+                            "<ul class='collapsible' data-collapsible='accordion'>" +
                                 "<!--%%NODELIST%%-->" +
                             "</ul>" +
                         "</div>" +
@@ -83,7 +83,7 @@ public class TestHtml {
             colStepName = "<th>StepName</th>";
         }
         
-        return "<li>" +
+        return "<li class='<!--%%NODELEVEL%%-->'>" +
                     "<div class='collapsible-header test-node <!--%%NODESTATUS%%-->'>" +
                     	"<div class='right test-info'>" +
 		                    "<span alt='Test started time' title='Test started time' class='test-started-time label'><!--%%NODESTARTTIME%%--></span>" +

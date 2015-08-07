@@ -62,8 +62,6 @@ public class ExtentTest {
         evt.timestamp = Calendar.getInstance().getTime();
                 
         test.log.add(evt);
-        
-        trackLastRunStatus(logStatus);
     }
     
     /**
@@ -156,11 +154,10 @@ public class ExtentTest {
      */
     public ExtentTest appendChild(ExtentTest node) {
         node.getTest().endedTime = Calendar.getInstance().getTime();
-        node.getTest().child = true;
+        node.getTest().isChildNode = true;
+        node.getTest().trackLastRunStatus();
         
-        for (Log log : node.getTest().log) {
-            trackLastRunStatus(log.logStatus);
-        }
+        test.hasChildNodes = true;
         
         List<String> list = new ArrayList<String>();
         
@@ -190,65 +187,20 @@ public class ExtentTest {
         return runStatus;
     }
     
+    /**
+     * Returns the underlying test
+     * 
+     * @return {@link Test}
+     */
+    public Test getTest() {        
+        return test;
+    }
+    
     private Boolean isPathRelative(String path) {
         if (path.indexOf("http") == 0 || !new File(path).isAbsolute()) {
             return true;
         }
         
         return false;
-    }
-    
-    private void trackLastRunStatus(LogStatus logStatus) {
-        if (runStatus == LogStatus.UNKNOWN) {
-            if (logStatus == LogStatus.INFO) {
-                runStatus = LogStatus.PASS;
-            }
-            else {
-                runStatus = logStatus;
-            }
-            
-            return;
-        }
-        
-        if (runStatus == LogStatus.FATAL) return;
-        
-        if (logStatus == LogStatus.FATAL) {
-            runStatus = logStatus;
-            return;
-        }
-        
-        if (runStatus == LogStatus.FAIL) return;
-        
-        if (logStatus == LogStatus.FAIL) {
-            runStatus = logStatus;
-            return;
-        }
-        
-        if (runStatus == LogStatus.ERROR) return;
-        
-        if (logStatus == LogStatus.ERROR) {
-            runStatus = logStatus;
-            return;
-        }
-        
-        if (runStatus == LogStatus.WARNING) return;
-        
-        if (logStatus == LogStatus.WARNING) {
-            runStatus = logStatus;
-            return;
-        }
-        
-        if (runStatus == LogStatus.PASS || runStatus == LogStatus.INFO) {
-            runStatus = LogStatus.PASS;
-            return;
-        }
-        
-        runStatus = LogStatus.SKIP;        
-    }
-    
-    public Test getTest() {
-        test.status = runStatus;
-        
-        return test;
     }
 }
