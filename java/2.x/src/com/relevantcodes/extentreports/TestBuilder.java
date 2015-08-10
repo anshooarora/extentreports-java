@@ -147,27 +147,30 @@ class TestBuilder {
             testSource = testSource
                     .replace(ExtentFlag.getPlaceHolder("nodeList"), nodeSource + ExtentFlag.getPlaceHolder("nodeList"))
                     .replace(ExtentFlag.getPlaceHolder("nodeName"), node.name)
-                    .replace(ExtentFlag.getPlaceHolder("nodeStatus"), node.status.toString().toLowerCase())
                     .replace(ExtentFlag.getPlaceHolder("nodeStartTime"), DateTimeHelper.getFormattedDateTime(node.startedTime, LogSettings.logDateTimeFormat))
                     .replace(ExtentFlag.getPlaceHolder("nodeEndTime"),  DateTimeHelper.getFormattedDateTime(node.endedTime, LogSettings.logDateTimeFormat))
                     .replace(ExtentFlag.getPlaceHolder("nodeTimeTaken"), hours + "h " + mins + "m " + secs + "s")
                     .replace(ExtentFlag.getPlaceHolder("nodeLevel"), "node-" + nodeLevel + "x");
             
-            stepSrc = StepHtml.getSrc(2);
-            
-            if (node.log.get(0).stepName != "") {
-                stepSrc = StepHtml.getSrc(0);
-            }
-            
-            for (int ix = 0; ix < node.log.size(); ix++) {
-                testSource = testSource
-                        .replace(ExtentFlag.getPlaceHolder("nodeStep"), stepSrc + ExtentFlag.getPlaceHolder("nodeStep"))
-                        .replace(ExtentFlag.getPlaceHolder("timeStamp"), DateTimeHelper.getFormattedDateTime(node.log.get(ix).timestamp, LogSettings.logTimeFormat))
-                        .replace(ExtentFlag.getPlaceHolder("stepStatusU"), node.log.get(ix).logStatus.toString().toUpperCase())
-                        .replace(ExtentFlag.getPlaceHolder("stepStatus"), node.log.get(ix).logStatus.toString().toLowerCase())
-                        .replace(ExtentFlag.getPlaceHolder("statusIcon"), Icon.getIcon(node.log.get(ix).logStatus))
-                        .replace(ExtentFlag.getPlaceHolder("stepName"), node.log.get(ix).stepName)
-                        .replace(ExtentFlag.getPlaceHolder("details"), node.log.get(ix).details);
+            if (node.log.size() > 0) {
+            	testSource = testSource.replace(ExtentFlag.getPlaceHolder("nodeStatus"), node.status.toString().toLowerCase());
+            			
+            	stepSrc = StepHtml.getSrc(2);
+            	
+	            if (node.log.get(0).stepName != "") {
+	                stepSrc = StepHtml.getSrc(0);
+	            }
+	            
+	            for (int ix = 0; ix < node.log.size(); ix++) {
+	                testSource = testSource
+	                        .replace(ExtentFlag.getPlaceHolder("nodeStep"), stepSrc + ExtentFlag.getPlaceHolder("nodeStep"))
+	                        .replace(ExtentFlag.getPlaceHolder("timeStamp"), DateTimeHelper.getFormattedDateTime(node.log.get(ix).timestamp, LogSettings.logTimeFormat))
+	                        .replace(ExtentFlag.getPlaceHolder("stepStatusU"), node.log.get(ix).logStatus.toString().toUpperCase())
+	                        .replace(ExtentFlag.getPlaceHolder("stepStatus"), node.log.get(ix).logStatus.toString().toLowerCase())
+	                        .replace(ExtentFlag.getPlaceHolder("statusIcon"), Icon.getIcon(node.log.get(ix).logStatus))
+	                        .replace(ExtentFlag.getPlaceHolder("stepName"), node.log.get(ix).stepName)
+	                        .replace(ExtentFlag.getPlaceHolder("details"), node.log.get(ix).details);
+	            }
             }
             
             testSource = testSource
@@ -176,9 +179,8 @@ class TestBuilder {
             
             if (node.hasChildNodes) {
             	testSource = addChildTests(node, testSource, ++nodeLevel);
+            	--nodeLevel;
             }
-            
-            --nodeLevel;
         }
         
     	return testSource;
@@ -190,7 +192,7 @@ class TestBuilder {
     	}
     	
         String src = TestHtml.getSourceQuickView();
-        Integer passed, failed, fatal, error, warning, info, skipped, unknown;
+        int passed, failed, fatal, error, warning, info, skipped, unknown;
         
         passed = failed = fatal = error = warning = info = skipped = unknown = 0;
         
@@ -227,5 +229,18 @@ class TestBuilder {
                 .replace(ExtentFlag.getPlaceHolder("currentTestRunStatusU"), "" + test.status.toString());
         
         return src;
+    }
+    
+    public class LogCounts {
+    	public int pass = 0;
+    	public int fail = 0;
+    	public int fatal = 0;
+    	public int error = 0;
+    	public int warning = 0;
+    	public int info = 0;
+    	public int skip = 0;
+    	public int unknown = 0;
+    	
+    	public LogCounts() { }
     }
 }

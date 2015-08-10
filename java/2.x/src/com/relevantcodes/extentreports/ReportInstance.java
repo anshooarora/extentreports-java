@@ -56,7 +56,7 @@ class ReportInstance {
             mediaList.screencast.add(s);
         }
         
-        test.trackLastRunStatusRecursively();
+        test.prepareFinalize();
         
         addTest(TestBuilder.getSource(test));
         addQuickTestSummary(TestBuilder.getQuickTestSummary(test));
@@ -88,6 +88,38 @@ class ReportInstance {
                 categoryList.categories.add(attr.getName());
             }
         }
+    }
+    
+ // #24: Create summary section for each category 
+    private synchronized void updateCategoryView(Test test) {
+    	if (test.isChildNode) {
+    		return;
+    	}
+    	
+        String s = "", testSource = "";
+        String addedFlag = "";
+        String[] sourceKeys = { ExtentFlag.getPlaceHolder("categoryViewName"), ExtentFlag.getPlaceHolder("categoryViewTestDetails") };
+        String[] testKeys = { ExtentFlag.getPlaceHolder("categoryViewTestRunTime"), ExtentFlag.getPlaceHolder("categoryViewTestName"), ExtentFlag.getPlaceHolder("categoryViewTestStatus") };
+        String[] testValues = { DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat), test.name, test.status.toString().toLowerCase()};
+        
+        // new categories
+        for (TestAttribute attr : test.categoryList) {
+            addedFlag = ExtentFlag.getPlaceHolder("categoryViewTestDetails" + attr.getName());
+            
+            if (extentSource.indexOf(addedFlag) == -1) {
+                String[] sourceValues = { attr.getName(), addedFlag };
+
+                s += SourceBuilder.buildSimple(CategoryHtml.getCategoryViewSource(), sourceKeys, sourceValues);
+                testSource = SourceBuilder.buildSimple(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);    
+                s = SourceBuilder.buildSimple(s, new String[] { addedFlag }, new String[] { testSource + addedFlag });
+            }
+            else {
+                testSource = SourceBuilder.buildSimple(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);
+                extentSource = SourceBuilder.buildSimple(extentSource, new String[] { addedFlag }, new String[] { testSource + addedFlag });
+            }
+        }
+        
+        extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("extentCategoryDetails"), s + ExtentFlag.getPlaceHolder("extentCategoryDetails"));
     }
     
     public void initialize(String filePath, Boolean replace, DisplayOrder displayOrder) {
@@ -206,52 +238,6 @@ class ReportInstance {
                         .replace(ExtentFlag.getPlaceHolder("categoryAdded"), catsAdded + ExtentFlag.getPlaceHolder("categoryAdded"));
             }
         }
-    }
-    
-    // #24: Create summary section for each category 
-    private synchronized void updateCategoryView(Test test) {
-        String s = "", testSource = "";
-        String addedFlag = "";
-        String[] sourceKeys = { ExtentFlag.getPlaceHolder("categoryViewName"), ExtentFlag.getPlaceHolder("categoryViewTestDetails") };
-        String[] testKeys = { ExtentFlag.getPlaceHolder("categoryViewTestRunTime"), ExtentFlag.getPlaceHolder("categoryViewTestName"), ExtentFlag.getPlaceHolder("categoryViewTestStatus") };
-        String[] testValues = { DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat), test.name, test.status.toString().toLowerCase()};
-        
-        // new categories
-        for (TestAttribute attr : test.categoryList) {
-            addedFlag = ExtentFlag.getPlaceHolder("categoryViewTestDetails" + attr.getName());
-            
-            if (extentSource.indexOf(addedFlag) == -1) {
-                String[] sourceValues = { attr.getName(), addedFlag };
-
-                s += SourceBuilder.buildSimple(CategoryHtml.getCategoryViewSource(), sourceKeys, sourceValues);
-                testSource = SourceBuilder.buildSimple(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);    
-                s = SourceBuilder.buildSimple(s, new String[] { addedFlag }, new String[] { testSource + addedFlag });
-                
-                /* s += CategoryHtml
-                        .getCategoryViewSource()
-                        .replace(ExtentFlag.getPlaceHolder("categoryViewName"), attr.getName())
-                        .replace(ExtentFlag.getPlaceHolder("categoryViewTestDetails"), addedFlag)
-                        .replace(addedFlag, CategoryHtml.getCategoryViewTestSource()
-                                            .replace(ExtentFlag.getPlaceHolder("categoryViewTestRunTime"), DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat))
-                                            .replace(ExtentFlag.getPlaceHolder("categoryViewTestName"), test.name)
-                                            .replace(ExtentFlag.getPlaceHolder("categoryViewTestStatus"), test.status.toString().toLowerCase())
-                                            + addedFlag); */
-            }
-            else {
-                testSource = SourceBuilder.buildSimple(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);
-                extentSource = SourceBuilder.buildSimple(extentSource, new String[] { addedFlag }, new String[] { testSource + addedFlag });
-                
-                /*
-                extentSource = extentSource
-                        .replace(addedFlag, CategoryHtml.getCategoryViewTestSource()
-                                .replace(ExtentFlag.getPlaceHolder("categoryViewTestRunTime"), DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat))
-                                .replace(ExtentFlag.getPlaceHolder("categoryViewTestName"), test.name)
-                                .replace(ExtentFlag.getPlaceHolder("categoryViewTestStatus"), test.status.toString().toLowerCase())
-                                + addedFlag); */
-            }
-        }
-        
-        extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("extentCategoryDetails"), s + ExtentFlag.getPlaceHolder("extentCategoryDetails"));
     }
     
     private void updateSuiteExecutionTime() {

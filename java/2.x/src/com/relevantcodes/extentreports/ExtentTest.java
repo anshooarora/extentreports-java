@@ -173,8 +173,8 @@ public class ExtentTest {
             }
         }
         
-        this.test.nodeList.add(node.getTest());
-        
+        test.nodeList.add(node.getTest());
+                
         return this;
     }
     

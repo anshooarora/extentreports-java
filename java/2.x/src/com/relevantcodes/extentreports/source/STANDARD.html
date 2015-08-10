@@ -249,8 +249,8 @@
             }
             
             /* -- [ tests-quick-view ] -- */
-            .tests-quick-view th:first-child, .test-quick-view td:first-child {
-                min-width: 40%;
+            .tests-quick-view th:first-child, .tests-quick-view td:first-child {
+                min-width: 45%;
             }
             .tests-quick-view td {
                 font-size: 14px;
@@ -275,6 +275,16 @@
             .quick-view-test, .category-link {
                 color: #039be5;
                 cursor: pointer;
+            }
+            .tests-quick-view td:nth-child(2),
+            .tests-quick-view td:nth-child(3),
+            .tests-quick-view td:nth-child(4),
+            .tests-quick-view td:nth-child(5),
+            .tests-quick-view td:nth-child(6),
+            .tests-quick-view td:nth-child(7),
+            .tests-quick-view td:nth-child(8),
+            .tests-quick-view td:nth-child(9) {
+				width: 70px;            
             }
 
             /* -- [ category view ] -- */
@@ -851,14 +861,14 @@
                 }
                 $('#step-dashboard-status-filter input').prop('checked', 'checked');
                 $('.indicator').addClass('teal lighten-4');
-                var totalTests = $('.test').length;
-                var passedTests = $('.test.pass').length;
-                var failedTests = $('.test.fail').length;
-                var fatalTests = $('.test.fatal').length;
-                var warningTests = $('.test.warning').length;
-                var errorTests = $('.test.error').length;
-                var skippedTests = $('.test.skip').length;
-                var unknownTests = $('.test.unknown').length;
+                var totalTests = $('.test, .test-node').length;
+                var passedTests = $('.test.pass, .test-node.pass').length;
+                var failedTests = $('.test.fail, .test-node.fail').length;
+                var fatalTests = $('.test.fatal, .test-node.fatal').length;
+                var warningTests = $('.test.warning, .test-node.warning').length;
+                var errorTests = $('.test.error, .test-node.error').length;
+                var skippedTests = $('.test.skip, .test-node.skip').length;
+                var unknownTests = $('.test.unknown, .test-node.unknown').length;
                 var totalSteps = $('td.status').length;
                 var passedSteps = $('td.status.pass').length;
                 var failedSteps = $('td.status.fail').length;
@@ -1058,6 +1068,26 @@
                     var hours = Math.floor(diff / 36e5),minutes = Math.floor(diff % 36e5 / 60000),seconds = Math.floor(diff % 60000 / 1000);
                     $('.suite-total-time-taken').text(hours + 'h ' + minutes + 'm ' + seconds + 's');
                 }
+               function hideQuickSummaryCols() {
+					var hiddenCols = 0;
+					var cols = [1, 2, 3, 4, 5, 6, 7, 8];
+					for (var ix = 0; ix < cols.length; ix++) {
+						var hide = true; var col = cols[ix];
+						$('.tests-quick-view table tbody tr').each(function () { 
+							if ($(this).children('td').eq(col).text() != '0')
+								hide = false;
+						})
+				    	col++;
+						if (hide) { $('.tests-quick-view table tr').find('td:nth-child(' + col + '), th:nth-child(' + col + ')').hide(); hiddenCols++; }
+					}
+					if (hiddenCols == 1) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '47%');
+					if (hiddenCols == 2) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '52%');
+					if (hiddenCols == 3) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '57%');
+					if (hiddenCols == 4) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '62%');
+					if (hiddenCols == 5) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '67%');
+					if (hiddenCols >= 6) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '72%');
+				}
+				hideQuickSummaryCols();
                 resetFilters();
                 updateTotalTimeTaken();
             });

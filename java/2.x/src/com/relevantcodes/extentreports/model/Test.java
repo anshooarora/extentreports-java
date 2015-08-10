@@ -33,24 +33,32 @@ public class Test {
     public String statusMessage;
     public UUID id;
     
-    public void trackLastRunStatusRecursively() {
-    	getTestStatus(this);
+    public void prepareFinalize() {
+    	updateTestStatusRecursively(this);
+    	
+    	if (status == LogStatus.INFO) {
+    		status = LogStatus.PASS;
+    	}
     }
     
     public void trackLastRunStatus() {
     	for (Log l : log) {
     		findStatus(l.logStatus);
     	}
+    	
+    	if (status == LogStatus.INFO) {
+    		status = LogStatus.PASS;
+    	}
     }
     
-    private void getTestStatus(Test test) {
+    private void updateTestStatusRecursively(Test test) {
     	for (Log log : test.log) {
     		findStatus(log.logStatus);
     	}
     	
     	if (test.hasChildNodes) {
     		for (Test node : test.nodeList) {
-    			getTestStatus(node);
+    			updateTestStatusRecursively(node);
     		}
     	}
     }
@@ -84,17 +92,28 @@ public class Test {
             return;
         }
         
-        if (status == LogStatus.PASS || status == LogStatus.INFO) {
+        if (status == LogStatus.PASS) return;
+        
+        if (logStatus == LogStatus.PASS) {
             status = LogStatus.PASS;
             return;
         }
         
-        if (logStatus == LogStatus.PASS || logStatus == LogStatus.INFO) {
-            status = LogStatus.PASS;
+        if (status == LogStatus.SKIP) return;
+        
+        if (logStatus == LogStatus.SKIP) {
+            status = LogStatus.SKIP;
             return;
         }
         
-        status = LogStatus.SKIP;     
+        if (status == LogStatus.INFO) return;
+        
+        if (logStatus == LogStatus.INFO) {
+            status = LogStatus.INFO;
+            return;
+        }
+        
+        status = LogStatus.UNKNOWN;
     }
     
     public Test() {
