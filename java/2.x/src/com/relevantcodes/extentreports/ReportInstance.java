@@ -109,13 +109,13 @@ class ReportInstance {
             if (extentSource.indexOf(addedFlag) == -1) {
                 String[] sourceValues = { attr.getName(), addedFlag };
 
-                s += SourceBuilder.buildSimple(CategoryHtml.getCategoryViewSource(), sourceKeys, sourceValues);
-                testSource = SourceBuilder.buildSimple(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);    
-                s = SourceBuilder.buildSimple(s, new String[] { addedFlag }, new String[] { testSource + addedFlag });
+                s += SourceBuilder.build(CategoryHtml.getCategoryViewSource(), sourceKeys, sourceValues);
+                testSource = SourceBuilder.build(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);    
+                s = SourceBuilder.build(s, new String[] { addedFlag }, new String[] { testSource + addedFlag });
             }
             else {
-                testSource = SourceBuilder.buildSimple(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);
-                extentSource = SourceBuilder.buildSimple(extentSource, new String[] { addedFlag }, new String[] { testSource + addedFlag });
+                testSource = SourceBuilder.build(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);
+                extentSource = SourceBuilder.build(extentSource, new String[] { addedFlag }, new String[] { testSource + addedFlag });
             }
         }
         
@@ -130,7 +130,7 @@ class ReportInstance {
             return;
         }
         
-        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.html";
+        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.min.html";
                         
         if (!new File(filePath).isFile()) {
             replace = true;
@@ -155,14 +155,15 @@ class ReportInstance {
     }
     
     public void terminate(List<ExtentTest> testList) {
-        // #16: Add warning message if test ended abruptly, endTest() wasn't called 
-        for (ExtentTest t : testList) {
-            if (!t.getTest().hasEnded) {
-                t.getTest().internalWarning += "Test did not end safely because endTest() was not called. There may be errors which are not reported correctly.";
-                addTest(t.getTest());
-            }
-        }
-        
+    	if (testList != null) {
+	        for (ExtentTest t : testList) {
+	            if (!t.getTest().hasEnded) {
+	                t.getTest().internalWarning += "Test did not end safely because endTest() was not called. There may be errors which are not reported correctly.";
+	                addTest(t.getTest());
+	            }
+	        }
+    	}
+    	
         writeAllResources(null, null);
         
         extentSource = "";
@@ -245,7 +246,7 @@ class ReportInstance {
         String[] values = { runInfo.startedAt, runInfo.endedAt };
         
         synchronized (lock) {
-            extentSource = SourceBuilder.build(extentSource, keys, values);
+            extentSource = SourceBuilder.buildRegex(extentSource, keys, values);
         }
     }
     
@@ -263,7 +264,7 @@ class ReportInstance {
             String[] values = new String[] { systemSrc + ExtentFlag.getPlaceHolder("systemInfoView") };
             
             synchronized (lock) {
-                extentSource = SourceBuilder.build(extentSource, keys, values);
+                extentSource = SourceBuilder.buildRegex(extentSource, keys, values);
             }
         }
     }
@@ -277,7 +278,7 @@ class ReportInstance {
         if (!(infoWrite >= 1 && values[0].indexOf("No media") >= 0)) {
             synchronized (lock) {
                 // build sources by replacing the flag with the values
-                extentSource = SourceBuilder.build(extentSource, keys, values);
+                extentSource = SourceBuilder.buildRegex(extentSource, keys, values);
                 
                 if (mediaList.screenCapture.size() > 0) {
                     try {
@@ -300,7 +301,7 @@ class ReportInstance {
         if (!(infoWrite >= 1 && values[0].indexOf("No media") >= 0)) {
             synchronized (lock) {
                 // build sources by replacing the flag with the values
-                extentSource = SourceBuilder.build(extentSource, keys, values);
+                extentSource = SourceBuilder.buildRegex(extentSource, keys, values);
                 
                 if (mediaList.screencast.size() > 0) {
                     try {

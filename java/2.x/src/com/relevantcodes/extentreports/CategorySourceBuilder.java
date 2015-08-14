@@ -24,7 +24,7 @@ public class CategorySourceBuilder {
         String[] flags = { ExtentFlag.getPlaceHolder("testCategory"), ExtentFlag.getPlaceHolder("testCategoryU") };
         
         for (String c : categories) {
-        	source += SourceBuilder.buildSimple(CategoryHtml.getOptionSource(), flags, new String[] { c, c.toLowerCase().replace(" ", "") });
+        	source += SourceBuilder.build(CategoryHtml.getOptionSource(), flags, new String[] { c, c.toLowerCase().replace(" ", "") });
         }
         
         return source;

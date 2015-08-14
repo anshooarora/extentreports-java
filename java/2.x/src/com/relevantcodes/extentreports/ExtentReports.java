@@ -160,10 +160,16 @@ public class ExtentReports {
         
         reportInstance.terminate(testList);
         
-        testList.clear();
+        if (testList != null) {
+        	testList.clear();
+        }
     }
     
     private void removeChildTests() {
+    	if (testList == null) {
+    		return;
+    	}
+    	
         Iterator<ExtentTest> iterator = testList.iterator();
         Test t;
         

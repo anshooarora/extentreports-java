@@ -15,7 +15,7 @@ import com.relevantcodes.extentreports.source.SystemInfoHtml;
 import com.relevantcodes.extentreports.support.RegexMatcher;
 
 class SourceBuilder {
-    public static String build(String source, String[] flags, String[] values) {
+    public static String buildRegex(String source, String[] flags, String[] values) {
         for (int ix = 0; ix < flags.length; ix++) {
             
             String matcher = flags[ix] + ".*" + flags[ix];
@@ -32,7 +32,7 @@ class SourceBuilder {
         return source;
     }
     
-    public static String buildSimple(String source, String[] flags, String[] values) {
+    public static String build(String source, String[] flags, String[] values) {
         for (int ix = 0; ix < flags.length; ix++) {            
             source = source.replace(flags[ix], values[ix]);
         }

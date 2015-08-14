@@ -2,7 +2,7 @@
 <html>
     <head>
         <!--
-            ExtentReports Library 2.03 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentReports Library 2.04 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         --> 
@@ -242,6 +242,13 @@
                 line-height: 1.2rem;
                 padding: 0.5rem 1rem;
             }
+            .collapse-expand {
+				margin-top: 45px !important;
+				text-align: right;
+			}
+			.collapse-expand i {
+				cursor: pointer;
+			}
 
             /* -- [ main ] -- */
             .main {
@@ -786,6 +793,10 @@
                                     <input id='test-name-filter' type='text' class='validate'>
                                     <label for='test-name-filter'>Find Test(s)</label>
                                 </div>
+                                <div class='input-field col l1 right collapse-expand'>
+									<i class='fa fa-arrow-circle-down ctrl-expand tooltipped' data-delay='0' data-position='top' data-tooltip='Expand Tests'></i>
+									<i class='fa fa-arrow-circle-up ctrl-collapse tooltipped' data-delay='0' data-position='top' data-tooltip='Collapse Tests'></i>
+								</div>
                             </div>
                         </div>
                         <div class='test-list'>
@@ -1038,6 +1049,12 @@
                             redrawCharts();
                         }
                     }                                
+                });
+                $('.ctrl-expand').click(function() {
+                	$('.test.displayed').addClass('is-expanded').find('.test-body').slideDown(300);
+                });
+                $('.ctrl-collapse').click(function() {
+                	$('.test.displayed').removeClass('is-expanded').find('.test-body').slideUp(300);
                 });
                 function resetFilters() {
                     $('.dropdown-content li').removeClass('active');
