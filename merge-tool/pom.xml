@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.relevantcodes.extentreports</groupId>
+	<artifactId>unite</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+
+	<name>Unite - ExtentReports Merge Tool</name>
+	<url>http://relevantcodes.com/extentreports-for-selenium/</url>
+	
+	<description>
+		Unite aka ExtentReports Merge Tool allows merging of multiple reports into a single file.
+	</description>
+	
+	<licenses>
+		<license>
+			<name>The BSD 3-Clause License</name>
+			<url>http://opensource.org/licenses/BSD-3-Clause</url>
+		</license>
+	</licenses>
+	
+	<scm>
+		<connection>scm:git:https://github.com/anshooarora/extentreports.git</connection>
+		<developerConnection>scm:git:https://github.com/anshooarora/extentreports.git</developerConnection>
+		<url>https://github.com/anshooarora/extentreports</url>
+	</scm>
+	
+	<developers>
+		<developer>
+			<name>Anshoo Arora</name>
+			<url>http://relevantcodes.com</url>
+			<id>anshoo.arora</id>
+			<roles>
+				<role>Owner</role>
+			</roles> 
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+	</dependencies>
+</project>
