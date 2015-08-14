@@ -58,14 +58,14 @@
                             <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.</p>
                             
                             <h1>Current Version</h1>
-                            <p>2.031</p>
+                            <p>2.04</p>
                             
                             <h2>If you are coming from Version 1.x</h2>
                             <p>ExtentReports 2.0 is a complete re-write of this library so a lot of things have changed. There is currently no straight-forward migration path and you will have to modify your scripts to make them work with the new version.</p>
                             
                             <h1>Docs</h1>
                             <ul class='index'>
-                                <li><a href='#whats-new'>What's new in 2.031</a></li>
+                                <li><a href='#whats-new'>What's new in 2.04</a></li>
                                 <li><a href='#author'>Owner / Developer</a>
 								<li><a href='#contributors'>Contributors</a>
                                 <li><a href='#beta-testers'>Beta Testers</a>
@@ -115,12 +115,16 @@
                                 <li><a href='#license'>License</a></li>
                             </ul>
                             
-<h2 id='whats-new'>What's new in 2.031</h2>
-<p>Version 2.031 is a minor release which launched on 07/30/2015. Here is what's new:</p>
+<h2 id='whats-new'>What's new in 2.04</h2>
+<p>Version 2.04 launched on 08/12/2015. Here is what's new:</p>
 <ul>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/28'>#28</a>) Fixed issue Run Info View - "Started At" is picking wrong time</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/32'>#32</a>) Using TestNG listener, correct test start and end times will be reported, correct total-time will be reported</li>
-	<li>Fixed issue with a long test-name going out of bounds</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/29'>#29</a>) Hierarchical display of results - any number of child nodes are now allowed. Child nodes can also use the <code>appendChild</code> method to add nodes</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/36'>#36</a>) Fixed issue Filtering on details is broken</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/40'>#40</a>) Fixed issues with images not opening for some users</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/41'>#41</a>) The category view will now display the number of tests Passed, Failed and Others</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/42'>#42</a>) Added support for Cyrillic characters</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/45'>#45</a>) In Quick Test Summary, only the headers that have at least 1 event-type will be displayed, all others will be hidden</li>
+	<li>Added controls to quickly expand and collapse all tests</li>
 </ul>
 
 <h3 id='author'>Owner / Developer</h3>
@@ -150,7 +154,7 @@
 &lt;dependency>
     &lt;groupId&gt;com.relevantcodes&lt;/groupId&gt;
     &lt;artifactId&gt;extentreports&lt;/artifactId&gt;
-    &lt;version&gt;2.031&lt;/version&gt;
+    &lt;version&gt;2.04&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
 

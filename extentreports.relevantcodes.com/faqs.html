@@ -55,6 +55,7 @@
                                     <li><a href='#correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</a></li>
                                     <li><a href='#categories'>How can I categorize my tests?</a></li>
                                     <li><a href='#append-report'>Is it possible to keep results from my previous run and append my tests to the same file?</a></li>
+									<li><a href='#log-hierarchy'>What is the log hierarchy used by Extent?</a></li>
                                     <li><a href='#issue'>Something is not working correctly, what should I do?</a></li>
                                 </ul>
                                 
@@ -145,6 +146,26 @@ t.assignCategory("Regression", "ExtentAPI", "category-3", "cagegory-4", ..);
 private ExtentReports extent = new ExtentReports("file-path", false);
 </code></pre>                                
                                 
+								<h4 id='log-hierarchy'>What is the log hierarchy used by Extent?</h4>
+								<p>Extent has the following log levels with FATAL having the highest priority and UNKNOWN having the lowest.</p>
+								<ol>
+									<li>FATAL</li>
+									<li>FAIL</li>
+									<li>ERROR</li>
+									<li>WARNING</li>
+									<li>PASS</li>
+									<li>SKIP</li>
+									<li>INFO</li>
+									<li>UNKNOWN</li>
+								</ol>
+								<p>Examples:</p>
+								<ul>
+									<li>If you have the following statuses in your test: <code>FATAL</code>, <code>ERROR</code>, <code>PASS</code>, the final status of your test would be <code>FATAL</code>.</li>
+									<li>If you have the following statuses in your test: <code>WARNING</code>, <code>ERROR</code>, <code>PASS</code>, the final status of your test would be <code>ERROR</code>.</li>
+									<li>If you have the following statuses in your test: <code>PASS</code>, <code>SKIP</code>, <code>PASS</code>, the final status of your test would be <code>PASS</code>.</li>
+									<li>If you have the following statuses in your test: <code>INFO</code>, <code>SKIP</code>, <code>INFO</code>, the final status of your test would be <code>SKIP</code>.</li>
+								</ul>
+
                                 <h4 id='issue'>Something is not working correctly, what should I do?</h4>
                                 <p>You can log all bugs or features <a href='https://github.com/anshooarora/extentreports/issues'>here</a>. Provide as much information as possible, i.e. steps to reproduce, code examples, type of test runner, Extent version etc.</p>
                                 
