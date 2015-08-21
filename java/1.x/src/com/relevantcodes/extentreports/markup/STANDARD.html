@@ -422,7 +422,7 @@
 			$(document).keypress(function(e) {
 				if(e.which == 13) {
 					if ($('#test-name-filter').is(':focus')) {
-						var txt = $('#test-name-filter').val();
+						var txt = $('#test-name-filter').val().toLowerCase();
 						$('.test').hide(0);
 						$('.test .name > span, .test .description-content').each(function() {
 							if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
