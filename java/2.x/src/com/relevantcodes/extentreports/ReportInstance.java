@@ -98,7 +98,7 @@ class ReportInstance {
     	
         String s = "", testSource = "";
         String addedFlag = "";
-        String[] sourceKeys = { ExtentFlag.getPlaceHolder("categoryViewName"), ExtentFlag.getPlaceHolder("categoryViewTestDetails") };
+        String[] sourceKeys = { ExtentFlag.getPlaceHolder("categoryViewName"), ExtentFlag.getPlaceHolder("categoryViewNameL"), ExtentFlag.getPlaceHolder("categoryViewTestDetails") };
         String[] testKeys = { ExtentFlag.getPlaceHolder("categoryViewTestRunTime"), ExtentFlag.getPlaceHolder("categoryViewTestName"), ExtentFlag.getPlaceHolder("categoryViewTestStatus") };
         String[] testValues = { DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat), test.name, test.status.toString().toLowerCase()};
         
@@ -107,7 +107,7 @@ class ReportInstance {
             addedFlag = ExtentFlag.getPlaceHolder("categoryViewTestDetails" + attr.getName());
             
             if (extentSource.indexOf(addedFlag) == -1) {
-                String[] sourceValues = { attr.getName(), addedFlag };
+                String[] sourceValues = { attr.getName(), attr.getName().trim().toLowerCase().replace(" ", ""), addedFlag };
 
                 s += SourceBuilder.build(CategoryHtml.getCategoryViewSource(), sourceKeys, sourceValues);
                 testSource = SourceBuilder.build(CategoryHtml.getCategoryViewTestSource(), testKeys, testValues);    
@@ -130,7 +130,7 @@ class ReportInstance {
             return;
         }
         
-        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.min.html";
+        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.html";
                         
         if (!new File(filePath).isFile()) {
             replace = true;
@@ -397,8 +397,13 @@ class ReportInstance {
         public ReportConfig reportHeadline(String headline) {
             Integer maxLength = 70;
             
-            if (headline.length() > maxLength)
+            if (headline.matches((".*\\<[^>]+>.*"))) {
+            	maxLength = 9999;
+            }
+            
+            if (headline.length() > maxLength) {
                 headline = headline.substring(0, maxLength - 1);
+            }
             
             updateSource();
             
@@ -421,8 +426,13 @@ class ReportInstance {
         public ReportConfig reportName(String name) {
             Integer maxLength = 20;
             
-            if (name.length() > maxLength)
+            if (name.matches((".*\\<[^>]+>.*"))) {
+            	maxLength = 9999;
+            }
+            
+            if (name.length() > maxLength) {
                 name = name.substring(0, maxLength - 1);
+            }
             
             updateSource();
             String html = extentSource;

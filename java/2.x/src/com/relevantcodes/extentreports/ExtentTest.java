@@ -62,6 +62,9 @@ public class ExtentTest {
         evt.timestamp = Calendar.getInstance().getTime();
                 
         test.log.add(evt);
+        
+        test.trackLastRunStatus();
+        runStatus = test.status;
     }
     
     /**

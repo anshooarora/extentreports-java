@@ -72,7 +72,7 @@ public class TestHtml {
                     "<td><!--%%CURRENTTESTINFOCOUNT%%--></td>" +
                     "<td><!--%%CURRENTTESTSKIPPEDCOUNT%%--></td>" +
                     "<td><!--%%CURRENTTESTUNKNOWNCOUNT%%--></td>" +
-                    "<td><span class='status <!--%%CURRENTTESTRUNSTATUS%%--> label'><!--%%CURRENTTESTRUNSTATUSU%%--></span></td>" +
+                    "<td><div class='status <!--%%CURRENTTESTRUNSTATUS%%--> label'><!--%%CURRENTTESTRUNSTATUSU%%--></div></td>" +
                 "</tr>";
     }
     

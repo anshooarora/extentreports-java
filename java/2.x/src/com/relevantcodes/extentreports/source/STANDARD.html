@@ -277,7 +277,6 @@
             	color: #fff;
                 font-size: 11px;
                 font-weight: 400;
-                padding: 3px 5px;
             }
             .quick-view-test, .category-link {
                 color: #039be5;
@@ -293,6 +292,10 @@
             .tests-quick-view td:nth-child(9) {
 				width: 70px;            
             }
+			.tests-quick-view .label, .category-view .label {
+				text-align: center;
+				width: 65px;
+			}
 
             /* -- [ category view ] -- */
             .category-header {
@@ -565,6 +568,9 @@
                 .test-node .test-info {
                 	display: none;
                 }
+                .tests-quick-view th, .tests-quick-view td {
+                	width: auto !important;
+                }
             }
             @media all and (max-width: 800px) {
                 .test-head .left, .test-head .right {
@@ -577,6 +583,9 @@
                 .test-desc {
                     padding-top: 10px;
                 }
+                .collapse-expand {
+					margin: 10px 0 !important;
+				}
             }
             @media all and (max-width: 575px) {
                 .test-info span {
@@ -1063,12 +1072,12 @@
                     $('.dropdown-content li:first-child').addClass('active').click();
                 }
                 function formatDt(d) {
-                    return d.getFullYear() + "-" +
-                        ("00" + (d.getMonth() + 1)).slice(-2) + "-" + 
-                        ("00" + d.getDate()).slice(-2) + " " + 
-                        ("00" + d.getHours()).slice(-2) + ":" + 
-                        ("00" + d.getMinutes()).slice(-2) + ":" + 
-                        ("00" + d.getSeconds()).slice(-2);
+                    return d.getFullYear() + '-' +
+                        ('00' + (d.getMonth() + 1)).slice(-2) + '-' + 
+                        ('00' + d.getDate()).slice(-2) + ' ' + 
+                        ('00' + d.getHours()).slice(-2) + ':' + 
+                        ('00' + d.getMinutes()).slice(-2) + ':' + 
+                        ('00' + d.getSeconds()).slice(-2);
                 }
                 function updateTotalTimeTaken() {
                     var dates=[];
@@ -1087,7 +1096,8 @@
                 }
                function hideQuickSummaryCols() {
 					var hiddenCols = 0;
-					var cols = [1, 2, 3, 4, 5, 6, 7, 8];
+					var width = 42;
+					var cols = [3, 4, 5, 6, 8];
 					for (var ix = 0; ix < cols.length; ix++) {
 						var hide = true; var col = cols[ix];
 						$('.tests-quick-view table tbody tr').each(function () { 
@@ -1097,12 +1107,8 @@
 				    	col++;
 						if (hide) { $('.tests-quick-view table tr').find('td:nth-child(' + col + '), th:nth-child(' + col + ')').hide(); hiddenCols++; }
 					}
-					if (hiddenCols == 1) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '47%');
-					if (hiddenCols == 2) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '52%');
-					if (hiddenCols == 3) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '57%');
-					if (hiddenCols == 4) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '62%');
-					if (hiddenCols == 5) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '67%');
-					if (hiddenCols >= 6) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '72%');
+					for (var ix = 1; ix <= hiddenCols; ix++) { width += 5; }
+					$('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', width + '%');
 				}
 				hideQuickSummaryCols();
                 resetFilters();

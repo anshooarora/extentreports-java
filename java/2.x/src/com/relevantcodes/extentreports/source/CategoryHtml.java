@@ -15,7 +15,7 @@ public class CategoryHtml {
 	
 	public static String getCategoryViewSource() {
 		return "<div class='col s12 m12 l12'>" +
-					"<div class='card-panel category-view'>" +
+					"<div class='card-panel category-view <!--%%CATEGORYVIEWNAMEL%%-->'>" +
 						"<div class='category-header test-attributes'>"
 							+ "<span class='category'><!--%%CATEGORYVIEWNAME%%--></span>"
 							+ "<div class='category-status right'>"
@@ -40,7 +40,7 @@ public class CategoryHtml {
 		return "<tr>" +
 				"<td><!--%%CATEGORYVIEWTESTRUNTIME%%--></td>" +
 				"<td><span class='category-link'><!--%%CATEGORYVIEWTESTNAME%%--></span></td>" +
-				"<td><span class='label <!--%%CATEGORYVIEWTESTSTATUS%%-->'><!--%%CATEGORYVIEWTESTSTATUS%%--></span></td>" +
+				"<td><div class='label <!--%%CATEGORYVIEWTESTSTATUS%%-->'><!--%%CATEGORYVIEWTESTSTATUS%%--></div></td>" +
 			"</tr>";
 	}
 }

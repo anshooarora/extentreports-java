@@ -26,7 +26,7 @@ public class Test {
     public boolean hasChildNodes = false;
     public Date startedTime;
     public Date endedTime;
-    public LogStatus status;
+    public LogStatus status = LogStatus.UNKNOWN;
     public String description;
     public String internalWarning;
     public String name;
