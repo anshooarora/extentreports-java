@@ -67,7 +67,7 @@ public class ExtentReports {
      * @param testName Name of the test
      * @return {@link ExtentTest}
      */
-    public ExtentTest startTest(String testName) {
+    public synchronized ExtentTest startTest(String testName) {
         return startTest(testName, "");
     }
     
@@ -80,7 +80,7 @@ public class ExtentReports {
      * @param description A short description of the test
      * @return {@link ExtentTest}
      */
-    public ExtentTest startTest(String testName, String description) {
+    public synchronized ExtentTest startTest(String testName, String description) {
         if (testList == null) {
             testList = new ArrayList<ExtentTest>();
         }
@@ -96,7 +96,7 @@ public class ExtentReports {
      * 
      * @param test {@link ExtentTest}
      */
-    public void endTest(ExtentTest test) {
+    public synchronized void endTest(ExtentTest test) {
         test.getTest().hasEnded = true;
 
         reportInstance.addTest(test.getTest());
@@ -155,7 +155,7 @@ public class ExtentReports {
      * this method will ensure that the test is still appended to the report 
      * with a warning message.
      */
-    public void close() {
+    public synchronized void close() {
         removeChildTests();
         
         reportInstance.terminate(testList);
@@ -165,7 +165,7 @@ public class ExtentReports {
         }
     }
     
-    private void removeChildTests() {
+    private synchronized void removeChildTests() {
     	if (testList == null) {
     		return;
     	}
