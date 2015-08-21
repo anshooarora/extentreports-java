@@ -7,11 +7,11 @@
 */
 
 
-package com.relevantcodes.extentmerge;
+package com.relevantcodes.extentreports.mergetool;
 
 import java.util.Scanner;
 
-public class Stream {
+class Stream {
 	public static String toString(java.io.InputStream is) {
 		Scanner scanner = null;
 		

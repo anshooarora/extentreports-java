@@ -6,35 +6,31 @@
 * See the accompanying LICENSE file for terms.
 */
 
-package com.relevantcodes.extentmerge;
+package com.relevantcodes.extentreports.mergetool;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-public class Writer {
-    //private static Writer instance = new Writer();
-
+class Writer {
     public synchronized void write(final File f, String text) {
-        //synchronized (f) {
-        	BufferedWriter writer = null;
-        	
+    	BufferedWriter writer = null;
+    	
+        try {
+            writer = new BufferedWriter(new FileWriter(f));
+            writer.write(text);
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        } 
+        finally {
             try {
-                writer = new BufferedWriter(new FileWriter(f));
-                writer.write(text);
+              writer.close();
             } 
             catch (Exception e) {
-                e.printStackTrace();
-            } 
-            finally {
-                try {
-                  writer.close();
-                } 
-                catch (Exception e) {
-                	e.printStackTrace();
-                }
+            	e.printStackTrace();
             }
-        //}
+        }
     }
     
     private Writer() { }

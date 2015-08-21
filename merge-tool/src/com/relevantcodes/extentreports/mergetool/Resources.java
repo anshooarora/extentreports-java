@@ -6,11 +6,11 @@
 * See the accompanying LICENSE file for terms.
 */
 
-package com.relevantcodes.extentmerge;
+package com.relevantcodes.extentreports.mergetool;
 
 import java.io.InputStream;
 
-public class Resources {
+class Resources {
 	public static String getText(String resourcePath) {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 	  	InputStream input = classLoader.getResourceAsStream(resourcePath);
