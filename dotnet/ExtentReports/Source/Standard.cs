@@ -22,19 +22,20 @@ namespace RelevantCodes.ExtentReports.Source
 <html>
     <head>
         <!--
-            ExtentReports Library 2.01 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentReports Library 2.02 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         --> 
+        <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
         <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing, written for Java and .NET.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
-        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css' type='text/css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css' type='text/css'>
         <title>ExtentReports 2.0</title>
         <style type='text/css'>
             body {
-                background-color: #f1f4f8;
+                background-color: #eef1f7;
                 font-family: Roboto, Nunito, 'Source Sans Pro', Arial;
                 font-size: 13px;
                 font-weight: 400;
@@ -87,12 +88,11 @@ namespace RelevantCodes.ExtentReports.Source
                 margin-bottom: 20px;
             }
             .card-panel {
-                box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
             }
             img.active {
                 max-width: inherit !important;
             }
-            .panel-name { }
             .panel-setting {
                 float: right;
             }
@@ -156,7 +156,7 @@ namespace RelevantCodes.ExtentReports.Source
                         
             /* -- [ side-nav ] -- */
             nav {
-                background-color: #37444e !important;
+                background-color: #324259 !important;
                 box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.05);
                 border-bottom: 1px solid #ccc;
             }
@@ -166,11 +166,11 @@ namespace RelevantCodes.ExtentReports.Source
             nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
                 color: #fff;
                 height: 48px;
-                line-height: 47px;
+                line-height: 46px;
                 padding-left: 10px;
             }
             nav .button-collapse i {
-                font-size: 1rem;
+                font-size: 1.2rem;
             }
             .side-nav {
                 background-color: #fff;
@@ -262,6 +262,13 @@ namespace RelevantCodes.ExtentReports.Source
                 line-height: 1.2rem;
                 padding: 0.5rem 1rem;
             }
+            .collapse-expand {
+				margin-top: 45px !important;
+				text-align: right;
+			}
+			.collapse-expand i {
+				cursor: pointer;
+			}
 
             /* -- [ main ] -- */
             .main {
@@ -269,8 +276,8 @@ namespace RelevantCodes.ExtentReports.Source
             }
             
             /* -- [ tests-quick-view ] -- */
-            .tests-quick-view th:first-child, .test-quick-view td:first-child {
-                min-width: 40%;
+            .tests-quick-view th:first-child, .tests-quick-view td:first-child {
+                min-width: 45%;
             }
             .tests-quick-view td {
                 font-size: 14px;
@@ -286,6 +293,8 @@ namespace RelevantCodes.ExtentReports.Source
                 background-color: #f6f7fa;
             }
             .tests-quick-view .label {
+            	background: #9932cc;
+            	color: #fff;
                 font-size: 11px;
                 font-weight: 400;
             }
@@ -293,11 +302,31 @@ namespace RelevantCodes.ExtentReports.Source
                 color: #039be5;
                 cursor: pointer;
             }
+            .tests-quick-view td:nth-child(2),
+            .tests-quick-view td:nth-child(3),
+            .tests-quick-view td:nth-child(4),
+            .tests-quick-view td:nth-child(5),
+            .tests-quick-view td:nth-child(6),
+            .tests-quick-view td:nth-child(7),
+            .tests-quick-view td:nth-child(8),
+            .tests-quick-view td:nth-child(9) {
+				width: 70px;            
+            }
+			.tests-quick-view .label, .category-view .label {
+				text-align: center;
+				width: 65px;
+			}
 
             /* -- [ category view ] -- */
             .category-header {
                 padding: 0 0 10px;
                 font-weight: 500;
+            }
+            .category-status > span {
+            	border-radius: 3px;
+            	font-size: 11px;
+            	margin: 0 2px;
+            	padding: 2px 4px;
             }
             .category-view .label {
                 font-size: 11px;
@@ -315,34 +344,65 @@ namespace RelevantCodes.ExtentReports.Source
                 color: #222 !important;
                 cursor: pointer;
                 margin-bottom: 5px;
+                padding: 25px 20px;
             }
             .is-expanded.card-panel {
                 padding: 20px 20px 10px;
             }
-            .collapsible-header {
+            .test-body .collapsible-header {
                 border-bottom: none;
                 height: auto;
                 line-height: inherit;
                 padding: .8rem 1rem;
             }
-            .collapsible-body {
+            .test-body .collapsible-body {
                 padding: 0 15px 15px;
                 width: 100%;
             }
-            .collapsible-body table {
+            .test-body .collapsible-body table {
                 margin-top: -20px;
             }
-            .collapsible.popout > li.active {
+            .test-body .collapsible {
+            	border: none !important;
+            	box-shadow: none !important;
+            }
+            .test-body .collapsible > li.active {
                 border: 1px solid #bbb;
                 box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
             }
             .collapsible .test-info {
                 margin-left: 20px;
             }
+            .test-body .collapsible > li {
+			    border: 1px solid #e0e6e8;
+			    box-shadow: none;
+			    margin-bottom: 4px;
+			}
             .test-node-name {
                 font-family: Roboto !important;
                 font-size: 14px;
                 font-weight: 500;
+            }
+            .node-2x {
+            	margin-left: 20px !important;
+            }
+            .node-3x {
+            	margin-left: 35px  !important;
+            }
+            .node-4x {
+            	margin-left: 50px  !important;
+            }
+            .node-5x {
+            	margin-left: 65px !important;
+            }
+            .node-6x {
+            	margin-left: 80px !important;
+            }
+            .node-7x {
+            	margin-left: 95px !important;
+            }
+            .node-8x {
+            	margin-left: 110px !important;
             }
             .test-warning {
                 color: red;
@@ -371,16 +431,14 @@ namespace RelevantCodes.ExtentReports.Source
                 border-left: 2px solid #bbb;
                 text-transform: lowercase !important;
             }
-            .test-head .right {
-                margin-top: 6px;
-            }
             .test .right span {
                 background-color: #f6f7fa;
-                padding: 4px 10px;
+                padding: 4px 5px;
             }
             .test-name {
                 font-size: 17px;
                 font-weight: 400;
+                word-wrap: break-word;
             }
             .test-desc {
                 color: #222;
@@ -389,7 +447,7 @@ namespace RelevantCodes.ExtentReports.Source
                 padding-top: 7px;
             }
             .test-attributes .category {
-                background-color: #55bad8;
+                background-color: #22b5e1;
                 border-radius: 2px;
                 color: #fff;
                 font-size: 12px;
@@ -400,6 +458,9 @@ namespace RelevantCodes.ExtentReports.Source
                 cursor: auto !important;
                 display: none;
                 padding-top: 25px;
+            }
+            .collapsible-body .test-body {
+            	padding-top: 21px;
             }
             .test-started-time, .test-ended-time {
                 border-left: 2px solid;
@@ -466,20 +527,29 @@ namespace RelevantCodes.ExtentReports.Source
             .label.success, .label.pass {
                 background-color: #7fbb00 !important;
             }
+            .cat-pass {
+				border: 1px solid #7fbb00;
+            }
             .label.fatal {
                 background-color: #d50000 !important;
             }
             .label.failure, .label.fail {
                 background-color: #f44336 !important;
             }
+            .cat-fail {
+            	border: 1px solid #f44336;
+            }
             .label.error {
                 background-color: #ec407a !important;
             }
             .label.info {
-                background-color: #55bad8  !important;
+                background-color: #55bad8 !important;
             }
             .label.warn, .label.warning {
-                background-color: #fdba5b  !important;
+                background-color: #fdba5b !important;
+            }
+            .cat-other {
+            	border: 1px solid #fdba5b;
             }
             .label.skip, .label.skipped {
                 background-color: #2196f3 !important;
@@ -506,6 +576,20 @@ namespace RelevantCodes.ExtentReports.Source
                 }
                 th, td {
                     padding: 10px;
+                    font-size: 13px;
+                }
+				.quick-test-summary + .responsive-table tr {
+                	padding: 0 !important;
+                }
+				.quick-test-summary + .responsive-table td {
+					font-size: 13px;
+					padding: 10px;
+				}
+                .test-node .test-info {
+                	display: none;
+                }
+                .tests-quick-view th, .tests-quick-view td {
+                	width: auto !important;
                 }
             }
             @media all and (max-width: 800px) {
@@ -519,6 +603,9 @@ namespace RelevantCodes.ExtentReports.Source
                 .test-desc {
                     padding-top: 10px;
                 }
+                .collapse-expand {
+					margin: 10px 0 !important;
+				}
             }
             @media all and (max-width: 575px) {
                 .test-info span {
@@ -538,7 +625,7 @@ namespace RelevantCodes.ExtentReports.Source
                 <li class='videos-view tooltipped' data-delay='0' data-position='right' data-tooltip='Screencast view'><a href='#!'><i class='fa fa-video-camera'></i></a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse show-on-large'><i class='mdi-navigation-menu'></i></a>
-            <span class='report-name'><!--%%LOGO%%-->Report Name<!--%%LOGO%%--> <!--%%HEADLINE%%-->[Report Headline]<!--%%HEADLINE%%--></span>
+            <span class='report-name'><!--%%LOGO%%-->Report Name<!--%%LOGO%%--></span> <span class='report-headline'><!--%%HEADLINE%%-->[Report Headline]<!--%%HEADLINE%%--></span>
             <span class='right'>ExtentReports</span>
         </nav>
         <div class='main'>
@@ -659,9 +746,9 @@ namespace RelevantCodes.ExtentReports.Source
                 <div class='row'>
                     <div class='col s12'>
                         <ul class='tabs'>
-                            <li class='tab col s3'><a class='active' href='#tests-quick-view'>Summary</a></li>
-                            <li class='tab col s3'><a href='#category-quick-view'>Categories</a></li>
-                            <li class='tab col s3'><a href='#tests-details-view'>Details</a></li>
+                            <li class='tab col s3 tab1'><a class='active' href='#tests-quick-view'>Summary</a></li>
+                            <li class='tab col s3 tab2'><a href='#category-quick-view'>Categories</a></li>
+                            <li class='tab col s3 tab3'><a href='#tests-details-view'>Details</a></li>
                         </ul>
                     </div>
                     <div class='tests-quick-view' id='tests-quick-view'>
@@ -670,7 +757,7 @@ namespace RelevantCodes.ExtentReports.Source
                                 <div class='panel-view panel-name quick-test-summary'>
                                     Quick Test Summary
                                     <div class='quick-test-summary-details'>
-                                        <span class='label info'>Total time taken: <span class='suite-total-time-taken'></span></span>
+                                        <span class='label total-time'>Total time taken: <span class='suite-total-time-taken'></span></span>
                                     </div>
                                 </div>
                                 <table class='bordered responsive-table'>
@@ -735,6 +822,10 @@ namespace RelevantCodes.ExtentReports.Source
                                     <input id='test-name-filter' type='text' class='validate'>
                                     <label for='test-name-filter'>Find Test(s)</label>
                                 </div>
+                                <div class='input-field col l1 right collapse-expand'>
+									<i class='fa fa-arrow-circle-down ctrl-expand tooltipped' data-delay='0' data-position='top' data-tooltip='Expand Tests'></i>
+									<i class='fa fa-arrow-circle-up ctrl-collapse tooltipped' data-delay='0' data-position='top' data-tooltip='Collapse Tests'></i>
+								</div>
                             </div>
                         </div>
                         <div class='test-list'>
@@ -777,7 +868,7 @@ namespace RelevantCodes.ExtentReports.Source
         </div>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
         <script type='text/javascript' src='https://www.google.com/jsapi'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js'></script>
         <script type='text/javascript'>
             /**!
              * easyPieChart
@@ -810,14 +901,14 @@ namespace RelevantCodes.ExtentReports.Source
                 }
                 $('#step-dashboard-status-filter input').prop('checked', 'checked');
                 $('.indicator').addClass('teal lighten-4');
-                var totalTests = $('.test').length;
-                var passedTests = $('.test.pass').length;
-                var failedTests = $('.test.fail').length;
-                var fatalTests = $('.test.fatal').length;
-                var warningTests = $('.test.warning').length;
-                var errorTests = $('.test.error').length;
-                var skippedTests = $('.test.skip').length;
-                var unknownTests = $('.test.unknown').length;
+                var totalTests = $('.test, .test-node').length;
+                var passedTests = $('.test.pass, .test-node.pass').length;
+                var failedTests = $('.test.fail, .test-node.fail').length;
+                var fatalTests = $('.test.fatal, .test-node.fatal').length;
+                var warningTests = $('.test.warning, .test-node.warning').length;
+                var errorTests = $('.test.error, .test-node.error').length;
+                var skippedTests = $('.test.skip, .test-node.skip').length;
+                var unknownTests = $('.test.unknown, .test-node.unknown').length;
                 var totalSteps = $('td.status').length;
                 var passedSteps = $('td.status.pass').length;
                 var failedSteps = $('td.status.fail').length;
@@ -846,6 +937,12 @@ namespace RelevantCodes.ExtentReports.Source
                     }, 1000);
                     if (!el.hasClass('is-expanded'))
                         el.toggleClass('is-expanded').find('.test-body').slideToggle(300);
+                });
+                $('.category-view').each(function() {
+                	var t = $(this);
+                	t.find('.cat-pass').text('PASS: ' + t.find('.pass').length);
+                	t.find('.cat-fail').text('FAIL: ' + (t.find('.fail').length + t.find('.fatal').length));
+                	t.find('.cat-other').text('OTHER: ' + (t.find('.label').length - (t.find('.fail').length + t.find('.fatal').length + t.find('.pass').length)));
                 });
                 $('.category-link').click(function() {
                     var name = $(this).text();
@@ -911,7 +1008,7 @@ namespace RelevantCodes.ExtentReports.Source
                 $(document).keypress(function(e) {
                     if(e.which == 13) {
                         if ($('#test-name-filter').is(':focus')) {
-                            var txt = $('#test-name-filter').val();
+                            var txt = $('#test-name-filter').val().toLowerCase();
                             $('.test').hide(0);
                             $('.test-name, .test-desc').each(function() {
                                 if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
@@ -982,19 +1079,58 @@ namespace RelevantCodes.ExtentReports.Source
                         }
                     }                                
                 });
+                $('.ctrl-expand').click(function() {
+                	$('.test.displayed').addClass('is-expanded').find('.test-body').slideDown(300);
+                });
+                $('.ctrl-collapse').click(function() {
+                	$('.test.displayed').removeClass('is-expanded').find('.test-body').slideUp(300);
+                });
                 function resetFilters() {
                     $('.dropdown-content li').removeClass('active');
                     $('.test').addClass('displayed').show(0);
                     redrawCharts();
                     $('.dropdown-content li:first-child').addClass('active').click();
                 }
+                function formatDt(d) {
+                    return d.getFullYear() + '-' +
+                        ('00' + (d.getMonth() + 1)).slice(-2) + '-' + 
+                        ('00' + d.getDate()).slice(-2) + ' ' + 
+                        ('00' + d.getHours()).slice(-2) + ':' + 
+                        ('00' + d.getMinutes()).slice(-2) + ':' + 
+                        ('00' + d.getSeconds()).slice(-2);
+                }
                 function updateTotalTimeTaken() {
+                    var dates=[];
+                    $('.test-started-time, .test-ended-time').each(function() { 
+                        dates.push(new Date($(this).text().replace('-', '/').replace('-', '/'))); 
+                    });
+                    var maxDate=new Date(Math.max.apply(null,dates));
+                    var minDate=new Date(Math.min.apply(null,dates));
+                    $('.suite-started-time').text(formatDt(minDate));
+                    $('.suite-ended-time').text(formatDt(maxDate));
                     var ended = $('.suite-ended-time').text().replace('-', '/').replace('-', '/');
                     var started = $('.suite-started-time').text().replace('-', '/').replace('-', '/');
                     var diff = new Date(new Date(ended) - new Date(started));
-                    diff = diff.getMinutes() + 'm ' + diff.getSeconds() + 's';
-                    $('.suite-total-time-taken').text(diff);
+                    var hours = Math.floor(diff / 36e5),minutes = Math.floor(diff % 36e5 / 60000),seconds = Math.floor(diff % 60000 / 1000);
+                    $('.suite-total-time-taken').text(hours + 'h ' + minutes + 'm ' + seconds + 's');
                 }
+               function hideQuickSummaryCols() {
+					var hiddenCols = 0;
+					var width = 42;
+					var cols = [3, 4, 5, 6, 8];
+					for (var ix = 0; ix < cols.length; ix++) {
+						var hide = true; var col = cols[ix];
+						$('.tests-quick-view table tbody tr').each(function () { 
+							if ($(this).children('td').eq(col).text() != '0')
+								hide = false;
+						})
+				    	col++;
+						if (hide) { $('.tests-quick-view table tr').find('td:nth-child(' + col + '), th:nth-child(' + col + ')').hide(); hiddenCols++; }
+					}
+					for (var ix = 1; ix <= hiddenCols; ix++) { width += 5; }
+					$('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', width + '%');
+				}
+				hideQuickSummaryCols();
                 resetFilters();
                 updateTotalTimeTaken();
             });
@@ -1005,13 +1141,13 @@ namespace RelevantCodes.ExtentReports.Source
             google.setOnLoadCallback(testSetChart);
             google.setOnLoadCallback(testsChart);
             function testSetChart() {
-                var pass = $('.test.displayed.pass').length;
-                var error = $('.test.displayed.error').length;
-                var warn = $('.test.displayed.warning').length;
-                var fail = $('.test.displayed.fail').length;
-                var fatal = $('.test.displayed.fatal').length;
-                var skip = $('.test.displayed.skip').length;
-                var unknown = $('.test.displayed.unknown').length;
+                var pass = $('.test.displayed.pass, .test.displayed .test-node.pass').length;
+                var error = $('.test.displayed.error, .test.displayed .test-node.error').length;
+                var warn = $('.test.displayed.warning, .test.displayed .test-node.warning').length;
+                var fail = $('.test.displayed.fail, .test.displayed .test-node.fail').length;
+                var fatal = $('.test.displayed.fatal, .test.displayed .test-node.fatal').length;
+                var skip = $('.test.displayed.skip, .test.displayed .test-node.skip').length;
+                var unknown = $('.test.displayed.unknown, .test.displayed .test-node.unknown').length;
                 $('.t-pass-count').text(pass);
                 $('.t-fail-count').text(fail + fatal);
                 $('.t-warning-count').text(warn);
@@ -1019,7 +1155,7 @@ namespace RelevantCodes.ExtentReports.Source
                 $('.t-error-count').text(error);
                 $('.t-skipped-count').text(skip);
                 $('.t-others-count').text(warn + error + skip + unknown);
-                var percentage = Math.round((pass * 100) / (pass + fail + fatal + warn + error + skip + unknown)) + '%';
+                var percentage = Math.round((pass * 100) / (pass + fail + fatal + warn + error + unknown + skip)) + '%';
                 $('.dashboard-view .panel-lead').text(percentage);
                 $('.dashboard-view .determinate').attr('style', 'width:' + percentage);
                 var data = google.visualization.arrayToDataTable([

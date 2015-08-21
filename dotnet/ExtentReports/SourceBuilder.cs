@@ -16,7 +16,7 @@ namespace RelevantCodes.ExtentReports
 
     internal class SourceBuilder
     {
-        public static string Build(string Source, string[] Flags, string[] Values)
+        public static string BuildRegex(string Source, string[] Flags, string[] Values)
         {
             for (int ix = 0; ix < Flags.Length; ix++)
             {
@@ -36,7 +36,7 @@ namespace RelevantCodes.ExtentReports
             return Source;
         }
 
-        public static string BuildSimple(String source, String[] flags, String[] values)
+        public static string Build(String source, String[] flags, String[] values)
         {
             for (int ix = 0; ix < flags.Length; ix++)
             {

@@ -11,6 +11,8 @@ namespace RelevantCodes.ExtentReports
     using System;
     using System.Collections.Generic;
 
+    using Model;
+
     /// <summary>
     /// ExtentReports
     /// </summary>
@@ -118,9 +120,12 @@ namespace RelevantCodes.ExtentReports
         /// </summary>
         public void Flush()
         {
+            removeChildTests();
+
             reportInstance.WriteAllResources(testList, systemInfo);
 
-            systemInfo.Clear();
+            if (testList != null)
+                systemInfo.Clear();
         }
 
         /// <summary>
@@ -128,12 +133,30 @@ namespace RelevantCodes.ExtentReports
         /// </summary>
         public void Close()
         {
+            removeChildTests();
+
             Flush();
 
             reportInstance.Terminate(testList);
 
             if (testList != null)
                 testList.Clear();
+        }
+
+        private void removeChildTests()
+        {
+            if (testList == null)
+            {
+                return;
+            }
+
+            for (int i = testList.Count - 1; i > -1; i--)
+            {
+                if (testList[i].GetTest().IsChildNode)
+                {
+                    testList.RemoveAt(i);
+                }
+            }
         }
     }
 }

@@ -46,10 +46,36 @@ namespace RelevantCodes.ExtentReports
                 mediaList.Screencast.AddRange(Test.Screencast);
             }
 
-            AddTest(TestBuilder.GetTestSource(Test));
+            Test.PrepareFinalize();
+
+            AddTest(TestBuilder.GetSource(Test));
             AddQuickTestSummary(TestBuilder.GetQuickSummary(Test));
             AddCategories(Test);
             UpdateCategoryView(Test);
+        }
+
+        private void AddTest(string TestSource)
+        {
+            if (displayOrder == DisplayOrder.OldestFirst)
+            {
+                testSource += TestSource;
+            }
+            else
+            {
+                testSource = TestSource + testSource;
+            }
+        }
+
+        private void AddQuickTestSummary(string Summary)
+        {
+            if (displayOrder == DisplayOrder.OldestFirst)
+            {
+                quickSummarySource += Summary;
+            }
+            else
+            {
+                quickSummarySource = Summary + quickSummarySource;
+            }
         }
 
         private void AddCategories(Test test) {
@@ -122,7 +148,7 @@ namespace RelevantCodes.ExtentReports
             {
                 lock (sourcelock)
                 {
-                    extentSource = SourceBuilder.BuildSimple(extentSource,
+                    extentSource = SourceBuilder.Build(extentSource,
                         new string[] { ExtentFlag.GetPlaceHolder("test"), ExtentFlag.GetPlaceHolder("quickTestSummary") },
                         new string[] { testSource + ExtentFlag.GetPlaceHolder("test"), quickSummarySource + ExtentFlag.GetPlaceHolder("quickTestSummary") });
                 }
@@ -131,7 +157,7 @@ namespace RelevantCodes.ExtentReports
             {
                 lock (sourcelock)
                 {
-                    extentSource = SourceBuilder.BuildSimple(extentSource,
+                    extentSource = SourceBuilder.Build(extentSource,
                         new string[] { ExtentFlag.GetPlaceHolder("test"), ExtentFlag.GetPlaceHolder("quickTestSummary") },
                         new string[] { ExtentFlag.GetPlaceHolder("test") + testSource, ExtentFlag.GetPlaceHolder("quickTestSummary") + quickSummarySource });
                 }
@@ -195,7 +221,7 @@ namespace RelevantCodes.ExtentReports
             {
                 lock (sourcelock) 
                 {
-                    extentSource = SourceBuilder.BuildSimple(extentSource,
+                    extentSource = SourceBuilder.Build(extentSource,
                         new string[] { ExtentFlag.GetPlaceHolder("categoryListOptions"), ExtentFlag.GetPlaceHolder("categoryAdded") },
                         new string[] { source + ExtentFlag.GetPlaceHolder("categoryListOptions"), catsAdded + ExtentFlag.GetPlaceHolder("categoryAdded") });
                 }
@@ -220,23 +246,23 @@ namespace RelevantCodes.ExtentReports
                 if (!extentSource.Contains(addedFlag)) {
                     string[] sourceValues = { attr.GetName(), addedFlag };
 
-                    s += SourceBuilder.BuildSimple(CategoryHtml.GetCategoryViewSource(), sourceKeys, sourceValues);
-                    testSource = SourceBuilder.BuildSimple(CategoryHtml.GetCategoryViewTestSource(), testKeys, testValues);    
-                    s = SourceBuilder.BuildSimple(s, new string[] { addedFlag }, new string[] { testSource + addedFlag });
+                    s += SourceBuilder.Build(CategoryHtml.GetCategoryViewSource(), sourceKeys, sourceValues);
+                    testSource = SourceBuilder.Build(CategoryHtml.GetCategoryViewTestSource(), testKeys, testValues);    
+                    s = SourceBuilder.Build(s, new string[] { addedFlag }, new string[] { testSource + addedFlag });
                 }
                 else {
-                    testSource = SourceBuilder.BuildSimple(CategoryHtml.GetCategoryViewTestSource(), testKeys, testValues);
+                    testSource = SourceBuilder.Build(CategoryHtml.GetCategoryViewTestSource(), testKeys, testValues);
                     
                     lock (sourcelock)
                     {
-                        extentSource = SourceBuilder.BuildSimple(extentSource, new string[] { addedFlag }, new string[] { testSource + addedFlag });
+                        extentSource = SourceBuilder.Build(extentSource, new string[] { addedFlag }, new string[] { testSource + addedFlag });
                     }
                 }
             }
         
             lock (sourcelock)
             {
-                extentSource = SourceBuilder.BuildSimple(extentSource, 
+                extentSource = SourceBuilder.Build(extentSource, 
                     new string[] { ExtentFlag.GetPlaceHolder("extentCategoryDetails") }, 
                     new string[] { s + ExtentFlag.GetPlaceHolder("extentCategoryDetails") });
             }
@@ -249,7 +275,7 @@ namespace RelevantCodes.ExtentReports
 
             lock (sourcelock)
             {
-                extentSource = SourceBuilder.Build(extentSource, flags, values);
+                extentSource = SourceBuilder.BuildRegex(extentSource, flags, values);
             }
         }
 
@@ -268,7 +294,7 @@ namespace RelevantCodes.ExtentReports
 
                 lock (sourcelock)
                 {
-                    extentSource = SourceBuilder.Build(extentSource, flags, values);
+                    extentSource = SourceBuilder.BuildRegex(extentSource, flags, values);
                 }
             }
         }
@@ -283,7 +309,7 @@ namespace RelevantCodes.ExtentReports
             {
                 lock (sourcelock)
                 {
-                    extentSource = SourceBuilder.Build(extentSource, flags, values);
+                    extentSource = SourceBuilder.BuildRegex(extentSource, flags, values);
 
                     if (mediaList.ScreenCapture.Count > 0)
                     {
@@ -307,7 +333,7 @@ namespace RelevantCodes.ExtentReports
             {
                 lock (sourcelock)
                 {
-                    extentSource = SourceBuilder.Build(extentSource, flags, values);
+                    extentSource = SourceBuilder.BuildRegex(extentSource, flags, values);
 
                     if (mediaList.Screencast.Count > 0)
                     {
@@ -324,30 +350,6 @@ namespace RelevantCodes.ExtentReports
             }
 
             infoWrite++;
-        }
-
-        private void AddTest(string TestSource)
-        {
-            if (displayOrder == DisplayOrder.OldestFirst)
-            {
-                testSource += TestSource;
-            }
-            else
-            {
-                testSource = TestSource + testSource;
-            }
-        }
-
-        private void AddQuickTestSummary(string Summary)
-        {
-            if (displayOrder == DisplayOrder.OldestFirst)
-            {
-                quickSummarySource += Summary;
-            }
-            else
-            {
-                quickSummarySource = Summary + quickSummarySource;
-            }
         }
 
         internal string Source

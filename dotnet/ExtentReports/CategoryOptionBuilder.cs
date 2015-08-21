@@ -28,7 +28,7 @@ namespace RelevantCodes.ExtentReports
 
             foreach (string c in list)
             {
-                source += SourceBuilder.BuildSimple(CategoryFilterHtml.GetOptionSource(), new string[] { ExtentFlag.GetPlaceHolder("testCategory"), ExtentFlag.GetPlaceHolder("testCategoryU") }, new string[] { c, c.ToLower().Replace(" ", "") });
+                source += SourceBuilder.Build(CategoryFilterHtml.GetOptionSource(), new string[] { ExtentFlag.GetPlaceHolder("testCategory"), ExtentFlag.GetPlaceHolder("testCategoryU") }, new string[] { c, c.ToLower().Replace(" ", "") });
             }
 
             return source;

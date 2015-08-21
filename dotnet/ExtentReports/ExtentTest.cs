@@ -23,7 +23,6 @@ namespace RelevantCodes.ExtentReports
     public class ExtentTest
     {
         private Test test;
-        private LogStatus runStatus = LogStatus.Unknown;
 
         /// <summary>
         /// Builds a test toggle in the report with the TestName
@@ -47,7 +46,7 @@ namespace RelevantCodes.ExtentReports
         /// <param name="Details">Step details</param>
         public void Log(LogStatus LogStatus, string StepName, string Details)
         {
-            Log evt = new Log();
+            var evt = new Log();
 
             evt.Timestamp = DateTime.Now;
             evt.LogStatus = LogStatus;
@@ -55,8 +54,6 @@ namespace RelevantCodes.ExtentReports
             evt.Details = Details;
 
             test.Logs.Add(evt);
-
-            TrackLastRunStatus(LogStatus);
         }
 
         /// <summary>
@@ -87,7 +84,7 @@ namespace RelevantCodes.ExtentReports
                 screenCaptureHtml = ImageHtml.GetSource(ImagePath);
             }
 
-            ScreenCapture img = new ScreenCapture();
+            var img = new ScreenCapture();
             img.Source = screenCaptureHtml;
             img.TestName = test.Name;
 
@@ -112,7 +109,7 @@ namespace RelevantCodes.ExtentReports
                 screencastPath = ScreencastHtml.GetSource(screencastPath);
             }
 
-            Screencast sc = new Screencast();
+            var sc = new Screencast();
             sc.Source = screencastPath;
             sc.TestName = test.Name;
 
@@ -128,15 +125,45 @@ namespace RelevantCodes.ExtentReports
         /// <returns>ExtentTest object</returns>
         public ExtentTest AssignCategory(params string[] CategoryName)
         {
-            CategoryName.ToList().ForEach(c => test.CategoryList.Add(new Category(c)));
+            CategoryName.ToList().Select(c => c.ToString()).Distinct().ToList().ForEach(c => test.CategoryList.Add(new Category(c)));
 
             return this;
         }
 
+        /// <summary>
+        /// Appends a child test to the current test
+        /// </summary>
+        /// <param name="Node">Child node</param>
+        /// <returns>ExtentTest</returns>
+        public ExtentTest AppendChild(ExtentTest Node)
+        {
+            Node.GetTest().EndedTime = DateTime.Now;
+            Node.GetTest().IsChildNode = true;
+            Node.GetTest().TrackLastRunStatus();
+        
+            test.HasChildNodes = true;
+        
+            var list = new List<string>();
+        
+            foreach (TestAttribute attr in test.CategoryList) {
+                if (!list.Contains(attr.GetName())) {            
+                    list.Add(attr.GetName());
+                }
+            }
+        
+            foreach (TestAttribute attr in Node.GetTest().CategoryList) {
+                if (!list.Contains(attr.GetName())) {
+                    test.CategoryList.Add(attr);
+                }
+            }
+        
+            test.NodeList.Add(Node.GetTest());
+
+            return this;
+        }
+        
         internal Test GetTest()
         {
-            test.Status = runStatus;
-
             return test;
         }
 
@@ -148,63 +175,6 @@ namespace RelevantCodes.ExtentReports
             }
 
             return false;
-        }
-
-        private void TrackLastRunStatus(LogStatus LogStatus)
-        {
-            if (runStatus == LogStatus.Unknown)
-            {
-                if (LogStatus == LogStatus.Info)
-                {
-                    runStatus = LogStatus.Pass;
-                }
-                else
-                {
-                    runStatus = LogStatus;
-                }
-
-                return;
-            }
-
-            if (runStatus == LogStatus.Fatal) return;
-
-            if (LogStatus == LogStatus.Fatal)
-            {
-                runStatus = LogStatus;
-                return;
-            }
-
-            if (runStatus == LogStatus.Fail) return;
-
-            if (LogStatus == LogStatus.Fail)
-            {
-                runStatus = LogStatus;
-                return;
-            }
-
-            if (runStatus == LogStatus.Error) return;
-
-            if (LogStatus == LogStatus.Error)
-            {
-                runStatus = LogStatus;
-                return;
-            }
-
-            if (runStatus == LogStatus.Warning) return;
-
-            if (LogStatus == LogStatus.Warning)
-            {
-                runStatus = LogStatus;
-                return;
-            }
-
-            if (runStatus == LogStatus.Pass || runStatus == LogStatus.Info)
-            {
-                runStatus = LogStatus.Pass;
-                return;
-            }
-
-            runStatus = LogStatus.Skip;
         }
     }
 }

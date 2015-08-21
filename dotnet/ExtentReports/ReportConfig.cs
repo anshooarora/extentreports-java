@@ -78,7 +78,9 @@ namespace RelevantCodes.ExtentReports
             int maxlength = 70;
 
             if (Headline.Length >= maxlength)
+            {
                 Headline = Headline.Substring(0, maxlength - 1);
+            }
 
             string pattern = ExtentFlag.GetPlaceHolder("headline") + ".*" + ExtentFlag.GetPlaceHolder("headline");
             Headline = pattern.Replace(".*", Headline);
@@ -97,7 +99,9 @@ namespace RelevantCodes.ExtentReports
             int maxlength = 20;
 
             if (Name.Length >= maxlength)
+            {
                 Name = Name.Substring(0, maxlength - 1);
+            }
 
             string pattern = ExtentFlag.GetPlaceHolder("logo") + ".*" + ExtentFlag.GetPlaceHolder("logo");
             Name = pattern.Replace(".*", Name);

@@ -56,11 +56,9 @@
     <Compile Include="Model\Author.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\CategoryList.cs" />
-    <Compile Include="Model\Dashboard.cs" />
     <Compile Include="Model\Log.cs" />
     <Compile Include="Model\MediaList.cs" />
     <Compile Include="Model\RunInfo.cs" />
-    <Compile Include="Model\RunInstance.cs" />
     <Compile Include="Model\ScreenCapture.cs" />
     <Compile Include="Model\Screencast.cs" />
     <Compile Include="Model\SystemProperties.cs" />
@@ -81,6 +79,7 @@
     <Compile Include="Source\StepHtml.cs" />
     <Compile Include="Source\SystemInfoHtml.cs" />
     <Compile Include="Source\TestHtml.cs" />
+    <Compile Include="LogCounts.cs" />
     <Compile Include="Support\RegexMatcher.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="TestBuilder.cs" />
