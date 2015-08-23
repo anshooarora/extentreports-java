@@ -44,9 +44,9 @@ class ReportInstance {
     private volatile String testSource = "";
     
     public void addTest(Test test) {
-    	if (test.endedTime == null) {
-    		test.endedTime = Calendar.getInstance().getTime();
-    	}
+        if (test.endedTime == null) {
+            test.endedTime = Calendar.getInstance().getTime();
+        }
         
         for (ScreenCapture s : test.screenCapture) {
             mediaList.screenCapture.add(s);
@@ -89,13 +89,12 @@ class ReportInstance {
             }
         }
     }
-    
- // #24: Create summary section for each category 
+     
     private synchronized void updateCategoryView(Test test) {
-    	if (test.isChildNode) {
-    		return;
-    	}
-    	
+        if (test.isChildNode) {
+            return;
+        }
+        
         String s = "", testSource = "";
         String addedFlag = "";
         String[] sourceKeys = { ExtentFlag.getPlaceHolder("categoryViewName"), ExtentFlag.getPlaceHolder("categoryViewNameL"), ExtentFlag.getPlaceHolder("categoryViewTestDetails") };
@@ -122,7 +121,7 @@ class ReportInstance {
         extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("extentCategoryDetails"), s + ExtentFlag.getPlaceHolder("extentCategoryDetails"));
     }
     
-    public void initialize(String filePath, Boolean replace, DisplayOrder displayOrder) {
+    public void initialize(String filePath, boolean replace, DisplayOrder displayOrder, AccessType storage) {
         this.displayOrder = displayOrder;
         this.filePath = filePath;
         
@@ -130,7 +129,13 @@ class ReportInstance {
             return;
         }
         
-        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.html";
+        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.min.html";
+        
+        if (storage == AccessType.OFFLINE) {
+            sourceFile = "com/relevantcodes/extentreports/source/STANDARD.offline.min.html";
+            
+            initializeOffline(new File(filePath));
+        }        
                         
         if (!new File(filePath).isFile()) {
             replace = true;
@@ -154,16 +159,54 @@ class ReportInstance {
         mediaList = new MediaList();
     }
     
+    private void initializeOffline(File file) {
+        String cssPath = "com/relevantcodes/extentreports/source/offline/css/";
+        String jsPath = "com/relevantcodes/extentreports/source/offline/js/";
+        String[] css = { 
+                "css.css", 
+                "font-awesome.css.map", 
+                "fontawesome-webfont.eot",
+                "fontawesome-webfont.svg",
+                "fontawesome-webfont.ttf",
+                "fontawesome-webfont.woff",
+                "fontawesome-webfont.woff2",
+                "FontAwesome.otf"
+        };
+        String[] js = { 
+                "scripts.js"
+        };
+        
+        if (!new File(file.getParent() + "\\extent").exists()) {
+            new File(file.getParent() + "\\extent").mkdir();
+        }
+        
+        String[] folderNames = { "css", "js" };
+        
+        for (String name : folderNames) {
+            if (!new File(file.getParent() + "\\extent\\" + name).exists()) {
+                new File(file.getParent() + "\\extent\\" + name).mkdir();
+            }
+        }
+        
+        for (String f : css) {
+            Resources.moveResource(cssPath + f, file.getParent() + "\\extent\\css\\" + f);
+        }
+
+        for (String f : js) {
+            Writer.getInstance().write(new File(file.getParent() + "\\extent\\js\\" + f), Resources.getText(jsPath + f));
+        }
+    }
+    
     public void terminate(List<ExtentTest> testList) {
-    	if (testList != null) {
-	        for (ExtentTest t : testList) {
-	            if (!t.getTest().hasEnded) {
-	                t.getTest().internalWarning += "Test did not end safely because endTest() was not called. There may be errors which are not reported correctly.";
-	                addTest(t.getTest());
-	            }
-	        }
-    	}
-    	
+        if (testList != null) {
+            for (ExtentTest t : testList) {
+                if (!t.getTest().hasEnded) {
+                    t.getTest().internalWarning += "Test did not end safely because endTest() was not called. There may be errors which are not reported correctly.";
+                    addTest(t.getTest());
+                }
+            }
+        }
+        
         writeAllResources(null, null);
         
         extentSource = "";
@@ -398,7 +441,7 @@ class ReportInstance {
             Integer maxLength = 70;
             
             if (headline.matches((".*\\<[^>]+>.*"))) {
-            	maxLength = 9999;
+                maxLength = 9999;
             }
             
             if (headline.length() > maxLength) {
@@ -427,7 +470,7 @@ class ReportInstance {
             Integer maxLength = 20;
             
             if (name.matches((".*\\<[^>]+>.*"))) {
-            	maxLength = 9999;
+                maxLength = 9999;
             }
             
             if (name.length() > maxLength) {

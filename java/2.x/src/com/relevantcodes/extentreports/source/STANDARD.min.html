@@ -7,7 +7,7 @@ Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under th
 Documentation: http://extentreports.relevantcodes.com
 --> 
 <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
-<meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing, written for Java and .NET.' />
+<meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
 <meta name='robots' content='noodp, noydir' />
 <meta name='viewport' content='width=device-width, initial-scale=1' />
 <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
@@ -243,12 +243,12 @@ line-height: 1.2rem;
 padding: 0.5rem 1rem;
 }
 .collapse-expand {
-margin-top: 45px !important;
-text-align: right;
-}
-.collapse-expand i {
-cursor: pointer;
-}
+				margin-top: 45px !important;
+				text-align: right;
+			}
+			.collapse-expand i {
+				cursor: pointer;
+			}
 
 /* -- [ main ] -- */
 .main {
@@ -273,11 +273,10 @@ margin-top: 10px;
 background-color: #f6f7fa;
 }
 .tests-quick-view .label {
-background: #9932cc;
-color: #fff;
+	background: #9932cc;
+	color: #fff;
 font-size: 11px;
 font-weight: 400;
-padding: 3px 5px;
 }
 .quick-view-test, .category-link {
 color: #039be5;
@@ -291,8 +290,12 @@ cursor: pointer;
 .tests-quick-view td:nth-child(7),
 .tests-quick-view td:nth-child(8),
 .tests-quick-view td:nth-child(9) {
-width: 70px;
+				width: 70px;
 }
+			.tests-quick-view .label, .category-view .label {
+				text-align: center;
+				width: 65px;
+			}
 
 /* -- [ category view ] -- */
 .category-header {
@@ -300,10 +303,10 @@ padding: 0 0 10px;
 font-weight: 500;
 }
 .category-status > span {
-border-radius: 3px;
-font-size: 11px;
-margin: 0 2px;
-padding: 2px 4px;
+	border-radius: 3px;
+	font-size: 11px;
+	margin: 0 2px;
+	padding: 2px 4px;
 }
 .category-view .label {
 font-size: 11px;
@@ -340,8 +343,8 @@ width: 100%;
 margin-top: -20px;
 }
 .test-body .collapsible {
-border: none !important;
-box-shadow: none !important;
+	border: none !important;
+	box-shadow: none !important;
 }
 .test-body .collapsible > li.active {
 border: 1px solid #bbb;
@@ -351,35 +354,35 @@ box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 margin-left: 20px;
 }
 .test-body .collapsible > li {
-border: 1px solid #e0e6e8;
-box-shadow: none;
-margin-bottom: 4px;
-}
+			border: 1px solid #e0e6e8;
+			box-shadow: none;
+			margin-bottom: 4px;
+			}
 .test-node-name {
 font-family: Roboto !important;
 font-size: 14px;
 font-weight: 500;
 }
 .node-2x {
-margin-left: 20px !important;
+	margin-left: 20px !important;
 }
 .node-3x {
-margin-left: 35px  !important;
+	margin-left: 35px  !important;
 }
 .node-4x {
-margin-left: 50px  !important;
+	margin-left: 50px  !important;
 }
 .node-5x {
-margin-left: 65px !important;
+	margin-left: 65px !important;
 }
 .node-6x {
-margin-left: 80px !important;
+	margin-left: 80px !important;
 }
 .node-7x {
-margin-left: 95px !important;
+	margin-left: 95px !important;
 }
 .node-8x {
-margin-left: 110px !important;
+	margin-left: 110px !important;
 }
 .test-warning {
 color: red;
@@ -437,7 +440,7 @@ display: none;
 padding-top: 25px;
 }
 .collapsible-body .test-body {
-padding-top: 21px;
+	padding-top: 21px;
 }
 .test-started-time, .test-ended-time {
 border-left: 2px solid;
@@ -505,7 +508,7 @@ color: #fff;
 background-color: #7fbb00 !important;
 }
 .cat-pass {
-border: 1px solid #7fbb00;
+				border: 1px solid #7fbb00;
 }
 .label.fatal {
 background-color: #d50000 !important;
@@ -514,7 +517,7 @@ background-color: #d50000 !important;
 background-color: #f44336 !important;
 }
 .cat-fail {
-border: 1px solid #f44336;
+	border: 1px solid #f44336;
 }
 .label.error {
 background-color: #ec407a !important;
@@ -526,7 +529,7 @@ background-color: #55bad8 !important;
 background-color: #fdba5b !important;
 }
 .cat-other {
-border: 1px solid #fdba5b;
+	border: 1px solid #fdba5b;
 }
 .label.skip, .label.skipped {
 background-color: #2196f3 !important;
@@ -555,15 +558,18 @@ th, td {
 padding: 10px;
 font-size: 13px;
 }
-.quick-test-summary + .responsive-table tr {
-padding: 0 !important;
+				.quick-test-summary + .responsive-table tr {
+	padding: 0 !important;
 }
-.quick-test-summary + .responsive-table td {
-font-size: 13px;
-padding: 10px;
-}
+				.quick-test-summary + .responsive-table td {
+					font-size: 13px;
+					padding: 10px;
+				}
 .test-node .test-info {
-display: none;
+	display: none;
+}
+.tests-quick-view th, .tests-quick-view td {
+	width: auto !important;
 }
 }
 @media all and (max-width: 800px) {
@@ -577,6 +583,9 @@ margin-bottom: 10px;
 .test-desc {
 padding-top: 10px;
 }
+.collapse-expand {
+					margin: 10px 0 !important;
+				}
 }
 @media all and (max-width: 575px) {
 .test-info span {
@@ -595,7 +604,7 @@ display: block;
 <li class='images-view tooltipped' data-delay='0' data-position='right' data-tooltip='Images view'><a href='#!'><i class='fa fa-image'></i></a></li>
 <li class='videos-view tooltipped' data-delay='0' data-position='right' data-tooltip='Screencast view'><a href='#!'><i class='fa fa-video-camera'></i></a></li>
 </ul>
-<a href='#' data-activates='slide-out' class='button-collapse show-on-large'><i class='mdi-navigation-menu'></i></a>
+<a href='#' data-activates='slide-out' class='button-collapse show-on-large'><i class='fa fa-bars'></i></a>
 <span class='report-name'><!--%%LOGO%%-->Report Name<!--%%LOGO%%--></span> <span class='report-headline'><!--%%HEADLINE%%-->[Report Headline]<!--%%HEADLINE%%--></span>
 <span class='right'>ExtentReports</span>
 </nav>
@@ -794,9 +803,9 @@ Quick Test Summary
 <label for='test-name-filter'>Find Test(s)</label>
 </div>
 <div class='input-field col l1 right collapse-expand'>
-<i class='fa fa-arrow-circle-down ctrl-expand tooltipped' data-delay='0' data-position='top' data-tooltip='Expand Tests'></i>
-<i class='fa fa-arrow-circle-up ctrl-collapse tooltipped' data-delay='0' data-position='top' data-tooltip='Collapse Tests'></i>
-</div>
+									<i class='fa fa-arrow-circle-down ctrl-expand tooltipped' data-delay='0' data-position='top' data-tooltip='Expand Tests'></i>
+									<i class='fa fa-arrow-circle-up ctrl-collapse tooltipped' data-delay='0' data-position='top' data-tooltip='Collapse Tests'></i>
+								</div>
 </div>
 </div>
 <div class='test-list'>
@@ -910,10 +919,10 @@ if (!el.hasClass('is-expanded'))
 el.toggleClass('is-expanded').find('.test-body').slideToggle(300);
 });
 $('.category-view').each(function() {
-var t = $(this);
-t.find('.cat-pass').text('PASS: ' + t.find('.pass').length);
-t.find('.cat-fail').text('FAIL: ' + (t.find('.fail').length + t.find('.fatal').length));
-t.find('.cat-other').text('OTHER: ' + (t.find('.label').length - (t.find('.fail').length + t.find('.fatal').length + t.find('.pass').length)));
+	var t = $(this);
+	t.find('.cat-pass').text('PASS: ' + t.find('.pass').length);
+	t.find('.cat-fail').text('FAIL: ' + (t.find('.fail').length + t.find('.fatal').length));
+	t.find('.cat-other').text('OTHER: ' + (t.find('.label').length - (t.find('.fail').length + t.find('.fatal').length + t.find('.pass').length)));
 });
 $('.category-link').click(function() {
 var name = $(this).text();
@@ -1051,10 +1060,10 @@ redrawCharts();
 }
 });
 $('.ctrl-expand').click(function() {
-$('.test.displayed').addClass('is-expanded').find('.test-body').slideDown(300);
+	$('.test.displayed').addClass('is-expanded').find('.test-body').slideDown(300);
 });
 $('.ctrl-collapse').click(function() {
-$('.test.displayed').removeClass('is-expanded').find('.test-body').slideUp(300);
+	$('.test.displayed').removeClass('is-expanded').find('.test-body').slideUp(300);
 });
 function resetFilters() {
 $('.dropdown-content li').removeClass('active');
@@ -1063,12 +1072,12 @@ redrawCharts();
 $('.dropdown-content li:first-child').addClass('active').click();
 }
 function formatDt(d) {
-return d.getFullYear() + "-" +
-("00" + (d.getMonth() + 1)).slice(-2) + "-" + 
-("00" + d.getDate()).slice(-2) + " " + 
-("00" + d.getHours()).slice(-2) + ":" + 
-("00" + d.getMinutes()).slice(-2) + ":" + 
-("00" + d.getSeconds()).slice(-2);
+return d.getFullYear() + '-' +
+('00' + (d.getMonth() + 1)).slice(-2) + '-' + 
+('00' + d.getDate()).slice(-2) + ' ' + 
+('00' + d.getHours()).slice(-2) + ':' + 
+('00' + d.getMinutes()).slice(-2) + ':' + 
+('00' + d.getSeconds()).slice(-2);
 }
 function updateTotalTimeTaken() {
 var dates=[];
@@ -1085,26 +1094,23 @@ var diff = new Date(new Date(ended) - new Date(started));
 var hours = Math.floor(diff / 36e5),minutes = Math.floor(diff % 36e5 / 60000),seconds = Math.floor(diff % 60000 / 1000);
 $('.suite-total-time-taken').text(hours + 'h ' + minutes + 'm ' + seconds + 's');
 }
-function hideQuickSummaryCols() {
-var hiddenCols = 0;
-var cols = [1, 2, 3, 4, 5, 6, 7, 8];
-for (var ix = 0; ix < cols.length; ix++) {
-var hide = true; var col = cols[ix];
-$('.tests-quick-view table tbody tr').each(function () { 
-if ($(this).children('td').eq(col).text() != '0')
-hide = false;
-})
-col++;
-if (hide) { $('.tests-quick-view table tr').find('td:nth-child(' + col + '), th:nth-child(' + col + ')').hide(); hiddenCols++; }
-}
-if (hiddenCols == 1) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '47%');
-if (hiddenCols == 2) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '52%');
-if (hiddenCols == 3) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '57%');
-if (hiddenCols == 4) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '62%');
-if (hiddenCols == 5) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '67%');
-if (hiddenCols >= 6) $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', '72%');
-}
-hideQuickSummaryCols();
+   function hideQuickSummaryCols() {
+					var hiddenCols = 0;
+					var width = 42;
+					var cols = [3, 4, 5, 6, 8];
+					for (var ix = 0; ix < cols.length; ix++) {
+						var hide = true; var col = cols[ix];
+						$('.tests-quick-view table tbody tr').each(function () { 
+							if ($(this).children('td').eq(col).text() != '0')
+								hide = false;
+						})
+					col++;
+						if (hide) { $('.tests-quick-view table tr').find('td:nth-child(' + col + '), th:nth-child(' + col + ')').hide(); hiddenCols++; }
+					}
+					for (var ix = 1; ix <= hiddenCols; ix++) { width += 5; }
+					$('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', width + '%');
+				}
+				hideQuickSummaryCols();
 resetFilters();
 updateTotalTimeTaken();
 });
