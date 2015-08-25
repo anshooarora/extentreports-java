@@ -37,12 +37,12 @@ public class ExtentReports {
      * @param displayOrder Determines the order in which your tests will be displayed
      *             <br>&nbsp;&nbsp;<b>OLDEST_FIRST</b> (default) - oldest test at the top, newest at the end
      *             <br>&nbsp;&nbsp;<b>NEWEST_FIRST</b> - newest test at the top, oldest at the end
-     * @param accessType Setting to create a structure for offline viewing of report             
+     * @param networkMode Setting to create a structure for offline viewing of report             
      */
-    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, AccessType accessType) {        
+    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode) {        
         reportInstance = new ReportInstance();
         reportConfig = reportInstance.new ReportConfig();
-        reportInstance.initialize(filePath, replaceExisting, displayOrder, accessType);
+        reportInstance.initialize(filePath, replaceExisting, displayOrder, networkMode);
         
         systemInfo = new SystemInfo();
     }
@@ -60,7 +60,7 @@ public class ExtentReports {
      *             <br>&nbsp;&nbsp;<b>NEWEST_FIRST</b> - newest test at the top, oldest at the end
      */
     public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {        
-        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST, AccessType.ONLINE);
+        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST, NetworkMode.ONLINE);
     }
     
     /**
@@ -71,10 +71,20 @@ public class ExtentReports {
      *             <br>&nbsp;&nbsp;<b>true</b>:  the file will be replaced with brand new markup, and all existing data
      *                    will be lost. Use this option to create a brand new report
      *            <br>&nbsp;&nbsp;<b>false</b>:  existing data will remain, new tests will be appended to the existing report
-     * @param accessType Setting to create a structure for offline viewing of report
+     * @param networkMode Setting to create a structure for offline viewing of report
      */
-    public ExtentReports(String filePath, Boolean replaceExisting, AccessType accessType) {
-        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST, accessType);
+    public ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode) {
+        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST, networkMode);
+    }
+    
+    /**
+     * Initializes the reporting by setting the file-path
+     * 
+     * @param filePath Path of the file, in .htm or .html format
+     * @param networkMode Setting to create a structure for offline viewing of report
+     */
+    public ExtentReports(String filePath, NetworkMode networkMode) {
+        this(filePath, true, DisplayOrder.OLDEST_FIRST, networkMode);
     }
     
     /**
@@ -87,7 +97,7 @@ public class ExtentReports {
      *            <br>&nbsp;&nbsp;<b>false</b>:  existing data will remain, new tests will be appended to the existing report
      */
     public ExtentReports(String filePath, Boolean replaceExisting) {
-        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST, AccessType.ONLINE);
+        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST, NetworkMode.ONLINE);
     }
     
     /**
@@ -96,7 +106,7 @@ public class ExtentReports {
      * @param filePath Path of the file, in .htm or .html format
      */
     public ExtentReports(String filePath) {
-        this(filePath, true, DisplayOrder.OLDEST_FIRST, AccessType.ONLINE);
+        this(filePath, true, DisplayOrder.OLDEST_FIRST, NetworkMode.ONLINE);
     }
     
     /**

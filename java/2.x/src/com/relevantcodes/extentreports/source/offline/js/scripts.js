@@ -337,7 +337,9 @@ function testSetChart() {
                 }
             } 
         },
-        legend: { labelBoxBorderColor: "none" },
+        legend: { 
+        	labelBoxBorderColor: "none"
+        },
         grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
         tooltip: true,
         tooltipOpts: { content: '%s: %p.0%' }

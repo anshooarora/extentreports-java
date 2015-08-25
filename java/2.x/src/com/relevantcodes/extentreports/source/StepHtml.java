@@ -9,7 +9,7 @@
 package com.relevantcodes.extentreports.source;
 
 public class StepHtml {
-    public static String getSrc(int colSpan) {
+    public static String getSource(int colSpan) {
         if (colSpan == 2) {
             return "<tr>" +
                         "<td><!--%%TIMESTAMP%%--></td>" +

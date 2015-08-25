@@ -17,30 +17,51 @@ import com.relevantcodes.extentreports.source.ObjectEmbedHtml;
 
 class MediaViewBuilder {
     public static String getSource(ArrayList<?> mediaList, String type) {
-        String src = "";
+        String source = "";
+        String[] flags = { 
+        		ExtentFlag.getPlaceHolder("objectViewValue"), 
+        		ExtentFlag.getPlaceHolder("objectViewNull") 
+        };
+        String[] values;
         
         if (mediaList == null || mediaList.size() == 0) {
-            src = ObjectEmbedHtml.getFullWidth()
-            		.replace(ExtentFlag.getPlaceHolder("objectViewValue"), "No media was embed for the tests in this report.")
-            		.replace(ExtentFlag.getPlaceHolder("objectViewNull"), ExtentFlag.getPlaceHolder("objectViewNull" + type));
+        	values = new String[] { 
+        			"No media was embedded for the tests in this report.", 
+        			ExtentFlag.getPlaceHolder("objectViewNull" + type) 
+        	};
+        	
+        	source = SourceBuilder.build(ObjectEmbedHtml.getFullWidth(), flags, values);
             
-            return src;
+            return source;
         }
         
+        flags = new String[] {
+        		ExtentFlag.getPlaceHolder("objectViewParam"), 
+        		ExtentFlag.getPlaceHolder("objectViewValue")
+        };
+        
         for (Object sc : mediaList) {
-            src += ObjectEmbedHtml.getColumn();
+            source += ObjectEmbedHtml.getColumn();
             
             if (sc instanceof ScreenCapture) {
-                src = src.replace(ExtentFlag.getPlaceHolder("objectViewParam"), ((ScreenCapture) sc).testName)
-                    .replace(ExtentFlag.getPlaceHolder("objectViewValue"), ((ScreenCapture) sc).src);
+            	values = new String[] { 
+            			((ScreenCapture) sc).testName,
+            			((ScreenCapture) sc).src
+            	};
+            	
+            	source = SourceBuilder.build(source, flags, values);
             }
             
             if (sc instanceof Screencast) {
-                src = src.replace(ExtentFlag.getPlaceHolder("objectViewParam"), ((Screencast) sc).testName)
-                    .replace(ExtentFlag.getPlaceHolder("objectViewValue"), ((Screencast) sc).src);
+            	values = new String[] { 
+            			((Screencast) sc).testName,
+            			((Screencast) sc).src
+            	};
+            	
+            	source = SourceBuilder.build(source, flags, values);
             }
         }
         
-        return src;
+        return source;
     }
 }

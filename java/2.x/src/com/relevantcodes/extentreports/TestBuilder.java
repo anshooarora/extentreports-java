@@ -37,7 +37,8 @@ class TestBuilder {
         long mins = diff / (60 * 1000) % 60;
         long secs = diff / 1000 % 60;
         
-        String[] testFlags = { ExtentFlag.getPlaceHolder("testName"),
+        String[] testFlags = { 
+        		ExtentFlag.getPlaceHolder("testName"),
                 ExtentFlag.getPlaceHolder("testStatus"),
                 ExtentFlag.getPlaceHolder("testStartTime"),
                 ExtentFlag.getPlaceHolder("testEndTime"),
@@ -47,7 +48,8 @@ class TestBuilder {
                 ExtentFlag.getPlaceHolder("category"),
                 ExtentFlag.getPlaceHolder("testWarnings")
         };
-        String[] testValues = { test.name,
+        String[] testValues = { 
+        		test.name,
                 test.status.toString().toLowerCase(),
                 DateTimeHelper.getFormattedDateTime(test.startedTime, LogSettings.logDateTimeFormat),
                 DateTimeHelper.getFormattedDateTime(test.endedTime, LogSettings.logDateTimeFormat),
@@ -66,9 +68,10 @@ class TestBuilder {
                     .replace(ExtentFlag.getPlaceHolder("category"), attr.getName());
         }
         
-        String stepSrc = StepHtml.getSrc(2);
+        String stepSrc = StepHtml.getSource(2);
         
-        String[] stepFlags = { ExtentFlag.getPlaceHolder("step"),
+        String[] stepFlags = { 
+        		ExtentFlag.getPlaceHolder("step"),
                 ExtentFlag.getPlaceHolder("timeStamp"),
                 ExtentFlag.getPlaceHolder("stepStatusU"),
                 ExtentFlag.getPlaceHolder("stepStatus"),
@@ -80,11 +83,12 @@ class TestBuilder {
         
         if (test.log.size() > 0) {
             if (test.log.get(0).stepName != "") {
-                stepSrc = StepHtml.getSrc(0);
+                stepSrc = StepHtml.getSource(0);
             }
             
             for (int ix = 0; ix < test.log.size(); ix++) {
-                stepValues = new String[] { stepSrc + ExtentFlag.getPlaceHolder("step"),
+                stepValues = new String[] { 
+                		stepSrc + ExtentFlag.getPlaceHolder("step"),
                         DateTimeHelper.getFormattedDateTime(test.log.get(ix).timestamp, LogSettings.logTimeFormat),
                         test.log.get(ix).logStatus.toString().toUpperCase(),
                         test.log.get(ix).logStatus.toString().toLowerCase(),
@@ -110,14 +114,16 @@ class TestBuilder {
         String stepSrc = "";
         String[] testValues, stepValues;
         
-        String[] testFlags = { ExtentFlag.getPlaceHolder("nodeList"),
+        String[] testFlags = { 
+        		ExtentFlag.getPlaceHolder("nodeList"),
                 ExtentFlag.getPlaceHolder("nodeName"),
                 ExtentFlag.getPlaceHolder("nodeStartTime"),
                 ExtentFlag.getPlaceHolder("nodeEndTime"),
                 ExtentFlag.getPlaceHolder("nodeTimeTaken"),
                 ExtentFlag.getPlaceHolder("nodeLevel")
         };
-        String[] stepFlags = { ExtentFlag.getPlaceHolder("nodeStep"),
+        String[] stepFlags = { 
+        		ExtentFlag.getPlaceHolder("nodeStep"),
                 ExtentFlag.getPlaceHolder("timeStamp"),
                 ExtentFlag.getPlaceHolder("stepStatusU"),
                 ExtentFlag.getPlaceHolder("stepStatus"),
@@ -149,16 +155,21 @@ class TestBuilder {
             testSource = SourceBuilder.build(testSource, testFlags, testValues);
 
             if (node.log.size() > 0) {
-                testSource = testSource.replace(ExtentFlag.getPlaceHolder("nodeStatus"), node.status.toString().toLowerCase());
+            	testSource = SourceBuilder.build(
+            			testSource, 
+            			new String[] { ExtentFlag.getPlaceHolder("nodeStatus") }, 
+            			new String[] { node.status.toString().toLowerCase() }
+            	);
                         
-                stepSrc = StepHtml.getSrc(2);
+                stepSrc = StepHtml.getSource(2);
                 
                 if (node.log.get(0).stepName != "") {
-                    stepSrc = StepHtml.getSrc(0);
+                    stepSrc = StepHtml.getSource(0);
                 }
                 
                 for (int ix = 0; ix < node.log.size(); ix++) {
-                    stepValues = new String[] { stepSrc + ExtentFlag.getPlaceHolder("nodeStep"),
+                    stepValues = new String[] { 
+                    		stepSrc + ExtentFlag.getPlaceHolder("nodeStep"),
                             DateTimeHelper.getFormattedDateTime(node.log.get(ix).timestamp, LogSettings.logTimeFormat),
                             node.log.get(ix).logStatus.toString().toUpperCase(),
                             node.log.get(ix).logStatus.toString().toLowerCase(),
@@ -171,9 +182,11 @@ class TestBuilder {
                 }
             }
             
-            testSource = testSource
-                    .replace(ExtentFlag.getPlaceHolder("step"), "")
-                    .replace(ExtentFlag.getPlaceHolder("nodeStep"), "");
+            testSource = SourceBuilder.build(
+            		testSource, 
+            		new String[] { ExtentFlag.getPlaceHolder("step"), ExtentFlag.getPlaceHolder("nodeStep") },
+            		new String[] { "", "" }
+            );
             
             if (node.hasChildNodes) {
                 testSource = addChildTests(node, testSource, ++nodeLevel);

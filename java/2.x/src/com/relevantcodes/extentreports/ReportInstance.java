@@ -37,6 +37,7 @@ class ReportInstance {
     private String filePath;
     private volatile int infoWrite = 0;
     private final Object lock = new Object();
+    private final String offlineFolderParent = "extent-reports";
     private MediaList mediaList;
     private String quickSummarySource = "";
     private RunInfo runInfo;
@@ -121,7 +122,7 @@ class ReportInstance {
         extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("extentCategoryDetails"), s + ExtentFlag.getPlaceHolder("extentCategoryDetails"));
     }
     
-    public void initialize(String filePath, boolean replace, DisplayOrder displayOrder, AccessType storage) {
+    public void initialize(String filePath, boolean replace, DisplayOrder displayOrder, NetworkMode networkMode) {
         this.displayOrder = displayOrder;
         this.filePath = filePath;
         
@@ -129,12 +130,12 @@ class ReportInstance {
             return;
         }
         
-        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.min.html";
+        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.html";
         
-        if (storage == AccessType.OFFLINE) {
-            sourceFile = "com/relevantcodes/extentreports/source/STANDARD.offline.min.html";
+        if (networkMode == NetworkMode.OFFLINE) {
+            sourceFile = "com/relevantcodes/extentreports/source/STANDARD.offline.html";
             
-            initializeOffline(new File(filePath));
+            initOfflineMode(new File(filePath));
         }        
                         
         if (!new File(filePath).isFile()) {
@@ -159,9 +160,10 @@ class ReportInstance {
         mediaList = new MediaList();
     }
     
-    private void initializeOffline(File file) {
+    private void initOfflineMode(File file) {
         String cssPath = "com/relevantcodes/extentreports/source/offline/css/";
         String jsPath = "com/relevantcodes/extentreports/source/offline/js/";
+        
         String[] css = { 
                 "css.css", 
                 "font-awesome.css.map", 
@@ -182,16 +184,21 @@ class ReportInstance {
         
         String[] folderNames = { "css", "js" };
         
+        File dir;
+        
+        // create offline folders from folderName
         for (String name : folderNames) {
-            if (!new File(file.getParent() + "\\extent\\" + name).exists()) {
-                new File(file.getParent() + "\\extent\\" + name).mkdir();
+            dir = new File(file.getParent() + "\\" + offlineFolderParent + "\\" + name);
+            
+            if (!dir.exists()) {
+                dir.mkdir();
             }
         }
         
+        // copy files to extent/dir
         for (String f : css) {
             Resources.moveResource(cssPath + f, file.getParent() + "\\extent\\css\\" + f);
         }
-
         for (String f : js) {
             Writer.getInstance().write(new File(file.getParent() + "\\extent\\js\\" + f), Resources.getText(jsPath + f));
         }
@@ -256,7 +263,6 @@ class ReportInstance {
         quickSummarySource = "";
     }
     
-    // #12: Ability to add categories and category-filters to tests
     private void updateCategoryList() {
         String catsAdded = "";
         String c = "";
