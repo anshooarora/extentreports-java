@@ -72,6 +72,7 @@
                                         <li><a href='#insert-screenshots'>Insert Screenshots</a></li>
                                         <li><a href='#insert-screencast'>Insert Screencasts</a></li>
                                         <li><a href='#add-system-info'>Adding System Info</a></li>
+										<li><a href='#close-extent'>Clear all resources</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#examples'>Examples</a>
@@ -247,14 +248,11 @@ test.Log(LogStatus.INFO, "Screencast below: " + test.AddScreencast("screencast-p
 
 <h3 id='add-system-info'>Adding System Info</h3>
 <p>It is possible to add system or environment info for your using using the <code>AddSystemInfo</code> method. It is an overloaded method that allows you to add via a <code>Dictionary</code> or string pairs.</p>
-
 <p class='note'>By default, the <code>OS</code>, <code>User Name</code>, <code>Java Version</code> and <code>Host Name</code> will be available. You do not have to add these 4 items manually.</p>
-
 <pre><code class='csharp'>
 extent.AddSystemInfo("Selenium Version", "2.46");
 extent.AddSystemInfo("Environment", "Prod");
 </code></pre>
-
 <pre><code class='csharp'>
 Dictionary<string, string> si = new Dictionary<string, string>()
 {
@@ -264,8 +262,18 @@ Dictionary<string, string> si = new Dictionary<string, string>()
 
 extent.AddSystemInfo(si);
 </code></pre>
-
 <img class='bordered-img center' src='./img/system-info.png' /> 
+
+<h3 id='close-extent'>Clear all resources</h3>
+<p>Call <code>close()</code> at the very end of your session to clear all resources. If any of your test ended abruptly causing any side-affects (not all logs sent to ExtentReports, information missing), this method will ensure that the test is still appended to the report with a warning message.</p>
+<p class='alert'>You should call <code>close()</code> only once, at the very end (in <code>@AfterSuite</code> for example) as it closes the underlying stream. Once this method is called, calling any Extent method will throw an error.</p>
+<p>Internally, this method does everything that <code>flush()</code> does by writing to the text file. Here are a few differences between <code>close</code> and <code>flush:</code>:</p>
+<ul>
+	<li>If you fail to end any of your tests safely (by calling <code>endTest</code>), <code>close</code> will still show them in the report with a warning sign. Calling <code>Flush</code> will only write tests to the report once they are ended</li>
+    <li><code>Close</code> does not write SystemInfo to the report (<code>flush</code> does)</li>
+    <li>You can call <code>flush</code> any number of times for a report session but <code>close</code> only once, because:</li>
+    <li>Close closes the underlying stream and destroys the source references so no other Extent commands can be used</li>
+</ul>
 
 <h2 id='examples'>Examples</h2>
 <p>This section shows basic examples to get started with ExtentReports 2.0. For multi-threaded execution models, see section <a href='#parallel-runs'>Creating Parallel Runs</a>.</p>

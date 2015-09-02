@@ -49,23 +49,28 @@
                     <div class='units-row'>
                         <div class='unit-80 centered top-unit'>
                             <div class="units-row end">
-								<h1>Reviews</h1>
-                                <p>Below are a few reviews and usage examples by users:</p>
-                                <ul>
-                                    <li>Selenium HTML result reporting using ExtentReports Version 2 by Sunil Patro: <a href='http://www.qavalidation.com/2015/07/selenium-extentreport-2x.html'>here</a></li>
-                                </ul>
+							<h1>Reviews</h1>
+							<p>Below are a few reviews and usage examples by users:</p>
+							<ul>
+								<li>ExtentReports review by Richard Kieft (also shows simplifying logs with the @Rule annotation): <a href='http://www.kieftsoft.nl/?p=81'>here</a></li>
+								<li>Selenium HTML result reporting using ExtentReports Version 2 by Sunil Patro: <a href='http://www.qavalidation.com/2015/07/selenium-extentreport-2x.html'>here</a></li>
+							</ul>
+							
+							<h1>Examples</h1>
+							<p>Virender has created an example of parallel execution using TestNG. View project <a href='https://github.com/virenv/ExtentReportUsage'>here</a></p>
+							
                             <h1>Sample</h1>
                             <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.</p>
                             
                             <h1>Current Version</h1>
-                            <p>2.04</p>
+                            <p>2.05</p>
                             
                             <h2>If you are coming from Version 1.x</h2>
                             <p>ExtentReports 2.0 is a complete re-write of this library so a lot of things have changed. There is currently no straight-forward migration path and you will have to modify your scripts to make them work with the new version.</p>
                             
                             <h1>Docs</h1>
                             <ul class='index'>
-                                <li><a href='#whats-new'>What's new in 2.04</a></li>
+                                <li><a href='#whats-new'>What's new in 2.05</a></li>
                                 <li><a href='#author'>Owner / Developer</a>
 								<li><a href='#contributors'>Contributors</a>
                                 <li><a href='#beta-testers'>Beta Testers</a>
@@ -115,17 +120,16 @@
                                 <li><a href='#license'>License</a></li>
                             </ul>
                             
-<h2 id='whats-new'>What's new in 2.04</h2>
-<p>Version 2.04 launched on 08/12/2015. Here is what's new:</p>
+<h2 id='whats-new'>What's new in 2.05</h2>
+<p>Version 2.05 launched on LAUNCH_DATE. Here is what's new:</p>
 <ul>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/29'>#29</a>) Hierarchical display of results - any number of child nodes are now allowed. Child nodes can also use the <code>appendChild</code> method to add nodes</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/36'>#36</a>) Fixed issue Filtering on details is broken</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/40'>#40</a>) Fixed issues with images not opening for some users</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/41'>#41</a>) The category view will now display the number of tests Passed, Failed and Others</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/42'>#42</a>) Added support for Cyrillic characters</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/44'>#44</a>) Show Child test's step counts in Quick Test Summary
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/45'>#45</a>) In Quick Test Summary, only the headers that have at least 1 event-type will be displayed, all others will be hidden</li>
-	<li>Added controls to quickly expand and collapse all tests</li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/39'>#39</a>) Standalone/Offline ExtentReports - allows viewing Extent's report offline by saving all resources locally</li>
+	<li>(#43) LogStatus.INFO overrides LogStatus.SKIP in report</li>
+	<li>(#54) New feature request - User should have the option to add the Product Logo into extent report </li>
+	<li>(<a href='https://github.com/anshooarora/extentreports/issues/61'>#61</a>) Synchronization on methods which modify testList in ExtentReports class</li>
+	<li>(#63) Micro / Minor (spelling) correction </li>
+	<li>(#64) Test View is showing incorrect result. Request to show the Test Case results and Test Steps results separately</li>
+	<li>(#67) NullPointerException on flush()</li>
 </ul>
 
 <h3 id='author'>Owner / Developer</h3>
@@ -155,7 +159,7 @@
 &lt;dependency>
     &lt;groupId&gt;com.relevantcodes&lt;/groupId&gt;
     &lt;artifactId&gt;extentreports&lt;/artifactId&gt;
-    &lt;version&gt;2.04&lt;/version&gt;
+    &lt;version&gt;2.05&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
 
@@ -163,21 +167,36 @@
 <p>This section demonstrates basic methods that you will be using with this library.</p>
 
 <h3 id='initialize-report'>Initializing Report</h3>
-<p>To initialize the report, you must create an instance of <code>ExtentReports</code>. It is possible to initialize in 2 different ways as shown below.</p>
+<p>To initialize the report, you must create an instance of <code>ExtentReports</code>. It is possible to initialize in the following different ways:</p>
 <pre><code>
-ExtentReports extent = new ExtentReports(file-path, replaceExisting);
-ExtentReports extent = new ExtentReports(file-path, replaceExisting, DisplayOrder);
-
-where:
-    filePath (string):  path of the file, in .htm or .html format
-    overwriteExisting (boolean):  (true|false) 
-        true:  the file will be replaced with brand new markup, 
-            and all existing data will be lost. Use this option to create a brand new report
-        false:  existing data will remain, new tests will be appended to the existing report
-    DisplayOrder:  this determines the order in which your tests will be displayed
-        OLDEST_FIRST (default) - oldest test at the top, newest at the end
-        NEWEST_FIRST - newest test at the top, oldest at the end
+ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode)
+ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder)
+ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode)
+ExtentReports extent = ExtentReports(String filePath, NetworkMode networkMode)
+ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting)
+ExtentReports extent = ExtentReports(String filePath)
 </code></pre>
+<ul>
+	<li><strong>filePath</strong> - path of the file, in .htm or .html format</li>
+	<li><strong>replaceExisting</strong>
+		<ul>
+			<li>True: the file will be replaced with brand new markup, and all existing data will be lost. Use this option to create a brand new report</li>
+			<li>False: existing data will remain, new tests will be appended to the existing report</li>
+		</ul>
+	</li>
+	<li><strong>displayOrder</strong>
+		<ul>
+			<li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
+			<li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
+		</ul>
+	</li>
+	<li><strong>networkMode</strong>
+		<ul>
+			<li>ONLINE</li>
+			<li>OFFLINE - report viewed without active internet connectivity</li>
+		</ul>
+	</li>
+</ul>
 
 <h3 id='write-to-report'>Writing to Report</h3>
 <p>Once your session is complete and you are ready to write all logs to the report, simply call the <code>flush()</code> method.</p>
@@ -300,6 +319,14 @@ extent.addSystemInfo(sysInfo);
 
 <h3 id='close-extent'>Clear all resources</h3>
 <p>Call <code>close()</code> at the very end of your session to clear all resources. If any of your test ended abruptly causing any side-affects (not all logs sent to ExtentReports, information missing), this method will ensure that the test is still appended to the report with a warning message.</p>
+<p class='alert'>You should call <code>close()</code> only once, at the very end (in <code>@AfterSuite</code> for example) as it closes the underlying stream. Once this method is called, calling any Extent method will throw an error.</p>
+<p>Internally, this method does everything that <code>flush()</code> does by writing to the text file. Here are a few differences between <code>close</code> and <code>flush:</code>:</p>
+<ul>
+	<li>If you fail to end any of your tests safely (by calling <code>endTest</code>), <code>close</code> will still show them in the report with a warning sign. Calling <code>Flush</code> will only write tests to the report once they are ended</li>
+    <li><code>Close</code> does not write SystemInfo to the report (<code>flush</code> does)</li>
+    <li>You can call <code>flush</code> any number of times for a report session but <code>close</code> only once, because:</li>
+    <li>Close closes the underlying stream and destroys the source references so no other Extent commands can be used</li>
+</ul>
 <pre><code class='java'>
 extent.close();
 </code></pre>
@@ -582,7 +609,7 @@ public class ReportFruit {
 
 <h2 id='parallel-runs'>Creating Parallel Runs</h2>
 <p>This section is going to be helpful for users that use a multi-threaded execution model. </p>
-<p class='alert'>If you are running one test at a time, or do not use multiple threads for execution, see section <a href='#basic-usage'>Basic Usage</a> for more info. For single threaded run environments, setup is extremely simple and nearly no configuration is required.</p>
+<p class='alert'>Virender has created a <a href='https://github.com/virenv/ExtentReportUsage'>tutorial</a> to show a few ways of using Extent in a parallel execution model. View it <a href='https://github.com/virenv/ExtentReportUsage'>here</a></p>
 <p>Depending on how your tests are structured, usage may differ for parallel classes and methods. If you require a single report for the run session, only use one instance of ExtentReports, as shown via <code>ExtentManager</code> class below.</p>
 
 <h3 id='parallel-classes'>Parallel Classes</h3>
