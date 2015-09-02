@@ -150,13 +150,10 @@ namespace RelevantCodes.ExtentReports
                 return;
             }
 
-            for (int i = testList.Count - 1; i > -1; i--)
-            {
-                if (testList[i].GetTest().IsChildNode)
-                {
-                    testList.RemoveAt(i);
-                }
-            }
+            testList.ForEach(t => { 
+                if (t.GetTest().IsChildNode) 
+                    testList.Remove(t); 
+            });
         }
     }
 }

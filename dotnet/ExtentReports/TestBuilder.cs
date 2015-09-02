@@ -37,7 +37,8 @@ namespace RelevantCodes.ExtentReports
                 testSource = testSource.Replace(ExtentFlag.GetPlaceHolder("descVis"), "style='display:none;'");
             }
         
-            string[] testFlags = { ExtentFlag.GetPlaceHolder("testName"),
+            string[] testFlags = { 
+                    ExtentFlag.GetPlaceHolder("testName"),
         		    ExtentFlag.GetPlaceHolder("testStatus"),
         		    ExtentFlag.GetPlaceHolder("testStartTime"),
         		    ExtentFlag.GetPlaceHolder("testEndTime"),
@@ -47,7 +48,8 @@ namespace RelevantCodes.ExtentReports
         		    ExtentFlag.GetPlaceHolder("category"),
         		    ExtentFlag.GetPlaceHolder("testWarnings")
             };            
-            string[] testValues = { test.Name,
+            string[] testValues = { 
+                    test.Name,
         		    test.Status.ToString().ToLower(),
         		    test.StartedTime.ToString(),
         		    test.EndedTime.ToString(),
@@ -59,16 +61,25 @@ namespace RelevantCodes.ExtentReports
             };
         
             testSource = SourceBuilder.Build(testSource, testFlags, testValues);
-        
+
+            testFlags = new string[] {
+                ExtentFlag.GetPlaceHolder("testCategory"),
+                ExtentFlag.GetPlaceHolder("category")
+            };
+
             foreach (TestAttribute attr in test.CategoryList) {
-                   testSource = testSource
-                        .Replace(ExtentFlag.GetPlaceHolder("testCategory"), TestHtml.GetCategorySource() + ExtentFlag.GetPlaceHolder("testCategory"))
-                        .Replace(ExtentFlag.GetPlaceHolder("category"), attr.GetName());
+                testValues = new string[] {
+                    TestHtml.GetCategorySource() + ExtentFlag.GetPlaceHolder("testCategory"),
+                    attr.GetName()
+                };
+
+                testSource = SourceBuilder.Build(testSource, testFlags, testValues);
             }
 
             var stepSrc = StepHtml.GetSource(2);
         
-            string[] stepFlags = { ExtentFlag.GetPlaceHolder("step"),
+            string[] stepFlags = { 
+                    ExtentFlag.GetPlaceHolder("step"),
         		    ExtentFlag.GetPlaceHolder("timeStamp"),
         		    ExtentFlag.GetPlaceHolder("stepStatusU"),
         		    ExtentFlag.GetPlaceHolder("stepStatus"),
@@ -84,7 +95,8 @@ namespace RelevantCodes.ExtentReports
                 }
             
                 for (int ix = 0; ix < test.Logs.Count; ix++) {
-            	    stepValues = new string[] { stepSrc + ExtentFlag.GetPlaceHolder("step"),
+            	    stepValues = new string[] { 
+                            stepSrc + ExtentFlag.GetPlaceHolder("step"),
             			    test.Logs[ix].Timestamp.ToShortTimeString(),
             			    test.Logs[ix].LogStatus.ToString().ToUpper(),
             			    test.Logs[ix].LogStatus.ToString().ToLower(),
@@ -108,14 +120,16 @@ namespace RelevantCodes.ExtentReports
     	    string nodeSource, stepSrc = "";
             string[] testValues, stepValues;
         
-            string[] testFlags = { ExtentFlag.GetPlaceHolder("nodeList"),
+            string[] testFlags = { 
+                    ExtentFlag.GetPlaceHolder("nodeList"),
         		    ExtentFlag.GetPlaceHolder("nodeName"),
         		    ExtentFlag.GetPlaceHolder("nodeStartTime"),
         		    ExtentFlag.GetPlaceHolder("nodeEndTime"),
         		    ExtentFlag.GetPlaceHolder("nodeTimeTaken"),
         		    ExtentFlag.GetPlaceHolder("nodeLevel")
             };
-            string[] stepFlags = { ExtentFlag.GetPlaceHolder("nodeStep"),
+            string[] stepFlags = { 
+                    ExtentFlag.GetPlaceHolder("nodeStep"),
         		    ExtentFlag.GetPlaceHolder("timeStamp"),
         		    ExtentFlag.GetPlaceHolder("stepStatusU"),
         		    ExtentFlag.GetPlaceHolder("stepStatus"),
@@ -131,7 +145,8 @@ namespace RelevantCodes.ExtentReports
                     nodeSource = TestHtml.GetNodeSource(4);
                 }
 
-                testValues = new string[] { nodeSource + ExtentFlag.GetPlaceHolder("nodeList"),
+                testValues = new string[] { 
+                        nodeSource + ExtentFlag.GetPlaceHolder("nodeList"),
 	            	    node.Name,
 	            	    node.StartedTime.ToString(),
 	            	    node.EndedTime.ToString(),
@@ -151,7 +166,8 @@ namespace RelevantCodes.ExtentReports
 	                }
 	            
 	                for (int ix = 0; ix < node.Logs.Count; ix++) {
-	            	    stepValues = new string[] { stepSrc + ExtentFlag.GetPlaceHolder("nodeStep"),
+	            	    stepValues = new string[] { 
+                                stepSrc + ExtentFlag.GetPlaceHolder("nodeStep"),
 	            			    node.Logs[ix].Timestamp.ToShortTimeString(),
 	            			    node.Logs[ix].LogStatus.ToString().ToUpper(),
 	            			    node.Logs[ix].LogStatus.ToString().ToLower(),
@@ -185,7 +201,8 @@ namespace RelevantCodes.ExtentReports
     	    string src = TestHtml.GetSourceQuickView();
     	    var lc = new LogCounts().GetLogCounts(test);
     	
-    	    string[] flags = { ExtentFlag.GetPlaceHolder("testName"), 
+    	    string[] flags = { 
+                    ExtentFlag.GetPlaceHolder("testName"), 
     			    ExtentFlag.GetPlaceHolder("testWarnings"),
     			    ExtentFlag.GetPlaceHolder("currentTestPassedCount"),
     			    ExtentFlag.GetPlaceHolder("currentTestFailedCount"),
@@ -198,7 +215,8 @@ namespace RelevantCodes.ExtentReports
     			    ExtentFlag.GetPlaceHolder("currentTestRunStatus"),
     			    ExtentFlag.GetPlaceHolder("currentTestRunStatusU")
     	    };
-    	    string[] values = { test.Name,
+    	    string[] values = { 
+                    test.Name,
     			    TestHtml.GetWarningSource(test.InternalWarning),
     			    lc.Pass.ToString(),
     			    lc.Fail.ToString(),

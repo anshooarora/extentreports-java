@@ -125,7 +125,12 @@ namespace RelevantCodes.ExtentReports
         /// <returns>ExtentTest object</returns>
         public ExtentTest AssignCategory(params string[] CategoryName)
         {
-            CategoryName.ToList().Select(c => c.ToString()).Distinct().ToList().ForEach(c => test.CategoryList.Add(new Category(c)));
+            CategoryName
+                .ToList()
+                .Select(c => c.ToString())
+                .Distinct()
+                .ToList()
+                .ForEach(c => test.CategoryList.Add(new Category(c)));
 
             return this;
         }
@@ -142,20 +147,18 @@ namespace RelevantCodes.ExtentReports
             Node.GetTest().TrackLastRunStatus();
         
             test.HasChildNodes = true;
-        
-            var list = new List<string>();
-        
-            foreach (TestAttribute attr in test.CategoryList) {
-                if (!list.Contains(attr.GetName())) {            
-                    list.Add(attr.GetName());
-                }
-            }
-        
-            foreach (TestAttribute attr in Node.GetTest().CategoryList) {
-                if (!list.Contains(attr.GetName())) {
-                    test.CategoryList.Add(attr);
-                }
-            }
+
+            IEnumerable<string> testCats = test.CategoryList
+                .Select(attr => attr.GetName())
+                .Distinct();
+            IEnumerable<string> cats = Node.GetTest().CategoryList
+                .Select(attr => attr.GetName())
+                .Distinct();
+
+            cats.ToList().ForEach(c => { 
+                if (!testCats.Contains(c)) 
+                    test.CategoryList.Add(new Category(c)); 
+            });
         
             test.NodeList.Add(Node.GetTest());
 
