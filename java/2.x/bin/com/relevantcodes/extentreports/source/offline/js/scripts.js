@@ -50,14 +50,14 @@ $(document).ready(function() {
     }
     $('#step-dashboard-status-filter input').prop('checked', 'checked');
     $('.indicator').addClass('teal lighten-4');
-    var totalTests = $('.test, .test-node').length;
-    var passedTests = $('.test.pass, .test-node.pass').length;
-    var failedTests = $('.test.fail, .test-node.fail').length;
-    var fatalTests = $('.test.fatal, .test-node.fatal').length;
-    var warningTests = $('.test.warning, .test-node.warning').length;
-    var errorTests = $('.test.error, .test-node.error').length;
-    var skippedTests = $('.test.skip, .test-node.skip').length;
-    var unknownTests = $('.test.unknown, .test-node.unknown').length;
+    var totalTests = $('.test:not(:has(.test-node)), .test-node').length;
+    var passedTests = $('.test.pass:not(:has(.test-node)), .test-node.pass').length;
+    var failedTests = $('.test.fail:not(:has(.test-node)), .test-node.fail').length;
+    var fatalTests = $('.test.fatal:not(:has(.test-node)), .test-node.fatal').length;
+    var warningTests = $('.test.warning:not(:has(.test-node)), .test-node.warning').length;
+    var errorTests = $('.test.error:not(:has(.test-node)), .test-node.error').length;
+    var skippedTests = $('.test.skip:not(:has(.test-node)), .test-node.skip').length;
+    var unknownTests = $('.test.unknown:not(:has(.test-node)), .test-node.unknown').length;
     var totalSteps = $('td.status').length;
     var passedSteps = $('td.status.pass').length;
     var failedSteps = $('td.status.fail').length;
@@ -67,6 +67,8 @@ $(document).ready(function() {
     var infoSteps = $('td.status.info').length;
     var skippedSteps = $('td.status.skip').length;
     var unknownSteps = $('td.status.unknown').length;
+    $('.total-tests > .panel-lead').text(totalTests);
+    $('.total-steps > .panel-lead').text(totalSteps);
     $('nav li').click(function() {
         if (!$(this).hasClass('active')) {
             var cls = $(this).prop('class').split(' ')[0];
@@ -141,14 +143,10 @@ $(document).ready(function() {
         redrawCharts();
     }
     function showRunInfo() {
-        $('.total-tests > .percent').text(totalTests).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#9c27b0', lineCap: 'butt', scaleColor: '#fff', size: 100 });
-        $('.total-tests').data('easyPieChart').update('100');
         $('.tests-passed > .percent').text(Math.round((passedTests / totalTests) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#53b657', lineCap: 'butt', scaleColor: '#fff', size: 100 });
         $('.tests-passed').data('easyPieChart').update((passedTests / totalTests) * 100);
         $('.tests-failed > .percent').text(Math.round(((failedTests + fatalTests) / totalTests) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
         $('.tests-failed').data('easyPieChart').update(((failedTests + fatalTests) / totalTests) * 100);
-        $('.total-steps > .percent').text(totalSteps).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#1366d7', lineCap: 'butt', scaleColor: '#fff', size: 100 });
-        $('.total-steps').data('easyPieChart').update('100');
         $('.steps-passed > .percent').text(Math.round((passedSteps / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#53b657', lineCap: 'butt', scaleColor: '#fff', size: 100 });
         $('.steps-passed').data('easyPieChart').update((passedSteps / totalSteps) * 100);
         $('.steps-failed > .percent').text(Math.round(((failedSteps + fatalSteps) / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
@@ -185,7 +183,7 @@ $(document).ready(function() {
                 $('.test').hide(0).removeClass('displayed');
                 if (opt2 != '') {
                     $('.test').each(function() {
-                        if ($(this).hasClass(opt) && $(this).find('.category').length > 0) {
+                        if (($(this).hasClass(opt) || $(this).has('.test-node.' + opt).length > 0) && $(this).find('.category').length > 0 ) {
                             for (var i = 0; i < $(this).find('.category').length; i++) {
                                 if ($(this).find('.category').eq(i).text() == opt2) {
                                     $(this).addClass('displayed').show(0);
@@ -195,7 +193,7 @@ $(document).ready(function() {
                     });
                 } else {
                     $('.test').hide(0).removeClass('displayed');
-                    $('.test.' + opt).fadeIn(200).addClass('displayed');
+                    $('.test:has(.test-node.' + opt + '), .test.' + opt).fadeIn(200).addClass('displayed');
                 }
                 redrawCharts();
             }
@@ -214,7 +212,7 @@ $(document).ready(function() {
                 $('.test').hide(0).removeClass('displayed');
                 if (opt2 != '') {
                     $('.test').each(function() {
-                        if ($(this).hasClass(opt2) && $(this).find('.category').length > 0) {
+                        if (($(this).hasClass(opt2) || $(this).has('.test-node.' + opt2).length > 0) && $(this).find('.category').length > 0) {
                             for (var i = 0; i < $(this).find('.category').length; i++) {
                                 if ($(this).find('.category').eq(i).text() == opt) {
                                     $(this).addClass('displayed').show(0);
@@ -291,18 +289,47 @@ $(document).ready(function() {
     resetFilters();
     updateTotalTimeTaken();
 });
+$('.enableToggleOnHover').click(function() {
+    if ($(this).hasClass('fa-toggle-off')) {
+        $(this).removeClass('fa-toggle-off').addClass('fa-toggle-on');
+        $('body').addClass('toggleOnHover'); 
+    } else {
+        $(this).removeClass('fa-toggle-on').addClass('fa-toggle-off');
+        $('body').removeClass('toggleOnHover'); 
+    }
+});
+$(function() {
+    var timeoutId;
+    $('.test-name, .test-node-name').hover(function() {
+        var t = $(this);
+        if (t.attr('class').indexOf('node') > -1) t = t.closest('.test-node');
+        else t = t.closest('.test');
+        if (!timeoutId) {
+            timeoutId = window.setTimeout(function() {
+                timeoutId = null;
+                if ($('body').hasClass('toggleOnHover')) { t.click(); }
+            }, 100);
+        }
+    },
+    function () {
+        if (timeoutId) {
+            window.clearTimeout(timeoutId);
+            timeoutId = null;
+        }
+    });
+});
 function redrawCharts() {
     testsChart();
     testSetChart();
 }
 function testSetChart() {
-    var pass = $('.test.displayed.pass, .test.displayed .test-node.pass').length;
-    var error = $('.test.displayed.error, .test.displayed .test-node.error').length;
-    var warn = $('.test.displayed.warning, .test.displayed .test-node.warning').length;
-    var fail = $('.test.displayed.fail, .test.displayed .test-node.fail').length;
-    var fatal = $('.test.displayed.fatal, .test.displayed .test-node.fatal').length;
-    var skip = $('.test.displayed.skip, .test.displayed .test-node.skip').length;
-    var unknown = $('.test.displayed.unknown, .test.displayed .test-node.unknown').length;
+    var pass = $('.test.displayed .test-node.pass, .test.displayed.pass:not(:has(.test-node))').length;
+    var error = $('.test.displayed .test-node.error, .test.displayed.error:not(:has(.test-node))').length;
+    var warn = $('.test.displayed .test-node.warning, .test.displayed.warning:not(:has(.test-node))').length;
+    var fail = $('.test.displayed .test-node.fail, .test.displayed.fail:not(:has(.test-node))').length;
+    var fatal = $('.test.displayed .test-node.fatal, .test.displayed.fatal:not(:has(.test-node))').length;
+    var skip = $('.test.displayed .test-node.skip, .test.displayed.skip:not(:has(.test-node))').length;
+    var unknown = $('.test.displayed .test-node.unknown, .test.displayed.unknown:not(:has(.test-node))').length;
     $('.t-pass-count').text(pass);
     $('.t-fail-count').text(fail + fatal);
     $('.t-warning-count').text(warn);
@@ -326,8 +353,8 @@ function testSetChart() {
         series: { 
             pie: { 
                 show: true, 
-                innerRadius: 0.4, 
-                stroke: { width: 5 }, 
+                innerRadius: 0.45, 
+                stroke: { width: 3 }, 
                 label: {
                     formatter: function (label, series) {
                         return '<div style="font-size:8pt;">' + series.data[0][1] + '</div>';
@@ -338,7 +365,8 @@ function testSetChart() {
             } 
         },
         legend: { 
-        	labelBoxBorderColor: "none"
+            //labelBoxBorderColor: "none"
+            show: false
         },
         grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
         tooltip: true,
@@ -383,8 +411,8 @@ function testsChart() {
         series: { 
             pie: { 
                 show: true, 
-                innerRadius: 0.4, 
-                stroke: { width: 5 }, 
+                innerRadius: 0.45, 
+                stroke: { width: 3 }, 
                 label: {
                     formatter: function (label, series) {
                         return '<div style="font-size:8pt;">' + series.data[0][1] + '</div>';
@@ -394,7 +422,7 @@ function testsChart() {
                 }
             } 
         },
-        legend: { labelBoxBorderColor: "none" },
+        legend: { show: false },
         grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
         tooltip: true,
         tooltipOpts: { content: '%s: %p.0%' }

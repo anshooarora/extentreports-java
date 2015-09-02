@@ -19,9 +19,9 @@ public class CategoryHtml {
 						"<div class='category-header test-attributes'>"
 							+ "<span class='category'><!--%%CATEGORYVIEWNAME%%--></span>"
 							+ "<div class='category-status right'>"
-								+ "<span class='cat-pass'>PASS: </span>"
-								+ "<span class='cat-fail'>FAIL: </span>"
-								+ "<span class='cat-other'>OTHER: </span>"
+								+ "<span class='label cat-pass'>PASS: </span>"
+								+ "<span class='label cat-fail'>FAIL: </span>"
+								+ "<span class='label cat-other'>OTHER: </span>"
 							+ "</div>"
 						+ "</div>" +
 						"<table class='bordered'>" +

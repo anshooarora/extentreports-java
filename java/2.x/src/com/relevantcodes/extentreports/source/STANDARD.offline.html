@@ -2,7 +2,7 @@
 <html>
     <head>
         <!--
-            ExtentReports Library 2.04 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentReports Library 2.05 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         --> 
@@ -10,7 +10,7 @@
         <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='stylesheet' href='./extent/css/css.css' type='text/css'>
+        <link rel='stylesheet' href='./extentreports/css/css.css' type='text/css'>
         <title>ExtentReports 2.0</title>
         <!--%%CUSTOMCSS%%-->
     </head>
@@ -71,8 +71,8 @@
                             <div class='col s12 m6 l3'>
                                 <div class='card-panel'>
                                     <span class='panel-name'>Total Tests</span>
-                                    <div class='chart total-tests' data-percent=''>
-                                        <span class='percent'></span>
+                                    <div class='total-tests'>
+                                        <span class='panel-lead'></span>
                                     </div>
                                 </div>
                             </div>
@@ -103,8 +103,8 @@
                             <div class='col s12 m6 l3'>
                                 <div class='card-panel'>
                                     <span class='panel-name'>Total Steps</span>
-                                    <div class='chart total-steps' data-percent=''>
-                                        <span class='percent'></span>
+                                    <div class='total-steps'>
+                                        <span class='panel-lead'></span>
                                     </div>
                                 </div>
                             </div>
@@ -222,8 +222,9 @@
                                     <label for='test-name-filter'>Find Test(s)</label>
                                 </div>
                                 <div class='input-field col l1 right collapse-expand'>
-                                    <i class='fa fa-arrow-circle-down ctrl-expand tooltipped' data-delay='0' data-position='top' data-tooltip='Expand Tests'></i>
-                                    <i class='fa fa-arrow-circle-up ctrl-collapse tooltipped' data-delay='0' data-position='top' data-tooltip='Collapse Tests'></i>
+                                    <i class='fa fa-toggle-off tooltipped enableToggleOnHover' data-delay='0' data-position='top' data-tooltip='Enabling this option will auto-expand-or-collapse the test-toggle when you mouseOver its Name'></i>
+                                    <i class='fa fa-toggle-down ctrl-expand tooltipped' data-delay='0' data-position='top' data-tooltip='Expand Tests'></i>
+                                    <i class='fa fa-toggle-up ctrl-collapse tooltipped' data-delay='0' data-position='top' data-tooltip='Collapse Tests'></i>
                                 </div>
                             </div>
                         </div>
@@ -265,7 +266,7 @@
                 </div>
             </div>
         </div>
-        <script type='text/javascript' src='./extent/js/scripts.js'></script>
+        <script type='text/javascript' src='./extentreports/js/scripts.js'></script>
         <!--%%CUSTOMSCRIPT%%-->
     </body>
 </html>

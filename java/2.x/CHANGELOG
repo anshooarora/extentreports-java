@@ -46,3 +46,14 @@
         (#36) Fixed issue Filtering on details is broken
         (#40) Fixed issues with images not opening for some users
         
+ #2.05 <>
+ 	Features
+ 		(#39) Standalone/Offline ExtentReports - allows viewing Extent's report offline by saving all resources locally
+ 		Added new control to allow quickly open/close test toggles by performing mouseOver on the testName
+ 	Fixes
+ 		(#43) LogStatus.INFO overrides LogStatus.SKIP in report
+ 		(#54) New feature request - User should have the option to add the Product Logo into extent report 
+ 		(#61) Synchronization on methods which modify testList in ExtentReports class
+ 		(#63) Micro / Minor (spelling) correction 
+ 		(#64) Test View is showing incorrect result. Request to show the Test Case results and Test Steps results separately
+ 		(#67) NullPointerException on flush()

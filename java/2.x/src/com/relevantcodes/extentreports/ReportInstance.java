@@ -37,14 +37,14 @@ class ReportInstance {
     private String filePath;
     private volatile int infoWrite = 0;
     private final Object lock = new Object();
-    private final String offlineFolderParent = "extent-reports";
+    private final String offlineFolderParent = "extentreports";
     private MediaList mediaList;
     private String quickSummarySource = "";
     private RunInfo runInfo;
     private volatile String extentSource = null;    
     private volatile String testSource = "";
     
-    public void addTest(Test test) {
+    public synchronized void addTest(Test test) {
         if (test.endedTime == null) {
             test.endedTime = Calendar.getInstance().getTime();
         }
@@ -83,7 +83,7 @@ class ReportInstance {
         }
     }
     
-    private void addCategories(Test test) {
+    private synchronized void addCategories(Test test) {
         for (TestAttribute attr : test.categoryList) {
             if (!categoryList.categories.contains(attr.getName())) {
                 categoryList.categories.add(attr.getName());
@@ -122,7 +122,7 @@ class ReportInstance {
         extentSource = extentSource.replace(ExtentFlag.getPlaceHolder("extentCategoryDetails"), s + ExtentFlag.getPlaceHolder("extentCategoryDetails"));
     }
     
-    public void initialize(String filePath, boolean replace, DisplayOrder displayOrder, NetworkMode networkMode) {
+    public synchronized void initialize(String filePath, boolean replace, DisplayOrder displayOrder, NetworkMode networkMode) {
         this.displayOrder = displayOrder;
         this.filePath = filePath;
         
@@ -130,27 +130,29 @@ class ReportInstance {
             return;
         }
         
+        File reportFile = new File(filePath);
+
+        if (!reportFile.getParentFile().exists()) {
+            reportFile.getParentFile().mkdirs();
+        }
+        
         String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.html";
         
         if (networkMode == NetworkMode.OFFLINE) {
             sourceFile = "com/relevantcodes/extentreports/source/STANDARD.offline.html";
             
-            initOfflineMode(new File(filePath));
+            initOfflineMode(reportFile);
         }        
                         
-        if (!new File(filePath).isFile()) {
+        if (!reportFile.isFile()) {
             replace = true;
         }
 
         if (replace) {
-            synchronized (lock) {
-                extentSource = Resources.getText(sourceFile);
-            }
+            extentSource = Resources.getText(sourceFile);
         } 
         else {
-            synchronized (lock) {
-                extentSource = FileReaderEx.readAllText(filePath);            
-            }
+            extentSource = FileReaderEx.readAllText(filePath);            
         }
         
         runInfo = new RunInfo();
@@ -178,29 +180,19 @@ class ReportInstance {
                 "scripts.js"
         };
         
-        if (!new File(file.getParent() + "\\extent").exists()) {
-            new File(file.getParent() + "\\extent").mkdir();
-        }
-        
         String[] folderNames = { "css", "js" };
-        
-        File dir;
         
         // create offline folders from folderName
         for (String name : folderNames) {
-            dir = new File(file.getParent() + "\\" + offlineFolderParent + "\\" + name);
-            
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
+            new File(file.getParent() + "\\" + offlineFolderParent + "\\" + name).mkdirs();
         }
         
         // copy files to extent/dir
         for (String f : css) {
-            Resources.moveResource(cssPath + f, file.getParent() + "\\extent\\css\\" + f);
+            Resources.moveResource(cssPath + f, file.getParent() + "\\" + offlineFolderParent + "\\css\\" + f);
         }
         for (String f : js) {
-            Writer.getInstance().write(new File(file.getParent() + "\\extent\\js\\" + f), Resources.getText(jsPath + f));
+            Writer.getInstance().write(new File(file.getParent() + "\\" + offlineFolderParent + "\\js\\" + f), Resources.getText(jsPath + f));
         }
     }
     
@@ -263,7 +255,7 @@ class ReportInstance {
         quickSummarySource = "";
     }
     
-    private void updateCategoryList() {
+    private synchronized void updateCategoryList() {
         String catsAdded = "";
         String c = "";
         Iterator<String> iter = categoryList.categories.iterator();
@@ -290,7 +282,7 @@ class ReportInstance {
         }
     }
     
-    private void updateSuiteExecutionTime() {
+    private synchronized void updateSuiteExecutionTime() {
         String[] keys = { ExtentFlag.getPlaceHolder("suiteStartTime"), ExtentFlag.getPlaceHolder("suiteEndTime") };
         String[] values = { runInfo.startedAt, runInfo.endedAt };
         
@@ -299,7 +291,7 @@ class ReportInstance {
         }
     }
     
-    private void updateSystemInfo(Map<String, String> info) {
+    private synchronized void updateSystemInfo(Map<String, String> info) {
         if (info == null)
             return;
         
@@ -318,7 +310,7 @@ class ReportInstance {
         }
     }
     
-    private void updateMediaInfo() {
+    private synchronized void updateMediaInfo() {
         String imageSrc = MediaViewBuilder.getSource(mediaList.screenCapture, "img");
         
         String[] keys = new String[] { ExtentFlag.getPlaceHolder("imagesView") };
