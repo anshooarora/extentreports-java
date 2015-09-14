@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="public" author="true" classpath="." destdir="doc" doctitle="ExtentReports for Selenium (by Anshoo Arora)" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.relevantcodes.extentreports.support,com.relevantcodes.extentreports.markup,com.relevantcodes.extentreports" source="1.6" sourcepath="src" splitindex="true" use="true" version="true"/>
-    </target>
-</project>
