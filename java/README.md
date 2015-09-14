@@ -1,11 +1,8 @@
 # ExtentReports Library
 
-ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.
+ExtentReports (by <a href='http://relevantcodes.com'>Anshoo Arora</a>) is a reporting library for automation testing, written in Java.  It creates detailed and beautiful HTML reports for modern browsers.  ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.
 
-### Samples
-
-View the latest Java sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.
-View the latest .NET sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.Net.html'>here</a>.
+View ExtentReports sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.
 
 ### Download
 
@@ -18,7 +15,7 @@ Download the jar and view latest details & comments from <a href='http://relevan
 
 ### Usage and Documentation
 
-For most complete and up-to-date documentation, visit <a href='http://relevantcodes.com/extentreports-for-selenium/'>this link</a>.
+For most complete and up-to-date documentation, visit <a href='http://extentreports.relevantcodes.com'>this link</a>.
 
 ### Software License Agreement (<a href='http://opensource.org/licenses/BSD-3-Clause'>BSD License</a>)
 
