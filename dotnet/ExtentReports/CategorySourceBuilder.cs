@@ -21,10 +21,21 @@ namespace RelevantCodes.ExtentReports
             string source = "";
 
             Categories.Sort();
-        
-            foreach (string c in Categories) {
-                source += SourceBuilder.Build(CategoryHtml.GetOptionSource(), new string[] { ExtentFlag.GetPlaceHolder("testCategory"), ExtentFlag.GetPlaceHolder("testCategoryU") }, new string[] { c, c.ToLower().Replace(" ", "") });
-            }
+
+            var catFlags = new string[] { 
+                ExtentFlag.GetPlaceHolder("testCategory"), 
+                ExtentFlag.GetPlaceHolder("testCategoryU") 
+            };
+
+            Categories.ForEach(c =>
+            {
+                var catValues = new string[] { 
+                    c, 
+                    c.ToLower().Replace(" ", "") 
+                };
+
+                source += SourceBuilder.Build(CategoryHtml.GetOptionSource(), catFlags, catValues);
+            });
         
             return source;
         }

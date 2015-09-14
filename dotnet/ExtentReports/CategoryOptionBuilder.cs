@@ -23,13 +23,27 @@ namespace RelevantCodes.ExtentReports
             string source = "";
 
             var list = new List<string>();
-            Categories.ToList().ForEach(c => list.Add(c.GetName()));
+            
+            Categories
+                .ToList()
+                .ForEach(c => list.Add(c.GetName()));
+            
             list.Sort();
 
-            foreach (string c in list)
+            var catParams = new string[] { 
+                ExtentFlag.GetPlaceHolder("testCategory"), 
+                ExtentFlag.GetPlaceHolder("testCategoryU") 
+            };
+
+            list.ForEach(c =>
             {
-                source += SourceBuilder.Build(CategoryFilterHtml.GetOptionSource(), new string[] { ExtentFlag.GetPlaceHolder("testCategory"), ExtentFlag.GetPlaceHolder("testCategoryU") }, new string[] { c, c.ToLower().Replace(" ", "") });
-            }
+                var catValues = new string[] { 
+                    c,
+                    c.ToLower().Replace(" ", "")
+                };
+
+                source += SourceBuilder.Build(CategoryFilterHtml.GetOptionSource(), catParams, catValues);
+            });
 
             return source;
         }

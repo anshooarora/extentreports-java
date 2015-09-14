@@ -67,14 +67,15 @@ namespace RelevantCodes.ExtentReports
                 ExtentFlag.GetPlaceHolder("category")
             };
 
-            foreach (TestAttribute attr in test.CategoryList) {
+            test.CategoryList.ForEach(attr => 
+            {
                 testValues = new string[] {
                     TestHtml.GetCategorySource() + ExtentFlag.GetPlaceHolder("testCategory"),
                     attr.GetName()
                 };
 
                 testSource = SourceBuilder.Build(testSource, testFlags, testValues);
-            }
+            });
 
             var stepSrc = StepHtml.GetSource(2);
         
@@ -93,20 +94,21 @@ namespace RelevantCodes.ExtentReports
                 if (test.Logs[0].StepName != "") {
                     stepSrc = StepHtml.GetSource(3);
                 }
-            
-                for (int ix = 0; ix < test.Logs.Count; ix++) {
-            	    stepValues = new string[] { 
+
+                test.Logs.ForEach(log => 
+                {
+                    stepValues = new string[] { 
                             stepSrc + ExtentFlag.GetPlaceHolder("step"),
-            			    test.Logs[ix].Timestamp.ToShortTimeString(),
-            			    test.Logs[ix].LogStatus.ToString().ToUpper(),
-            			    test.Logs[ix].LogStatus.ToString().ToLower(),
-            			    Icon.GetIcon(test.Logs[ix].LogStatus),
-            			    test.Logs[ix].StepName,
-            			    test.Logs[ix].Details
+            			    log.Timestamp.ToShortTimeString(),
+            			    log.LogStatus.ToString().ToUpper(),
+            			    log.LogStatus.ToString().ToLower(),
+            			    Icon.GetIcon(log.LogStatus),
+            			    log.StepName,
+            			    log.Details
             	    };
-            	
-            	    testSource = SourceBuilder.Build(testSource, stepFlags, stepValues);
-                }
+
+                    testSource = SourceBuilder.Build(testSource, stepFlags, stepValues);
+                });
             }
         
             testSource = testSource.Replace(ExtentFlag.GetPlaceHolder("step"), "");
@@ -138,10 +140,12 @@ namespace RelevantCodes.ExtentReports
         		    ExtentFlag.GetPlaceHolder("details")
             };
 
-            foreach (Test node in test.NodeList) {
+            test.NodeList.ForEach(node =>
+            {
                 nodeSource = TestHtml.GetNodeSource(3);
-            
-                if (node.Logs.Count > 0 && node.Logs[0].StepName != "") {
+
+                if (node.Logs.Count > 0 && node.Logs[0].StepName != "")
+                {
                     nodeSource = TestHtml.GetNodeSource(4);
                 }
 
@@ -153,40 +157,44 @@ namespace RelevantCodes.ExtentReports
 	            	    (node.EndedTime - node.StartedTime).Minutes + "m " + (node.EndedTime - node.StartedTime).Seconds + "s",
 	            	    "node-" + nodeLevel + "x"
                 };
-            
+
                 testSource = SourceBuilder.Build(testSource, testFlags, testValues);
 
-                if (node.Logs.Count > 0) {
-            	    testSource = testSource.Replace(ExtentFlag.GetPlaceHolder("nodeStatus"), node.Status.ToString().ToLower());
+                if (node.Logs.Count > 0)
+                {
+                    testSource = testSource.Replace(ExtentFlag.GetPlaceHolder("nodeStatus"), node.Status.ToString().ToLower());
 
                     stepSrc = StepHtml.GetSource(2);
-            	
-	                if (node.Logs[0].StepName != "") {
+
+                    if (node.Logs[0].StepName != "")
+                    {
                         stepSrc = StepHtml.GetSource(3);
-	                }
-	            
-	                for (int ix = 0; ix < node.Logs.Count; ix++) {
-	            	    stepValues = new string[] { 
+                    }
+
+                    node.Logs.ForEach(log =>
+                    {
+                        stepValues = new string[] { 
                                 stepSrc + ExtentFlag.GetPlaceHolder("nodeStep"),
-	            			    node.Logs[ix].Timestamp.ToShortTimeString(),
-	            			    node.Logs[ix].LogStatus.ToString().ToUpper(),
-	            			    node.Logs[ix].LogStatus.ToString().ToLower(),
-	            			    Icon.GetIcon(node.Logs[ix].LogStatus),
-	            			    node.Logs[ix].StepName,
-	            			    node.Logs[ix].Details	            		
+	            			    log.Timestamp.ToShortTimeString(),
+	            			    log.LogStatus.ToString().ToUpper(),
+	            			    log.LogStatus.ToString().ToLower(),
+	            			    Icon.GetIcon(log.LogStatus),
+	            			    log.StepName,
+	            			    log.Details	            		
 		                };
-	            	
-	            	    testSource = SourceBuilder.Build(testSource, stepFlags, stepValues);
-	                }
+
+                        testSource = SourceBuilder.Build(testSource, stepFlags, stepValues);
+                    });
                 }
 
                 testSource = SourceBuilder.Build(testSource, new string[] { ExtentFlag.GetPlaceHolder("step"), ExtentFlag.GetPlaceHolder("nodeStep") }, new string[] { "", "" });
-            
-                if (node.HasChildNodes) {
-            	    testSource = AddChildTests(node, testSource, ++nodeLevel);
-            	    --nodeLevel;
+
+                if (node.HasChildNodes)
+                {
+                    testSource = AddChildTests(node, testSource, ++nodeLevel);
+                    --nodeLevel;
                 }
-            }
+            });
         
     	    return testSource;
         }

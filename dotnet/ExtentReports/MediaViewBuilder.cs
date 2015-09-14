@@ -21,9 +21,11 @@ namespace RelevantCodes.ExtentReports
             string source = "";
         
             if (MediaList == null || MediaList.Count == 0) {
-                source = ObjectEmbedHtml.GetFullWidth()
-                    .Replace(ExtentFlag.GetPlaceHolder("objectViewValue"), "No media was embed for the tests in this report.")
-                    .Replace(ExtentFlag.GetPlaceHolder("objectViewNull"), ExtentFlag.GetPlaceHolder("objectViewNull" + type));
+                source = SourceBuilder.Build(
+                    ObjectEmbedHtml.GetFullWidth(),
+                    new string[] { ExtentFlag.GetPlaceHolder("objectViewValue"), ExtentFlag.GetPlaceHolder("objectViewNull") },
+                    new string[] { "No media was embed for the tests in this report.", ExtentFlag.GetPlaceHolder("objectViewNull" + type) }
+                );
             
                 return source;
             }

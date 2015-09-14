@@ -16,16 +16,7 @@ namespace RelevantCodes.ExtentReports
     using Model;
 
     internal class LogCounts
-    {
-        public int Pass = 0;
-        public int Fail = 0;
-        public int Fatal = 0;
-        public int Error = 0;
-        public int Warning = 0;
-        public int Info = 0;
-        public int Skip = 0;
-        public int Unknown = 0;
-
+    {        
         public LogCounts GetLogCounts(Test test) {
             Pass += test.Logs.Where(l => l.LogStatus == LogStatus.Pass).Count();
             Fail += test.Logs.Where(l => l.LogStatus == LogStatus.Fail).Count();
@@ -36,10 +27,59 @@ namespace RelevantCodes.ExtentReports
             Skip += test.Logs.Where(l => l.LogStatus == LogStatus.Skip).Count();
             Unknown += test.Logs.Where(l => l.LogStatus == LogStatus.Unknown).Count();
 
+            // recursively count for all child tests
             test.NodeList.ForEach(n => GetLogCounts(n));
     		
     		return this;
     	}
+
+        public int Pass
+        {
+            get;
+            private set;
+        }
+
+        public int Fail
+        {
+            get;
+            private set;
+        }
+
+        public int Fatal
+        {
+            get;
+            private set;
+        }
+
+        public int Error
+        {
+            get;
+            private set;
+        }
+
+        public int Warning
+        {
+            get;
+            private set;
+        }
+
+        public int Info
+        {
+            get;
+            private set;
+        }
+
+        public int Skip
+        {
+            get;
+            private set;
+        }
+
+        public int Unknown
+        {
+            get;
+            private set;
+        }
 
         public LogCounts() { }
     }

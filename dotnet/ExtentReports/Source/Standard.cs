@@ -22,15 +22,15 @@ namespace RelevantCodes.ExtentReports.Source
 <html>
     <head>
         <!--
-            ExtentReports Library 2.02 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentReports Library 2.10 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         --> 
         <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
-        <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing, written for Java and .NET.' />
+        <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css' type='text/css'>
         <title>ExtentReports 2.0</title>
         <style type='text/css'>
@@ -88,7 +88,7 @@ namespace RelevantCodes.ExtentReports.Source
                 margin-bottom: 20px;
             }
             .card-panel {
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+                box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.08), 1px 2px 5px 0 rgba(0, 0, 0, 0.07);
             }
             img.active {
                 max-width: inherit !important;
@@ -96,8 +96,9 @@ namespace RelevantCodes.ExtentReports.Source
             .panel-setting {
                 float: right;
             }
-            .panel-setting a {
+            .panel-setting i {
                 color: #bbb;
+                cursor: pointer;
             }
             .panel-lead {
                 display: block;
@@ -263,12 +264,14 @@ namespace RelevantCodes.ExtentReports.Source
                 padding: 0.5rem 1rem;
             }
             .collapse-expand {
-				margin-top: 45px !important;
-				text-align: right;
-			}
-			.collapse-expand i {
-				cursor: pointer;
-			}
+                font-size: 14px;
+                margin-top: 45px !important;
+                text-align: right;
+            }
+            .collapse-expand i {
+            	color: #777;
+                cursor: pointer;
+            }
 
             /* -- [ main ] -- */
             .main {
@@ -293,10 +296,11 @@ namespace RelevantCodes.ExtentReports.Source
                 background-color: #f6f7fa;
             }
             .tests-quick-view .label {
-            	background: #9932cc;
-            	color: #fff;
+                background: #673ab7;
+                color: #fff;
                 font-size: 11px;
                 font-weight: 400;
+                padding: 3px 5px;
             }
             .quick-view-test, .category-link {
                 color: #039be5;
@@ -310,12 +314,12 @@ namespace RelevantCodes.ExtentReports.Source
             .tests-quick-view td:nth-child(7),
             .tests-quick-view td:nth-child(8),
             .tests-quick-view td:nth-child(9) {
-				width: 70px;            
+                width: 70px;            
             }
-			.tests-quick-view .label, .category-view .label {
-				text-align: center;
-				width: 65px;
-			}
+            .tests-quick-view .label, .category-view .label {
+                text-align: center;
+                width: 65px;
+            }
 
             /* -- [ category view ] -- */
             .category-header {
@@ -323,13 +327,15 @@ namespace RelevantCodes.ExtentReports.Source
                 font-weight: 500;
             }
             .category-status > span {
-            	border-radius: 3px;
-            	font-size: 11px;
-            	margin: 0 2px;
-            	padding: 2px 4px;
+                border-radius: 3px;
+                font-size: 11px;
+                margin: 0 2px;
+                padding: 2px 4px;
             }
             .category-view .label {
+                border: 1px solid transparent;
                 font-size: 11px;
+                font-weight: 400;
                 text-transform: uppercase;
             }
             .category-view th, .category-view td {
@@ -363,8 +369,8 @@ namespace RelevantCodes.ExtentReports.Source
                 margin-top: -20px;
             }
             .test-body .collapsible {
-            	border: none !important;
-            	box-shadow: none !important;
+                border: none !important;
+                box-shadow: none !important;
             }
             .test-body .collapsible > li.active {
                 border: 1px solid #bbb;
@@ -374,35 +380,36 @@ namespace RelevantCodes.ExtentReports.Source
                 margin-left: 20px;
             }
             .test-body .collapsible > li {
-			    border: 1px solid #e0e6e8;
-			    box-shadow: none;
-			    margin-bottom: 4px;
-			}
+                border: 1px solid #e0e6e8;
+                box-shadow: none;
+                margin-bottom: 4px;
+            }
             .test-node-name {
+                display: inline-block;
                 font-family: Roboto !important;
                 font-size: 14px;
                 font-weight: 500;
             }
             .node-2x {
-            	margin-left: 20px !important;
+                margin-left: 20px !important;
             }
             .node-3x {
-            	margin-left: 35px  !important;
+                margin-left: 35px  !important;
             }
             .node-4x {
-            	margin-left: 50px  !important;
+                margin-left: 50px  !important;
             }
             .node-5x {
-            	margin-left: 65px !important;
+                margin-left: 65px !important;
             }
             .node-6x {
-            	margin-left: 80px !important;
+                margin-left: 80px !important;
             }
             .node-7x {
-            	margin-left: 95px !important;
+                margin-left: 95px !important;
             }
             .node-8x {
-            	margin-left: 110px !important;
+                margin-left: 110px !important;
             }
             .test-warning {
                 color: red;
@@ -436,6 +443,7 @@ namespace RelevantCodes.ExtentReports.Source
                 padding: 4px 5px;
             }
             .test-name {
+                display: block;
                 font-size: 17px;
                 font-weight: 400;
                 word-wrap: break-word;
@@ -460,7 +468,7 @@ namespace RelevantCodes.ExtentReports.Source
                 padding-top: 25px;
             }
             .collapsible-body .test-body {
-            	padding-top: 21px;
+                padding-top: 21px;
             }
             .test-started-time, .test-ended-time {
                 border-left: 2px solid;
@@ -527,8 +535,12 @@ namespace RelevantCodes.ExtentReports.Source
             .label.success, .label.pass {
                 background-color: #7fbb00 !important;
             }
+            .cat-label {
+                border: 1px solid transparent;
+            }
             .cat-pass {
-				border: 1px solid #7fbb00;
+                border-color: #46be8a !important;
+                color: #46be8a;
             }
             .label.fatal {
                 background-color: #d50000 !important;
@@ -537,7 +549,8 @@ namespace RelevantCodes.ExtentReports.Source
                 background-color: #f44336 !important;
             }
             .cat-fail {
-            	border: 1px solid #f44336;
+                border-color: #f96868 !important;
+                color: #f96868;
             }
             .label.error {
                 background-color: #ec407a !important;
@@ -549,7 +562,8 @@ namespace RelevantCodes.ExtentReports.Source
                 background-color: #fdba5b !important;
             }
             .cat-other {
-            	border: 1px solid #fdba5b;
+                border-color: #f2a654 !important;
+                color: #f2a654;
             }
             .label.skip, .label.skipped {
                 background-color: #2196f3 !important;
@@ -578,18 +592,18 @@ namespace RelevantCodes.ExtentReports.Source
                     padding: 10px;
                     font-size: 13px;
                 }
-				.quick-test-summary + .responsive-table tr {
-                	padding: 0 !important;
+                .quick-test-summary + .responsive-table tr {
+                    padding: 0 !important;
                 }
-				.quick-test-summary + .responsive-table td {
-					font-size: 13px;
-					padding: 10px;
-				}
+                .quick-test-summary + .responsive-table td {
+                    font-size: 13px;
+                    padding: 10px;
+                }
                 .test-node .test-info {
-                	display: none;
+                    display: none;
                 }
                 .tests-quick-view th, .tests-quick-view td {
-                	width: auto !important;
+                    width: auto !important;
                 }
             }
             @media all and (max-width: 800px) {
@@ -604,8 +618,8 @@ namespace RelevantCodes.ExtentReports.Source
                     padding-top: 10px;
                 }
                 .collapse-expand {
-					margin: 10px 0 !important;
-				}
+                    margin: 10px 0 !important;
+                }
             }
             @media all and (max-width: 575px) {
                 .test-info span {
@@ -624,7 +638,7 @@ namespace RelevantCodes.ExtentReports.Source
                 <li class='images-view tooltipped' data-delay='0' data-position='right' data-tooltip='Images view'><a href='#!'><i class='fa fa-image'></i></a></li>
                 <li class='videos-view tooltipped' data-delay='0' data-position='right' data-tooltip='Screencast view'><a href='#!'><i class='fa fa-video-camera'></i></a></li>
             </ul>
-            <a href='#' data-activates='slide-out' class='button-collapse show-on-large'><i class='mdi-navigation-menu'></i></a>
+            <a href='#' data-activates='slide-out' class='button-collapse show-on-large'><i class='fa fa-bars'></i></a>
             <span class='report-name'><!--%%LOGO%%-->Report Name<!--%%LOGO%%--></span> <span class='report-headline'><!--%%HEADLINE%%-->[Report Headline]<!--%%HEADLINE%%--></span>
             <span class='right'>ExtentReports</span>
         </nav>
@@ -644,7 +658,7 @@ namespace RelevantCodes.ExtentReports.Source
                             <div class='col s12 m6 l4'>
                                 <div class='card-panel'>
                                     <span class='panel-name'>Steps View</span>
-                                    <span class='panel-setting modal-trigger step-dashboard-status-filter'><a href='#step-dashboard-status-filter'><i class='fa fa-gear'></i></a></span>
+                                    <span class='panel-setting modal-trigger step-dashboard-status-filter'><a href='#step-dashboard-status-filter'><i class='fa fa-ellipsis-v'></i></a></span>
                                     <div class='chart-o text-centered' id='step-status-dashboard'></div>
                                     <span class='weight-light'><span class='s-pass-count weight-normal'></span> step(s) passed</span>
                                     <span class='weight-light'><span class='s-fail-count weight-normal'></span> step(s) failed, <span class='s-others-count weight-normal'></span> others</span>
@@ -672,8 +686,8 @@ namespace RelevantCodes.ExtentReports.Source
                             <div class='col s12 m6 l3'>
                                 <div class='card-panel'>
                                     <span class='panel-name'>Total Tests</span>
-                                    <div class='chart total-tests' data-percent=''>
-                                        <span class='percent'></span>
+                                    <div class='total-tests'>
+                                        <span class='panel-lead'></span>
                                     </div>
                                 </div>
                             </div>
@@ -704,8 +718,8 @@ namespace RelevantCodes.ExtentReports.Source
                             <div class='col s12 m6 l3'>
                                 <div class='card-panel'>
                                     <span class='panel-name'>Total Steps</span>
-                                    <div class='chart total-steps' data-percent=''>
-                                        <span class='percent'></span>
+                                    <div class='total-steps'>
+                                        <span class='panel-lead'></span>
                                     </div>
                                 </div>
                             </div>
@@ -823,9 +837,10 @@ namespace RelevantCodes.ExtentReports.Source
                                     <label for='test-name-filter'>Find Test(s)</label>
                                 </div>
                                 <div class='input-field col l1 right collapse-expand'>
-									<i class='fa fa-arrow-circle-down ctrl-expand tooltipped' data-delay='0' data-position='top' data-tooltip='Expand Tests'></i>
-									<i class='fa fa-arrow-circle-up ctrl-collapse tooltipped' data-delay='0' data-position='top' data-tooltip='Collapse Tests'></i>
-								</div>
+                                    <i class='fa fa-toggle-off tooltipped enableToggleOnHover' data-delay='0' data-position='top' data-tooltip='Enabling this option will auto-expand-or-collapse the test-toggle when you mouseOver its Name'></i>
+                                    <i class='fa fa-toggle-down ctrl-expand tooltipped' data-delay='0' data-position='top' data-tooltip='Expand Tests'></i>
+                                    <i class='fa fa-toggle-up ctrl-collapse tooltipped' data-delay='0' data-position='top' data-tooltip='Collapse Tests'></i>
+                                </div>
                             </div>
                         </div>
                         <div class='test-list'>
@@ -901,14 +916,14 @@ namespace RelevantCodes.ExtentReports.Source
                 }
                 $('#step-dashboard-status-filter input').prop('checked', 'checked');
                 $('.indicator').addClass('teal lighten-4');
-                var totalTests = $('.test, .test-node').length;
-                var passedTests = $('.test.pass, .test-node.pass').length;
-                var failedTests = $('.test.fail, .test-node.fail').length;
-                var fatalTests = $('.test.fatal, .test-node.fatal').length;
-                var warningTests = $('.test.warning, .test-node.warning').length;
-                var errorTests = $('.test.error, .test-node.error').length;
-                var skippedTests = $('.test.skip, .test-node.skip').length;
-                var unknownTests = $('.test.unknown, .test-node.unknown').length;
+                var totalTests = $('.test:not(:has(.test-node)), .test-node').length;
+                var passedTests = $('.test.pass:not(:has(.test-node)), .test-node.pass').length;
+                var failedTests = $('.test.fail:not(:has(.test-node)), .test-node.fail').length;
+                var fatalTests = $('.test.fatal:not(:has(.test-node)), .test-node.fatal').length;
+                var warningTests = $('.test.warning:not(:has(.test-node)), .test-node.warning').length;
+                var errorTests = $('.test.error:not(:has(.test-node)), .test-node.error').length;
+                var skippedTests = $('.test.skip:not(:has(.test-node)), .test-node.skip').length;
+                var unknownTests = $('.test.unknown:not(:has(.test-node)), .test-node.unknown').length;
                 var totalSteps = $('td.status').length;
                 var passedSteps = $('td.status.pass').length;
                 var failedSteps = $('td.status.fail').length;
@@ -918,6 +933,8 @@ namespace RelevantCodes.ExtentReports.Source
                 var infoSteps = $('td.status.info').length;
                 var skippedSteps = $('td.status.skip').length;
                 var unknownSteps = $('td.status.unknown').length;
+                $('.total-tests > .panel-lead').text(totalTests);
+                $('.total-steps > .panel-lead').text(totalSteps);
                 $('nav li').click(function() {
                     if (!$(this).hasClass('active')) {
                         var cls = $(this).prop('class').split(' ')[0];
@@ -939,10 +956,10 @@ namespace RelevantCodes.ExtentReports.Source
                         el.toggleClass('is-expanded').find('.test-body').slideToggle(300);
                 });
                 $('.category-view').each(function() {
-                	var t = $(this);
-                	t.find('.cat-pass').text('PASS: ' + t.find('.pass').length);
-                	t.find('.cat-fail').text('FAIL: ' + (t.find('.fail').length + t.find('.fatal').length));
-                	t.find('.cat-other').text('OTHER: ' + (t.find('.label').length - (t.find('.fail').length + t.find('.fatal').length + t.find('.pass').length)));
+                    var t = $(this);
+                    t.find('.cat-pass').text('PASS: ' + t.find('.pass').length);
+                    t.find('.cat-fail').text('FAIL: ' + (t.find('.fail').length + t.find('.fatal').length));
+                    t.find('.cat-other').text('OTHER: ' + (t.find('.label').length - (t.find('.fail').length + t.find('.fatal').length + t.find('.pass').length)));
                 });
                 $('.category-link').click(function() {
                     var name = $(this).text();
@@ -987,17 +1004,13 @@ namespace RelevantCodes.ExtentReports.Source
                     redrawCharts();
                 });
                 function showRunInfo() {
-                    $('.total-tests > .percent').text(totalTests).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#9c27b0', lineCap: 'butt', scaleColor: '#fff', size: 100 });
-                    $('.total-tests').data('easyPieChart').update('100');
-                    $('.tests-passed > .percent').text(Math.round((passedTests / totalTests) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#53b657', lineCap: 'butt', scaleColor: '#fff', size: 100 });
+                    $('.tests-passed > .percent').text(Math.round((passedTests / totalTests) * 100)).parent().easyPieChart({ lineWidth: 12, trackColor: '#f1f2f3', barColor: '#53b657', lineCap: 'butt', scaleColor: '#fff', size: 100 });
                     $('.tests-passed').data('easyPieChart').update((passedTests / totalTests) * 100);
-                    $('.tests-failed > .percent').text(Math.round(((failedTests + fatalTests) / totalTests) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
+                    $('.tests-failed > .percent').text(Math.round(((failedTests + fatalTests) / totalTests) * 100)).parent().easyPieChart({ lineWidth: 12, trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
                     $('.tests-failed').data('easyPieChart').update(((failedTests + fatalTests) / totalTests) * 100);
-                    $('.total-steps > .percent').text(totalSteps).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#1366d7', lineCap: 'butt', scaleColor: '#fff', size: 100 });
-                    $('.total-steps').data('easyPieChart').update('100');
-                    $('.steps-passed > .percent').text(Math.round((passedSteps / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#53b657', lineCap: 'butt', scaleColor: '#fff', size: 100 });
+                    $('.steps-passed > .percent').text(Math.round((passedSteps / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12, trackColor: '#f1f2f3', barColor: '#53b657', lineCap: 'butt', scaleColor: '#fff', size: 100 });
                     $('.steps-passed').data('easyPieChart').update((passedSteps / totalSteps) * 100);
-                    $('.steps-failed > .percent').text(Math.round(((failedSteps + fatalSteps) / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12,  trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
+                    $('.steps-failed > .percent').text(Math.round(((failedSteps + fatalSteps) / totalSteps) * 100)).parent().easyPieChart({ lineWidth: 12, trackColor: '#f1f2f3', barColor: '#f8576c', lineCap: 'butt', scaleColor: '#fff', size: 100 });
                     $('.steps-failed').data('easyPieChart').update(((failedSteps + fatalSteps) / totalSteps) * 100);
                 }
                 $('.categories').each(function() {
@@ -1031,7 +1044,7 @@ namespace RelevantCodes.ExtentReports.Source
                             $('.test').hide(0).removeClass('displayed');
                             if (opt2 != '') {
                                 $('.test').each(function() {
-                                    if ($(this).hasClass(opt) && $(this).find('.category').length > 0) {
+                                    if (($(this).hasClass(opt) || $(this).has('.test-node.' + opt).length > 0) && $(this).find('.category').length > 0 ) {
                                         for (var i = 0; i < $(this).find('.category').length; i++) {
                                             if ($(this).find('.category').eq(i).text() == opt2) {
                                                 $(this).addClass('displayed').show(0);
@@ -1041,7 +1054,7 @@ namespace RelevantCodes.ExtentReports.Source
                                 });
                             } else {
                                 $('.test').hide(0).removeClass('displayed');
-                                $('.test.' + opt).fadeIn(200).addClass('displayed');
+                                $('.test:has(.test-node.' + opt + '), .test.' + opt).fadeIn(200).addClass('displayed');
                             }
                             redrawCharts();
                         }
@@ -1060,7 +1073,7 @@ namespace RelevantCodes.ExtentReports.Source
                             $('.test').hide(0).removeClass('displayed');
                             if (opt2 != '') {
                                 $('.test').each(function() {
-                                    if ($(this).hasClass(opt2) && $(this).find('.category').length > 0) {
+                                    if (($(this).hasClass(opt2) || $(this).has('.test-node.' + opt2).length > 0) && $(this).find('.category').length > 0) {
                                         for (var i = 0; i < $(this).find('.category').length; i++) {
                                             if ($(this).find('.category').eq(i).text() == opt) {
                                                 $(this).addClass('displayed').show(0);
@@ -1080,10 +1093,10 @@ namespace RelevantCodes.ExtentReports.Source
                     }                                
                 });
                 $('.ctrl-expand').click(function() {
-                	$('.test.displayed').addClass('is-expanded').find('.test-body').slideDown(300);
+                    $('.test.displayed').addClass('is-expanded').find('.test-body').slideDown(300);
                 });
                 $('.ctrl-collapse').click(function() {
-                	$('.test.displayed').removeClass('is-expanded').find('.test-body').slideUp(300);
+                    $('.test.displayed').removeClass('is-expanded').find('.test-body').slideUp(300);
                 });
                 function resetFilters() {
                     $('.dropdown-content li').removeClass('active');
@@ -1115,24 +1128,53 @@ namespace RelevantCodes.ExtentReports.Source
                     $('.suite-total-time-taken').text(hours + 'h ' + minutes + 'm ' + seconds + 's');
                 }
                function hideQuickSummaryCols() {
-					var hiddenCols = 0;
-					var width = 42;
-					var cols = [3, 4, 5, 6, 8];
-					for (var ix = 0; ix < cols.length; ix++) {
-						var hide = true; var col = cols[ix];
-						$('.tests-quick-view table tbody tr').each(function () { 
-							if ($(this).children('td').eq(col).text() != '0')
-								hide = false;
-						})
-				    	col++;
-						if (hide) { $('.tests-quick-view table tr').find('td:nth-child(' + col + '), th:nth-child(' + col + ')').hide(); hiddenCols++; }
-					}
-					for (var ix = 1; ix <= hiddenCols; ix++) { width += 5; }
-					$('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', width + '%');
-				}
-				hideQuickSummaryCols();
+                    var hiddenCols = 0;
+                    var width = 42;
+                    var cols = [3, 4, 5, 6, 8];
+                    for (var ix = 0; ix < cols.length; ix++) {
+                        var hide = true; var col = cols[ix];
+                        $('.tests-quick-view table tbody tr').each(function () { 
+                            if ($(this).children('td').eq(col).text() != '0')
+                                hide = false;
+                        })
+                        col++;
+                        if (hide) { $('.tests-quick-view table tr').find('td:nth-child(' + col + '), th:nth-child(' + col + ')').hide(); hiddenCols++; }
+                    }
+                    for (var ix = 1; ix <= hiddenCols; ix++) { width += 5; }
+                    $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', width + '%');
+                }
+                hideQuickSummaryCols();
                 resetFilters();
                 updateTotalTimeTaken();
+            });
+            $('.enableToggleOnHover').click(function() {
+                if ($(this).hasClass('fa-toggle-off')) {
+                    $(this).removeClass('fa-toggle-off').addClass('fa-toggle-on');
+                    $('body').addClass('toggleOnHover'); 
+                } else {
+                    $(this).removeClass('fa-toggle-on').addClass('fa-toggle-off');
+                    $('body').removeClass('toggleOnHover'); 
+                }
+            });
+            $(function() {
+                var timeoutId;
+                $('.test-name, .test-node-name').hover(function() {
+                    var t = $(this);
+                    if (t.attr('class').indexOf('node') > -1) t = t.closest('.test-node');
+                    else t = t.closest('.test');
+                    if (!timeoutId) {
+                        timeoutId = window.setTimeout(function() {
+                            timeoutId = null;
+                            if ($('body').hasClass('toggleOnHover')) { t.click(); }
+                        }, 100);
+                    }
+                },
+                function () {
+                    if (timeoutId) {
+                        window.clearTimeout(timeoutId);
+                        timeoutId = null;
+                    }
+                });
             });
             function redrawCharts() {
                 testsChart();
@@ -1141,13 +1183,13 @@ namespace RelevantCodes.ExtentReports.Source
             google.setOnLoadCallback(testSetChart);
             google.setOnLoadCallback(testsChart);
             function testSetChart() {
-                var pass = $('.test.displayed.pass, .test.displayed .test-node.pass').length;
-                var error = $('.test.displayed.error, .test.displayed .test-node.error').length;
-                var warn = $('.test.displayed.warning, .test.displayed .test-node.warning').length;
-                var fail = $('.test.displayed.fail, .test.displayed .test-node.fail').length;
-                var fatal = $('.test.displayed.fatal, .test.displayed .test-node.fatal').length;
-                var skip = $('.test.displayed.skip, .test.displayed .test-node.skip').length;
-                var unknown = $('.test.displayed.unknown, .test.displayed .test-node.unknown').length;
+                   var pass = $('.test.displayed .test-node.pass, .test.displayed.pass:not(:has(.test-node))').length;
+                var error = $('.test.displayed .test-node.error, .test.displayed.error:not(:has(.test-node))').length;
+                var warn = $('.test.displayed .test-node.warning, .test.displayed.warning:not(:has(.test-node))').length;
+                var fail = $('.test.displayed .test-node.fail, .test.displayed.fail:not(:has(.test-node))').length;
+                var fatal = $('.test.displayed .test-node.fatal, .test.displayed.fatal:not(:has(.test-node))').length;
+                var skip = $('.test.displayed .test-node.skip, .test.displayed.skip:not(:has(.test-node))').length;
+                var unknown = $('.test.displayed .test-node.unknown, .test.displayed.unknown:not(:has(.test-node))').length;
                 $('.t-pass-count').text(pass);
                 $('.t-fail-count').text(fail + fatal);
                 $('.t-warning-count').text(warn);

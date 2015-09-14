@@ -150,8 +150,9 @@ namespace RelevantCodes.ExtentReports
                 return;
             }
 
-            testList.ForEach(t => { 
-                if (t.GetTest().IsChildNode) 
+            testList.ForEach(t => 
+            { 
+                if (t.GetTest().IsChildNode)
                     testList.Remove(t); 
             });
         }
