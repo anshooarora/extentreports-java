@@ -3,7 +3,7 @@
     <head>
         <!--
             ExtentReports Library 2.10 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
-            Copyright (c) 2015, Anshoo Arora (Relevant Codes) | MIT License | https://opensource.org/licenses/MIT
+            Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         -->
         <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
@@ -15,15 +15,8 @@
         <title>DocumentTitle</title>
         <style type='text/css'>
             body {
-                background-color: #eef1f7;
-                font-family: Roboto, Nunito, 'Source Sans Pro', Arial;
+                background: #f1f4fa;
                 font-size: 13px;
-                font-weight: 400;
-            }
-            h5 {
-                color: #676767;
-                font-size: 19px;
-                margin-left: .4rem;
             }
             pre {
                 border: 1px solid #ebedef;
@@ -43,9 +36,6 @@
                 margin-top: 15px;
                 width: 25%;
             }
-            table {
-                border: 1px solid #ddd;
-            }
             th, td {
                 border-bottom: 1px solid #ddd !important;
                 color: #222 !important;
@@ -61,32 +51,80 @@
                 padding: 7px 10px;
                 word-break: break-all;
             }
-            label {
-                font-size: 13px;
-            }
-            *::-webkit-input-placeholder {
-                color: #777;
-                font-size: 13px;
-            }
-            *:-moz-placeholder {
-                color: #777;
-                font-size: 13px;
-            }
-            *::-moz-placeholder {
-                color: #777;
-                font-size: 13px;
-            }
-            *:-ms-input-placeholder {
-                color: #777;
-                font-size: 13px;
-            }
-                    
-            /* -- [ global structure ] -- */
+        
+            /* -- [ containers ] -- */
             .container {
-                padding-left: 230px;
-                padding-top: 15px;
-                width: 96%;
                 max-width: none;
+                padding-left: 240px;
+                width: 98%;
+            }
+            .wrapper {
+                background: #fff;
+                height: 100%;
+                overflow: auto;
+            }
+
+            
+            /* -- [ material overrides ] -- */
+            .z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
+                box-shadow: none;
+            }
+            [type="checkbox"]:checked + label::before {
+                border-color: transparent #62A8EA #62A8EA transparent;
+            }
+            [type="checkbox"] + label::before {
+                margin-top: 4px;
+            }
+            .select-wrapper input.select-dropdown, .input-field label {
+                font-size: 0.8rem;
+            }
+            .material-tooltip, label {
+                font-size: 13px !important;
+            }
+            .input-field label {
+                font-size: 11px !important;
+                left: 0;
+            }
+            
+            /* -- [ global structure ] -- */
+            .vh100 {
+                height: 100vh;
+            }
+            .capitalize {
+                text-transform: capitalize !important;
+            }
+            .upper {
+                text-transform: uppercase !important;
+            }
+            .weight-light {
+                font-weight: 400;
+            }
+            .weight-normal {
+                font-weight: 500;
+            }
+            .weight-bold {
+                font-weight: 700;
+            }
+            .text-white {
+                color: #fff !important;
+            }
+            .no-padding {
+                padding: 0 !important;
+            }
+            .no-padding-h {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+            .no-padding-v {
+                padding-bottom: 0 !important;
+                padding-top: 0 !important;
+            }
+            .no-margin-v {
+                margin-bottom: 0 !important;
+                margin-top: 0 !important;
+            }
+            .no-box-shadow {
+                box-shadow: none !important;
             }
             .pink-accent {
                 background: #f96868 !important;
@@ -97,27 +135,23 @@
             .cyan, .light-blue, .deep-orange, .blue, .pink-accent, .green-accent {
                 color: #fff;
             }
-            .row .col {
-                padding: 0 0.25rem;
-            }
-            .card, .card-panel {
-                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.07);
-            }
-            .views .card {
+            .card {
                 height: 100px;
-                padding: 15px;
+                padding: 12px 15px;
             }
             .card-panel .panel-lead {
-                margin-top: 80px;
+                margin-top: 70px;
+            }
+            .panel-lead {
+                display: block;
+                font-size: 20px;
+                text-align: center;
             }
             .card .panel-lead {
                 bottom: 10px;
                 font-size: 15px;
                 position: absolute;
                 right: 15px;
-            }
-            img.active {
-                max-width: inherit !important;
             }
             .panel-setting {
                 margin-top: -20px;
@@ -129,12 +163,7 @@
                 cursor: pointer;
             }
             .panel-setting i {
-                color: #bbb;
-            }
-            .panel-lead {
-                display: block;
-                font-size: 20px;
-                text-align: center;
+                color: #444;
             }
             .chart {
                 height: 100px;
@@ -148,38 +177,23 @@
                 top: 0;
                 left: 0;
             }
-            .weight-light {
-                font-weight: 400;
-            }
-            .weight-normal {
-                font-weight: 500;
-            }
-            .weight-bold {
-                font-weight: 700;
-            }
-            .select-wrapper input.select-dropdown, .input-field label {
-                font-size: 0.9rem;
-            }
-            .material-tooltip {
-                font-size: 13px;
+            img.active {
+                max-width: inherit !important;
             }
             .linked {
                 color: #039be5;
                 cursor: pointer;
             }
-                        
-            /* -- [ top-nav, side-nav ] -- */
+            
+            /* -- [ top-nav ] -- */
             nav {
-                background-color: #fff !important;
-                box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.05);
-                border-bottom: 1px solid #ccc;
-                padding-left: 250px !important;
+                padding-left: 240px;
             }
-            nav [type="checkbox"]:checked + label::before {
-                height: 17px;
-                left: 0;
-                top: 1px;
-                width: 9px;
+            nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i, .logo a, nav label {
+                background: #dd4f6a;
+                color: #fff;
+                height: 48px;
+                line-height: 46px;
             }
             nav ul li:hover {
                 background: none;
@@ -187,106 +201,57 @@
             .nav-right {
                 margin-right: 35px;
             }
-            .nav-right li {
-                padding: 0 10px;
-            }
-            .nav-right i {
-                cursor: pointer;
-            }
-            .nav-right > li:first-child > i {
-                margin-right: 10px;
-                cursor: default;
-            }
-            .nav-right input[type='text'] {
-                border-bottom: none;
-                font-size: 13px;
-                height: 1.8rem;
-                margin: 0;
-                width: 200px;
-            }
-            .show-on-large {
-                display: inline-block !important;
-            }
-            nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
-                color: #222;
-                height: 48px;
-                line-height: 46px;
-            }
-            nav .button-collapse i {
-                font-size: 1.2rem;
-            }
-            .side-nav {
-                background-color: #fff;
-                width: 230px;
-            }
-            .side-nav li {
-                color: #4d586a !important;
-            }
-            .side-nav .active, .side-nav li:hover {
-                background: none;
-            }
-            .side-nav .component.active, .side-nav li.component:hover {
-                background: transparent !important;
-                border-right: 3px solid #26a69a;
-            }
-            .side-nav a, .side-nav label {
-                color: #4d586a !important;
-                font-size: 13px !important;
-            }
-            .side-nav a {
-                height: 44px;
-                line-height: 44px;
-            }
-            .nav-header {
-                background: #f6f7fa;
-                font-size: 11px;
-                font-weight: 500;
-                margin-top: 10px;
-                text-transform: uppercase;
-            }
-            .logo + .nav-header {
-                margin-top: 0;
-            }
-            .side-nav i {
-                padding-right: 20px;
-            }
-            .side-nav .analysis {
-                padding-left: 30px;
-            }
-            .logo {
-                background: #2196f3 !important;
-            }
-            .logo a {
-                color: white !important;
-                line-height: 47px;
-                height: 47px;
-            }
-            #sidenav-overlay {
-                background: transparent;
-            }
             .report-name {
-                padding-left: 20px;
+                display: inline-block;
+                padding-left: 25px;
             }
             
-            /* -- [ views ] -- */
-            .views > .system-view {
-                display: none;
+            /* -- [ side-nav ] -- */
+            .side-nav {
+                background: #636D8B;
+                width: 240px;
             }
-            .views > .displayed > .row {
-                margin-bottom: 0;
+            .side-nav li {
+                display: block;
             }
-            .views > .dashboard-view.displayed + .system-view {
-                margin-top: -20px;
+            .side-nav .active, .side-nav .active, .analysis:hover {
+                background: #6e7b9e !important;
             }
-            .media-view .row, .system-view .row, .test-list .row {
-                margin-bottom: 0;
+            .side-nav a, .side-nav label, .analysis i {
+                color: #e3eaf3 !important;
+                font-size: 13px !important;
             }
-            #category-quick-view, #tests-details-view, #media-view, #testrunner-logs-view {
-                display: none;
+            .analysis i {
+                padding-right: 15px;
+            }
+            .side-nav .menu-toggle {
+                background: #c2344f;
+                cursor: pointer;
+                margin-right: -15px;
+                padding: 0 24px !important;
+            }
+            .logo {
+                background: #dd4f6a !important;
+                height: 48px;
+            }
+            .logo i {
+                margin-top: 10px;
+                padding: 0;
             }
             
             /* -- [ dashboard ] -- */
-            .chart > div {
+            #test-analysis, #step-analysis {
+                height: 130px;
+                margin: 30px auto 0;
+                text-align: center;
+                width: 160px;
+            }
+            .fh .card-panel {
+                height: 275px;
+                max-height: 275px;
+                min-height: 275px;
+            }
+             .chart > div {
                 text-align: center;
             }
             .suite-start-time {
@@ -303,24 +268,13 @@
                 border-bottom-left-radius: 0;
                 border-top-left-radius: 0;
             }
-            .dashboard-view .card-panel {
-                height: 285px;
-                max-height: 285px;
-                min-height: 285px;
-            }
-            .dashboard-view .progress {
+            #dashboard-view .progress {
                 margin-top: 100px;
             }
             .chart-box {
                 display: block;
                 margin: 0 auto 20px;
                 text-align: center;
-            }
-            #test-analysis, #step-analysis {
-                height: 130px;
-                margin: 30px auto 0;
-                text-align: center;
-                width: 150px;
             }
             .doughnut-legend li span {
                 border-radius: 2px;
@@ -344,125 +298,92 @@
                 text-transform: capitalize;
             }
 
-            /* -- [ components ] -- */
-            .components {
-                margin-top: 30px;
-            }
-            
-            /* -- [ filters ] -- */
-            .filters {
-                margin-left: 5px;
-                margin-top: 20px;
-            }
-            .dropdown-content li > a, .dropdown-content li > span {
-                font-size: 0.85rem;
-                line-height: 1.2rem;
-                padding: 0.5rem 1rem;
-            }
-            .collapse-expand {
-                font-size: 14px;
-                margin-top: 45px !important;
-                text-align: right;
-            }
-            .collapse-expand i {
-                color: #777;
-                cursor: pointer;
-            }
-
-            /* -- [ main ] -- */
-            .main {
-                padding-bottom: 200px;
-            }
-            
-            /* -- [ tests-quick-view ] -- */
-            .card-panel > p {
-                margin-bottom: 15px;
-                margin-top: 0;
-            }
-            .tests-quick-view th:first-child, .tests-quick-view td:first-child {
-                min-width: 55%;
-            }
-            .tests-quick-view td {
-                font-size: 14px;
-                padding: 8px 10px;
-            }
-            .quick-test-summary {
-                margin-bottom: 20px;
-            }
-            .quick-test-summary-details {
-                margin-top: 10px;
-            }
-            .tests-quick-view tbody tr:hover {
-                background-color: #f6f7fa;
-            }
-            .tests-quick-view .label {
-                background: #673ab7;
-                color: #fff;
-                font-size: 11px;
-                font-weight: 400;
-                padding: 3px 5px;
-                text-transform: uppercase;
-            }
-            .tests-quick-view td:nth-child(2),
-            .tests-quick-view td:nth-child(3),
-            .tests-quick-view td:nth-child(4),
-            .tests-quick-view td:nth-child(5),
-            .tests-quick-view td:nth-child(6),
-            .tests-quick-view td:nth-child(7),
-            .tests-quick-view td:nth-child(8),
-            .tests-quick-view td:nth-child(9) {
-                width: 70px;            
-            }
-            .tests-quick-view .label, .category-view .label {
-                text-align: center;
-                width: 65px;
-            }
-
-            /* -- [ category view ] -- */
-            .category-header {
-                padding: 0 0 10px;
-                font-weight: 500;
-            }
+            /* -- [ categories-view ] -- */
             .category-status > span {
                 border-radius: 3px;
                 font-size: 11px;
                 margin: 0 2px;
                 padding: 2px 4px;
             }
-            .category-view .label {
+            .category-status .label {
                 border: 1px solid transparent;
                 font-size: 11px;
-                font-weight: 400;
-                text-transform: uppercase;
             }
-            .category-view th, .category-view td {
+            .category-item th, .category-item td {
                 width: 20%;
             }
-            .category-view th:nth-child(2), .category-view td:nth-child(2) {
+            .category-item th:nth-child(2), .category-item td:nth-child(2) {
                 width: 60%;
             }
-                        
-            /* -- [ test-list ] -- */
-            #tests-details-view {
-                margin-top: 10px;
+            .category-header {
+                margin-bottom: 20px;
             }
-            .test-list {
-                margin-top: 100px;
+            .cat-tests td:first-child {
+                max-width: 150px;
+                width: 150px;
             }
-            .test {
-                color: #222 !important;
-                cursor: pointer;
-                margin-bottom: 5px;
-                padding: 25px 20px;
+            
+            /* -- [ collections ] -- */
+            .test-collection {
+                position: relative;
             }
-            .is-expanded.card-panel {
-                padding: 20px 20px 10px;
+            .test-collection li, .cat-collection li {
+                border-bottom: 1px solid #e4e7e9;
+                padding: 20px;
+            }
+            .cat-collection > li:first-child, .test-collection > li:first-child {
+                margin-top: -13px;
+            }
+            
+            /* -- [ filters ] -- */
+            .filters {
+                padding-bottom: 1px;
+            }
+            .dropdown-content li > a, .dropdown-content li > span {
+                font-size: 0.85rem;
+                line-height: 1.2rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            /* -- [ test ] -- */
+            .test.active, .category-item.active {
+                color: #444 !important;
+                background: #e8eefa !important;
+            }
+            .test .test-body, .cat-collection .cat-body {
+                display: none;
+            }
+            .test-name {
+                display: inline-block;
+                width: 80% !important;
+            }
+            .test-desc {
+                margin-bottom: 10px;
+            }
+            .test-steps, .cat-tests {
+                margin-top: 50px;
+            }
+            .collapsible-body .test-steps {
+                margin-top: 30px;
+            }
+            .test-steps th:nth-child(2), .test-steps td:nth-child(2) {
+                max-width: 90px;
+                width: 90px;
+            }
+            .test-steps th:first-child, .test-steps td:first-child {
+                font-size: 13px;
+                text-align: left !important;
+                max-width: 65px;
+                width: 35px;
             }
             .test-body .collapsible-header {
                 border-bottom: none;
                 height: auto;
                 line-height: inherit;
                 padding: .8rem 1rem;
+            }
+            .test-body table {
+                margin-top: 10px;
             }
             .test-body .collapsible-body {
                 padding: 0 15px 15px;
@@ -476,7 +397,6 @@
                 box-shadow: none !important;
             }
             .test-body .collapsible > li.active {
-                border: 1px solid #bbb;
                 box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
             }
             .collapsible .test-info {
@@ -488,10 +408,22 @@
                 margin-bottom: 4px;
             }
             .test-node-name {
+                color: #76838f;
                 display: inline-block;
                 font-family: Roboto !important;
-                font-size: 14px;
-                font-weight: 500;
+            }
+            .border-bullet {
+                border: 1px solid #aaa;
+                float: left;
+                margin-right: 10px;
+                margin-top: 10px;
+                width: 5px;
+            }
+            .test-node .test-started-time, .test-node  .test-ended-time, .test-node  .test-time-taken {
+                display: none;
+            }
+            .test-node.active .test-started-time, .test-node.active  .test-ended-time, .test-node.active  .test-time-taken {
+                display: inline-block;
             }
             .node-2x {
                 margin-left: 20px !important;
@@ -514,101 +446,24 @@
             .node-8x {
                 margin-left: 110px !important;
             }
-            .test-warning {
-                color: red;
-                cursor: pointer;
-                font-size: 12px;
-                margin-left: 5px;
-                vertical-align: top;
+            
+            /* -- [ test details ] -- */
+            .test-details-container .test-steps {
+                display: block !important;
             }
-            .test td {
-                vertical-align: top;
-            }
-            .test-head .label, .test-info .label {
-                font-size: 11px;
-                text-transform: uppercase;
-            }
-            .test-info {
-                margin-left: 100px;
-            }
-            .collapsible .test-info {
-                height: 40px;
-            }
-            .test-time-taken {
-                border-left: 2px solid #bbb;
-                text-transform: lowercase !important;
-            }
-            .test .right span {
-                background-color: #f6f7fa;
-                padding: 4px 5px;
-            }
-            .test-name {
-                display: block;
-                font-size: 17px;
-                font-weight: 400;
-                word-wrap: break-word;
-            }
-            .test-desc {
-                color: #222;
-                cursor: text;
-                display: inline-block;
-                font-size: 13px;
-                font-weight: 400;
-                padding-top: 7px;
-            }
-            .test-attributes .category {
-                background-color: #7e57c2;
-                border-radius: 2px;
-                color: #fff;
-                font-size: 12px;
-                margin-right: 3px;
-                padding: 2px 4px;
-            }
-            .test-body {
-                cursor: auto !important;
-                display: none;
-                padding-top: 25px;
-            }
-            .collapsible-body .test-body {
-                padding-top: 21px;
-            }
-            .test-started-time, .test-ended-time {
-                border-left: 2px solid;
-            }
-            .test-started-time {
-                border-left-color: #5fc29d;
-            }
-            .test-ended-time {
-                border-left-color: #eea236;
-            }
-            .test th:first-child, .test td:first-child {
-                max-width: 90px;
-                width: 90px;
-            }
-            .test th:nth-child(2), .test td:nth-child(2) {
-                font-size: 13px;
-                text-align: left !important;
-                max-width: 65px;
-                width: 65px;
-            }
-            td.status {
-                padding-left: 20px;
+            .details-container {
+                background: #fff none repeat scroll 0 0;
+                margin: 0 -20px;
+                padding: 0 20px;
             }
             
-            /* -- [ media ] -- */
-            .media-view .card-panel {
-                min-height: 160px;
-            }
-            .media-view img {
-                margin: 15px auto 0;
-                max-height: 80px;
-                max-width: 100%;
-                width: 145px;
-            }
-            .panel-object #video {
-                display: block;
-                margin: 15px auto 0;
-                text-align: center;
+            /* -- [ test-attributes ] -- */
+            span.category {
+                background: #37A2D6;
+                border-radius: 3px;
+                font-size: 12px;
+                font-weight: 500;
+                padding: 4px 7px;
             }
             
             /* -- [ status styles ] -- */
@@ -638,9 +493,15 @@
             }
             
             /* -- [ labels ] -- */
+            .test-status.label, .status.label {
+                text-align: center;
+                width: 65px;
+            }
             .label {
                 border-radius: 2px;
-                font-size: 13px;
+                display: inline-block;
+                font-size: 11px;
+                font-weight: 500;
                 padding: 2px 5px;
                 text-transform: none;
             }
@@ -689,208 +550,156 @@
             
             /* -- [ media queries ] -- */
             @media all and (max-width: 992px) {
+                nav {
+                    padding-left: 1%;
+                }
                 header, main, footer, .container {
                     padding-left: 0;
                 }
-                .dashboard-view .card-panel, .dashboard-view .card, .card-panel, .card {
-                    margin: 0.5rem .5rem 1rem;
-                }
-                nav {
-                    padding-left: 25px !important;
-                }
-                .test th:first-child, .test td:first-child, .test th:nth-child(2), .test td:nth-child(2) {
-                    max-width: inherit;
-                    width: inherit;
-                }
-                th, td {
-                    padding: 10px;
-                    font-size: 13px;
-                }
-                .quick-test-summary + .responsive-table tr {
-                    padding: 0 !important;
-                }
-                .quick-test-summary + .responsive-table td {
-                    font-size: 13px;
-                    padding: 10px;
-                }
-                .test-node .test-info {
-                    display: none;
-                }
-                .tests-quick-view th, .tests-quick-view td {
-                    width: auto !important;
-                }
-            }
-            @media all and (max-width: 800px) {
-                .test-head .left, .test-head .right {
-                    float: none !important;
-                    margin-left: 0;
-                }
-                .test-info {
-                    margin-bottom: 10px;
-                }
-                .test-desc {
-                    padding-top: 10px;
-                }
-                .collapse-expand {
-                    margin: 10px 0 !important;
-                }
-            }
-            @media all and (max-width: 575px) {
-                .test-info span {
-                    display: block;
-                }
+
             }
         </style>
-        <!--%%CUSTOMCSS%%-->
     </head>
-    <body>
+    <body>  
         <nav>
             <ul id='slide-out' class='side-nav fixed'>
-                <li class="logo"><a href="http://extentreports.relevantcodes.com"><span>ExtentReports</span></a></li>
-                <li class="nav-header">Analysis</li>
-                <li class='analysis timeTotals-view isChecked'>
-                    <input type="checkbox" id="cbox-timeTotals" />
-                    <label for="cbox-timeTotals">Time & Totals</label>
-                </li>
-                <li class='analysis dashboard-view isChecked'>
-                    <input type="checkbox" id="cbox-dashboard" />
-                    <label for="cbox-dashboard">Dashboard</label>
-                </li>
-                <li class='analysis system-view'>
-                    <input type="checkbox" id="cbox-system" />
-                    <label for="cbox-system">System</label>
-                </li>
-                <li class="nav-header">Components</li>
-                <li class='component tests-quick-view active'><a href='#!'><i class='fa fa-briefcase'></i>Summary</a></li>
-                <li class='component category-quick-view'><a href='#!'><i class='fa fa-tags'></i>Categories</a></li>
-                <li class='component tests-details-view'><a href='#!'><i class='fa fa-tasks'></i>Test Details</a></li>
-                <li class='component media-view'><a href='#!'><i class='fa fa-image'></i>Media</a></li>
-                <li class='component testrunner-logs-view'><a href='#!'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
+                <li class='logo'>
+                    <a class='left' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
+                    <a class='menu-toggle right'><i class='fa fa-bars fa-2x'></i></a>
+                </li> 
+                <li class='analysis waves-effect active'><a href='#!' class='dashboard-view'><i class='fa fa-dashboard'></i></i>Dashboard</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='fa fa-tags'></i>Categories</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='test-view'><i class='fa fa-tasks'></i>Test Details</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
             </ul>
-            <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-ellipsis-v'></i></a>
-            <span class='report-name'>Automation Report</span> <span class='report-headline'></span>
-            <ul class="right hide-on-med-and-down nav-right">
-                <li><i class='fa fa-search'></i><input id='test-name-filter' type='text' class='validate' placeholder='Search Tests..'></li>
-                <li><i class="fa fa-toggle-off tooltipped enableToggleOnHover" data-delay="50" data-position="bottom" data-tooltip="Enabling this option will auto-expand-or-collapse the test-toggle when you mouseOver its Name"></i></li>
-                <li><i class="fa fa-toggle-down ctrl-expand tooltipped" data-delay="50" data-position="bottom" data-tooltip="Expand Tests"></i></li>
-                <li><i class="fa fa-toggle-up ctrl-collapse tooltipped" data-delay="50" data-position="bottom" data-tooltip="Collapse Tests"></i></li>
+            <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
+            <div class='report-name'>Automation Report</span> <span class='report-headline'></div>
+            <ul class='right hide-on-med-and-down nav-right hide'>
+                <li>
+                    <input type='checkbox' id='enableDashboard' />
+                    <label for='enableDashboard'>Enable Dashboard</label>
+                </li>
             </ul>
         </nav>
-        <div class='main'>
-            <div class='container'>
-                <div class='views'>
-                    <div class='timeTotals-view displayed'>
-                        <div class='row'>
-                            <div class="col s12 m6 l2 suite-start-time">
-                                <div class="card green-accent">
-                                    <span class="panel-name">Start</span>
-                                    <span class="panel-lead suite-started-time"></span>
-                                </div>
-                            </div>
-                            <div class="col s12 m6 l2 suite-end-time">
-                                <div class="card pink-accent">
-                                    <span class="panel-name">End</span>
-                                    <span class="panel-lead suite-ended-time">2015-09-06 13:14:24</span>
-                                </div>
-                            </div>
-                            <div class="col s12 m12 l4">
-                                <div class="card suite-total-steps cyan">
-                                    <span class="panel-name">Total Time Taken</span>
-                                    <span class="suite-total-time-taken panel-lead"></span>
-                                </div>
-                            </div>
-                            <div class="col s12 m6 l2">
-                                <div class="card suite-total-tests">
-                                    <span class="panel-name">Total Tests</span>
-                                    <span class="total-tests">
-                                        <span class="panel-lead"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col s12 m6 l2">
-                                <div class="card suite-total-steps">
-                                    <span class="panel-name">Total Steps</span>
-                                    <span class="total-steps">
-                                        <span class="panel-lead"></span>
-                                    </span>
-                                </div>
-                            </div>
+        <div class='container'>
+            <div id='dashboard-view' class='row'>
+                <div class='time-totals'>
+                    <div class='col s2'>
+                        <div class='card suite-total-tests'> 
+                            <span class='panel-name'>Total Tests</span> 
+                            <span class='total-tests'> <span class='panel-lead'></span> </span> 
+                        </div> 
+                    </div>
+                    <div class='col s2'>
+                        <div class='card suite-total-steps'> 
+                            <span class='panel-name'>Total Steps</span> 
+                            <span class='total-steps'> <span class='panel-lead'></span> </span> 
+                        </div> 
+                    </div>
+                    <div class='col s4'>
+                        <div class='card suite-total-steps'> 
+                            <span class='panel-name'>Total Time Taken</span> 
+                            <span class='suite-total-time-taken panel-lead'></span> 
+                        </div> 
+                    </div>
+                    <div class='col s2 suite-start-time'>
+                        <div class='card green-accent'> 
+                            <span class='panel-name'>Start</span> 
+                            <span class='panel-lead suite-started-time'></span> 
+                        </div> 
+                    </div>
+                    <div class='col s2 suite-end-time'>
+                        <div class='card pink-accent'> 
+                            <span class='panel-name'>End</span> 
+                            <span class='panel-lead suite-ended-time'></span> 
+                        </div> 
+                    </div>
+                </div>
+                <div class='charts'>
+                    <div class='col s12 m6 l4 fh'> 
+                        <div class='card-panel'> 
+                            <div>
+                                <span class='panel-name'>Tests View</span>
+                            </div> 
+                            <div class='panel-setting modal-trigger test-count-setting right'>
+                                <a href='#test-count-setting'><i class='mdi-navigation-more-vert text-md'></i></a>
+                            </div> 
+                            <div class='chart-box'>
+                                <canvas class='text-centered' id='test-analysis'></canvas>
+                            </div> 
+                            <div>
+                                <span class='weight-light'><span class='t-pass-count weight-normal'></span> test(s) passed</span>
+                            </div> 
+                            <div>
+                                <span class='weight-light'><span class='t-fail-count weight-normal'></span> test(s) failed, <span class='t-others-count weight-normal'></span> others</span>
+                            </div> 
+                        </div> 
+                    </div> 
+                    <div class='col s12 m6 l4 fh'> 
+                        <div class='card-panel'> 
+                            <div>
+                                <span class='panel-name'>Steps View</span>
+                            </div> 
+                            <div class='panel-setting modal-trigger step-status-filter right'>
+                                <a href='#step-status-filter'><i class='mdi-navigation-more-vert text-md'></i></a>
+                            </div> 
+                            <div class='chart-box'>
+                                <canvas class='text-centered' id='step-analysis'></canvas>
+                            </div> 
+                            <div>
+                                <span class='weight-light'><span class='s-pass-count weight-normal'></span> step(s) passed</span>
+                            </div> 
+                            <div>
+                                <span class='weight-light'><span class='s-fail-count weight-normal'></span> step(s) failed, <span class='s-others-count weight-normal'></span> others</span>
+                            </div> 
+                        </div> 
+                    </div>
+                    <div class='col s12 m12 l4 fh'> 
+                        <div class='card-panel'> 
+                            <span class='panel-name'>Pass Percentage</span> 
+                            <span class='pass-percentage panel-lead'></span> 
+                            <div class='progress light-blue lighten-3'> 
+                                <div class='determinate light-blue'></div> 
+                            </div> 
+                        </div> 
+                    </div>
+                </div>    
+                <div class='system-view'>
+                </div>
+            </div>
+            <div id='categories-view' class='row hide'>
+                <div class='col s5'>
+                    <div class='card-panel filters'>
+                        <div class='input-field no-margin-v'>
+                            <input id='searchCats' type='text' class='validate'>
+                            <label class='active' for='searchCats'>Search Categories..</label>
                         </div>
                     </div>
-                    <div class='dashboard-view displayed'>
-                        <div class='row'>
-                            <div class='col s12 m6 l4'>
-                                <div class='card-panel'>
-                                    <div><span class='panel-name'>Tests View</span></div>
-                                    <div class='panel-setting modal-trigger test-count-setting right'><a href='#test-count-setting'><i class='fa fa-ellipsis-v'></i></a></div> 
-                                    <div class='chart-box'><canvas class='text-centered' id='test-analysis'></canvas></div>
-                                    <div><span class='weight-light'><span class='t-pass-count weight-normal'></span> test(s) passed</span></div>
-                                    <div><span class='weight-light'><span class='t-fail-count weight-normal'></span> test(s) failed, <span class='t-others-count weight-normal'></span> others</span></div>
-                                </div>
-                            </div>
-                            <div class='col s12 m6 l4'>
-                                <div class='card-panel'>
-                                    <div><span class='panel-name'>Steps View</span></div>
-                                    <div class='panel-setting modal-trigger step-status-filter right'><a href='#step-status-filter'><i class='fa fa-ellipsis-v'></i></a></div> 
-                                    <div class='chart-box'><canvas class='text-centered' id='step-analysis'></canvas></div>
-                                    <div><span class='weight-light'><span class='s-pass-count weight-normal'></span> step(s) passed</span></div>
-                                    <div><span class='weight-light'><span class='s-fail-count weight-normal'></span> step(s) failed, <span class='s-others-count weight-normal'></span> others</span></div>
-                                </div>
-                            </div>
-                            <div class='col s12 m12 l4'>
-                                <div class='card-panel'>
-                                    <span class='panel-name'>Pass Percentage</span>
-                                    <span class='pass-percentage panel-lead'></span>
-                                    <div class='progress'>
-                                         <div class='determinate'></div>
-                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='system-view'>
-                        <div class='row'>
-                            <!--%%SYSTEMINFOVIEW%%-->
+                    <div class='card-panel no-padding-h no-padding-v vh100'>
+                        <div class='wrapper'>
+                            <ul class='cat-collection'>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <div class='row components'>
-                    <div class='tests-quick-view' id='tests-quick-view'>
-                        <h5>Summary</h5>
-                        <div class='col s12 m12 l12 selected-test'>
-                            <div class='card-panel'>
-                                <p>To view test details, click Details on the left-sidebar or one of the links below.</p>
-                                <table class='bordered responsive-table'>
-                                    <thead>
-                                        <tr>
-                                            <th>Test Name</th>
-                                            <th>Passed</th>
-                                            <th>Failed</th>
-                                            <th>Fatal</th>
-                                            <th>Error</th>
-                                            <th>Warning</th>
-                                            <th>Info</th>
-                                            <th>Skip</th>
-                                            <th>Unknown</th>
-                                            <th>RunStatus</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!--%%QUICKTESTSUMMARY%%-->
-                                    </tbody>
-                                </table>
-                            </div>
+                <div class='col s7'>
+                    <div class='card-panel vh100'>
+                        <h5 class='cat-name'></h5>
+                        <div class='cat-container'>
                         </div>
                     </div>
-                    <div class='category-quick-view' id='category-quick-view'>
-                        <h5>Categories</h5>
-                        <!--%%EXTENTCATEGORYDETAILS%%-->
-                    </div>
-                    <div class='tests-details-view' id='tests-details-view'>
-                        <h5>Test Details</h5>
-                        <div class='filters'>
-                            <div class='col l12'>
-                                <div class='input-field col l3 m6 s12 tests-toggle'>
+                </div>
+            </div>
+            <div id='test-view' class='row hide'>
+                <div class='col s5'>
+                    <div class='card-panel filters'>
+                        <div class='input-field no-margin-v'>
+                            <input id='searchTests' type='text' class='validate'>
+                            <label class='active' for='searchTests'>Search Tests..</label>
+                        </div>
+                        <div class='row'>
+                            <div class='col s6'>
+                                <div class='input-field tests-toggle'>
                                     <select>
                                         <option value='0' selected>Choose your option</option>
                                         <option value='1'>Pass</option>
@@ -902,123 +711,135 @@
                                         <option value='7'>Unknown</option>
                                         <option value='8'>Clear Filters</option>
                                     </select>
-                                    <label>Filter Tests</label>
+                                    <label>Filter By Status</label>
                                 </div>
-                                <div class='input-field col l3 m6 s12 category-toggle'>
+                            </div>
+                            <div class='col s6'>
+                                <div class='input-field category-toggle'>
                                     <select>
                                         <option value='0' selected>Choose your option</option>
-                                        <!--%%CATEGORYLISTOPTIONS%%-->
                                         <option value='8'>Clear Filters</option>
                                     </select>
-                                    <label>Filter Category</label>
+                                    <label>Filter By Category</label>
                                 </div>
                             </div>
                         </div>
-                        <div class='test-list'>
-                            <!--%%TEST%%-->
+                    </div>
+                    <div class='card-panel no-padding-h no-padding-v vh100'>
+                        <div class='wrapper'>
+                            <ul class='test-collection'>
+                            </ul>
                         </div>
                     </div>
-                    <div class='media-view' id='media-view'>
-                        <h5>Media</h5>
-                        <!--%%MEDIAVIEW%%-->
-                    </div>
-                    <div class='testrunner-logs-view' id='testrunner-logs-view'>
-                        <h5>TestRunner Logs</h5>
-                        <div class='col l12'>
-                            <div class='card-panel'>
-                                <!--%%TESTRUNNERLOGS%%-->
-                            </div>
+                </div>
+                <div class='col s7'>
+                    <div class='card-panel vh100'>
+                        <h5 class='details-name'></h5>
+                        <div class='details-container'>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id='test-count-setting' class='modal bottom-sheet'>
-                <div class='modal-content'>
-                    <h5>Configure Tests Count Setting</h5>
-                    <input name='test-count-setting' type='radio' id='parentWithoutNodes' class='with-gap' />
-                    <label for='parentWithoutNodes'>Parent Tests Only (Does not include child nodes in counts)</label>
-                    <br />
-                    <input name='test-count-setting' type='radio' id='parentWithoutNodesAndNodes' class='with-gap' />
-                    <label for='parentWithoutNodesAndNodes'>Parent Tests Without Child Tests + Child Tests</label>
-                    <br />
-                    <input name='test-count-setting' type='radio' id='childNodes' class='with-gap' />
-                    <label for='childNodes'>Child Tests Only</label>
-                    <br />
-                    <input name='test-count-setting' type='radio' id='parentAndNodes' class='with-gap' />
-                    <label for='parentAndNodes'>Parent Tests + Child Tests</label>
-                </div>
-                <div class='modal-footer'>
-                    <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a>
-                </div>
-            </div>
-            <div id='step-status-filter' class='modal bottom-sheet'>
-                <div class='modal-content'>
-                    <h5>Select status</h5>
-                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-pass'  />
-                    <label for='step-dashboard-filter-pass'>Pass</label>
-                    <br />
-                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-fail'  />
-                    <label for='step-dashboard-filter-fail'>Fail</label>
-                    <br />
-                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-fatal'  />
-                    <label for='step-dashboard-filter-fatal'>Fatal</label>
-                    <br />
-                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-error'  />
-                    <label for='step-dashboard-filter-error'>Error</label>
-                    <br />
-                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-warning'  />
-                    <label for='step-dashboard-filter-warning'>Warning</label>
-                    <br />
-                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-skip'  />
-                    <label for='step-dashboard-filter-skip'>Skipped</label>
-                    <br />
-                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-info'  />
-                    <label for='step-dashboard-filter-info'>Info</label>
-                    <br />
-                    <input checked='checked' class='filled-in' type='checkbox' id='step-dashboard-filter-unknown'  />
-                    <label for='step-dashboard-filter-unknown'>Unknown</label>
-                </div>
-                <div class='modal-footer'>
-                    <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a>
+            <div id='testrunner-logs-view' class='row hide'>
+                <div class='col s12'>
+                    <div class='card-panel'>
+                    </div>
                 </div>
             </div>
         </div>
+        <div id='test-count-setting' class='modal bottom-sheet'> 
+            <div class='modal-content'> 
+                <h5>Configure Tests Count Setting</h5> 
+                <input name='test-count-setting' type='radio' id='parentWithoutNodes' class='with-gap'> 
+                <label for='parentWithoutNodes'>Parent Tests Only (Does not include child nodes in counts)</label> 
+                <br> 
+                <input name='test-count-setting' type='radio' id='parentWithoutNodesAndNodes' class='with-gap'> 
+                <label for='parentWithoutNodesAndNodes'>Parent Tests Without Child Tests + Child Tests</label> 
+                <br> 
+                <input name='test-count-setting' type='radio' id='childNodes' class='with-gap'> 
+                <label for='childNodes'>Child Tests Only</label> 
+            </div> 
+            <div class='modal-footer'> 
+                <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
+            </div> 
+        </div> 
+        <div id='step-status-filter' class='modal bottom-sheet'> 
+            <div class='modal-content'> 
+                <h5>Select status</h5> 
+                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-pass'> 
+                <label for='step-dashboard-filter-pass'>Pass</label> 
+                <br> 
+                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-fail'> 
+                <label for='step-dashboard-filter-fail'>Fail</label> 
+                <br> 
+                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-fatal'> 
+                <label for='step-dashboard-filter-fatal'>Fatal</label> 
+                <br> 
+                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-error'> 
+                <label for='step-dashboard-filter-error'>Error</label> 
+                <br> 
+                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-warning'> 
+                <label for='step-dashboard-filter-warning'>Warning</label> 
+                <br> 
+                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-skip'> 
+                <label for='step-dashboard-filter-skip'>Skipped</label> 
+                <br> 
+                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-info'> 
+                <label for='step-dashboard-filter-info'>Info</label> 
+                <br> 
+                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-unknown'> 
+                <label for='step-dashboard-filter-unknown'>Unknown</label> 
+            </div> 
+            <div class='modal-footer'> 
+                <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
+            </div> 
+        </div> 
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-        <script type='text/javascript'>
+        <script>
+            var menuWidth = 240;
             var totalTests, passedTests, failedTests, fatalTests, warningTests, errorTests, skippedTests, unknownTests;
             var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
             var testChart, stepChart;
             $(document).ready(function() {
                 /* init */
-                $('.button-collapse').sideNav({ menuWidth: 230 });
+                $('.button-collapse').sideNav({ menuWidth: 240 });
                 $('select').material_select();
-                $('ul.tabs').tabs();
                 $('.materialboxed').materialbox();
-                
-                /* side-nav dashboard option checked by default [SIDE-NAV] */
-                $('#cbox-timeTotals').prop('checked', true);
-                $('#cbox-dashboard').prop('checked', true);
-                /* side-nav system option unchecked by default [SIDE-NAV] */
-                $('#cbox-system').prop('checked', false);
-                /* side-nav dashboard and system toggles [SIDE-NAV] */
-                $('.analysis input').click(function() {
-                    var parent = $(this).closest('.analysis');
-                    var cls = parent.prop('class').split(' ')[1];
-                    if (parent.hasClass('isChecked')) {
-                        $('.views .' + cls).removeClass('displayed').hide();
+                $('#enableDashboard').prop('checked', false);
+                    
+                /* [TOPNAV] */
+                $('#enableDashboard').click(function() {
+                    $(this).toggleClass('enabled');
+                    $('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').parent().children('.charts').toggleClass('hide');
+                });
+                /* menu-toggle [SIDE-NAV] */
+                $('.menu-toggle').click(function() {
+                    menuWidth = menuWidth > 100 ? 70 : 240;
+                    $('.logo .left, .side-nav input, .side-nav label').toggleClass('hide');
+                    $('.side-nav').animate({
+                        width: menuWidth + 'px'
+                    }, 200);
+                    $('.container, nav').animate({
+                        'padding-left': menuWidth + 'px'
+                    }, 200);
+                });
+                /* side-nav navigation [SIDE-NAV] */
+                $('.analysis').click(function() {
+                    $('.container > .row, .nav-right').addClass('hide');
+                    var cls = $(this).children('a').prop('class');
+                    $('#' + cls).removeClass('hide');
+                    if (cls == 'test-view') { 
+                        $('.nav-right').removeClass('hide');
+                        if ($('#enableDashboard').hasClass('enabled') && !$('#dashboard-view .charts').is(':visible')) {
+                            $('#enableDashboard').click().prop('checked', true).addClass('enabled');
+                        }
                     }
                     else {
-                        $('.views .' + cls).addClass('displayed').show();
+                        $('#dashboard-view > div').removeClass('hide');
                     }
-                    parent.toggleClass('isChecked');
-                });
-                /* side-nav components navigation [SIDE-NAV] */
-                $('nav .component').click(function() {
-                    $('.container > .row > div').hide();
-                    $('#' + $(this).prop('class').split(' ')[1]).show();
-                    $('nav li.component').removeClass('active');
+                    $('li.analysis').removeClass('active');
                     $(this).addClass('active');
                 });
                 
@@ -1030,165 +851,111 @@
                     /* init */
                     $('#parentWithoutNodesAndNodes').click();
                 $('#test-count-setting input').click(function() {
-                    $('#test-count-setting').removeClass('parentAndNodes parentWithoutNodes parentWithoutNodesAndNodes childNodes');
+                    $('#test-count-setting').removeClass('parentWithoutNodes parentWithoutNodesAndNodes childNodes');
                     $('#test-count-setting').addClass($(this).prop('id'));
                 });
                 /* step-dashboard settings [DASHBOARD] */
                 $('.step-status-filter').click(function() {
                     $('#step-status-filter').openModal();
                 });
-                /* set color for pass-percentage indicator [DASHBOARD] */
-                $('.indicator').addClass('teal lighten-4');
                 /* refresh charts when chart setting is saved */
                 $('.modal-footer').click(function() {
                     redrawCharts();
                 });
-                /* update started, ended and total time taken [DASHBOARD] */
-                function updateTotalTimeTaken() {
-                    var dates=[];
-                    $('.test-started-time, .test-ended-time').each(function() { 
-                        dates.push(new Date($(this).text().replace('-', '/').replace('-', '/'))); 
-                    });
-                    var maxDate=new Date(Math.max.apply(null,dates));
-                    var minDate=new Date(Math.min.apply(null,dates));
-                    $('.suite-started-time').text(formatDt(minDate));
-                    $('.suite-ended-time').text(formatDt(maxDate));
-                    var ended = $('.suite-ended-time').text().replace('-', '/').replace('-', '/');
-                    var started = $('.suite-started-time').text().replace('-', '/').replace('-', '/');
-                    var diff = new Date(new Date(ended) - new Date(started));
-                    var hours = Math.floor(diff / 36e5),minutes = Math.floor(diff % 36e5 / 60000),seconds = Math.floor(diff % 60000 / 1000);
-                    $('.suite-total-time-taken').text(hours + 'h ' + minutes + 'm ' + seconds + 's');
-                }
-                /* check all checkboxes for step-dashboard filter to allow filtering the steps to be displayed */
+                /* check all checkboxes for step-dashboard filter to allow filtering the steps to be displayed [DASHBOARD] */
                 $('#step-status-filter input').prop('checked', 'checked');
                 $('#step-status-filter input').click(function() {
-                    if ($(this).prop('checked') == false) {
-                        $('#step-status-filter').addClass($(this).prop('id').replace('step-dashboard-filter-', ''));
-                    }
-                    else {
-                        $('#step-status-filter').removeClass($(this).prop('id').replace('step-dashboard-filter-', ''));
-                    }
+                   $('#step-status-filter').toggleClass($(this).prop('id').replace('step-dashboard-filter-', ''));
                 });
                 
-                /* navigate from media to test-details [MEDIA] */
-                $('#media-view .panel-name').click(function() {
-                    var id = $(this).attr('extentid');
-                    var name = $(this).text().trim();
-                    findTestByNameId(name, id);
-                });
-                /* hide media if no elements present [MEDIA] */
-                if ($('#media-view').children('div').length == 0) {
-                    $('.media-view').addClass('hide');
+                /* hide category menu if no categories exist [CATEGORIES] */
+                if ($('.category').length == 0) {
+                    $('.analysis > .categories-view').addClass('hide');
                 }
+                /* view cat info [CATEGORIES] */
+                $('.category-item').click(function() {
+                    if ($('.cat-container').find('.cat-body').length > 0) {
+                        $('.category-item').filter(function() {
+                            return ($(this).find('.cat-body').length == 0);
+                        }).append($('.cat-container').find('.cat-body'));
+                    }
+                    $('.category-item').removeClass('active');
+                    $('.cat-container .cat-body').remove();
+                    var el = $(this).addClass('active').find('.cat-body');
+                    $('.cat-name').text($(this).find('.category-name').text());
+                    $('.cat-container').append($(el));
+                });
+                $('.category-item').eq(0).click();
+                /* navigation from cat-view to test-details [CATEGORIES] */
+                $('.category-link').click(function() {
+                    var id = $(this).attr('extentid');
+                    findTestByNameId($(this).text().trim(), id);
+                });
                 
-                /* only show columns with atleast 1 log (pass, fail, skip displayed by default) [QUICK SUMMARY] */
-                function hideQuickSummaryCols() {
-                    var hiddenCols = 0;
-                    var width = 55;
-                    var cols = [3, 4, 5, 6, 8];
-                    for (var ix = 0; ix < cols.length; ix++) {
-                        var hide = true; 
-                        var col = cols[ix];
-                        $('.tests-quick-view table tbody tr').each(function () { 
-                            if ($(this).children('td').eq(col).text() != '0') { 
-                                hide = false; 
+                /* view test info [TEST] */
+                $('.test').click(function() {
+                    if ($('.details-container').find('.test-body').length > 0) {
+                        $('.test').filter(function() {
+                            return ($(this).find('.test-body').length == 0);
+                        }).append($('.details-container').find('.test-body'));
+                    }
+                    $('.test').removeClass('active');
+                    $('.details-container .test-body').remove();
+                    var el = $(this).addClass('active').find('.test-body');
+                    $('.details-name').text($(this).find('.test-name').text());
+                    $('.details-container').append($(el));
+                });
+                $('.test').eq(0).click();
+                /* filter tests by text [TEST] */
+                $(document).keypress(function(e) {
+                    if(e.which == 13) {
+                        if ($('#searchTests').is(':focus')) {
+                            var txt = $('#searchTests').val().toLowerCase();
+                            $('.test').removeClass('displayed').hide(0);
+                            $('.test-name, .test-desc').each(function() {
+                                if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
+                                    $(this).closest('.test').addClass('displayed').show();
+                                }
+                            });
+                            if ($('.details-container .test-node-name').text().toLowerCase().indexOf(txt) >= 0) {
+                                $('.test.active').show();
                             }
-                        });
-                        col++;
-                        if (hide) { 
-                            $('.tests-quick-view table tr').find('td:nth-child(' + col + '), th:nth-child(' + col + ')').hide(); 
-                            hiddenCols++; 
+                            $('.test.displayed').eq(0).click();
+                        }
+                        if ($('#searchCats').is(':focus')) {
+                            var txt = $('#searchCats').val().toLowerCase();
+                            $('.category-item').removeClass('displayed').hide(0);
+                            $('.category-name').each(function() {
+                                if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
+                                    $(this).closest('.category-item').addClass('displayed').show();
+                                }
+                            });
+                            $('.category-item.displayed').eq(0).click();
                         }
                     }
-                    for (var ix = 1; ix <= hiddenCols; ix++) { width += 5; }
-                    $('.tests-quick-view th:first-child, .tests-quick-view td:first-child').css('width', width + '%');
-                }
-                /* navigation from quick-view-summary to details-view when test is clicked [QUICK SUMMARY] */
-                $('.quick-view-test').click(function() {
-                    var id = $(this).attr('extentid');
-                    var name = $(this).text().trim();
-                    findTestByNameId(name, id);
                 });
-                
-                /* hide Categories item in side-nav and category filter in Details if categories count == 0 [CATEGORIES, DETAILS] */
-                if ($('.category-view').length == 0) {
-                    $('.component.category-quick-view, .category-toggle').addClass('hide');
-                }
-                /* count status types for category view [CATEGORIES] */
-                $('.category-view').each(function() {
-                    var t = $(this);
-                    t.find('.cat-pass').text('PASS: ' + t.find('.pass').length);
-                    t.find('.cat-fail').text('FAIL: ' + (t.find('.fail').length + t.find('.fatal').length));
-                    t.find('.cat-other').text('OTHER: ' + (t.find('.label').length - (t.find('.fail').length + t.find('.fatal').length + t.find('.pass').length)));
-                });
-                /* navigation from category-view to details-view when test is clicked [CATEGORIES] */
-                $('.category-link').click(function() {
-                    var name = $(this).text();
-                    var id = $(this).attr('extentid');
-                    findTestByNameId(name, id);
-                });
-                
-                /* toggle test [DETAILS] */
-                $('.test-list .test').click(function(evt) {
-                    var cls = evt.target.className.toLowerCase();
-                    if (cls == 'test-desc' || evt.target.parentNode.className == 'test-desc') { return; }
-                    if (cls == 'category') {
-                        $('.category-toggle li').each(function() {
-                            if ($(this).text() == $(evt.target).text()) {
-                                $(this).click();
-                                return;
-                            }
-                        });
-                    }
-                    else if (cls.indexOf('collapsible-header') >= 0 || cls.indexOf('test-node-name') >= 0 || cls.indexOf('test-info') >= 0 || cls.indexOf('material-placeholder') >= 0) { }
-                    else if (evt.target.nodeName == 'DIV') {
-                        $(this).toggleClass('is-expanded').find('.test-body').slideToggle(300);
-                    }
-                });
-                /* if only header row is available for test, hide the table [DETAILS] */
+                /* if only header row is available for test, hide the table [TEST] */
                 $('.table-results').filter(function() {
                     return ($(this).find('tr').length == 1);
                 }).hide(0);
-                /* styling for categories collection if categories are applied to test [DETAILS] */
-                $('.categories').each(function() {
-                    if ($(this).children().length > 0) {
-                        $(this).css('margin-top', '10px');                    
-                    }
-                });
-                /* filter tests by text [DETAILS] */
-                $(document).keypress(function(e) {
-                    if(e.which == 13) {
-                        if ($('#test-name-filter').is(':focus')) {
-                            var txt = $('#test-name-filter').val().toLowerCase();
-                            $('.test').hide(0);
-                            $('.component.tests-details-view').click();
-                            $('.test-name, .test-desc').each(function() {
-                                if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
-                                    $(this).closest('.test').show();
-                                }
-                            });
-                        }
-                    }
-                });
-                /* filter tests by status [DETAILS] */
+                /* filter tests by status [TEST] */
                 $('.tests-toggle li').click(function() {
                     var opt = $(this).text().toLowerCase();
-                    var opt2 = $('.category-toggle li.active').text();
-                    if (opt2 == 'Choose your option' || opt2 == 'Clear Filters') opt2 = '';
+                    var opt2 = $('.category-toggle li.active').text().toLowerCase();
+                    if (opt2 == 'choose your option' || opt2 == 'clear filters') opt2 = '';
                     if (opt != 'choose your option') {
                         if (opt == 'clear filters') {
                             resetFilters();
-                        } else {
+                        } 
+                        else {
                             $('.tests-toggle li').removeClass('active');
                             $(this).addClass('active');
                             $('.test').hide(0).removeClass('displayed');
                             if (opt2 != '') {
                                 $('.test').each(function() {
-                                    if (($(this).hasClass(opt) || $(this).has('.test-node.' + opt).length > 0) && $(this).find('.category').length > 0 ) {
-                                        for (var i = 0; i < $(this).find('.category').length; i++) {
-                                            if ($(this).find('.category').eq(i).text() == opt2) {
-                                                $(this).addClass('displayed').show(0);
-                                            }
+                                    if (($(this).hasClass(opt) || $(this).has('.test-node.' + opt).length > 0) && $(this).find('.category').length > 0) {
+                                        if ($(this).find('.category-assigned').hasClass(opt2)) {
+                                            $(this).addClass('displayed').show(0);
                                         }
                                     }
                                 });
@@ -1200,13 +967,13 @@
                         }
                     }
                 });
-                /* filter tests by category [DETAILS] */
+                /* filter tests by category [TEST] */
                 $('.category-toggle li').click(function() {
-                    var opt = $(this).text();
+                    var opt = $(this).text().toLowerCase();
                     var opt2 = $('.tests-toggle li.active').text().toLowerCase();
                     if (opt2 == 'choose your option' || opt2 == 'clear filters') opt2 = '';
-                    if (opt != 'Choose your option') {
-                        if (opt.toLowerCase() == 'clear filters') {
+                    if (opt != 'choose your option') {
+                        if (opt == 'clear filters') {
                             resetFilters();
                         } else {
                             $('.category-toggle li').removeClass('active');
@@ -1214,18 +981,16 @@
                             $('.test').hide(0).removeClass('displayed');
                             if (opt2 != '') {
                                 $('.test').each(function() {
-                                    if (($(this).hasClass(opt2) || $(this).has('.test-node.' + opt2).length > 0) && $(this).find('.category').length > 0) {
-                                        for (var i = 0; i < $(this).find('.category').length; i++) {
-                                            if ($(this).find('.category').eq(i).text() == opt) {
-                                                $(this).addClass('displayed').show(0);
-                                            }
+                                    if (($(this).hasClass(opt2) || $(this).has('.test-node.' + opt2).length > 0)) {
+                                        if ($(this).find('.category-assigned').hasClass(opt)) {
+                                            $(this).addClass('displayed').show(0);
                                         }
                                     }
                                 });
                             } else {
-                                $('.test .category').each(function() {
-                                    if ($(this).text() == opt) {
-                                        $(this).closest('.test').fadeIn(200).addClass('displayed');
+                                $('.test').each(function() {
+                                    if ($(this).find('.category-assigned').hasClass(opt)) {
+                                        $(this).fadeIn(200).addClass('displayed');
                                     }
                                 });
                             }
@@ -1233,39 +998,17 @@
                         }
                     }                                
                 });
-                /* default action when clicking expand or collapse controls [DETAILS] */
-                $('.ctrl-expand, .ctrl-collapse').click(function() {
-                    $('.component.tests-details-view').click();
-                });
-                /* auto-expand all tests when clicking the expand button [DETAILS] */
-                $('.ctrl-expand').click(function() {
-                    $('.test.displayed').addClass('is-expanded').find('.test-body').slideDown(300).find('.test-node.fail').click();
-                });
-                /* auto-collapse all tests when clicking the collapse button [DETAILS] */
-                $('.ctrl-collapse').click(function() {
-                    $('.test.displayed').removeClass('is-expanded').find('.test-body').slideUp(300);
-                });
-                /* action to perform when 'Clear Filters' option is selected [DETAILS] */
+                /* action to perform when 'Clear Filters' option is selected [TEST] */
                 function resetFilters() {
                     $('.dropdown-content li').removeClass('active');
                     $('.test').addClass('displayed').show(0);
                     redrawCharts();
                     $('.dropdown-content li:first-child').addClass('active').click();
                 }
-                /* allows test to auto expand & collapse with mouse-hover on testName [DETAILS] */
-                $('.enableToggleOnHover').click(function() {
-                    if ($(this).hasClass('fa-toggle-off')) {
-                        $(this).removeClass('fa-toggle-off').addClass('fa-toggle-on');
-                        $('body').addClass('toggleOnHover'); 
-                    } else {
-                        $(this).removeClass('fa-toggle-on').addClass('fa-toggle-off');
-                        $('body').removeClass('toggleOnHover'); 
-                    }
-                });
                 
-                /* setting to hide testrunner list-item if no logs available [TESTRUNNER-VIEW] */
-                if ($('#testrunner-logs-view .card-panel').text().trim() == '') {
-                    $('.testrunner-logs-view').addClass('hide');
+                /* hide testrunner-logs view if no logs added [TESTRUNNER-LOGS] */
+                if ($('#testrunner-logs-view .card-panel > p').length == 0) {
+                    $('.analysis > .testrunner-logs-view').addClass('hide');
                 }
                 
                 /* formats date in mm-dd-yyyy hh:mm:ss [UTIL] */
@@ -1281,61 +1024,57 @@
                 function findTestByNameId(name, id) {
                     $('.test').each(function() {
                         if ($(this).find('.test-name').text().trim() == name && $(this).attr('extentid') == id) {
-                            $('.component.tests-details-view').click();
+                            $('.analysis > .test-view').click();
                             $('html, body').animate({
-                                scrollTop: $(this).offset().top
-                            }, 1000);
-                            if (!$(this).hasClass('is-expanded')) {
-                                $(this).toggleClass('is-expanded').find('.test-body').slideToggle(300);
-                            }
+                                scrollTop: $('.details-name').offset().top
+                            }, 400);
+                            $(this).click();
                             return;
                         }
                     });
                 }
                 
-                redrawCharts();
-                hideQuickSummaryCols();
                 resetFilters();
-                updateTotalTimeTaken();
-            });
-            
-            /* allows test to auto expand & collapse with mouse-hover on testName [DETAILS] */
-            $(function() {
-                var timeoutId;
-                $('.test-name, .test-node-name').hover(function() {
-                    var t = $(this);
-                    if (t.attr('class').indexOf('node') > -1) {
-                        t = t.closest('.test-node'); 
-                    }
-                    else { 
-                        t = t.closest('.test'); 
-                    }
-                    if (!timeoutId) {
-                        timeoutId = window.setTimeout(function() {
-                            timeoutId = null;
-                            if ($('body').hasClass('toggleOnHover')) { t.click(); }
-                        }, 100);
-                    }
-                },
-                function () {
-                    if (timeoutId) {
-                        window.clearTimeout(timeoutId);
-                        timeoutId = null;
-                    }
-                });
-            });
-            
+                redrawCharts();
+            })
+            /* refresh and redraw charts [DASHBOARD] */
+            function redrawCharts() {
+                if (!$('#dashboard-view .charts').is(':visible')) {
+                    return;
+                }
+                refreshData();
+                testChart.segments[0].value = passedTests;
+                testChart.segments[1].value = failedTests;
+                testChart.segments[2].value = fatalTests;
+                testChart.segments[3].value = errorTests;
+                testChart.segments[4].value = warningTests;
+                testChart.segments[5].value = skippedTests;
+                testChart.segments[6].value = unknownTests;
+                stepChart.segments[0].value = passedSteps;
+                stepChart.segments[1].value = infoSteps;
+                stepChart.segments[2].value = failedSteps;
+                stepChart.segments[3].value = fatalSteps;
+                stepChart.segments[4].value = errorSteps;
+                stepChart.segments[5].value = warningSteps;
+                stepChart.segments[6].value = skippedSteps;
+                stepChart.segments[7].value = unknownSteps;
+                $('#test-analysis, #step-analysis').html('');
+                $('ul.doughnut-legend').remove();
+                testsChart();
+                stepsChart();
+                $('ul.doughnut-legend').addClass('right');
+            }
             /* update data for dashboard [DASHBOARD] */
             function refreshData() {
                 var el = $('#test-count-setting');
                 totalTests = $('.test:not(:has(.test-node)), .test-node').length;
-                passedTests = $('.test.displayed .test-node.pass, .test.displayed.pass:not(:has(.test-node))').length;
-                failedTests = $('.test.displayed .test-node.fail, .test.displayed.fail:not(:has(.test-node))').length;
-                fatalTests = $('.test.displayed .test-node.fatal, .test.displayed.fatal:not(:has(.test-node))').length;
-                warningTests = $('.test.displayed .test-node.warning, .test.displayed.warning:not(:has(.test-node))').length;
-                errorTests = $('.test.displayed .test-node.error, .test.displayed.error:not(:has(.test-node))').length;
-                skippedTests = $('.test.displayed .test-node.skip, .test.displayed.skip:not(:has(.test-node))').length;
-                unknownTests = $('.test.displayed .test-node.unknown, .test.displayed.unknown:not(:has(.test-node))').length;
+                passedTests = $('.test.displayed .test-node.pass, .test:not(.active).displayed.pass:not(:has(.test-node)), .details-container .test-node.pass').length;
+                failedTests = $('.test.displayed .test-node.fail, .test:not(.active).displayed.fail:not(:has(.test-node)), .details-container .test-node.fail').length;
+                fatalTests = $('.test.displayed .test-node.fatal, .test:not(.active).displayed.fatal:not(:has(.test-node)), .details-container .test-node.fatal').length;
+                warningTests = $('.test.displayed .test-node.warning, .test:not(.active).displayed.warning:not(:has(.test-node)), .details-container .test-node.warning').length;
+                errorTests = $('.test.displayed .test-node.error, .test:not(.active).displayed.error:not(:has(.test-node)), .details-container .test-node.error').length;
+                skippedTests = $('.test.displayed .test-node.skip, .test:not(.active).displayed.skip:not(:has(.test-node)), .details-container .test-node.skip').length;
+                unknownTests = $('.test.displayed .test-node.unknown, .test:not(.active).displayed.unknown:not(:has(.test-node)), .details-container .test-node.unknown').length;
                 if (el.hasClass('parentWithoutNodes')) {
                     totalTests = $('.test.displayed').length;
                     passedTests = $('.test.displayed.pass').length;
@@ -1348,33 +1087,23 @@
                 }
                 else if (el.hasClass('childNodes')) {
                     totalTests = $('.test-node').length;
-                    passedTests = $('.test.displayed .test-node.pass').length;
-                    failedTests = $('.test.displayed .test-node.fail').length;
-                    fatalTests = $('.test.displayed .test-node.fatal').length;
-                    warningTests = $('.test.displayed .test-node.warning').length;
-                    errorTests = $('.test.displayed .test-node.error').length;
-                    skippedTests = $('.test.displayed .test-node.skip').length;
-                    unknownTests = $('.test.displayed .test-node.unknown').length;
+                    passedTests = $('.test.displayed .test-node.pass, .details-container .test-node.pass').length;
+                    failedTests = $('.test.displayed .test-node.fail, .details-container .test-node.fail').length;
+                    fatalTests = $('.test.displayed .test-node.fatal, .details-container .test-node.fatal').length;
+                    warningTests = $('.test.displayed .test-node.warning, .details-container .test-node.warning').length;
+                    errorTests = $('.test.displayed .test-node.error, .details-container .test-node.error').length;
+                    skippedTests = $('.test.displayed .test-node.skip, .details-container .test-node.skip').length;
+                    unknownTests = $('.test.displayed .test-node.unknown, .details-container .test-node.unknown').length;
                 }
-                else if (el.hasClass('parentAndNodes')) {
-                    totalTests = $('.test, .test-node').length;
-                    passedTests = $('.test.displayed .test-node.pass, .test.displayed.pass').length;
-                    failedTests = $('.test.displayed .test-node.fail, .test.displayed.fail').length;
-                    fatalTests = $('.test.displayed .test-node.fatal, .test.displayed.fatal').length;
-                    warningTests = $('.test.displayed .test-node.warning, .test.displayed.warning').length;
-                    errorTests = $('.test.displayed .test-node.error, .test.displayed.error').length;
-                    skippedTests = $('.test.displayed .test-node.skip, .test.displayed.skip').length;
-                    unknownTests = $('.test.displayed .test-node.unknown, .test.displayed.unknown').length;
-                }
-                totalSteps = $('.test.displayed td.status').length;
-                passedSteps = $('.test.displayed td.status.pass').length;
-                failedSteps = $('.test.displayed td.status.fail').length;
-                fatalSteps = $('.test.displayed td.status.fatal').length;
-                warningSteps = $('.test.displayed td.status.warning').length;
-                errorSteps = $('.test.displayed td.status.error').length;
-                infoSteps = $('.test.displayed td.status.info').length;
-                skippedSteps = $('.test.displayed td.status.skip').length;
-                unknownSteps = $('.test.displayed td.status.unknown').length;
+                totalSteps = $('td.status').length;
+                passedSteps = $('td.status.pass').length;
+                failedSteps = $('td.status.fail').length;
+                fatalSteps = $('td.status.fatal').length;
+                warningSteps = $('td.status.warning').length;
+                errorSteps = $('td.status.error').length;
+                infoSteps = $('td.status.info').length;
+                skippedSteps = $('td.status.skip').length;
+                unknownSteps = $('td.status.unknown').length;
                 $('.t-pass-count').text(passedTests);
                 $('.t-fail-count').text(failedTests + fatalTests);
                 $('.t-warning-count').text(warningTests);
@@ -1384,7 +1113,7 @@
                 $('.t-others-count').text(warningTests + errorTests + skippedTests + unknownTests);
                 var percentage = Math.round((passedTests * 100) / (passedTests + failedTests + fatalTests + warningTests + errorTests + unknownTests + skippedTests)) + '%';
                 $('.pass-percentage.panel-lead').text(percentage);
-                $('.dashboard-view .determinate').attr('style', 'width:' + percentage);
+                $('#dashboard-view .determinate').attr('style', 'width:' + percentage);
                 if ($('#step-status-filter').hasClass('pass')) { passedSteps = 0; }
                 if ($('#step-status-filter').hasClass('fail')) { failedSteps = 0; }
                 if ($('#step-status-filter').hasClass('fatal')) { fatalSteps = 0; }
@@ -1402,49 +1131,28 @@
                 $('.total-tests > .panel-lead').text(totalTests);
                 $('.total-steps > .panel-lead').text(totalSteps);
             }
-            /* refresh and redraw charts [DASHBOARD] */
-            function redrawCharts() {
-                refreshData();
-                testChart.segments[0].value = passedTests;
-                testChart.segments[1].value = failedTests;
-                testChart.segments[2].value = fatalTests;
-                testChart.segments[3].value = errorTests;
-                testChart.segments[4].value = warningTests;
-                testChart.segments[5].value = skippedTests;
-                testChart.segments[6].value = unknownTests;
-                testChart.update();
-                stepChart.segments[0].value = passedSteps;
-                stepChart.segments[1].value = infoSteps;
-                stepChart.segments[2].value = failedSteps;
-                stepChart.segments[3].value = fatalSteps;
-                stepChart.segments[4].value = errorSteps;
-                stepChart.segments[5].value = warningSteps;
-                stepChart.segments[6].value = skippedSteps;
-                stepChart.segments[7].value = unknownSteps;
-                stepChart.update();
-            }
             /* dashboard chart options [DASHBOARD] */
             var options = {
                 segmentShowStroke : true, 
-                segmentStrokeColor : "#fff", 
-                segmentStrokeWidth : 2, 
-                percentageInnerCutout : 50, 
+                segmentStrokeColor : '#fff', 
+                segmentStrokeWidth : 1, 
+                percentageInnerCutout : 55, 
                 animationSteps : 30, 
-                animationEasing : "easeOutBounce", 
+                animationEasing : 'easeOutBounce', 
                 animateRotate : true, 
                 animateScale : false,
-                legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+                legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
             };
             /* tests view chart [DASHBOARD] */
             function testsChart() {
                 var data = [
-                        { value: passedTests, color: "#00af00", highlight: "#32bf32", label: "Pass" },
-                        { value: failedTests, color:"#F7464A", highlight: "#FF5A5E", label: "Fail" },
-                        { value: fatalTests, color:"#8b0000", highlight: "#a23232", label: "Fatal" },
-                        { value: errorTests, color:"#ff6347", highlight: "#ff826b", label: "Error" },
-                        { value: warningTests, color: "#FDB45C", highlight: "#FFC870", label: "Warning" },
-                        { value: skippedTests, color: "#1e90ff", highlight: "#4aa6ff", label: "Skip" },
-                        { value: unknownTests, color: "#222", highlight: "#444", label: "Unknown" }
+                        { value: passedTests, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
+                        { value: failedTests, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
+                        { value: fatalTests, color:'#8b0000', highlight: '#a23232', label: 'Fatal' },
+                        { value: errorTests, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
+                        { value: warningTests, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
+                        { value: skippedTests, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
+                        { value: unknownTests, color: '#222', highlight: '#444', label: 'Unknown' }
                     ];
                 var ctx = $('#test-analysis').get(0).getContext('2d');
                 testChart = new Chart(ctx).Doughnut(data, options);
@@ -1453,14 +1161,14 @@
             /* steps view chart [DASHBOARD] */
             function stepsChart() {
                 var data = [
-                    { value: passedSteps, color: "#00af00", highlight: "#32bf32", label: "Pass" },
-                    { value: infoSteps, color: "#46BFBD", highlight: "#5AD3D1", label: "Info" },
-                    { value: failedSteps, color:"#F7464A", highlight: "#FF5A5E", label: "Fail" },
-                    { value: fatalSteps, color:"#8b0000", highlight: "#a23232", label: "Fatal" },
-                    { value: errorSteps, color:"#ff6347", highlight: "#ff826b", label: "Error" },
-                    { value: warningSteps, color: "#FDB45C", highlight: "#FFC870", label: "Warning" },
-                    { value: skippedSteps, color: "#1e90ff", highlight: "#4aa6ff", label: "Skip" },
-                    { value: unknownSteps, color: "#222", highlight: "#444", label: "Unknown" }
+                    { value: passedSteps, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
+                    { value: infoSteps, color: '#46BFBD', highlight: '#5AD3D1', label: 'Info' },
+                    { value: failedSteps, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
+                    { value: fatalSteps, color:'#8b0000', highlight: '#a23232', label: 'Fatal' },
+                    { value: errorSteps, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
+                    { value: warningSteps, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
+                    { value: skippedSteps, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
+                    { value: unknownSteps, color: '#222', highlight: '#444', label: 'Unknown' }
                 ];
                 var ctx = $('#step-analysis').get(0).getContext('2d');
                 stepChart = new Chart(ctx).Doughnut(data, options);
@@ -1488,6 +1196,5 @@
               testsChart(); stepsChart();
               $('ul.doughnut-legend').addClass('right');
         </script>
-        <!--%%CUSTOMSCRIPT%%-->
     </body>
 </html>

@@ -9,6 +9,7 @@
 package com.relevantcodes.extentreports.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CategoryList {
     private ArrayList<String> categoryList;
@@ -19,6 +20,7 @@ public class CategoryList {
     
     public void setCategory(String category) {
     	categoryList.add(category);
+    	Collections.sort(categoryList);
     }
     
     public ArrayList<String> getCategoryList() {

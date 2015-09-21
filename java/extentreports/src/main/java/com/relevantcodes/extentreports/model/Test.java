@@ -10,8 +10,10 @@ package com.relevantcodes.extentreports.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
+import com.relevantcodes.extentreports.LogCounts;
 import com.relevantcodes.extentreports.LogStatus;
 
 public class Test {
@@ -21,16 +23,31 @@ public class Test {
     private ArrayList<ScreenCapture> screenCaptureList;
     private ArrayList<Screencast> screencastList;
     private ArrayList<Test> nodeList;
+    
+    private HashMap<LogStatus, Integer> logCounts;
+    
     public boolean isChildNode = false;
     public boolean hasEnded = false;
     public boolean hasChildNodes = false;
+    
     private Date startedTime;
     private Date endedTime;
+    
     private LogStatus status = LogStatus.UNKNOWN;
+    
     private String description;
     private String internalWarning;
     private String name;
+    
     private UUID id;
+    
+    private void setLogCounts() {
+    	this.logCounts = new LogCounts().getLogCounts(this);
+    }
+    
+    public HashMap<LogStatus, Integer> getLogCounts() {
+    	return logCounts;
+    }
     
     // started time
     public void setStartedTime(Date startedTime) {
@@ -170,6 +187,7 @@ public class Test {
     }  
     
     public void prepareFinalize() {
+    	setLogCounts();
         updateTestStatusRecursively(this);
         
         if (status == LogStatus.INFO) {

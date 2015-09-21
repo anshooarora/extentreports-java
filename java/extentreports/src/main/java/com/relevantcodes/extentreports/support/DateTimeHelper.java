@@ -33,4 +33,13 @@ public class DateTimeHelper {
 			return dateTime;
 		}
 	}
+	
+	public static String getDiff(Date date1, Date date2) {
+		long diff = date2.getTime() - date1.getTime();
+        long hours = diff / (60 * 60 * 1000) % 24;
+        long mins = diff / (60 * 1000) % 60;
+        long secs = diff / 1000 % 60;
+        
+        return hours + "h " + mins + "m " + secs + "s";
+    }
 }

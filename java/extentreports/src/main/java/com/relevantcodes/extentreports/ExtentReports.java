@@ -10,7 +10,6 @@ package com.relevantcodes.extentreports;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import com.relevantcodes.extentreports.model.Test;
@@ -20,11 +19,9 @@ import com.relevantcodes.extentreports.model.Test;
  * @author Anshoo
  *
  */
-public class ExtentReports {
-    private ReportInstance reportInstance;
-    private SystemInfo systemInfo;
-    private ReportInstance.ReportConfig reportConfig;
-    private List<ExtentTest> testList;
+public class ExtentReports extends Report {
+    private HTMLReporter.ReportConfig reportConfig;
+    
     
     /**
      * Initializes the reporting by setting the file-path and test DisplayOrder
@@ -39,11 +36,18 @@ public class ExtentReports {
      *             <br>&nbsp;&nbsp;<b>NEWEST_FIRST</b> - newest test at the top, oldest at the end
      * @param networkMode Setting to create a structure for offline viewing of report             
      */
-    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode) {        
-        reportInstance = new ReportInstance();
-        reportConfig = reportInstance.new ReportConfig();
-        reportInstance.initialize(filePath, replaceExisting, displayOrder, networkMode);
-        
+    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode) {
+    	setFilePath(filePath);
+    	setReplaceExisting(replaceExisting);
+		setDisplayOrder(displayOrder);
+		setNetworkMode(networkMode);
+
+		attach(new DBReporter());
+		HTMLReporter htmlReporter = new HTMLReporter();
+		attach(htmlReporter);
+		
+		reportConfig = htmlReporter.new ReportConfig();
+				
         systemInfo = new SystemInfo();
     }
     
@@ -149,7 +153,7 @@ public class ExtentReports {
     public synchronized void endTest(ExtentTest test) {
         test.getTest().hasEnded = true;
 
-        reportInstance.addTest(test.getTest());
+        addTest(test.getTest());
     }
     
     /**
@@ -157,7 +161,7 @@ public class ExtentReports {
      * 
      * @return {@link ReportInstanceOld.ReportConfig}
      */
-    public ReportInstance.ReportConfig config() {
+    public HTMLReporter.ReportConfig config() {
         return reportConfig;
     }
     
@@ -192,7 +196,7 @@ public class ExtentReports {
      * @param log log string
      */
     public void addTestRunnerOutput(String log) {
-        reportInstance.addTestRunnerLog(log);
+        setTestRunnerLogs(log);
     }
     
     /**
@@ -201,7 +205,7 @@ public class ExtentReports {
     public synchronized void flush() {
         removeChildTests();
         
-        reportInstance.writeAllResources(testList, systemInfo);
+        flushAll();
         
         systemInfo.clear();
     }
@@ -217,7 +221,7 @@ public class ExtentReports {
     public synchronized void close() {
         removeChildTests();
         
-        reportInstance.terminate(testList, systemInfo);
+        terminate();
         
         if (testList != null) {
             testList.clear();

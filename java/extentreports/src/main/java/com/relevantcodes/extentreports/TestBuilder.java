@@ -25,7 +25,7 @@ class TestBuilder {
     private static int logSize;
     
     // adds a test with logs and nodes
-    public static Element getParsedTest(Test test) {
+    public static Element getHTMLTest(Test test) {
         logSize = 3;
 
         // if the log contains StepName, use source with 4 columns
@@ -43,11 +43,6 @@ class TestBuilder {
             doc.select(".test-desc").first().addClass("hide");
         }
         
-        long diff = test.getEndedTime().getTime() - test.getStartedTime().getTime();
-        long hours = diff / (60 * 60 * 1000) % 24;
-        long mins = diff / (60 * 1000) % 60;
-        long secs = diff / 1000 % 60;
-        
         // testName + internal-warnings
         doc.select(".test-name").first().text(test.getName() + TestHtml.getWarningSource(test.getInternalWarning()));
         
@@ -55,7 +50,7 @@ class TestBuilder {
         doc.select(".test").first().attr("extentId", test.getId().toString());
         
         // test status
-        doc.select(".test, .test-status").first().addClass(test.getStatus().toString());
+        doc.select(".test").first().addClass(test.getStatus().toString());
         doc.select(".test-status").first().addClass(test.getStatus().toString()).text(test.getStatus().toString());
         
         // test start time
@@ -65,16 +60,17 @@ class TestBuilder {
         doc.select(".test-ended-time").first().text(DateTimeHelper.getFormattedDateTime(test.getEndedTime(), LogSettings.logDateTimeFormat));
         
         // test time taken
-        doc.select(".test-time-taken").first().text(hours + "h " + mins + "m " + secs + "s");
+        doc.select(".test-time-taken").first().text(DateTimeHelper.getDiff(test.getEndedTime(), test.getStartedTime()));
         
         // test description
-        doc.select(".test-desc > span").first().text(test.getDescription());
+        doc.select(".test-desc").first().text(test.getDescription());
         
         // test categories
         Element catDiv = doc.select(".categories").first();
-        
+
         for (TestAttribute attr : test.getCategoryList()) {
             catDiv.appendChild(Jsoup.parseBodyFragment(TestHtml.getCategorySource()).select(".category").first().text(attr.getName()));
+            doc.select(".category-assigned").first().addClass(attr.getName().toLowerCase());
         }
 
         // test logs
@@ -86,7 +82,7 @@ class TestBuilder {
                  Document tr = Jsoup.parseBodyFragment(stepSource);
                  
                  // timestamp
-                 tr.select("td").first().text(DateTimeHelper.getFormattedDateTime(test.getLog().get(ix).getTimestamp(), LogSettings.logTimeFormat));
+                 tr.select("td.timestamp").first().text(DateTimeHelper.getFormattedDateTime(test.getLog().get(ix).getTimestamp(), LogSettings.logTimeFormat));
                  
                  // status
                  tr.select("td.status").first().addClass(test.getLog().get(ix).getLogStatus().toString());
@@ -104,10 +100,11 @@ class TestBuilder {
                  doc.select("tbody").first().appendChild(tr.select("tr").first());
              }
         }
-                        
+
+        getQuickTestSummary(test);
         doc = addChildTests(test, doc, 1);
         
-        return doc.select(".test").first();
+        return doc.select(".collection-item").first();
     }
 
     // adds nodes to parent tests, eg:
@@ -166,7 +163,7 @@ class TestBuilder {
                     Document tr = Jsoup.parseBodyFragment(stepSource);
                     
                     // timestamp
-                    tr.select("td").first().text(DateTimeHelper.getFormattedDateTime(node.getLog().get(ix).getTimestamp(), LogSettings.logTimeFormat));
+                    tr.select("td.timestamp").first().text(DateTimeHelper.getFormattedDateTime(node.getLog().get(ix).getTimestamp(), LogSettings.logTimeFormat));
                      
                     // status
                     tr.select("td.status").first().addClass(node.getLog().get(ix).getLogStatus().toString());
@@ -205,63 +202,20 @@ class TestBuilder {
         
         // @see TestHtml.getSourceQuickView()
         String source = TestHtml.getSourceQuickView();
-        LogCounts lc = new TestBuilder().new LogCounts().getLogCounts(test);
 
         Element tr = Jsoup.parseBodyFragment(source).select("tr").first();
         
         tr.select(".quick-view-test").first().text(test.getName()).attr("extentId", test.getId().toString()).parent().append(test.getInternalWarning());
-        tr.select("td:nth-child(2)").first().text(String.valueOf(lc.pass));
-        tr.select("td:nth-child(3)").first().text(String.valueOf(lc.fail));
-        tr.select("td:nth-child(4)").first().text(String.valueOf(lc.fatal));
-        tr.select("td:nth-child(5)").first().text(String.valueOf(lc.error));
-        tr.select("td:nth-child(6)").first().text(String.valueOf(lc.warning));
-        tr.select("td:nth-child(7)").first().text(String.valueOf(lc.info));
-        tr.select("td:nth-child(8)").first().text(String.valueOf(lc.skip));
-        tr.select("td:nth-child(9)").first().text(String.valueOf(lc.unknown));
+        tr.select("td:nth-child(2)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.PASS)));
+        tr.select("td:nth-child(3)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.FAIL)));
+        tr.select("td:nth-child(4)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.FATAL)));
+        tr.select("td:nth-child(5)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.ERROR)));
+        tr.select("td:nth-child(6)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.WARNING)));
+        tr.select("td:nth-child(7)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.INFO)));
+        tr.select("td:nth-child(8)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.SKIP)));
+        tr.select("td:nth-child(9)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.UNKNOWN)));
         tr.select(".status").first().text(test.getStatus().toString()).addClass(test.getStatus().toString());
         
         return tr;
-    }
-    
-    private class LogCounts {
-        private int pass = 0;
-        private int fail = 0;
-        private int fatal = 0;
-        private int error = 0;
-        private int warning = 0;
-        private int info = 0;
-        private int skip = 0;
-        private int unknown = 0;
-        
-        // counts each type of log for the test
-        public LogCounts getLogCounts(Test test) {
-            for (int ix = 0; ix < test.getLog().size(); ix++) {
-                if (test.getLog().get(ix).getLogStatus() == LogStatus.PASS)
-                    pass++; 
-                else if (test.getLog().get(ix).getLogStatus() == LogStatus.FAIL)
-                    fail++;
-                else if (test.getLog().get(ix).getLogStatus() == LogStatus.FATAL)
-                    fatal++;
-                else if (test.getLog().get(ix).getLogStatus() == LogStatus.ERROR)
-                    error++;
-                else if (test.getLog().get(ix).getLogStatus() == LogStatus.WARNING)
-                    warning++;
-                else if (test.getLog().get(ix).getLogStatus() == LogStatus.INFO)
-                    info++;
-                else if (test.getLog().get(ix).getLogStatus() == LogStatus.SKIP)
-                    skip++;
-                else if (test.getLog().get(ix).getLogStatus() == LogStatus.UNKNOWN)
-                    unknown++;
-            }
-            
-            // recursively count status events
-            for (Test node : test.getNodeList()) {
-                getLogCounts(node);
-            }
-            
-            return this;
-        }
-
-        public LogCounts() { }
     }
 }

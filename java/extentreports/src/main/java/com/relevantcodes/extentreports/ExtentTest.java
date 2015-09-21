@@ -131,7 +131,7 @@ public class ExtentTest {
         List<String> list = new ArrayList<String>();
         
         for (String c : category) {
-            if (!list.contains(c)) {
+            if (!c.trim().equals("") && !list.contains(c)) {
                 test.setCategory(new Category(c));
             }
             

@@ -14,10 +14,7 @@ import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
 import com.relevantcodes.extentreports.model.CategoryList;
-import com.relevantcodes.extentreports.model.MediaList;
-import com.relevantcodes.extentreports.model.RunInfo;
-import com.relevantcodes.extentreports.model.ScreenCapture;
-import com.relevantcodes.extentreports.model.Screencast;
+import com.relevantcodes.extentreports.model.SuiteTimeInfo;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
 import com.relevantcodes.extentreports.source.SystemInfoHtml;
@@ -26,22 +23,31 @@ import com.relevantcodes.extentreports.support.FileReaderEx;
 import com.relevantcodes.extentreports.support.Resources;
 import com.relevantcodes.extentreports.support.Writer;
 
-public class ReportInstance {
-    private Boolean terminated = false;
-    private MediaList mediaList;
+public class HTMLReporter extends LogSettings implements IReporter {
+	private Report report;
+	
+	private String filePath;
+	private DisplayOrder displayOrder;
+	private NetworkMode networkMode;
+	
     private CategoryList categoryList;
-    private RunInfo runInfo;
-    private DisplayOrder displayOrder;
-    private volatile Element testListElement;
-    private volatile Element quickTestSummaryListElement;
+    private SuiteTimeInfo suiteTimeInfo;
+    
     private volatile Document extentDoc;
-    private String filePath;
+    private volatile Element testCollection;
+    
+    private Boolean terminated = false;
+    
     private final String offlineFolderParent = "extentreports";
     
-    public synchronized void initialize(String filePath, boolean replace, DisplayOrder displayOrder, NetworkMode networkMode) {
-        this.displayOrder = displayOrder;
-        this.filePath = filePath;
+	public void start(Report report) {
+		this.report = report;
+		
+		this.displayOrder = report.getDisplayOrder();
+        this.filePath = report.getFilePath();
+        this.networkMode = report.getNetworkMode();
         
+        // if document is already created, prevent re-initialization
         if (extentDoc != null) {
             return;
         }
@@ -58,52 +64,42 @@ public class ReportInstance {
             sourceFile = "com/relevantcodes/extentreports/source/STANDARD.offline.html";
             
             initOfflineMode(reportFile);
-        }        
-                        
+        }
+         
+        Boolean replace = report.getReplaceExisting();
+        
         if (!reportFile.isFile()) {
             replace = true;
         }
         
+        // create Jsoup document
         String extentSource = replace ? Resources.getText(sourceFile) : FileReaderEx.readAllText(filePath);
         extentDoc = Jsoup.parse(extentSource);
         
-        testListElement = extentDoc.select(".test-list").first();
-        quickTestSummaryListElement = extentDoc.select(".tests-quick-view table > tbody").first();
+        // select test-collection -> all test list-items will be added to it
+        testCollection = extentDoc.select(".test-collection").first();
         
-        runInfo = new RunInfo();
-        runInfo.setSuiteStartTimestamp(
-                DateTimeHelper.getFormattedDateTime(
-                        Calendar.getInstance().getTime(), 
-                        LogSettings.logDateTimeFormat
-                )
-        );
+        // set suite time-info
+        suiteTimeInfo = new SuiteTimeInfo();
+        suiteTimeInfo.setSuiteStartTimestamp(Calendar.getInstance().getTime());
+        suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTime());
         
-        categoryList = new CategoryList();
-        mediaList = new MediaList();
-    }
-    
-    public void addTestRunnerLog(String log) {
-        extentDoc.select("#testrunner-logs-view .card-panel").first().append("<p>" + log + "</p>");
-    }
-    
-    public void terminate(List<ExtentTest> testList, SystemInfo systemInfo) {
-        if (testList != null) {
-            for (ExtentTest t : testList) {
-                if (!t.getTest().hasEnded) {
-                    t.getTest().setInternalWarning(t.getTest().getInternalWarning() + "Test did not end safely because endTest() was not called. There may be errors which are not reported correctly.");
-                    t.getTest().hasEnded = true;
-                }
-            }
+        // if a brand new report is created, update the started time 
+        if (replace) {
+        	extentDoc
+        		.select(".suite-started-time")
+        		.first()
+        		.text(DateTimeHelper.getFormattedDateTime(
+        					suiteTimeInfo.getSuiteStartTimestamp(), 
+        					logDateTimeFormat)
+        			);
         }
         
-        writeAllResources(testList, systemInfo);
-        
-        extentDoc.remove();
-
-        terminated = true;
-    }
-    
-    private void initOfflineMode(File file) {
+        // list of categories added to tests
+        categoryList = new CategoryList();
+	}
+	
+	private void initOfflineMode(File file) {
         String cssPath = "com/relevantcodes/extentreports/source/offline/css/";
         String jsPath = "com/relevantcodes/extentreports/source/offline/js/";
         
@@ -136,8 +132,9 @@ public class ReportInstance {
             Writer.getInstance().write(new File(file.getParent() + "\\" + offlineFolderParent + "\\js\\" + f), Resources.getText(jsPath + f));
         }
     }
-    
-    public synchronized void writeAllResources(List<ExtentTest> testList, SystemInfo systemInfo) {
+	
+	@Override
+	public synchronized void flush() {
         if (terminated) {
             try {
                 throw new IOException("Unable to write source: Stream closed.");
@@ -149,50 +146,80 @@ public class ReportInstance {
             return;
         }
         
+        updateSuiteExecutionTime();
+        
+        SystemInfo systemInfo = report.getSystemInfo();
+        
         if (systemInfo != null && systemInfo.getInfo() != null && systemInfo.getInfo().size() > 0) {
             updateSystemInfo(systemInfo.getInfo());
         }
+        
+        List<ExtentTest> testList = report.getTestList();
         
         if (testList == null) {
             return;
         }
         
-        runInfo.setSuiteEndTimestamp(
-                DateTimeHelper.getFormattedDateTime(
-                        Calendar.getInstance().getTime(), 
-                        LogSettings.logDateTimeFormat
-                )
-        );
-        
         updateCategoryList();
-        updateSuiteExecutionTime();
-        updateMediaInfo();
 
         // .replace("\n", "").replace("\r", "").replace("    ", "").replace("\t",  "")
         Writer.getInstance().write(new File(filePath), Parser.unescapeEntities(extentDoc.outerHtml(), true));
     }
-    
-    private synchronized void updateMediaInfo() {
-        extentDoc
-            .select("#media-view")
-                .first()
-                    .append(MediaViewBuilder.getSource(mediaList.getScreenCaptureList()).outerHtml())
-                    .append(MediaViewBuilder.getSource(mediaList.getScreencastList()).outerHtml());
+	
+	private synchronized void updateSuiteExecutionTime() {
+		suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTime());
+		
+		extentDoc
+			.select(".suite-ended-time")
+			.first()
+			.text(DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), logDateTimeFormat));
+		
+    	extentDoc
+    		.select(".suite-total-time-taken")
+    		.first()
+    		.text(DateTimeHelper.getDiff(Calendar.getInstance().getTime(), suiteTimeInfo.getSuiteStartTimestamp()));
     }
-    
-    private synchronized void updateCategoryView(Test test) {
-        if (test.isChildNode) {
+	
+	private synchronized void updateSystemInfo(Map<String, String> info) {
+        if (info == null)
             return;
+        
+        if (info.size() > 0) {
+            Element parentDiv = extentDoc.select(".system-view").first();
+            Boolean added;
+            
+            for (Map.Entry<String, String> entry : info.entrySet()) {
+            	added = false;
+            	
+            	Elements panelNames = parentDiv.select(".panel-name");
+            	
+            	if (panelNames.size() > 0) {
+            		for (Element panelName : panelNames) {
+            			 if (panelName.text().equals(entry.getKey())) {
+            				 parentDiv.select(".panel-lead").first().text(entry.getValue());
+            				 added = true;
+            				 break;
+            			 }
+            		}
+            	}
+            	
+            	if (!added) {
+            		Document divCol = Jsoup.parseBodyFragment(SystemInfoHtml.getColumn());
+	                
+	                divCol.select(".panel-name").first().text(entry.getKey());
+	                divCol.select(".panel-lead").first().text(entry.getValue());
+	                
+	                parentDiv.appendChild(divCol.select(".col").first());            		
+            	}
+            }
         }
-
-        CategoryBuilder.buildCategoryViewLink(extentDoc, test);
     }
-    
-    private synchronized void updateCategoryList() {
+	
+	private synchronized void updateCategoryList() {
         String c = "";
         Iterator<String> iter = categoryList.getCategoryList().iterator();
         
-        Elements options = extentDoc.select(".category-toggle select option");
+        Elements options = extentDoc.select(".category-toggle option");
         
         while (iter.hasNext()) {
             c = iter.next();
@@ -208,80 +235,56 @@ public class ReportInstance {
             options.first().nextSibling().after("<option value='-1'>" + cat + "</option>");
         }
     }
-    
-    private synchronized void updateSuiteExecutionTime() {
-        extentDoc.select(".suite-started-time").first().text(runInfo.getSuiteStartTimestamp());
+	
+	@Override
+	public void stop() {
+		this.terminated = true;
+	}
+	
+	@Override
+	public void setTestRunnerLogs() {
+		extentDoc.select("#testrunner-logs-view .card-panel").first().append("<p>" + report.getTestRunnerLogs() + "</p>");
+	}
+	
+	@Override
+	// adds tests as HTML source
+    public synchronized void addTest() {
+		Test test = report.getTest();
+        
+        addTest(TestBuilder.getHTMLTest(test));
+        appendTestCategories(test);
     }
-    
-    private synchronized void updateSystemInfo(Map<String, String> info) {
-        if (info == null)
-            return;
-        
-        if (info.size() > 0) {
-            Element parentDiv = extentDoc.select(".system-view > .row").first();
-            
-            for (Map.Entry<String, String> entry : info.entrySet()) {
-                Document divCol = Jsoup.parseBodyFragment(SystemInfoHtml.getColumn());
-                
-                divCol.select(".panel-name").first().text(entry.getKey());
-                divCol.select(".panel-lead").first().text(entry.getValue());
-                
-                parentDiv.appendChild(divCol.select(".col").first());
-            }
-        }
-    }
-    
-    // adds tests as HTML source
-    public synchronized void addTest(Test test) {
-        if (test.getEndedTime() == null) {
-            test.setEndedTime(Calendar.getInstance().getTime());
-        }
-        
-        for (ScreenCapture sc : test.getScreenCaptureList()) {
-            mediaList.setScreenCapture(sc);
-        }
-        
-        for (Screencast sc : test.getScreencastList()) {
-            mediaList.setScreencast(sc);
-        }
-        
-        test.prepareFinalize();
-        
-        addTest(TestBuilder.getParsedTest(test));
-        addQuickTestSummary(TestBuilder.getQuickTestSummary(test));
-        addCategories(test);
-        updateCategoryView(test);
-    }
-    
-    private synchronized void addTest(Element testElement) {
+	
+	private synchronized void addTest(Element test) {
         if (displayOrder == DisplayOrder.OLDEST_FIRST) {
-            testListElement.appendChild(testElement);
+            testCollection.appendChild(test);
             return;
         }
         
-        testListElement.prependChild(testElement);
+        testCollection.prependChild(test);
     }
-    
-    private synchronized void addQuickTestSummary(Element testElement) {
-        if (displayOrder == DisplayOrder.OLDEST_FIRST) {
-            quickTestSummaryListElement.appendChild(testElement);
-            return;
-        }
-
-        quickTestSummaryListElement.prependChild(testElement);
-    }
-    
-    private synchronized void addCategories(Test test) {
+	
+	private synchronized void appendTestCategories(Test test) {
         for (TestAttribute attr : test.getCategoryList()) {
             if (!categoryList.getCategoryList().contains(attr.getName())) {
                 categoryList.setCategory(attr.getName());
             }
         }
+        
+        updateCategoryView(test);
     }
-    
-    public ReportInstance() { }
-    
-    /**
+	
+	private synchronized void updateCategoryView(Test test) {
+        if (test.isChildNode) {
+            return;
+        }
+
+        CategoryBuilder.buildCategoryViewLink(extentDoc, test);
+    }
+	
+	public HTMLReporter() { }
+	
+	/**
      * Report Configuration
      * 
      * @author Anshoo
@@ -289,7 +292,7 @@ public class ReportInstance {
      */
     public class ReportConfig {
         private Document getDoc() {
-            return ReportInstance.this.extentDoc;
+            return HTMLReporter.this.extentDoc;
         }
         
         /**

@@ -16,41 +16,40 @@ public class TestHtml {
             colStepName = "<th>StepName</th>";
         }
         
-        return "<div class='test card-panel displayed'>" +
-            "<div class='test-head'>" +
-                "<div class='right test-info'>" +
-                    "<span title='Test started time' class='test-started-time label'></span>" +
-                    "<span title='Test ended time' class='test-ended-time label'></span>" +
-                    "<span title='Time taken to finish' class='test-time-taken label'></span>" +
-                    "<span class='test-status label'></span>" +
-                "</div>" +
-                "<div class='test-name'>" +
-                "</div>" +
-                "<div class='test-desc'>" +
-                    "<span></span>" +
-                "</div>" +
-            "</div>" +
-            "<div class='test-attributes'>" +
-                "<div class='categories'>" +
-                "</div>" +
-            "</div>" +
-            "<div class='test-body'>" +
-                "<table class='bordered table-results'>" +
-                    "<thead>" +
-                        "<tr>" +
-                            "<th>Timestamp</th>" +
-                            "<th>Status</th>" +
-                            colStepName +
-                            "<th>Details</th>" +
-                        "</tr>" +
-                    "</thead>" +
-                "<tbody>" +
-                "</tbody>" +
-                "</table>" +
-                "<ul class='collapsible node-list' data-collapsible='accordion'>" +
-                "</ul>" +
-            "</div>" +
-        "</div>";
+        return "<li class='collection-item test displayed active'>" +
+					"<div class='test-head'>" +
+						"<span class='test-name'></span>" +
+						"<span class='test-status right label capitalize'></span>" +
+						"<span class='category-assigned hide'></span>" +
+					"</div>" +
+					"<div class='test-body'>" +
+					"<div class='right test-info'>" +
+						"<span title='Test started time' class='test-started-time label green lighten-2 text-white'></span>" +
+	                    "<span title='Test ended time' class='test-ended-time label red lighten-2 text-white'></span>" +
+	                    "<span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'></span>" +
+	                "</div>" +
+						"<div class='test-desc'></div>" +
+						"<div class='test-attributes'>" +
+							"<div class='categories'></div>" +
+						"</div>" +
+						"<div class='test-steps'>" +
+							"<table class='bordered table-results'>" +
+								"<thead>" +
+									"<tr>" +
+										"<th></th>" +
+										"<th>Timestamp</th>" +
+										colStepName +
+										"<th>Details</th>" +
+									"</tr>" +
+								"</thead>" +
+								"<tbody>" +
+								"</tbody>" +
+							"</table>" +
+							"<ul class='collapsible node-list' data-collapsible='accordion'>" +
+							"</ul>" +
+						"</div>" +
+					"</div>" +
+				"</li>";
     }
     
     public static String getSourceQuickView() {
@@ -78,20 +77,21 @@ public class TestHtml {
         return "<li>" +
                     "<div class='collapsible-header test-node'>" +
                         "<div class='right test-info'>" +
-                            "<span alt='Test started time' title='Test started time' class='test-started-time label'></span>" +
-                            "<span alt='Test ended time' title='Test ended time' class='test-ended-time label'></span>" +
-                            "<span alt='Time taken to finish' title='Time taken to finish' class='test-time-taken label'></span>" +
-                            "<span class='test-status label'></span>" +
+                            "<span title='Test started time' class='test-started-time label green lighten-2 text-white'></span>" +
+                            "<span title='Test ended time' class='test-ended-time label red lighten-2 text-white'></span>" +
+                            "<span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'></span>" +
+                            "<span class='test-status label capitalize'></span>" +
                         "</div>" +
+                        "<div class='border-bullet'></div>" +
                         "<div class='test-node-name'></div>" +
                     "</div>" +
                     "<div class='collapsible-body'>" +
-                        "<div class='test-body'>" +
+                        "<div class='test-steps'>" +
                             "<table class='bordered table-results'>" +
                                 "<thead>" +
                                     "<tr>" +
+                                        "<th></th>" +
                                         "<th>Timestamp</th>" +
-                                        "<th>Status</th>" +
                                         colStepName +
                                         "<th>Details</th>" +
                                     "</tr>" +
@@ -105,7 +105,7 @@ public class TestHtml {
     }
     
     public static String getCategorySource() {
-        return "<span class='category'></span>";
+        return "<span class='category text-white'></span>";
     }
     
     public static String getWarningSource(String warning) {
