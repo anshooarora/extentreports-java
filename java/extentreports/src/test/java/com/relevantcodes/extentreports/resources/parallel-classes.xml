@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Extent Parallel Test" parallel="classes">
+    <test name="ExtentWithParallelClasses" allow-return-values="true">
+        <classes>
+            <class name="com.relevantcodes.extentreports.testngexamples.ParallelClass1" />
+            <class name="com.relevantcodes.extentreports.testngexamples.ParallelClass2" />
+        </classes>
+    </test>
+</suite>

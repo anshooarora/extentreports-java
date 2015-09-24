@@ -8,31 +8,31 @@
 
 package com.relevantcodes.extentreports.model;
 
-import java.util.Date;
+import com.relevantcodes.extentreports.support.DateTimeHelper;
 
 public class SuiteTimeInfo {
-    public void setSuiteStartTimestamp(Date startedAt) {
+    public void setSuiteStartTimestamp(long startedAt) {
         this.startedAt = startedAt;
     }
     
-    public Date getSuiteStartTimestamp() {
+    public long getSuiteStartTimestamp() {
         return startedAt;
     }
     
-    public void setSuiteEndTimestamp(Date endedAt) {
+    public void setSuiteEndTimestamp(long endedAt) {
         this.endedAt = endedAt;
     }
     
-    public Date getSuiteEndTimestamp() {
+    public long getSuiteEndTimestamp() {
         return endedAt;
     }
     
-    public long getTimeDiff() {
-    	return endedAt.getTime() - startedAt.getTime();
+    public String getTimeDiff() {
+    	return DateTimeHelper.getDiff(endedAt, startedAt);
     }
     
-    private Date startedAt;
-    private Date endedAt;
+    private long startedAt;
+    private long endedAt;
     
     public SuiteTimeInfo() { } 
 }

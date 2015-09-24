@@ -58,7 +58,7 @@ public class ExtentTest {
         
         evt.setLogStatus(logStatus);
         evt.setStepName(stepName == null ? "" : stepName.trim()); 
-        evt.setDetails(details == null ? "" : details.trim()); 
+        evt.setDetails(details == null ? "" : details.trim());
         evt.setTimestamp(Calendar.getInstance().getTime());
                 
         test.setLog(evt);

@@ -159,7 +159,7 @@ public class ExtentReports extends Report {
     /**
      * Allows various configurations to be applied to the report file
      * 
-     * @return {@link ReportInstanceOld.ReportConfig}
+     * @return {@link HTMLReporter.ReportConfig}
      */
     public HTMLReporter.ReportConfig config() {
         return reportConfig;
@@ -195,7 +195,7 @@ public class ExtentReports extends Report {
      *     
      * @param log log string
      */
-    public void addTestRunnerOutput(String log) {
+    public void setTestRunnerOutput(String log) {
         setTestRunnerLogs(log);
     }
     
@@ -205,7 +205,7 @@ public class ExtentReports extends Report {
     public synchronized void flush() {
         removeChildTests();
         
-        flushAll();
+        super.flush();
         
         systemInfo.clear();
     }

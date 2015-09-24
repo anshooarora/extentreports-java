@@ -1,5 +1,6 @@
 package com.relevantcodes.extentreports;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -56,7 +57,7 @@ abstract class Report {
 		}
 	}
 	
-	protected void flushAll() {
+	protected void flush() {
 		for (IReporter reporter : reporters) {
 			reporter.flush();			
 		}
@@ -70,19 +71,25 @@ abstract class Report {
 		}
 	}
 	
-	public String getTestRunnerLogs() {
+	protected String getTestRunnerLogs() {
 		return testRunnerLogs;
 	}
 	
-	public Test getTest() {
+	protected Test getTest() {
 		return test;
 	}
 	
 	protected void setFilePath(String filePath) {
 		this.filePath = filePath;
+		
+		File reportFile = new File(filePath);
+		
+		if (!reportFile.getParentFile().exists()) {
+            reportFile.getParentFile().mkdirs();
+        }
 	}
 	
-	public String getFilePath() {
+	protected String getFilePath() {
 		return filePath;
 	}
 	
@@ -90,7 +97,7 @@ abstract class Report {
 		this.replaceExisting = replaceExisting;
 	}
 	
-	public Boolean getReplaceExisting() {
+	protected Boolean getReplaceExisting() {
 		return replaceExisting;
 	}
 	
@@ -98,7 +105,7 @@ abstract class Report {
 		this.displayOrder = displayOrder;
 	}
 	
-	public DisplayOrder getDisplayOrder() {
+	protected DisplayOrder getDisplayOrder() {
 		return displayOrder;
 	}
 	
@@ -106,15 +113,15 @@ abstract class Report {
 		this.networkMode = networkMode;
 	}
 	
-	public NetworkMode getNetworkMode() {
+	protected NetworkMode getNetworkMode() {
 		return networkMode;
 	}
 	
-	public SystemInfo getSystemInfo() {
+	protected SystemInfo getSystemInfo() {
 		return systemInfo;
 	}
 	
-	public List<ExtentTest> getTestList() {
+	protected List<ExtentTest> getTestList() {
 		return testList;
 	}
 }

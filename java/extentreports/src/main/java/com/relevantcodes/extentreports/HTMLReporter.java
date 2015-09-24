@@ -24,12 +24,12 @@ import com.relevantcodes.extentreports.support.Resources;
 import com.relevantcodes.extentreports.support.Writer;
 
 public class HTMLReporter extends LogSettings implements IReporter {
-	private Report report;
-	
-	private String filePath;
-	private DisplayOrder displayOrder;
-	private NetworkMode networkMode;
-	
+    private Report report;
+    
+    private String filePath;
+    private DisplayOrder displayOrder;
+    private NetworkMode networkMode;
+    
     private CategoryList categoryList;
     private SuiteTimeInfo suiteTimeInfo;
     
@@ -40,10 +40,10 @@ public class HTMLReporter extends LogSettings implements IReporter {
     
     private final String offlineFolderParent = "extentreports";
     
-	public void start(Report report) {
-		this.report = report;
-		
-		this.displayOrder = report.getDisplayOrder();
+    public void start(Report report) {
+        this.report = report;
+        
+        this.displayOrder = report.getDisplayOrder();
         this.filePath = report.getFilePath();
         this.networkMode = report.getNetworkMode();
         
@@ -53,10 +53,6 @@ public class HTMLReporter extends LogSettings implements IReporter {
         }
         
         File reportFile = new File(filePath);
-
-        if (!reportFile.getParentFile().exists()) {
-            reportFile.getParentFile().mkdirs();
-        }
         
         String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.html";
         
@@ -81,25 +77,25 @@ public class HTMLReporter extends LogSettings implements IReporter {
         
         // set suite time-info
         suiteTimeInfo = new SuiteTimeInfo();
-        suiteTimeInfo.setSuiteStartTimestamp(Calendar.getInstance().getTime());
-        suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTime());
+        suiteTimeInfo.setSuiteStartTimestamp(Calendar.getInstance().getTimeInMillis());
+        suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTimeInMillis());
         
         // if a brand new report is created, update the started time 
         if (replace) {
-        	extentDoc
-        		.select(".suite-started-time")
-        		.first()
-        		.text(DateTimeHelper.getFormattedDateTime(
-        					suiteTimeInfo.getSuiteStartTimestamp(), 
-        					logDateTimeFormat)
-        			);
+            extentDoc
+                .select(".suite-started-time")
+                .first()
+                .text(DateTimeHelper.getFormattedDateTime(
+                            suiteTimeInfo.getSuiteStartTimestamp(), 
+                            logDateTimeFormat)
+                    );
         }
         
         // list of categories added to tests
         categoryList = new CategoryList();
-	}
-	
-	private void initOfflineMode(File file) {
+    }
+    
+    private void initOfflineMode(File file) {
         String cssPath = "com/relevantcodes/extentreports/source/offline/css/";
         String jsPath = "com/relevantcodes/extentreports/source/offline/js/";
         
@@ -132,9 +128,9 @@ public class HTMLReporter extends LogSettings implements IReporter {
             Writer.getInstance().write(new File(file.getParent() + "\\" + offlineFolderParent + "\\js\\" + f), Resources.getText(jsPath + f));
         }
     }
-	
-	@Override
-	public synchronized void flush() {
+    
+    @Override
+    public synchronized void flush() {
         if (terminated) {
             try {
                 throw new IOException("Unable to write source: Stream closed.");
@@ -165,22 +161,22 @@ public class HTMLReporter extends LogSettings implements IReporter {
         // .replace("\n", "").replace("\r", "").replace("    ", "").replace("\t",  "")
         Writer.getInstance().write(new File(filePath), Parser.unescapeEntities(extentDoc.outerHtml(), true));
     }
-	
-	private synchronized void updateSuiteExecutionTime() {
-		suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTime());
-		
-		extentDoc
-			.select(".suite-ended-time")
-			.first()
-			.text(DateTimeHelper.getFormattedDateTime(Calendar.getInstance().getTime(), logDateTimeFormat));
-		
-    	extentDoc
-    		.select(".suite-total-time-taken")
-    		.first()
-    		.text(DateTimeHelper.getDiff(Calendar.getInstance().getTime(), suiteTimeInfo.getSuiteStartTimestamp()));
+    
+    private synchronized void updateSuiteExecutionTime() {
+        suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTimeInMillis());
+
+        extentDoc
+            .select(".suite-ended-time")
+            .first()
+            .text(DateTimeHelper.getFormattedDateTime(suiteTimeInfo.getSuiteEndTimestamp(), logDateTimeFormat));
+        
+        extentDoc
+            .select(".suite-total-time-taken")
+            .first()
+            .text(suiteTimeInfo.getTimeDiff());
     }
-	
-	private synchronized void updateSystemInfo(Map<String, String> info) {
+    
+    private synchronized void updateSystemInfo(Map<String, String> info) {
         if (info == null)
             return;
         
@@ -189,33 +185,33 @@ public class HTMLReporter extends LogSettings implements IReporter {
             Boolean added;
             
             for (Map.Entry<String, String> entry : info.entrySet()) {
-            	added = false;
-            	
-            	Elements panelNames = parentDiv.select(".panel-name");
-            	
-            	if (panelNames.size() > 0) {
-            		for (Element panelName : panelNames) {
-            			 if (panelName.text().equals(entry.getKey())) {
-            				 parentDiv.select(".panel-lead").first().text(entry.getValue());
-            				 added = true;
-            				 break;
-            			 }
-            		}
-            	}
-            	
-            	if (!added) {
-            		Document divCol = Jsoup.parseBodyFragment(SystemInfoHtml.getColumn());
-	                
-	                divCol.select(".panel-name").first().text(entry.getKey());
-	                divCol.select(".panel-lead").first().text(entry.getValue());
-	                
-	                parentDiv.appendChild(divCol.select(".col").first());            		
-            	}
+                added = false;
+                
+                Elements panelNames = parentDiv.select(".panel-name");
+                
+                if (panelNames.size() > 0) {
+                    for (Element panelName : panelNames) {
+                         if (panelName.text().equals(entry.getKey())) {
+                             parentDiv.select(".panel-lead").first().text(entry.getValue());
+                             added = true;
+                             break;
+                         }
+                    }
+                }
+                
+                if (!added) {
+                    Document divCol = Jsoup.parseBodyFragment(SystemInfoHtml.getColumn());
+                    
+                    divCol.select(".panel-name").first().text(entry.getKey());
+                    divCol.select(".panel-lead").first().text(entry.getValue());
+                    
+                    parentDiv.appendChild(divCol.select(".col").first());                    
+                }
             }
         }
     }
-	
-	private synchronized void updateCategoryList() {
+    
+    private synchronized void updateCategoryList() {
         String c = "";
         Iterator<String> iter = categoryList.getCategoryList().iterator();
         
@@ -235,27 +231,27 @@ public class HTMLReporter extends LogSettings implements IReporter {
             options.first().nextSibling().after("<option value='-1'>" + cat + "</option>");
         }
     }
-	
-	@Override
-	public void stop() {
-		this.terminated = true;
-	}
-	
-	@Override
-	public void setTestRunnerLogs() {
-		extentDoc.select("#testrunner-logs-view .card-panel").first().append("<p>" + report.getTestRunnerLogs() + "</p>");
-	}
-	
-	@Override
-	// adds tests as HTML source
+    
+    @Override
+    public void stop() {
+        this.terminated = true;
+    }
+    
+    @Override
+    public void setTestRunnerLogs() {
+        extentDoc.select("#testrunner-logs-view .card-panel").first().append("<p>" + report.getTestRunnerLogs() + "</p>");
+    }
+    
+    @Override
+    // adds tests as HTML source
     public synchronized void addTest() {
-		Test test = report.getTest();
+        Test test = report.getTest();
         
         addTest(TestBuilder.getHTMLTest(test));
         appendTestCategories(test);
     }
-	
-	private synchronized void addTest(Element test) {
+    
+    private synchronized void addTest(Element test) {
         if (displayOrder == DisplayOrder.OLDEST_FIRST) {
             testCollection.appendChild(test);
             return;
@@ -263,8 +259,8 @@ public class HTMLReporter extends LogSettings implements IReporter {
         
         testCollection.prependChild(test);
     }
-	
-	private synchronized void appendTestCategories(Test test) {
+    
+    private synchronized void appendTestCategories(Test test) {
         for (TestAttribute attr : test.getCategoryList()) {
             if (!categoryList.getCategoryList().contains(attr.getName())) {
                 categoryList.setCategory(attr.getName());
@@ -273,18 +269,18 @@ public class HTMLReporter extends LogSettings implements IReporter {
         
         updateCategoryView(test);
     }
-	
-	private synchronized void updateCategoryView(Test test) {
+    
+    private synchronized void updateCategoryView(Test test) {
         if (test.isChildNode) {
             return;
         }
 
         CategoryBuilder.buildCategoryViewLink(extentDoc, test);
     }
-	
-	public HTMLReporter() { }
-	
-	/**
+    
+    public HTMLReporter() { }
+    
+    /**
      * Report Configuration
      * 
      * @author Anshoo

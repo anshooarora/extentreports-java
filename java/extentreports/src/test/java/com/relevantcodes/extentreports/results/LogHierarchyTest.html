@@ -1,21 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <!--
+ <head> 
+  <!--
             ExtentReports Library 2.10 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
-        -->
-        <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
-        <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
-        <meta name='robots' content='noodp, noydir' />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
-        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css' type='text/css'>
-        <title>DocumentTitle</title>
-        <style type='text/css'>
+        --> 
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+  <meta name="description" content="ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests."> 
+  <meta name="robots" content="noodp, noydir"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" type="text/css"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css" type="text/css"> 
+  <title>DocumentTitle</title> 
+  <style type="text/css">
             body {
-                background: #eff2f8;
+                background: #f1f4fa;
                 font-size: 13px;
             }
             pre {
@@ -55,7 +55,7 @@
             /* -- [ containers ] -- */
             .container {
                 max-width: none;
-                padding-left: 70px;
+                padding-left: 240px;
                 width: 98%;
             }
             .wrapper {
@@ -187,7 +187,7 @@
             
             /* -- [ top-nav ] -- */
             nav {
-                padding-left: 70px;
+                padding-left: 240px;
             }
             nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i, .logo a, nav label {
                 background: #dd4f6a;
@@ -209,7 +209,7 @@
             /* -- [ side-nav ] -- */
             .side-nav {
                 background: #636D8B;
-                width: 70px;
+                width: 240px;
             }
             .side-nav li {
                 display: block;
@@ -347,20 +347,15 @@
             
             /* -- [ test ] -- */
             .test.active, .category-item.active {
-                border-left: 3px solid #dd4f6a;
                 color: #444 !important;
-                /*background: #e8eefa !important;*/
+                background: #e8eefa !important;
             }
             .test .test-body, .cat-collection .cat-body {
                 display: none;
             }
-            .test-info {
-                margin: 5px 0 10px;
-            }
             .test-name {
                 display: inline-block;
                 width: 80% !important;
-                word-break: break-all;
             }
             .test-desc {
                 margin-bottom: 10px;
@@ -382,11 +377,10 @@
                 width: 35px;
             }
             .test-body .collapsible-header {
-                background-color: inherit;
                 border-bottom: none;
                 height: auto;
                 line-height: inherit;
-                padding: 1.2rem 1rem;
+                padding: .8rem 1rem;
             }
             .test-body table {
                 margin-top: 10px;
@@ -403,20 +397,27 @@
                 box-shadow: none !important;
             }
             .test-body .collapsible > li.active {
-                border: 1px solid #999;
-                background: #fff;
-                box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
             }
             .collapsible .test-info {
-                margin: 0 0 0 20px;
+                margin-left: 20px;
             }
             .test-body .collapsible > li {
-                background: #edf3ff;
+                border: 1px solid #e0e6e8;
                 box-shadow: none;
-                margin-bottom: 2px;
+                margin-bottom: 4px;
             }
             .test-node-name {
+                color: #76838f;
                 display: inline-block;
+                font-family: Roboto !important;
+            }
+            .border-bullet {
+                border: 1px solid #aaa;
+                float: left;
+                margin-right: 10px;
+                margin-top: 10px;
+                width: 5px;
             }
             .test-node .test-started-time, .test-node  .test-ended-time, .test-node  .test-time-taken {
                 display: none;
@@ -455,18 +456,14 @@
                 margin: 0 -20px;
                 padding: 0 20px;
             }
-            .pinned {
-                right: 1%;
-                width: 54.5%;
-            }
             
             /* -- [ test-attributes ] -- */
             span.category {
-                border: 1px solid #00aeef;
-                color: #00aeef !important;
-                border-radius: 25px;
+                background: #37A2D6;
+                border-radius: 3px;
                 font-size: 12px;
-                padding: 3px 8px;
+                font-weight: 500;
+                padding: 3px 7px;
             }
             
             /* -- [ status styles ] -- */
@@ -498,10 +495,9 @@
             /* -- [ labels ] -- */
             .test-status.label, .status.label {
                 text-align: center;
-                width: 60px;
+                width: 65px;
             }
             .label {
-                border: 1px solid transparent;
                 border-radius: 2px;
                 display: inline-block;
                 font-size: 11px;
@@ -509,9 +505,11 @@
                 padding: 2px 5px;
                 text-transform: none;
             }
+            .label.success, .label.failure, .label.info, .label.warn, .label.pass, .label.fail, .label.warning, .label.fatal, .label.skip, .label.error, .label.unknown {
+                color: #fff;
+            }
             .label.success, .label.pass {
-                border-color: #60b963;
-                color: #60b963;
+                background-color: #7fbb00 !important;
             }
             .cat-label {
                 border: 1px solid transparent;
@@ -521,40 +519,33 @@
                 color: #46be8a;
             }
             .label.fatal {
-                border-color: rgb(139, 0, 0);
-                color: rgb(139, 0, 0);
+                background-color: #d50000 !important;
             }
             .label.failure, .label.fail {
-                border-color: #c64444;
-                color: #c64444;
+                background-color: #f44336 !important;
             }
             .cat-fail {
                 border-color: #f96868 !important;
                 color: #f96868;
             }
             .label.error {
-                border-color: #ec407a;
-                color: #ec407a;
+                background-color: #ec407a !important;
             }
             .label.info {
-                border-color: #46BFBD;
-                color: #46BFBD;
+                background-color: #55bad8 !important;
             }
             .label.warn, .label.warning {
-                border-color: #d88519;
-                color: #d88519;
+                background-color: #fdba5b !important;
             }
             .cat-other {
                 border-color: #f2a654 !important;
                 color: #f2a654;
             }
             .label.skip, .label.skipped {
-                border-color: #2196f3;
-                color: #2196f3
+                background-color: #2196f3 !important;
             }
             .label.unknown {
-                border-color: #444;
-                color: #444;
+                background-color: #222 !important;
             }
             
             /* -- [ media queries ] -- */
@@ -567,257 +558,705 @@
                 }
 
             }
-        </style>
-    </head>
-    <body>  
-        <nav>
-            <ul id='slide-out' class='side-nav fixed'>
-                <li class='logo'>
-                    <a class='left hide' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
-                    <a class='menu-toggle right'><i class='fa fa-bars fa-2x'></i></a>
-                </li> 
-                <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='fa fa-tasks'></i>Test Details</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='fa fa-tags'></i>Categories</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='fa fa-dashboard'></i></i>Dashboard</a></li>                
-                <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
-            </ul>
-            <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
-            <div class='report-name'>Automation Report</span> <span class='report-headline'></div>
-            <ul class='right hide-on-med-and-down nav-right'>
-                <li>
-                    <input type='checkbox' id='enableDashboard' />
-                    <label for='enableDashboard'>Enable Dashboard</label>
-                </li>
-            </ul>
-        </nav>
-        <div class='container'>
-            <div id='dashboard-view' class='row'>
-                <div class='time-totals'>
-                    <div class='col s2'>
-                        <div class='card suite-total-tests'> 
-                            <span class='panel-name'>Total Tests</span> 
-                            <span class='total-tests'> <span class='panel-lead'></span> </span> 
-                        </div> 
-                    </div>
-                    <div class='col s2'>
-                        <div class='card suite-total-steps'> 
-                            <span class='panel-name'>Total Steps</span> 
-                            <span class='total-steps'> <span class='panel-lead'></span> </span> 
-                        </div> 
-                    </div>
-                    <div class='col s4'>
-                        <div class='card suite-total-steps'> 
-                            <span class='panel-name'>Total Time Taken</span> 
-                            <span class='suite-total-time-taken panel-lead'></span> 
-                        </div> 
-                    </div>
-                    <div class='col s2 suite-start-time'>
-                        <div class='card green-accent'> 
-                            <span class='panel-name'>Start</span> 
-                            <span class='panel-lead suite-started-time'></span> 
-                        </div> 
-                    </div>
-                    <div class='col s2 suite-end-time'>
-                        <div class='card pink-accent'> 
-                            <span class='panel-name'>End</span> 
-                            <span class='panel-lead suite-ended-time'></span> 
-                        </div> 
-                    </div>
-                </div>
-                <div class='charts'>
-                    <div class='col s12 m6 l4 fh'> 
-                        <div class='card-panel'> 
-                            <div>
-                                <span class='panel-name'>Tests View</span>
-                            </div> 
-                            <div class='panel-setting modal-trigger test-count-setting right'>
-                                <a href='#test-count-setting'><i class='mdi-navigation-more-vert text-md'></i></a>
-                            </div> 
-                            <div class='chart-box'>
-                                <canvas class='text-centered' id='test-analysis'></canvas>
-                            </div> 
-                            <div>
-                                <span class='weight-light'><span class='t-pass-count weight-normal'></span> test(s) passed</span>
-                            </div> 
-                            <div>
-                                <span class='weight-light'><span class='t-fail-count weight-normal'></span> test(s) failed, <span class='t-others-count weight-normal'></span> others</span>
-                            </div> 
-                        </div> 
-                    </div> 
-                    <div class='col s12 m6 l4 fh'> 
-                        <div class='card-panel'> 
-                            <div>
-                                <span class='panel-name'>Steps View</span>
-                            </div> 
-                            <div class='panel-setting modal-trigger step-status-filter right'>
-                                <a href='#step-status-filter'><i class='mdi-navigation-more-vert text-md'></i></a>
-                            </div> 
-                            <div class='chart-box'>
-                                <canvas class='text-centered' id='step-analysis'></canvas>
-                            </div> 
-                            <div>
-                                <span class='weight-light'><span class='s-pass-count weight-normal'></span> step(s) passed</span>
-                            </div> 
-                            <div>
-                                <span class='weight-light'><span class='s-fail-count weight-normal'></span> step(s) failed, <span class='s-others-count weight-normal'></span> others</span>
-                            </div> 
-                        </div> 
-                    </div>
-                    <div class='col s12 m12 l4 fh'> 
-                        <div class='card-panel'> 
-                            <span class='panel-name'>Pass Percentage</span> 
-                            <span class='pass-percentage panel-lead'></span> 
-                            <div class='progress light-blue lighten-3'> 
-                                <div class='determinate light-blue'></div> 
-                            </div> 
-                        </div> 
-                    </div>
-                </div>    
-                <div class='system-view'>
-                </div>
-            </div>
-            <div id='test-view' class='row'>
-                <div class='col s5'>
-                    <div class='card-panel filters'>
-                        <div class='input-field no-margin-v'>
-                            <input id='searchTests' type='text' class='validate'>
-                            <label class='active' for='searchTests'>Search Tests..</label>
-                        </div>
-                        <div class='row'>
-                            <div class='col s6'>
-                                <div class='input-field tests-toggle'>
-                                    <select>
-                                        <option value='0' selected>Choose your option</option>
-                                        <option value='1'>Pass</option>
-                                        <option value='2'>Fatal</option>
-                                        <option value='3'>Fail</option>
-                                        <option value='4'>Error</option>
-                                        <option value='5'>Warning</option>
-                                        <option value='6'>Skip</option>
-                                        <option value='7'>Unknown</option>
-                                        <option value='8'>Clear Filters</option>
-                                    </select>
-                                    <label>Filter By Status</label>
-                                </div>
-                            </div>
-                            <div class='col s6'>
-                                <div class='input-field category-toggle'>
-                                    <select>
-                                        <option value='0' selected>Choose your option</option>
-                                        <option value='8'>Clear Filters</option>
-                                    </select>
-                                    <label>Filter By Category</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='card-panel no-padding-h no-padding-v'>
-                        <div class='wrapper'>
-                            <ul class='test-collection'>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class='col s7'>
-                    <div class='card-panel vh100 details-view'>
-                        <h5 class='details-name'></h5>
-                        <div class='details-container'>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='categories-view' class='row hide'>
-                <div class='col s5'>
-                    <div class='card-panel filters'>
-                        <div class='input-field no-margin-v'>
-                            <input id='searchCats' type='text' class='validate'>
-                            <label class='active' for='searchCats'>Search Categories..</label>
-                        </div>
-                    </div>
-                    <div class='card-panel no-padding-h no-padding-v vh100'>
-                        <div class='wrapper'>
-                            <ul class='cat-collection'>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class='col s7'>
-                    <div class='card-panel vh100'>
-                        <h5 class='cat-name'></h5>
-                        <div class='cat-container'>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='testrunner-logs-view' class='row hide'>
-                <div class='col s12'>
-                    <div class='card-panel'>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id='test-count-setting' class='modal bottom-sheet'> 
-            <div class='modal-content'> 
-                <h5>Configure Tests Count Setting</h5> 
-                <input name='test-count-setting' type='radio' id='parentWithoutNodes' class='with-gap'> 
-                <label for='parentWithoutNodes'>Parent Tests Only (Does not include child nodes in counts)</label> 
-                <br> 
-                <input name='test-count-setting' type='radio' id='parentWithoutNodesAndNodes' class='with-gap'> 
-                <label for='parentWithoutNodesAndNodes'>Parent Tests Without Child Tests + Child Tests</label> 
-                <br> 
-                <input name='test-count-setting' type='radio' id='childNodes' class='with-gap'> 
-                <label for='childNodes'>Child Tests Only</label> 
-            </div> 
-            <div class='modal-footer'> 
-                <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
-            </div> 
+        </style> 
+ </head> 
+ <body> 
+  <nav> 
+   <ul id="slide-out" class="side-nav fixed"> 
+    <li class="logo"> <a class="left" href="http://extentreports.relevantcodes.com"><span>ExtentReports</span></a> <a class="menu-toggle right"><i class="fa fa-bars fa-2x"></i></a> </li> 
+    <li class="analysis waves-effect active"><a href="#!" class="test-view"><i class="fa fa-tasks"></i>Test Details</a></li> 
+    <li class="analysis waves-effect"><a href="#!" class="categories-view"><i class="fa fa-tags"></i>Categories</a></li> 
+    <li class="analysis waves-effect"><a href="#!" class="dashboard-view"><i class="fa fa-dashboard"></i>Dashboard</a></li> 
+    <li class="analysis waves-effect"><a href="#!" class="testrunner-logs-view"><i class="mdi-action-assignment"></i>TestRunner Logs</a></li> 
+   </ul> 
+   <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars fa-2x"></i></a> 
+   <div class="report-name">
+    Automation Report 
+    <span class="report-headline"></span>
+   </div> 
+   <ul class="right hide-on-med-and-down nav-right"> 
+    <li> <input type="checkbox" id="enableDashboard"> <label for="enableDashboard">Enable Dashboard</label> </li> 
+   </ul> 
+  </nav> 
+  <div class="container"> 
+   <div id="dashboard-view" class="row"> 
+    <div class="time-totals"> 
+     <div class="col s2"> 
+      <div class="card suite-total-tests"> 
+       <span class="panel-name">Total Tests</span> 
+       <span class="total-tests"> <span class="panel-lead"></span> </span> 
+      </div> 
+     </div> 
+     <div class="col s2"> 
+      <div class="card suite-total-steps"> 
+       <span class="panel-name">Total Steps</span> 
+       <span class="total-steps"> <span class="panel-lead"></span> </span> 
+      </div> 
+     </div> 
+     <div class="col s4"> 
+      <div class="card suite-total-steps"> 
+       <span class="panel-name">Total Time Taken</span> 
+       <span class="suite-total-time-taken panel-lead">0h 0m 0s</span> 
+      </div> 
+     </div> 
+     <div class="col s2 suite-start-time"> 
+      <div class="card green-accent"> 
+       <span class="panel-name">Start</span> 
+       <span class="panel-lead suite-started-time">2015-09-23 09:15:10</span> 
+      </div> 
+     </div> 
+     <div class="col s2 suite-end-time"> 
+      <div class="card pink-accent"> 
+       <span class="panel-name">End</span> 
+       <span class="panel-lead suite-ended-time">2015-09-23 09:15:10</span> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="charts"> 
+     <div class="col s12 m6 l4 fh"> 
+      <div class="card-panel"> 
+       <div> 
+        <span class="panel-name">Tests View</span> 
+       </div> 
+       <div class="panel-setting modal-trigger test-count-setting right"> 
+        <a href="#test-count-setting"><i class="mdi-navigation-more-vert text-md"></i></a> 
+       </div> 
+       <div class="chart-box"> 
+        <canvas class="text-centered" id="test-analysis"></canvas> 
+       </div> 
+       <div> 
+        <span class="weight-light"><span class="t-pass-count weight-normal"></span> test(s) passed</span> 
+       </div> 
+       <div> 
+        <span class="weight-light"><span class="t-fail-count weight-normal"></span> test(s) failed, <span class="t-others-count weight-normal"></span> others</span> 
+       </div> 
+      </div> 
+     </div> 
+     <div class="col s12 m6 l4 fh"> 
+      <div class="card-panel"> 
+       <div> 
+        <span class="panel-name">Steps View</span> 
+       </div> 
+       <div class="panel-setting modal-trigger step-status-filter right"> 
+        <a href="#step-status-filter"><i class="mdi-navigation-more-vert text-md"></i></a> 
+       </div> 
+       <div class="chart-box"> 
+        <canvas class="text-centered" id="step-analysis"></canvas> 
+       </div> 
+       <div> 
+        <span class="weight-light"><span class="s-pass-count weight-normal"></span> step(s) passed</span> 
+       </div> 
+       <div> 
+        <span class="weight-light"><span class="s-fail-count weight-normal"></span> step(s) failed, <span class="s-others-count weight-normal"></span> others</span> 
+       </div> 
+      </div> 
+     </div> 
+     <div class="col s12 m12 l4 fh"> 
+      <div class="card-panel"> 
+       <span class="panel-name">Pass Percentage</span> 
+       <span class="pass-percentage panel-lead"></span> 
+       <div class="progress light-blue lighten-3"> 
+        <div class="determinate light-blue"></div> 
+       </div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="system-view"> 
+     <div class="col l2 m4 s12">
+      <div class="card">
+       <span class="panel-name">OS</span>
+       <span class="panel-lead">Windows 8.1</span>
+      </div>
+     </div>
+     <div class="col l2 m4 s12">
+      <div class="card">
+       <span class="panel-name">User Name</span>
+       <span class="panel-lead">Anshoo</span>
+      </div>
+     </div>
+     <div class="col l2 m4 s12">
+      <div class="card">
+       <span class="panel-name">Java Version</span>
+       <span class="panel-lead">1.8.0_31</span>
+      </div>
+     </div>
+     <div class="col l2 m4 s12">
+      <div class="card">
+       <span class="panel-name">Host Name</span>
+       <span class="panel-lead">Anshoo</span>
+      </div>
+     </div>
+    </div> 
+   </div> 
+   <div id="test-view" class="row"> 
+    <div class="col s5"> 
+     <div class="card-panel filters"> 
+      <div class="input-field no-margin-v"> 
+       <input id="searchTests" type="text" class="validate"> 
+       <label class="active" for="searchTests">Search Tests..</label> 
+      </div> 
+      <div class="row"> 
+       <div class="col s6"> 
+        <div class="input-field tests-toggle"> 
+         <select> <option value="0" selected>Choose your option</option> <option value="1">Pass</option> <option value="2">Fatal</option> <option value="3">Fail</option> <option value="4">Error</option> <option value="5">Warning</option> <option value="6">Skip</option> <option value="7">Unknown</option> <option value="8">Clear Filters</option> </select> 
+         <label>Filter By Status</label> 
         </div> 
-        <div id='step-status-filter' class='modal bottom-sheet'> 
-            <div class='modal-content'> 
-                <h5>Select status</h5> 
-                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-pass'> 
-                <label for='step-dashboard-filter-pass'>Pass</label> 
-                <br> 
-                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-fail'> 
-                <label for='step-dashboard-filter-fail'>Fail</label> 
-                <br> 
-                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-fatal'> 
-                <label for='step-dashboard-filter-fatal'>Fatal</label> 
-                <br> 
-                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-error'> 
-                <label for='step-dashboard-filter-error'>Error</label> 
-                <br> 
-                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-warning'> 
-                <label for='step-dashboard-filter-warning'>Warning</label> 
-                <br> 
-                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-skip'> 
-                <label for='step-dashboard-filter-skip'>Skipped</label> 
-                <br> 
-                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-info'> 
-                <label for='step-dashboard-filter-info'>Info</label> 
-                <br> 
-                <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-unknown'> 
-                <label for='step-dashboard-filter-unknown'>Unknown</label> 
-            </div> 
-            <div class='modal-footer'> 
-                <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
-            </div> 
-        </div>
-        <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-        <script>
-            var menuWidth = 70;
+       </div> 
+       <div class="col s6"> 
+        <div class="input-field category-toggle"> 
+         <select> <option value="0" selected>Choose your option</option> <option value="8">Clear Filters</option> </select> 
+         <label>Filter By Category</label> 
+        </div> 
+       </div> 
+      </div> 
+     </div> 
+     <div class="card-panel no-padding-h no-padding-v vh100"> 
+      <div class="wrapper"> 
+       <ul class="test-collection"> 
+        <li class="collection-item test displayed active error" extentid="23eff7af-a3ca-4b40-a8d3-39d841d250a6">
+         <div class="test-head">
+          <span class="test-name">hierarchicalLogsResultMustEqualError</span>
+          <span class="test-status right label capitalize error">error</span>
+          <span class="category-assigned hide"></span>
+         </div>
+         <div class="test-body">
+          <div class="right test-info">
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-2 text-white">0h 0m 0s</span>
+          </div>
+          <div class="test-desc hide">
+          </div>
+          <div class="test-attributes">
+           <div class="categories"></div>
+          </div>
+          <div class="test-steps">
+           <table class="bordered table-results">
+            <thead>
+             <tr>
+              <th></th>
+              <th>Timestamp</th>
+              <th>Details</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Info</td>
+             </tr>
+             <tr>
+              <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Pass</td>
+             </tr>
+             <tr>
+              <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Error</td>
+             </tr>
+             <tr>
+              <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Warning</td>
+             </tr>
+             <tr>
+              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Unknown</td>
+             </tr>
+             <tr>
+              <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Skip</td>
+             </tr>
+            </tbody>
+           </table>
+           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+          </div>
+         </div></li>
+        <li class="collection-item test displayed active fail" extentid="3277223a-e677-4d05-b6a5-63d2d34bdedb">
+         <div class="test-head">
+          <span class="test-name">hierarchicalLogsResultMustEqualFail</span>
+          <span class="test-status right label capitalize fail">fail</span>
+          <span class="category-assigned hide"></span>
+         </div>
+         <div class="test-body">
+          <div class="right test-info">
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-2 text-white">0h 0m 0s</span>
+          </div>
+          <div class="test-desc hide">
+          </div>
+          <div class="test-attributes">
+           <div class="categories"></div>
+          </div>
+          <div class="test-steps">
+           <table class="bordered table-results">
+            <thead>
+             <tr>
+              <th></th>
+              <th>Timestamp</th>
+              <th>Details</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Info</td>
+             </tr>
+             <tr>
+              <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Pass</td>
+             </tr>
+             <tr>
+              <td class="status fail" title="fail"><i class="fa fa-times-circle-o"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Fail</td>
+             </tr>
+             <tr>
+              <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Error</td>
+             </tr>
+             <tr>
+              <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Warning</td>
+             </tr>
+             <tr>
+              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Unknown</td>
+             </tr>
+             <tr>
+              <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Skip</td>
+             </tr>
+            </tbody>
+           </table>
+           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+          </div>
+         </div></li>
+        <li class="collection-item test displayed active fatal" extentid="7d84b160-7c71-44af-8de6-1d557b67cbe8">
+         <div class="test-head">
+          <span class="test-name">hierarchicalLogsResultMustEqualFatal</span>
+          <span class="test-status right label capitalize fatal">fatal</span>
+          <span class="category-assigned hide"></span>
+         </div>
+         <div class="test-body">
+          <div class="right test-info">
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-2 text-white">0h 0m 0s</span>
+          </div>
+          <div class="test-desc hide">
+          </div>
+          <div class="test-attributes">
+           <div class="categories"></div>
+          </div>
+          <div class="test-steps">
+           <table class="bordered table-results">
+            <thead>
+             <tr>
+              <th></th>
+              <th>Timestamp</th>
+              <th>Details</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Info</td>
+             </tr>
+             <tr>
+              <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Pass</td>
+             </tr>
+             <tr>
+              <td class="status fatal" title="fatal"><i class="fa fa-exclamation-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Fatal</td>
+             </tr>
+             <tr>
+              <td class="status fail" title="fail"><i class="fa fa-times-circle-o"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Fail</td>
+             </tr>
+             <tr>
+              <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Error</td>
+             </tr>
+             <tr>
+              <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Warning</td>
+             </tr>
+             <tr>
+              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Unknown</td>
+             </tr>
+             <tr>
+              <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Skip</td>
+             </tr>
+            </tbody>
+           </table>
+           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+          </div>
+         </div></li>
+        <li class="collection-item test displayed active pass" extentid="14bf0c4b-2626-4511-b7a4-58bc497e922e">
+         <div class="test-head">
+          <span class="test-name">hierarchicalLogsResultMustEqualPass1</span>
+          <span class="test-status right label capitalize pass">pass</span>
+          <span class="category-assigned hide"></span>
+         </div>
+         <div class="test-body">
+          <div class="right test-info">
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-2 text-white">0h 0m 0s</span>
+          </div>
+          <div class="test-desc hide">
+          </div>
+          <div class="test-attributes">
+           <div class="categories"></div>
+          </div>
+          <div class="test-steps">
+           <table class="bordered table-results">
+            <thead>
+             <tr>
+              <th></th>
+              <th>Timestamp</th>
+              <th>Details</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Info</td>
+             </tr>
+             <tr>
+              <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Pass</td>
+             </tr>
+             <tr>
+              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Unknown</td>
+             </tr>
+             <tr>
+              <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Skip</td>
+             </tr>
+            </tbody>
+           </table>
+           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+          </div>
+         </div></li>
+        <li class="collection-item test displayed active pass" extentid="75291db2-7597-40e1-81b0-94d70c797677">
+         <div class="test-head">
+          <span class="test-name">hierarchicalLogsResultMustEqualPass2</span>
+          <span class="test-status right label capitalize pass">pass</span>
+          <span class="category-assigned hide"></span>
+         </div>
+         <div class="test-body">
+          <div class="right test-info">
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-2 text-white">0h 0m 0s</span>
+          </div>
+          <div class="test-desc hide">
+          </div>
+          <div class="test-attributes">
+           <div class="categories"></div>
+          </div>
+          <div class="test-steps">
+           <table class="bordered table-results">
+            <thead>
+             <tr>
+              <th></th>
+              <th>Timestamp</th>
+              <th>Details</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Info</td>
+             </tr>
+             <tr>
+              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Unknown</td>
+             </tr>
+             <tr>
+              <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Skip</td>
+             </tr>
+            </tbody>
+           </table>
+           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+          </div>
+         </div></li>
+        <li class="collection-item test displayed active pass" extentid="359d43d1-a90c-42f4-94e8-71522b393bba">
+         <div class="test-head">
+          <span class="test-name">hierarchicalLogsResultMustEqualPass3</span>
+          <span class="test-status right label capitalize pass">pass</span>
+          <span class="category-assigned hide"></span>
+         </div>
+         <div class="test-body">
+          <div class="right test-info">
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-2 text-white">0h 0m 0s</span>
+          </div>
+          <div class="test-desc hide">
+          </div>
+          <div class="test-attributes">
+           <div class="categories"></div>
+          </div>
+          <div class="test-steps">
+           <table class="bordered table-results">
+            <thead>
+             <tr>
+              <th></th>
+              <th>Timestamp</th>
+              <th>Details</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Info</td>
+             </tr>
+             <tr>
+              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Unknown</td>
+             </tr>
+            </tbody>
+           </table>
+           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+          </div>
+         </div></li>
+        <li class="collection-item test displayed active skip" extentid="b2fa1b61-7869-4689-80d8-ab753f0f95b7">
+         <div class="test-head">
+          <span class="test-name">hierarchicalLogsResultMustEqualSkip</span>
+          <span class="test-status right label capitalize skip">skip</span>
+          <span class="category-assigned hide"></span>
+         </div>
+         <div class="test-body">
+          <div class="right test-info">
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-2 text-white">0h 0m 0s</span>
+          </div>
+          <div class="test-desc hide">
+          </div>
+          <div class="test-attributes">
+           <div class="categories"></div>
+          </div>
+          <div class="test-steps">
+           <table class="bordered table-results">
+            <thead>
+             <tr>
+              <th></th>
+              <th>Timestamp</th>
+              <th>Details</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Unknown</td>
+             </tr>
+             <tr>
+              <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Skip</td>
+             </tr>
+            </tbody>
+           </table>
+           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+          </div>
+         </div></li>
+        <li class="collection-item test displayed active warning" extentid="542efd5f-218a-4c26-a01a-95627ca53e4b">
+         <div class="test-head">
+          <span class="test-name">hierarchicalLogsResultMustEqualWarning</span>
+          <span class="test-status right label capitalize warning">warning</span>
+          <span class="category-assigned hide"></span>
+         </div>
+         <div class="test-body">
+          <div class="right test-info">
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-09-23 09:15:10</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-2 text-white">0h 0m 0s</span>
+          </div>
+          <div class="test-desc hide">
+          </div>
+          <div class="test-attributes">
+           <div class="categories"></div>
+          </div>
+          <div class="test-steps">
+           <table class="bordered table-results">
+            <thead>
+             <tr>
+              <th></th>
+              <th>Timestamp</th>
+              <th>Details</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Info</td>
+             </tr>
+             <tr>
+              <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Pass</td>
+             </tr>
+             <tr>
+              <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Warning</td>
+             </tr>
+             <tr>
+              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Unknown</td>
+             </tr>
+             <tr>
+              <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+              <td class="timestamp">09:15:10</td>
+              <td class="step-details">Skip</td>
+             </tr>
+            </tbody>
+           </table>
+           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+          </div>
+         </div></li>
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="col s7"> 
+     <div class="card-panel vh100"> 
+      <h5 class="details-name"></h5> 
+      <div class="details-container"> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <div id="categories-view" class="row hide"> 
+    <div class="col s5"> 
+     <div class="card-panel filters"> 
+      <div class="input-field no-margin-v"> 
+       <input id="searchCats" type="text" class="validate"> 
+       <label class="active" for="searchCats">Search Categories..</label> 
+      </div> 
+     </div> 
+     <div class="card-panel no-padding-h no-padding-v vh100"> 
+      <div class="wrapper"> 
+       <ul class="cat-collection"> 
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="col s7"> 
+     <div class="card-panel vh100"> 
+      <h5 class="cat-name"></h5> 
+      <div class="cat-container"> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <div id="testrunner-logs-view" class="row hide"> 
+    <div class="col s12"> 
+     <div class="card-panel"> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+  <div id="test-count-setting" class="modal bottom-sheet"> 
+   <div class="modal-content"> 
+    <h5>Configure Tests Count Setting</h5> 
+    <input name="test-count-setting" type="radio" id="parentWithoutNodes" class="with-gap"> 
+    <label for="parentWithoutNodes">Parent Tests Only (Does not include child nodes in counts)</label> 
+    <br> 
+    <input name="test-count-setting" type="radio" id="parentWithoutNodesAndNodes" class="with-gap"> 
+    <label for="parentWithoutNodesAndNodes">Parent Tests Without Child Tests + Child Tests</label> 
+    <br> 
+    <input name="test-count-setting" type="radio" id="childNodes" class="with-gap"> 
+    <label for="childNodes">Child Tests Only</label> 
+   </div> 
+   <div class="modal-footer"> 
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Save</a> 
+   </div> 
+  </div> 
+  <div id="step-status-filter" class="modal bottom-sheet"> 
+   <div class="modal-content"> 
+    <h5>Select status</h5> 
+    <input checked class="filled-in" type="checkbox" id="step-dashboard-filter-pass"> 
+    <label for="step-dashboard-filter-pass">Pass</label> 
+    <br> 
+    <input checked class="filled-in" type="checkbox" id="step-dashboard-filter-fail"> 
+    <label for="step-dashboard-filter-fail">Fail</label> 
+    <br> 
+    <input checked class="filled-in" type="checkbox" id="step-dashboard-filter-fatal"> 
+    <label for="step-dashboard-filter-fatal">Fatal</label> 
+    <br> 
+    <input checked class="filled-in" type="checkbox" id="step-dashboard-filter-error"> 
+    <label for="step-dashboard-filter-error">Error</label> 
+    <br> 
+    <input checked class="filled-in" type="checkbox" id="step-dashboard-filter-warning"> 
+    <label for="step-dashboard-filter-warning">Warning</label> 
+    <br> 
+    <input checked class="filled-in" type="checkbox" id="step-dashboard-filter-skip"> 
+    <label for="step-dashboard-filter-skip">Skipped</label> 
+    <br> 
+    <input checked class="filled-in" type="checkbox" id="step-dashboard-filter-info"> 
+    <label for="step-dashboard-filter-info">Info</label> 
+    <br> 
+    <input checked class="filled-in" type="checkbox" id="step-dashboard-filter-unknown"> 
+    <label for="step-dashboard-filter-unknown">Unknown</label> 
+   </div> 
+   <div class="modal-footer"> 
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Save</a> 
+   </div> 
+  </div> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script> 
+  <script>
+            var menuWidth = 240;
             var totalTests, passedTests, failedTests, fatalTests, warningTests, errorTests, skippedTests, unknownTests;
             var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
             var testChart, stepChart;
             $(document).ready(function() {
                 /* init */
-                $('.button-collapse').sideNav({ menuWidth: menuWidth });
+                $('.button-collapse').sideNav({ menuWidth: 240 });
                 $('select').material_select();
                 $('.materialboxed').materialbox();
                 $('#enableDashboard').prop('checked', false);
-                $('.details-view').pushpin({ top: $('#test-view').offset().top });
                     
                 /* [TOPNAV] */
                 $('#enableDashboard').click(function() {
@@ -963,8 +1402,10 @@
                             $('.test').hide(0).removeClass('displayed');
                             if (opt2 != '') {
                                 $('.test').each(function() {
-                                    if (($(this).hasClass(opt) || $(this).has('.test-node.' + opt).length > 0) && $(this).find('.category-assigned').hasClass(opt2)) {
-                                        $(this).addClass('displayed').show(0);
+                                    if (($(this).hasClass(opt) || $(this).has('.test-node.' + opt).length > 0) && $(this).find('.category').length > 0) {
+                                        if ($(this).find('.category-assigned').hasClass(opt2)) {
+                                            $(this).addClass('displayed').show(0);
+                                        }
                                     }
                                 });
                             } else {
@@ -1205,6 +1646,6 @@
               }
               testsChart(); stepsChart();
               $('ul.doughnut-legend').addClass('right');
-        </script>
-    </body>
+        </script>   
+ </body>
 </html>
