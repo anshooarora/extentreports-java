@@ -36,7 +36,7 @@ public class TestHtml {
 							"<table class='bordered table-results'>" +
 								"<thead>" +
 									"<tr>" +
-										"<th></th>" +
+										"<th>Status</th>" +
 										"<th>Timestamp</th>" +
 										colStepName +
 										"<th>Details</th>" +
@@ -90,7 +90,7 @@ public class TestHtml {
                             "<table class='bordered table-results'>" +
                                 "<thead>" +
                                     "<tr>" +
-                                        "<th></th>" +
+                                        "<th>Status</th>" +
                                         "<th>Timestamp</th>" +
                                         colStepName +
                                         "<th>Details</th>" +

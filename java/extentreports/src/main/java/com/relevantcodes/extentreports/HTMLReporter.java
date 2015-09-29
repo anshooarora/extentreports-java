@@ -23,7 +23,7 @@ import com.relevantcodes.extentreports.support.FileReaderEx;
 import com.relevantcodes.extentreports.support.Resources;
 import com.relevantcodes.extentreports.support.Writer;
 
-public class HTMLReporter extends LogSettings implements IReporter {
+class HTMLReporter extends LogSettings implements IReporter {
     private Report report;
     
     private String filePath;
@@ -40,6 +40,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
     
     private final String offlineFolderParent = "extentreports";
     
+    @Override
     public void start(Report report) {
         this.report = report;
         
@@ -54,10 +55,10 @@ public class HTMLReporter extends LogSettings implements IReporter {
         
         File reportFile = new File(filePath);
         
-        String sourceFile = "com/relevantcodes/extentreports/source/STANDARD.html";
+        String sourceFile = "com/relevantcodes/extentreports/source/ExtentTemplate.html";
         
         if (networkMode == NetworkMode.OFFLINE) {
-            sourceFile = "com/relevantcodes/extentreports/source/STANDARD.offline.html";
+            sourceFile = "com/relevantcodes/extentreports/source/ExtentTemplate.Offline.html";
             
             initOfflineMode(reportFile);
         }
@@ -76,7 +77,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
         testCollection = extentDoc.select(".test-collection").first();
         
         // set suite time-info
-        suiteTimeInfo = new SuiteTimeInfo();
+        suiteTimeInfo = report.getSuiteTimeInfo();
         suiteTimeInfo.setSuiteStartTimestamp(Calendar.getInstance().getTimeInMillis());
         suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTimeInMillis());
         
@@ -87,7 +88,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
                 .first()
                 .text(DateTimeHelper.getFormattedDateTime(
                             suiteTimeInfo.getSuiteStartTimestamp(), 
-                            logDateTimeFormat)
+                            getLogDateTimeFormat())
                     );
         }
         
@@ -117,15 +118,15 @@ public class HTMLReporter extends LogSettings implements IReporter {
         
         // create offline folders from folderName
         for (String name : folderNames) {
-            new File(file.getParent() + "\\" + offlineFolderParent + "\\" + name).mkdirs();
+            new File(file.getParent() + File.separator + offlineFolderParent + File.separator + name).mkdirs();
         }
         
         // copy files to extent/dir
         for (String f : css) {
-            Resources.moveResource(cssPath + f, file.getParent() + "\\" + offlineFolderParent + "\\css\\" + f);
+            Resources.moveResource(cssPath + f, file.getParent() + File.separator + offlineFolderParent + File.separator + "css" + File.separator + f);
         }
         for (String f : js) {
-            Writer.getInstance().write(new File(file.getParent() + "\\" + offlineFolderParent + "\\js\\" + f), Resources.getText(jsPath + f));
+            Writer.getInstance().write(new File(file.getParent() + File.separator + offlineFolderParent + File.separator + "js" + File.separator + f), Resources.getText(jsPath + f));
         }
     }
     
@@ -168,7 +169,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
         extentDoc
             .select(".suite-ended-time")
             .first()
-            .text(DateTimeHelper.getFormattedDateTime(suiteTimeInfo.getSuiteEndTimestamp(), logDateTimeFormat));
+            .text(DateTimeHelper.getFormattedDateTime(suiteTimeInfo.getSuiteEndTimestamp(), getLogDateTimeFormat()));
         
         extentDoc
             .select(".suite-total-time-taken")
@@ -234,16 +235,16 @@ public class HTMLReporter extends LogSettings implements IReporter {
     
     @Override
     public void stop() {
-        this.terminated = true;
+        terminated = true;
     }
     
     @Override
     public void setTestRunnerLogs() {
         extentDoc.select("#testrunner-logs-view .card-panel").first().append("<p>" + report.getTestRunnerLogs() + "</p>");
     }
-    
+
+	// adds tests as HTML source
     @Override
-    // adds tests as HTML source
     public synchronized void addTest() {
         Test test = report.getTest();
         

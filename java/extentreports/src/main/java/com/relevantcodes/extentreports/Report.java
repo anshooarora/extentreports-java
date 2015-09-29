@@ -3,18 +3,25 @@ package com.relevantcodes.extentreports;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import com.relevantcodes.extentreports.model.SuiteTimeInfo;
 import com.relevantcodes.extentreports.model.Test;
 
-abstract class Report {
+abstract class Report extends LogSettings {
 	private String filePath;
 	private DisplayOrder displayOrder;
 	private NetworkMode networkMode;
 	private Boolean replaceExisting;
+	private LogStatus reportStatus = LogStatus.UNKNOWN;	
+	
+	private Date startedTime;
 	
 	private String testRunnerLogs;
 	
+	protected SuiteTimeInfo suiteTimeInfo;
 	protected SystemInfo systemInfo;
 	
 	private List<IReporter> reporters;
@@ -23,10 +30,14 @@ abstract class Report {
 	
 	private Test test;
 	
+	private UUID reportId;
+	
 	protected void attach(IReporter reporter) {
 		if (reporters == null) {
 			reporters = new ArrayList<IReporter>();
 		}
+		
+		suiteTimeInfo = new SuiteTimeInfo();
 		
 		reporters.add(reporter);
 		reporter.start(this);
@@ -49,6 +60,8 @@ abstract class Report {
 		for (IReporter reporter : reporters) {
 			reporter.addTest();
 		}
+		
+		updateReportStatus(test.getStatus());
 	}
 	
 	protected void terminate() {
@@ -123,5 +136,83 @@ abstract class Report {
 	
 	protected List<ExtentTest> getTestList() {
 		return testList;
+	}
+	
+	protected UUID getId() {
+		return reportId;
+	}
+	
+	protected Date getStartedTime() {
+		return startedTime;
+	}
+	
+	protected LogStatus getStatus() {
+		return reportStatus;
+	}
+	
+	protected SuiteTimeInfo getSuiteTimeInfo() {
+		return suiteTimeInfo;
+	}
+	
+	private void updateReportStatus(LogStatus logStatus) {
+        if (reportStatus == LogStatus.FATAL) return;
+        
+        if (logStatus == LogStatus.FATAL) {
+            reportStatus = logStatus;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.FAIL) return;
+        
+        if (logStatus == LogStatus.FAIL) {
+            reportStatus = logStatus;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.ERROR) return;
+        
+        if (logStatus == LogStatus.ERROR) {
+            reportStatus = logStatus;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.WARNING) return;
+        
+        if (logStatus == LogStatus.WARNING) {
+            reportStatus = logStatus;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.PASS) return;
+        
+        if (logStatus == LogStatus.PASS) {
+            reportStatus = LogStatus.PASS;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.SKIP) return;
+        
+        if (logStatus == LogStatus.SKIP) {
+            reportStatus = LogStatus.SKIP;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.INFO) return;
+        
+        if (logStatus == LogStatus.INFO) {
+            reportStatus = LogStatus.INFO;
+            return;
+        }
+        
+        reportStatus = LogStatus.UNKNOWN;
+    }
+	
+	public void setStartedTime(long startTime) {
+		suiteTimeInfo.setSuiteStartTimestamp(startTime);
+	}
+	
+	protected Report() {
+		reportId = UUID.randomUUID();
+		startedTime = Calendar.getInstance().getTime();
 	}
 }

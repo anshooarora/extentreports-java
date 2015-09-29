@@ -19,6 +19,11 @@ public class CategoryHtml {
 					"<span class='category-name'></span>" +
 				"</div>" +
 				"<div class='cat-body'>" +
+					"<div class='category-status-counts'>" +
+						"<span class='cat-pass label'></span>" +
+						"<span class='cat-fail label'></span>" +
+						"<span class='cat-other label'></span>" +
+					"</div>" +
 					"<div class='cat-tests'>" +
 						"<table class='bordered'>" +
 							"<tr>" +

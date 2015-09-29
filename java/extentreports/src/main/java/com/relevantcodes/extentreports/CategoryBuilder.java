@@ -17,7 +17,7 @@ import com.relevantcodes.extentreports.model.TestAttribute;
 import com.relevantcodes.extentreports.source.CategoryHtml;
 import com.relevantcodes.extentreports.support.DateTimeHelper;
 
-public class CategoryBuilder {
+class CategoryBuilder {
     public static void buildCategoryViewLink(Document extentDoc, Test test) {
         String catName;
         Element divCat = null;
@@ -38,11 +38,20 @@ public class CategoryBuilder {
             }
             
             Element trTest = Jsoup.parseBodyFragment(CategoryHtml.getCategoryViewTestSource()).select("tr").first();
-            trTest.select("td").first().text(DateTimeHelper.getFormattedDateTime(test.getStartedTime(), LogSettings.logDateTimeFormat));
+            trTest.select("td").first().text(DateTimeHelper.getFormattedDateTime(test.getStartedTime(), LogSettings.getLogDateTimeFormat()));
             trTest.select(".category-link").first().text(test.getName()).attr("extentId", test.getId().toString());
             trTest.select(".label").first().text(test.getStatus().toString()).addClass(test.getStatus().toString());
             
             divCat.select("table").first().appendChild(trTest);
+            
+            // counts
+            int pass = divCat.select(".status.pass") != null ? divCat.select(".status.pass").size() : 0;
+            int fail = divCat.select(".status.fail, .status.fatal") != null ? divCat.select(".status.fail, .status.fatal").size() : 0;
+            int others = divCat.select(".status.warning, .status.error, .status.skip, .status.unknown") != null ? divCat.select(".status.warning, .status.error, .status.skip, .status.unknown").size() : 0;
+            
+            divCat.select(".cat-pass").first().text("Pass: " + pass);
+            divCat.select(".cat-fail").first().text("Fail: " + fail);
+            divCat.select(".cat-other").first().text("Others: " + others);
         }
     }
 }

@@ -11,7 +11,7 @@
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
-        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css' type='text/css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css' type='text/css'>
         <title>DocumentTitle</title>
         <style type='text/css'>
             body {
@@ -32,9 +32,8 @@
             img {
                 border: 4px solid #f6f7fa;
                 display: block;
-                height: auto;
                 margin-top: 15px;
-                width: 25%;
+                width: 150px;
             }
             th, td {
                 border-bottom: 1px solid #ddd !important;
@@ -42,8 +41,10 @@
             }
             th {
                 font-family: Roboto, Arial;
+                font-size: 11px;
                 font-weight: 500 !important;
                 padding: 7px 10px;
+                text-transform: uppercase;
             }
             td {
                 font-size: 13px;
@@ -180,6 +181,14 @@
             img.active {
                 max-width: inherit !important;
             }
+            .report-img.active {
+                border-radius: 0 !important;
+                height: 80% !important;
+                left: 10% !important;
+                position: fixed !important;
+                top: 10% !important;
+                width: 80% !important;
+            }
             .linked {
                 color: #039be5;
                 cursor: pointer;
@@ -251,7 +260,7 @@
                 max-height: 275px;
                 min-height: 275px;
             }
-             .chart > div {
+            .chart > div {
                 text-align: center;
             }
             .suite-start-time {
@@ -305,9 +314,10 @@
                 margin: 0 2px;
                 padding: 2px 4px;
             }
-            .category-status .label {
+            .category-status-counts .label {
                 border: 1px solid transparent;
                 font-size: 11px;
+                text-transform: uppercase;
             }
             .category-item th, .category-item td {
                 width: 20%;
@@ -325,6 +335,7 @@
             
             /* -- [ collections ] -- */
             .test-collection {
+                margin-bottom: 0;
                 position: relative;
             }
             .test-collection li, .cat-collection li {
@@ -376,7 +387,6 @@
                 width: 90px;
             }
             .test-steps th:first-child, .test-steps td:first-child {
-                font-size: 13px;
                 text-align: left !important;
                 max-width: 65px;
                 width: 35px;
@@ -391,8 +401,11 @@
             .test-body table {
                 margin-top: 10px;
             }
+            .test-body table thead tr:first-child {
+                border-bottom: 2px solid #cacaca;
+            }
             .test-body .collapsible-body {
-                padding: 0 15px 15px;
+                padding: 0 15px 30px;
                 width: 100%;
             }
             .test-body .collapsible-body table {
@@ -450,13 +463,18 @@
             .test-details-container .test-steps {
                 display: block !important;
             }
-            .details-container {
+            .details-container, .cat-container {
                 background: #fff none repeat scroll 0 0;
                 margin: 0 -20px;
-                padding: 0 20px;
+                padding: 0 20px 75px;
             }
-            .pinned {
+            .details-view {
+                position: absolute;
+            }
+            .pin {
+                height: 96%;
                 right: 1%;
+                overflow-y: auto;
                 width: 54.5%;
             }
             
@@ -565,11 +583,10 @@
                 header, main, footer, .container {
                     padding-left: 0;
                 }
-
             }
         </style>
     </head>
-    <body>  
+    <body class='extent'>  
         <nav>
             <ul id='slide-out' class='side-nav fixed'>
                 <li class='logo'>
@@ -719,7 +736,7 @@
                     </div>
                 </div>
                 <div class='col s7'>
-                    <div class='card-panel vh100 details-view'>
+                    <div class='card-panel vh100 details-view pin'>
                         <h5 class='details-name'></h5>
                         <div class='details-container'>
                         </div>
@@ -742,7 +759,7 @@
                     </div>
                 </div>
                 <div class='col s7'>
-                    <div class='card-panel vh100'>
+                    <div class='card-panel vh100 details-view pin'>
                         <h5 class='cat-name'></h5>
                         <div class='cat-container'>
                         </div>
@@ -804,10 +821,11 @@
             </div> 
         </div>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-        <script>
+        <script type='text/javascript'>
             var menuWidth = 70;
+            var pinWidth = '54.5%';
             var totalTests, passedTests, failedTests, fatalTests, warningTests, errorTests, skippedTests, unknownTests;
             var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
             var testChart, stepChart;
@@ -815,10 +833,21 @@
                 /* init */
                 $('.button-collapse').sideNav({ menuWidth: menuWidth });
                 $('select').material_select();
-                $('.materialboxed').materialbox();
                 $('#enableDashboard').prop('checked', false);
-                $('.details-view').pushpin({ top: $('#test-view').offset().top });
-                    
+                $('.material-placeholder').addClass('chip').append('<i class=\'fa fa-image\'></i>');
+                
+                /* [WINDOW] */
+                $(window).scroll(function() {
+                    var scrollTop = $('.charts').is(':visible') ? 300 : 48;
+                    if ($(window).scrollTop() > scrollTop) {
+                        var margin = $('.charts').is(':visible') ? '-350px' : '-38px';
+                        $('.details-view').css('position', 'fixed').css('margin-top', margin);
+                    } 
+                    else {
+                        $('.details-view').removeAttr('style').css('position', 'absolute');
+                    }
+                });
+                
                 /* [TOPNAV] */
                 $('#enableDashboard').click(function() {
                     $(this).toggleClass('enabled');
@@ -827,12 +856,18 @@
                 /* menu-toggle [SIDE-NAV] */
                 $('.menu-toggle').click(function() {
                     menuWidth = menuWidth > 100 ? 70 : 240;
+                    if (pinWidth == '54.5%') { pinWidth = '49.5%'; }
+                    else { pinWidth = '54.5%'; }
                     $('.logo .left, .side-nav input, .side-nav label').toggleClass('hide');
                     $('.side-nav').animate({
                         width: menuWidth + 'px'
                     }, 200);
                     $('.container, nav').animate({
                         'padding-left': menuWidth + 'px'
+                    }, 200);
+                    console.log(pinWidth);
+                    $('.pin').animate({
+                        'width': pinWidth
                     }, 200);
                 });
                 /* side-nav navigation [SIDE-NAV] */

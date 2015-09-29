@@ -19,7 +19,7 @@ import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Screencast;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
-import com.relevantcodes.extentreports.source.ImageHtml;
+import com.relevantcodes.extentreports.source.ScreenshotHtml;
 import com.relevantcodes.extentreports.source.ScreencastHtml;
 
 /** 
@@ -85,8 +85,8 @@ public class ExtentTest {
      */
     public String addScreenCapture(String imgPath) {
         String screenCaptureHtml = isPathRelative(imgPath) 
-                ? ImageHtml.getSource(imgPath).replace("file:///", "") 
-                        : ImageHtml.getSource(imgPath);
+                ? ScreenshotHtml.getSource(imgPath).replace("file:///", "") 
+                        : ScreenshotHtml.getSource(imgPath);
         
         ScreenCapture img = new ScreenCapture();
         img.setSource(screenCaptureHtml);

@@ -36,18 +36,13 @@ public class DateTimeHelper {
     
     public static String getFormattedDateTime(long millis, String pattern) {
         SimpleDateFormat sdfDate = new SimpleDateFormat(pattern);
-        //DateFormat format = new SimpleDateFormat(pattern, Locale.ENGLISH);
         Date date = new Date(millis);
+        
         return sdfDate.format(date);
     }
     
     public static String getDiff(Date endDate, Date startDate) {
-        long diff = endDate.getTime() - startDate.getTime();
-        long hours = diff / (60 * 60 * 1000) % 24;
-        long mins = diff / (60 * 1000) % 60;
-        long secs = diff / 1000 % 60;
-        
-        return hours + "h " + mins + "m " + secs + "s";
+        return getDiff(endDate.getTime(), startDate.getTime());
     }
     
     public static String getDiff(long endDate, long startDate) {    

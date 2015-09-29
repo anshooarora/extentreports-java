@@ -54,10 +54,10 @@ class TestBuilder {
         doc.select(".test-status").first().addClass(test.getStatus().toString()).text(test.getStatus().toString());
         
         // test start time
-        doc.select(".test-started-time").first().text(DateTimeHelper.getFormattedDateTime(test.getStartedTime(), LogSettings.logDateTimeFormat));
+        doc.select(".test-started-time").first().text(DateTimeHelper.getFormattedDateTime(test.getStartedTime(), LogSettings.getLogDateTimeFormat()));
         
         // test end times
-        doc.select(".test-ended-time").first().text(DateTimeHelper.getFormattedDateTime(test.getEndedTime(), LogSettings.logDateTimeFormat));
+        doc.select(".test-ended-time").first().text(DateTimeHelper.getFormattedDateTime(test.getEndedTime(), LogSettings.getLogDateTimeFormat()));
         
         // test time taken
         doc.select(".test-time-taken").first().text(DateTimeHelper.getDiff(test.getEndedTime(), test.getStartedTime()));
@@ -89,7 +89,7 @@ class TestBuilder {
                 Document tr = Jsoup.parseBodyFragment(stepSource);
                  
                 // timestamp
-                tr.select("td.timestamp").first().text(DateTimeHelper.getFormattedDateTime(test.getLog().get(ix).getTimestamp(), LogSettings.logTimeFormat));
+                tr.select("td.timestamp").first().text(DateTimeHelper.getFormattedDateTime(test.getLog().get(ix).getTimestamp(), LogSettings.getLogTimeFormat()));
                  
                 // status
                 tr.select("td.status").first().addClass(test.getLog().get(ix).getLogStatus().toString());
@@ -152,10 +152,10 @@ class TestBuilder {
             li.select(".test-node-name").first().text(node.getName());
             
             // start time
-            li.select(".test-started-time").first().text(DateTimeHelper.getFormattedDateTime(node.getStartedTime(), LogSettings.logDateTimeFormat));
+            li.select(".test-started-time").first().text(DateTimeHelper.getFormattedDateTime(node.getStartedTime(), LogSettings.getLogDateTimeFormat()));
             
             // end time
-            li.select(".test-ended-time").first().text(DateTimeHelper.getFormattedDateTime(node.getEndedTime(), LogSettings.logDateTimeFormat));
+            li.select(".test-ended-time").first().text(DateTimeHelper.getFormattedDateTime(node.getEndedTime(), LogSettings.getLogDateTimeFormat()));
             
             // time taken
             li.select(".test-time-taken").first().text(hours + "h " + mins + "m " + secs + "s");
@@ -170,7 +170,7 @@ class TestBuilder {
                     Document tr = Jsoup.parseBodyFragment(stepSource);
                     
                     // timestamp
-                    tr.select("td.timestamp").first().text(DateTimeHelper.getFormattedDateTime(node.getLog().get(ix).getTimestamp(), LogSettings.logTimeFormat));
+                    tr.select("td.timestamp").first().text(DateTimeHelper.getFormattedDateTime(node.getLog().get(ix).getTimestamp(), LogSettings.getLogTimeFormat()));
                      
                     // status
                     tr.select("td.status").first().addClass(node.getLog().get(ix).getLogStatus().toString());
