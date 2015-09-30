@@ -12,6 +12,7 @@
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css' type='text/css'>
+        <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
         <title>DocumentTitle</title>
         <style type='text/css'>
             body {
@@ -57,6 +58,7 @@
             .container {
                 max-width: none;
                 padding-left: 70px;
+                padding-top: 5px;
                 width: 98%;
             }
             .wrapper {
@@ -64,16 +66,15 @@
                 height: 100%;
                 overflow: auto;
             }
-
             
             /* -- [ material overrides ] -- */
             .z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
                 box-shadow: none;
             }
-            [type="checkbox"]:checked + label::before {
+            [type='checkbox']:checked + label::before {
                 border-color: transparent #62A8EA #62A8EA transparent;
             }
-            [type="checkbox"] + label::before {
+            [type='checkbox'] + label::before {
                 margin-top: 4px;
             }
             .select-wrapper input.select-dropdown, .input-field label {
@@ -180,14 +181,6 @@
             }
             img.active {
                 max-width: inherit !important;
-            }
-            .report-img.active {
-                border-radius: 0 !important;
-                height: 80% !important;
-                left: 10% !important;
-                position: fixed !important;
-                top: 10% !important;
-                width: 80% !important;
             }
             .linked {
                 color: #039be5;
@@ -357,6 +350,9 @@
             }
             
             /* -- [ test ] -- */
+            #dashboard-view:not(.hide) + #test-view {
+                margin-top: -20px;
+            }
             .test.active, .category-item.active {
                 border-left: 3px solid #dd4f6a;
                 color: #444 !important;
@@ -390,6 +386,9 @@
                 text-align: left !important;
                 max-width: 65px;
                 width: 35px;
+            }
+            .report-img {
+                cursor: zoom-in;
             }
             .test-body .collapsible-header {
                 background-color: inherit;
@@ -599,7 +598,7 @@
                 <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
-            <div class='report-name'>Automation Report</span> <span class='report-headline'></div>
+            <div><span class='report-name'>Automation Report</span> <span class='report-headline'></span></div>
             <ul class='right hide-on-med-and-down nav-right'>
                 <li>
                     <input type='checkbox' id='enableDashboard' />
@@ -730,12 +729,12 @@
                     </div>
                     <div class='card-panel no-padding-h no-padding-v'>
                         <div class='wrapper'>
-                            <ul class='test-collection'>
+                            <ul id='test-collection' class='test-collection'>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class='col s7'>
+                <div id='test-details-wrapper' class='col s7'>
                     <div class='card-panel vh100 details-view pin'>
                         <h5 class='details-name'></h5>
                         <div class='details-container'>
@@ -753,12 +752,12 @@
                     </div>
                     <div class='card-panel no-padding-h no-padding-v vh100'>
                         <div class='wrapper'>
-                            <ul class='cat-collection'>
+                            <ul id='cat-collection' class='cat-collection'>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class='col s7'>
+                <div id='cat-details-wrapper' class='col s7'>
                     <div class='card-panel vh100 details-view pin'>
                         <h5 class='cat-name'></h5>
                         <div class='cat-container'>
@@ -823,6 +822,7 @@
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+        <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
         <script type='text/javascript'>
             var menuWidth = 70;
             var pinWidth = '54.5%';
@@ -851,7 +851,7 @@
                 /* [TOPNAV] */
                 $('#enableDashboard').click(function() {
                     $(this).toggleClass('enabled');
-                    $('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').parent().children('.charts').toggleClass('hide');
+                    $('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
                 });
                 /* menu-toggle [SIDE-NAV] */
                 $('.menu-toggle').click(function() {
@@ -872,24 +872,25 @@
                 });
                 /* side-nav navigation [SIDE-NAV] */
                 $('.analysis').click(function() {
-                    $('.container > .row, .nav-right').addClass('hide');
-                    var cls = $(this).children('a').prop('class');
+                    $('.container > .row, ul.nav-right').addClass('hide');
+                    var el = $(this);
+                    var cls = el.children('a').prop('class');
                     $('#' + cls).removeClass('hide');
                     if (cls == 'test-view') { 
-                        $('.nav-right').removeClass('hide');
-                        if ($('#enableDashboard').hasClass('enabled') && !$('#dashboard-view .charts').is(':visible')) {
+                        $('ul.nav-right').removeClass('hide');
+                        if ($('#enableDashboard').hasClass('enabled') && !$('#dashboard-view > .charts').is(':visible')) {
                             $('#enableDashboard').click().prop('checked', true).addClass('enabled');
                         }
                     }
                     else {
                         $('#dashboard-view > div').removeClass('hide');
                     }
-                    $('li.analysis').removeClass('active');
-                    $(this).addClass('active');
+                    $('#slide-out > .analysis').removeClass('active');
+                    el.addClass('active');
                 });
                 
                 /* test-dashboard settings [DASHBOARD] */
-                $('.test-count-setting').click(function() {
+                $('#dashboard-view .test-count-setting').click(function() {
                     $('#test-count-setting').openModal();
                 });
                 /* test count setting */
@@ -900,7 +901,7 @@
                     $('#test-count-setting').addClass($(this).prop('id'));
                 });
                 /* step-dashboard settings [DASHBOARD] */
-                $('.step-status-filter').click(function() {
+                $('#dashboard-view .step-status-filter').click(function() {
                     $('#step-status-filter').openModal();
                 });
                 /* refresh charts when chart setting is saved */
@@ -915,20 +916,20 @@
                 
                 /* hide category menu if no categories exist [CATEGORIES] */
                 if ($('.category').length == 0) {
-                    $('.analysis > .categories-view').addClass('hide');
+                    $('#slide-out > .analysis > .categories-view').addClass('hide');
                 }
                 /* view cat info [CATEGORIES] */
                 $('.category-item').click(function() {
-                    if ($('.cat-container').find('.cat-body').length > 0) {
+                    if ($('#cat-details-wrapper .cat-container').find('.cat-body').length > 0) {
                         $('.category-item').filter(function() {
                             return ($(this).find('.cat-body').length == 0);
-                        }).append($('.cat-container').find('.cat-body'));
+                        }).append($('#cat-details-wrapper .cat-container').find('.cat-body'));
                     }
-                    $('.category-item').removeClass('active');
-                    $('.cat-container .cat-body').remove();
+                    $('#cat-collection .category-item').removeClass('active');
+                    $('#cat-details-wrapper .cat-container .cat-body').remove();
                     var el = $(this).addClass('active').find('.cat-body');
-                    $('.cat-name').text($(this).find('.category-name').text());
-                    $('.cat-container').append($(el));
+                    $('#cat-details-wrapper .cat-name').text($(this).find('.category-name').text());
+                    $('#cat-details-wrapper .cat-container').append($(el));
                 });
                 $('.category-item').eq(0).click();
                 /* navigation from cat-view to test-details [CATEGORIES] */
@@ -939,16 +940,17 @@
                 
                 /* view test info [TEST] */
                 $('.test').click(function() {
-                    if ($('.details-container').find('.test-body').length > 0) {
-                        $('.test').filter(function() {
+                    var t = $(this);
+                    if ($('#test-details-wrapper .test-body').length > 0) {
+                        $('#test-collection .test').filter(function() {
                             return ($(this).find('.test-body').length == 0);
-                        }).append($('.details-container').find('.test-body'));
+                        }).append($('#test-details-wrapper .test-body'));
                     }
-                    $('.test').removeClass('active');
-                    $('.details-container .test-body').remove();
-                    var el = $(this).addClass('active').find('.test-body');
-                    $('.details-name').text($(this).find('.test-name').text());
-                    $('.details-container').append($(el));
+                    $('#test-collection .test').removeClass('active');
+                    $('#test-details-wrapper .test-body').remove();
+                    var el = t.addClass('active').find('.test-body');
+                    $('#test-details-wrapper .details-name').text(t.find('.test-name').text());
+                    $('#test-details-wrapper .details-container').append($(el));
                 });
                 $('.test').eq(0).click();
                 /* filter tests by text [TEST] */
@@ -965,7 +967,7 @@
                             if ($('.details-container .test-node-name').text().toLowerCase().indexOf(txt) >= 0) {
                                 $('.test.active').show();
                             }
-                            $('.test.displayed').eq(0).click();
+                            $('.test:visible').eq(0).click();
                         }
                         if ($('#searchCats').is(':focus')) {
                             var txt = $('#searchCats').val().toLowerCase();
@@ -975,7 +977,7 @@
                                     $(this).closest('.category-item').addClass('displayed').show();
                                 }
                             });
-                            $('.category-item.displayed').eq(0).click();
+                            $('.category-item:visible').eq(0).click();
                         }
                     }
                 });
@@ -1041,47 +1043,43 @@
                         }
                     }                                
                 });
-                /* action to perform when 'Clear Filters' option is selected [TEST] */
-                function resetFilters() {
-                    $('.dropdown-content li').removeClass('active');
-                    $('.test').addClass('displayed').show(0);
-                    redrawCharts();
-                    $('.dropdown-content li:first-child').addClass('active').click();
-                }
-                
+
                 /* hide testrunner-logs view if no logs added [TESTRUNNER-LOGS] */
                 if ($('#testrunner-logs-view .card-panel > p').length == 0) {
                     $('.analysis > .testrunner-logs-view').addClass('hide');
                 }
                 
-                /* formats date in mm-dd-yyyy hh:mm:ss [UTIL] */
-                function formatDt(d) {
-                    return d.getFullYear() + '-' +
-                        ('00' + (d.getMonth() + 1)).slice(-2) + '-' + 
-                        ('00' + d.getDate()).slice(-2) + ' ' + 
-                        ('00' + d.getHours()).slice(-2) + ':' + 
-                        ('00' + d.getMinutes()).slice(-2) + ':' + 
-                        ('00' + d.getSeconds()).slice(-2);
-                }
-                /* finds test by its name and extentId  [UTIL] */
-                function findTestByNameId(name, id) {
-                    $('.test').each(function() {
-                        if ($(this).find('.test-name').text().trim() == name && $(this).attr('extentid') == id) {
-                            $('.analysis > .test-view').click();
-                            $('html, body').animate({
-                                scrollTop: $('.details-name').offset().top
-                            }, 400);
-                            $(this).click();
-                            return;
-                        }
-                    });
-                }
-                
                 resetFilters();
-                redrawCharts();
-                
-                $('#dashboard-view').addClass('hide');
             })
+            /* action to perform when 'Clear Filters' option is selected [TEST] */
+            function resetFilters() {
+                $('.dropdown-content li').removeClass('active');
+                $('.test').addClass('displayed').show(0);
+                redrawCharts();
+                $('.dropdown-content li:first-child').addClass('active').click();
+            }
+            /* formats date in mm-dd-yyyy hh:mm:ss [UTIL] */
+            function formatDt(d) {
+                return d.getFullYear() + '-' +
+                    ('00' + (d.getMonth() + 1)).slice(-2) + '-' + 
+                    ('00' + d.getDate()).slice(-2) + ' ' + 
+                    ('00' + d.getHours()).slice(-2) + ':' + 
+                    ('00' + d.getMinutes()).slice(-2) + ':' + 
+                    ('00' + d.getSeconds()).slice(-2);
+            }
+            /* finds test by its name and extentId  [UTIL] */
+            function findTestByNameId(name, id) {
+                $('.test').each(function() {
+                    if ($(this).find('.test-name').text().trim() == name && $(this).attr('extentid') == id) {
+                        $('.analysis > .test-view').click();
+                        $('html, body').animate({
+                            scrollTop: $('.details-name').offset().top
+                        }, 400);
+                        $(this).click();
+                        return;
+                    }
+                });
+            }
             /* refresh and redraw charts [DASHBOARD] */
             function redrawCharts() {
                 if (!$('#dashboard-view .charts').is(':visible')) {
@@ -1240,6 +1238,8 @@
               }
               testsChart(); stepsChart();
               $('ul.doughnut-legend').addClass('right');
+              redrawCharts(); 
+              $('#dashboard-view').addClass('hide');
         </script>
     </body>
 </html>
