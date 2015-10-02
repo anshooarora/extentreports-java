@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name='description' content='ExtentReports 2.0 (by Anshoo Arora) is a HTML reporting library for Selenium WebDriver for Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.' />
+        <meta name='robots' content='noodp, noydir' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+        <link rel='stylesheet' href='../css/kube.min.css'>
+        <link rel='stylesheet' href='../css/dropit.css'>
+        <link rel='stylesheet' href='../css/css.css'>
+        <title>ExtentReports</title>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                <div class='units-row'>
+                    <div class='unit-centered unit-80 top-unit'>
+                        <div class='left'>
+                            <div class='logo'>
+                                <a href='http://extentreports.relevantcodes.com'>ExtentReports</a>
+                            </div>
+                        </div>
+                        <div class='menu right'>
+                            <ul class='menu-items'>
+                                <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+                                <li class='menu-item'><a href='../faqs.html'>FAQs</a></li>
+								<!--<li class='menu-item'><a href='../users/showcase.html'>Showcase</a></li>-->
+                                <li class='menu-item'>
+                                    <a href='#'>Java</a>
+                                    <ul>
+                                        <li class='menu-item dropdown-item'><a href='../1x/docs.html'>Version 1 Docs</a></li>
+                                        <li class='menu-item dropdown-item'><a href='../2x/docs.html'>Version 2 Docs</a></li>
+                                    </ul>
+                                </li>
+                                <li class='menu-item'><a href='../net/docs.html'>.NET</a></li>
+								<li class='menu-item active'><a href='#'>ExtentMerge</a></li>
+                                <li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='slider'>
+                
+            </div>
+             <div class='main'>
+                <div class='intro-area bg-gray'>
+                    <div class='units-row'>
+                        <div class='unit-80 centered top-unit'>
+                            <div class="units-row end">
+							<h1>Intro</h1>
+							<p>ExtentMerge is a console application that merges multiple HTML files and information from Extent.db (database) file into a single trend report.</p>
+							
+							<h1>Current Version</h1>
+                            <p>0.1-alpha</p>
+							
+							<h1>Sample</h1>
+							<p>Here is a demo sample: <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentMerge.html'>linky</a>.</p>
+							
+							<h1>Docs</h1>
+                            <ul class='index'>
+								<li><a href='#usage'>Usage</a></li>
+                                    <ul>
+                                        <li><a href='#directory'>Directory</a></li>
+                                        <li><a href='#htmlfile'>HTML File</a></li>
+                                        <li><a href='#database'>Database</a></li>
+                                        <li><a href='#dates'>Merging Reports Between 2 Dates</a></li>
+										<li><a href='#multiple-sources'>Multiple Sources</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href='#license'>License</a></li>
+                            </ul>
+							
+							<h1 id='usage'>Usage</h1>
+							<p>Below are the options used by ExtentMerge:</p>
+<pre><code class='java'>
+Options:
+    -h, --help
+       Help
+    -v, --version
+       Version
+       Default: 0.1
+    -db
+       Extent generated Sqlite database
+    -dir
+       Directory where Extent HTML files are placed
+    -from
+       Date to begin collecting data (Format: 'yyyy-MM-dd HH:mm:ss')
+    -html
+       Extent generated HTML file
+  * -out
+       Output file path with .html extension
+    -to
+       Date to end collecting data (Format: 'yyyy-MM-dd HH:mm:ss')
+</code></pre>
+
+<h3>Directory</h3>
+<p>ExtentMerge can consume an entire directory and scan for all resources that are valid Extent.html or Extent.db. To use a directory as input, use the below command:</p>
+<pre><code class='java'>
+java -jar extentmerge.jar -dir "C:\MyDirectory" -out "C:\MyDirectory\ExtentMerge.html"
+</code></pre>
+
+<h3>HTML File</h3>
+<p>To merge multiple HTML files, use the below command:</p>
+<pre><code class='java'>
+java -jar extentmerge.jar -html "C:\MyDirectory\Report1.html" -html "C:\MyDirectory\Report2.html" -out "C:\MyDirectory\ExtentMerge.html"
+</code></pre>
+
+<h3>Database</h3>
+<p>To merge one or many databases, use the below command:</p>
+<pre><code class='java'>
+java -jar extentmerge.jar -db "C:\MyDirectory\Extent.db" -out "C:\MyDirectory\ExtentMerge.html"
+</code></pre>
+
+<h3>Merging Reports Between 2 Dates</h3>
+<p>To merge reports from any source between multiple dates, simply specify the start-date and end-date. Note: you must use the following format for dates: "yyyy-MM-dd HH:mm:ss".</p>
+<pre><code class='java'>
+java -jar extentmerge.jar -dir "locataion" -out "extent.html" -from "2015-10-02 00:00:00" -to "2015-10-05 23:59:59"
+</code></pre>
+
+<h3>Multiple Sources</h3>
+<p>It is possible to use multiple input sources as well. ExtentMerge will scan all resources for valid information to build the merged report.</p>
+<pre><code class='java'>
+java -jar extentmerge.jar -dir "location" -html "input.html" -db "extent.db" -out "extent.html"
+</code></pre>                            
+
+<h2 id='license'>License</h2>
+<h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ol>
+    <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+    <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+    <li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Anshoo Arora or RelevantCodes.com BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='footer bg-inverse'>
+                <div class='units-row'>
+                    <div class='unit-100'>
+                        <div class='unit-80 centered top-unit'>
+                            <div class='left'>
+                                <span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
+                            </div>
+                            <div class='right'>
+                                <span><a href='http://relevantcodes.com/extentreports-for-selenium/'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+        <script src="../js/kube.min.js"></script> 
+        <script src="../js/dropit.js"></script>
+        <script src="../js/scripts.js"></script> 
+        <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+    </body>
+</html>
