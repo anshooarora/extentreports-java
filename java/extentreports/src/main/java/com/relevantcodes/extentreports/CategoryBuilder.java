@@ -15,7 +15,7 @@ import org.jsoup.nodes.Element;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
 import com.relevantcodes.extentreports.source.CategoryHtml;
-import com.relevantcodes.extentreports.support.DateTimeHelper;
+import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
 class CategoryBuilder {
     public static void buildCategoryViewLink(Document extentDoc, Test test) {
@@ -38,7 +38,7 @@ class CategoryBuilder {
             }
             
             Element trTest = Jsoup.parseBodyFragment(CategoryHtml.getCategoryViewTestSource()).select("tr").first();
-            trTest.select("td").first().text(DateTimeHelper.getFormattedDateTime(test.getStartedTime(), LogSettings.getLogDateTimeFormat()));
+            trTest.select("td").first().text(DateTimeUtil.getFormattedDateTime(test.getStartedTime(), LogSettings.getLogDateTimeFormat()));
             trTest.select(".category-link").first().text(test.getName()).attr("extentId", test.getId().toString());
             trTest.select(".label").first().text(test.getStatus().toString()).addClass(test.getStatus().toString());
             

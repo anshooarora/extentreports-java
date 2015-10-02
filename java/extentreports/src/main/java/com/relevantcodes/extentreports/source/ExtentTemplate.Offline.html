@@ -5,16 +5,15 @@
             ExtentReports Library 2.10 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
-        --> 
+        -->
         <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
         <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='stylesheet' href='./extentreports/css/css.css' type='text/css'>
-        <title>ExtentReports 2.0</title>
-        <!--%%CUSTOMCSS%%-->
+        <link href='./extentreports/css/css.css' type='text/css' rel='stylesheet' />
+        <title>ExtentReports 2.10</title>
     </head>
-    <body>  
+    <body class='extent'>  
         <nav>
             <ul id='slide-out' class='side-nav fixed'>
                 <li class='logo'>
@@ -27,7 +26,7 @@
                 <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='fa fa-file-text-o'></i>TestRunner Logs</a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
-            <div class='report-name'>Automation Report</span> <span class='report-headline'></div>
+            <span class='report-name'>Automation Report</span> <span class='report-headline'></span>
             <ul class='right hide-on-med-and-down nav-right'>
                 <li>
                     <input type='checkbox' id='enableDashboard' />
@@ -76,7 +75,7 @@
                                 <span class='panel-name'>Tests View</span>
                             </div> 
                             <div class='panel-setting modal-trigger test-count-setting right'>
-                                <a href='#test-count-setting'><i class='fa fa-ellipsis-v text-md'></i></a>
+                                <a href='#test-count-setting'><i class='mdi-navigation-more-vert text-md'></i></a>
                             </div> 
                             <div class='chart-box'>
                                 <canvas class='text-centered' id='test-analysis'></canvas>
@@ -95,7 +94,7 @@
                                 <span class='panel-name'>Steps View</span>
                             </div> 
                             <div class='panel-setting modal-trigger step-status-filter right'>
-                                <a href='#step-status-filter'><i class='fa fa-ellipsis-v text-md'></i></a>
+                                <a href='#step-status-filter'><i class='mdi-navigation-more-vert text-md'></i></a>
                             </div> 
                             <div class='chart-box'>
                                 <canvas class='text-centered' id='step-analysis'></canvas>
@@ -158,13 +157,13 @@
                     </div>
                     <div class='card-panel no-padding-h no-padding-v'>
                         <div class='wrapper'>
-                            <ul class='test-collection'>
+                            <ul id='test-collection' class='test-collection'>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class='col s7'>
-                    <div class='card-panel vh100 details-view'>
+                <div id='test-details-wrapper' class='col s7'>
+                    <div class='card-panel vh100 details-view pin'>
                         <h5 class='details-name'></h5>
                         <div class='details-container'>
                         </div>
@@ -181,13 +180,13 @@
                     </div>
                     <div class='card-panel no-padding-h no-padding-v vh100'>
                         <div class='wrapper'>
-                            <ul class='cat-collection'>
+                            <ul id='cat-collection' class='cat-collection'>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class='col s7'>
-                    <div class='card-panel vh100'>
+                <div id='cat-details-wrapper' class='col s7'>
+                    <div class='card-panel vh100 details-view pin'>
                         <h5 class='cat-name'></h5>
                         <div class='cat-container'>
                         </div>
@@ -249,8 +248,6 @@
             </div> 
         </div>
         <script type='text/javascript' src='./extentreports/js/scripts.js'></script>
-        <script type='text/javascript'>
-            
-        </script>
+        <script type='text/javascript'></script>
     </body>
 </html>

@@ -1,3 +1,11 @@
+/*
+* Copyright (c) 2015, Anshoo Arora (Relevant Codes).  All rights reserved.
+* 
+* Copyrights licensed under the New BSD License.
+* 
+* See the accompanying LICENSE file for terms.
+*/
+
 package com.relevantcodes.extentreports;
 
 import java.io.File;
@@ -15,6 +23,12 @@ import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
 
+/**
+ * Concrete DBReporter class
+ * 
+ * @author Anshoo
+ *
+ */
 class DBReporter extends LogSettings implements IReporter {
 	private boolean isReady = false;
 	
@@ -25,7 +39,7 @@ class DBReporter extends LogSettings implements IReporter {
     private Test test;
     private Map<String, String> systemMap;
     
-    private final String queryCreateReportTable = "CREATE TABLE IF NOT EXISTS Report " + 
+    private final String CREATE_REPORT_TABLE = "CREATE TABLE IF NOT EXISTS Report " + 
                         "(" +
                             "ReportIDExtent VARCHAR(36) NOT NULL, " +
                             "StartMillis TIME NOT NULL, " +
@@ -33,7 +47,7 @@ class DBReporter extends LogSettings implements IReporter {
                             "ReportStatus TEXT NOT NULL, " +
                             "PRIMARY KEY (ReportIDExtent)" +
                         ")";
-    private final String queryInsertReportRow = "INSERT INTO Report " +
+    private final String INSERT_REPORT = "INSERT INTO Report " +
                         "( " +
                             "ReportIDExtent, " +
                             "StartMillis, " +
@@ -41,20 +55,20 @@ class DBReporter extends LogSettings implements IReporter {
                             "ReportStatus " +
                         ")" +
                         "VALUES (?, ?, ?, ?)";
-    private final String queryUpdateReportRow = "UPDATE Report " +
+    private final String UPDATE_REPORT = "UPDATE Report " +
                         "SET " +
                             "EndMillis = ?, " +
                             "ReportStatus = ? " +
                         "WHERE " +
                             "ReportIDExtent = '%%REPORTID%%'";
     
-    private final String queryCreateSystemInfoTable = "CREATE TABLE IF NOT EXISTS SystemInfo " + 
+    private final String CREATE_SYSTEM_INFO_TABLE = "CREATE TABLE IF NOT EXISTS SystemInfo " + 
                         "(" +
                             "ReportIDExtent VARCHAR(36) NOT NULL, " +
                             "Param TEXT NOT NULL, " +
                             "Value TEXT NOT NULL" +
                         ")";
-    private final String queryInsertSystemInfoRow = "INSERT INTO SystemInfo " +
+    private final String INSERT_SYSTEM_INFO = "INSERT INTO SystemInfo " +
                         "( " +
                             "ReportIDExtent, " +
                             "Param, " +
@@ -62,7 +76,7 @@ class DBReporter extends LogSettings implements IReporter {
                         ")" +
                         "VALUES (?, ?, ?)";
 
-    private final String queryCreateTestTable = "CREATE TABLE IF NOT EXISTS Test " + 
+    private final String CREATE_TEST_TABLE = "CREATE TABLE IF NOT EXISTS Test " + 
 	                    "(" +
 	                        "ReportIDExtent VARCHAR(36) NOT NULL, " +
 	                        "TestIDExtent VARCHAR(36) NOT NULL, " +
@@ -83,7 +97,7 @@ class DBReporter extends LogSettings implements IReporter {
 	                        "ChildNodesCount INTEGER, " +
 	                        "PRIMARY KEY (TestIDExtent)" +
 	                    ")";
-    private final String queryInsertTest = "INSERT INTO Test " +
+    private final String INSERT_TEST = "INSERT INTO Test " +
 	                    "( " +
 	                        "ReportIDExtent, " +
 	                        "TestIDExtent, " +
@@ -105,12 +119,13 @@ class DBReporter extends LogSettings implements IReporter {
 	                    ") " +
 	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 
-    private final String queryCreateNodeTable = "CREATE TABLE IF NOT EXISTS Node " + 
+    private final String CREATE_NODE_TABLE = "CREATE TABLE IF NOT EXISTS Node " + 
 	                    "(" +
 	                        "NodeIDExtent VARCHAR(36) NOT NULL, " +
 	                        "NodeName TEXT NOT NULL, " +
 	                        "NodeLevel INTEGER NOT NULL, " +
-	                        "ParentTestIDExtent VARCHAR(36) NOT NULL, " +
+	                        "ReportIDExtent VARCHAR(36) NOT NULL, " +
+	                        "TestIDExtent VARCHAR(36) NOT NULL, " +
 	                        "ParentTestName TEXT NOT NULL, " +
 	                        "Status VARCHAR(7) NOT NULL, " +
 	                        "Description TEXT, " +
@@ -118,12 +133,13 @@ class DBReporter extends LogSettings implements IReporter {
 	                        "EndMillis TIME NOT NULL, " +
 	                        "ChildNodesCount INTEGER" +
 	                    ")";
-    private final String queryInsertNode = "INSERT INTO Node " +
+    private final String INSERT_NODE = "INSERT INTO Node " +
 		                    "( " +
 		                        "NodeIDExtent, " +
 		                        "NodeName, " +
 		                        "NodeLevel, " +
-		                        "ParentTestIDExtent, " +
+		                        "ReportIDExtent, " +
+		                        "TestIDExtent, " +
 		                        "ParentTestName, " +
 		                        "Status, " +
 		                        "Description, " +
@@ -131,10 +147,11 @@ class DBReporter extends LogSettings implements IReporter {
 		                        "EndMillis, " +
 		                        "ChildNodesCount " +
 		                    ") " +
-		                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
-    private final String queryCreateLogTable = "CREATE TABLE IF NOT EXISTS Log " + 
+    private final String CREATE_LOG_TABLE = "CREATE TABLE IF NOT EXISTS Log " + 
 	                    "(" +
+	                    	"ReportIDExtent VARCHAR(36) NOT NULL, " +
 	                        "TestIDExtent VARCHAR(36) NOT NULL, " +
 	                        "TestName TEXT NOT NULL, " +
 	                        "LogID INTEGER NOT NULL, " +
@@ -143,8 +160,9 @@ class DBReporter extends LogSettings implements IReporter {
 	                        "Details TEXT, " +
 	                        "Timestamp TIME NOT NULL" +
 	                    ")";
-    private final String queryInsertLogs = "INSERT INTO Log " +
+    private final String INSERT_LOG = "INSERT INTO Log " +
 		                    "(" +
+		                        "ReportIDExtent, " + 
 		                        "TestIDExtent, " +
 		                        "TestName, " +
 		                        "LogID, " +
@@ -153,16 +171,16 @@ class DBReporter extends LogSettings implements IReporter {
 		                        "Details, " +
 		                        "Timestamp " +
 		                    ") " +
-		                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+		                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 
-    private final String queryCreateCategoryTable = "CREATE TABLE IF NOT EXISTS Category " +
+    private final String CREATE_CATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS Category " +
 		                "( " +
 		                    "ReportIDExtent VARCHAR(36) NOT NULL, " +
 		                    "TestIDExtent VARCHAR(36) NOT NULL, " +
 		                    "TestName TEXT NOT NULL, " +
 		                    "CategoryName TEXT NOT NULL" +
 		                ")";
-    private final String queryInsertCategory = "INSERT INTO Category " +
+    private final String INSERT_CATEGORY = "INSERT INTO Category " +
                         "( " +
                             "ReportIDExtent, " +
                             "TestIDExtent, " +
@@ -183,6 +201,8 @@ class DBReporter extends LogSettings implements IReporter {
             Class.forName(sqliteClass);
         }
         catch (ClassNotFoundException e) {
+        	System.out.println("Unable to start database reporter. Extent database will not be created.");
+        	
             e.printStackTrace();
             return;
         }
@@ -212,6 +232,10 @@ class DBReporter extends LogSettings implements IReporter {
     
     @Override
     public void flush() {
+    	if (connection == null) {
+    		return;
+    	}
+    	
         // insert system info
         Map<String, String> info = report.getSystemInfo().getInfo();
         
@@ -219,7 +243,7 @@ class DBReporter extends LogSettings implements IReporter {
             for (Map.Entry<String, String> entry : info.entrySet()) {
                 if (!systemMap.containsKey(entry.getKey())) {
                     try {
-                        PreparedStatement stmt = connection.prepareStatement(queryInsertSystemInfoRow);
+                        PreparedStatement stmt = connection.prepareStatement(INSERT_SYSTEM_INFO);
                        
                         int ix = 0;
                         
@@ -253,7 +277,7 @@ class DBReporter extends LogSettings implements IReporter {
         this.test = report.getTest();
 
         try {
-            PreparedStatement stmt = connection.prepareStatement(queryInsertTest);
+            PreparedStatement stmt = connection.prepareStatement(INSERT_TEST);
             
             int ix = 0;
             
@@ -292,6 +316,10 @@ class DBReporter extends LogSettings implements IReporter {
     
     @Override
     public void stop() {
+    	if (connection == null) {
+    		return;
+    	}
+    	
         try {
         	updateCurrentReportRow();
         	
@@ -304,7 +332,7 @@ class DBReporter extends LogSettings implements IReporter {
     
     private void insertCurrentReportRow() {
         try {
-            PreparedStatement stmt = connection.prepareStatement(queryInsertReportRow);
+            PreparedStatement stmt = connection.prepareStatement(INSERT_REPORT);
             
             int ix = 0;
             
@@ -323,7 +351,7 @@ class DBReporter extends LogSettings implements IReporter {
     
     private void updateCurrentReportRow() {
         try {
-            PreparedStatement stmt = connection.prepareStatement(queryUpdateReportRow.replace("%%REPORTID%%", report.getId().toString()));
+            PreparedStatement stmt = connection.prepareStatement(UPDATE_REPORT.replace("%%REPORTID%%", report.getId().toString()));
             
             int ix = 0;
             
@@ -355,13 +383,14 @@ class DBReporter extends LogSettings implements IReporter {
     private void addNode(Test node, int level) {
         
         try {
-            PreparedStatement stmt = connection.prepareStatement(queryInsertNode);
+            PreparedStatement stmt = connection.prepareStatement(INSERT_NODE);
 
             int ix = 0;
             
             stmt.setString(++ix, node.getId().toString());
             stmt.setString(++ix, node.getName());
             stmt.setInt(++ix, level);
+            stmt.setString(++ix, report.getId().toString());
             stmt.setString(++ix, test.getId().toString());
             stmt.setString(++ix, test.getName());
             stmt.setString(++ix, node.getStatus().toString());
@@ -382,11 +411,12 @@ class DBReporter extends LogSettings implements IReporter {
     
     private void addLogs(Test test) {
         try {
-            PreparedStatement stmt = getPreparedStatement(queryInsertLogs);
+            PreparedStatement stmt = getPreparedStatement(INSERT_LOG);
             
             int ix = 0, id = 0;
             
             for (Log log : test.getLog()) {
+            	stmt.setString(++ix, report.getId().toString());
                 stmt.setString(++ix, test.getId().toString());
                 stmt.setString(++ix, test.getName());
                 stmt.setInt(++ix, id++);
@@ -411,7 +441,7 @@ class DBReporter extends LogSettings implements IReporter {
         createCategoryTable();
         
         try {
-            PreparedStatement stmt = getPreparedStatement(queryInsertCategory);
+            PreparedStatement stmt = getPreparedStatement(INSERT_CATEGORY);
             
             for (TestAttribute c : test.getCategoryList()) {
                 stmt.setString(1, report.getId().toString());
@@ -430,27 +460,27 @@ class DBReporter extends LogSettings implements IReporter {
     }
     
     private void createReportTable() {
-        updateDb(queryCreateReportTable);
+        updateDb(CREATE_REPORT_TABLE);
     }
     
     private void createSystemInfoTable() {
-        updateDb(queryCreateSystemInfoTable);
+        updateDb(CREATE_SYSTEM_INFO_TABLE);
     }
     
     private void createTestTable() {        
-        updateDb(queryCreateTestTable);
+        updateDb(CREATE_TEST_TABLE);
     }
     
     private void createNodeTable() {
-        updateDb(queryCreateNodeTable);
+        updateDb(CREATE_NODE_TABLE);
     }
     
     private void createLogTable() {
-        updateDb(queryCreateLogTable);
+        updateDb(CREATE_LOG_TABLE);
     }
     
     private void createCategoryTable() {
-        updateDb(queryCreateCategoryTable);
+        updateDb(CREATE_CATEGORY_TABLE);
     }
     
     private PreparedStatement getPreparedStatement(String query) {
@@ -479,7 +509,5 @@ class DBReporter extends LogSettings implements IReporter {
     @Override
     public void setTestRunnerLogs() { }
     
-    public DBReporter() {
-        
-    }
+    public DBReporter() { }
 }

@@ -6,7 +6,7 @@
 * See the accompanying LICENSE file for terms.
 */
 
-package com.relevantcodes.extentreports.support;
+package com.relevantcodes.extentreports.utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DateTimeHelper {
+public class DateTimeUtil {
     public static String getFormattedDateTime(Date date, String pattern) {
         SimpleDateFormat sdfDate = new SimpleDateFormat(pattern);
 

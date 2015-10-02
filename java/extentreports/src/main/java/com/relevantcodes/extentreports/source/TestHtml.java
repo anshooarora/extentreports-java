@@ -26,7 +26,7 @@ public class TestHtml {
 					"<div class='test-info'>" +
 						"<span title='Test started time' class='test-started-time label green lighten-2 text-white'></span>" +
 	                    "<span title='Test ended time' class='test-ended-time label red lighten-2 text-white'></span>" +
-	                    "<span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'></span>" +
+	                    "<span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'></span>" +
 	                "</div>" +
 						"<div class='test-desc'></div>" +
 						"<div class='test-attributes'>" +

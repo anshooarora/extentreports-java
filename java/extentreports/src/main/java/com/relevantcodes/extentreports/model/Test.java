@@ -11,18 +11,19 @@ package com.relevantcodes.extentreports.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import com.relevantcodes.extentreports.LogCounts;
 import com.relevantcodes.extentreports.LogStatus;
 
 public class Test {
-    private ArrayList<TestAttribute> categoryList;
-    private ArrayList<TestAttribute> authorsList;
-    private ArrayList<Log> logList;
-    private ArrayList<ScreenCapture> screenCaptureList;
-    private ArrayList<Screencast> screencastList;
-    private ArrayList<Test> nodeList;
+    private List<TestAttribute> categoryList;
+    private List<TestAttribute> authorsList;
+    private List<Log> logList;
+    private List<ScreenCapture> screenCaptureList;
+    private List<Screencast> screencastList;
+    private List<Test> nodeList;
     
     private HashMap<LogStatus, Integer> logCounts;
     
@@ -109,7 +110,7 @@ public class Test {
     }
     
     // categories
-    public void setCategoryList(ArrayList<TestAttribute> categoryList) {
+    public void setCategoryList(List<TestAttribute> categoryList) {
         this.categoryList = categoryList;
     }
     
@@ -117,12 +118,12 @@ public class Test {
         categoryList.add(category);
     }
     
-    public ArrayList<TestAttribute> getCategoryList() {
+    public List<TestAttribute> getCategoryList() {
         return categoryList;
     }
     
     // authors
-    public void setAuthorsList(ArrayList<TestAttribute> authorsList) {
+    public void setAuthorsList(List<TestAttribute> authorsList) {
         this.authorsList = authorsList;
     }
     
@@ -130,12 +131,12 @@ public class Test {
         authorsList.add(author);
     }
     
-    public ArrayList<TestAttribute> getAuthorsList() {
+    public List<TestAttribute> getAuthorsList() {
         return authorsList;
     }
     
     // logs
-    public void setLog(ArrayList<Log> logList) {
+    public void setLog(List<Log> logList) {
         this.logList = logList;
     }
     
@@ -143,12 +144,12 @@ public class Test {
         logList.add(log);
     }
     
-    public ArrayList<Log> getLog() {
+    public List<Log> getLog() {
         return logList;
     }
     
     // screencapture
-    public void setScreenCaptureList(ArrayList<ScreenCapture> screenCaptureList) {
+    public void setScreenCaptureList(List<ScreenCapture> screenCaptureList) {
         this.screenCaptureList = screenCaptureList;
     }
     
@@ -156,12 +157,12 @@ public class Test {
         screenCaptureList.add(screenCapture);
     }
     
-    public ArrayList<ScreenCapture> getScreenCaptureList() {
+    public List<ScreenCapture> getScreenCaptureList() {
         return screenCaptureList;
     }
     
     // screencast
-    public void setScreencastList(ArrayList<Screencast> screencastList) {
+    public void setScreencastList(List<Screencast> screencastList) {
         this.screencastList = screencastList;
     }
     
@@ -169,12 +170,12 @@ public class Test {
         screencastList.add(screencast);
     }
     
-    public ArrayList<Screencast> getScreencastList() {
+    public List<Screencast> getScreencastList() {
         return screencastList;
     }
     
     // nodes
-    public void setNodeList(ArrayList<Test> nodeList) {
+    public void setNodeList(List<Test> nodeList) {
         this.nodeList = nodeList;
     }
     
@@ -182,7 +183,7 @@ public class Test {
         nodeList.add(node);
     }
     
-    public ArrayList<Test> getNodeList() {
+    public List<Test> getNodeList() {
         return nodeList;
     }  
     

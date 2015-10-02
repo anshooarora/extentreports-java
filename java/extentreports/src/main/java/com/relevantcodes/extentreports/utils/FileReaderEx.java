@@ -7,7 +7,7 @@
 */
 
 
-package com.relevantcodes.extentreports.support;
+package com.relevantcodes.extentreports.utils;
 
 import java.io.File;
 import java.io.FileInputStream;

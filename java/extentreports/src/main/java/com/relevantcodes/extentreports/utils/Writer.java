@@ -6,7 +6,7 @@
 * See the accompanying LICENSE file for terms.
 */
 
-package com.relevantcodes.extentreports.support;
+package com.relevantcodes.extentreports.utils;
 
 import java.io.BufferedWriter;
 import java.io.File;

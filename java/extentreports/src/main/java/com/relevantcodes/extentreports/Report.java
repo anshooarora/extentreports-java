@@ -1,3 +1,11 @@
+/*
+* Copyright (c) 2015, Anshoo Arora (Relevant Codes).  All rights reserved.
+* 
+* Copyrights licensed under the New BSD License.
+* 
+* See the accompanying LICENSE file for terms.
+*/
+
 package com.relevantcodes.extentreports;
 
 import java.io.File;
@@ -10,6 +18,7 @@ import java.util.UUID;
 import com.relevantcodes.extentreports.model.SuiteTimeInfo;
 import com.relevantcodes.extentreports.model.Test;
 
+// Report abstract
 abstract class Report extends LogSettings {
 	private String filePath;
 	private DisplayOrder displayOrder;
@@ -20,17 +29,16 @@ abstract class Report extends LogSettings {
 	private Date startedTime;
 	
 	private String testRunnerLogs;
-	
-	protected SuiteTimeInfo suiteTimeInfo;
-	protected SystemInfo systemInfo;
-	
 	private List<IReporter> reporters;
-	
-	protected List<ExtentTest> testList;
-	
+
 	private Test test;
 	
 	private UUID reportId;
+
+	protected SuiteTimeInfo suiteTimeInfo;
+	protected SystemInfo systemInfo;
+	
+	protected List<ExtentTest> testList;
 	
 	protected void attach(IReporter reporter) {
 		if (reporters == null) {

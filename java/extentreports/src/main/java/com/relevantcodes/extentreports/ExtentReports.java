@@ -15,12 +15,13 @@ import java.util.Map;
 import com.relevantcodes.extentreports.model.Test;
 
 /**
+ * Extent Concrete Reporter
  * 
  * @author Anshoo
  *
  */
 public class ExtentReports extends Report {
-    private HTMLReporter.ReportConfig reportConfig;
+    private HTMLReporter.HTMLReportConfig reportConfig;
     
     
     /**
@@ -46,7 +47,7 @@ public class ExtentReports extends Report {
 		HTMLReporter htmlReporter = new HTMLReporter();
 		attach(htmlReporter);
 		
-		reportConfig = htmlReporter.new ReportConfig();
+		reportConfig = htmlReporter.new HTMLReportConfig();
 				
         systemInfo = new SystemInfo();
     }
@@ -159,9 +160,9 @@ public class ExtentReports extends Report {
     /**
      * Allows various configurations to be applied to the report file
      * 
-     * @return {@link HTMLReporter.ReportConfig}
+     * @return {@link HTMLReporter.HTMLReportConfig}
      */
-    public HTMLReporter.ReportConfig config() {
+    public HTMLReporter.HTMLReportConfig config() {
         return reportConfig;
     }
     

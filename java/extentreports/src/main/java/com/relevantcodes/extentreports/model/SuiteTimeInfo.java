@@ -8,7 +8,7 @@
 
 package com.relevantcodes.extentreports.model;
 
-import com.relevantcodes.extentreports.support.DateTimeHelper;
+import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
 public class SuiteTimeInfo {
     public void setSuiteStartTimestamp(long startedAt) {
@@ -28,7 +28,7 @@ public class SuiteTimeInfo {
     }
     
     public String getTimeDiff() {
-    	return DateTimeHelper.getDiff(endedAt, startedAt);
+    	return DateTimeUtil.getDiff(endedAt, startedAt);
     }
     
     private long startedAt;
