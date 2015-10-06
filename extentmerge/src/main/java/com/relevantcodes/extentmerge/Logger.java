@@ -1,3 +1,9 @@
+/*
+* The MIT License (MIT)
+* 
+* Copyright (c) 2015, Anshoo Arora (Relevant Codes)
+*/
+
 package com.relevantcodes.extentmerge;
 
 import java.util.Calendar;
@@ -25,7 +31,7 @@ class Logger extends LogSettings {
 	}
 	
 	public static void log(String message) {
-		System.out.println(message);
+		log(LogStatus.UNKNOWN, message);
 	}
 	
 	public static Queue<Log> getLogs() {
@@ -34,12 +40,17 @@ class Logger extends LogSettings {
 	
 	private static void log(LogStatus logStatus, String message) {
 		log = new Log();
-		log.setLogStatus(logStatus);
-		log.setTimestamp(Calendar.getInstance().getTime());
 		log.setDetails(message);
+		log.setTimestamp(Calendar.getInstance().getTime());
+		log.setLogStatus(logStatus);
+		
+		if (logStatus != LogStatus.UNKNOWN) {
+			System.out.println("[" + DateTimeUtil.getFormattedDateTime(log.getTimestamp().getTime(), getLogDateTimeFormat()) + "] [" + logStatus.toString().toUpperCase() + "]"  + message);
+		}
+		else {
+			System.out.println(message);
+		}
 		
 		logList.add(log);
-		
-		System.out.println("[" + logStatus + "] [" + DateTimeUtil.getFormattedDateTime(log.getTimestamp().getTime(), getLogDateTimeFormat()) + "] " + message);
 	}
 }

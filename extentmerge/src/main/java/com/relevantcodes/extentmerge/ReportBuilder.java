@@ -1,3 +1,9 @@
+/*
+* The MIT License (MIT)
+* 
+* Copyright (c) 2015, Anshoo Arora (Relevant Codes)
+*/
+
 package com.relevantcodes.extentmerge;
 
 import java.io.File;
@@ -9,7 +15,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 
+import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.TestBuilder;
+import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.source.NavHtml;
 import com.relevantcodes.extentreports.source.ReportSummaryView;
@@ -62,7 +70,8 @@ class ReportBuilder {
 			reportView
 				.select(".report-view")
 				.first()
-				.addClass(report.getId().toString());
+				.addClass(report.getId().toString())
+				.attr("reportid", report.getId().toString());
 			
 			reportView
 				.select(".report-date")
@@ -79,6 +88,11 @@ class ReportBuilder {
 		buildTrendsTable();
 		buildSideNavLinks(reportList);
 
+		extentMergeDoc
+			.select("#logs-view .card-panel")
+			.first()
+				.append(getExtentMergeLogs());
+		
 		//.replace("\n", "")
 		//.replace("\r", "")
 		//.replace("    ", "")
@@ -224,5 +238,21 @@ class ReportBuilder {
 				.text(ReportSummaryView.getProgressBar(reportView));
 		
 		return reportSummaryView;
+	}
+	
+	private String getExtentMergeLogs() {
+		String s = "";
+		
+		for (Log log : Logger.getLogs()) {
+			if (log.getLogStatus() != LogStatus.UNKNOWN) {
+				s += "<p>";
+				s += "[" + DateTimeUtil.getFormattedDateTime(log.getTimestamp().getTime(), LogSettings.getLogDateTimeFormat()) + "] ";
+				s += "[" + log.getLogStatus().toString().toUpperCase() + "] ";
+				s += log.getDetails();
+				s += "</p>";
+			}
+		}
+		
+		return s;
 	}
 }

@@ -1,9 +1,7 @@
 /*
-* Copyright (c) 2015, Anshoo Arora (Relevant Codes).  All rights reserved.
+* The MIT License (MIT)
 * 
-* Copyrights licensed under the New BSD License.
-* 
-* See the accompanying LICENSE file for terms.
+* Copyright (c) 2015, Anshoo Arora (Relevant Codes)
 */
 
 package com.relevantcodes.extentmerge;

@@ -1,3 +1,9 @@
+/*
+* The MIT License (MIT)
+* 
+* Copyright (c) 2015, Anshoo Arora (Relevant Codes)
+*/
+
 package com.relevantcodes.extentmerge;
 
 import java.io.File;
@@ -48,6 +54,8 @@ class DatabaseInfoAggregator implements IAggregator {
 		List<Report> reportList = new ArrayList<Report>();
 		
 		for (String filePath : dbFileList) {
+			Logger.info("Processing DB " + filePath);
+			
 			initConnection(filePath);
 			
 			if (connection != null) {

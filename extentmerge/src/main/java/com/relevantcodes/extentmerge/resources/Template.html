@@ -214,7 +214,7 @@
                 margin-top: 15px;
                 padding-left: 30px;
             }
-            .side-nav .active, .side-nav .active, .analysis:hover, .side-nav li:hover, .side-nav li.active, .report-item, .side-nav .collapsible-body, .side-nav .collapsible-header.active, .side-nav .collapsible-body li.active, .side-nav.fixed .collapsible-body li.active {
+            .report-item, .side-nav .collapsible-body, .side-nav .collapsible-header.active, .side-nav .collapsible-body li.active, .side-nav.fixed .collapsible-body li.active {
                 background: inherit;
             }
             .side-nav a, .side-nav label, .analysis i {
@@ -252,8 +252,7 @@
                 max-width: 150px;
             }
             #run-summary-view td:last-child {
-                min-width: 200px;
-                max-width: 350px;
+                min-width: 150px;
             }
             
             /* -- [ collections ] -- */
@@ -282,6 +281,9 @@
             /* -- [ dashboard, trends, report-dashboard ] -- */
             #report-dashboard.displayed + #report-view {
                 margin-top: -20px;
+            }
+            #report-dashboard .card-panel {
+                height: 283px;
             }
             #test-analysis, #step-analysis {
                 height: 130px;
@@ -336,6 +338,9 @@
             .doughnut-legend li:first-letter {
                 text-transform: capitalize;
             }
+            #report-dashboard .progress {
+                margin-top: 105px;
+            }
             
             /* -- [ test ] -- */
             .test.active, .category-item.active {
@@ -351,7 +356,7 @@
             }
             .test-name {
                 display: inline-block;
-                width: 80% !important;
+                width: 70% !important;
                 word-break: break-all;
             }
             .test-desc {
@@ -494,6 +499,11 @@
             }
             #test-history-modal .modal-test-info {
                 margin-top: 10px;
+            }
+            .history-navigation {
+                cursor: pointer;
+                float: right;
+                font-size: 20px;
             }
             
             /* -- [ progress bar ] -- */
@@ -638,6 +648,15 @@
             .label.date {
                 background: #eee;
             }
+            /* -- [ media queries ] -- */
+            @media all and (max-width: 992px) {
+                nav {
+                    padding-left: 1%;
+                }
+                header, main, footer, .container {
+                    padding-left: 0;
+                }
+            }
         </style>
     </head>
     <body class='extent-merge'>
@@ -648,10 +667,11 @@
                 </li>
                 <li class='upper small weight-normal header'>Analysis</li>
                 <li class='analysis waves-effect active'><a href='#!' class='dashboard-view'><i class='fa fa-bar-chart'></i>Dashboard</a></li>
-                <li class='analysis waves-effect active'><a href='#!' class='trends-view'><i class='fa fa-line-chart'></i>Trends</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='trends-view'><i class='fa fa-line-chart'></i>Trends</a></li>
                 <li class='upper small weight-normal header'>Reports</li>
                 <span class='placeholder reports-placeholder hide'></span>
-                <!--<li class='analysis waves-effect'><a href='#!' class='category-view'><i class='fa mdi-maps-local-offer'></i>Categories</a></li>-->
+                <li class='upper small weight-normal header'>Misc</li>
+                <li class='analysis waves-effect'><a href='#!' class='logs-view'><i class='mdi-action-assignment'></i>Logs</a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
             <ul class="right hide-on-med-and-down nav-right hide"> 
@@ -698,7 +718,7 @@
                     </div>
                 </div>
                 <div id='run-summary-view'>
-                    <div class='col s6'>
+                    <div class='col l6 m12 s12'>
                         <div class='card-panel'>
                             <table class='bordered'>
                                 <thead>
@@ -715,7 +735,7 @@
                 </div>
             </div>
             <div id='trends-view' class='row'>
-                <div class='col s6'>
+                <div class='col l6 m12 s12'>
                     <div class='card-panel'>
                         <div>
                             <span class='panel-name'>Report Trends By Status - Test</span>
@@ -725,7 +745,7 @@
                         </div> 
                     </div>
                 </div>
-                <div class='col s6'>
+                <div class='col l6 m12 s12'>
                     <div class='card-panel'>
                         <div>
                             <span class='panel-name'>Report Trends By Status - Step</span>
@@ -735,7 +755,7 @@
                         </div> 
                     </div>
                 </div>
-                <div class='col s6'>
+                <div class='col l6 m12 s12'>
                     <div class='card-panel'>
                         <span class='panel-name'>Top Passed (Showing Top 10 Only)</span>
                         <div><br /></div>
@@ -752,7 +772,7 @@
                         </table>
                     </div>
                 </div>
-                <div class='col s6'>
+                <div class='col l6 m12 s12'>
                     <div class='card-panel'>
                         <span class='panel-name'>Top Failed (Showing Top 10 Only)</span>
                         <div><br /></div>
@@ -811,7 +831,11 @@
                 </div>
                 <div class='col s4'>
                     <div class='card-panel'>
-                    
+                        <span class="panel-name">Pass Percentage</span> 
+                        <span class="pass-percentage panel-lead"></span> 
+                        <div class="progress light-blue lighten-3">
+                            <div class="determinate light-blue" style="width:52%"></div> 
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -824,13 +848,20 @@
                     </div>
                 </div>
             </div>
+            <div id='logs-view' class='row hide'>
+                <div class='col s12'>
+                    <div class='card-panel'>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
         <div id='test-history-modal' class='modal'>
             <div class='modal-content'>
                 <h5>Run History - <span></span></h5>
                 <div class='test-history'></div>
             </div>
-            <div class='modal-footer'>
+            <div class='modal-footer test-history-modal'>
                 <a href='#!' class=' modal-action modal-close waves-effect waves-green btn-flat'>Close</a>
             </div>
         </div>
@@ -885,6 +916,8 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js'></script> 
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script> 
         <script type='text/javascript'>
+            $('.modal-trigger').leanModal();
+            
             var totalTests, passedTests, failedTests, fatalTests, warningTests, errorTests, skippedTests, unknownTests;
             var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
             var testChart, stepChart;
@@ -894,16 +927,18 @@
                 $('.button-collapse').sideNav({ menuWidth: 220 });
                 $('select').material_select();
                 $('#enableDashboard').prop('checked', false);
-                                
+
                 /* sizing for pinned content */
                 $(document).ready(sizing);
                 $(window).resize(sizing);
                 function sizing() {
                     var t = $('#test-details-wrapper .pin');
-                    if ($(window).width() > 1850) { t.css('width', '50%'); } 
-                    else if ($(window).width() > 1550 && $(window).width() < 1850) { t.css('width', '49%'); }
-                    else if ($(window).width() > 1350 && $(window).width() < 1550) { t.css('width', '48%'); }
-                    else if ($(window).width() < 1350) { t.css('width', '47%'); }
+                    var width = $(window).width();
+                    if (width > 1850) { t.css('width', '50%'); } 
+                    else if (width > 1550 && width < 1850) { t.css('width', '49%'); }
+                    else if (width > 1350 && width < 1550) { t.css('width', '48%'); }
+                    else if (width < 1350 && width > 1000) { t.css('width', '47%'); }
+                    else if (width <= 992) { t.css('width', '57%'); }
                 }
                 
                 /* [TOPNAV] */
@@ -912,11 +947,12 @@
                     t.toggleClass('enabled');
                     $('#report-dashboard').toggleClass('hide');
                     if (t.prop('checked')) { $('#report-dashboard').addClass('displayed'); redrawCharts(); }
+                    else { $('#report-dashboard').removeClass('displayed'); }
                 });
                 
                 /* side-nav navigation [SIDE-NAV] */
                 $('.report-item').click(function() {
-                    $('#dashboard-view, #report-view, #report-view .s5, #trends-view').addClass('hide');
+                    $('#dashboard-view, #report-view, #report-view .s5, #trends-view, #logs-view').addClass('hide');
                     $('.analysis, .report-item').removeClass('active');
                     $(this).addClass('active');
                     $('#report-view, nav .nav-right').removeClass('hide');
@@ -950,7 +986,12 @@
                 });
                 /* refresh charts when chart setting is saved */
                 $('.modal-footer').click(function() {
-                    redrawCharts();
+                    if (!$(this).hasClass('test-history-modal')) {
+                        redrawCharts();
+                        $('.lean-overlay').each(function() {
+                            $(this).remove();
+                        });
+                    }
                 });
                 /* step-dashboard settings [DASHBOARD] */
                 $('#report-dashboard .step-status-filter').click(function() {
@@ -989,8 +1030,11 @@
                         var status = $(this).find('.test-head  > .test-status').text();
                         var testInfo = $(this).find('.test-info').html() == null ? $('.details-container .test-info').html() : $(this).find('.test-info').html();
                         $('.test-history').append(
-                            '<div class=\'modal-box\'>' + 
+                            '<div class=\'modal-box\' extentid=\'' + $(this).attr('extentid') + '\' reportid=\'' + $(this).closest('.report-view').attr('reportid') + '\'>' +  
                                 '<div class=\'modal-test-name\'>' + name + '</div>' +
+                                '<div class=\'history-navigation\'>' +
+                                    '<i class=\'mdi-action-launch\'></i>' +
+                                '</div>' + 
                                 '<div class=\'modal-test-info\'>' +
                                     '<span class=\'modal-test-status label ' + status + '\'>' + status + '</span>' + 
                                     testInfo +
@@ -1002,6 +1046,20 @@
                 $('.modal-trigger.history').click(function() {
                     var testName = $(this).closest('.test').find('.test-name').text();
                     findTestByName(testName);
+                });
+                $('.test-history').click(function(evt) {
+                    var cls = evt.target.className;
+                    if (cls == 'mdi-action-launch' || cls == 'history-navigation') {
+                        $('#test-history-modal').closeModal();
+                        var t = $(evt.target);
+                        var modalBox = t.closest('.modal-box');
+                        var testId = modalBox.attr('extentid');
+                        var reportId = modalBox.attr('reportid');
+                        $('#' + reportId).click();
+                        $('.test').filter(function() {
+                            return ($(this).attr('extentid') == testId)
+                        }).click();
+                    }
                 });
                 /* filter tests by text [TEST] */
                 $(document).keypress(function(e) {
@@ -1216,6 +1274,9 @@
                 $('.s-others-count').text(warningSteps + errorSteps + skippedSteps + unknownSteps + infoSteps);
                 $('#report-dashboard .total-tests > .panel-lead').text(totalTests);
                 $('#report-dashboard .total-steps > .panel-lead').text(totalSteps);
+                var percentage = Math.round((passedTests * 100) / (passedTests + failedTests + fatalTests + warningTests + errorTests + unknownTests + skippedTests)) + '%';
+                $('.pass-percentage.panel-lead').text(percentage);
+                $('#report-dashboard .determinate').attr('style', 'width:' + percentage);
             }
             /* dashboard chart options [DASHBOARD] */
             var options = {

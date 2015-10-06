@@ -1,3 +1,9 @@
+/*
+* The MIT License (MIT)
+* 
+* Copyright (c) 2015, Anshoo Arora (Relevant Codes)
+*/
+
 package com.relevantcodes.extentmerge;
 
 import java.text.ParseException;
@@ -39,6 +45,10 @@ public class App {
 			Logger.error("You must provide one of the following input sources: -dir -html -db\n");
 			return;
 		}
+    	
+    	if (consoleArgs.getStartMillis() == 0 || consoleArgs.getEndMillis() == 0) {
+    		return;
+    	}
  
     	DataAggregator aggregator = new DataAggregator(consoleArgs.dir, consoleArgs.html, consoleArgs.db);
     	List<Report> reportList = aggregator.getAggregatedData();
@@ -53,9 +63,12 @@ public class App {
     }
     
     private static String getCopyright() {
-    	String copy = "ExtentMerge 0.1-alpha. Extent Trends.\n";
-    	copy+= "http://extentreports.relevantcodes.com/";
-    	copy+= "Copyright (c) 2015 Anshoo Arora (Relevant Codes)";
+    	String copy = "-----------------------------------------------------\n";
+    	copy += "ExtentMerge 0.1-alpha. Extent Trends.\n";
+    	copy+= "http://extentreports.relevantcodes.com/\n";
+    	copy+= "The MIT License (MIT)\n";
+    	copy+= "Copyright (c) 2015 Anshoo Arora (Relevant Codes)\n";
+    	copy+= "-----------------------------------------------------\n";
     	
     	return copy;
     }
@@ -64,23 +77,28 @@ public class App {
     	public long getStartMillis() {
     		if (from != null) {
     			SimpleDateFormat sdf = new SimpleDateFormat(LogSettings.getLogDateTimeFormat());
+    			
     			try {
 					return sdf.parse(from).getTime();
 				} catch (ParseException e) {
 					Logger.error("-from must be in the following format: " + LogSettings.getLogDateTimeFormat());					
 				}
+    			
+    			return 0;
     		}
     		
-    		return 0;
+    		return -1;
     	}
     	
     	public long getEndMillis() {
     		if (to != null) {
     			SimpleDateFormat sdf = new SimpleDateFormat(LogSettings.getLogDateTimeFormat());
+    			
     			try {
 					return sdf.parse(to).getTime();
 				} catch (ParseException e) {
-					Logger.error("-to must be in the following format: " + LogSettings.getLogDateTimeFormat());					
+					Logger.error("-to must be in the following format: " + LogSettings.getLogDateTimeFormat());
+					return 0;
 				}
     		}
     		
