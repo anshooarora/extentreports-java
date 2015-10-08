@@ -74,6 +74,7 @@ td {
 .container {
     max-width: none;
     padding-left: 70px;
+    padding-bottom: 100px;
     padding-top: 5px;
     width: 98%;
 }
@@ -326,6 +327,12 @@ nav ul li:hover {
 }
 
 /* -- [ categories-view ] -- */
+.cat-head, .category-status-counts {
+    display: inline-block;
+}
+#cat-collection .category-status-counts {
+    float: right;
+}
 .category-status > span {
     border-radius: 3px;
     font-size: 11px;

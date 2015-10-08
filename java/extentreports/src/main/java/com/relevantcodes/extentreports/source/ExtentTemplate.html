@@ -4,7 +4,7 @@
         <!--
             ExtentReports Library 2.10 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
-            Documentation: http://extentreports.relevantcodes.com
+            Documentation: http://extentreports.relevantcodes.com 
         -->
         <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
         <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
@@ -56,6 +56,7 @@
             .container {
                 max-width: none;
                 padding-left: 70px;
+                padding-bottom: 100px;
                 padding-top: 5px;
                 width: 98%;
             }
@@ -308,6 +309,12 @@
             }
 
             /* -- [ categories-view ] -- */
+            .cat-head, .category-status-counts {
+                display: inline-block;
+            }
+            #cat-collection .category-status-counts {
+                float: right;
+            }
             .category-status > span {
                 border-radius: 3px;
                 font-size: 11px;
@@ -843,7 +850,6 @@
                 $('.button-collapse').sideNav({ menuWidth: menuWidth });
                 $('select').material_select();
                 $('#enableDashboard').prop('checked', false);
-                $('.material-placeholder').addClass('chip').append('<i class=\'fa fa-image\'></i>');
                 
                 /* [WINDOW] */
                 $(window).scroll(function() {
@@ -855,6 +861,7 @@
                     else {
                         $('.details-view').removeAttr('style').css('position', 'absolute');
                     }
+                    $('.pin').css('width', pinWidth);
                 });
                 
                 /* [TOPNAV] */
@@ -874,7 +881,6 @@
                     $('.container, nav').animate({
                         'padding-left': menuWidth + 'px'
                     }, 200);
-                    console.log(pinWidth);
                     $('.pin').animate({
                         'width': pinWidth
                     }, 200);

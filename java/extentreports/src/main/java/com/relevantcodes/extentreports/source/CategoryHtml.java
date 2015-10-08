@@ -18,6 +18,11 @@ public class CategoryHtml {
 				"<div class='cat-head'>" +
 					"<span class='category-name'></span>" +
 				"</div>" +
+				"<div class='category-status-counts'>" +
+					"<span class='cat-pass label'></span>" +
+					"<span class='cat-fail label'></span>" +
+					"<span class='cat-other label'></span>" +
+				"</div>" +
 				"<div class='cat-body'>" +
 					"<div class='category-status-counts'>" +
 						"<span class='cat-pass label'></span>" +
@@ -26,11 +31,13 @@ public class CategoryHtml {
 					"</div>" +
 					"<div class='cat-tests'>" +
 						"<table class='bordered'>" +
-							"<tr>" +
-								"<th>Run Date</th>" +
-								"<th>Test Name</th>" +
-								"<th>Status</th>" +
-							"</tr>" +
+							"<thead>" +
+								"<tr>" +
+									"<th>Run Date</th>" +
+									"<th>Test Name</th>" +
+									"<th>Status</th>" +
+								"</tr>" +
+							"</thead>" +
 						"</table>" +
 					"</div>" +
 				"</div>"+ 

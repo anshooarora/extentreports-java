@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -70,12 +71,25 @@ abstract class Report extends LogSettings {
 		}
 		
 		updateReportStatus(test.getStatus());
+		
+		updateReportStartedTime(test);
+	}
+	
+	private void updateReportStartedTime(Test test) {
+		long testStartedTime = test.getStartedTime().getTime();
+		
+		if (suiteTimeInfo.getSuiteStartTimestamp() > testStartedTime) {
+			suiteTimeInfo.setSuiteStartTimestamp(testStartedTime);
+		}
 	}
 	
 	protected void terminate() {
-		for (IReporter reporter : reporters) {
-			detach(reporter);
-		}
+        Iterator<IReporter> iter = reporters.iterator();
+        
+        while (iter.hasNext()) {
+        	iter.next().stop();
+        	iter.remove();
+        }
 	}
 	
 	protected void flush() {
@@ -215,7 +229,7 @@ abstract class Report extends LogSettings {
         reportStatus = LogStatus.UNKNOWN;
     }
 	
-	public void setStartedTime(long startTime) {
+	protected void setStartedTime(long startTime) {
 		suiteTimeInfo.setSuiteStartTimestamp(startTime);
 	}
 	

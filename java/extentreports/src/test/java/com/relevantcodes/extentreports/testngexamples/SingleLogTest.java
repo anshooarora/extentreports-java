@@ -1,11 +1,14 @@
 package com.relevantcodes.extentreports.testngexamples;
 
+import java.io.File;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
+import com.relevantcodes.extentreports.ReporterType;
 
 public class SingleLogTest extends BaseExample {
 	private final String filePath = "src/test/java/com/relevantcodes/extentreports/results/" + SingleLogTest.class.getSimpleName() + ".html";
@@ -13,6 +16,7 @@ public class SingleLogTest extends BaseExample {
 	@BeforeClass
 	public void beforeClass() {
 		extent = new ExtentReports(filePath, true);
+		extent.startReporter(ReporterType.DB, (new File(filePath)).getParent() + File.separator + "extent.db");
 		
 		extent.addSystemInfo("Host Name", "Anshoo");
 	}

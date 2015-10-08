@@ -45,7 +45,6 @@ $(document).ready(function() {
     $('.button-collapse').sideNav({ menuWidth: menuWidth });
     $('select').material_select();
     $('#enableDashboard').prop('checked', false);
-    $('.material-placeholder').addClass('chip').append('<i class=\'fa fa-image\'></i>');
     
     /* [WINDOW] */
     $(window).scroll(function() {
@@ -57,6 +56,7 @@ $(document).ready(function() {
         else {
             $('.details-view').removeAttr('style').css('position', 'absolute');
         }
+        $('.pin').css('width', pinWidth);
     });
     
     /* [TOPNAV] */
@@ -76,7 +76,6 @@ $(document).ready(function() {
         $('.container, nav').animate({
             'padding-left': menuWidth + 'px'
         }, 200);
-        console.log(pinWidth);
         $('.pin').animate({
             'width': pinWidth
         }, 200);
@@ -394,7 +393,8 @@ var options = {
     animationSteps : 30, 
     animationEasing : 'easeOutBounce', 
     animateRotate : true, 
-    animateScale : false
+    animateScale : false,
+    legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
 };
 /* tests view chart [DASHBOARD] */
 function testsChart() {
@@ -424,25 +424,6 @@ function stepsChart() {
     ];
     var ctx = $('#step-analysis').get(0).getContext('2d');
     stepChart = new Chart(ctx).Doughnut(data, options);
-  }
-/* draw legend for test and step charts [DASHBOARD] */
-function drawLegend(chart, id) {
-    var helpers = Chart.helpers;
-    var legendHolder = document.getElementById(id);
-    legendHolder.innerHTML = chart.generateLegend();
-    helpers.each(legendHolder.firstChild.childNodes, function(legendNode, index) {
-        helpers.addEvent(legendNode, 'mouseover', function() {
-            var activeSegment = chart.segments[index];
-            activeSegment.save();
-            activeSegment.fillColor = activeSegment.highlightColor;
-            chart.showTooltip([activeSegment]);
-            activeSegment.restore();
-        });
-    });
-    Chart.helpers.addEvent(legendHolder.firstChild, 'mouseout', function() {
-        chart.draw();
-    });
-    $('#' + id).after(legendHolder.firstChild);
   }
   testsChart(); stepsChart();
   $('ul.doughnut-legend').addClass('right');

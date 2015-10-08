@@ -56,6 +56,7 @@
             .container {
                 max-width: none;
                 padding-left: 70px;
+                padding-bottom: 100px;
                 padding-top: 5px;
                 width: 98%;
             }
@@ -70,9 +71,10 @@
                 box-shadow: none;
             }
             [type='checkbox']:checked + label::before {
-                border-color: transparent #62A8EA #62A8EA transparent;
+                border-color: transparent #eee #eee transparent;
             }
             [type='checkbox'] + label::before {
+                border: 2px solid #ddd;
                 margin-top: 4px;
             }
             .select-wrapper input.select-dropdown, .input-field label {
@@ -186,11 +188,14 @@
             }
             
             /* -- [ top-nav ] -- */
+            nav, .side-nav {
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+            }
             nav {
                 padding-left: 70px;
             }
             nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i, .logo a, nav label {
-                background: #dd4f6a;
+                background: #00BCD4;
                 color: #fff;
                 height: 48px;
                 line-height: 46px;
@@ -208,31 +213,36 @@
             
             /* -- [ side-nav ] -- */
             .side-nav {
-                background: #636D8B;
+                background: #fff;
                 width: 70px;
             }
             .side-nav li {
                 display: block;
             }
             .side-nav .active, .side-nav .active, .analysis:hover {
-                background: #6e7b9e !important;
+                
             }
             .side-nav a, .side-nav label, .analysis i {
-                color: #e3eaf3 !important;
                 font-size: 13px !important;
             }
             .analysis i {
                 padding-right: 15px;
             }
             .side-nav .menu-toggle {
-                background: #c2344f;
+                background: #25cbe3;
                 cursor: pointer;
                 margin-right: -15px;
                 padding: 0 24px !important;
             }
             .logo {
-                background: #dd4f6a !important;
+                background: #00bcd4;
                 height: 48px;
+            }
+            .logo:hover {
+                background: #00bcd4 !important;
+            }
+            .logo a {
+                color: #fff !important;
             }
             .logo i {
                 margin-top: 10px;
@@ -299,6 +309,12 @@
             }
 
             /* -- [ categories-view ] -- */
+            .cat-head, .category-status-counts {
+                display: inline-block;
+            }
+            #cat-collection .category-status-counts {
+                float: right;
+            }
             .category-status > span {
                 border-radius: 3px;
                 font-size: 11px;
@@ -619,19 +635,19 @@
      <div class="col s4"> 
       <div class="card suite-total-steps"> 
        <span class="panel-name">Total Time Taken</span> 
-       <span class="suite-total-time-taken panel-lead">0h 0m 0s+627ms</span> 
+       <span class="suite-total-time-taken panel-lead">0h 0m 0s+708ms</span> 
       </div> 
      </div> 
      <div class="col s2 suite-start-time"> 
       <div class="card green-accent"> 
        <span class="panel-name">Start</span> 
-       <span class="panel-lead suite-started-time">2015-10-02 12:36:04</span> 
+       <span class="panel-lead suite-started-time">2015-10-07 13:47:01</span> 
       </div> 
      </div> 
      <div class="col s2 suite-end-time"> 
       <div class="card pink-accent"> 
        <span class="panel-name">End</span> 
-       <span class="panel-lead suite-ended-time">2015-10-02 12:36:05</span> 
+       <span class="panel-lead suite-ended-time">2015-10-07 13:47:02</span> 
       </div> 
      </div> 
     </div> 
@@ -736,7 +752,7 @@
      <div class="card-panel no-padding-h no-padding-v"> 
       <div class="wrapper"> 
        <ul id="test-collection" class="test-collection"> 
-        <li class="collection-item test displayed active error" extentid="b1cfd550-a4f8-47b7-9c6f-e9f8948c2866">
+        <li class="collection-item test displayed active error" extentid="1b5b039e-938d-472b-9a53-c1a052f046fe">
          <div class="test-head">
           <span class="test-name">hierarchicalLogsResultMustEqualError</span>
           <span class="test-status right label capitalize error">error</span>
@@ -744,8 +760,8 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:04</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:04</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:47:01</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:47:01</span>
            <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+3ms</span>
           </div>
           <div class="test-desc hide">
@@ -765,32 +781,32 @@
             <tbody>
              <tr>
               <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-              <td class="timestamp">12:36:04</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Info</td>
              </tr>
              <tr>
               <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
-              <td class="timestamp">12:36:04</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Pass</td>
              </tr>
              <tr>
               <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
-              <td class="timestamp">12:36:04</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Error</td>
              </tr>
              <tr>
               <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
-              <td class="timestamp">12:36:04</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Warning</td>
              </tr>
              <tr>
               <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
-              <td class="timestamp">12:36:04</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Unknown</td>
              </tr>
              <tr>
               <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-              <td class="timestamp">12:36:04</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Skip</td>
              </tr>
             </tbody>
@@ -798,7 +814,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active fail" extentid="2a7924c6-12e0-45cc-9636-de45e5808761">
+        <li class="collection-item test displayed active fail" extentid="0a1bd09c-4f3a-486a-b2e1-76c46c9910d1">
          <div class="test-head">
           <span class="test-name">hierarchicalLogsResultMustEqualFail</span>
           <span class="test-status right label capitalize fail">fail</span>
@@ -806,8 +822,8 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:05</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:47:01</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:47:01</span>
            <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
@@ -827,37 +843,37 @@
             <tbody>
              <tr>
               <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Info</td>
              </tr>
              <tr>
               <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Pass</td>
              </tr>
              <tr>
               <td class="status fail" title="fail"><i class="fa fa-times-circle-o"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Fail</td>
              </tr>
              <tr>
               <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Error</td>
              </tr>
              <tr>
               <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Warning</td>
              </tr>
              <tr>
               <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Unknown</td>
              </tr>
              <tr>
               <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:01</td>
               <td class="step-details">Skip</td>
              </tr>
             </tbody>
@@ -865,7 +881,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active fatal" extentid="acaf4121-e7c4-48de-8216-8e6ecedb9cca">
+        <li class="collection-item test displayed active fatal" extentid="64d08fef-45c9-4ca8-a242-4f4bfa561e7f">
          <div class="test-head">
           <span class="test-name">hierarchicalLogsResultMustEqualFatal</span>
           <span class="test-status right label capitalize fatal">fatal</span>
@@ -873,80 +889,8 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
-          </div>
-          <div class="test-desc hide">
-          </div>
-          <div class="test-attributes">
-           <div class="categories"></div>
-          </div>
-          <div class="test-steps">
-           <table class="bordered table-results">
-            <thead>
-             <tr>
-              <th>Status</th>
-              <th>Timestamp</th>
-              <th>Details</th>
-             </tr>
-            </thead>
-            <tbody>
-             <tr>
-              <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-              <td class="timestamp">12:36:05</td>
-              <td class="step-details">Info</td>
-             </tr>
-             <tr>
-              <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
-              <td class="timestamp">12:36:05</td>
-              <td class="step-details">Pass</td>
-             </tr>
-             <tr>
-              <td class="status fatal" title="fatal"><i class="fa fa-exclamation-circle"></i></td>
-              <td class="timestamp">12:36:05</td>
-              <td class="step-details">Fatal</td>
-             </tr>
-             <tr>
-              <td class="status fail" title="fail"><i class="fa fa-times-circle-o"></i></td>
-              <td class="timestamp">12:36:05</td>
-              <td class="step-details">Fail</td>
-             </tr>
-             <tr>
-              <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
-              <td class="timestamp">12:36:05</td>
-              <td class="step-details">Error</td>
-             </tr>
-             <tr>
-              <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
-              <td class="timestamp">12:36:05</td>
-              <td class="step-details">Warning</td>
-             </tr>
-             <tr>
-              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
-              <td class="timestamp">12:36:05</td>
-              <td class="step-details">Unknown</td>
-             </tr>
-             <tr>
-              <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-              <td class="timestamp">12:36:05</td>
-              <td class="step-details">Skip</td>
-             </tr>
-            </tbody>
-           </table>
-           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
-          </div>
-         </div></li>
-        <li class="collection-item test displayed active pass" extentid="76b35abd-cb3a-42e9-84dd-17be8e6915b3">
-         <div class="test-head">
-          <span class="test-name">hierarchicalLogsResultMustEqualPass1</span>
-          <span class="test-status right label capitalize pass">pass</span>
-          <span class="category-assigned hide"></span>
-         </div>
-         <div class="test-body">
-          <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:05</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:47:02</span>
            <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
@@ -966,22 +910,42 @@
             <tbody>
              <tr>
               <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Info</td>
              </tr>
              <tr>
               <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Pass</td>
              </tr>
              <tr>
+              <td class="status fatal" title="fatal"><i class="fa fa-exclamation-circle"></i></td>
+              <td class="timestamp">13:47:02</td>
+              <td class="step-details">Fatal</td>
+             </tr>
+             <tr>
+              <td class="status fail" title="fail"><i class="fa fa-times-circle-o"></i></td>
+              <td class="timestamp">13:47:02</td>
+              <td class="step-details">Fail</td>
+             </tr>
+             <tr>
+              <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
+              <td class="timestamp">13:47:02</td>
+              <td class="step-details">Error</td>
+             </tr>
+             <tr>
+              <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
+              <td class="timestamp">13:47:02</td>
+              <td class="step-details">Warning</td>
+             </tr>
+             <tr>
               <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Unknown</td>
              </tr>
              <tr>
               <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Skip</td>
              </tr>
             </tbody>
@@ -989,7 +953,59 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active pass" extentid="f3d85895-3383-4255-890e-620b59be5dd0">
+        <li class="collection-item test displayed active pass" extentid="6967629e-136a-494a-bdf0-b0789e275999">
+         <div class="test-head">
+          <span class="test-name">hierarchicalLogsResultMustEqualPass1</span>
+          <span class="test-status right label capitalize pass">pass</span>
+          <span class="category-assigned hide"></span>
+         </div>
+         <div class="test-body">
+          <div class="test-info">
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
+          </div>
+          <div class="test-desc hide">
+          </div>
+          <div class="test-attributes">
+           <div class="categories"></div>
+          </div>
+          <div class="test-steps">
+           <table class="bordered table-results">
+            <thead>
+             <tr>
+              <th>Status</th>
+              <th>Timestamp</th>
+              <th>Details</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
+              <td class="timestamp">13:47:02</td>
+              <td class="step-details">Info</td>
+             </tr>
+             <tr>
+              <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
+              <td class="timestamp">13:47:02</td>
+              <td class="step-details">Pass</td>
+             </tr>
+             <tr>
+              <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
+              <td class="timestamp">13:47:02</td>
+              <td class="step-details">Unknown</td>
+             </tr>
+             <tr>
+              <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+              <td class="timestamp">13:47:02</td>
+              <td class="step-details">Skip</td>
+             </tr>
+            </tbody>
+           </table>
+           <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+          </div>
+         </div></li>
+        <li class="collection-item test displayed active pass" extentid="632c1e12-37a5-4380-a518-29ed5148b17e">
          <div class="test-head">
           <span class="test-name">hierarchicalLogsResultMustEqualPass2</span>
           <span class="test-status right label capitalize pass">pass</span>
@@ -997,9 +1013,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -1018,17 +1034,17 @@
             <tbody>
              <tr>
               <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Info</td>
              </tr>
              <tr>
               <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Unknown</td>
              </tr>
              <tr>
               <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Skip</td>
              </tr>
             </tbody>
@@ -1036,7 +1052,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active pass" extentid="38bf67f2-a621-4345-bfb7-c29523dd6cd5">
+        <li class="collection-item test displayed active pass" extentid="289c9f01-35a6-4143-bfd4-d12f634c34d1">
          <div class="test-head">
           <span class="test-name">hierarchicalLogsResultMustEqualPass3</span>
           <span class="test-status right label capitalize pass">pass</span>
@@ -1044,9 +1060,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -1065,12 +1081,12 @@
             <tbody>
              <tr>
               <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Info</td>
              </tr>
              <tr>
               <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Unknown</td>
              </tr>
             </tbody>
@@ -1078,7 +1094,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active skip" extentid="fab69673-59f3-41ec-850d-53c3623cf347">
+        <li class="collection-item test displayed active skip" extentid="f1e62ea4-08b3-4385-8a78-18a92bdcf689">
          <div class="test-head">
           <span class="test-name">hierarchicalLogsResultMustEqualSkip</span>
           <span class="test-status right label capitalize skip">skip</span>
@@ -1086,8 +1102,8 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:05</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:47:02</span>
            <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
           </div>
           <div class="test-desc hide">
@@ -1107,12 +1123,12 @@
             <tbody>
              <tr>
               <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Unknown</td>
              </tr>
              <tr>
               <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Skip</td>
              </tr>
             </tbody>
@@ -1120,7 +1136,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active warning" extentid="52b34025-e8d7-4df8-9354-721e53343dae">
+        <li class="collection-item test displayed active warning" extentid="d98ff54b-a299-4fab-94eb-cd68224deefd">
          <div class="test-head">
           <span class="test-name">hierarchicalLogsResultMustEqualWarning</span>
           <span class="test-status right label capitalize warning">warning</span>
@@ -1128,9 +1144,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:05</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:47:02</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -1149,27 +1165,27 @@
             <tbody>
              <tr>
               <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Info</td>
              </tr>
              <tr>
               <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Pass</td>
              </tr>
              <tr>
               <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Warning</td>
              </tr>
              <tr>
               <td class="status unknown" title="unknown"><i class="fa fa-question"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Unknown</td>
              </tr>
              <tr>
               <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-              <td class="timestamp">12:36:05</td>
+              <td class="timestamp">13:47:02</td>
               <td class="step-details">Skip</td>
              </tr>
             </tbody>
@@ -1281,7 +1297,6 @@
                 $('.button-collapse').sideNav({ menuWidth: menuWidth });
                 $('select').material_select();
                 $('#enableDashboard').prop('checked', false);
-                $('.material-placeholder').addClass('chip').append('<i class=\'fa fa-image\'></i>');
                 
                 /* [WINDOW] */
                 $(window).scroll(function() {
@@ -1293,6 +1308,7 @@
                     else {
                         $('.details-view').removeAttr('style').css('position', 'absolute');
                     }
+                    $('.pin').css('width', pinWidth);
                 });
                 
                 /* [TOPNAV] */
@@ -1312,7 +1328,6 @@
                     $('.container, nav').animate({
                         'padding-left': menuWidth + 'px'
                     }, 200);
-                    console.log(pinWidth);
                     $('.pin').animate({
                         'width': pinWidth
                     }, 200);

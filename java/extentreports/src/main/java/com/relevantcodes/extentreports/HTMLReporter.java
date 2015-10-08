@@ -60,7 +60,6 @@ class HTMLReporter extends LogSettings implements IReporter {
         this.report = report;
         
         this.displayOrder = report.getDisplayOrder();
-        this.filePath = report.getFilePath();
         this.networkMode = report.getNetworkMode();
         
         // if document is already created, prevent re-initialization
@@ -101,7 +100,7 @@ class HTMLReporter extends LogSettings implements IReporter {
             extentDoc
                 .select(".suite-started-time")
                 .first()
-                	.text(DateTimeUtil.getFormattedDateTime(
+                    .text(DateTimeUtil.getFormattedDateTime(
                             suiteTimeInfo.getSuiteStartTimestamp(), 
                             getLogDateTimeFormat())
                     );
@@ -175,9 +174,9 @@ class HTMLReporter extends LogSettings implements IReporter {
         updateCategoryList();
 
         Writer.getInstance()
-        	.write(
-        			new File(filePath), 
-        			Parser.unescapeEntities(extentDoc.outerHtml(), true)); //.replace("\n", "").replace("\r", "").replace("    ", "").replace("\t",  "")
+            .write(
+                    new File(filePath), 
+                    Parser.unescapeEntities(extentDoc.outerHtml().replace("\n", "").replace("\r", "").replace("    ", "").replace("\t",  ""), true)); //.replace("\n", "").replace("\r", "").replace("    ", "").replace("\t",  "")
     }
     
     private synchronized void updateSuiteExecutionTime() {
@@ -260,7 +259,7 @@ class HTMLReporter extends LogSettings implements IReporter {
         extentDoc.select("#testrunner-logs-view .card-panel").first().append("<p>" + report.getTestRunnerLogs() + "</p>");
     }
 
-	// adds tests as HTML source
+    // adds tests as HTML source
     @Override
     public synchronized void addTest() {
         Test test = report.getTest();
@@ -296,7 +295,9 @@ class HTMLReporter extends LogSettings implements IReporter {
         CategoryBuilder.buildCategoryViewLink(extentDoc, test);
     }
     
-    public HTMLReporter() { }
+    public HTMLReporter(String filePath) { 
+        this.filePath = filePath;
+    }
     
     /**
      * Report Configuration
@@ -304,7 +305,7 @@ class HTMLReporter extends LogSettings implements IReporter {
      * @author Anshoo
      *
      */
-    public class HTMLReportConfig {
+    public class Config {
         private Document getDoc() {
             return HTMLReporter.this.extentDoc;
         }
@@ -313,9 +314,9 @@ class HTMLReporter extends LogSettings implements IReporter {
          * Inject javascript into the report
          * 
          * @param js - Javascript
-         * @return {@link HTMLReportConfig}
+         * @return {@link Config}
          */
-        public HTMLReportConfig insertJs(String js) {
+        public Config insertJs(String js) {
             js = "<script type='text/javascript'>" + js + "</script>";
 
             getDoc().select("body").first().append(js);
@@ -327,9 +328,9 @@ class HTMLReporter extends LogSettings implements IReporter {
          * Inject custom css into the report
          * 
          * @param styles CSS styles
-         * @return {@link HTMLReportConfig}
+         * @return {@link Config}
          */
-        public HTMLReportConfig insertCustomStyles(String styles) {
+        public Config insertCustomStyles(String styles) {
             getDoc().select("style").last().append(styles);
             
             return this;
@@ -339,9 +340,9 @@ class HTMLReporter extends LogSettings implements IReporter {
          * Add a CSS stylesheet
          * 
          * @param cssFilePath Path of the .css file
-         * @return {@link HTMLReportConfig}
+         * @return {@link Config}
          */
-        public HTMLReportConfig addCustomStylesheet(String cssFilePath) {
+        public Config addCustomStylesheet(String cssFilePath) {
             String link = "<link href='file:///" + cssFilePath + "' rel='stylesheet' type='text/css' />";
             
             if (cssFilePath.substring(0, 1).equals(new String(".")) || cssFilePath.substring(0, 1).equals(new String("/")))
@@ -356,9 +357,9 @@ class HTMLReporter extends LogSettings implements IReporter {
          * Report headline
          * 
          * @param headline A short report summary or headline
-         * @return {@link HTMLReportConfig}
+         * @return {@link Config}
          */
-        public HTMLReportConfig reportHeadline(String headline) {
+        public Config reportHeadline(String headline) {
             Integer maxLength = 70;
             
             if (headline.matches((".*\\<[^>]+>.*"))) {
@@ -378,9 +379,9 @@ class HTMLReporter extends LogSettings implements IReporter {
          * Report name or title
          * 
          * @param name Name of the report
-         * @return {@link HTMLReportConfig}
+         * @return {@link Config}
          */
-        public HTMLReportConfig reportName(String name) {
+        public Config reportName(String name) {
             Integer maxLength = 20;
             
             if (name.matches((".*\\<[^>]+>.*"))) {
@@ -400,14 +401,14 @@ class HTMLReporter extends LogSettings implements IReporter {
          * Document Title
          * 
          * @param title Title
-         * @return {@link HTMLReportConfig}
+         * @return {@link Config}
          */
-        public HTMLReportConfig documentTitle(String title) {
+        public Config documentTitle(String title) {
             getDoc().select("title").first().text(title);
             
             return this;
         }
 
-        public HTMLReportConfig() { }
+        public Config() { }
     }
 }

@@ -56,6 +56,7 @@
             .container {
                 max-width: none;
                 padding-left: 70px;
+                padding-bottom: 100px;
                 padding-top: 5px;
                 width: 98%;
             }
@@ -70,9 +71,10 @@
                 box-shadow: none;
             }
             [type='checkbox']:checked + label::before {
-                border-color: transparent #62A8EA #62A8EA transparent;
+                border-color: transparent #eee #eee transparent;
             }
             [type='checkbox'] + label::before {
+                border: 2px solid #ddd;
                 margin-top: 4px;
             }
             .select-wrapper input.select-dropdown, .input-field label {
@@ -186,11 +188,14 @@
             }
             
             /* -- [ top-nav ] -- */
+            nav, .side-nav {
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+            }
             nav {
                 padding-left: 70px;
             }
             nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i, .logo a, nav label {
-                background: #dd4f6a;
+                background: #00BCD4;
                 color: #fff;
                 height: 48px;
                 line-height: 46px;
@@ -208,31 +213,36 @@
             
             /* -- [ side-nav ] -- */
             .side-nav {
-                background: #636D8B;
+                background: #fff;
                 width: 70px;
             }
             .side-nav li {
                 display: block;
             }
             .side-nav .active, .side-nav .active, .analysis:hover {
-                background: #6e7b9e !important;
+                
             }
             .side-nav a, .side-nav label, .analysis i {
-                color: #e3eaf3 !important;
                 font-size: 13px !important;
             }
             .analysis i {
                 padding-right: 15px;
             }
             .side-nav .menu-toggle {
-                background: #c2344f;
+                background: #25cbe3;
                 cursor: pointer;
                 margin-right: -15px;
                 padding: 0 24px !important;
             }
             .logo {
-                background: #dd4f6a !important;
+                background: #00bcd4;
                 height: 48px;
+            }
+            .logo:hover {
+                background: #00bcd4 !important;
+            }
+            .logo a {
+                color: #fff !important;
             }
             .logo i {
                 margin-top: 10px;
@@ -299,6 +309,12 @@
             }
 
             /* -- [ categories-view ] -- */
+            .cat-head, .category-status-counts {
+                display: inline-block;
+            }
+            #cat-collection .category-status-counts {
+                float: right;
+            }
             .category-status > span {
                 border-radius: 3px;
                 font-size: 11px;
@@ -619,19 +635,19 @@
      <div class="col s4"> 
       <div class="card suite-total-steps"> 
        <span class="panel-name">Total Time Taken</span> 
-       <span class="suite-total-time-taken panel-lead">0h 0m 0s+286ms</span> 
+       <span class="suite-total-time-taken panel-lead">0h 0m 0s+431ms</span> 
       </div> 
      </div> 
      <div class="col s2 suite-start-time"> 
       <div class="card green-accent"> 
        <span class="panel-name">Start</span> 
-       <span class="panel-lead suite-started-time">2015-10-02 12:36:06</span> 
+       <span class="panel-lead suite-started-time">2015-10-07 13:46:46</span> 
       </div> 
      </div> 
      <div class="col s2 suite-end-time"> 
       <div class="card pink-accent"> 
        <span class="panel-name">End</span> 
-       <span class="panel-lead suite-ended-time">2015-10-02 12:36:06</span> 
+       <span class="panel-lead suite-ended-time">2015-10-07 13:46:47</span> 
       </div> 
      </div> 
     </div> 
@@ -736,7 +752,7 @@
      <div class="card-panel no-padding-h no-padding-v"> 
       <div class="wrapper"> 
        <ul id="test-collection" class="test-collection"> 
-        <li class="collection-item test displayed active error" extentid="00ebc4ca-9693-42ce-9b8c-008026090424">
+        <li class="collection-item test displayed active error" extentid="75f025d8-62d4-4356-9e64-ebca2a0a539c">
          <div class="test-head">
           <span class="test-name">errorTest</span>
           <span class="test-status right label capitalize error">error</span>
@@ -744,9 +760,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:46:46</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:46:46</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+4ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -765,7 +781,7 @@
             <tbody>
              <tr>
               <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
-              <td class="timestamp">12:36:06</td>
+              <td class="timestamp">13:46:46</td>
               <td class="step-details">Error</td>
              </tr>
             </tbody>
@@ -773,7 +789,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active fail" extentid="9d62bb54-0e33-4ffc-acd0-b2925f4637d4">
+        <li class="collection-item test displayed active fail" extentid="701eafd8-9581-48b3-95a7-fa52bfd12015">
          <div class="test-head">
           <span class="test-name">failTest</span>
           <span class="test-status right label capitalize fail">fail</span>
@@ -781,9 +797,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:46:46</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:46:46</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -802,7 +818,7 @@
             <tbody>
              <tr>
               <td class="status fail" title="fail"><i class="fa fa-times-circle-o"></i></td>
-              <td class="timestamp">12:36:06</td>
+              <td class="timestamp">13:46:46</td>
               <td class="step-details">Fail</td>
              </tr>
             </tbody>
@@ -810,7 +826,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active fatal" extentid="5dc684b9-b525-4a01-9972-457ea5ca71f5">
+        <li class="collection-item test displayed active fatal" extentid="34f3115b-f09c-4d9d-b6d6-0cbba512f72c">
          <div class="test-head">
           <span class="test-name">fatalTest</span>
           <span class="test-status right label capitalize fatal">fatal</span>
@@ -818,9 +834,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:46:46</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:46:46</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -839,7 +855,7 @@
             <tbody>
              <tr>
               <td class="status fatal" title="fatal"><i class="fa fa-exclamation-circle"></i></td>
-              <td class="timestamp">12:36:06</td>
+              <td class="timestamp">13:46:46</td>
               <td class="step-details">Fatal</td>
              </tr>
             </tbody>
@@ -847,7 +863,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active pass" extentid="923c9588-183c-4111-a6f9-c97eb95b8e84">
+        <li class="collection-item test displayed active pass" extentid="3b46305c-3c06-43fd-ab83-0459d90d44d1">
          <div class="test-head">
           <span class="test-name">infoTest</span>
           <span class="test-status right label capitalize pass">pass</span>
@@ -855,9 +871,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:46:47</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:46:47</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -876,7 +892,7 @@
             <tbody>
              <tr>
               <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-              <td class="timestamp">12:36:06</td>
+              <td class="timestamp">13:46:47</td>
               <td class="step-details">Info</td>
              </tr>
             </tbody>
@@ -884,7 +900,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active pass" extentid="0720e32a-c665-4e71-b037-66bf17ecfece">
+        <li class="collection-item test displayed active pass" extentid="88da995c-d55b-4f71-a5f8-f03bafb16e91">
          <div class="test-head">
           <span class="test-name">passTest</span>
           <span class="test-status right label capitalize pass">pass</span>
@@ -892,9 +908,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:46:47</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:46:47</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -913,7 +929,7 @@
             <tbody>
              <tr>
               <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
-              <td class="timestamp">12:36:06</td>
+              <td class="timestamp">13:46:47</td>
               <td class="step-details">Pass</td>
              </tr>
             </tbody>
@@ -921,7 +937,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active skip" extentid="dcf76204-8593-4481-8325-fb2eb206f652">
+        <li class="collection-item test displayed active skip" extentid="23094c60-d841-49b3-9313-53b960d88310">
          <div class="test-head">
           <span class="test-name">skipTest</span>
           <span class="test-status right label capitalize skip">skip</span>
@@ -929,8 +945,8 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:06</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:46:47</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:46:47</span>
            <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
           </div>
           <div class="test-desc hide">
@@ -950,7 +966,7 @@
             <tbody>
              <tr>
               <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-              <td class="timestamp">12:36:06</td>
+              <td class="timestamp">13:46:47</td>
               <td class="step-details">Skip</td>
              </tr>
             </tbody>
@@ -958,7 +974,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active unknown" extentid="51f77cb6-2ed9-40b4-b0d2-ea72f2ca7743">
+        <li class="collection-item test displayed active unknown" extentid="e30182bd-9337-4f83-b561-ca0b4718bfac">
          <div class="test-head">
           <span class="test-name">unknownTest</span>
           <span class="test-status right label capitalize unknown">unknown</span>
@@ -966,9 +982,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:46:47</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:46:47</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+2ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -989,7 +1005,7 @@
            <ul class="collapsible node-list" data-collapsible="accordion"></ul>
           </div>
          </div></li>
-        <li class="collection-item test displayed active warning" extentid="8539833e-7e75-499f-9efb-ef05b971e46c">
+        <li class="collection-item test displayed active warning" extentid="cb481bde-b7f6-4abc-a3f6-8af9830c971e">
          <div class="test-head">
           <span class="test-name">warningTest</span>
           <span class="test-status right label capitalize warning">warning</span>
@@ -997,9 +1013,9 @@
          </div>
          <div class="test-body">
           <div class="test-info">
-           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-02 12:36:06</span>
-           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+           <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-07 13:46:47</span>
+           <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-07 13:46:47</span>
+           <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
           </div>
           <div class="test-desc hide">
           </div>
@@ -1018,7 +1034,7 @@
             <tbody>
              <tr>
               <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
-              <td class="timestamp">12:36:06</td>
+              <td class="timestamp">13:46:47</td>
               <td class="step-details">Warning</td>
              </tr>
             </tbody>
@@ -1130,7 +1146,6 @@
                 $('.button-collapse').sideNav({ menuWidth: menuWidth });
                 $('select').material_select();
                 $('#enableDashboard').prop('checked', false);
-                $('.material-placeholder').addClass('chip').append('<i class=\'fa fa-image\'></i>');
                 
                 /* [WINDOW] */
                 $(window).scroll(function() {
@@ -1142,6 +1157,7 @@
                     else {
                         $('.details-view').removeAttr('style').css('position', 'absolute');
                     }
+                    $('.pin').css('width', pinWidth);
                 });
                 
                 /* [TOPNAV] */
@@ -1161,7 +1177,6 @@
                     $('.container, nav').animate({
                         'padding-left': menuWidth + 'px'
                     }, 200);
-                    console.log(pinWidth);
                     $('.pin').animate({
                         'width': pinWidth
                     }, 200);

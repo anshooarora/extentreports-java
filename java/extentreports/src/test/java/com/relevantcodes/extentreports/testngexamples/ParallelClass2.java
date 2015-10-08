@@ -34,7 +34,7 @@ public class ParallelClass2 extends ParallelClassBase {
 	}
 	
 	@AfterMethod
-	protected void afterEachTest(ITestResult result) {
+	public void afterEachTest(ITestResult result) {
 		if (!result.isSuccess()) {
 			test.log(LogStatus.FAIL, "<pre>" + getStackTrace(result.getThrowable()) + "</pre>");
 		}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="Extent Parallel Test" parallel="classes">
-    <test name="ExtentWithParallelClasses" allow-return-values="true">
+<suite name="Extent Parallel Test" parallel="classes" thread-count="2">
+    <test name="ExtentWithParallelClasses">
         <classes>
             <class name="com.relevantcodes.extentreports.testngexamples.ParallelClass1" />
             <class name="com.relevantcodes.extentreports.testngexamples.ParallelClass2" />

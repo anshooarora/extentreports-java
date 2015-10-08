@@ -30,11 +30,11 @@ import com.relevantcodes.extentreports.model.TestAttribute;
  *
  */
 class DBReporter extends LogSettings implements IReporter {
-	private boolean isReady = false;
-	
-	private Report report;
+    private boolean isReady = false;
     
-	private Connection connection;
+    private Report report;
+    
+    private Connection connection;
     
     private Test test;
     private Map<String, String> systemMap;
@@ -77,109 +77,109 @@ class DBReporter extends LogSettings implements IReporter {
                         "VALUES (?, ?, ?)";
 
     private final String CREATE_TEST_TABLE = "CREATE TABLE IF NOT EXISTS Test " + 
-	                    "(" +
-	                        "ReportIDExtent VARCHAR(36) NOT NULL, " +
-	                        "TestIDExtent VARCHAR(36) NOT NULL, " +
-	                        "TestName TEXT NOT NULL, " +
-	                        "Status VARCHAR(7) NOT NULL, " +
-	                        "Description TEXT, " +
-	                        "InternalWarning TEXT, " +
-	                        "StartMillis TIME NOT NULL, " +
-	                        "EndMillis TIME NOT NULL, " +
-	                        "StepsPass INTEGER NOT NULL, " +
-	                        "StepsFail INTEGER NOT NULL, " + 
-	                        "StepsFatal INTEGER NOT NULL, " + 
-	                        "StepsError INTEGER NOT NULL, " +
-	                        "StepsWarning INTEGER NOT NULL, " + 
-	                        "StepsInfo INTEGER NOT NULL, " + 
-	                        "StepsSkip INTEGER NOT NULL, " + 
-	                        "StepsUnknown INTEGER NOT NULL, " + 
-	                        "ChildNodesCount INTEGER, " +
-	                        "PRIMARY KEY (TestIDExtent)" +
-	                    ")";
+                        "(" +
+                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
+                            "TestIDExtent VARCHAR(36) NOT NULL, " +
+                            "TestName TEXT NOT NULL, " +
+                            "Status VARCHAR(7) NOT NULL, " +
+                            "Description TEXT, " +
+                            "InternalWarning TEXT, " +
+                            "StartMillis TIME NOT NULL, " +
+                            "EndMillis TIME NOT NULL, " +
+                            "StepsPass INTEGER NOT NULL, " +
+                            "StepsFail INTEGER NOT NULL, " + 
+                            "StepsFatal INTEGER NOT NULL, " + 
+                            "StepsError INTEGER NOT NULL, " +
+                            "StepsWarning INTEGER NOT NULL, " + 
+                            "StepsInfo INTEGER NOT NULL, " + 
+                            "StepsSkip INTEGER NOT NULL, " + 
+                            "StepsUnknown INTEGER NOT NULL, " + 
+                            "ChildNodesCount INTEGER, " +
+                            "PRIMARY KEY (TestIDExtent)" +
+                        ")";
     private final String INSERT_TEST = "INSERT INTO Test " +
-	                    "( " +
-	                        "ReportIDExtent, " +
-	                        "TestIDExtent, " +
-	                        "TestName, " +
-	                        "Status, " +
-	                        "Description, " +
-	                        "InternalWarning, " +
-	                        "StartMillis, " +
-	                        "EndMillis, " +
-	                        "StepsPass, " +
-	                        "StepsFail, " +
-	                        "StepsFatal, " +
-	                        "StepsError, " +
-	                        "StepsWarning, " +
-	                        "StepsInfo, " +
-	                        "StepsSkip, " +
-	                        "StepsUnknown, " +
-	                        "ChildNodesCount " +
-	                    ") " +
-	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        "( " +
+                            "ReportIDExtent, " +
+                            "TestIDExtent, " +
+                            "TestName, " +
+                            "Status, " +
+                            "Description, " +
+                            "InternalWarning, " +
+                            "StartMillis, " +
+                            "EndMillis, " +
+                            "StepsPass, " +
+                            "StepsFail, " +
+                            "StepsFatal, " +
+                            "StepsError, " +
+                            "StepsWarning, " +
+                            "StepsInfo, " +
+                            "StepsSkip, " +
+                            "StepsUnknown, " +
+                            "ChildNodesCount " +
+                        ") " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 
     private final String CREATE_NODE_TABLE = "CREATE TABLE IF NOT EXISTS Node " + 
-	                    "(" +
-	                        "NodeIDExtent VARCHAR(36) NOT NULL, " +
-	                        "NodeName TEXT NOT NULL, " +
-	                        "NodeLevel INTEGER NOT NULL, " +
-	                        "ReportIDExtent VARCHAR(36) NOT NULL, " +
-	                        "TestIDExtent VARCHAR(36) NOT NULL, " +
-	                        "ParentTestName TEXT NOT NULL, " +
-	                        "Status VARCHAR(7) NOT NULL, " +
-	                        "Description TEXT, " +
-	                        "StartMillis TIME NOT NULL, " +
-	                        "EndMillis TIME NOT NULL, " +
-	                        "ChildNodesCount INTEGER" +
-	                    ")";
+                        "(" +
+                            "NodeIDExtent VARCHAR(36) NOT NULL, " +
+                            "NodeName TEXT NOT NULL, " +
+                            "NodeLevel INTEGER NOT NULL, " +
+                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
+                            "TestIDExtent VARCHAR(36) NOT NULL, " +
+                            "ParentTestName TEXT NOT NULL, " +
+                            "Status VARCHAR(7) NOT NULL, " +
+                            "Description TEXT, " +
+                            "StartMillis TIME NOT NULL, " +
+                            "EndMillis TIME NOT NULL, " +
+                            "ChildNodesCount INTEGER" +
+                        ")";
     private final String INSERT_NODE = "INSERT INTO Node " +
-		                    "( " +
-		                        "NodeIDExtent, " +
-		                        "NodeName, " +
-		                        "NodeLevel, " +
-		                        "ReportIDExtent, " +
-		                        "TestIDExtent, " +
-		                        "ParentTestName, " +
-		                        "Status, " +
-		                        "Description, " +
-		                        "StartMillis, " +
-		                        "EndMillis, " +
-		                        "ChildNodesCount " +
-		                    ") " +
-		                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            "( " +
+                                "NodeIDExtent, " +
+                                "NodeName, " +
+                                "NodeLevel, " +
+                                "ReportIDExtent, " +
+                                "TestIDExtent, " +
+                                "ParentTestName, " +
+                                "Status, " +
+                                "Description, " +
+                                "StartMillis, " +
+                                "EndMillis, " +
+                                "ChildNodesCount " +
+                            ") " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     private final String CREATE_LOG_TABLE = "CREATE TABLE IF NOT EXISTS Log " + 
-	                    "(" +
-	                    	"ReportIDExtent VARCHAR(36) NOT NULL, " +
-	                        "TestIDExtent VARCHAR(36) NOT NULL, " +
-	                        "TestName TEXT NOT NULL, " +
-	                        "LogID INTEGER NOT NULL, " +
-	                        "Status VARCHAR(7) NOT NULL, " +
-	                        "StepName TEXT, " +
-	                        "Details TEXT, " +
-	                        "Timestamp TIME NOT NULL" +
-	                    ")";
+                        "(" +
+                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
+                            "TestIDExtent VARCHAR(36) NOT NULL, " +
+                            "TestName TEXT NOT NULL, " +
+                            "LogID INTEGER NOT NULL, " +
+                            "Status VARCHAR(7) NOT NULL, " +
+                            "StepName TEXT, " +
+                            "Details TEXT, " +
+                            "Timestamp TIME NOT NULL" +
+                        ")";
     private final String INSERT_LOG = "INSERT INTO Log " +
-		                    "(" +
-		                        "ReportIDExtent, " + 
-		                        "TestIDExtent, " +
-		                        "TestName, " +
-		                        "LogID, " +
-		                        "Status, " +
-		                        "StepName, " +
-		                        "Details, " +
-		                        "Timestamp " +
-		                    ") " +
-		                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                            "(" +
+                                "ReportIDExtent, " + 
+                                "TestIDExtent, " +
+                                "TestName, " +
+                                "LogID, " +
+                                "Status, " +
+                                "StepName, " +
+                                "Details, " +
+                                "Timestamp " +
+                            ") " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 
     private final String CREATE_CATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS Category " +
-		                "( " +
-		                    "ReportIDExtent VARCHAR(36) NOT NULL, " +
-		                    "TestIDExtent VARCHAR(36) NOT NULL, " +
-		                    "TestName TEXT NOT NULL, " +
-		                    "CategoryName TEXT NOT NULL" +
-		                ")";
+                        "( " +
+                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
+                            "TestIDExtent VARCHAR(36) NOT NULL, " +
+                            "TestName TEXT NOT NULL, " +
+                            "CategoryName TEXT NOT NULL" +
+                        ")";
     private final String INSERT_CATEGORY = "INSERT INTO Category " +
                         "( " +
                             "ReportIDExtent, " +
@@ -193,6 +193,8 @@ class DBReporter extends LogSettings implements IReporter {
     private final String dbClass = "jdbc:sqlite";
     private final String dbName = "extent.db";
     
+    private String filePath;
+    
     @Override
     public void start(Report report) {
         this.report = report;
@@ -201,13 +203,13 @@ class DBReporter extends LogSettings implements IReporter {
             Class.forName(sqliteClass);
         }
         catch (ClassNotFoundException e) {
-        	System.out.println("Unable to start database reporter. Extent database will not be created.");
-        	
+            System.out.println("Unable to start database reporter. Extent database will not be created.");
+            
             e.printStackTrace();
             return;
         }
         
-        File dbFile = new File(report.getFilePath()).getParentFile();
+        File dbFile = new File(filePath).getParentFile();
         
         try {
             connection = DriverManager.getConnection(dbClass + ":" + dbFile.getPath() + File.separator + dbName);
@@ -232,10 +234,10 @@ class DBReporter extends LogSettings implements IReporter {
     
     @Override
     public void flush() {
-    	if (connection == null) {
-    		return;
-    	}
-    	
+        if (connection == null) {
+            return;
+        }
+        
         // insert system info
         Map<String, String> info = report.getSystemInfo().getInfo();
         
@@ -316,13 +318,13 @@ class DBReporter extends LogSettings implements IReporter {
     
     @Override
     public void stop() {
-    	if (connection == null) {
-    		return;
-    	}
-    	
+        if (connection == null) {
+            return;
+        }
+        
         try {
-        	updateCurrentReportRow();
-        	
+            updateCurrentReportRow();
+            
             connection.close();
         } 
         catch (SQLException e) {
@@ -416,7 +418,7 @@ class DBReporter extends LogSettings implements IReporter {
             int ix = 0, id = 0;
             
             for (Log log : test.getLog()) {
-            	stmt.setString(++ix, report.getId().toString());
+                stmt.setString(++ix, report.getId().toString());
                 stmt.setString(++ix, test.getId().toString());
                 stmt.setString(++ix, test.getName());
                 stmt.setInt(++ix, id++);
@@ -509,5 +511,9 @@ class DBReporter extends LogSettings implements IReporter {
     @Override
     public void setTestRunnerLogs() { }
     
-    public DBReporter() { }
+    public class Config { }
+    
+    public DBReporter(String filePath) { 
+        this.filePath = filePath;
+    }
 }

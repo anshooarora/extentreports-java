@@ -21,7 +21,7 @@ import com.relevantcodes.extentreports.model.Test;
  *
  */
 public class ExtentReports extends Report {
-    private HTMLReporter.HTMLReportConfig reportConfig;
+    private HTMLReporter.Config reportConfig;
     
     
     /**
@@ -38,17 +38,16 @@ public class ExtentReports extends Report {
      * @param networkMode Setting to create a structure for offline viewing of report             
      */
     public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode) {
-    	setFilePath(filePath);
-    	setReplaceExisting(replaceExisting);
-		setDisplayOrder(displayOrder);
-		setNetworkMode(networkMode);
+        setFilePath(filePath);
+        setReplaceExisting(replaceExisting);
+        setDisplayOrder(displayOrder);
+        setNetworkMode(networkMode);
 
-		attach(new DBReporter());
-		HTMLReporter htmlReporter = new HTMLReporter();
-		attach(htmlReporter);
-		
-		reportConfig = htmlReporter.new HTMLReportConfig();
-				
+        HTMLReporter htmlReporter = new HTMLReporter(filePath);
+        attach(htmlReporter);
+        
+        reportConfig = htmlReporter.new Config();
+                
         systemInfo = new SystemInfo();
     }
     
@@ -115,6 +114,21 @@ public class ExtentReports extends Report {
     }
     
     /**
+     * Starts a custom reporter
+     * 
+     * @param reporterType {@link ReporterType}
+     * @param filePath Path of the report source
+     * @return {@link ExtentReports}
+     */
+    public synchronized ExtentReports startReporter(ReporterType reporterType, String filePath) {
+        if (reporterType == ReporterType.DB) {
+            attach(new DBReporter(filePath));
+        }
+        
+        return this;
+    }
+    
+    /**
      * Calling startTest() generates a toggle for the test in the HTML file and adds all
      * log events under this level. This is a required step and without calling this method
      * the toggle will not be created for the test and log will not be added.
@@ -160,9 +174,9 @@ public class ExtentReports extends Report {
     /**
      * Allows various configurations to be applied to the report file
      * 
-     * @return {@link HTMLReporter.HTMLReportConfig}
+     * @return {@link HTMLReporter.Config}
      */
-    public HTMLReporter.HTMLReportConfig config() {
+    public HTMLReporter.Config config() {
         return reportConfig;
     }
     
@@ -220,7 +234,7 @@ public class ExtentReports extends Report {
      * with a warning message.
      */
     public synchronized void close() {
-        removeChildTests();
+        flush();
         
         terminate();
         
