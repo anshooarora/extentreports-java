@@ -501,8 +501,10 @@
                 margin-top: 10px;
             }
             .history-navigation {
-                cursor: pointer;
                 float: right;
+            }
+            .mdi-action-launch {
+                cursor: pointer;
                 font-size: 20px;
             }
             
@@ -681,47 +683,48 @@
         
         <div class='container'>
             <div id='dashboard-view' class='row'>
-                <div class='col s2'>
+                <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Tests</span> 
                         <span class='total-tests'><span class='panel-lead'></span></span> 
                     </div>
                 </div>
-                <div class='col s2'>
+                <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Tests Passed</span> 
                         <span class='total-tests-passed'><span class='panel-lead'></span></span>
                     </div>
                 </div>
-                <div class='col s2'>
+                <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Tests Failed</span> 
                         <span class='total-tests-failed'><span class='panel-lead'></span></span>
                     </div>
                 </div>
-                <div class='col s2'>
+                <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Steps</span> 
                         <span class='total-steps'><span class='panel-lead'></span></span>
                     </div>
                 </div>
-                <div class='col s2'>
+                <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Steps Passed</span> 
                         <span class='total-steps-passed'><span class='panel-lead'></span></span>
                     </div>
                 </div>
-                <div class='col s2'>
+                <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Steps Failed</span> 
                         <span class='total-steps-failed'><span class='panel-lead'></span></span>
                     </div>
                 </div>
                 <div id='run-summary-view'>
-                    <div class='col l6 m12 s12'>
+                    <div class='col l8 m12 s12'>
                         <div class='card-panel'>
                             <table class='bordered'>
                                 <thead>
+                                    <th></th>
                                     <th>Date</th>
                                     <th>Source</th>
                                     <th>Duration</th>
@@ -730,6 +733,28 @@
                                 </thead>
                                 <tbody></tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+                <div class='col l4 s6'>
+                    <div class='card-panel'>
+                        <div>
+                            <span class='panel-name'>Overall Pass Rate</span>
+                        </div> 
+                        <div class='chart-box'>
+                            <canvas class='text-centered' id='report-analysis'></canvas>
+                        </div>
+                        <div>
+                            <span class='weight-light'>
+                                <span class='report-count weight-normal'></span> reports merged, 
+                                <span class='report-pass-count weight-normal'></span> reports passed
+                            </span>
+                        </div> 
+                        <div>
+                            <span class='weight-light'>
+                                <span class='report-fail-count weight-normal'></span> reports(s) failed, 
+                                <span class='report-others-count weight-normal'></span> others
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -1001,6 +1026,11 @@
                 $('#step-status-filter input').prop('checked', 'checked');
                 $('#step-status-filter input').click(function() {
                    $('#step-status-filter').toggleClass($(this).prop('id').replace('step-dashboard-filter-', ''));
+                });
+                /* navigate from dashboard (summary) to the report [DASHBOARD] */
+                $('#run-summary-view .goto-report').click(function() {
+                    var index = $(this).parent().index();
+                    $('#slide-out .report-item').eq(index).click();
                 });
                 
                 /* view test info [TEST] */
@@ -1295,6 +1325,7 @@
                 scaleShowGridLines : true,
                 scaleGridLineColor : "rgba(0,0,0,.05)",
                 scaleGridLineWidth : 1,
+                scaleFontSize: 10,
                 scaleShowHorizontalLines: true,
                 scaleShowVerticalLines: true,
                 bezierCurve : true,
@@ -1313,7 +1344,7 @@
                 var labels = []
                 
                 $('#slide-out li.report-item').each(function() {
-                    labels.push($(this).find('.report-date .report-date').text());
+                    labels.push($(this).find('a > .report-date').text());
                 });
                 
                 var data = {
@@ -1376,6 +1407,25 @@
                 new Chart(ctx).Line(data, trendOptions);
             }
             
+            function reportsChart() {
+                $('.report-count').text($('.report-view').length);
+                $('.report-pass-count').text($('.report-view.pass').length);
+                $('.report-fail-count').text($('.report-view.fatal, .report-view.fail').length);
+                $('.report-others-count').text($('.report-view.error, .report-view.warning, .report-view.skip, .report-view.unknown').length);
+                var data = [
+                    { value: $('.report-view.pass').length, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
+                    { value: $('.report-view.fail').length, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
+                    { value: $('.report-view.fatal').length, color:'#8b0000', highlight: '#a23232', label: 'Fatal' },
+                    { value: $('.report-view.error').length, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
+                    { value: $('.report-view.warning').length, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
+                    { value: $('.report-view.skip').length, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
+                    { value: $('.report-view.unknown').length, color: '#222', highlight: '#444', label: 'Unknown' }
+                ];
+                var ctx = $('#report-analysis').get(0).getContext('2d');
+                reportChart = new Chart(ctx).Doughnut(data, options);
+                drawLegend(reportChart, 'report-analysis');
+            }
+            
             /* tests view chart [DASHBOARD] */
             function testsChart() {
                 var data = [
@@ -1389,7 +1439,7 @@
                     ];
                 var ctx = $('#test-analysis').get(0).getContext('2d');
                 testChart = new Chart(ctx).Doughnut(data, options);
-                var legendHolder = drawLegend(testChart, 'test-analysis');
+                drawLegend(testChart, 'test-analysis');
               }
             /* steps view chart [DASHBOARD] */
             function stepsChart() {
@@ -1427,7 +1477,7 @@
                 $('#' + id).after(legendHolder.firstChild);
               }
               testTrendsChart(); stepTrendsChart();
-              testsChart(); stepsChart();
+              reportsChart(); testsChart(); stepsChart();
               $('ul.doughnut-legend').addClass('right');
               redrawCharts();
               $('#report-dashboard, #trends-view').addClass('hide'); 

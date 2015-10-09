@@ -54,7 +54,10 @@ public class App {
     	List<Report> reportList = aggregator.getAggregatedData();
     	
     	if (reportList != null) {
-    		new ReportBuilder(reportList).build(consoleArgs.outFile);
+    		ReportBuilder rb = new ReportBuilder(reportList);
+    		rb.createDocument(consoleArgs.outFile);
+    		rb.customize(consoleArgs.css, consoleArgs.js);
+    		rb.writeFile();
     	}
     }
     
@@ -122,6 +125,14 @@ public class App {
     	
     	@Parameter(names = "-out", description = "Output file path with .html extension", required = true)
         private String outFile;
+    	
+    	// TODO: ability to add css files
+    	@Parameter(names = "-css", description = "Path to custom CSS file", required = false)
+    	private String css;
+    	
+    	// TODO: ability to add js files
+    	@Parameter(names = "-js", description = "Path to custom JavaScript file", required = false)
+    	private String js;
     	
     	@Parameter(names = { "-h", "--help" }, description = "Help", help = true)
         private String help;
