@@ -41,7 +41,7 @@ class DBReporter extends LogSettings implements IReporter {
     
     private final String CREATE_REPORT_TABLE = "CREATE TABLE IF NOT EXISTS Report " + 
                         "(" +
-                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
+                            "ReportIDExtent TEXT NOT NULL, " +
                             "StartMillis TIME NOT NULL, " +
                             "EndMillis TIME NOT NULL, " +
                             "ReportStatus TEXT NOT NULL, " +
@@ -64,7 +64,7 @@ class DBReporter extends LogSettings implements IReporter {
     
     private final String CREATE_SYSTEM_INFO_TABLE = "CREATE TABLE IF NOT EXISTS SystemInfo " + 
                         "(" +
-                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
+                            "ReportIDExtent TEXT NOT NULL, " +
                             "Param TEXT NOT NULL, " +
                             "Value TEXT NOT NULL" +
                         ")";
@@ -78,10 +78,10 @@ class DBReporter extends LogSettings implements IReporter {
 
     private final String CREATE_TEST_TABLE = "CREATE TABLE IF NOT EXISTS Test " + 
                         "(" +
-                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
-                            "TestIDExtent VARCHAR(36) NOT NULL, " +
+                            "ReportIDExtent TEXT NOT NULL, " +
+                            "TestIDExtent TEXT NOT NULL, " +
                             "TestName TEXT NOT NULL, " +
-                            "Status VARCHAR(7) NOT NULL, " +
+                            "Status TEXT NOT NULL, " +
                             "Description TEXT, " +
                             "InternalWarning TEXT, " +
                             "StartMillis TIME NOT NULL, " +
@@ -121,13 +121,13 @@ class DBReporter extends LogSettings implements IReporter {
                 
     private final String CREATE_NODE_TABLE = "CREATE TABLE IF NOT EXISTS Node " + 
                         "(" +
-                            "NodeIDExtent VARCHAR(36) NOT NULL, " +
+                            "NodeIDExtent TEXT NOT NULL, " +
                             "NodeName TEXT NOT NULL, " +
                             "NodeLevel INTEGER NOT NULL, " +
-                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
-                            "TestIDExtent VARCHAR(36) NOT NULL, " +
+                            "ReportIDExtent TEXT NOT NULL, " +
+                            "TestIDExtent TEXT NOT NULL, " +
                             "ParentTestName TEXT NOT NULL, " +
-                            "Status VARCHAR(7) NOT NULL, " +
+                            "Status TEXT NOT NULL, " +
                             "Description TEXT, " +
                             "StartMillis TIME NOT NULL, " +
                             "EndMillis TIME NOT NULL, " +
@@ -151,11 +151,11 @@ class DBReporter extends LogSettings implements IReporter {
     
     private final String CREATE_LOG_TABLE = "CREATE TABLE IF NOT EXISTS Log " + 
                         "(" +
-                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
-                            "TestIDExtent VARCHAR(36) NOT NULL, " +
+                            "ReportIDExtent TEXT NOT NULL, " +
+                            "TestIDExtent TEXT NOT NULL, " +
                             "TestName TEXT NOT NULL, " +
                             "LogID INTEGER NOT NULL, " +
-                            "Status VARCHAR(7) NOT NULL, " +
+                            "Status TEXT NOT NULL, " +
                             "StepName TEXT, " +
                             "Details TEXT, " +
                             "Timestamp TIME NOT NULL" +
@@ -175,8 +175,8 @@ class DBReporter extends LogSettings implements IReporter {
                 
     private final String CREATE_CATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS Category " +
                         "( " +
-                            "ReportIDExtent VARCHAR(36) NOT NULL, " +
-                            "TestIDExtent VARCHAR(36) NOT NULL, " +
+                            "ReportIDExtent TEXT NOT NULL, " +
+                            "TestIDExtent TEXT NOT NULL, " +
                             "TestName TEXT NOT NULL, " +
                             "CategoryName TEXT NOT NULL" +
                         ")";
@@ -300,8 +300,8 @@ class DBReporter extends LogSettings implements IReporter {
             stmt.setInt(++ix, test.getLogCounts().get(LogStatus.SKIP));
             stmt.setInt(++ix, test.getLogCounts().get(LogStatus.UNKNOWN));
             stmt.setInt(++ix, test.getNodeList().size());
-            
-            stmt.executeUpdate();
+
+            stmt.executeUpdate();            
             stmt.close();
             
             addLogs(test);

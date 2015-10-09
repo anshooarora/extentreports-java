@@ -176,7 +176,7 @@ class HTMLReporter extends LogSettings implements IReporter {
         Writer.getInstance()
             .write(
                     new File(filePath), 
-                    Parser.unescapeEntities(extentDoc.outerHtml().replace("\n", "").replace("\r", "").replace("    ", "").replace("\t",  ""), true)); //.replace("\n", "").replace("\r", "").replace("    ", "").replace("\t",  "")
+                    Parser.unescapeEntities(extentDoc.outerHtml().replace("    ", "").replace("\t",  ""), true)); //.replace("\n", "").replace("\r", "").replace("    ", "").replace("\t",  "")
     }
     
     private synchronized void updateSuiteExecutionTime() {
