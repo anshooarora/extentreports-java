@@ -52,12 +52,16 @@
                             <div class="units-row end">
 							<h1>Intro</h1>
 							<p>ExtentMerge is a console application that merges multiple HTML files and information from Extent.db (database) file into a single trend report.</p>
+							<p class='note'>Minimum version of reports you can merge is ExtentReports is 2.10. ExtentReports 2.05 and lower are not supported by this tool.</p>
 							
 							<h1>Current Version</h1>
                             <p>0.1-alpha</p>
 							
 							<h1>Sample</h1>
 							<p>Here is a demo sample: <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentMerge.html'>linky</a>.</p>
+							
+							<h1>Contributors</h1>
+							<p>Moni Mau for providing valuable feedback for the design and components and also for helping test all the initial (alpha) releases.</p>
 							
 							<h1>Docs</h1>
                             <ul class='index'>
@@ -68,6 +72,7 @@
                                         <li><a href='#database'>Database</a></li>
                                         <li><a href='#dates'>Merging Reports Between 2 Dates</a></li>
 										<li><a href='#multiple-sources'>Multiple Sources</a></li>
+										<li><a href='#customization'>Customization</a></li>
                                     </ul>
                                 </li>
                                 <li><a href='#license'>License</a></li>
@@ -76,55 +81,65 @@
 							<h1 id='usage'>Usage</h1>
 							<p>Below are the options used by ExtentMerge:</p>
 <pre><code class='java'>
-Options:
+  Options:
     -h, --help
        Help
     -v, --version
        Version
        Default: 0.1
+    -css
+       Path to custom CSS file
     -db
        Extent generated Sqlite database
     -dir
        Directory where Extent HTML files are placed
     -from
-       Date to begin collecting data (Format: 'yyyy-MM-dd HH:mm:ss')
+       Date to begin collecting data (Format: 'yyyy-MM-dd hh:mm:ss')
     -html
        Extent generated HTML file
+    -js
+       Path to custom JavaScript file
   * -out
        Output file path with .html extension
     -to
-       Date to end collecting data (Format: 'yyyy-MM-dd HH:mm:ss')
+       Date to end collecting data (Format: 'yyyy-MM-dd hh:mm:ss')
 </code></pre>
 
-<h3>Directory</h3>
+<h3 id='directory'>Directory</h3>
 <p>ExtentMerge can consume an entire directory and scan for all resources that are valid Extent.html or Extent.db. To use a directory as input, use the below command:</p>
 <pre><code class='java'>
 java -jar extentmerge.jar -dir "C:\MyDirectory" -out "C:\MyDirectory\ExtentMerge.html"
 </code></pre>
 
-<h3>HTML File</h3>
+<h3 id='htmlfile'>HTML File</h3>
 <p>To merge multiple HTML files, use the below command:</p>
 <pre><code class='java'>
 java -jar extentmerge.jar -html "C:\MyDirectory\Report1.html" -html "C:\MyDirectory\Report2.html" -out "C:\MyDirectory\ExtentMerge.html"
 </code></pre>
 
-<h3>Database</h3>
+<h3 id='database'>Database</h3>
 <p>To merge one or many databases, use the below command:</p>
 <pre><code class='java'>
 java -jar extentmerge.jar -db "C:\MyDirectory\Extent.db" -out "C:\MyDirectory\ExtentMerge.html"
 </code></pre>
 
-<h3>Merging Reports Between 2 Dates</h3>
+<h3 id='dates'>Merging Reports Between 2 Dates</h3>
 <p>To merge reports from any source between multiple dates, simply specify the start-date and end-date. Note: you must use the following format for dates: "yyyy-MM-dd HH:mm:ss".</p>
 <pre><code class='java'>
 java -jar extentmerge.jar -dir "locataion" -out "extent.html" -from "2015-10-02 00:00:00" -to "2015-10-05 23:59:59"
 </code></pre>
 
-<h3>Multiple Sources</h3>
+<h3 id='multiple-sources'>Multiple Sources</h3>
 <p>It is possible to use multiple input sources as well. ExtentMerge will scan all resources for valid information to build the merged report.</p>
 <pre><code class='java'>
 java -jar extentmerge.jar -dir "location" -html "input.html" -db "extent.db" -out "extent.html"
-</code></pre>                            
+</code></pre>
+
+<h3 id='customization'>Customization</h3>
+<p>It is also possible to customize the final report with your custom CSS and JS.</p>                         
+<pre><code class='java'>
+java -jar extentmerge.jar -dir "location" -out "extent.html" -css "css.css" -js "script.js"
+</code></pre>
 
 <h2 id='license'>License</h2>
 <h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>

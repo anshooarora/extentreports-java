@@ -50,28 +50,31 @@
                     <div class='units-row'>
                         <div class='unit-80 centered top-unit'>
                             <div class="units-row end">
-							<h1>Reviews</h1>
+							
+							<h2>Reviews</h2>
 							<p>Below are a few reviews and usage examples by users:</p>
 							<ul>
 								<li>ExtentReports review by Richard Kieft (also shows simplifying logs with the @Rule annotation): <a href='http://www.kieftsoft.nl/?p=81'>here</a></li>
+								<li> Advance Selenium Reporting with Screenshots Part 2 by Mukesh Otwani: <a href='http://learn-automation.com/advance-selenium-reporting-with-screenshots-part-2/'>here</a></li>
+								<li>ExtentReports comparison between 2.03.1 & 2.04 by Rogelio "CAGS" Caga-anan Jr: <a href='http://relevantcodes.com/Tools/ExtentReports2/reviews/ExtentReport Review.pptx'>here</a></li>
 								<li>Selenium HTML result reporting using ExtentReports Version 2 by Sunil Patro: <a href='http://www.qavalidation.com/2015/07/selenium-extentreport-2x.html'>here</a></li>
 							</ul>
 							
-							<h1>Examples</h1>
-							<p>Virender has created an example of parallel execution using TestNG. View project <a href='https://github.com/virenv/ExtentReportUsage'>here</a></p>
+							<h2>Examples</h2>
+							<ul>
+								<li>Virender has created an example of parallel execution using TestNG. View project <a href='https://github.com/virenv/ExtentReportUsage'>here</a></li>
+								<li>Using the ExtentReports TestNG listener in Selenium Page Object tests by Bas Dijkstra: <a href='http://www.ontestautomation.com/using-the-extentreports-testng-listener-in-selenium-page-object-tests/'>here</a></li>
+							</ul>
 							
-                            <h1>Sample</h1>
+                            <h2>Sample</h2>
                             <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.</p>
                             
-                            <h1>Current Version</h1>
-                            <p>2.05</p>
-                            
-                            <h2>If you are coming from Version 1.x</h2>
-                            <p>ExtentReports 2.0 is a complete re-write of this library so a lot of things have changed. There is currently no straight-forward migration path and you will have to modify your scripts to make them work with the new version.</p>
-                            
+                            <h2>Current Version</h2>
+                            <p>2.10</p>							
+							
                             <h1>Docs</h1>
                             <ul class='index'>
-                                <li><a href='#whats-new'>What's new in 2.05</a></li>
+                                <li><a href='#whats-new'>What's new in 2.10</a></li>
                                 <li><a href='#author'>Owner / Developer</a>
 								<li><a href='#contributors'>Contributors</a>
                                 <li><a href='#beta-testers'>Beta Testers</a>
@@ -83,6 +86,7 @@
 												<li><a href='#offline-report'>Offline Report</a></li>
 											</ul>
 										</li>
+										<li><a href='#custom-reporter'>Starting Custom Reporters</a></li>
                                         <li><a href='#write-to-report'>Writing to Report</a></li>
                                         <li><a href='#append-to-report'>Appending to an Existing Report</a></li>
                                         <li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
@@ -125,24 +129,21 @@
                                 <li><a href='#license'>License</a></li>
                             </ul>
                             
-<h2 id='whats-new'>What's new in 2.05</h2>
-<p>Version 2.05 launched on 09/02/2015. Here is what's new:</p>
+<h2 id='whats-new'>What's new in 2.10</h2>
+<p>Version 2.10 launched on 10/09/2015 and it is a complete redesign from the previous version 2.05. Here is what's new:</p>
 <ul>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/39'>#39</a>) Standalone/Offline ExtentReports - allows viewing Extent's report offline by saving all resources locally
-<pre><code>
-ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode)
-ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode)
-ExtentReports extent = ExtentReports(String filePath, NetworkMode networkMode)
-</code></pre>
+	<li>Allows different types of charts for tests:
+		<ul>
+			<li>Parent tests only</li>
+			<li>Parent tests without child tests + child tests</li>
+			<li>Child tests only</li>
+		</ul>
 	</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/43'>#43</a>) LogStatus.INFO overrides LogStatus.SKIP in report</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/54'>#54</a>) New feature request - User should have the option to add the Product Logo into extent report </li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/61'>#61</a>) Synchronization on methods which modify testList in ExtentReports class</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/63'>#63</a>) Micro / Minor (spelling) correction </li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/64'>#64</a>) Test View is showing incorrect result. Request to show the Test Case results and Test Steps results separately</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/67'>#67</a>) NullPointerException on flush()</li>
-	<li>Added new control to allow quickly open/close test toggles by performing mouseOver on the testName:
-		<img class='bordered-img center' src='./img/expand-on-hover.png' />
+	<li>You can create a database file for your runs and store all your run data to it. It is recommended to use a single database file for all your runs. To start the DB reporter, use:
+<pre><code class='java'>
+extent.startReporter(ReporterType.DB, "path-to-db-file");
+</code></pre>
+	<p class='alert'>It is highly recommended to use a single database file if you plan to use <a href='../extentmerge/docs.html'>ExtentMerge</a> - which merges information from all your runs into a single report. Using a single database file will make it very easy to merge reports as you do not have to keep track of each file to be merged. See <a href='../extentmerge/docs.html#database'>here</a> for more info.</p>
 	</li>
 </ul>
 
@@ -173,7 +174,7 @@ ExtentReports extent = ExtentReports(String filePath, NetworkMode networkMode)
 &lt;dependency>
     &lt;groupId&gt;com.relevantcodes&lt;/groupId&gt;
     &lt;artifactId&gt;extentreports&lt;/artifactId&gt;
-    &lt;version&gt;2.05&lt;/version&gt;
+    &lt;version&gt;2.10&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
 
@@ -218,6 +219,12 @@ ExtentReports extent = ExtentReports(String filePath)
 ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode)
 ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode)
 ExtentReports extent = ExtentReports(String filePath, NetworkMode networkMode)
+</code></pre>
+
+<h3 id='custom-reporter'>Starting Custom Reporters</h3>
+<p>To start a custom reporter, use the following method:</p>
+<pre><code class='java'>
+extent.startReporter(ReporterType);
 </code></pre>
 
 <h3 id='write-to-report'>Writing to Report</h3>
