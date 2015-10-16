@@ -10,6 +10,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.relevantcodes.extentmerge.model.Report;
+
 class DirectoryInfoAggregator implements IAggregator {
     private List<String> directories;
     

@@ -184,7 +184,7 @@
                 padding-left: 70px;
             }
             nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i, nav label {
-                background: #399bff;
+                background: #29ccf7;
                 color: #eee;
                 height: 51px;
                 line-height: 49px;
@@ -224,7 +224,7 @@
                 padding-right: 15px;
             }
             .logo {
-                background: #1779dd !important;
+                background: #18bbe6 !important;
             }
             .logo a {
                 color: #fff !important;
@@ -285,7 +285,7 @@
             #report-dashboard .card-panel {
                 height: 283px;
             }
-            #test-analysis, #step-analysis {
+            #report-analysis, #test-analysis, #step-analysis {
                 height: 130px;
                 margin: 30px auto 0;
                 text-align: center;
@@ -660,6 +660,14 @@
                 }
             }
         </style>
+        <#if (customizer.inlineCss)??> 
+            <style type='text/css'>
+                ${customizer.inlineCss}
+            </style>
+        </#if>
+        <#if (customizer.stylesheet)??>
+            <link rel='stylesheet' href='${customizer.stylesheet}' type='text/css'>
+        </#if>
     </head>
     <body class='extent-merge'>
         <nav>
@@ -672,6 +680,17 @@
                 <li class='analysis waves-effect'><a href='#!' class='trends-view'><i class='fa fa-line-chart'></i>Trends</a></li>
                 <li class='upper small weight-normal header'>Reports</li>
                 <span class='placeholder reports-placeholder hide'></span>
+                <#list reportList as report>
+                    <li class='report-item waves-effect' id='${report.id.toString()}'>
+                        <a href='#!'>
+                            <i class='mdi-action-assignment'></i>
+                            <span class='report-date'>
+                                <span class='report-date'>${report.formattedDate}</span>
+                                <span class='report-time'>${report.formattedTime}</span>                            
+                            </span>
+                        </a>
+                    </li>
+                </#list>
                 <li class='upper small weight-normal header'>Misc</li>
                 <li class='analysis waves-effect'><a href='#!' class='logs-view'><i class='mdi-action-assignment'></i>Logs</a></li>
             </ul>
@@ -686,37 +705,37 @@
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Tests</span> 
-                        <span class='total-tests'><span class='panel-lead'></span></span> 
+                        <span class='total-tests'><span class='panel-lead'>${mergedData.overallTestCount}</span></span> 
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Tests Passed</span> 
-                        <span class='total-tests-passed'><span class='panel-lead'></span></span>
+                        <span class='total-tests-passed'><span class='panel-lead'>${mergedData.overallTestPassedCount}</span></span>
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Tests Failed</span> 
-                        <span class='total-tests-failed'><span class='panel-lead'></span></span>
+                        <span class='total-tests-failed'><span class='panel-lead'>${mergedData.overallTestFailedCount}</span></span>
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Steps</span> 
-                        <span class='total-steps'><span class='panel-lead'></span></span>
+                        <span class='total-steps'><span class='panel-lead'>${mergedData.overallStepCount}</span></span>
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Steps Passed</span> 
-                        <span class='total-steps-passed'><span class='panel-lead'></span></span>
+                        <span class='total-steps-passed'><span class='panel-lead'>${mergedData.overallStepPassedCount}</span></span>
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Steps Failed</span> 
-                        <span class='total-steps-failed'><span class='panel-lead'></span></span>
+                        <span class='total-steps-failed'><span class='panel-lead'>${mergedData.overallStepFailedCount}</span></span>
                     </div>
                 </div>
                 <div id='run-summary-view'>
@@ -731,12 +750,23 @@
                                     <th>Test Count</th>
                                     <th>Summary</th>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    <#list reportList as report>
+                                        <tr>
+                                            <td class='goto-report'><i class='mdi-action-launch'></i></td>
+                                            <td class='report-date'><span class='label date'>${report.formattedDate} ${report.formattedTime}</span></td>
+                                            <td class='report-source'><span class='label text-white ${report.sourceType.toString()?lower_case}'>${report.sourceType.toString()}</span></td>
+                                            <td class='run-duration'>${report.formattedRunDuration}</td>
+                                            <td class='tests-count'>${report.testList?size}</td>
+                                            <td class='report-progress'></td>
+                                        </tr>
+                                    </#list>
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <div class='col l4 s6'>
+                <div class='col l4 m8 s12'>
                     <div class='card-panel'>
                         <div>
                             <span class='panel-name'>Overall Pass Rate</span>
@@ -746,14 +776,14 @@
                         </div>
                         <div>
                             <span class='weight-light'>
-                                <span class='report-count weight-normal'></span> reports merged, 
-                                <span class='report-pass-count weight-normal'></span> reports passed
+                                <span class='master-test-count weight-normal'>${mergedData.overallTestCount}</span> tests merged, 
+                                <span class='master-test-count-passed weight-normal'>${mergedData.overallTestPassedCount}</span> test(s) passed
                             </span>
                         </div> 
                         <div>
                             <span class='weight-light'>
-                                <span class='report-fail-count weight-normal'></span> reports(s) failed, 
-                                <span class='report-others-count weight-normal'></span> others
+                                <span class='master-test-failed-count weight-normal'>${mergedData.overallTestFailedCount}</span> test(s) failed, 
+                                <span class='master-test-others-count weight-normal'>${mergedData.overallTestOthersCount}</span> others
                             </span>
                         </div>
                     </div>
@@ -792,7 +822,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            
+                                <#list topPassed?keys as entry>
+                                    <#if entry_index < 10>
+                                    <tr>
+                                        <td>${entry}</td>
+                                        <td>${topPassed[entry]}</td>
+                                    </tr>
+                                    </#if>
+                                </#list>
                             </tbody>
                         </table>
                     </div>
@@ -809,7 +846,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            
+                                <#list topFailed?keys as entry>
+                                    <#if entry_index < 10>
+                                        <tr>
+                                            <td>${entry}</td>
+                                            <td>${topFailed[entry]}</td>
+                                        </tr>
+                                    </#if>
+                                </#list>
                             </tbody>
                         </table>
                     </div>
@@ -865,6 +909,170 @@
                 </div>
             </div>
             <div id='report-view' class='row hide'>
+                <#list reportList as report>
+                    <div class='col s5 hide report-view ${report.id.toString()} ${report.endedStatus}'>
+                        <span class='hide report-date' id='${report.formattedDate} ${report.formattedTime}'></span>
+                        <div class='card-panel filters'>
+                            <div class='input-field no-margin-v'>
+                                <input id='searchTests' type='text' class='validate'>
+                                <label class='active' for='searchTests'>Search Tests..</label>
+                            </div>
+                            <div class='row'>
+                                <div class='col s6'>
+                                    <div class='input-field tests-toggle'>
+                                        <select>
+                                            <option value='0' selected>Choose your option</option>
+                                            <option value='1'>Pass</option>
+                                            <option value='2'>Fatal</option>
+                                            <option value='3'>Fail</option>
+                                            <option value='4'>Error</option>
+                                            <option value='5'>Warning</option>
+                                            <option value='6'>Skip</option>
+                                            <option value='7'>Unknown</option>
+                                            <option value='8'>Clear Filters</option>
+                                        </select>
+                                        <label>Filter By Status</label>
+                                    </div>
+                                </div>
+                                <div class='col s6'>
+                                    <div class='input-field category-toggle'>
+                                        <select disabled>
+                                            <option value='0' selected>Choose your option</option>
+                                            <option value='8'>Clear Filters</option>
+                                        </select>
+                                        <label>Filter By Category</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='card-panel no-padding-h no-padding-v'>
+                            <div class='wrapper'>
+                                <ul class='test-collection'>
+                                    <#list report.testList as test>
+                                        <#assign hasChildren = ''>
+                                        <#if (test.nodeList)?? && test.nodeList?has_content>
+                                            <#assign hasChildren = 'hasChildren'>
+                                        </#if>
+                                        <li class='collection-item test displayed active ${hasChildren} ${test.status}' extentid='${test.id.toString()}'>
+                                            <div class='test-head'>
+                                                <span class='test-name'>${test.name}</span>
+                                                <span class='history right modal-trigger' href='#test-history-modal'><i class='fa fa-history'></i></span>
+                                                <span class='test-status right label capitalize ${test.status.toString()}'>${test.status.toString()}</span>
+                                                <span class='category-assigned hide ${test.categoriesAsTags?join(' ')}'></span>
+                                            </div>
+                                            <div class='test-body'>
+                                                <div class='test-info'>
+                                                    <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${test.formattedStartedTime}</span>
+                                                    <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${test.formattedEndedTime}</span>
+                                                    <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>${test.formattedTimeDiff}</span>
+                                                </div>
+                                                <div class='test-desc'>${test.description}</div>
+                                                <div class='test-attributes'>
+                                                    <div class='categories'>
+                                                        <#list test.categoriesAsTags as category>
+                                                            <span class="category text-white">${category}</span>
+                                                        </#list>
+                                                    </div>
+                                                </div>
+                                                <div class='test-steps'>
+                                                    <table class='bordered table-results'>
+                                                        <thead>
+                                                            <tr>
+                                                                <#if (test.log?first)??>
+                                                                    <#if (test.log[0].stepName)??>
+                                                                        <th>Status</th>
+                                                                        <th>Timestamp</th>
+                                                                        <th>StepName</th>
+                                                                        <th>Details</th>
+                                                                    <#else>
+                                                                        <th>Status</th>
+                                                                        <th>Timestamp</th>
+                                                                        <th>Details</th>
+                                                                    </#if>
+                                                                </#if>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <#list test.log as log>
+                                                                <tr>
+                                                                    <td class='status ${log.logStatus.toString()}'><i class='fa fa-${log.icon}'></i></td>
+                                                                    <td class='timestamp'>${log.formattedTimestamp}</td>
+                                                                    <#if (test.log[0].stepName)??>
+                                                                        <td class='step-name'>
+                                                                            <#if (log.stepName)??>
+                                                                                ${log.stepName}
+                                                                            </#if>
+                                                                        </td>
+                                                                    </#if>
+                                                                    <td class='step-details'>${log.details}</td>
+                                                                </tr>
+                                                            </#list>
+                                                        </tbody>
+                                                    </table>
+                                                    <ul class='collapsible node-list' data-collapsible='accordion'>
+                                                        <#if (test.nodeList)?? && test.nodeList?has_content>
+                                                            <#list test.nodeList as node>
+                                                                <li extentid='${node.id}'>
+                                                                    <div class='collapsible-header test-node ${node.status.toString()}'>
+                                                                        <div class='right test-info'>
+                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${node.formattedStartedTime}</span>
+                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${node.formattedEndedTime}</span>
+                                                                            <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>${node.formattedTimeDiff}</span>
+                                                                            <span class='test-status label capitalize ${node.status.toString()}'>${node.status.toString()}</span>
+                                                                        </div>
+                                                                        <div class='test-node-name'>${node.name}</div>
+                                                                    </div>
+                                                                    <div class='collapsible-body'>
+                                                                        <div class='test-steps'>
+                                                                            <table class='bordered table-results'>
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <#if (node.log?first)??>
+                                                                                            <#if (node.log[0].stepName)??>
+                                                                                                <th>Status</th>
+                                                                                                <th>Timestamp</th>
+                                                                                                <th>StepName</th>
+                                                                                                <th>Details</th>
+                                                                                            <#else>
+                                                                                                <th>Status</th>
+                                                                                                <th>Timestamp</th>
+                                                                                                <th>Details</th>
+                                                                                            </#if>
+                                                                                        </#if>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <#list node.log as log>
+                                                                                        <tr>
+                                                                                            <td class='status ${log.logStatus.toString()}'><i class='fa fa-${log.icon}'></i></td>
+                                                                                            <td class='timestamp'>${log.formattedTimestamp}</td>
+                                                                                            <#if (node.log[0].stepName)??>
+                                                                                                <td class='step-name'>
+                                                                                                    <#if (log.stepName)??>
+                                                                                                        ${log.stepName}
+                                                                                                    </#if>
+                                                                                                </td>
+                                                                                            </#if>
+                                                                                            <td class='step-details'>${log.details}</td>
+                                                                                        </tr>
+                                                                                    </#list>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </#list>
+                                                        </#if>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </#list>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </#list>
                 <div id='test-details-wrapper' class='col s7'>
                     <div class='card-panel vh100 details-view pin'>
                         <h5 class='details-name'></h5>
@@ -876,7 +1084,11 @@
             <div id='logs-view' class='row hide'>
                 <div class='col s12'>
                     <div class='card-panel'>
-                        
+                        <#list logs as log>
+                            <p>
+                                [${log.formattedTime}] [${log.logStatus.toString()?upper_case}] ${log.details}
+                            </p>
+                        </#list>
                     </div>
                 </div>
             </div>
@@ -943,6 +1155,7 @@
         <script type='text/javascript'>
             $('.modal-trigger').leanModal();
             
+            /* report data - this is for a single report and updated each time a report is viewed */
             var totalTests, passedTests, failedTests, fatalTests, warningTests, errorTests, skippedTests, unknownTests;
             var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
             var testChart, stepChart;
@@ -952,7 +1165,7 @@
                 $('.button-collapse').sideNav({ menuWidth: 220 });
                 $('select').material_select();
                 $('#enableDashboard').prop('checked', false);
-
+                
                 /* sizing for pinned content */
                 $(document).ready(sizing);
                 $(window).resize(sizing);
@@ -1344,7 +1557,7 @@
                 var labels = []
                 
                 $('#slide-out li.report-item').each(function() {
-                    labels.push($(this).find('a > .report-date').text());
+                    labels.push($(this).find('a > .report-date > .report-date').text() + $(this).find('a > .report-date > .report-time').text());
                 });
                 
                 var data = {
@@ -1391,6 +1604,7 @@
                 var ctx = $('#report-trends-status-test').get(0).getContext('2d');
                 new Chart(ctx).Line(data, trendOptions);
             }
+            
             /* step view chart [TRENDS] */
             function stepTrendsChart() {
                 var passed = [], failed = [];
@@ -1407,26 +1621,29 @@
                 new Chart(ctx).Line(data, trendOptions);
             }
             
+            /* dashboard counts - overall data for all the reports */
             function reportsChart() {
-                $('.report-count').text($('.report-view').length);
-                $('.report-pass-count').text($('.report-view.pass').length);
-                $('.report-fail-count').text($('.report-view.fatal, .report-view.fail').length);
-                $('.report-others-count').text($('.report-view.error, .report-view.warning, .report-view.skip, .report-view.unknown').length);
+                var passedTests = parseInt($('.total-tests-passed > .panel-lead').text());
+                var failedTests = parseInt($('.total-tests-failed > .panel-lead').text());
+                var errorTests = $('.node-list > li.error, .test:not(.hasChildren).error').length;
+                var warningTests = $('.node-list > li.warning, .test:not(.hasChildren).warning').length;
+                var skippedTests = $('.node-list > li.skip, .test:not(.hasChildren).skip').length;
+                var unknownTests = $('.node-list > li.unknown, .test:not(.hasChildren).unknown').length;
+
                 var data = [
-                    { value: $('.report-view.pass').length, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
-                    { value: $('.report-view.fail').length, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
-                    { value: $('.report-view.fatal').length, color:'#8b0000', highlight: '#a23232', label: 'Fatal' },
-                    { value: $('.report-view.error').length, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
-                    { value: $('.report-view.warning').length, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
-                    { value: $('.report-view.skip').length, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
-                    { value: $('.report-view.unknown').length, color: '#222', highlight: '#444', label: 'Unknown' }
+                    { value: passedTests, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
+                    { value: failedTests, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
+                    { value: errorTests, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
+                    { value: warningTests, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
+                    { value: skippedTests, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
+                    { value: unknownTests, color: '#222', highlight: '#444', label: 'Unknown' }
                 ];
                 var ctx = $('#report-analysis').get(0).getContext('2d');
-                reportChart = new Chart(ctx).Doughnut(data, options);
+                var reportChart = new Chart(ctx).Doughnut(data, options);
                 drawLegend(reportChart, 'report-analysis');
             }
             
-            /* tests view chart [DASHBOARD] */
+            /* tests view chart - local to each report [DASHBOARD] */
             function testsChart() {
                 var data = [
                         { value: passedTests, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
@@ -1441,7 +1658,8 @@
                 testChart = new Chart(ctx).Doughnut(data, options);
                 drawLegend(testChart, 'test-analysis');
               }
-            /* steps view chart [DASHBOARD] */
+              
+            /* steps view chart - local to each report [DASHBOARD] */
             function stepsChart() {
                 var data = [
                     { value: passedSteps, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
@@ -1456,7 +1674,8 @@
                 var ctx = $('#step-analysis').get(0).getContext('2d');
                 stepChart = new Chart(ctx).Doughnut(data, options);
                 drawLegend(stepChart, 'step-analysis');
-              }
+            }
+              
             /* draw legend for test and step charts [DASHBOARD] */
             function drawLegend(chart, id) {
                 var helpers = Chart.helpers;
@@ -1476,11 +1695,21 @@
                 });
                 $('#' + id).after(legendHolder.firstChild);
               }
+              
               testTrendsChart(); stepTrendsChart();
               reportsChart(); testsChart(); stepsChart();
-              $('ul.doughnut-legend').addClass('right');
               redrawCharts();
+              
+              $('ul.doughnut-legend').addClass('right');
               $('#report-dashboard, #trends-view').addClass('hide'); 
         </script>
+        <#if (customizer.inlineScript)??> 
+            <style type='text/javascript'>
+                ${customizer.inlineScript}
+            </style>
+        </#if>
+        <#if (customizer.scriptFile)??>
+            <link rel='stylesheet' href='${customizer.scriptFile}' type='text/css'>
+        </#if>
     </body>
 </html>

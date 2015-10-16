@@ -30,6 +30,10 @@ class Logger extends LogSettings {
         log(LogStatus.WARNING, message);
     }
     
+    public static void fatal(String message) {
+        log(LogStatus.FATAL, message);
+    }
+    
     public static void log(String message) {
         log(LogStatus.UNKNOWN, message);
     }

@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import com.relevantcodes.extentreports.LogCounts;
 import com.relevantcodes.extentreports.LogStatus;
+import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
 public class Test {
     private List<TestAttribute> categoryList;
@@ -35,7 +35,6 @@ public class Test {
     private LogStatus status = LogStatus.UNKNOWN;
     
     private String description;
-    private String internalWarning;
     private String name;
     
     private UUID id;
@@ -49,11 +48,7 @@ public class Test {
     public String getLevelClass() {
     	return nodeLevel;
     }
-    
-    private void setLogCounts() {
-    	this.logCounts = new LogCounts().getLogCounts(this);
-    }
-    
+
     public HashMap<LogStatus, Integer> getLogCounts() {
     	return logCounts;
     }
@@ -67,6 +62,10 @@ public class Test {
         return startedTime;
     }
     
+    public String getFormattedStartedTime() {
+    	return DateTimeUtil.getFormattedDateTime(startedTime, "yyyy-MM-dd HH:mm:ss");
+    }
+    
     // ended time
     public void setEndedTime(Date endedTime) {
         this.endedTime = endedTime;
@@ -74,6 +73,14 @@ public class Test {
     
     public Date getEndedTime() {
         return endedTime;
+    }
+    
+    public String getFormattedEndedTime() {
+    	return DateTimeUtil.getFormattedDateTime(endedTime, "yyyy-MM-dd HH:mm:ss");
+    }
+    
+    public String getFormattedTimeDiff() {
+    	return DateTimeUtil.getDiff(endedTime, startedTime);
     }
     
     // status
@@ -92,15 +99,6 @@ public class Test {
     
     public String getDescription() {
         return description;
-    }
-    
-    // internal warning
-    public void setInternalWarning(String warning) {
-        this.internalWarning = warning;
-    }
-    
-    public String getInternalWarning() {
-        return internalWarning;
     }
     
     // name
@@ -128,6 +126,16 @@ public class Test {
     
     public List<TestAttribute> getCategoryList() {
         return categoryList;
+    }
+    
+    public List<String> getCategoriesAsTags() {
+    	List<String> list = new ArrayList<String>();
+
+    	for (TestAttribute c : categoryList) {
+    		list.add(c.getName().toLowerCase());
+    	}
+    	
+    	return list;
     }
     
     // authors
@@ -170,7 +178,6 @@ public class Test {
     }  
     
     public void prepareFinalize() {
-    	setLogCounts();
         updateTestStatusRecursively(this);
         
         if (status == LogStatus.INFO) {
@@ -253,9 +260,7 @@ public class Test {
         status = LogStatus.UNKNOWN;
     }
     
-    public Test() {
-        internalWarning = "";
-        
+    public Test() {        
         id = UUID.randomUUID();
         
         logList = new ArrayList<Log>();

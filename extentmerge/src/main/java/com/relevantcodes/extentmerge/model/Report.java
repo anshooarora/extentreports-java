@@ -4,7 +4,7 @@
 * Copyright (c) 2015, Anshoo Arora (Relevant Codes)
 */
 
-package com.relevantcodes.extentmerge;
+package com.relevantcodes.extentmerge.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,9 +13,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.relevantcodes.extentmerge.LogSettings;
+import com.relevantcodes.extentmerge.SourceType;
 import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.model.Test;
+import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
+/**
+ * ReportSingle represents a past run report
+ * 
+ * @author Anshoo
+ *
+ */
 public class Report {
     private List<Test> testList;
     private LogStatus reportStatus = LogStatus.UNKNOWN;
@@ -42,6 +51,28 @@ public class Report {
     
     public SourceType getSourceType() {
         return sourceType;
+    }
+    
+    public String getFormattedDate() {
+    	Date date = new Date(getStartedTime().getTime());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(LogSettings.getLogDateFormat());
+		String dtFormatted = sdf.format(date);
+		
+		return dtFormatted;
+    }
+    
+    public String getFormattedTime() {
+    	Date date = new Date(getStartedTime().getTime());
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat(LogSettings.getLogTimeFormat());
+		String timeFormatted = sdf.format(date);
+
+		return timeFormatted;
+    }
+    
+    public String getFormattedRunDuration() {
+    	return DateTimeUtil.getDiff(endedTime, startedTime);
     }
     
     public Date getStartedTime() {

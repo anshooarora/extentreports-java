@@ -13,6 +13,8 @@ import java.util.List;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.relevantcodes.extentmerge.model.Customizer;
+import com.relevantcodes.extentmerge.model.Report;
 
 public class App {
 	private static ConsoleArgs consoleArgs;
@@ -53,11 +55,17 @@ public class App {
     	DataAggregator aggregator = new DataAggregator(consoleArgs.dir, consoleArgs.html, consoleArgs.db);
     	List<Report> reportList = aggregator.getAggregatedData();
     	
-    	if (reportList != null) {
-    		ReportBuilder rb = new ReportBuilder(reportList);
-    		rb.createDocument(consoleArgs.outFile);
-    		rb.customize(consoleArgs.css, consoleArgs.js);
-    		rb.writeFile();
+    	if (reportList != null && reportList.size() > 0) {
+    		ExtentMerge extent = new ExtentMerge(reportList);
+    		
+    		Customizer customizer = new Customizer();
+    		customizer.setInlineCss(consoleArgs.css);
+    		customizer.setInlineScript(consoleArgs.js);
+    		customizer.setScriptFile(consoleArgs.jsFile);
+    		customizer.setStylesheet(consoleArgs.cssFile);
+    		
+    		extent.customize(customizer);
+    		extent.createReport();
     	}
     }
     
@@ -126,13 +134,17 @@ public class App {
     	@Parameter(names = "-out", description = "Output file path with .html extension", required = true)
         private String outFile;
     	
-    	// TODO: ability to add css files
-    	@Parameter(names = "-css", description = "Path to custom CSS file", required = false)
+    	@Parameter(names = "-css", description = "Inline css", required = false)
     	private String css;
     	
-    	// TODO: ability to add js files
-    	@Parameter(names = "-js", description = "Path to custom JavaScript file", required = false)
+    	@Parameter(names = "-css-file", description = "Path to custom CSS file", required = false)
+    	private String cssFile;
+    	
+    	@Parameter(names = "-js", description = "Inline js", required = false)
     	private String js;
+    	
+    	@Parameter(names = "-js-file", description = "Path to custom JavaScript file", required = false)
+    	private String jsFile;
     	
     	@Parameter(names = { "-h", "--help" }, description = "Help", help = true)
         private String help;

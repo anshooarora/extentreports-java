@@ -9,6 +9,8 @@ package com.relevantcodes.extentmerge;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.relevantcodes.extentmerge.model.Report;
+
 class DataAggregator implements IAggregator {
 	private List<IAggregator> aggregatorList;
 	

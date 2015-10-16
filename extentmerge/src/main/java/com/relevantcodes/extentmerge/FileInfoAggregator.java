@@ -15,6 +15,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.relevantcodes.extentmerge.App.ConsoleArgs;
+import com.relevantcodes.extentmerge.model.Report;
 import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.Log;

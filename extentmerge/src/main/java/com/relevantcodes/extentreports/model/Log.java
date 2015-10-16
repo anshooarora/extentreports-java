@@ -10,15 +10,30 @@ package com.relevantcodes.extentreports.model;
 
 import java.util.Date;
 
+import com.relevantcodes.extentmerge.LogSettings;
 import com.relevantcodes.extentreports.LogStatus;
+import com.relevantcodes.extentreports.source.Icon;
+import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
-public class Log {
+public class Log extends LogSettings {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
     
     public Date getTimestamp() {
         return timestamp;
+    }
+    
+    public String getFormattedTimestamp() {
+    	return DateTimeUtil.getFormattedDateTime(timestamp.getTime(), getLogTimeFormat());
+    }
+    
+    public String getFormattedTime() {
+    	return DateTimeUtil.getFormattedDateTime(timestamp.getTime(), getLogDateTimeFormat());
+    }
+    
+    public String getIcon() {
+    	return Icon.getIcon(logStatus);
     }
     
     public void setLogStatus(LogStatus logStatus) {

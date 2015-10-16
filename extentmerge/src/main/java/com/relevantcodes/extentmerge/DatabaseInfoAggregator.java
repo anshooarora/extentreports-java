@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.relevantcodes.extentmerge.App.ConsoleArgs;
+import com.relevantcodes.extentmerge.model.Report;
 import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.Test;

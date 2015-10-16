@@ -8,6 +8,8 @@ package com.relevantcodes.extentmerge;
 
 import java.util.List;
 
+import com.relevantcodes.extentmerge.model.Report;
+
 public interface IAggregator {
 	List<Report> getAggregatedData();
 }
