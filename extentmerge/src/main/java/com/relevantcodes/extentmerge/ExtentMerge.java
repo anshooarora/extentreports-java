@@ -31,7 +31,7 @@ public class ExtentMerge {
 		this.customizer = customizer;
 	}
 	
-	public void createReport() {
+	public void createReport(String filePath) {
 		MergedDataMaster mergedData = new MergedDataMaster(reportList);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -45,7 +45,7 @@ public class ExtentMerge {
 		try {
 			Template template = getConfig().getTemplate("Template.ftl");
 			
-			Writer out = new FileWriter(new File("C:/Users/Anshoo/Documents/workspace/extent2examples/merge/ExtentMerge2.html"));
+			Writer out = new FileWriter(new File(filePath));
 			template.process(map, out);
 			out.close();
 		} 

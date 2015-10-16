@@ -65,7 +65,7 @@ public class App {
     		customizer.setStylesheet(consoleArgs.cssFile);
     		
     		extent.customize(customizer);
-    		extent.createReport();
+    		extent.createReport(consoleArgs.outFile);
     	}
     }
     
