@@ -130,7 +130,7 @@ class FileInfoAggregator implements IAggregator {
                 
                 if (extentTest.getNodeList() != null) {
                     extentTest.hasChildNodes = true;
-                } 
+                }
                 else {
                     TestTrends.setTest(extentTest.getName(), extentTest.getStatus());
                 }
@@ -146,59 +146,6 @@ class FileInfoAggregator implements IAggregator {
         return null;
     }
     
-    private void trackReportStatus(LogStatus logStatus) {
-        if (reportStatus == LogStatus.FATAL) return;
-        
-        if (logStatus == LogStatus.FATAL) {
-            reportStatus = logStatus;
-            return;
-        }
-        
-        if (reportStatus == LogStatus.FAIL) return;
-        
-        if (logStatus == LogStatus.FAIL) {
-            reportStatus = logStatus;
-            return;
-        }
-        
-        if (reportStatus == LogStatus.ERROR) return;
-        
-        if (logStatus == LogStatus.ERROR) {
-            reportStatus = logStatus;
-            return;
-        }
-        
-        if (reportStatus == LogStatus.WARNING) return;
-        
-        if (logStatus == LogStatus.WARNING) {
-            reportStatus = logStatus;
-            return;
-        }
-        
-        if (reportStatus == LogStatus.PASS) return;
-        
-        if (logStatus == LogStatus.PASS) {
-            reportStatus = LogStatus.PASS;
-            return;
-        }
-        
-        if (reportStatus == LogStatus.SKIP) return;
-        
-        if (logStatus == LogStatus.SKIP) {
-            reportStatus = LogStatus.SKIP;
-            return;
-        }
-        
-        if (reportStatus == LogStatus.INFO) return;
-        
-        if (logStatus == LogStatus.INFO) {
-            reportStatus = LogStatus.INFO;
-            return;
-        }
-        
-        reportStatus = LogStatus.UNKNOWN;
-    }
-    
     private List<Test> getNodeList(Element test) {
         Elements allNodes = test.select(".node-list > li");
         Test extentNode;        
@@ -208,6 +155,8 @@ class FileInfoAggregator implements IAggregator {
             
             for (Element node : allNodes) {
                 extentNode = new Test();
+                
+                extentNode.isChildNode = true;
                 
                 extentNode.setName(node.select(".test-node-name").first().text());
                 
@@ -273,6 +222,59 @@ class FileInfoAggregator implements IAggregator {
         }
         
         return extentLogList;
+    }
+    
+    private void trackReportStatus(LogStatus logStatus) {
+        if (reportStatus == LogStatus.FATAL) return;
+        
+        if (logStatus == LogStatus.FATAL) {
+            reportStatus = logStatus;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.FAIL) return;
+        
+        if (logStatus == LogStatus.FAIL) {
+            reportStatus = logStatus;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.ERROR) return;
+        
+        if (logStatus == LogStatus.ERROR) {
+            reportStatus = logStatus;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.WARNING) return;
+        
+        if (logStatus == LogStatus.WARNING) {
+            reportStatus = logStatus;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.PASS) return;
+        
+        if (logStatus == LogStatus.PASS) {
+            reportStatus = LogStatus.PASS;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.SKIP) return;
+        
+        if (logStatus == LogStatus.SKIP) {
+            reportStatus = LogStatus.SKIP;
+            return;
+        }
+        
+        if (reportStatus == LogStatus.INFO) return;
+        
+        if (logStatus == LogStatus.INFO) {
+            reportStatus = LogStatus.INFO;
+            return;
+        }
+        
+        reportStatus = LogStatus.UNKNOWN;
     }
     
     private boolean isReportWithinDateThreshold(String reportStartDate, String reportEndDate) {

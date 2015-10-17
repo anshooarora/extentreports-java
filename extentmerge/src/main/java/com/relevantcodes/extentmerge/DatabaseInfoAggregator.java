@@ -234,6 +234,8 @@ class DatabaseInfoAggregator implements IAggregator {
             while (rs.next()) {
                 extentNode = new Test();
                 
+                extentNode.isChildNode = true;
+                
                 extentNode.setName(rs.getString("NodeName"));
                 
                 extentNode.setStatus(

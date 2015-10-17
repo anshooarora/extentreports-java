@@ -32,6 +32,7 @@ public class Report {
     private Date startedTime;
     private Date endedTime;
     private UUID id;
+    MergedDataMaster mergedData;
     
     public void setTest(Test test) {
         testList.add(test);
@@ -117,8 +118,25 @@ public class Report {
         return reportStatus;
     }
     
+    public int getTestsCount() {
+    	return mergedData.getOverallTestCount();
+    }
+    
+    public int getTestsPassedCount() {
+    	return mergedData.getOverallTestPassedCount();
+    }
+    
+    public int getTestsFailedCount() {
+    	return mergedData.getOverallTestFailedCount();
+    }
+
+    public int getTestsOthersCount() {
+    	return mergedData.getOverallTestOthersCount();
+    }
+
     public Report() {
         id = UUID.randomUUID();
         testList = new ArrayList<Test>();
+        mergedData = new MergedDataMaster(this);
     }
 }

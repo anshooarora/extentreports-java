@@ -519,13 +519,13 @@
                 overflow: hidden;
             }
             .progress-bar-success {
-                background-color: #5cb85c !important;
+                background-color: #32bf32 !important;
             }
             .progress-bar-warning {
                 background-color: #ffa81c !important;
             }
             .progress-bar-danger {
-                background-color: #d9534f !important;
+                background-color: #FF5A5E !important;
             }
             .progress-bar-skip {
                 background-color: #46BFBD !important;
@@ -757,8 +757,23 @@
                                             <td class='report-date'><span class='label date'>${report.formattedDate} ${report.formattedTime}</span></td>
                                             <td class='report-source'><span class='label text-white ${report.sourceType.toString()?lower_case}'>${report.sourceType.toString()}</span></td>
                                             <td class='run-duration'>${report.formattedRunDuration}</td>
-                                            <td class='tests-count'>${report.testList?size}</td>
-                                            <td class='report-progress'></td>
+                                            <td class='tests-count'>${report.testsCount}</td>
+                                            <td class='report-progress'>
+                                                <div class='progress2'>
+                                                    <div class='progress-bar2 progress-bar-success progress-bar-striped' style='width: ${(report.testsPassedCount / report.testsCount) * 100}%'>
+                                                        <span class='sr-only'>${report.testsPassedCount}</span>
+                                                    </div>
+                                                    <div class='progress-bar2 progress-bar-skip progress-bar-striped' style='width: %'>
+                                                        <span class='sr-only'></span>
+                                                    </div>
+                                                    <div class='progress-bar2 progress-bar-warning progress-bar-striped' style='width: ${report.testsOthersCount / report.testsCount * 100}%'>
+                                                        <span class='sr-only'>${report.testsOthersCount}</span>
+                                                    </div>
+                                                    <div class='progress-bar2 progress-bar-danger progress-bar-striped' style='width: ${report.testsFailedCount / report.testsCount * 100}%'>
+                                                        <span class='sr-only'>${report.testsFailedCount}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </#list>
                                 </tbody>
@@ -1160,6 +1175,39 @@
             var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
             var testChart, stepChart;
             
+            /* gloabl doughnut chart options */
+            var options = {
+                segmentShowStroke : true, 
+                segmentStrokeColor : '#fff', 
+                segmentStrokeWidth : 1, 
+                percentageInnerCutout : 55, 
+                animationSteps : 30, 
+                animationEasing : 'easeOutBounce', 
+                animateRotate : true, 
+                animateScale : false,
+                legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+            };
+            
+            /* chart options for line chart in TRENDS-view */
+            var trendOptions = {
+                scaleShowGridLines : true,
+                scaleGridLineColor : "rgba(0,0,0,.05)",
+                scaleGridLineWidth : 1,
+                scaleFontSize: 10,
+                scaleShowHorizontalLines: true,
+                scaleShowVerticalLines: true,
+                bezierCurve : true,
+                bezierCurveTension : 0.4,
+                pointDot : true,
+                pointDotRadius : 4,
+                pointDotStrokeWidth : 1,
+                pointHitDetectionRadius : 20,
+                datasetStroke : true,
+                datasetStrokeWidth : 2,
+                datasetFill : true,
+                legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+            };
+            
             $(document).ready(function() {
                 /* init */
                 $('.button-collapse').sideNav({ menuWidth: 220 });
@@ -1197,6 +1245,7 @@
                     $('#report-view .' + $(this).attr('id')).removeClass('hide').find('.test').eq(0).click();
                     if ($('#enableDashboard').prop('checked')) { $('#report-dashboard').removeClass('hide').addClass('displayed'); redrawCharts(); }
                 });
+                
                 $('.analysis').click(function() {
                     $('.container > .row, nav .nav-right').addClass('hide').removeClass('displayed');
                     var cls = $(this).children('a').prop('class');
@@ -1222,6 +1271,7 @@
                     $('#test-count-setting').removeClass('parentWithoutNodes parentWithoutNodesAndNodes childNodes');
                     $('#test-count-setting').addClass($(this).prop('id'));
                 });
+                
                 /* refresh charts when chart setting is saved */
                 $('.modal-footer').click(function() {
                     if (!$(this).hasClass('test-history-modal')) {
@@ -1231,15 +1281,18 @@
                         });
                     }
                 });
+                
                 /* step-dashboard settings [DASHBOARD] */
                 $('#report-dashboard .step-status-filter').click(function() {
                     $('#step-status-filter').openModal();
                 });
+                
                 /* check all checkboxes for step-dashboard filter to allow filtering the steps to be displayed [DASHBOARD] */
                 $('#step-status-filter input').prop('checked', 'checked');
                 $('#step-status-filter input').click(function() {
                    $('#step-status-filter').toggleClass($(this).prop('id').replace('step-dashboard-filter-', ''));
                 });
+                
                 /* navigate from dashboard (summary) to the report [DASHBOARD] */
                 $('#run-summary-view .goto-report').click(function() {
                     var index = $(this).parent().index();
@@ -1260,7 +1313,10 @@
                     $('#test-details-wrapper .details-name').text(t.find('.test-name').text());
                     $('#test-details-wrapper .details-container').append($(el));
                 });
+                
+                /* enable the first test by default */
                 $('.test').eq(0).click();
+                
                 /* history functionality [TEST] */
                 function findTestByName(name) {
                     $el = $('.test-name').filter(function() {
@@ -1285,11 +1341,13 @@
                             '</div>');
                     });
                 }
+                
                 /* history functionality [TEST] */
                 $('.modal-trigger.history').click(function() {
                     var testName = $(this).closest('.test').find('.test-name').text();
                     findTestByName(testName);
                 });
+                
                 $('.test-history').click(function(evt) {
                     var cls = evt.target.className;
                     if (cls == 'mdi-action-launch' || cls == 'history-navigation') {
@@ -1304,6 +1362,7 @@
                         }).click();
                     }
                 });
+                
                 /* filter tests by text [TEST] */
                 $(document).keypress(function(e) {
                     if(e.which == 13) {
@@ -1332,10 +1391,12 @@
                         }
                     }
                 });
+                
                 /* if only header row is available for test, hide the table [TEST] */
                 $('.table-results').filter(function() {
                     return ($(this).find('tr').length == 1);
                 }).hide(0);
+                
                 /* filter tests by status [TEST] */
                 $('.tests-toggle li').click(function() {
                     var opt = $(this).text().toLowerCase();
@@ -1413,6 +1474,7 @@
                     ('00' + d.getMinutes()).slice(-2) + ':' + 
                     ('00' + d.getSeconds()).slice(-2);
             }
+            
             /* finds test by its name and extentId  [UTIL] */
             function findTestByNameId(name, id) {
                 $('.test').each(function() {
@@ -1451,9 +1513,9 @@
                 stepsChart();
                 $('ul.doughnut-legend').addClass('right');
             }
+            
             /* update data for dashboard [DASHBOARD] */
             function refreshData() {
-                var el = $('#test-count-setting');
                 totalTests = $('#report-view .test:not(:has(.test-node)), .test-node').length;
                 passedTests = $('#test-details-wrapper .details-container .test-node.pass, .test:visible .test-node.pass, .test:visible.pass:not(.hasChildren)').length;
                 failedTests = $('#test-details-wrapper .details-container .test-node.fail, .test:visible .test-node.fail, .test:visible.fail:not(.hasChildren)').length;
@@ -1462,26 +1524,17 @@
                 errorTests = $('#test-details-wrapper .details-container .test-node.error, .test:visible .test-node.error, .test:visible.error:not(.hasChildren)').length;
                 skippedTests = $('#test-details-wrapper .details-container .test-node.skip, .test:visible .test-node.skip, .test:visible.skip:not(.hasChildren)').length;
                 unknownTests = $('#test-details-wrapper .details-container .test-node.unknown, .test:visible .test-node.unknown, .test:visible.unknown:not(.hasChildren)').length;
-                if (el.hasClass('parentWithoutNodes')) {
-                    totalTests = $('.test:visible').length;
-                    passedTests = $('.test:visible.pass').length;
-                    failedTests = $('.test:visible.fail').length;
-                    fatalTests = $('.test:visible.fatal').length;
-                    warningTests = $('.test:visible.warning').length;
-                    errorTests = $('.test:visible.error').length;
-                    skippedTests = $('.test:visible.skip').length;
-                    unknownTests = $('.test:visible.unknown').length;
-                }
-                else if (el.hasClass('childNodes')) {
-                    totalTests = $('.test-node').length;
-                    passedTests = $('.test:visible .test-node.pass, .details-container .test-node.pass').length;
-                    failedTests = $('.test:visible .test-node.fail, .details-container .test-node.fail').length;
-                    fatalTests = $('.test:visible .test-node.fatal, .details-container .test-node.fatal').length;
-                    warningTests = $('.test:visible .test-node.warning, .details-container .test-node.warning').length;
-                    errorTests = $('.test:visible .test-node.error, .details-container .test-node.error').length;
-                    skippedTests = $('.test:visible .test-node.skip, .details-container .test-node.skip').length;
-                    unknownTests = $('.test:visible .test-node.unknown, .details-container .test-node.unknown').length;
-                }
+                
+                /* update test counts on report-view dashboard */
+                $('.t-pass-count').text(passedTests);
+                $('.t-fail-count').text(failedTests + fatalTests);
+                $('.t-warning-count').text(warningTests);
+                $('.t-fatal-count').text(fatalTests);
+                $('.t-error-count').text(errorTests);
+                $('.t-skipped-count').text(skippedTests);
+                $('.t-others-count').text(warningTests + errorTests + skippedTests + unknownTests);
+                
+                /* retrieve counts for each step */
                 totalSteps = $('.test:visible td.status').length;
                 passedSteps = $('.test:visible td.status.pass').length;
                 failedSteps = $('.test:visible td.status.fail').length;
@@ -1491,24 +1544,8 @@
                 infoSteps = $('.test:visible td.status.info').length;
                 skippedSteps = $('.test:visible td.status.skip').length;
                 unknownSteps = $('.test:visible td.status.unknown').length;
-                $('.t-pass-count').text(passedTests);
-                $('.t-fail-count').text(failedTests + fatalTests);
-                $('.t-warning-count').text(warningTests);
-                $('.t-fatal-count').text(fatalTests);
-                $('.t-error-count').text(errorTests);
-                $('.t-skipped-count').text(skippedTests);
-                $('.t-others-count').text(warningTests + errorTests + skippedTests + unknownTests);
-                var percentage = Math.round((passedTests * 100) / (passedTests + failedTests + fatalTests + warningTests + errorTests + unknownTests + skippedTests)) + '%';
-                $('.pass-percentage.panel-lead').text(percentage);
-                $('#dashboard-view .determinate').attr('style', 'width:' + percentage);
-                if ($('#step-status-filter').hasClass('pass')) { passedSteps = 0; }
-                if ($('#step-status-filter').hasClass('fail')) { failedSteps = 0; }
-                if ($('#step-status-filter').hasClass('fatal')) { fatalSteps = 0; }
-                if ($('#step-status-filter').hasClass('warning')) { warningSteps = 0; }
-                if ($('#step-status-filter').hasClass('error')) { errorSteps = 0; }
-                if ($('#step-status-filter').hasClass('info')) { infoSteps = 0; }
-                if ($('#step-status-filter').hasClass('skip')){ skippedSteps = 0; }
-                if ($('#step-status-filter').hasClass('unknown')) { unknownSteps = 0; }
+                
+                /* update step counts on report-view dashboard */
                 $('.s-pass-count').text(passedSteps);
                 $('.s-fail-count').text(failedSteps + fatalSteps);
                 $('.s-warning-count').text(warningSteps);
@@ -1517,41 +1554,12 @@
                 $('.s-others-count').text(warningSteps + errorSteps + skippedSteps + unknownSteps + infoSteps);
                 $('#report-dashboard .total-tests > .panel-lead').text(totalTests);
                 $('#report-dashboard .total-steps > .panel-lead').text(totalSteps);
+                
+                /* update pass percentage on report-view */                
                 var percentage = Math.round((passedTests * 100) / (passedTests + failedTests + fatalTests + warningTests + errorTests + unknownTests + skippedTests)) + '%';
                 $('.pass-percentage.panel-lead').text(percentage);
                 $('#report-dashboard .determinate').attr('style', 'width:' + percentage);
             }
-            /* dashboard chart options [DASHBOARD] */
-            var options = {
-                segmentShowStroke : true, 
-                segmentStrokeColor : '#fff', 
-                segmentStrokeWidth : 1, 
-                percentageInnerCutout : 55, 
-                animationSteps : 30, 
-                animationEasing : 'easeOutBounce', 
-                animateRotate : true, 
-                animateScale : false,
-                legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
-            };
-            
-            var trendOptions = {
-                scaleShowGridLines : true,
-                scaleGridLineColor : "rgba(0,0,0,.05)",
-                scaleGridLineWidth : 1,
-                scaleFontSize: 10,
-                scaleShowHorizontalLines: true,
-                scaleShowVerticalLines: true,
-                bezierCurve : true,
-                bezierCurveTension : 0.4,
-                pointDot : true,
-                pointDotRadius : 4,
-                pointDotStrokeWidth : 1,
-                pointHitDetectionRadius : 20,
-                datasetStroke : true,
-                datasetStrokeWidth : 2,
-                datasetFill : true,
-                legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
-            };
             
             function getTrendData(passed, failed) {
                 var labels = []
@@ -1638,6 +1646,7 @@
                     { value: skippedTests, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
                     { value: unknownTests, color: '#222', highlight: '#444', label: 'Unknown' }
                 ];
+                
                 var ctx = $('#report-analysis').get(0).getContext('2d');
                 var reportChart = new Chart(ctx).Doughnut(data, options);
                 drawLegend(reportChart, 'report-analysis');
@@ -1654,10 +1663,11 @@
                         { value: skippedTests, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
                         { value: unknownTests, color: '#222', highlight: '#444', label: 'Unknown' }
                     ];
+                    
                 var ctx = $('#test-analysis').get(0).getContext('2d');
                 testChart = new Chart(ctx).Doughnut(data, options);
                 drawLegend(testChart, 'test-analysis');
-              }
+            }
               
             /* steps view chart - local to each report [DASHBOARD] */
             function stepsChart() {
@@ -1690,19 +1700,23 @@
                         activeSegment.restore();
                     });
                 });
+                
                 Chart.helpers.addEvent(legendHolder.firstChild, 'mouseout', function() {
                     chart.draw();
                 });
+
                 $('#' + id).after(legendHolder.firstChild);
-              }
+            }
               
-              testTrendsChart(); stepTrendsChart();
-              reportsChart(); testsChart(); stepsChart();
-              redrawCharts();
+            reportsChart(); testsChart(); stepsChart();
+            testTrendsChart(); stepTrendsChart();
+
+            redrawCharts();
               
-              $('ul.doughnut-legend').addClass('right');
-              $('#report-dashboard, #trends-view').addClass('hide'); 
+            $('ul.doughnut-legend').addClass('right');
+            $('#report-dashboard, #trends-view').addClass('hide'); 
         </script>
+        
         <#if (customizer.inlineScript)??> 
             <style type='text/javascript'>
                 ${customizer.inlineScript}

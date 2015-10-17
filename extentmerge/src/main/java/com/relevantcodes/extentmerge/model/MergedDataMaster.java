@@ -1,5 +1,6 @@
 package com.relevantcodes.extentmerge.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.relevantcodes.extentreports.LogStatus;
@@ -84,8 +85,12 @@ public class MergedDataMaster {
 	}
 	
 	private void generateMasterCounts(List<Test> testList) {
+		if (testCount == -1) {
+			testCount = 0;
+		}
+		
 		for (Test test : testList) {
-			if (test.hasChildNodes) {
+			if (test.hasChildNodes && !test.isChildNode) {
 				generateMasterCounts(test.getNodeList());
 			}
 			else {
@@ -110,5 +115,8 @@ public class MergedDataMaster {
 		this.reportList = reportList;
 	}
 	
-	
+	public MergedDataMaster(Report report) {
+		reportList = new ArrayList<Report>();
+		reportList.add(report);
+	}
 }
