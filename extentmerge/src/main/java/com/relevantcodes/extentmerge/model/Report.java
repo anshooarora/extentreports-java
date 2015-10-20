@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +33,39 @@ public class Report {
     private Date startedTime;
     private Date endedTime;
     private UUID id;
-    MergedDataMaster mergedData;
+    private MergedDataMaster mergedData;
+    private TestIterator iter;
+    
+    private class TestIterator implements Iterator<Test> {
+        private int testIterIndex = 0;
+        
+        public TestIterator() {
+            testIterIndex = 0;
+        }
+        
+        public boolean hasNext() {
+            if (testList != null && testList.size() >= testIterIndex + 1) {
+                return true;
+            }
+            
+            return false;
+        }
+
+        public Test next() {
+            if (hasNext()) {
+                return testList.get(testIterIndex++);
+            }
+            
+            return null; 
+        }
+        
+    }
+    
+    public TestIterator testIterator() {
+        iter = new TestIterator();
+        
+        return iter;
+    }
     
     public void setTest(Test test) {
         testList.add(test);
@@ -41,7 +74,7 @@ public class Report {
     public void setTestList(List<Test> testList) {
         this.testList = testList;
     }
-    
+
     public List<Test> getTestList() {
         return testList;
     }
@@ -55,25 +88,25 @@ public class Report {
     }
     
     public String getFormattedDate() {
-    	Date date = new Date(getStartedTime().getTime());
-		
-		SimpleDateFormat sdf = new SimpleDateFormat(LogSettings.getLogDateFormat());
-		String dtFormatted = sdf.format(date);
-		
-		return dtFormatted;
+        Date date = new Date(getStartedTime().getTime());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat(LogSettings.getLogDateFormat());
+        String dtFormatted = sdf.format(date);
+        
+        return dtFormatted;
     }
     
     public String getFormattedTime() {
-    	Date date = new Date(getStartedTime().getTime());
-    	
-    	SimpleDateFormat sdf = new SimpleDateFormat(LogSettings.getLogTimeFormat());
-		String timeFormatted = sdf.format(date);
+        Date date = new Date(getStartedTime().getTime());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat(LogSettings.getLogTimeFormat());
+        String timeFormatted = sdf.format(date);
 
-		return timeFormatted;
+        return timeFormatted;
     }
     
     public String getFormattedRunDuration() {
-    	return DateTimeUtil.getDiff(endedTime, startedTime);
+        return DateTimeUtil.getDiff(endedTime, startedTime);
     }
     
     public Date getStartedTime() {
@@ -118,20 +151,8 @@ public class Report {
         return reportStatus;
     }
     
-    public int getTestsCount() {
-    	return mergedData.getOverallTestCount();
-    }
-    
-    public int getTestsPassedCount() {
-    	return mergedData.getOverallTestPassedCount();
-    }
-    
-    public int getTestsFailedCount() {
-    	return mergedData.getOverallTestFailedCount();
-    }
-
-    public int getTestsOthersCount() {
-    	return mergedData.getOverallTestOthersCount();
+    public int getTestsCount(Integer... statusArrayInt) {
+        return mergedData.getTestsCountByStatusInt(statusArrayInt);
     }
 
     public Report() {

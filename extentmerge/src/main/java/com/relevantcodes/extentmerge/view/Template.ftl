@@ -181,7 +181,7 @@
             
             /* -- [ top-nav ] -- */
             nav {
-                padding-left: 70px;
+                padding-left: 220px;
             }
             nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i, nav label {
                 background: #29ccf7;
@@ -694,6 +694,8 @@
                 <li class='upper small weight-normal header'>Misc</li>
                 <li class='analysis waves-effect'><a href='#!' class='logs-view'><i class='mdi-action-assignment'></i>Logs</a></li>
             </ul>
+            <span class='report-name'>Automation Trends</span>
+            <span class='report-headline'>Headline</span>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
             <ul class="right hide-on-med-and-down nav-right hide"> 
                 <li> <input type="checkbox" id="enableDashboard" class="enabled"> <label for="enableDashboard">Enable Dashboard</label> </li> 
@@ -705,37 +707,37 @@
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Tests</span> 
-                        <span class='total-tests'><span class='panel-lead'>${mergedData.overallTestCount}</span></span> 
+                        <span class='total-tests'><span class='panel-lead'>${mergedData.getTestsCountByStatusInt()}</span></span> 
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Tests Passed</span> 
-                        <span class='total-tests-passed'><span class='panel-lead'>${mergedData.overallTestPassedCount}</span></span>
+                        <span class='total-tests-passed'><span class='panel-lead'>${mergedData.getTestsCountByStatusInt(0)}</span></span>
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Tests Failed</span> 
-                        <span class='total-tests-failed'><span class='panel-lead'>${mergedData.overallTestFailedCount}</span></span>
+                        <span class='total-tests-failed'><span class='panel-lead'>${mergedData.getTestsCountByStatusInt(1, 2)}</span></span>
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Steps</span> 
-                        <span class='total-steps'><span class='panel-lead'>${mergedData.overallStepCount}</span></span>
+                        <span class='total-steps'><span class='panel-lead'>${mergedData.getStepsCountByStatusInt()}</span></span>
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Steps Passed</span> 
-                        <span class='total-steps-passed'><span class='panel-lead'>${mergedData.overallStepPassedCount}</span></span>
+                        <span class='total-steps-passed'><span class='panel-lead'>${mergedData.getStepsCountByStatusInt(0)}</span></span>
                     </div>
                 </div>
                 <div class='col l2 s6'>
                     <div class='card'>
                         <span class='panel-name'>Total Steps Failed</span> 
-                        <span class='total-steps-failed'><span class='panel-lead'>${mergedData.overallStepFailedCount}</span></span>
+                        <span class='total-steps-failed'><span class='panel-lead'>${mergedData.getStepsCountByStatusInt(1, 2)}</span></span>
                     </div>
                 </div>
                 <div id='run-summary-view'>
@@ -757,20 +759,20 @@
                                             <td class='report-date'><span class='label date'>${report.formattedDate} ${report.formattedTime}</span></td>
                                             <td class='report-source'><span class='label text-white ${report.sourceType.toString()?lower_case}'>${report.sourceType.toString()}</span></td>
                                             <td class='run-duration'>${report.formattedRunDuration}</td>
-                                            <td class='tests-count'>${report.testsCount}</td>
+                                            <td class='tests-count'>${report.getTestsCount()}</td>
                                             <td class='report-progress'>
                                                 <div class='progress2'>
-                                                    <div class='progress-bar2 progress-bar-success progress-bar-striped' style='width: ${(report.testsPassedCount / report.testsCount) * 100}%'>
-                                                        <span class='sr-only'>${report.testsPassedCount}</span>
+                                                    <div class='progress-bar2 progress-bar-success progress-bar-striped' style='width: ${(report.getTestsCount(0) / report.getTestsCount()) * 100}%'>
+                                                        <span class='sr-only'>${report.getTestsCount(0)}</span>
                                                     </div>
                                                     <div class='progress-bar2 progress-bar-skip progress-bar-striped' style='width: %'>
                                                         <span class='sr-only'></span>
                                                     </div>
-                                                    <div class='progress-bar2 progress-bar-warning progress-bar-striped' style='width: ${report.testsOthersCount / report.testsCount * 100}%'>
-                                                        <span class='sr-only'>${report.testsOthersCount}</span>
+                                                    <div class='progress-bar2 progress-bar-warning progress-bar-striped' style='width: ${report.getTestsCount(3, 4, 5, 6, 7) / report.getTestsCount() * 100}%'>
+                                                        <span class='sr-only'>${report.getTestsCount(3, 4, 5, 6, 7)}</span>
                                                     </div>
-                                                    <div class='progress-bar2 progress-bar-danger progress-bar-striped' style='width: ${report.testsFailedCount / report.testsCount * 100}%'>
-                                                        <span class='sr-only'>${report.testsFailedCount}</span>
+                                                    <div class='progress-bar2 progress-bar-danger progress-bar-striped' style='width: ${report.getTestsCount(1, 2) / report.getTestsCount() * 100}%'>
+                                                        <span class='sr-only'>${report.getTestsCount(1, 2)}</span>
                                                     </div>
                                                 </div>
                                             </td>
@@ -791,14 +793,14 @@
                         </div>
                         <div>
                             <span class='weight-light'>
-                                <span class='master-test-count weight-normal'>${mergedData.overallTestCount}</span> tests merged, 
-                                <span class='master-test-count-passed weight-normal'>${mergedData.overallTestPassedCount}</span> test(s) passed
+                                <span class='master-test-count weight-normal'>${mergedData.getTestsCountByStatusInt()}</span> tests merged, 
+                                <span class='master-test-count-passed weight-normal'>${mergedData.getTestsCountByStatusInt(0)}</span> test(s) passed
                             </span>
                         </div> 
                         <div>
                             <span class='weight-light'>
-                                <span class='master-test-failed-count weight-normal'>${mergedData.overallTestFailedCount}</span> test(s) failed, 
-                                <span class='master-test-others-count weight-normal'>${mergedData.overallTestOthersCount}</span> others
+                                <span class='master-test-failed-count weight-normal'>${mergedData.getTestsCountByStatusInt(1, 2)}</span> test(s) failed, 
+                                <span class='master-test-others-count weight-normal'>${mergedData.getTestsCountByStatusInt(3, 4, 6, 7)}</span> others
                             </span>
                         </div>
                     </div>
@@ -1214,6 +1216,18 @@
                 $('select').material_select();
                 $('#enableDashboard').prop('checked', false);
                 
+                $(window).scroll(function() {
+                    var scrollTop = $('#report-dashboard').is(':visible') ? 400 : 100;
+                    if ($(window).scrollTop() > scrollTop) {
+                        var margin = $('#report-dashboard').is(':visible') ? '-345px' : '-45px';
+                        $('.details-view').css('position', 'fixed').css('margin-top', margin);
+                    } 
+                    else {
+                        $('.details-view').removeAttr('style').css('position', 'absolute');
+                    }
+                    $('.pin').css('width', pinWidth);
+                });
+                
                 /* sizing for pinned content */
                 $(document).ready(sizing);
                 $(window).resize(sizing);
@@ -1399,69 +1413,103 @@
                 
                 /* filter tests by status [TEST] */
                 $('.tests-toggle li').click(function() {
+                    $('#report-view .report-view:visible .test:visible').get(0).click();
+                    
                     var opt = $(this).text().toLowerCase();
-                    var opt2 = $('.category-toggle li.active').text().toLowerCase();
-                    if (opt2 == 'choose your option' || opt2 == 'clear filters') opt2 = '';
+                    var opt2 = $('#report-view .report-view:visible .category-toggle li.active').text().toLowerCase();
+                    
+                    if (opt2 == 'choose your option' || opt2 == 'clear filters') {
+                        opt2 = '';
+                    }
+                    
                     if (opt != 'choose your option') {
                         if (opt == 'clear filters') {
                             resetFilters();
                         } 
                         else {
-                            $('.tests-toggle li').removeClass('active');
+                            $('#report-view .report-view:visible .tests-toggle li').removeClass('active');
                             $(this).addClass('active');
-                            $('.test').hide(0).removeClass('displayed');
+                            $('#report-view .report-view:visible .test').hide(0).removeClass('displayed');
+                            
                             if (opt2 != '') {
-                                $('.test').each(function() {
-                                    if (($(this).hasClass(opt) || $(this).has('.test-node.' + opt).length > 0) && $(this).find('.category-assigned').hasClass(opt2)) {
-                                        $(this).addClass('displayed').show(0);
-                                    }
-                                });
-                            } else {
-                                $('.test').hide(0).removeClass('displayed');
-                                $('.test:has(.test-node.' + opt + '), .test.' + opt).fadeIn(200).addClass('displayed');
-                            }
-                            redrawCharts();
-                        }
-                    }
-                });
-                /* filter tests by category [TEST] */
-                $('.category-toggle li').click(function() {
-                    var opt = $(this).text().toLowerCase();
-                    var opt2 = $('.tests-toggle li.active').text().toLowerCase();
-                    if (opt2 == 'choose your option' || opt2 == 'clear filters') opt2 = '';
-                    if (opt != 'choose your option') {
-                        if (opt == 'clear filters') {
-                            resetFilters();
-                        } else {
-                            $('.category-toggle li').removeClass('active');
-                            $(this).addClass('active');
-                            $('.test').hide(0).removeClass('displayed');
-                            if (opt2 != '') {
-                                $('.test').each(function() {
-                                    if (($(this).hasClass(opt2) || $(this).has('.test-node.' + opt2).length > 0)) {
-                                        if ($(this).find('.category-assigned').hasClass(opt)) {
-                                            $(this).addClass('displayed').show(0);
+                                $('#report-view .report-view:visible .test').each(function() {
+                                    var t = $(this);
+                                    
+                                    if (t.find('.category-assigned').hasClass(opt2)) {
+                                        if (t.hasClass(opt) || t.has('.test-node.' + opt).length > 0 || (t.hasClass('active') && $('#test-details-wrapper .test-node.' + opt).length > 0)) {
+                                            t.addClass('displayed').show(0);                                        
                                         }
                                     }
                                 });
-                            } else {
-                                $('.test').each(function() {
-                                    if ($(this).find('.category-assigned').hasClass(opt)) {
-                                        $(this).fadeIn(200).addClass('displayed');
+                            } 
+                            else {
+                                var activeTest = '';
+                                if ($('#test-details-wrapper .test-node.' + opt).length > 0) {
+                                    activeTest = '#report-view .report-view:visible .test.active,';
+                                }
+                                $('#report-view .report-view:visible .test').hide(0).removeClass('displayed');
+                                $(activeTest + '#report-view .report-view:visible .test:has(.test-node.' + opt + '), #report-view .report-view:visible .test.' + opt).fadeIn(200).addClass('displayed');
+                            }
+                            
+                            if ($('#report-dashboard').is(':visible')) {
+                                redrawCharts();
+                            }
+                        }
+                    }
+                });
+                
+                /* filter tests by category [TEST] */
+                $('.category-toggle li').click(function() {
+                    var opt = $(this).text().toLowerCase();
+                    var opt2 = $('#report-view .report-view:visible .tests-toggle li.active').text().toLowerCase();
+                    
+                    if (opt2 == 'choose your option' || opt2 == 'clear filters') {
+                        opt2 = '';
+                    }
+                    
+                    if (opt != 'choose your option') {
+                        if (opt == 'clear filters') {
+                            resetFilters();
+                        } 
+                        else {
+                            $('.category-toggle li').removeClass('active');
+                            $(this).addClass('active');
+                            $('.test').hide(0).removeClass('displayed');
+                            
+                            if (opt2 != '') {
+                                $('#report-view .report-view:visible .test').each(function() {
+                                    var t = $(this);
+                                    
+                                    if (t.find('.category-assigned').hasClass(opt)) {
+                                        if (t.hasClass(opt2) || t.has('.test-node.' + opt2).length > 0 || (t.hasClass('active') && $('#test-details-wrapper .test-node.' + opt2).length > 0)) {
+                                            t.addClass('displayed').show(0);                                        
+                                        }
+                                    }
+                                });
+                            } 
+                            else {
+                                $('#report-view .report-view:visible .test').each(function() {
+                                    var t = $(this);
+                                    
+                                    if (t.find('.category-assigned').hasClass(opt)) {
+                                        t.fadeIn(200).addClass('displayed');
                                     }
                                 });
                             }
-                            redrawCharts();
+                            
+                            if ($('#report-dashboard').is(':visible')) {
+                                redrawCharts();
+                            }
                         }
                     }                                
                 });
                 
                 /* action to perform when 'Clear Filters' option is selected [TEST] */
                 function resetFilters() {
-                    $('.dropdown-content li').removeClass('active');
-                    $('.test').addClass('displayed').show(0);
+                    $('#report-view .report-view:visible .dropdown-content li').removeClass('active');
+                    $('#report-view .report-view:visible .test').addClass('displayed').show(0);
                     redrawCharts();
-                    $('.dropdown-content li:first-child').addClass('active').click();
+                    $('#report-view .report-view:visible .dropdown-content li:first-child').addClass('active').click();
                 }
             })
             
@@ -1714,13 +1762,13 @@
             redrawCharts();
               
             $('ul.doughnut-legend').addClass('right');
-            $('#report-dashboard, #trends-view').addClass('hide'); 
+            $('#report-dashboard, #trends-view').addClass('hide');
         </script>
         
         <#if (customizer.inlineScript)??> 
-            <style type='text/javascript'>
+            <script type='text/javascript'>
                 ${customizer.inlineScript}
-            </style>
+            </script>
         </#if>
         <#if (customizer.scriptFile)??>
             <link rel='stylesheet' href='${customizer.scriptFile}' type='text/css'>

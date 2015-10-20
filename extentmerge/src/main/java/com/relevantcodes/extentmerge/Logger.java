@@ -6,16 +6,16 @@
 
 package com.relevantcodes.extentmerge;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 
 import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
 class Logger extends LogSettings {
-    private static Queue<Log> logList = new LinkedList<Log>();
+    private static List<Log> logList = new ArrayList<Log>();
     private static Log log;
     
     public static void info(String message) {
@@ -38,7 +38,7 @@ class Logger extends LogSettings {
         log(LogStatus.UNKNOWN, message);
     }
     
-    public static Queue<Log> getLogs() {
+    public static List<Log> getLogs() {
         return logList;
     }
     
