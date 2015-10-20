@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.relevantcodes.extentreports.model.Category;
@@ -417,7 +418,12 @@ class DBReporter extends LogSettings implements IReporter {
             
             int ix = 0, id = 0;
             
-            for (Log log : test.getLog()) {
+            Iterator<Log> iter = test.logIterator();
+            Log log;
+            
+            while (iter.hasNext()) {
+            	log = iter.next();
+            	
                 stmt.setString(++ix, report.getId().toString());
                 stmt.setString(++ix, test.getId().toString());
                 stmt.setString(++ix, test.getName());

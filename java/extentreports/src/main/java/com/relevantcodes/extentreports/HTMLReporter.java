@@ -38,21 +38,38 @@ import com.relevantcodes.extentreports.utils.Writer;
  *
  */
 class HTMLReporter extends LogSettings implements IReporter {
-    private Report report;
+    // report instance	
+	private Report report;
     
+	// path of the html file
     private String filePath;
+    
+    // display-order (default = OLDEST_FIRST)
     private DisplayOrder displayOrder;
+    
+    // network mode (default = ONLINE)
     private NetworkMode networkMode;
     
+    // master list of categories added to tests
     private CategoryList categoryList;
+    
+    // suite started, ended times
     private SuiteTimeInfo suiteTimeInfo;
     
+    // master extent.html Document
     private volatile Document extentDoc;
+    
+    // collection of tests added using endTest/addTest
     private volatile Element testCollection;
     
+    // marks the report session as terminated
+    // @see close()
     private Boolean terminated = false;
     
+    // folder where offline artifacts are stored
     private final String offlineFolderParent = "extentreports";
+    
+    // package path containing source files
     private final String packagePath = "com/relevantcodes/extentreports/source/";
     
     @Override
@@ -176,7 +193,7 @@ class HTMLReporter extends LogSettings implements IReporter {
         Writer.getInstance()
             .write(
                     new File(filePath), 
-                    Parser.unescapeEntities(extentDoc.outerHtml().replace("    ", "").replace("\t",  ""), true)); //.replace("\n", "").replace("\r", "").replace("    ", "").replace("\t",  "")
+                    Parser.unescapeEntities(extentDoc.outerHtml(), true)); //.replace("    ", "").replace("\t",  "")
     }
     
     private synchronized void updateSuiteExecutionTime() {

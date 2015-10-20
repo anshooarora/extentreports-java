@@ -11,6 +11,7 @@ package com.relevantcodes.extentreports.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,29 +19,114 @@ import com.relevantcodes.extentreports.LogCounts;
 import com.relevantcodes.extentreports.LogStatus;
 
 public class Test {
-    private List<TestAttribute> categoryList;
-    private List<TestAttribute> authorsList;
-    private List<Log> logList;
-    private List<ScreenCapture> screenCaptureList;
-    private List<Screencast> screencastList;
-    private List<Test> nodeList;
-    
-    private HashMap<LogStatus, Integer> logCounts;
-    
-    public boolean isChildNode = false;
+	/**
+	 * Attribute to mark the test as a child node<br>
+	 * Top-most test will always have this attribute as false<br>
+	 * eg:<br>
+	 *     Parent             - false<br>
+	 *         Child          - true<br>
+	 *             GrandChild - true<br>
+	 */
+	public boolean isChildNode = false;
+	
+	/**
+	 * Attribute to mark if the test ended safely<br>
+	 * It is marked TRUE when extent.endTest(test) is called
+	 */
     public boolean hasEnded = false;
+    
+    /**
+     *  Attribute to denote if the current test has child tests<br>
+     *  Default = false<br>
+     *  When test.appendChild(child) is called, the flag becomes true
+     */
     public boolean hasChildNodes = false;
     
+	// test categories
+	// parent test contains all categories from child tests
+    private List<TestAttribute> categoryList;
+    
+    // not yet implemented
+    // assign author(s) of the test
+    private List<TestAttribute> authorsList;
+    
+    // logs
+    private List<Log> logList;
+    
+    // screencapture list <img />
+    private List<ScreenCapture> screenCaptureList;
+    
+    // screencast / video <video />
+    private List<Screencast> screencastList;
+    
+    // child test list
+    private List<Test> nodeList;
+    
+    // detailed log counts for each status type
+    // eg:  LogStatus.PASS, 2 -> denotes 2 steps passed in the test
+    // eg:  LogStatus.FAIL, 0 -> denotes 0 steps failed in the test
+    private HashMap<LogStatus, Integer> logCounts;
+    
+    // test started time
     private Date startedTime;
+    
+    // test ended time
     private Date endedTime;
     
+    // default status when the test starts
     private LogStatus status = LogStatus.UNKNOWN;
-    
+
+    // test description string
     private String description;
+    
+    // internal warning - only enabled if the test is not ended safely
     private String internalWarning;
+    
+    // test name
     private String name;
     
+    // unique id assigned when the test starts
     private UUID id;
+    
+    // log iterator instance
+    private LogIterator iter;
+    
+    // log iterator
+    private class LogIterator implements Iterator<Log> {
+    	private int logIterIndex = 0;
+    	
+    	public LogIterator() {
+    		logIterIndex = 0;
+    	}
+    	
+		public boolean hasNext() {
+			if (logList != null && logList.size() >= logIterIndex + 1) {
+				return true;
+			}
+			
+			return false;
+		}
+
+		public Log next() {
+			if (hasNext()) {
+				return logList.get(logIterIndex++);
+			}
+			
+			return null; 
+		}
+    	
+    }
+    
+    /**
+     * Returns a LogIterator instance
+     * 
+     * @return {@link LogIterator}
+     */
+    public LogIterator logIterator() {
+		iter = new LogIterator();
+		
+		return iter;
+    }
     
     private void setLogCounts() {
     	this.logCounts = new LogCounts().getLogCounts(this);
@@ -144,8 +230,14 @@ public class Test {
         logList.add(log);
     }
     
-    public List<Log> getLog() {
-        return logList;
+    public int getLogColumnSize() {
+    	int logSize = 3;
+    	
+    	if (logList.size() > 0 && logList.get(0).getStepName() != "") {
+    		logSize = 4;
+    	}
+    	
+    	return logSize;
     }
     
     // screencapture

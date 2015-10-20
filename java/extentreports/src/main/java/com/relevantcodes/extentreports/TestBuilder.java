@@ -8,10 +8,13 @@
 
 package com.relevantcodes.extentreports;
 
+import java.util.Iterator;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
 import com.relevantcodes.extentreports.source.Icon;
@@ -24,16 +27,15 @@ class TestBuilder {
     // Timestamp | Status | Details
     private static int logSize;
     
-    // adds a test with logs and nodes
+    /**
+     * Converts Model.Test into a Jsoup element represented as com.relevantcodes.extentreports.source.TestHtml
+     * 
+     * @param test {@link Test} 
+     * @return {@link Element} Jsoup element
+     */
     public static Element getHTMLTest(Test test) {
-        logSize = 3;
+        logSize = test.getLogColumnSize();
 
-        // if the log contains StepName, use source with 4 columns
-        // Timestamp | Status | StepName | Details
-        if (test.getLog().size() > 0 && test.getLog().get(0).getStepName() != "") {
-            logSize = 4;
-        }
-        
         String testSource = TestHtml.getSource(logSize);
         
         Document doc = Jsoup.parseBodyFragment(testSource);
@@ -77,38 +79,41 @@ class TestBuilder {
         if (test.hasChildNodes) {
         	doc.select(".test").first().addClass("hasChildren");
         }
+        
+        Document details;
+    	
+        // 3 columns by default
+        String stepSource = StepHtml.getSource(logSize);
 
+        Iterator<Log> iter = test.logIterator();
+        Log log;
+        
         // test logs
-        if (test.getLog().size() > 0) {
-            Document details;
-        	
-            // 3 columns by default
-            String stepSource = StepHtml.getSource(logSize);
+        while (iter.hasNext()) {
+            log = iter.next();
 
-            for (int ix = 0; ix < test.getLog().size(); ix++) {
-                Document tr = Jsoup.parseBodyFragment(stepSource);
-                 
-                // timestamp
-                tr.select("td.timestamp").first().text(DateTimeUtil.getFormattedDateTime(test.getLog().get(ix).getTimestamp(), LogSettings.getLogTimeFormat()));
-                 
-                // status
-                tr.select("td.status").first().addClass(test.getLog().get(ix).getLogStatus().toString());
-                tr.select("td.status").first().attr("title", test.getLog().get(ix).getLogStatus().toString());
-                tr.select("td.status > i").first().addClass("fa-" + Icon.getIcon(test.getLog().get(ix).getLogStatus()));
-                
-                // stepName
-                if (stepSource.equals(StepHtml.getSource(4))) {
-                    tr.select(".step-name").first().text(test.getLog().get(ix).getStepName());
-                }
-                 
-                // details
-                details = Jsoup.parse(test.getLog().get(ix).getDetails().replaceAll("(\\r\\n|\\n)", "<br />"));
-                tr.select(".step-details").first().text(details.select("body").first().html());
-                 
-                doc.select("tbody").first().appendChild(tr.select("tr").first());
+            Document tr = Jsoup.parseBodyFragment(stepSource);
+             
+            // timestamp
+            tr.select("td.timestamp").first().text(DateTimeUtil.getFormattedDateTime(log.getTimestamp(), LogSettings.getLogTimeFormat()));
+             
+            // status
+            tr.select("td.status").first().addClass(log.getLogStatus().toString());
+            tr.select("td.status").first().attr("title", log.getLogStatus().toString());
+            tr.select("td.status > i").first().addClass("fa-" + Icon.getIcon(log.getLogStatus()));
+            
+            // stepName
+            if (stepSource.equals(StepHtml.getSource(4))) {
+                tr.select(".step-name").first().text(log.getStepName());
             }
+             
+            // details
+            details = Jsoup.parse(log.getDetails().replaceAll("(\\r\\n|\\n)", "<br />"));
+            tr.select(".step-details").first().text(details.select("body").first().html());
+             
+            doc.select("tbody").first().appendChild(tr.select("tr").first());
         }
-        getQuickTestSummary(test);
+        
         doc = addChildTests(test, doc, 1);
         
         return doc.select(".collection-item").first();
@@ -126,12 +131,7 @@ class TestBuilder {
         String stepSource = "";
         
         for (Test node : test.getNodeList()) {
-            logSize = 3;
-
-            // if stepName is set in logs, use 4 columns
-            if (node.getLog().size() > 0 && node.getLog().get(0).getStepName() != "") {
-                logSize = 4;
-            }
+        	logSize = node.getLogColumnSize();
             
             nodeSource = TestHtml.getNodeSource(logSize);
             
@@ -160,30 +160,36 @@ class TestBuilder {
             // time taken
             li.select(".test-time-taken").first().text(hours + "h " + mins + "m " + secs + "s");
             
-            if (node.getLog().size() > 0) {
+            Iterator<Log> iter = node.logIterator();
+            
+            if (iter.hasNext()) {
                 li.select(".test-node").first().addClass(node.getStatus().toString());
                 li.select(".test-status").first().addClass(node.getStatus().toString()).text(node.getStatus().toString());
                 
                 stepSource = StepHtml.getSource(logSize);
 
-                for (int ix = 0; ix < node.getLog().size(); ix++) {
+                Log log;
+                
+                while (iter.hasNext()) {
+                	log = iter.next();
+                	
                     Document tr = Jsoup.parseBodyFragment(stepSource);
                     
                     // timestamp
-                    tr.select("td.timestamp").first().text(DateTimeUtil.getFormattedDateTime(node.getLog().get(ix).getTimestamp(), LogSettings.getLogTimeFormat()));
+                    tr.select("td.timestamp").first().text(DateTimeUtil.getFormattedDateTime(log.getTimestamp(), LogSettings.getLogTimeFormat()));
                      
                     // status
-                    tr.select("td.status").first().addClass(node.getLog().get(ix).getLogStatus().toString());
-                    tr.select("td.status").first().attr("title", node.getLog().get(ix).getLogStatus().toString());
-                    tr.select("td.status > i").first().addClass("fa-" + Icon.getIcon(node.getLog().get(ix).getLogStatus()));
+                    tr.select("td.status").first().addClass(log.getLogStatus().toString());
+                    tr.select("td.status").first().attr("title", log.getLogStatus().toString());
+                    tr.select("td.status > i").first().addClass("fa-" + Icon.getIcon(log.getLogStatus()));
                     
                     // stepName
                     if (stepSource.equals(StepHtml.getSource(4))) {
-                        tr.select(".step-name").first().text(node.getLog().get(ix).getStepName());
+                        tr.select(".step-name").first().text(log.getStepName());
                     }
                      
                     // details
-                    tr.select(".step-details").first().append(node.getLog().get(ix).getDetails());
+                    tr.select(".step-details").first().append(log.getDetails());
                      
                     li.select("tbody").first().appendChild(tr.select("tr").first());
                 }
@@ -198,31 +204,5 @@ class TestBuilder {
         }
         
         return parentDoc;
-    }
-    
-    // builds a row for quick-test-summary view
-    // test-name | pass | fail | fatal | error | warning | info | skip | unknown | status
-    public static Element getQuickTestSummary(Test test) {
-        if (test.isChildNode) {
-            return null;
-        }
-        
-        // @see TestHtml.getSourceQuickView()
-        String source = TestHtml.getSourceQuickView();
-
-        Element tr = Jsoup.parseBodyFragment(source).select("tr").first();
-        
-        tr.select(".quick-view-test").first().text(test.getName()).attr("extentId", test.getId().toString()).parent().append(test.getInternalWarning());
-        tr.select("td:nth-child(2)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.PASS)));
-        tr.select("td:nth-child(3)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.FAIL)));
-        tr.select("td:nth-child(4)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.FATAL)));
-        tr.select("td:nth-child(5)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.ERROR)));
-        tr.select("td:nth-child(6)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.WARNING)));
-        tr.select("td:nth-child(7)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.INFO)));
-        tr.select("td:nth-child(8)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.SKIP)));
-        tr.select("td:nth-child(9)").first().text(String.valueOf(test.getLogCounts().get(LogStatus.UNKNOWN)));
-        tr.select(".status").first().text(test.getStatus().toString()).addClass(test.getStatus().toString());
-        
-        return tr;
     }
 }

@@ -1,7 +1,9 @@
 package com.relevantcodes.extentreports;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
+import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.Test;
 
 public class LogCounts {
@@ -16,22 +18,27 @@ public class LogCounts {
     
     // counts each type of log for the test
     public HashMap<LogStatus, Integer> getLogCounts(Test test) {
-    	for (int ix = 0; ix < test.getLog().size(); ix++) {
-            if (test.getLog().get(ix).getLogStatus() == LogStatus.PASS)
+    	Iterator<Log> iter = test.logIterator();
+    	Log log;
+    	
+    	while (iter.hasNext()) {
+    		log = iter.next();
+    		
+            if (log.getLogStatus() == LogStatus.PASS)
                 pass++; 
-            else if (test.getLog().get(ix).getLogStatus() == LogStatus.FAIL)
+            else if (log.getLogStatus() == LogStatus.FAIL)
             	fail++;
-            else if (test.getLog().get(ix).getLogStatus() == LogStatus.FATAL)
+            else if (log.getLogStatus() == LogStatus.FATAL)
             	fatal++;
-            else if (test.getLog().get(ix).getLogStatus() == LogStatus.ERROR)
+            else if (log.getLogStatus() == LogStatus.ERROR)
             	error++;
-            else if (test.getLog().get(ix).getLogStatus() == LogStatus.WARNING)
+            else if (log.getLogStatus() == LogStatus.WARNING)
             	warning++;
-            else if (test.getLog().get(ix).getLogStatus() == LogStatus.INFO)
+            else if (log.getLogStatus() == LogStatus.INFO)
             	info++;
-            else if (test.getLog().get(ix).getLogStatus() == LogStatus.SKIP)
+            else if (log.getLogStatus() == LogStatus.SKIP)
             	skip++;
-            else if (test.getLog().get(ix).getLogStatus() == LogStatus.UNKNOWN)
+            else if (log.getLogStatus() == LogStatus.UNKNOWN)
             	unknown++;
         }
 
