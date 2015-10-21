@@ -362,6 +362,17 @@
                 line-height: 1.2rem;
                 padding: 0.5rem 1rem;
             }
+            .clear {
+                display: none;
+            }
+            .validate.valid + .clear {
+                cursor: pointer;
+                display: block;
+                font-size: 20px;
+                position: absolute;
+                right: 0px;
+                top: 10px;
+            }
             
             /* -- [ test ] -- */
             #dashboard-view:not(.hide) + #test-view {
@@ -494,12 +505,21 @@
             }
             
             /* -- [ test-attributes ] -- */
+            .categories, .authors {
+                display: inline-block;
+            }
+            span.author, span.category {
+                border-radius: 12px;
+                font-size: 12px;
+                padding: 3px 8px;
+            }
+            span.author {
+                border: 1px solid #9c27b0;
+                color: #9c27b0 !important;            
+            }
             span.category {
                 border: 1px solid #00aeef;
                 color: #00aeef !important;
-                border-radius: 25px;
-                font-size: 12px;
-                padding: 3px 8px;
             }
             
             /* -- [ status styles ] -- */
@@ -713,6 +733,7 @@
                     <div class='card-panel filters'>
                         <div class='input-field no-margin-v'>
                             <input id='searchTests' type='text' class='validate'>
+                            <span class='clear'><i class='mdi-navigation-close'></i></span>
                             <label class='active' for='searchTests'>Search Tests..</label>
                         </div>
                         <div class='row'>
@@ -840,11 +861,19 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
         <script type='text/javascript'>
+            /* default sidenav width */
             var menuWidth = 70;
+            
+            /* default content container (right-side container) width */
             var pinWidth = '54.5%';
+            
+            /* counts */
             var totalTests, passedTests, failedTests, fatalTests, warningTests, errorTests, skippedTests, unknownTests;
             var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
+            
+            /* global chart instance vars */
             var testChart, stepChart;
+            
             $(document).ready(function() {
                 /* init */
                 $('.button-collapse').sideNav({ menuWidth: menuWidth });
@@ -854,6 +883,7 @@
                 /* [WINDOW] */
                 $(window).scroll(function() {
                     var scrollTop = $('.charts').is(':visible') ? 425 : 100;
+                    
                     if ($(window).scrollTop() > scrollTop) {
                         var margin = $('.charts').is(':visible') ? '-335px' : '-45px';
                         $('.details-view').css('position', 'fixed').css('margin-top', margin);
@@ -861,6 +891,7 @@
                     else {
                         $('.details-view').removeAttr('style').css('position', 'absolute');
                     }
+                    
                     $('.pin').css('width', pinWidth);
                 });
                 
@@ -869,6 +900,7 @@
                     $(this).toggleClass('enabled');
                     $('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
                 });
+                
                 /* menu-toggle [SIDE-NAV] */
                 $('.menu-toggle').click(function() {
                     menuWidth = menuWidth > 100 ? 70 : 240;
@@ -885,6 +917,7 @@
                         'width': pinWidth
                     }, 200);
                 });
+                
                 /* side-nav navigation [SIDE-NAV] */
                 $('.analysis').click(function() {
                     $('.container > .row, ul.nav-right').addClass('hide');
@@ -908,6 +941,7 @@
                 $('#dashboard-view .test-count-setting').click(function() {
                     $('#test-count-setting').openModal();
                 });
+                
                 /* test count setting */
                     /* init */
                     $('#parentWithoutNodesAndNodes').click();
@@ -923,6 +957,7 @@
                 $('.modal-footer').click(function() {
                     redrawCharts();
                 });
+                
                 /* check all checkboxes for step-dashboard filter to allow filtering the steps to be displayed [DASHBOARD] */
                 $('#step-status-filter input').prop('checked', 'checked');
                 $('#step-status-filter input').click(function() {
@@ -947,6 +982,7 @@
                     $('#cat-details-wrapper .cat-container').append($(el));
                 });
                 $('.category-item').eq(0).click();
+                
                 /* navigation from cat-view to test-details [CATEGORIES] */
                 $('.category-link').click(function() {
                     var id = $(this).attr('extentid');
@@ -968,33 +1004,35 @@
                     $('#test-details-wrapper .details-container').append($(el));
                 });
                 $('.test').eq(0).click();
+                
                 /* filter tests by text [TEST] */
                 $(document).keypress(function(e) {
                     if(e.which == 13) {
                         if ($('#searchTests').is(':focus')) {
                             var txt = $('#searchTests').val().toLowerCase();
-                            $('.test').removeClass('displayed').hide(0);
+                            $('.test').removeClass('displayed').addClass('hide');
+                            
                             $('.test-name, .test-desc').each(function() {
                                 if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
-                                    $(this).closest('.test').addClass('displayed').show();
+                                    $(this).closest('.test').addClass('displayed').removeClass('hide');
                                 }
                             });
+                            
                             if ($('.details-container .test-node-name').text().toLowerCase().indexOf(txt) >= 0) {
-                                $('.test.active').show();
+                                $('.test.active').removeClass('hide');
                             }
+                            
                             $('.test:visible').eq(0).click();
                         }
-                        if ($('#searchCats').is(':focus')) {
-                            var txt = $('#searchCats').val().toLowerCase();
-                            $('.category-item').removeClass('displayed').hide(0);
-                            $('.category-name').each(function() {
-                                if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
-                                    $(this).closest('.category-item').addClass('displayed').show();
-                                }
-                            });
-                            $('.category-item:visible').eq(0).click();
-                        }
                     }
+                });
+                
+                $('.clear').click(function() {
+                    $('#searchTests').val('');
+                    $('.test, .test-node').removeClass('hide').addClass('displayed');
+                    var t = $(this);
+                    t.next().removeClass('active');
+                    t.prev().removeClass('valid');
                 });
                 
                 /* if only header row is available for test, hide the table [TEST] */
@@ -1091,6 +1129,7 @@
                     $('.analysis > .testrunner-logs-view').addClass('hide');
                 }
                 
+                /* reset test/category filters on document load */
                 resetFilters();
             });
             

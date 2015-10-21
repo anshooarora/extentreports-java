@@ -13,14 +13,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.relevantcodes.extentreports.model.Author;
 import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Screencast;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
-import com.relevantcodes.extentreports.source.ScreenshotHtml;
-import com.relevantcodes.extentreports.source.ScreencastHtml;
+import com.relevantcodes.extentreports.view.ScreencastHtml;
+import com.relevantcodes.extentreports.view.ScreenshotHtml;
 
 /** 
  * Defines a node in the report file
@@ -124,18 +125,40 @@ public class ExtentTest {
      * 
      * <p><b>Usage:</b> test.assignCategory("ExtentAPI", "Regression");
      * 
-     * @param category Category name
+     * @param categories Category name
      * @return {@link ExtentTest}
      */
-    public ExtentTest assignCategory(String... category) {
+    public ExtentTest assignCategory(String... categories) {
         List<String> list = new ArrayList<String>();
         
-        for (String c : category) {
+        for (String c : categories) {
             if (!c.trim().equals("") && !list.contains(c)) {
                 test.setCategory(new Category(c));
             }
             
             list.add(c);
+        }
+
+        return this;
+    }
+    
+    /**
+     * Assigns author(s) to test
+     * 
+     * <p><b>Usage:</b> test.assignAuthor("Author1", "Author2", ...);
+     * 
+     * @param authors Author name
+     * @return {@link ExtentTest}
+     */
+    public ExtentTest assignAuthor(String... authors) {
+        List<String> list = new ArrayList<String>();
+        
+        for (String author : authors) {
+            if (!author.trim().equals("") && !list.contains(author)) {
+                test.setAuthor(new Author(author));
+            }
+            
+            list.add(author);
         }
 
         return this;

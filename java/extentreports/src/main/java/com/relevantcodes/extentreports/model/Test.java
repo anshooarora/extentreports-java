@@ -19,20 +19,20 @@ import com.relevantcodes.extentreports.LogCounts;
 import com.relevantcodes.extentreports.LogStatus;
 
 public class Test {
-	/**
-	 * Attribute to mark the test as a child node<br>
-	 * Top-most test will always have this attribute as false<br>
-	 * eg:<br>
-	 *     Parent             - false<br>
-	 *         Child          - true<br>
-	 *             GrandChild - true<br>
-	 */
-	public boolean isChildNode = false;
-	
-	/**
-	 * Attribute to mark if the test ended safely<br>
-	 * It is marked TRUE when extent.endTest(test) is called
-	 */
+    /**
+     * Attribute to mark the test as a child node<br>
+     * Top-most test will always have this attribute as false<br>
+     * eg:<br>
+     *     Parent             - false<br>
+     *         Child          - true<br>
+     *             GrandChild - true<br>
+     */
+    public boolean isChildNode = false;
+    
+    /**
+     * Attribute to mark if the test ended safely<br>
+     * It is marked TRUE when extent.endTest(test) is called
+     */
     public boolean hasEnded = false;
     
     /**
@@ -42,8 +42,8 @@ public class Test {
      */
     public boolean hasChildNodes = false;
     
-	// test categories
-	// parent test contains all categories from child tests
+    // test categories
+    // parent test contains all categories from child tests
     private List<TestAttribute> categoryList;
     
     // not yet implemented
@@ -88,33 +88,29 @@ public class Test {
     // unique id assigned when the test starts
     private UUID id;
     
-    // log iterator instance
-    private LogIterator iter;
-    
     // log iterator
     private class LogIterator implements Iterator<Log> {
-    	private int logIterIndex = 0;
-    	
-    	public LogIterator() {
-    		logIterIndex = 0;
-    	}
-    	
-		public boolean hasNext() {
-			if (logList != null && logList.size() >= logIterIndex + 1) {
-				return true;
-			}
-			
-			return false;
-		}
+        private int logIterIndex;
+        
+        public LogIterator() {
+            logIterIndex = 0;
+        }
+        
+        public boolean hasNext() {
+            if (logList != null && logList.size() >= logIterIndex + 1) {
+                return true;
+            }
+            
+            return false;
+        }
 
-		public Log next() {
-			if (hasNext()) {
-				return logList.get(logIterIndex++);
-			}
-			
-			return null; 
-		}
-    	
+        public Log next() {
+            if (hasNext()) {
+                return logList.get(logIterIndex++);
+            }
+            
+            return null; 
+        }
     }
     
     /**
@@ -123,17 +119,66 @@ public class Test {
      * @return {@link LogIterator}
      */
     public LogIterator logIterator() {
-		iter = new LogIterator();
-		
-		return iter;
+        return new LogIterator();
+    }
+    
+    // TestAttribute (category, author) iterator
+    private class TestAttributeIterator<T extends TestAttribute> implements Iterator<TestAttribute> {
+        private int attrIterIndex;
+        private List<TestAttribute> list;
+        
+        public TestAttributeIterator(Class<T> type) {
+            attrIterIndex = 0;
+            
+            if (type == Category.class) {
+                list = categoryList;
+            }
+            else {
+                list = authorsList;
+            }
+        }
+        
+        public boolean hasNext() {
+            if (list != null && list.size() >= attrIterIndex + 1) {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        public TestAttribute next() {
+            if (hasNext()) {
+                return list.get(attrIterIndex++);
+            }
+            
+            return null;
+        }
+    }
+    
+    /**
+     * Returns a TestAttributeIterator<Author> instance
+     * 
+     * @return {@link TestAttributeIterator}
+     */
+    public TestAttributeIterator<Author> authorIterator() {
+        return new TestAttributeIterator<Author>(Author.class);
+    }
+    
+    /**
+     * Returns a TestAttributeIterator<Author> instance
+     * 
+     * @return {@link TestAttributeIterator}
+     */
+    public TestAttributeIterator<Category> categoryIterator() {
+        return new TestAttributeIterator<Category>(Category.class);
     }
     
     private void setLogCounts() {
-    	this.logCounts = new LogCounts().getLogCounts(this);
+        this.logCounts = new LogCounts().getLogCounts(this);
     }
     
     public HashMap<LogStatus, Integer> getLogCounts() {
-    	return logCounts;
+        return logCounts;
     }
     
     // started time
@@ -196,10 +241,6 @@ public class Test {
     }
     
     // categories
-    public void setCategoryList(List<TestAttribute> categoryList) {
-        this.categoryList = categoryList;
-    }
-    
     public void setCategory(TestAttribute category) {
         categoryList.add(category);
     }
@@ -209,10 +250,6 @@ public class Test {
     }
     
     // authors
-    public void setAuthorsList(List<TestAttribute> authorsList) {
-        this.authorsList = authorsList;
-    }
-    
     public void setAuthor(TestAttribute author) {
         authorsList.add(author);
     }
@@ -231,13 +268,13 @@ public class Test {
     }
     
     public int getLogColumnSize() {
-    	int logSize = 3;
-    	
-    	if (logList.size() > 0 && logList.get(0).getStepName() != "") {
-    		logSize = 4;
-    	}
-    	
-    	return logSize;
+        int logSize = 3;
+        
+        if (logList.size() > 0 && logList.get(0).getStepName() != "") {
+            logSize = 4;
+        }
+        
+        return logSize;
     }
     
     // screencapture
@@ -280,7 +317,7 @@ public class Test {
     }  
     
     public void prepareFinalize() {
-    	setLogCounts();
+        setLogCounts();
         updateTestStatusRecursively(this);
         
         if (status == LogStatus.INFO) {

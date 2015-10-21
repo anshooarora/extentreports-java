@@ -15,7 +15,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.relevantcodes.extentreports.model.Media;
-import com.relevantcodes.extentreports.source.ObjectEmbedHtml;
+import com.relevantcodes.extentreports.view.ObjectEmbedHtml;
 
 class MediaViewBuilder {    
     public static Elements getSource(ArrayList<? extends Media> mediaList) {

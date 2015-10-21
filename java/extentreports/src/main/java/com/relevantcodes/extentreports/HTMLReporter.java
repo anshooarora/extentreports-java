@@ -25,11 +25,11 @@ import com.relevantcodes.extentreports.model.CategoryList;
 import com.relevantcodes.extentreports.model.SuiteTimeInfo;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
-import com.relevantcodes.extentreports.source.SystemInfoHtml;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
 import com.relevantcodes.extentreports.utils.FileReaderEx;
 import com.relevantcodes.extentreports.utils.Resources;
 import com.relevantcodes.extentreports.utils.Writer;
+import com.relevantcodes.extentreports.view.SystemInfoHtml;
 
 /**  
  * Concrete HTMLReporter class
@@ -70,7 +70,7 @@ class HTMLReporter extends LogSettings implements IReporter {
     private final String offlineFolderParent = "extentreports";
     
     // package path containing source files
-    private final String packagePath = "com/relevantcodes/extentreports/source/";
+    private final String packagePath = "com/relevantcodes/extentreports/view/";
     
     @Override
     public void start(Report report) {
@@ -89,7 +89,7 @@ class HTMLReporter extends LogSettings implements IReporter {
         String sourceFile = packagePath + "ExtentTemplate.html";
         
         if (networkMode == NetworkMode.OFFLINE) {
-            sourceFile = packagePath + "/ExtentTemplate.Offline.html";
+            sourceFile = packagePath + "ExtentTemplate.Offline.html";
             
             initOfflineMode(reportFile);
         }
@@ -281,7 +281,7 @@ class HTMLReporter extends LogSettings implements IReporter {
     public synchronized void addTest() {
         Test test = report.getTest();
         
-        addTest(TestBuilder.getHTMLTest(test));
+        addTest(TestBuilder.getTestAsHTMLElement(test));
         appendTestCategories(test);
     }
     

@@ -14,12 +14,7 @@ import java.util.Map;
 
 import com.relevantcodes.extentreports.model.Test;
 
-/**
- * Extent Concrete Reporter
- * 
- * @author Anshoo
- *
- */
+
 public class ExtentReports extends Report {
     private HTMLReporter.Config reportConfig;
     

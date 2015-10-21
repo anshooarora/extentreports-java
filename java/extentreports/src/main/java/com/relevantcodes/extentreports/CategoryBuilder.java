@@ -15,8 +15,8 @@ import org.jsoup.select.Elements;
 
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
-import com.relevantcodes.extentreports.source.CategoryHtml;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
+import com.relevantcodes.extentreports.view.CategoryHtml;
 
 class CategoryBuilder {
     public static void buildCategoryViewLink(Document extentDoc, Test test) {

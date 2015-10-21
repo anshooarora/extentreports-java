@@ -17,15 +17,16 @@ import org.jsoup.nodes.Element;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
-import com.relevantcodes.extentreports.source.Icon;
-import com.relevantcodes.extentreports.source.StepHtml;
-import com.relevantcodes.extentreports.source.TestHtml;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
+import com.relevantcodes.extentreports.view.Icon;
+import com.relevantcodes.extentreports.view.StepHtml;
+import com.relevantcodes.extentreports.view.TestHtml;
 
 class TestBuilder {
     // number of log columns (3 = default)
     // Timestamp | Status | Details
     private static int logSize;
+   
     
     /**
      * Converts Model.Test into a Jsoup element represented as com.relevantcodes.extentreports.source.TestHtml
@@ -33,13 +34,28 @@ class TestBuilder {
      * @param test {@link Test} 
      * @return {@link Element} Jsoup element
      */
-    public static Element getHTMLTest(Test test) {
+    public static Element getTestAsHTMLElement(Test test) {
         logSize = test.getLogColumnSize();
 
         String testSource = TestHtml.getSource(logSize);
         
         Document doc = Jsoup.parseBodyFragment(testSource);
         
+        doc = createTestHead(test, doc);
+        doc = assignTestAttributes(test, doc);
+        
+        // marker for tests with child-nodes
+        if (test.hasChildNodes) {
+            doc.select(".test").first().addClass("hasChildren");
+        }
+        
+        doc = addTestLogs(test, doc);
+        doc = addChildTests(test, doc, 1);
+        
+        return doc.select(".collection-item").first();
+    }
+    
+    private static Document createTestHead(Test test, Document doc) {
         // if description is null, hide the element
         if (test.getDescription().equals("")) {
             doc.select(".test-desc").first().addClass("hide");
@@ -67,30 +83,74 @@ class TestBuilder {
         // test description
         doc.select(".test-desc").first().text(test.getDescription());
         
+        return doc;
+    }
+    
+    private static Document assignTestAttributes(Test test, Document doc) {
+        boolean testHasAttributes = false;
+        
         // test categories
         Element catDiv = doc.select(".categories").first();
 
-        for (TestAttribute attr : test.getCategoryList()) {
-            catDiv.appendChild(Jsoup.parseBodyFragment(TestHtml.getCategorySource()).select(".category").first().text(attr.getName()));
+        Document testAttributesDoc;
+        TestAttribute attr;
+        
+        Iterator<TestAttribute> catIter = test.categoryIterator();
+        
+        // add each category
+        while (catIter.hasNext()) {
+            attr = catIter.next();
+            
+            testAttributesDoc = Jsoup.parseBodyFragment(TestHtml.getTestAttributeSource());
+            
+            Element category = testAttributesDoc.select(".category").first().text(attr.getName());
+            
+            catDiv.appendChild(category);
+            
             doc.select(".category-assigned").first().addClass(attr.getName().toLowerCase());
+            
+            testHasAttributes = true;
         }
         
-        // marker for tests with child-nodes
-        if (test.hasChildNodes) {
-        	doc.select(".test").first().addClass("hasChildren");
+        // test authors
+        Element authorDiv = doc.select(".authors").first();
+
+        Iterator<TestAttribute> authIter = test.authorIterator();
+        
+        // add each author
+        while (authIter.hasNext()) {
+            attr = authIter.next();
+            
+            testAttributesDoc = Jsoup.parseBodyFragment(TestHtml.getTestAttributeSource("author"));
+            
+            Element author = testAttributesDoc.select(".author").first().text(attr.getName());
+            
+            authorDiv.appendChild(author);
+            
+            doc.select(".category-assigned").first().addClass(attr.getName().toLowerCase());
+            
+            testHasAttributes = true;
         }
         
+        if (!testHasAttributes) {
+            doc.select(".test-attributes").addClass("hide");
+        }
+        
+        return doc;
+    }
+    
+    private static Document addTestLogs(Test test, Document doc) {
         Document details;
-    	
+        
         // 3 columns by default
         String stepSource = StepHtml.getSource(logSize);
 
-        Iterator<Log> iter = test.logIterator();
+        Iterator<Log> logIter = test.logIterator();
         Log log;
         
         // test logs
-        while (iter.hasNext()) {
-            log = iter.next();
+        while (logIter.hasNext()) {
+            log = logIter.next();
 
             Document tr = Jsoup.parseBodyFragment(stepSource);
              
@@ -114,9 +174,7 @@ class TestBuilder {
             doc.select("tbody").first().appendChild(tr.select("tr").first());
         }
         
-        doc = addChildTests(test, doc, 1);
-        
-        return doc.select(".collection-item").first();
+        return doc;
     }
 
     // adds nodes to parent tests, eg:
@@ -131,7 +189,7 @@ class TestBuilder {
         String stepSource = "";
         
         for (Test node : test.getNodeList()) {
-        	logSize = node.getLogColumnSize();
+            logSize = node.getLogColumnSize();
             
             nodeSource = TestHtml.getNodeSource(logSize);
             
@@ -171,8 +229,8 @@ class TestBuilder {
                 Log log;
                 
                 while (iter.hasNext()) {
-                	log = iter.next();
-                	
+                    log = iter.next();
+                    
                     Document tr = Jsoup.parseBodyFragment(stepSource);
                     
                     // timestamp

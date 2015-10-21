@@ -6,7 +6,7 @@
 * See the accompanying LICENSE file for terms.
 */
 
-package com.relevantcodes.extentreports.source;
+package com.relevantcodes.extentreports.view;
 
 public class TestHtml {
     public static String getSource(int cols) {
@@ -17,39 +17,40 @@ public class TestHtml {
         }
         
         return "<li class='collection-item test displayed active'>" +
-					"<div class='test-head'>" +
-						"<span class='test-name'></span>" +
-						"<span class='test-status right label capitalize'></span>" +
-						"<span class='category-assigned hide'></span>" +
-					"</div>" +
-					"<div class='test-body'>" +
-					"<div class='test-info'>" +
-						"<span title='Test started time' class='test-started-time label green lighten-2 text-white'></span>" +
-	                    "<span title='Test ended time' class='test-ended-time label red lighten-2 text-white'></span>" +
-	                    "<span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'></span>" +
-	                "</div>" +
-						"<div class='test-desc'></div>" +
-						"<div class='test-attributes'>" +
-							"<div class='categories'></div>" +
-						"</div>" +
-						"<div class='test-steps'>" +
-							"<table class='bordered table-results'>" +
-								"<thead>" +
-									"<tr>" +
-										"<th>Status</th>" +
-										"<th>Timestamp</th>" +
-										colStepName +
-										"<th>Details</th>" +
-									"</tr>" +
-								"</thead>" +
-								"<tbody>" +
-								"</tbody>" +
-							"</table>" +
-							"<ul class='collapsible node-list' data-collapsible='accordion'>" +
-							"</ul>" +
-						"</div>" +
-					"</div>" +
-				"</li>";
+                    "<div class='test-head'>" +
+                        "<span class='test-name'></span>" +
+                        "<span class='test-status right label capitalize'></span>" +
+                        "<span class='category-assigned hide'></span>" +
+                    "</div>" +
+                    "<div class='test-body'>" +
+                        "<div class='test-info'>" +
+                            "<span title='Test started time' class='test-started-time label green lighten-2 text-white'></span>" +
+                            "<span title='Test ended time' class='test-ended-time label red lighten-2 text-white'></span>" +
+                            "<span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'></span>" +
+                        "</div>" +
+                        "<div class='test-desc'></div>" +
+                        "<div class='test-attributes'>" +
+                            "<div class='categories'></div>" +
+                            "<div class='authors'></div>" +
+                        "</div>" +
+                        "<div class='test-steps'>" +
+                            "<table class='bordered table-results'>" +
+                                "<thead>" +
+                                    "<tr>" +
+                                        "<th>Status</th>" +
+                                        "<th>Timestamp</th>" +
+                                        colStepName +
+                                        "<th>Details</th>" +
+                                    "</tr>" +
+                                "</thead>" +
+                                "<tbody>" +
+                                "</tbody>" +
+                            "</table>" +
+                            "<ul class='collapsible node-list' data-collapsible='accordion'>" +
+                            "</ul>" +
+                        "</div>" +
+                    "</div>" +
+                "</li>";
     }
     
     public static String getSourceQuickView() {
@@ -104,8 +105,15 @@ public class TestHtml {
                 "</li>";
     }
     
-    public static String getCategorySource() {
-        return "<span class='category text-white'></span>";
+    public static String getTestAttributeSource(String... testAttributeNames) {
+        // default attribute is category
+        String attrName = "category";
+        
+        if (testAttributeNames != null && testAttributeNames.length >= 1) {
+            attrName = testAttributeNames[0];
+        }
+        
+        return "<span class='" + attrName + " text-white'></span>";
     }
     
     public static String getWarningSource(String warning) {

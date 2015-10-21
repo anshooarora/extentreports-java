@@ -6,7 +6,7 @@
 * See the accompanying LICENSE file for terms.
 */
 
-package com.relevantcodes.extentreports.source;
+package com.relevantcodes.extentreports.view;
 
 public class SystemInfoHtml {
     public static String getColumn() {
