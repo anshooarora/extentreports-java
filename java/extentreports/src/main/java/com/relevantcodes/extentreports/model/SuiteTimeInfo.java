@@ -8,9 +8,14 @@
 
 package com.relevantcodes.extentreports.model;
 
+import java.util.Calendar;
+
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
 public class SuiteTimeInfo {
+    private long startedAt;
+    private long endedAt;
+    
     public void setSuiteStartTimestamp(long startedAt) {
         this.startedAt = startedAt;
     }
@@ -28,11 +33,10 @@ public class SuiteTimeInfo {
     }
     
     public String getTimeDiff() {
-    	return DateTimeUtil.getDiff(endedAt, startedAt);
+        return DateTimeUtil.getDiff(endedAt, startedAt);
     }
     
-    private long startedAt;
-    private long endedAt;
-    
-    public SuiteTimeInfo() { } 
+    public SuiteTimeInfo() { 
+        startedAt = Calendar.getInstance().getTime().getTime();
+    } 
 }

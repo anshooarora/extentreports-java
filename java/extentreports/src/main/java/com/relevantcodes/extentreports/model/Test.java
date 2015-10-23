@@ -156,7 +156,7 @@ public class Test {
     }
     
     /**
-     * Returns a TestAttributeIterator<Author> instance
+     * Returns a TestAttributeIterator instance
      * 
      * @return {@link TestAttributeIterator}
      */
@@ -165,7 +165,7 @@ public class Test {
     }
     
     /**
-     * Returns a TestAttributeIterator<Author> instance
+     * Returns a TestAttributeIterator instance
      * 
      * @return {@link TestAttributeIterator}
      */

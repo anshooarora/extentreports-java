@@ -42,8 +42,6 @@ public class ExtentReports extends Report {
         attach(htmlReporter);
         
         reportConfig = htmlReporter.new Config();
-                
-        systemInfo = new SystemInfo();
     }
     
     /**

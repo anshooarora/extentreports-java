@@ -2,7 +2,7 @@
 <html>
     <head>
         <!--
-            ExtentReports Library 2.10 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentReports Library 2.11.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com 
         -->
@@ -72,9 +72,11 @@
             }
             [type='checkbox']:checked + label::before {
                 border-color: transparent #eee #eee transparent;
+                left: 0;
             }
             [type='checkbox'] + label::before {
                 border: 2px solid #ddd;
+                left: 7px;
                 margin-top: 4px;
             }
             .select-wrapper input.select-dropdown, .input-field label {
@@ -205,6 +207,18 @@
             }
             .nav-right {
                 margin-right: 35px;
+            }
+            .nav-right li {
+                border-left: 1px solid #15d1e9;
+                font-size: 12px;
+                padding: 0 10px;
+            }
+            .nav-right li:first-child {
+                border-left: none;
+            }
+            .nav-right li:last-child {
+                border-right: 1px solid #15d1e9;
+                margin-right: -12px;
             }
             .report-name {
                 display: inline-block;
@@ -341,6 +355,9 @@
             }
             
             /* -- [ collections ] -- */
+            #test-collection, #cat-collection {
+                margin: 0;
+            }
             .test-collection {
                 margin-bottom: 0;
                 position: relative;
@@ -348,9 +365,6 @@
             .test-collection li, .cat-collection li {
                 border-bottom: 1px solid #e4e7e9;
                 padding: 20px;
-            }
-            .cat-collection > li:first-child, .test-collection > li:first-child {
-                margin-top: -13px;
             }
             
             /* -- [ filters ] -- */
@@ -636,9 +650,15 @@
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
             <span class='report-name'>Automation Report</span> <span class='report-headline'></span>
             <ul class='right hide-on-med-and-down nav-right'>
-                <li>
+                <li class='test-view-only'>
                     <input type='checkbox' id='enableDashboard' />
                     <label for='enableDashboard'>Enable Dashboard</label>
+                </li>
+                <li>
+                    <span class='suite-started-time'></span>
+                </li>
+                <li>
+                    <span>v2.11.0</span>
                 </li>
             </ul>
         </nav>
@@ -784,6 +804,7 @@
                     <div class='card-panel filters'>
                         <div class='input-field no-margin-v'>
                             <input id='searchCats' type='text' class='validate'>
+                            <span class='clear'><i class='mdi-navigation-close'></i></span>
                             <label class='active' for='searchCats'>Search Categories..</label>
                         </div>
                     </div>
@@ -874,6 +895,14 @@
             /* global chart instance vars */
             var testChart, stepChart;
             
+            function hideElement(el) {
+                el.removeClass('displayed').addClass('hide');
+            }
+            
+            function showElement(el) {
+                el.addClass('displayed').removeClass('hide');
+            }
+            
             $(document).ready(function() {
                 /* init */
                 $('.button-collapse').sideNav({ menuWidth: menuWidth });
@@ -904,15 +933,20 @@
                 /* menu-toggle [SIDE-NAV] */
                 $('.menu-toggle').click(function() {
                     menuWidth = menuWidth > 100 ? 70 : 240;
+                    
                     if (pinWidth == '54.5%') { pinWidth = '49.5%'; }
                     else { pinWidth = '54.5%'; }
+                    
                     $('.logo .left, .side-nav input, .side-nav label').toggleClass('hide');
+                    
                     $('.side-nav').animate({
                         width: menuWidth + 'px'
                     }, 200);
+                    
                     $('.container, nav').animate({
                         'padding-left': menuWidth + 'px'
                     }, 200);
+                    
                     $('.pin').animate({
                         'width': pinWidth
                     }, 200);
@@ -920,12 +954,16 @@
                 
                 /* side-nav navigation [SIDE-NAV] */
                 $('.analysis').click(function() {
-                    $('.container > .row, ul.nav-right').addClass('hide');
+                    $('.container > .row, .nav-right > .test-view-only').addClass('hide');
+                    
                     var el = $(this);
                     var cls = el.children('a').prop('class');
+                    
                     $('#' + cls).removeClass('hide');
+                    
                     if (cls == 'test-view') { 
-                        $('ul.nav-right').removeClass('hide');
+                        $('.nav-right > .test-view-only').removeClass('hide');
+                        
                         if ($('#enableDashboard').hasClass('enabled') && !$('#dashboard-view > .charts').is(':visible')) {
                             $('#enableDashboard').click().prop('checked', true).addClass('enabled');
                         }
@@ -933,6 +971,7 @@
                     else {
                         $('#dashboard-view > div').removeClass('hide');
                     }
+                    
                     $('#slide-out > .analysis').removeClass('active');
                     el.addClass('active');
                 });
@@ -949,10 +988,12 @@
                     $('#test-count-setting').removeClass('parentWithoutNodes parentWithoutNodesAndNodes childNodes');
                     $('#test-count-setting').addClass($(this).prop('id'));
                 });
+                
                 /* step-dashboard settings [DASHBOARD] */
                 $('#dashboard-view .step-status-filter').click(function() {
                     $('#step-status-filter').openModal();
                 });
+                
                 /* refresh charts when chart setting is saved */
                 $('.modal-footer').click(function() {
                     redrawCharts();
@@ -992,13 +1033,16 @@
                 /* view test info [TEST] */
                 $('.test').click(function() {
                     var t = $(this);
+                    
                     if ($('#test-details-wrapper .test-body').length > 0) {
                         $('#test-collection .test').filter(function() {
                             return ($(this).find('.test-body').length == 0);
                         }).append($('#test-details-wrapper .test-body'));
                     }
+                    
                     $('#test-collection .test').removeClass('active');
                     $('#test-details-wrapper .test-body').remove();
+                    
                     var el = t.addClass('active').find('.test-body');
                     $('#test-details-wrapper .details-name').text(t.find('.test-name').text());
                     $('#test-details-wrapper .details-container').append($(el));
@@ -1010,27 +1054,60 @@
                     if(e.which == 13) {
                         if ($('#searchTests').is(':focus')) {
                             var txt = $('#searchTests').val().toLowerCase();
-                            $('.test').removeClass('displayed').addClass('hide');
+                            
+                            hideElement($('#test-collection .test'));
                             
                             $('.test-name, .test-desc').each(function() {
-                                if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
-                                    $(this).closest('.test').addClass('displayed').removeClass('hide');
+                                var t = $(this);
+                                
+                                if (t.text().toLowerCase().indexOf(txt) >= 0) {
+                                    showElement(t.closest('.test'));
                                 }
                             });
                             
-                            if ($('.details-container .test-node-name').text().toLowerCase().indexOf(txt) >= 0) {
-                                $('.test.active').removeClass('hide');
-                            }
+                            $('.test-node-name').each(function() {
+                                var t = $(this);
+                                if (t.text().toLowerCase().indexOf(txt) >= 0) {
+                                    showElement(t.closest('.test'));
+                                }                               
+                            });
+                            
+                            $('.details-container .test-node-name').each(function() {
+                                if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
+                                    showElement($('.test.active'));
+                                }
+                            });
                             
                             $('.test:visible').eq(0).click();
+                        }
+                        if ($('#searchCats').is(':focus')) {
+                            var txt = $('#searchCats').val().toLowerCase();
+                            hideElement($('#cat-collection .category-item '));
+                            
+                            $('#cat-collection .category-name').each(function() {
+                                var t = $(this);
+                                
+                                if (t.text().toLowerCase().indexOf(txt) >= 0) {
+                                    showElement(t.closest('.category-item'));
+                                }
+                            });
+                            
+                            $('.category-item:visible').eq(0).click();
                         }
                     }
                 });
                 
                 $('.clear').click(function() {
-                    $('#searchTests').val('');
-                    $('.test, .test-node').removeClass('hide').addClass('displayed');
                     var t = $(this);
+                    
+                    var id = t.prev().val('').attr('id');
+                    
+                    if (id == 'searchTests') {
+                        $('#test-collection .test, .test-node').removeClass('hide').addClass('displayed');
+                    }
+                    else {
+                        $('#cat-collection .category-item').removeClass('hide').addClass('displayed');
+                    }
                     t.next().removeClass('active');
                     t.prev().removeClass('valid');
                 });
@@ -1196,6 +1273,7 @@
             /* update data for dashboard [DASHBOARD] */
             function refreshData() {
                 var el = $('#test-count-setting');
+                
                 totalTests = $('.test:not(:has(.test-node)), .test-node').length;
                 passedTests = $('.details-container .test-node.pass, .test.displayed .test-node.pass, .test.displayed.pass:not(.hasChildren)').length;
                 failedTests = $('.details-container .test-node.fail, .test.displayed .test-node.fail, .test.displayed.fail:not(.hasChildren)').length;
@@ -1204,6 +1282,7 @@
                 errorTests = $('.details-container .test-node.error, .test.displayed .test-node.error, .test.displayed.error:not(.hasChildren)').length;
                 skippedTests = $('.details-container .test-node.skip, .test.displayed .test-node.skip, .test.displayed.skip:not(.hasChildren)').length;
                 unknownTests = $('.details-container .test-node.unknown, .test.displayed .test-node.unknown, .test.displayed.unknown:not(.hasChildren)').length;
+                
                 if (el.hasClass('parentWithoutNodes')) {
                     totalTests = $('.test.displayed').length;
                     passedTests = $('.test.displayed.pass').length;
@@ -1224,6 +1303,7 @@
                     skippedTests = $('.test.displayed .test-node.skip, .details-container .test-node.skip').length;
                     unknownTests = $('.test.displayed .test-node.unknown, .details-container .test-node.unknown').length;
                 }
+                
                 totalSteps = $('td.status').length;
                 passedSteps = $('td.status.pass').length;
                 failedSteps = $('td.status.fail').length;
@@ -1264,7 +1344,7 @@
             /* dashboard chart options [DASHBOARD] */
             var options = {
                 segmentShowStroke : true, 
-                segmentStrokeColor : '#fff', 
+                segmentStrokeColor : '#eee', 
                 segmentStrokeWidth : 1, 
                 percentageInnerCutout : 55, 
                 animationSteps : 30, 
@@ -1277,14 +1357,15 @@
             /* tests view chart [DASHBOARD] */
             function testsChart() {
                 var data = [
-                        { value: passedTests, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
-                        { value: failedTests, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
-                        { value: fatalTests, color:'#8b0000', highlight: '#a23232', label: 'Fatal' },
-                        { value: errorTests, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
-                        { value: warningTests, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
-                        { value: skippedTests, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
-                        { value: unknownTests, color: '#222', highlight: '#444', label: 'Unknown' }
-                    ];
+                    { value: passedTests, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
+                    { value: failedTests, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
+                    { value: fatalTests, color:'#8b0000', highlight: '#a23232', label: 'Fatal' },
+                    { value: errorTests, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
+                    { value: warningTests, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
+                    { value: skippedTests, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
+                    { value: unknownTests, color: '#222', highlight: '#444', label: 'Unknown' }
+                ];
+                    
                 var ctx = $('#test-analysis').get(0).getContext('2d');
                 testChart = new Chart(ctx).Doughnut(data, options);
                 var legendHolder = drawLegend(testChart, 'test-analysis');
@@ -1302,6 +1383,7 @@
                     { value: skippedSteps, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
                     { value: unknownSteps, color: '#222', highlight: '#444', label: 'Unknown' }
                 ];
+                
                 var ctx = $('#step-analysis').get(0).getContext('2d');
                 stepChart = new Chart(ctx).Doughnut(data, options);
                 drawLegend(stepChart, 'step-analysis');
@@ -1312,6 +1394,7 @@
                 var helpers = Chart.helpers;
                 var legendHolder = document.getElementById(id);
                 legendHolder.innerHTML = chart.generateLegend();
+                
                 helpers.each(legendHolder.firstChild.childNodes, function(legendNode, index) {
                     helpers.addEvent(legendNode, 'mouseover', function() {
                         var activeSegment = chart.segments[index];
@@ -1321,6 +1404,7 @@
                         activeSegment.restore();
                     });
                 });
+                
                 Chart.helpers.addEvent(legendHolder.firstChild, 'mouseout', function() {
                     chart.draw();
                 });

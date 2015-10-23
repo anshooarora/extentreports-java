@@ -38,10 +38,10 @@ import com.relevantcodes.extentreports.view.SystemInfoHtml;
  *
  */
 class HTMLReporter extends LogSettings implements IReporter {
-    // report instance	
-	private Report report;
+    // report instance    
+    private Report report;
     
-	// path of the html file
+    // path of the html file
     private String filePath;
     
     // display-order (default = OLDEST_FIRST)
@@ -65,6 +65,13 @@ class HTMLReporter extends LogSettings implements IReporter {
     // marks the report session as terminated
     // @see close()
     private Boolean terminated = false;
+    
+    // denotes if the report uses source from template
+    // default = false, source comes from user file (replaceExisting = false)
+    // if user initialies Extent as:
+    //        new ExtentReports("filePath", true);
+    //        this flag becomes true
+    private boolean usesTemplateSource = false;
     
     // folder where offline artifacts are stored
     private final String offlineFolderParent = "extentreports";
@@ -95,13 +102,17 @@ class HTMLReporter extends LogSettings implements IReporter {
         }
          
         Boolean replace = report.getReplaceExisting();
+        this.usesTemplateSource = replace;
         
         if (!reportFile.isFile()) {
             replace = true;
         }
         
-        // create Jsoup document
-        String extentSource = replace ? Resources.getText(sourceFile) : FileReaderEx.readAllText(filePath);
+        String extentSource = replace 
+                ? Resources.getText(sourceFile) 
+                : FileReaderEx.readAllText(filePath);
+        
+        // create Jsoup document from source
         extentDoc = Jsoup.parse(extentSource);
         
         // select test-collection -> all test list-items will be added to it
@@ -109,18 +120,17 @@ class HTMLReporter extends LogSettings implements IReporter {
         
         // set suite time-info
         suiteTimeInfo = report.getSuiteTimeInfo();
-        suiteTimeInfo.setSuiteStartTimestamp(Calendar.getInstance().getTimeInMillis());
-        suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTimeInMillis());
         
         // if a brand new report is created, update the started time 
         if (replace) {
-            extentDoc
-                .select(".suite-started-time")
-                .first()
-                    .text(DateTimeUtil.getFormattedDateTime(
-                            suiteTimeInfo.getSuiteStartTimestamp(), 
-                            getLogDateTimeFormat())
-                    );
+            Elements startedTime = extentDoc.select(".suite-started-time");
+            
+            for (Element el : startedTime) {
+                el.text(DateTimeUtil.getFormattedDateTime(
+                        suiteTimeInfo.getSuiteStartTimestamp(), 
+                        getLogDateTimeFormat())
+                );
+            }
         }
         
         // list of categories added to tests
@@ -174,6 +184,8 @@ class HTMLReporter extends LogSettings implements IReporter {
             return;
         }
         
+        suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTimeInMillis());
+        
         updateSuiteExecutionTime();
         
         SystemInfo systemInfo = report.getSystemInfo();
@@ -190,15 +202,23 @@ class HTMLReporter extends LogSettings implements IReporter {
         
         updateCategoryList();
 
-        Writer.getInstance()
-            .write(
-                    new File(filePath), 
-                    Parser.unescapeEntities(extentDoc.outerHtml(), true)); //.replace("    ", "").replace("\t",  "")
+        String extentSource = extentDoc.outerHtml().replace("    ", "").replace("\t",  "");
+        
+        Writer.getInstance().write(new File(filePath), Parser.unescapeEntities(extentSource, true));
     }
     
     private synchronized void updateSuiteExecutionTime() {
-        suiteTimeInfo.setSuiteEndTimestamp(Calendar.getInstance().getTimeInMillis());
-
+        if (usesTemplateSource) {
+            Elements startedTime = extentDoc.select(".suite-started-time");
+        
+            for (Element el : startedTime) {
+                el.text(DateTimeUtil.getFormattedDateTime(
+                        suiteTimeInfo.getSuiteStartTimestamp(), 
+                        getLogDateTimeFormat())
+                        );
+            }
+        }
+        
         extentDoc
             .select(".suite-ended-time")
             .first()

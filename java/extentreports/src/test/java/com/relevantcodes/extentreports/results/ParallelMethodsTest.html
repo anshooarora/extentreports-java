@@ -2,7 +2,7 @@
 <html>
  <head> 
   <!--
-ExtentReports Library 2.10 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+ExtentReports Library 2.11.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
 Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
 Documentation: http://extentreports.relevantcodes.com 
 --> 
@@ -72,9 +72,11 @@ box-shadow: none;
 }
 [type='checkbox']:checked + label::before {
 border-color: transparent #eee #eee transparent;
+left: 0;
 }
 [type='checkbox'] + label::before {
 border: 2px solid #ddd;
+left: 7px;
 margin-top: 4px;
 }
 .select-wrapper input.select-dropdown, .input-field label {
@@ -205,6 +207,18 @@ background: none;
 }
 .nav-right {
 margin-right: 35px;
+}
+.nav-right li {
+border-left: 1px solid #15d1e9;
+font-size: 12px;
+padding: 0 10px;
+}
+.nav-right li:first-child {
+border-left: none;
+}
+.nav-right li:last-child {
+border-right: 1px solid #15d1e9;
+margin-right: -12px;
 }
 .report-name {
 display: inline-block;
@@ -341,6 +355,9 @@ width: 150px;
 }
 
 /* -- [ collections ] -- */
+#test-collection, #cat-collection {
+margin: 0;
+}
 .test-collection {
 margin-bottom: 0;
 position: relative;
@@ -348,9 +365,6 @@ position: relative;
 .test-collection li, .cat-collection li {
 border-bottom: 1px solid #e4e7e9;
 padding: 20px;
-}
-.cat-collection > li:first-child, .test-collection > li:first-child {
-margin-top: -13px;
 }
 
 /* -- [ filters ] -- */
@@ -361,6 +375,17 @@ padding-bottom: 1px;
 font-size: 0.85rem;
 line-height: 1.2rem;
 padding: 0.5rem 1rem;
+}
+.clear {
+display: none;
+}
+.validate.valid + .clear {
+cursor: pointer;
+display: block;
+font-size: 20px;
+position: absolute;
+right: 0px;
+top: 10px;
 }
 
 /* -- [ test ] -- */
@@ -494,12 +519,21 @@ width: 54.5%;
 }
 
 /* -- [ test-attributes ] -- */
+.categories, .authors {
+display: inline-block;
+}
+span.author, span.category {
+border-radius: 12px;
+font-size: 12px;
+padding: 3px 8px;
+}
+span.author {
+border: 1px solid #9c27b0;
+color: #9c27b0 !important;
+}
 span.category {
 border: 1px solid #00aeef;
 color: #00aeef !important;
-border-radius: 25px;
-font-size: 12px;
-padding: 3px 8px;
 }
 
 /* -- [ status styles ] -- */
@@ -614,7 +648,9 @@ padding-left: 0;
    <span class="report-name">Automation Report</span> 
    <span class="report-headline"></span> 
    <ul class="right hide-on-med-and-down nav-right"> 
-<li> <input type="checkbox" id="enableDashboard"> <label for="enableDashboard">Enable Dashboard</label> </li> 
+<li class="test-view-only"> <input type="checkbox" id="enableDashboard"> <label for="enableDashboard">Enable Dashboard</label> </li> 
+<li> <span class="suite-started-time">2015-10-23 10:38:30</span> </li> 
+<li> <span>v2.11.0</span> </li> 
    </ul> 
   </nav> 
   <div class="container"> 
@@ -635,19 +671,19 @@ padding-left: 0;
  <div class="col s4"> 
   <div class="card suite-total-steps"> 
    <span class="panel-name">Total Time Taken</span> 
-   <span class="suite-total-time-taken panel-lead">0h 0m 0s+510ms</span> 
+   <span class="suite-total-time-taken panel-lead">0h 0m 0s+569ms</span> 
   </div> 
  </div> 
  <div class="col s2 suite-start-time"> 
   <div class="card green-accent"> 
    <span class="panel-name">Start</span> 
-   <span class="panel-lead suite-started-time">2015-10-09 13:03:43</span> 
+   <span class="panel-lead suite-started-time">2015-10-23 10:38:30</span> 
   </div> 
  </div> 
  <div class="col s2 suite-end-time"> 
   <div class="card pink-accent"> 
    <span class="panel-name">End</span> 
-   <span class="panel-lead suite-ended-time">2015-10-09 13:03:44</span> 
+   <span class="panel-lead suite-ended-time">2015-10-23 10:38:31</span> 
   </div> 
  </div> 
 </div> 
@@ -738,6 +774,7 @@ padding-left: 0;
  <div class="card-panel filters"> 
   <div class="input-field no-margin-v"> 
    <input id="searchTests" type="text" class="validate"> 
+   <span class="clear"><i class="mdi-navigation-close"></i></span> 
    <label class="active" for="searchTests">Search Tests..</label> 
   </div> 
   <div class="row"> 
@@ -758,7 +795,7 @@ padding-left: 0;
  <div class="card-panel no-padding-h no-padding-v"> 
   <div class="wrapper"> 
    <ul id="test-collection" class="test-collection"> 
-<li class="collection-item test displayed active pass" extentid="b1c47cad-8656-429a-ad85-eca30235114b">
+<li class="collection-item test displayed active pass" extentid="05b64f7e-c8b1-4837-9169-0dfe2d460ea1">
  <div class="test-head">
   <span class="test-name">parallelTest01</span>
   <span class="test-status right label capitalize pass">pass</span>
@@ -766,14 +803,15 @@ padding-left: 0;
  </div>
  <div class="test-body">
   <div class="test-info">
-   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-09 13:03:43</span>
-   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-09 13:03:43</span>
+   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-23 10:38:30</span>
+   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-23 10:38:30</span>
    <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
   </div>
   <div class="test-desc hide">
   </div>
-  <div class="test-attributes">
+  <div class="test-attributes hide">
    <div class="categories"></div>
+   <div class="authors"></div>
   </div>
   <div class="test-steps">
    <table class="bordered table-results">
@@ -787,20 +825,20 @@ padding-left: 0;
 <tbody>
  <tr>
   <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 11</td>
+  <td class="timestamp">10:38:30</td>
+  <td class="step-details">Log from threadId: 1</td>
  </tr>
  <tr>
   <td class="status info" title="info"><i class="fa fa-info-circle"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 11</td>
+  <td class="timestamp">10:38:30</td>
+  <td class="step-details">Log from threadId: 1</td>
  </tr>
 </tbody>
    </table>
    <ul class="collapsible node-list" data-collapsible="accordion"></ul>
   </div>
  </div></li>
-<li class="collection-item test displayed active error" extentid="ef8afa89-a7fb-47b2-a261-fb43adc99265">
+<li class="collection-item test displayed active error" extentid="632f9782-911d-416f-8946-91128aa041f0">
  <div class="test-head">
   <span class="test-name">parallelTest02</span>
   <span class="test-status right label capitalize error">error</span>
@@ -808,14 +846,15 @@ padding-left: 0;
  </div>
  <div class="test-body">
   <div class="test-info">
-   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-09 13:03:43</span>
-   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-09 13:03:43</span>
-   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+39ms</span>
+   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
   </div>
   <div class="test-desc hide">
   </div>
-  <div class="test-attributes">
+  <div class="test-attributes hide">
    <div class="categories"></div>
+   <div class="authors"></div>
   </div>
   <div class="test-steps">
    <table class="bordered table-results">
@@ -829,104 +868,20 @@ padding-left: 0;
 <tbody>
  <tr>
   <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 12</td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
  </tr>
  <tr>
   <td class="status error" title="error"><i class="fa fa-exclamation-circle"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 12</td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
  </tr>
 </tbody>
    </table>
    <ul class="collapsible node-list" data-collapsible="accordion"></ul>
   </div>
  </div></li>
-<li class="collection-item test displayed active skip" extentid="bf699193-0e4f-4b83-a6d1-65c7766b9f53">
- <div class="test-head">
-  <span class="test-name">parallelTest05</span>
-  <span class="test-status right label capitalize skip">skip</span>
-  <span class="category-assigned hide"></span>
- </div>
- <div class="test-body">
-  <div class="test-info">
-   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-09 13:03:43</span>
-   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-09 13:03:43</span>
-   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+66ms</span>
-  </div>
-  <div class="test-desc hide">
-  </div>
-  <div class="test-attributes">
-   <div class="categories"></div>
-  </div>
-  <div class="test-steps">
-   <table class="bordered table-results">
-<thead>
- <tr>
-  <th>Status</th>
-  <th>Timestamp</th>
-  <th>Details</th>
- </tr>
-</thead>
-<tbody>
- <tr>
-  <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 15</td>
- </tr>
- <tr>
-  <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 15</td>
- </tr>
-</tbody>
-   </table>
-   <ul class="collapsible node-list" data-collapsible="accordion"></ul>
-  </div>
- </div></li>
-<li class="collection-item test displayed active warning" extentid="9aa94e7c-318a-4bec-a216-e933e2a7e8b1">
- <div class="test-head">
-  <span class="test-name">parallelTest04</span>
-  <span class="test-status right label capitalize warning">warning</span>
-  <span class="category-assigned hide"></span>
- </div>
- <div class="test-body">
-  <div class="test-info">
-   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-09 13:03:43</span>
-   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-09 13:03:43</span>
-   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+100ms</span>
-  </div>
-  <div class="test-desc hide">
-  </div>
-  <div class="test-attributes">
-   <div class="categories"></div>
-  </div>
-  <div class="test-steps">
-   <table class="bordered table-results">
-<thead>
- <tr>
-  <th>Status</th>
-  <th>Timestamp</th>
-  <th>Details</th>
- </tr>
-</thead>
-<tbody>
- <tr>
-  <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 14</td>
- </tr>
- <tr>
-  <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 14</td>
- </tr>
-</tbody>
-   </table>
-   <ul class="collapsible node-list" data-collapsible="accordion"></ul>
-  </div>
- </div></li>
-<li class="collection-item test displayed active pass" extentid="c2230a75-4a70-4828-acc7-356b0129dbdd">
+<li class="collection-item test displayed active pass" extentid="f92f6ed2-0f25-4f7a-b806-8eda507e1942">
  <div class="test-head">
   <span class="test-name">parallelTest03</span>
   <span class="test-status right label capitalize pass">pass</span>
@@ -934,14 +889,15 @@ padding-left: 0;
  </div>
  <div class="test-body">
   <div class="test-info">
-   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-09 13:03:43</span>
-   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-09 13:03:43</span>
-   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+129ms</span>
+   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
   </div>
   <div class="test-desc hide">
   </div>
-  <div class="test-attributes">
+  <div class="test-attributes hide">
    <div class="categories"></div>
+   <div class="authors"></div>
   </div>
   <div class="test-steps">
    <table class="bordered table-results">
@@ -955,20 +911,106 @@ padding-left: 0;
 <tbody>
  <tr>
   <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 13</td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
  </tr>
  <tr>
   <td class="status pass" title="pass"><i class="fa fa-check-circle-o"></i></td>
-  <td class="timestamp">13:03:43</td>
-  <td class="step-details">Log from threadId: 13</td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
  </tr>
 </tbody>
    </table>
    <ul class="collapsible node-list" data-collapsible="accordion"></ul>
   </div>
  </div></li>
-<li class="collection-item test displayed active fail" extentid="bf63e1bd-22b1-424f-88e7-af9c996b3aa5">
+<li class="collection-item test displayed active warning" extentid="e5fa8f36-90df-423a-9151-3f7cb42a4411">
+ <div class="test-head">
+  <span class="test-name">parallelTest04</span>
+  <span class="test-status right label capitalize warning">warning</span>
+  <span class="category-assigned hide"></span>
+ </div>
+ <div class="test-body">
+  <div class="test-info">
+   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
+  </div>
+  <div class="test-desc hide">
+  </div>
+  <div class="test-attributes hide">
+   <div class="categories"></div>
+   <div class="authors"></div>
+  </div>
+  <div class="test-steps">
+   <table class="bordered table-results">
+<thead>
+ <tr>
+  <th>Status</th>
+  <th>Timestamp</th>
+  <th>Details</th>
+ </tr>
+</thead>
+<tbody>
+ <tr>
+  <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
+ </tr>
+ <tr>
+  <td class="status warning" title="warning"><i class="fa fa-warning"></i></td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
+ </tr>
+</tbody>
+   </table>
+   <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+  </div>
+ </div></li>
+<li class="collection-item test displayed active skip" extentid="6970e6c3-0bbf-4c3e-b625-ee74a1e5b4dc">
+ <div class="test-head">
+  <span class="test-name">parallelTest05</span>
+  <span class="test-status right label capitalize skip">skip</span>
+  <span class="category-assigned hide"></span>
+ </div>
+ <div class="test-body">
+  <div class="test-info">
+   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+1ms</span>
+  </div>
+  <div class="test-desc hide">
+  </div>
+  <div class="test-attributes hide">
+   <div class="categories"></div>
+   <div class="authors"></div>
+  </div>
+  <div class="test-steps">
+   <table class="bordered table-results">
+<thead>
+ <tr>
+  <th>Status</th>
+  <th>Timestamp</th>
+  <th>Details</th>
+ </tr>
+</thead>
+<tbody>
+ <tr>
+  <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
+ </tr>
+ <tr>
+  <td class="status skip" title="skip"><i class="fa fa-chevron-circle-right"></i></td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
+ </tr>
+</tbody>
+   </table>
+   <ul class="collapsible node-list" data-collapsible="accordion"></ul>
+  </div>
+ </div></li>
+<li class="collection-item test displayed active fail" extentid="98f817c9-82cb-486e-beb1-f8193986b00d">
  <div class="test-head">
   <span class="test-name">parallelTest06</span>
   <span class="test-status right label capitalize fail">fail</span>
@@ -976,14 +1018,15 @@ padding-left: 0;
  </div>
  <div class="test-body">
   <div class="test-info">
-   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-09 13:03:44</span>
-   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-09 13:03:44</span>
-   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+16ms</span>
+   <span title="Test started time" class="test-started-time label green lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Test ended time" class="test-ended-time label red lighten-2 text-white">2015-10-23 10:38:31</span>
+   <span title="Time taken to finish" class="test-time-taken label blue-grey lighten-3 text-white">0h 0m 0s+0ms</span>
   </div>
   <div class="test-desc hide">
   </div>
-  <div class="test-attributes">
+  <div class="test-attributes hide">
    <div class="categories"></div>
+   <div class="authors"></div>
   </div>
   <div class="test-steps">
    <table class="bordered table-results">
@@ -997,13 +1040,13 @@ padding-left: 0;
 <tbody>
  <tr>
   <td class="status fail" title="fail"><i class="fa fa-times-circle-o"></i></td>
-  <td class="timestamp">13:03:44</td>
-  <td class="step-details">Log from threadId: 14</td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
  </tr>
  <tr>
   <td class="status fail" title="fail"><i class="fa fa-times-circle-o"></i></td>
-  <td class="timestamp">13:03:44</td>
-  <td class="step-details">Log from threadId: 14</td>
+  <td class="timestamp">10:38:31</td>
+  <td class="step-details">Log from threadId: 1</td>
  </tr>
 </tbody>
    </table>
@@ -1027,6 +1070,7 @@ padding-left: 0;
  <div class="card-panel filters"> 
   <div class="input-field no-margin-v"> 
    <input id="searchCats" type="text" class="validate"> 
+   <span class="clear"><i class="mdi-navigation-close"></i></span> 
    <label class="active" for="searchCats">Search Categories..</label> 
   </div> 
  </div> 
@@ -1104,11 +1148,27 @@ padding-left: 0;
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script> 
   <script src="https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script> 
   <script type="text/javascript">
+/* default sidenav width */
 var menuWidth = 70;
+
+/* default content container (right-side container) width */
 var pinWidth = '54.5%';
+
+/* counts */
 var totalTests, passedTests, failedTests, fatalTests, warningTests, errorTests, skippedTests, unknownTests;
 var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
+
+/* global chart instance vars */
 var testChart, stepChart;
+
+function hideElement(el) {
+el.removeClass('displayed').addClass('hide');
+}
+
+function showElement(el) {
+el.addClass('displayed').removeClass('hide');
+}
+
 $(document).ready(function() {
 /* init */
 $('.button-collapse').sideNav({ menuWidth: menuWidth });
@@ -1117,14 +1177,16 @@ $('#enableDashboard').prop('checked', false);
 
 /* [WINDOW] */
 $(window).scroll(function() {
-var scrollTop = $('.charts').is(':visible') ? 300 : 48;
+var scrollTop = $('.charts').is(':visible') ? 425 : 100;
+
 if ($(window).scrollTop() > scrollTop) {
-var margin = $('.charts').is(':visible') ? '-350px' : '-38px';
+var margin = $('.charts').is(':visible') ? '-335px' : '-45px';
 $('.details-view').css('position', 'fixed').css('margin-top', margin);
 } 
 else {
 $('.details-view').removeAttr('style').css('position', 'absolute');
 }
+
 $('.pin').css('width', pinWidth);
 });
 
@@ -1133,30 +1195,41 @@ $('#enableDashboard').click(function() {
 $(this).toggleClass('enabled');
 $('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
 });
+
 /* menu-toggle [SIDE-NAV] */
 $('.menu-toggle').click(function() {
 menuWidth = menuWidth > 100 ? 70 : 240;
+
 if (pinWidth == '54.5%') { pinWidth = '49.5%'; }
 else { pinWidth = '54.5%'; }
+
 $('.logo .left, .side-nav input, .side-nav label').toggleClass('hide');
+
 $('.side-nav').animate({
 width: menuWidth + 'px'
 }, 200);
+
 $('.container, nav').animate({
 'padding-left': menuWidth + 'px'
 }, 200);
+
 $('.pin').animate({
 'width': pinWidth
 }, 200);
 });
+
 /* side-nav navigation [SIDE-NAV] */
 $('.analysis').click(function() {
-$('.container > .row, ul.nav-right').addClass('hide');
+$('.container > .row, .nav-right > .test-view-only').addClass('hide');
+
 var el = $(this);
 var cls = el.children('a').prop('class');
+
 $('#' + cls).removeClass('hide');
+
 if (cls == 'test-view') { 
-$('ul.nav-right').removeClass('hide');
+$('.nav-right > .test-view-only').removeClass('hide');
+
 if ($('#enableDashboard').hasClass('enabled') && !$('#dashboard-view > .charts').is(':visible')) {
 $('#enableDashboard').click().prop('checked', true).addClass('enabled');
 }
@@ -1164,6 +1237,7 @@ $('#enableDashboard').click().prop('checked', true).addClass('enabled');
 else {
 $('#dashboard-view > div').removeClass('hide');
 }
+
 $('#slide-out > .analysis').removeClass('active');
 el.addClass('active');
 });
@@ -1172,6 +1246,7 @@ el.addClass('active');
 $('#dashboard-view .test-count-setting').click(function() {
 $('#test-count-setting').openModal();
 });
+
 /* test count setting */
 /* init */
 $('#parentWithoutNodesAndNodes').click();
@@ -1179,14 +1254,17 @@ $('#test-count-setting input').click(function() {
 $('#test-count-setting').removeClass('parentWithoutNodes parentWithoutNodesAndNodes childNodes');
 $('#test-count-setting').addClass($(this).prop('id'));
 });
+
 /* step-dashboard settings [DASHBOARD] */
 $('#dashboard-view .step-status-filter').click(function() {
 $('#step-status-filter').openModal();
 });
+
 /* refresh charts when chart setting is saved */
 $('.modal-footer').click(function() {
 redrawCharts();
 });
+
 /* check all checkboxes for step-dashboard filter to allow filtering the steps to be displayed [DASHBOARD] */
 $('#step-status-filter input').prop('checked', 'checked');
 $('#step-status-filter input').click(function() {
@@ -1211,6 +1289,7 @@ $('#cat-details-wrapper .cat-name').text($(this).find('.category-name').text());
 $('#cat-details-wrapper .cat-container').append($(el));
 });
 $('.category-item').eq(0).click();
+
 /* navigation from cat-view to test-details [CATEGORIES] */
 $('.category-link').click(function() {
 var id = $(this).attr('extentid');
@@ -1220,98 +1299,163 @@ findTestByNameId($(this).text().trim(), id);
 /* view test info [TEST] */
 $('.test').click(function() {
 var t = $(this);
+
 if ($('#test-details-wrapper .test-body').length > 0) {
 $('#test-collection .test').filter(function() {
 return ($(this).find('.test-body').length == 0);
 }).append($('#test-details-wrapper .test-body'));
 }
+
 $('#test-collection .test').removeClass('active');
 $('#test-details-wrapper .test-body').remove();
+
 var el = t.addClass('active').find('.test-body');
 $('#test-details-wrapper .details-name').text(t.find('.test-name').text());
 $('#test-details-wrapper .details-container').append($(el));
 });
 $('.test').eq(0).click();
+
 /* filter tests by text [TEST] */
 $(document).keypress(function(e) {
 if(e.which == 13) {
 if ($('#searchTests').is(':focus')) {
 var txt = $('#searchTests').val().toLowerCase();
-$('.test').removeClass('displayed').hide(0);
+
+hideElement($('#test-collection .test'));
+
 $('.test-name, .test-desc').each(function() {
-if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
-$(this).closest('.test').addClass('displayed').show();
+var t = $(this);
+
+if (t.text().toLowerCase().indexOf(txt) >= 0) {
+showElement(t.closest('.test'));
 }
 });
-if ($('.details-container .test-node-name').text().toLowerCase().indexOf(txt) >= 0) {
-$('.test.active').show();
+
+$('.test-node-name').each(function() {
+var t = $(this);
+if (t.text().toLowerCase().indexOf(txt) >= 0) {
+showElement(t.closest('.test'));
+}   
+});
+
+$('.details-container .test-node-name').each(function() {
+if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
+showElement($('.test.active'));
 }
+});
+
 $('.test:visible').eq(0).click();
 }
 if ($('#searchCats').is(':focus')) {
 var txt = $('#searchCats').val().toLowerCase();
-$('.category-item').removeClass('displayed').hide(0);
-$('.category-name').each(function() {
-if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
-$(this).closest('.category-item').addClass('displayed').show();
+hideElement($('#cat-collection .category-item '));
+
+$('#cat-collection .category-name').each(function() {
+var t = $(this);
+
+if (t.text().toLowerCase().indexOf(txt) >= 0) {
+showElement(t.closest('.category-item'));
 }
 });
+
 $('.category-item:visible').eq(0).click();
 }
 }
 });
+
+$('.clear').click(function() {
+var t = $(this);
+
+var id = t.prev().val('').attr('id');
+
+if (id == 'searchTests') {
+$('#test-collection .test, .test-node').removeClass('hide').addClass('displayed');
+}
+else {
+$('#cat-collection .category-item').removeClass('hide').addClass('displayed');
+}
+t.next().removeClass('active');
+t.prev().removeClass('valid');
+});
+
 /* if only header row is available for test, hide the table [TEST] */
 $('.table-results').filter(function() {
 return ($(this).find('tr').length == 1);
 }).hide(0);
+
 /* filter tests by status [TEST] */
 $('.tests-toggle li').click(function() {
 var opt = $(this).text().toLowerCase();
 var opt2 = $('.category-toggle li.active').text().toLowerCase();
-if (opt2 == 'choose your option' || opt2 == 'clear filters') opt2 = '';
+
+if (opt2 == 'choose your option' || opt2 == 'clear filters') {
+opt2 = '';
+}
+
+if (opt != 'choose your option') {
+if (opt == 'clear filters') {
+resetFilters();
+}
+else {
+$('.tests-toggle li').removeClass('active');
+$(this).addClass('active');
+$('.test').hide(0).removeClass('displayed');
+
+if (opt2 != '') {
+$('.test').each(function() {
+var t = $(this);
+
+if (t.find('.category-assigned').hasClass(opt2)) {
+if (t.hasClass(opt) || t.has('.test-node.' + opt).length > 0 || (t.hasClass('active') && $('#test-details-wrapper .test-node.' + opt).length > 0)) {
+t.addClass('displayed').show(0);
+}
+}
+});
+} 
+else {
+var activeTest = '';
+if ($('#test-details-wrapper .test-node.' + opt).length > 0) {
+activeTest = '.test.active';
+}
+$('.test').hide(0).removeClass('displayed');
+$(activeTest + ', .test:has(.test-node.' + opt + '), .test.' + opt).fadeIn(200).addClass('displayed');
+}
+
+redrawCharts();
+}
+}
+});
+
+/* filter tests by category [TEST] */
+$('.category-toggle li').click(function() {
+var opt = $(this).text().toLowerCase();
+var opt2 = $('.tests-toggle li.active').text().toLowerCase();
+
+if (opt2 == 'choose your option' || opt2 == 'clear filters') {
+opt2 = '';
+}
+
 if (opt != 'choose your option') {
 if (opt == 'clear filters') {
 resetFilters();
 } 
 else {
-$('.tests-toggle li').removeClass('active');
-$(this).addClass('active');
-$('.test').hide(0).removeClass('displayed');
-if (opt2 != '') {
-$('.test').each(function() {
-if (($(this).hasClass(opt) || $(this).has('.test-node.' + opt).length > 0) && $(this).find('.category-assigned').hasClass(opt2)) {
-$(this).addClass('displayed').show(0);
-}
-});
-} else {
-$('.test').hide(0).removeClass('displayed');
-$('.test:has(.test-node.' + opt + '), .test.' + opt).fadeIn(200).addClass('displayed');
-}
-redrawCharts();
-}
-}
-});
-/* filter tests by category [TEST] */
-$('.category-toggle li').click(function() {
-var opt = $(this).text().toLowerCase();
-var opt2 = $('.tests-toggle li.active').text().toLowerCase();
-if (opt2 == 'choose your option' || opt2 == 'clear filters') opt2 = '';
-if (opt != 'choose your option') {
-if (opt == 'clear filters') {
-resetFilters();
-} else {
 $('.category-toggle li').removeClass('active');
 $(this).addClass('active');
 $('.test').hide(0).removeClass('displayed');
+
 if (opt2 != '') {
 $('.test').each(function() {
-if (($(this).hasClass(opt2) || $(this).has('.test-node.' + opt2).length > 0)) {
-if ($(this).find('.category-assigned').hasClass(opt)) {
-$(this).addClass('displayed').show(0);
+var t = $(this);
+
+if (t.find('.category-assigned').hasClass(opt)) {
+if (t.hasClass(opt2) || t.has('.test-node.' + opt2).length > 0 || (t.hasClass('active') && $('#test-details-wrapper .test-node.' + opt2).length > 0)) {
+t.addClass('displayed').show(0);
 }
 }
 });
-} else {
+} 
+else {
 $('.test').each(function() {
 if ($(this).find('.category-assigned').hasClass(opt)) {
 $(this).fadeIn(200).addClass('displayed');
@@ -1328,8 +1472,10 @@ if ($('#testrunner-logs-view .card-panel > p').length == 0) {
 $('.analysis > .testrunner-logs-view').addClass('hide');
 }
 
+/* reset test/category filters on document load */
 resetFilters();
 });
+
 /* action to perform when 'Clear Filters' option is selected [TEST] */
 function resetFilters() {
 $('.dropdown-content li').removeClass('active');
@@ -1337,6 +1483,7 @@ $('.test').addClass('displayed').show(0);
 redrawCharts();
 $('.dropdown-content li:first-child').addClass('active').click();
 }
+
 /* formats date in mm-dd-yyyy hh:mm:ss [UTIL] */
 function formatDt(d) {
 return d.getFullYear() + '-' +
@@ -1346,6 +1493,7 @@ return d.getFullYear() + '-' +
 ('00' + d.getMinutes()).slice(-2) + ':' + 
 ('00' + d.getSeconds()).slice(-2);
 }
+
 /* finds test by its name and extentId  [UTIL] */
 function findTestByNameId(name, id) {
 $('.test').each(function() {
@@ -1359,6 +1507,7 @@ return;
 }
 });
 }
+
 /* refresh and redraw charts [DASHBOARD] */
 function redrawCharts() {
 if (!$('#dashboard-view .charts').is(':visible')) {
@@ -1386,9 +1535,11 @@ testsChart();
 stepsChart();
 $('ul.doughnut-legend').addClass('right');
 }
+
 /* update data for dashboard [DASHBOARD] */
 function refreshData() {
 var el = $('#test-count-setting');
+
 totalTests = $('.test:not(:has(.test-node)), .test-node').length;
 passedTests = $('.details-container .test-node.pass, .test.displayed .test-node.pass, .test.displayed.pass:not(.hasChildren)').length;
 failedTests = $('.details-container .test-node.fail, .test.displayed .test-node.fail, .test.displayed.fail:not(.hasChildren)').length;
@@ -1397,6 +1548,7 @@ warningTests = $('.details-container .test-node.warning, .test.displayed .test-n
 errorTests = $('.details-container .test-node.error, .test.displayed .test-node.error, .test.displayed.error:not(.hasChildren)').length;
 skippedTests = $('.details-container .test-node.skip, .test.displayed .test-node.skip, .test.displayed.skip:not(.hasChildren)').length;
 unknownTests = $('.details-container .test-node.unknown, .test.displayed .test-node.unknown, .test.displayed.unknown:not(.hasChildren)').length;
+
 if (el.hasClass('parentWithoutNodes')) {
 totalTests = $('.test.displayed').length;
 passedTests = $('.test.displayed.pass').length;
@@ -1417,6 +1569,7 @@ errorTests = $('.test.displayed .test-node.error, .details-container .test-node.
 skippedTests = $('.test.displayed .test-node.skip, .details-container .test-node.skip').length;
 unknownTests = $('.test.displayed .test-node.unknown, .details-container .test-node.unknown').length;
 }
+
 totalSteps = $('td.status').length;
 passedSteps = $('td.status.pass').length;
 failedSteps = $('td.status.fail').length;
@@ -1453,10 +1606,11 @@ $('.s-others-count').text(warningSteps + errorSteps + skippedSteps + unknownStep
 $('.total-tests > .panel-lead').text(totalTests);
 $('.total-steps > .panel-lead').text(totalSteps);
 }
+
 /* dashboard chart options [DASHBOARD] */
 var options = {
 segmentShowStroke : true, 
-segmentStrokeColor : '#fff', 
+segmentStrokeColor : '#eee', 
 segmentStrokeWidth : 1, 
 percentageInnerCutout : 55, 
 animationSteps : 30, 
@@ -1465,6 +1619,7 @@ animateRotate : true,
 animateScale : false,
 legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
 };
+
 /* tests view chart [DASHBOARD] */
 function testsChart() {
 var data = [
@@ -1476,10 +1631,12 @@ var data = [
 { value: skippedTests, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
 { value: unknownTests, color: '#222', highlight: '#444', label: 'Unknown' }
 ];
+
 var ctx = $('#test-analysis').get(0).getContext('2d');
 testChart = new Chart(ctx).Doughnut(data, options);
 var legendHolder = drawLegend(testChart, 'test-analysis');
-  }
+}
+  
 /* steps view chart [DASHBOARD] */
 function stepsChart() {
 var data = [
@@ -1492,15 +1649,18 @@ var data = [
 { value: skippedSteps, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
 { value: unknownSteps, color: '#222', highlight: '#444', label: 'Unknown' }
 ];
+
 var ctx = $('#step-analysis').get(0).getContext('2d');
 stepChart = new Chart(ctx).Doughnut(data, options);
 drawLegend(stepChart, 'step-analysis');
-  }
+}
+
 /* draw legend for test and step charts [DASHBOARD] */
 function drawLegend(chart, id) {
 var helpers = Chart.helpers;
 var legendHolder = document.getElementById(id);
 legendHolder.innerHTML = chart.generateLegend();
+
 helpers.each(legendHolder.firstChild.childNodes, function(legendNode, index) {
 helpers.addEvent(legendNode, 'mouseover', function() {
 var activeSegment = chart.segments[index];
@@ -1510,14 +1670,16 @@ chart.showTooltip([activeSegment]);
 activeSegment.restore();
 });
 });
+
 Chart.helpers.addEvent(legendHolder.firstChild, 'mouseout', function() {
 chart.draw();
 });
 $('#' + id).after(legendHolder.firstChild);
   }
+  
   testsChart(); stepsChart();
   $('ul.doughnut-legend').addClass('right');
-  redrawCharts(); 
+  redrawCharts();
   $('#dashboard-view').addClass('hide');
 </script>   
  </body>

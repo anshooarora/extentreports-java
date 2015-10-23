@@ -10,9 +10,9 @@ package com.relevantcodes.extentreports;
 
 // Observer
 public interface IReporter {
-	void start(Report report);
-	void stop();
-	void flush();
-	void addTest();
-	void setTestRunnerLogs();
+    void start(Report report);
+    void stop();
+    void flush();
+    void addTest();
+    void setTestRunnerLogs();
 }

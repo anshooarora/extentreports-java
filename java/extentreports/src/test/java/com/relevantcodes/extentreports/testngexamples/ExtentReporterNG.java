@@ -11,6 +11,7 @@ import org.testng.ISuite;
 import org.testng.ISuiteResult;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.xml.XmlSuite;
 
 import com.relevantcodes.extentreports.ExtentReports;
@@ -36,6 +37,10 @@ public class ExtentReporterNG implements IReporter {
 				buildTestNodes(context.getFailedTests(), LogStatus.FAIL);
 				buildTestNodes(context.getSkippedTests(), LogStatus.SKIP);
 			}
+		}
+		
+		for (String s : Reporter.getOutput()) {
+			extent.setTestRunnerOutput(s);
 		}
 		
 		extent.flush();
