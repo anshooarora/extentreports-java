@@ -2,7 +2,7 @@
 <html>
     <head> 
         <!--
-            ExtentReports Library 2.10 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentMerge | ExtentReports Library | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com
         --> 
@@ -68,7 +68,7 @@
             
             /* -- [ material overrides ] -- */
             .z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
-                box-shadow: none;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
             }
             [type='checkbox']:checked + label::before {
                 border-color: transparent #eee #eee transparent;
@@ -93,6 +93,10 @@
             /* -- [ global structure ] -- */
             .vh100 {
                 height: 100vh;
+            }
+            .bg-dark {
+                background: #2e3e4e !important;
+                color: #fff !important;
             }
             .capitalize {
                 text-transform: capitalize !important;
@@ -784,7 +788,7 @@
                     </div>
                 </div>
                 <div class='col l4 m8 s12'>
-                    <div class='card-panel'>
+                    <div class='card-panel bg-dark'>
                         <div>
                             <span class='panel-name'>Overall Pass Rate</span>
                         </div> 
@@ -1180,7 +1184,7 @@
             /* gloabl doughnut chart options */
             var options = {
                 segmentShowStroke : true, 
-                segmentStrokeColor : '#fff', 
+                segmentStrokeColor : 'transparent', 
                 segmentStrokeWidth : 1, 
                 percentageInnerCutout : 55, 
                 animationSteps : 30, 
@@ -1621,9 +1625,9 @@
                     datasets: [
                         {
                             label: 'Passed',
-                            fillColor: 'rgba(181,214,109,0.2)',
-                            strokeColor: 'rgba(181,214,109,.5)',
-                            pointColor: 'rgba(181,214,109,.5)',
+                            fillColor: '#E6F9F6',
+                            strokeColor: '#0CBEA7',
+                            pointColor: '#2ADCC5',
                             pointStrokeColor: '#fff',
                             pointHighlightFill: '#fff',
                             pointHighlightStroke: 'rgba(220,220,220,1)',
@@ -1771,7 +1775,7 @@
             </script>
         </#if>
         <#if (customizer.scriptFile)??>
-            <link rel='stylesheet' href='${customizer.scriptFile}' type='text/css'>
+            <script src='${customizer.scriptFile}'></script>
         </#if>
     </body>
 </html>
