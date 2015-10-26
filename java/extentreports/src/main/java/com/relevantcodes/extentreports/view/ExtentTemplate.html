@@ -565,7 +565,7 @@
             /* -- [ labels ] -- */
             .test-status.label, .status.label {
                 text-align: center;
-                width: 60px;
+                padding: 2px 8px;
             }
             .label {
                 border: 1px solid transparent;
@@ -642,15 +642,15 @@
                     <a class='left hide' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
                     <a class='menu-toggle right'><i class='fa fa-bars fa-2x'></i></a>
                 </li> 
-                <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Test Details</a></li>
+                <li class='analysis waves-effect active'><a href='#!' class='dashboard-view'><i class='fa fa-line-chart'></i></i>Analysis</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Test Details</a></li>
                 <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='mdi-maps-local-offer'></i>Categories</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='fa fa-line-chart'></i></i>Dashboard</a></li>                
                 <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
             <span class='report-name'>Automation Report</span> <span class='report-headline'></span>
             <ul class='right hide-on-med-and-down nav-right'>
-                <li class='test-view-only'>
+                <li class='test-view-only hide'>
                     <input type='checkbox' id='enableDashboard' />
                     <label for='enableDashboard'>Enable Dashboard</label>
                 </li>
@@ -665,31 +665,31 @@
         <div class='container'>
             <div id='dashboard-view' class='row'>
                 <div class='time-totals'>
-                    <div class='col s2'>
+                    <div class='col l2 m4 s6'>
                         <div class='card suite-total-tests'> 
                             <span class='panel-name'>Total Tests</span> 
                             <span class='total-tests'> <span class='panel-lead'></span> </span> 
                         </div> 
                     </div>
-                    <div class='col s2'>
+                    <div class='col l2 m4 s6'>
                         <div class='card suite-total-steps'> 
                             <span class='panel-name'>Total Steps</span> 
                             <span class='total-steps'> <span class='panel-lead'></span> </span> 
                         </div> 
                     </div>
-                    <div class='col s4'>
+                    <div class='col l4 m4 s12'>
                         <div class='card suite-total-steps'> 
                             <span class='panel-name'>Total Time Taken</span> 
                             <span class='suite-total-time-taken panel-lead'></span> 
                         </div> 
                     </div>
-                    <div class='col s2 suite-start-time'>
+                    <div class='col l2 m6 s6 suite-start-time'>
                         <div class='card green-accent'> 
                             <span class='panel-name'>Start</span> 
                             <span class='panel-lead suite-started-time'></span> 
                         </div> 
                     </div>
-                    <div class='col s2 suite-end-time'>
+                    <div class='col l2 m6 s6 suite-end-time'>
                         <div class='card pink-accent'> 
                             <span class='panel-name'>End</span> 
                             <span class='panel-lead suite-ended-time'></span> 
@@ -744,11 +744,42 @@
                             </div> 
                         </div> 
                     </div>
-                </div>    
+                </div>
                 <div class='system-view'>
+                    <div class='col l4 m12 s12'>
+                        <div class='card-panel'>
+                            <span class='label info right'>Environment</span>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Param</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class='category-summary-view'>
+                    <div class='col l2 m6 s12'>
+                        <div class='card-panel'>
+                            <span class='label info right'>Categories</span>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id='test-view' class='row'>
+            <div id='test-view' class='row hide'>
                 <div class='col s5'>
                     <div class='card-panel filters'>
                         <div class='input-field no-margin-v'>
@@ -1007,7 +1038,7 @@
                 
                 /* hide category menu if no categories exist [CATEGORIES] */
                 if ($('.category').length == 0) {
-                    $('#slide-out > .analysis > .categories-view').addClass('hide');
+                    $('#slide-out > .analysis > .categories-view, .category-summary-view').addClass('hide').css('display', 'none');
                 }
                 /* view cat info [CATEGORIES] */
                 $('.category-item').click(function() {
@@ -1016,8 +1047,10 @@
                             return ($(this).find('.cat-body').length == 0);
                         }).append($('#cat-details-wrapper .cat-container').find('.cat-body'));
                     }
+                    
                     $('#cat-collection .category-item').removeClass('active');
                     $('#cat-details-wrapper .cat-container .cat-body').remove();
+                    
                     var el = $(this).addClass('active').find('.cat-body');
                     $('#cat-details-wrapper .cat-name').text($(this).find('.category-name').text());
                     $('#cat-details-wrapper .cat-container').append($(el));
@@ -1313,6 +1346,7 @@
                 infoSteps = $('td.status.info').length;
                 skippedSteps = $('td.status.skip').length;
                 unknownSteps = $('td.status.unknown').length;
+                
                 $('.t-pass-count').text(passedTests);
                 $('.t-fail-count').text(failedTests + fatalTests);
                 $('.t-warning-count').text(warningTests);
@@ -1320,9 +1354,11 @@
                 $('.t-error-count').text(errorTests);
                 $('.t-skipped-count').text(skippedTests);
                 $('.t-others-count').text(warningTests + errorTests + skippedTests + unknownTests);
+                
                 var percentage = Math.round((passedTests * 100) / (passedTests + failedTests + fatalTests + warningTests + errorTests + unknownTests + skippedTests)) + '%';
                 $('.pass-percentage.panel-lead').text(percentage);
                 $('#dashboard-view .determinate').attr('style', 'width:' + percentage);
+                
                 if ($('#step-status-filter').hasClass('pass')) { passedSteps = 0; }
                 if ($('#step-status-filter').hasClass('fail')) { failedSteps = 0; }
                 if ($('#step-status-filter').hasClass('fatal')) { fatalSteps = 0; }
@@ -1331,6 +1367,7 @@
                 if ($('#step-status-filter').hasClass('info')) { infoSteps = 0; }
                 if ($('#step-status-filter').hasClass('skip')){ skippedSteps = 0; }
                 if ($('#step-status-filter').hasClass('unknown')) { unknownSteps = 0; }
+                
                 $('.s-pass-count').text(passedSteps);
                 $('.s-fail-count').text(failedSteps + fatalSteps);
                 $('.s-warning-count').text(warningSteps);
@@ -1414,7 +1451,6 @@
               testsChart(); stepsChart();
               $('ul.doughnut-legend').addClass('right');
               redrawCharts();
-              $('#dashboard-view').addClass('hide');
         </script>
     </body>
 </html>

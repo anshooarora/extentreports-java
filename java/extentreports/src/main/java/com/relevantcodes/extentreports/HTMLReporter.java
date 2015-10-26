@@ -29,7 +29,6 @@ import com.relevantcodes.extentreports.utils.DateTimeUtil;
 import com.relevantcodes.extentreports.utils.FileReaderEx;
 import com.relevantcodes.extentreports.utils.Resources;
 import com.relevantcodes.extentreports.utils.Writer;
-import com.relevantcodes.extentreports.view.SystemInfoHtml;
 
 /**  
  * Concrete HTMLReporter class
@@ -200,9 +199,9 @@ class HTMLReporter extends LogSettings implements IReporter {
             return;
         }
         
-        updateCategoryList();
+        updateCategoryLists();
 
-        String extentSource = extentDoc.outerHtml().replace("    ", "").replace("\t",  "");
+        String extentSource = extentDoc.outerHtml();//.replace("    ", "").replace("\t",  "");
         
         Writer.getInstance().write(new File(filePath), Parser.unescapeEntities(extentSource, true));
     }
@@ -215,7 +214,7 @@ class HTMLReporter extends LogSettings implements IReporter {
                 el.text(DateTimeUtil.getFormattedDateTime(
                         suiteTimeInfo.getSuiteStartTimestamp(), 
                         getLogDateTimeFormat())
-                        );
+                );
             }
         }
         
@@ -235,37 +234,37 @@ class HTMLReporter extends LogSettings implements IReporter {
             return;
         
         if (info.size() > 0) {
-            Element parentDiv = extentDoc.select(".system-view").first();
-            Boolean added;
+            Element tbody = extentDoc.select(".system-view tbody").first();
+            Boolean entryAdded;
             
             for (Map.Entry<String, String> entry : info.entrySet()) {
-                added = false;
+                entryAdded = false;
                 
-                Elements panelNames = parentDiv.select(".panel-name");
+                Elements panelNames = tbody.select("tr");
                 
                 if (panelNames.size() > 0) {
                     for (Element panelName : panelNames) {
-                         if (panelName.text().equals(entry.getKey())) {
-                             parentDiv.select(".panel-lead").first().text(entry.getValue());
-                             added = true;
+                         if (panelName.child(0).text().equals(entry.getKey())) {
+                        	 panelName.child(1).text(entry.getValue());
+
+                        	 entryAdded = true;
                              break;
                          }
                     }
                 }
                 
-                if (!added) {
-                    Document divCol = Jsoup.parseBodyFragment(SystemInfoHtml.getColumn());
+                if (!entryAdded) {
+                	Element tr = Jsoup.parseBodyFragment("").appendElement("tr");
+                    tr.appendElement("td").text(entry.getKey());
+                    tr.appendElement("td").text(entry.getValue());
                     
-                    divCol.select(".panel-name").first().text(entry.getKey());
-                    divCol.select(".panel-lead").first().text(entry.getValue());
-                    
-                    parentDiv.appendChild(divCol.select(".col").first());                    
+                    tbody.appendChild(tr);                    
                 }
             }
         }
     }
     
-    private synchronized void updateCategoryList() {
+    private synchronized void updateCategoryLists() {
         String c = "";
         Iterator<String> iter = categoryList.getCategoryList().iterator();
         
@@ -281,8 +280,11 @@ class HTMLReporter extends LogSettings implements IReporter {
             }
         }
         
+        Element catTbody = extentDoc.select(".category-summary-view tbody").first();
+        
         for (String cat : categoryList.getCategoryList()) {
             options.first().nextSibling().after("<option value='-1'>" + cat + "</option>");
+            catTbody.appendElement("tr").appendElement("td").text(cat);
         }
     }
     

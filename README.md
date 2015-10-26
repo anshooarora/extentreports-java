@@ -11,11 +11,19 @@ View the latest .NET sample <a href='http://relevantcodes.com/Tools/ExtentReport
 
 Download the jar and view latest details & comments from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
 
-### Snapshots
+### ExtentReports Snapshots
 
 ![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-1.png)
-<br />
+<br><br>
 ![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-2.png)
+
+### ExtentMerge (Extent Trends) Snapshots
+
+![](http://extentreports.relevantcodes.com/extentmerge/img/analysis.png)
+<br><br>
+![](http://extentreports.relevantcodes.com/extentmerge/img/trends.png)
+<br><br>
+![](http://extentreports.relevantcodes.com/extentmerge/img/run-history.png)
 
 ### Usage and Documentation
 
