@@ -80,7 +80,7 @@ iframe {
     margin-bottom: 20px;
 }
 .alert {
-    border: 1px solid orange;
+    border: 1px solid #d11149;
     border-radius: 5px;
     padding: 10px 20px;
 }
@@ -123,6 +123,70 @@ li.card {
 	padding: 10px 20px 0;
 }
 
+/* ---- [ kube overrides ] ---- */
+.btn, input.btn[type="submit"] {
+	font-family: inherit;
+}
+
+/* ---- [ bootstrap button ] ---- */
+.bs-example > .btn, .bs-example > .btn-group {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.btn-group, .btn-group-vertical {
+    display: inline-block;
+	margin-right: 0 !important;
+	margin-top: -2px;
+    position: relative;
+    vertical-align: middle;
+}
+.dropdown-toggle {
+	padding: 0 6px 0 8px;
+}
+.btn-group .dropdown-toggle:active, .btn-group.open .dropdown-toggle {
+    outline: 0 none;
+}
+.btn-group > .btn:first-child {
+    margin-left: 0;
+}
+.btn-group-vertical > .btn, .btn-group > .btn {
+    float: left;
+    position: relative;
+}
+.btn-default {
+    background-color: #fff;
+    color: #119ee7;
+}
+.open > .dropdown-menu {
+    display: block;
+}
+.dropdown-menu {
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
+    display: none;
+    float: left;
+    font-size: 14px;
+    left: 0;
+    list-style: outside none none;
+    margin: 2px 0 0;
+    min-width: 160px;
+    position: absolute;
+    text-align: left;
+    top: 100%;
+    z-index: 1000;
+}
+.dropdown-menu > li > a {
+    clear: both;
+	display: block;
+    font-weight: 400;
+    line-height: 1.42857;
+    padding: 3px 20px;
+    white-space: nowrap;
+}
+
 /* ---- [ header ] ---- */
 .header {
     padding: 25px 0;
@@ -152,6 +216,7 @@ li.card {
 }
 .menu-items {
     list-style: none;
+	margin-bottom: 0;
 }
 .menu-items li {
     display: inline-block;
@@ -161,32 +226,11 @@ li.card {
     font-size: 14px;
     padding: 5px 10px;
 }
-.menu-item.active {
+.dropdown-toggle:hover {
+	background: transparent !important;	
+}
+.menu-item.active, .btn-group.active {
     border: 1px solid #119ee7;
-}
-.menu-items ul.dropit-submenu {
-    background-color: #fff;
-    border: 1px solid #b2b2b2;
-    padding: 6px 0;
-    margin: 3px 0 0 1px;
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
-    -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.15);
-       -moz-box-shadow: 0px 1px 3px rgba(0,0,0,0.15);
-            box-shadow: 0px 1px 3px rgba(0,0,0,0.15);
-}          
-.menu-items ul.dropit-submenu a {
-    display: block;
-    font-size: 14px;
-    line-height: 25px;
-    color: #7a868e;
-    padding: 0 18px;
-}
-.menu-items ul.dropit-submenu a:hover {
-    background: #248fc1;
-    color: #fff;
-    text-decoration: none;
 }
 .menu-item.dropdown-item {
     min-width: 150px;

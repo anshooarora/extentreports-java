@@ -11,6 +11,11 @@
         <link rel='stylesheet' href='../css/dropit.css'>
         <link rel='stylesheet' href='../css/css.css'>
         <title>ExtentReports</title>
+		<style type='text/css'>
+			.slider {
+				background-image: url("../img/extentmerge.jpg");
+			}
+		</style>
     </head>
     <body>
         <div class='container'>
@@ -27,13 +32,13 @@
                                 <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
                                 <li class='menu-item'><a href='../faqs.html'>FAQs</a></li>
 								<!--<li class='menu-item'><a href='../users/showcase.html'>Showcase</a></li>-->
-                                <li class='menu-item'>
-                                    <a href='#'>Java</a>
-                                    <ul>
-                                        <li class='menu-item dropdown-item'><a href='../java/version1/docs.html'>Version 1 Docs</a></li>
-                                        <li class='menu-item dropdown-item'><a href='../java/version2/docs.html'>Version 2 Docs</a></li>
-                                    </ul>
-                                </li>
+                                <div class="btn-group">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Java</button>
+									<ul class="dropdown-menu">
+										<li class='menu-item dropdown-item'><a href="../java/version1/docs.html">Version 1 Docs</a></li>
+										<li class='menu-item dropdown-item'><a href="../java/version2/docs.html">Version 2 Docs</a></li>
+									</ul>
+								</div>
                                 <li class='menu-item'><a href='../net/docs.html'>.NET</a></li>
 								<li class='menu-item active'><a href='#'>ExtentMerge</a></li>
                                 <li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
@@ -62,6 +67,11 @@
 							
 							<h1>Contributors</h1>
 							<p>Moni Mau for providing valuable feedback for the design and components and also for helping test all the initial (alpha) releases.</p>
+							
+							<h1>Screenshots</h1>
+							<img class='bordered-img center' src='./img/analysis.png' width='80%' />
+							<img class='bordered-img center' src='./img/trends.png' width='80%' />
+							<img class='bordered-img center' src='./img/run-history.png' width='80%' />
 							
 							<h1>Docs</h1>
                             <ul class='index'>
