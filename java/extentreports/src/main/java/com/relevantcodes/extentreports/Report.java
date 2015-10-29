@@ -9,6 +9,7 @@
 package com.relevantcodes.extentreports;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +32,8 @@ abstract class Report extends LogSettings {
     private List<IReporter> reporters;
     private Test test;
     private UUID reportId;
+    private Boolean terminated = false;
+    
     protected SuiteTimeInfo suiteTimeInfo;
     protected SystemInfo systemInfo;
     protected List<ExtentTest> testList;
@@ -49,7 +52,8 @@ abstract class Report extends LogSettings {
         reporters.remove(reporter);
     }
     
-    protected void addTest(Test test) {        
+    protected void addTest(Test test) {
+    	
         if (test.getEndedTime() == null) {
             test.setEndedTime(Calendar.getInstance().getTime());
         }
@@ -82,9 +86,22 @@ abstract class Report extends LogSettings {
             iter.next().stop();
             iter.remove();
         }
+        
+        terminated = true;
     }
     
     protected void flush() {
+    	if (terminated) {
+            try {
+                throw new IOException("Unable to write source: Stream closed.");
+            } 
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+            return;
+        }
+    	
         for (IReporter reporter : reporters) {
             reporter.flush();            
         }

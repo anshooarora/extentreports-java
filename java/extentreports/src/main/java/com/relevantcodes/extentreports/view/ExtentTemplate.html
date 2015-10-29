@@ -534,6 +534,7 @@
             span.category {
                 border: 1px solid #00aeef;
                 color: #00aeef !important;
+                cursor: pointer;
             }
             
             /* -- [ status styles ] -- */
@@ -642,15 +643,15 @@
                     <a class='left hide' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
                     <a class='menu-toggle right'><i class='fa fa-bars fa-2x'></i></a>
                 </li> 
-                <li class='analysis waves-effect active'><a href='#!' class='dashboard-view'><i class='fa fa-line-chart'></i></i>Analysis</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Test Details</a></li>
+                <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Test Details</a></li>
                 <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='mdi-maps-local-offer'></i>Categories</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='fa fa-line-chart'></i></i>Analysis</a></li>
                 <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
             <span class='report-name'>Automation Report</span> <span class='report-headline'></span>
             <ul class='right hide-on-med-and-down nav-right'>
-                <li class='test-view-only hide'>
+                <li class='test-view-only'>
                     <input type='checkbox' id='enableDashboard' />
                     <label for='enableDashboard'>Enable Dashboard</label>
                 </li>
@@ -779,7 +780,7 @@
                     </div>
                 </div>
             </div>
-            <div id='test-view' class='row hide'>
+            <div id='test-view' class='row'>
                 <div class='col s5'>
                     <div class='card-panel filters'>
                         <div class='input-field no-margin-v'>
@@ -1150,6 +1151,30 @@
                     return ($(this).find('tr').length == 1);
                 }).hide(0);
                 
+                /* clicking a section on pie chart will automatically filter tests by status */
+                $('#test-analysis').click(
+                    function(evt) {
+                        var label = testChart.getSegmentsAtEvent(evt)[0].label;
+                        $('.tests-toggle li').filter(
+                            function() {
+                                return ($(this).text() == label);
+                            }
+                        ).click();
+                    }
+                );
+                
+                /* clicking the category tag will automatically filter tests by category */
+                $('.category').click(
+                    function(evt) {
+                        var label = $(this).text();
+                        $('.category-toggle li').filter(
+                            function() {
+                                return ($(this).text() == label);
+                            }
+                        ).click();
+                    }
+                );
+                
                 /* filter tests by status [TEST] */
                 $('.tests-toggle li').click(function() {
                     var opt = $(this).text().toLowerCase();
@@ -1182,10 +1207,10 @@
                             else {
                                 var activeTest = '';
                                 if ($('#test-details-wrapper .test-node.' + opt).length > 0) {
-                                    activeTest = '.test.active';
+                                    activeTest = '.test.active,';
                                 }
                                 $('.test').hide(0).removeClass('displayed');
-                                $(activeTest + ', .test:has(.test-node.' + opt + '), .test.' + opt).fadeIn(200).addClass('displayed');
+                                $(activeTest + '.test:has(.test-node.' + opt + '), .test.' + opt).fadeIn(200).addClass('displayed');
                             }
                             
                             redrawCharts();
@@ -1238,6 +1263,8 @@
                 if ($('#testrunner-logs-view .card-panel > p').length == 0) {
                     $('.analysis > .testrunner-logs-view').addClass('hide');
                 }
+                
+                $('#enableDashboard').click();
                 
                 /* reset test/category filters on document load */
                 resetFilters();
@@ -1451,6 +1478,8 @@
               testsChart(); stepsChart();
               $('ul.doughnut-legend').addClass('right');
               redrawCharts();
+              
+              $('#dashboard-view').addClass('hide');
         </script>
     </body>
 </html>
