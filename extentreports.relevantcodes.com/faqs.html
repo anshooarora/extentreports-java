@@ -52,7 +52,6 @@
                             <div class="units-row end">
                                 <h1>FAQs</h1>
                                 <ul>
-                                    <li><a href='#show-me-an-example'>Can you show me an example of how to use this reporting?</a></li>
                                     <li><a href='#correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</a></li>
 									<li><a href='#support-for-tools'>Will Extent work with Cucumber, JBehave, [insert your tool here]?</a></li>
 									<li><a href='#help-me-customize'>I need Extent to customize a report feature, can you help me with the JS/CSS?</a></li>
@@ -62,9 +61,6 @@
                                     <li><a href='#issue'>Something is not working correctly, what should I do?</a></li>
                                 </ul>
 								
-                                <h4 id='show-me-an-example'>Can you show me an example of how to use this reporting?</h4>
-                                <p>There are plenty of examples in the documentation: <a href='./2x/docs.html'>Java</a>, <a href='./net/docs.html'>.NET</a>. Other than the docs, Bas has also written a great <a href='http://www.ontestautomation.com/creating-html-reports-for-your-selenium-tests-using-extentreports/'>review</a> which shows usage.</p>
-                                
                                 <h4 id='correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</h4>
                                 <p>There is generally only 1 reason why this happens. The statement that sends a <code>failed</code> event to ExtentReports never gets executed. Consider the following example:</p>
 <pre><code class='java'>
@@ -83,8 +79,6 @@ public static void main(String[] args) {
 }
 </code></pre>
 
-<p>Because the assert failed the test, even though the result will show up in the test-runner's log, it will not show up in the report file unless the <code>failed</code> step gets executed. I would recommend using soft asserts (for TestNG) as normal (hard) asserts will stop the test the moment they encounter a failure.</p>
-
 <p>If you are using TestNG, an extremely simple way to handle this scenario is checking the test status in <code>@AfterMethod</code> and reporting fail if the test failed:</p>
 
 <pre><code class='java'>
@@ -96,7 +90,7 @@ public void tearDown(ITestResult result) {
 }
 </code></pre>
 
-<p>See examples with asserts for <a href='./2x/docs.html#basic-junit-selenium-example'>JUnit</a> and <a href='./2x/docs.html#testng-selenium-assert'>TestNG</a>.</p>
+<p>With JUnit, you can use a <code>@Rule</code> annotation. Example <a href='http://www.kieftsoft.nl/?p=81'>here</a>.</p>
 
 <p>Another safe measure is to call <code>extent.close()</code> at the very end, for example, as the last step in <code>@AfterSuite</code>. If any of your test ended abruptly causing any side-affects (not all logs sent to ExtentReports, information missing), this method will ensure that the test is still appended to the report with a warning message.</p>
 
@@ -104,7 +98,7 @@ public void tearDown(ITestResult result) {
 extent.close();
 </code></pre>
 
-<p>An even simpler way is to use a listener, as shown in <a href='http://relevantcodes.com/testng-listener-using-extentreports/'>this post</a>.</p>
+<p>If you want to avoid any manual logging, you can simply use the TestNG listener, as shown in <a href='http://relevantcodes.com/testng-listener-using-extentreports/'>this post</a>.</p>
 								
 								<h4 id='support-for-tools'>Will Extent work with Cucumber, JBehave, [insert your tool here]?</h4>
 								<p>Extent is an agnostic API, so the simple answer is, yes.  If you are looking for a feature that will help improve usage, please open a ticket <a href='https://github.com/anshooarora/extentreports/issues'>here</a>.</p>
