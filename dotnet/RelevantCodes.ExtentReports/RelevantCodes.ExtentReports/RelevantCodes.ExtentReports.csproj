@@ -66,16 +66,22 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report.cs" />
+    <Compile Include="View\Category.cs" />
     <Compile Include="View\Extent.cs" />
     <Compile Include="View\Icon.cs" />
     <Compile Include="View\LogEvent.cs" />
     <Compile Include="View\Node.cs" />
+    <Compile Include="View\Table.cs" />
     <Compile Include="View\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <Compile Include="ExtentTest.cs" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sources\Offline\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

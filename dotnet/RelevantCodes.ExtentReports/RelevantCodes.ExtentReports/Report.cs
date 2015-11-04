@@ -14,7 +14,6 @@ namespace RelevantCodes.ExtentReports
         private Guid _id;
         private List<IReporter> _reporterList;
         private LogStatus _reportStatus;
-        private DateTime _reportStartTime;
         private bool _terminated = false;
 
         public string FilePath { get; protected set; }
@@ -26,6 +25,8 @@ namespace RelevantCodes.ExtentReports
         public NetworkMode NetworkMode { get; protected set; }
 
         public List<ExtentTest> TestList { get; protected set; }
+
+        public DateTime StartTime;
 
         internal Test Test { get; private set; }
 
@@ -143,7 +144,8 @@ namespace RelevantCodes.ExtentReports
         public Report() 
         {
             _id = Guid.NewGuid();
-            _reportStartTime = DateTime.Now;
+            
+            StartTime = DateTime.Now;
         }
     }
 }

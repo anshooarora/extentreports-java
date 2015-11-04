@@ -48,24 +48,9 @@ namespace RelevantCodes.ExtentReports
 
         public ExtentTest AssignCategory(params string[] Category)
         {
-            bool toAdd = false;
-
             Category.ToList().ForEach(c =>
             {
-                _test.CategoryList.ForEach(x =>
-                {
-                    toAdd = true;
-
-                    if (x.Equals(c))
-                    {
-                        toAdd = false;
-                    }
-                });
-
-                if (toAdd)
-                {
-                    _test.AuthorList.Add(new Category(c));
-                }
+                _test.AddCategory(c);
             });
 
             return this;
@@ -73,24 +58,9 @@ namespace RelevantCodes.ExtentReports
 
         public ExtentTest AssignAuthor(params string[] Author)
         {
-            bool toAdd = false;
-
             Author.ToList().ForEach(a =>
             {
-                _test.AuthorList.ForEach(x =>
-                {
-                    toAdd = true;
-
-                    if (x.Equals(a))
-                    {
-                        toAdd = false;
-                    }
-                });
-
-                if (toAdd)
-                {
-                    _test.AuthorList.Add(new Author(a));
-                }
+                _test.AddAuthor(a);
             });
 
             return this;

@@ -17,7 +17,7 @@ namespace RelevantCodes.ExtentReports.View
                     <html>
                         <head>
                             <!--
-                                ExtentReports Library 2.11.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+                                ExtentReports Library 2.40.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
                                 Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
                                 Documentation: http://extentreports.relevantcodes.com 
                             -->
@@ -28,7 +28,7 @@ namespace RelevantCodes.ExtentReports.View
                             <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
                             <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css' type='text/css'>
                             <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-                            <title>ExtentReports 2.10</title>
+                            <title>ExtentReports 2.40</title>
                             <style type='text/css'>
                                 body {
                                     background: #eff2f8;
@@ -592,6 +592,9 @@ namespace RelevantCodes.ExtentReports.View
                                     padding: 2px 5px;
                                     text-transform: none;
                                 }
+                                .test.active.pass {
+                                    border-left-color: #60b963;
+                                }
                                 .label.success, .label.pass {
                                     border-color: #60b963;
                                     color: #60b963;
@@ -602,6 +605,12 @@ namespace RelevantCodes.ExtentReports.View
                                 .cat-pass {
                                     border-color: #46be8a !important;
                                     color: #46be8a;
+                                }
+                                .test.active.fail {
+                                    border-left-color: #c64444;
+                                }
+                                .test.active.fatal {
+                                    border-left-color: rgb(139, 0, 0);
                                 }
                                 .label.fatal {
                                     border-color: rgb(139, 0, 0);
@@ -615,6 +624,9 @@ namespace RelevantCodes.ExtentReports.View
                                     border-color: #f96868 !important;
                                     color: #f96868;
                                 }
+                                .test.active.error {
+                                    border-left-color: #ec407a;
+                                }
                                 .label.error {
                                     border-color: #ec407a;
                                     color: #ec407a;
@@ -623,6 +635,9 @@ namespace RelevantCodes.ExtentReports.View
                                     border-color: #46BFBD;
                                     color: #46BFBD;
                                 }
+                                .test.active.warning {
+                                    border-left-color: #d88519;
+                                }
                                 .label.warn, .label.warning {
                                     border-color: #d88519;
                                     color: #d88519;
@@ -630,6 +645,9 @@ namespace RelevantCodes.ExtentReports.View
                                 .cat-other {
                                     border-color: #f2a654 !important;
                                     color: #f2a654;
+                                }
+                                .test.active.skip {
+                                    border-left-color: #2196f3;
                                 }
                                 .label.skip, .label.skipped {
                                     border-color: #2196f3;
@@ -671,10 +689,10 @@ namespace RelevantCodes.ExtentReports.View
                                         <label for='enableDashboard'>Enable Dashboard</label>
                                     </li>
                                     <li>
-                                        <span class='suite-started-time'></span>
+                                        <span class='suite-started-time'><!--%SuiteStartedTime%--></span>
                                     </li>
                                     <li>
-                                        <span>v2.11.0</span>
+                                        <span>v2.40.0</span>
                                     </li>
                                 </ul>
                             </nav>
@@ -1050,7 +1068,7 @@ namespace RelevantCodes.ExtentReports.View
                                     /* check all checkboxes for step-dashboard filter to allow filtering the steps to be displayed [DASHBOARD] */
                                     $('#step-status-filter input').prop('checked', 'checked');
                                     $('#step-status-filter input').click(function() {
-                                        $('#step-status-filter').toggleClass($(this).prop('id').replace('step-dashboard-filter-', ''));
+                                       $('#step-status-filter').toggleClass($(this).prop('id').replace('step-dashboard-filter-', ''));
                                     });
                 
                                     /* hide category menu if no categories exist [CATEGORIES] */
@@ -1489,16 +1507,16 @@ namespace RelevantCodes.ExtentReports.View
                                         chart.draw();
                                     });
                                     $('#' + id).after(legendHolder.firstChild);
-                                    }
+                               }
               
-                                    testsChart(); stepsChart();
-                                    $('ul.doughnut-legend').addClass('right');
-                                    redrawCharts();
+                               testsChart(); stepsChart();
+                               $('ul.doughnut-legend').addClass('right');
+                               redrawCharts();
               
-                                    $('#dashboard-view').addClass('hide');
+                               $('#dashboard-view').addClass('hide');
                             </script>
                         </body>
-                    </html>".Replace("    ", "").Replace("\t", "").Replace("\r", "").Replace("\n", "");
+                    </html>";//.Replace("    ", "").Replace("\t", "").Replace("\r", "").Replace("\n", "");
             }
         }
     }

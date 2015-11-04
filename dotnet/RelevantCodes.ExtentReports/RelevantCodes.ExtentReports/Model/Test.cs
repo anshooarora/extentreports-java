@@ -35,7 +35,23 @@ namespace RelevantCodes.ExtentReports.Model
 
         public List<TestAttribute> CategoryList;
 
+        public void AddCategory(string Category)
+        {
+            if (!CategoryList.Select(x => x.Name).ToList().Contains(Category))
+            {
+                CategoryList.Add(new Category(Category));
+            }
+        }
+
         public List<TestAttribute> AuthorList;
+
+        public void AddAuthor(string Author)
+        {
+            if (!AuthorList.Select(x => x.Name).ToList().Contains(Author))
+            {
+                AuthorList.Add(new Author(Author));
+            }
+        }
 
         public List<Test> NodeList { get; set; }
 
@@ -73,7 +89,7 @@ namespace RelevantCodes.ExtentReports.Model
         {
             test.LogList.ForEach(x => FindStatus(x.LogStatus));
 
-            if (ContainsChildNodes)
+            if (test.ContainsChildNodes)
             {
                 NodeList.ForEach(x => UpdateStatusRecursive(x));
             }
@@ -153,5 +169,7 @@ namespace RelevantCodes.ExtentReports.Model
             //ScreenCapture = new List<ScreenCapture>();
             //Screencast = new List<Screencast>();
         }
+
+        public const string ChildNodeClass = "hasChildren";
     }
 }

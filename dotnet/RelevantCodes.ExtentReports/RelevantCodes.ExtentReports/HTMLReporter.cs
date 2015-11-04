@@ -63,14 +63,16 @@ namespace RelevantCodes.ExtentReports
             {
                 _extentSource = File.ReadAllText(_filePath);
             }
+
+            _extentSource = _extentSource.Replace("<!--%SuiteStartedTime%-->", _report.StartTime.ToString());
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
             _terminated = true;
         }
 
-        public void Flush()
+        public virtual void Flush()
         {
             if (_terminated)
             {
@@ -87,9 +89,19 @@ namespace RelevantCodes.ExtentReports
             File.WriteAllText(_filePath, _extentSource);
         }
 
-        public void AddTest()
+        public virtual void AddTest()
         {
-            string testSource = Engine.Razor.RunCompile(View.Test.Source, "testKey", typeof(Model.Test), _report.Test);
+            string nodeSource = "";
+
+            _report.Test.NodeList.ForEach(x =>
+            {
+                nodeSource += _report.Test.ContainsChildNodes
+                ? Engine.Razor.RunCompile(View.Node.Source, "nodeKey", typeof(Model.Test), x)
+                : "";
+            });
+
+            string testSource = Engine.Razor.RunCompile(View.Test.Source, "testKey", typeof(Model.Test), _report.Test).Replace("<!--%Node%-->", nodeSource);
+            testSource = testSource.Replace("&lt;del&gt;", "").Replace("&lt;/del&gt;", "");
 
             testSource = _displayOrder == DisplayOrder.NewestFirst
                 ? testSource + "<!--%Test%-->" 
