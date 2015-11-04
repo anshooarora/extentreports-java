@@ -201,7 +201,7 @@ class HTMLReporter extends LogSettings implements IReporter {
         
         updateCategoryLists();
 
-        String extentSource = extentDoc.outerHtml();//.replace("    ", "").replace("\t",  "");
+        String extentSource = extentDoc.outerHtml().replace("    ", "").replace("\t",  "");
         
         Writer.getInstance().write(new File(filePath), Parser.unescapeEntities(extentSource, true));
     }

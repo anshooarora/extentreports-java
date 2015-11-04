@@ -8,15 +8,17 @@
 
 package com.relevantcodes.extentreports.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import com.relevantcodes.extentreports.LogStatus;
 
 public class Log {
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-    
+	private Date timestamp;
+    private LogStatus logStatus;
+    private String stepName;
+    private String details;
+
     public Date getTimestamp() {
         return timestamp;
     }
@@ -45,8 +47,7 @@ public class Log {
         return details;
     }
     
-    private Date timestamp;
-    private LogStatus logStatus;
-    private String stepName;
-    private String details;
+    public Log() {
+    	timestamp = Calendar.getInstance().getTime();
+    }
 }

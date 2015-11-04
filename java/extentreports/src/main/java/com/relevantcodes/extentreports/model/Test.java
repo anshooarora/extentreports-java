@@ -9,6 +9,7 @@
 package com.relevantcodes.extentreports.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,10 +69,10 @@ public class Test {
     private HashMap<LogStatus, Integer> logCounts;
     
     // test started time
-    private Date startedTime;
+    private Date startTime;
     
     // test ended time
-    private Date endedTime;
+    private Date endTime;
     
     // default status when the test starts
     private LogStatus status = LogStatus.UNKNOWN;
@@ -183,20 +184,20 @@ public class Test {
     
     // started time
     public void setStartedTime(Date startedTime) {
-        this.startedTime = startedTime;
+        this.startTime = startedTime;
     }
     
     public Date getStartedTime() {
-        return startedTime;
+        return startTime;
     }
     
     // ended time
     public void setEndedTime(Date endedTime) {
-        this.endedTime = endedTime;
+        this.endTime = endedTime;
     }
     
     public Date getEndedTime() {
-        return endedTime;
+        return endTime;
     }
     
     // status
@@ -404,6 +405,7 @@ public class Test {
         internalWarning = "";
         
         id = UUID.randomUUID();
+        setStartedTime(Calendar.getInstance().getTime());
         
         logList = new ArrayList<Log>();
         categoryList = new ArrayList<TestAttribute>();

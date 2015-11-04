@@ -44,7 +44,6 @@ public class ExtentTest {
         
         test.setName(testName == null ? "" : testName.trim()); 
         test.setDescription(description.trim());
-        test.setStartedTime(Calendar.getInstance().getTime());
     }
     
     /**
@@ -60,7 +59,6 @@ public class ExtentTest {
         evt.setLogStatus(logStatus);
         evt.setStepName(stepName == null ? "" : stepName.trim()); 
         evt.setDetails(details == null ? "" : details.trim());
-        evt.setTimestamp(Calendar.getInstance().getTime());
                 
         test.setLog(evt);
         
@@ -176,7 +174,7 @@ public class ExtentTest {
         node.getTest().trackLastRunStatus();
         
         test.hasChildNodes = true;
-        
+
         List<String> list = new ArrayList<String>();
         
         // categories to strings
