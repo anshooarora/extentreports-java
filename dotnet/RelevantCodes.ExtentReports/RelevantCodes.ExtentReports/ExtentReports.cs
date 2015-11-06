@@ -47,15 +47,17 @@ namespace RelevantCodes.ExtentReports
 
         public ExtentReports AddSystemInfo(string Param, string Value)
         {
+            SystemInfo.Add(Param, Value);
+
             return this;
         }
 
-        public void Flush()
+        new public void Flush()
         {
             base.Flush();
         }
 
-        public void Terminate()
+        new public void Terminate()
         {
             Flush();
 

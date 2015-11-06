@@ -11,7 +11,9 @@ namespace RelevantCodes.ExtentReports
         static void Main(string[] args)
         {
             var extent = new ExtentReports("Extent.Net.html");
-            
+            extent.AddSystemInfo("Host", "Test");
+            extent.AddSystemInfo("Selenium Version", "2.44");
+
             var test = extent.StartTest("First", "Random desc");
             test.Log(LogStatus.Info, "Some Details");
             test

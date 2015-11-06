@@ -30,6 +30,8 @@ namespace RelevantCodes.ExtentReports
 
         internal Test Test { get; private set; }
 
+        public Dictionary<string, string> SystemInfo { get; protected set; }
+
         protected void Attach(IReporter Reporter)
         {
             if (_reporterList == null)
@@ -58,7 +60,7 @@ namespace RelevantCodes.ExtentReports
             UpdateReportStatus(Test.Status);
         }
 
-        protected void Terminate()
+        protected virtual void Terminate()
         {
             _reporterList.ForEach(x => 
             {
@@ -70,7 +72,7 @@ namespace RelevantCodes.ExtentReports
             _terminated = true;
         }
 
-        protected void Flush()
+        protected virtual void Flush()
         {
             if (_terminated)
             {
@@ -146,6 +148,7 @@ namespace RelevantCodes.ExtentReports
             _id = Guid.NewGuid();
             
             StartTime = DateTime.Now;
+            SystemInfo = new StandardSystemInfo().GetInfo();
         }
     }
 }

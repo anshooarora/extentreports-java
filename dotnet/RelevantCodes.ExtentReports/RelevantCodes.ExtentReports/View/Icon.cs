@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RelevantCodes.ExtentReports.View
 {
-    class Icon
+    public class Icon
     {
         public static string GetIcon(LogStatus Status)
         {
