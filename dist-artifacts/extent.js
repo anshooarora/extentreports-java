@@ -24,6 +24,7 @@ $(document).ready(function() {
 	$('.button-collapse').sideNav({ menuWidth: menuWidth });
 	$('select').material_select();
 	$('#enableDashboard').prop('checked', false);
+	$('#refreshCharts').prop('checked', true);
 	
 	/* [WINDOW] */
 	$(window).scroll(function() {
@@ -40,10 +41,15 @@ $(document).ready(function() {
 		$('.pin').css('width', pinWidth);
 	});
 	
-	/* [TOPNAV] */
+	/* enable dashboard checkbox [TOPNAV] */
 	$('#enableDashboard').click(function() {
 		$(this).toggleClass('enabled');
 		$('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
+	});
+	
+	/* enable dashboard checkbox [TOPNAV] */
+	$('#refreshCharts').click(function() {
+		$(this).toggleClass('enabled');
 	});
 	
 	/* menu-toggle [SIDE-NAV] */
@@ -388,7 +394,7 @@ function findTestByNameId(name, id) {
 
 /* refresh and redraw charts [DASHBOARD] */
 function redrawCharts() {
-	if (!$('#dashboard-view .charts').is(':visible')) {
+	if (!$('#dashboard-view .charts').is(':visible') || !$('#refreshCharts').hasClass('enabled')) {
 		return;
 	}
 	refreshData();
