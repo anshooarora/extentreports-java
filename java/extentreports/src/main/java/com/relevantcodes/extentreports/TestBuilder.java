@@ -204,7 +204,7 @@ class TestBuilder {
             // level 1: node-1x
             // level 2: node-2x
             // and so on..
-            li.addClass("node-" + nodeLevel + "x").attr("extentId", node.getId().toString());
+            li.addClass("node-" + nodeLevel + "x " + node.getStatus()).attr("extentId", node.getId().toString());
             
             // test-node name
             li.select(".test-node-name").first().text(node.getName());

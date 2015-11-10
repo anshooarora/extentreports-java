@@ -18,7 +18,7 @@ public class Log {
     private LogStatus logStatus;
     private String stepName;
     private String details;
-
+    
     public Date getTimestamp() {
         return timestamp;
     }

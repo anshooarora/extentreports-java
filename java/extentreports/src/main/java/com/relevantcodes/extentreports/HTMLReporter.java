@@ -11,6 +11,7 @@ package com.relevantcodes.extentreports;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,9 @@ class HTMLReporter extends LogSettings implements IReporter {
     // network mode (default = ONLINE)
     private NetworkMode networkMode;
     
+    // holds test status
+    private HashSet<LogStatus> statusList;
+    
     // master list of categories added to tests
     private CategoryList categoryList;
     
@@ -76,7 +80,11 @@ class HTMLReporter extends LogSettings implements IReporter {
     private final String offlineFolderParent = "extentreports";
     
     // package path containing source files
-    private final String packagePath = "com/relevantcodes/extentreports/view/";
+    private final String resourcePackagePath = "com/relevantcodes/extentreports/resources/";
+    
+    // package path containing source files
+    private final String viewPackagePath = "com/relevantcodes/extentreports/view/";
+    
     
     @Override
     public void start(Report report) {
@@ -84,6 +92,7 @@ class HTMLReporter extends LogSettings implements IReporter {
         
         this.displayOrder = report.getDisplayOrder();
         this.networkMode = report.getNetworkMode();
+        statusList = new HashSet<LogStatus>();
         
         // if document is already created, prevent re-initialization
         if (extentDoc != null) {
@@ -92,10 +101,10 @@ class HTMLReporter extends LogSettings implements IReporter {
         
         File reportFile = new File(filePath);
         
-        String sourceFile = packagePath + "ExtentTemplate.html";
+        String sourceFile = viewPackagePath + "ExtentTemplate.html";
         
         if (networkMode == NetworkMode.OFFLINE) {
-            sourceFile = packagePath + "ExtentTemplate.Offline.html";
+            sourceFile = viewPackagePath + "ExtentTemplate.Offline.html";
             
             initOfflineMode(reportFile);
         }
@@ -137,8 +146,8 @@ class HTMLReporter extends LogSettings implements IReporter {
     }
     
     private void initOfflineMode(File file) {
-        String cssPath = packagePath + "offline/css/";
-        String jsPath = packagePath + "offline/js/";
+        String cssPath = resourcePackagePath + "offline/css/";
+        String jsPath = resourcePackagePath + "offline/js/";
         
         String[] css = { 
                 "css.css", 
@@ -161,12 +170,14 @@ class HTMLReporter extends LogSettings implements IReporter {
             new File(file.getParent() + File.separator + offlineFolderParent + File.separator + name).mkdirs();
         }
         
+        String destPath = file.getParent() + File.separator + offlineFolderParent + File.separator;
+        
         // copy files to extent/dir
         for (String f : css) {
-            Resources.moveResource(cssPath + f, file.getParent() + File.separator + offlineFolderParent + File.separator + "css" + File.separator + f);
+            Resources.moveResource(cssPath + f, destPath + "css" + File.separator + f);
         }
         for (String f : js) {
-            Writer.getInstance().write(new File(file.getParent() + File.separator + offlineFolderParent + File.separator + "js" + File.separator + f), Resources.getText(jsPath + f));
+            Writer.getInstance().write(new File(destPath + "js" + File.separator + f), Resources.getText(jsPath + f));
         }
     }
     
@@ -200,10 +211,17 @@ class HTMLReporter extends LogSettings implements IReporter {
         }
         
         updateCategoryLists();
-
-        String extentSource = extentDoc.outerHtml().replace("    ", "").replace("\t",  "");
+        enableStatusFilterForAvailableStatusNames();
+        
+        String extentSource = extentDoc.outerHtml();//.replace("    ", "").replace("\t",  "");
         
         Writer.getInstance().write(new File(filePath), Parser.unescapeEntities(extentSource, true));
+    }
+    
+    private synchronized void enableStatusFilterForAvailableStatusNames() {
+    	for (LogStatus s : statusList) {
+    		extentDoc.select("ul#tests-toggle").first().select("li." + s).removeClass("hide");
+    	}
     }
     
     private synchronized void updateSuiteExecutionTime() {
@@ -268,13 +286,13 @@ class HTMLReporter extends LogSettings implements IReporter {
         String c = "";
         Iterator<String> iter = categoryList.getCategoryList().iterator();
         
-        Elements options = extentDoc.select(".category-toggle option");
+        Elements options = extentDoc.select("ul#category-toggle li");
         
         while (iter.hasNext()) {
             c = iter.next();
    
             for (Element option : options) {
-                if (option.text().equals(c)) {
+                if (option.hasClass(c)) {
                     iter.remove();
                 }
             }
@@ -283,7 +301,7 @@ class HTMLReporter extends LogSettings implements IReporter {
         Element catTbody = extentDoc.select(".category-summary-view tbody").first();
         
         for (String cat : categoryList.getCategoryList()) {
-            options.first().nextSibling().after("<option value='-1'>" + cat + "</option>");
+            options.first().parent().prepend("<li class='" + cat + "'><a href='#!'>" + cat + "</a></li>");
             catTbody.appendElement("tr").appendElement("td").text(cat);
         }
     }
@@ -297,11 +315,13 @@ class HTMLReporter extends LogSettings implements IReporter {
     public void setTestRunnerLogs() {
         extentDoc.select("#testrunner-logs-view .card-panel").first().append("<p>" + report.getTestRunnerLogs() + "</p>");
     }
-
+    
     // adds tests as HTML source
     @Override
     public synchronized void addTest() {
         Test test = report.getTest();
+        
+        statusList.add(test.getStatus());
         
         addTest(TestBuilder.getTestAsHTMLElement(test));
         appendTestCategories(test);

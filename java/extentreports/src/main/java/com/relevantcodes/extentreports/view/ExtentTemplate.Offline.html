@@ -28,40 +28,50 @@
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
             <span class='report-name'>Automation Report</span> <span class='report-headline'></span>
             <ul class='right hide-on-med-and-down nav-right'>
-                <li>
+                <li class='test-view-only'>
                     <input type='checkbox' id='enableDashboard' />
                     <label for='enableDashboard'>Enable Dashboard</label>
+                </li>
+                <li class='test-view-only'>
+                    <input type='checkbox' class='enabled' id='refreshCharts' />
+                    <label for='refreshCharts'>Redraw Charts on Filter</label>
+                </li>
+                <li>
+                    <span class='suite-started-time'></span>
+                </li>
+                <li>
+                    <span>v2.40.0</span>
                 </li>
             </ul>
         </nav>
         <div class='container'>
             <div id='dashboard-view' class='row'>
                 <div class='time-totals'>
-                    <div class='col s2'>
+                    <div class='col l2 m4 s6'>
                         <div class='card suite-total-tests'> 
                             <span class='panel-name'>Total Tests</span> 
                             <span class='total-tests'> <span class='panel-lead'></span> </span> 
                         </div> 
                     </div>
-                    <div class='col s2'>
+                    <div class='col l2 m4 s6'>
                         <div class='card suite-total-steps'> 
                             <span class='panel-name'>Total Steps</span> 
                             <span class='total-steps'> <span class='panel-lead'></span> </span> 
                         </div> 
                     </div>
-                    <div class='col s4'>
+                    <div class='col l4 m4 s12'>
                         <div class='card suite-total-steps'> 
                             <span class='panel-name'>Total Time Taken</span> 
                             <span class='suite-total-time-taken panel-lead'></span> 
                         </div> 
                     </div>
-                    <div class='col s2 suite-start-time'>
+                    <div class='col l2 m6 s6 suite-start-time'>
                         <div class='card green-accent'> 
                             <span class='panel-name'>Start</span> 
                             <span class='panel-lead suite-started-time'></span> 
                         </div> 
                     </div>
-                    <div class='col s2 suite-end-time'>
+                    <div class='col l2 m6 s6 suite-end-time'>
                         <div class='card pink-accent'> 
                             <span class='panel-name'>End</span> 
                             <span class='panel-lead suite-ended-time'></span> 
@@ -75,7 +85,7 @@
                                 <span class='panel-name'>Tests View</span>
                             </div> 
                             <div class='panel-setting modal-trigger test-count-setting right'>
-                                <a href='#test-count-setting'><i class='fa fa-ellipsis-v text-md'></i></a>
+                                <a href='#test-count-setting'><i class='mdi-navigation-more-vert text-md'></i></a>
                             </div> 
                             <div class='chart-box'>
                                 <canvas class='text-centered' id='test-analysis'></canvas>
@@ -94,7 +104,7 @@
                                 <span class='panel-name'>Steps View</span>
                             </div> 
                             <div class='panel-setting modal-trigger step-status-filter right'>
-                                <a href='#step-status-filter'><i class='fa fa-ellipsis-v text-md'></i></a>
+                                <a href='#step-status-filter'><i class='mdi-navigation-more-vert text-md'></i></a>
                             </div> 
                             <div class='chart-box'>
                                 <canvas class='text-centered' id='step-analysis'></canvas>
@@ -116,43 +126,73 @@
                             </div> 
                         </div> 
                     </div>
-                </div>    
+                </div>
                 <div class='system-view'>
+                    <div class='col l4 m12 s12'>
+                        <div class='card-panel'>
+                            <span class='label info right'>Environment</span>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Param</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class='category-summary-view'>
+                    <div class='col l2 m6 s12'>
+                        <div class='card-panel'>
+                            <span class='label info right'>Categories</span>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id='test-view' class='row'>
                 <div class='col s5'>
                     <div class='card-panel filters'>
-                        <div class='input-field no-margin-v'>
-                            <input id='searchTests' type='text' class='validate'>
-                            <label class='active' for='searchTests'>Search Tests..</label>
+                        <div>
+                            <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button'><i class='fa fa-bars icon'></i></a>
+                            <ul id='tests-toggle' class='dropdown-content'>
+                                <li class='pass'><a href='#!'>Pass</a></li>
+                                <li class='fail'><a href='#!'>Fail</a></li>
+                                <li class='fatal hide'><a href='#!'>Fatal</a></li>
+                                <li class='error hide'><a href='#!'>Error</a></li>
+                                <li class='warning hide'><a href='#!'>Warning</a></li>
+                                <li class='skip'><a href='#!'>Skip</a></li>
+                                <li class='unknown hide'><a href='#!'>Unknown</a></li>
+                                <li class='divider'></li>
+                                <li class='clear'><a href='#!'>Clear Filters</a></li>
+                            </ul>
                         </div>
-                        <div class='row'>
-                            <div class='col s6'>
-                                <div class='input-field tests-toggle'>
-                                    <select>
-                                        <option value='0' selected>Choose your option</option>
-                                        <option value='1'>Pass</option>
-                                        <option value='2'>Fatal</option>
-                                        <option value='3'>Fail</option>
-                                        <option value='4'>Error</option>
-                                        <option value='5'>Warning</option>
-                                        <option value='6'>Skip</option>
-                                        <option value='7'>Unknown</option>
-                                        <option value='8'>Clear Filters</option>
-                                    </select>
-                                    <label>Filter By Status</label>
-                                </div>
+                        <div>
+                            <a data-activates='category-toggle' data-constrainwidth='false' data-beloworigin='true' data-hover='true' href='#' class='category-toggle dropdown-button button'><i class='fa fa-tags icon'></i></a>
+                            <ul id='category-toggle' class='dropdown-content'>
+                                <li class='divider'></li>
+                                <li class='clear'><a href='#!'>Clear Filters</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <a id='clear-filters' alt='Clear Filters' title='Clear Filters'><i class='fa fa-close icon'></i></a>
+                        </div>
+                        <div class='search right' alt='Search tests' title='Search tests'>
+                            <div class='input-field left'>
+                                <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
                             </div>
-                            <div class='col s6'>
-                                <div class='input-field category-toggle'>
-                                    <select>
-                                        <option value='0' selected>Choose your option</option>
-                                        <option value='8'>Clear Filters</option>
-                                    </select>
-                                    <label>Filter By Category</label>
-                                </div>
-                            </div>
+                            <i class='fa fa-search icon'></i>
                         </div>
                     </div>
                     <div class='card-panel no-padding-h no-padding-v'>
@@ -172,12 +212,6 @@
             </div>
             <div id='categories-view' class='row hide'>
                 <div class='col s5'>
-                    <div class='card-panel filters'>
-                        <div class='input-field no-margin-v'>
-                            <input id='searchCats' type='text' class='validate'>
-                            <label class='active' for='searchCats'>Search Categories..</label>
-                        </div>
-                    </div>
                     <div class='card-panel no-padding-h no-padding-v vh100'>
                         <div class='wrapper'>
                             <ul id='cat-collection' class='cat-collection'>
@@ -196,6 +230,7 @@
             <div id='testrunner-logs-view' class='row hide'>
                 <div class='col s12'>
                     <div class='card-panel'>
+                        <h5>TestRunner Logs</h5>
                     </div>
                 </div>
             </div>

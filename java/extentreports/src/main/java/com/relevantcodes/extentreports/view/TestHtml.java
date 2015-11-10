@@ -75,7 +75,7 @@ public class TestHtml {
             colStepName = "<th>StepName</th>";
         }
         
-        return "<li>" +
+        return "<li class='displayed'>" +
                     "<div class='collapsible-header test-node'>" +
                         "<div class='right test-info'>" +
                             "<span title='Test started time' class='test-started-time label green lighten-2 text-white'></span>" +
