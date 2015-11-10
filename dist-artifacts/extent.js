@@ -23,8 +23,12 @@ $(document).ready(function() {
 	/* init */
 	$('.button-collapse').sideNav({ menuWidth: menuWidth });
 	$('select').material_select();
-	$('#enableDashboard').prop('checked', false);
-	$('#refreshCharts').prop('checked', true);
+	$('#refreshCharts').addClass('enabled').children('i').addClass('active');
+	
+	/* hide category toggle dropdown if no categories were added */
+	if ($('#category-toggle > li').length <= 2) {
+		$('a.category-toggle').addClass('hide');
+	}
 	
 	/* [WINDOW] */
 	$(window).scroll(function() {
@@ -43,13 +47,15 @@ $(document).ready(function() {
 	
 	/* enable dashboard checkbox [TOPNAV] */
 	$('#enableDashboard').click(function() {
-		$(this).toggleClass('enabled');
+		var t = $(this);
+		t.toggleClass('enabled').children('i').toggleClass('active');
 		$('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
+		t.hasClass('enabled') ? redrawCharts() : null;
 	});
 	
 	/* enable dashboard checkbox [TOPNAV] */
 	$('#refreshCharts').click(function() {
-		$(this).toggleClass('enabled');
+		$(this).toggleClass('enabled').children('i').toggleClass('active');
 	});
 	
 	/* menu-toggle [SIDE-NAV] */
@@ -157,21 +163,23 @@ $(document).ready(function() {
 	/* view test info [TEST] */
 	$('.test').click(function() {
 		var t = $(this);
-		
-		if ($('#test-details-wrapper .test-body').length > 0) {
-			$('#test-collection .test').filter(function() {
-				return ($(this).find('.test-body').length == 0);
-			}).append($('#test-details-wrapper .test-body'));
-		}
-		
+
 		$('#test-collection .test').removeClass('active');
 		$('#test-details-wrapper .test-body').remove();
 		
-		var el = t.addClass('active').find('.test-body');
+		var el = t.addClass('active').find('.test-body').clone();
 		$('#test-details-wrapper .details-name').text(t.find('.test-name').text());
 		$('#test-details-wrapper .details-container').append($(el));
+		
+		$('#test-details-wrapper .collapsible').collapsible({ accordion : true });
 	});
 	$('.test').eq(0).click();
+	
+	/* toggle search */
+	$('.mdi-action-search').click(function() {
+		var s = $('.search > .input-field');
+		s.animate({ width: s.css('width') == '0px' ? '240px' : '0px'}, 200);
+	});
 	
 	/* filter tests by text [TEST] */
 	$(document).keypress(function(e) {
@@ -204,38 +212,9 @@ $(document).ready(function() {
 				
 				$('.test:visible').eq(0).click();
 			}
-			if ($('#searchCats').is(':focus')) {
-				var txt = $('#searchCats').val().toLowerCase();
-				hideElement($('#cat-collection .category-item '));
-				
-				$('#cat-collection .category-name').each(function() {
-					var t = $(this);
-					
-					if (t.text().toLowerCase().indexOf(txt) >= 0) {
-						showElement(t.closest('.category-item'));
-					}
-				});
-				
-				$('.category-item:visible').eq(0).click();
-			}
 		}
 	});
-	
-	$('.clear').click(function() {
-		var t = $(this);
-		
-		var id = t.prev().val('').attr('id');
-		
-		if (id == 'searchTests') {
-			$('#test-collection .test, .test-node').removeClass('hide').addClass('displayed');
-		}
-		else {
-			$('#cat-collection .category-item').removeClass('hide').addClass('displayed');
-		}
-		t.next().removeClass('active');
-		t.prev().removeClass('valid');
-	});
-	
+
 	/* if only header row is available for test, hide the table [TEST] */
 	$('.table-results').filter(function() {
 		return ($(this).find('tr').length == 1);
@@ -254,107 +233,97 @@ $(document).ready(function() {
 	);
 	
 	/* clicking the category tag will automatically filter tests by category */
-	$('.category').click(
-		function(evt) {
-			var label = $(this).text();
-			$('.category-toggle li').filter(
+	$('#test-details-wrapper').click(function(evt) {
+		var el = $(evt.target);
+		if (el.hasClass('category')) {
+			var label = el.text();
+			$('#category-toggle a').filter(
 				function() {
 					return ($(this).text() == label);
 				}
 			).click();
 		}
-	);
+	});
 	
 	/* filter tests by status [TEST] */
-	$('.tests-toggle li').click(function() {
+	$('#tests-toggle li').click(function() {
+		if ($(this).hasClass('clear')) {
+			resetFilters();
+			return;
+		}
+		
 		var opt = $(this).text().toLowerCase();
-		var opt2 = $('.category-toggle li.active').text().toLowerCase();
+		var cat = $('#category-toggle li.active').text().toLowerCase();
+
+		$('#tests-toggle li').removeClass('active');
+		$(this).addClass('active');
+		$('.test, .node-list > li').hide(0).removeClass('displayed');
 		
-		if (opt2 == 'choose your option' || opt2 == 'clear filters') {
-			opt2 = '';
-		}
-		
-		if (opt != 'choose your option') {
-			if (opt == 'clear filters') {
-				resetFilters();
-			}
-			else {
-				$('.tests-toggle li').removeClass('active');
-				$(this).addClass('active');
-				$('.test').hide(0).removeClass('displayed');
+		if (cat != '') {
+			$('.test').each(function() {
+				var t = $(this);
 				
-				if (opt2 != '') {
-					$('.test').each(function() {
-						var t = $(this);
-						
-						if (t.find('.category-assigned').hasClass(opt2)) {
-							if (t.hasClass(opt) || t.has('.test-node.' + opt).length > 0 || (t.hasClass('active') && $('#test-details-wrapper .test-node.' + opt).length > 0)) {
-								t.addClass('displayed').show(0);                                        
-							}
-						}
-					});
-				} 
-				else {
-					var activeTest = '';
-					if ($('#test-details-wrapper .test-node.' + opt).length > 0) {
-						activeTest = '.test.active,';
+				if (t.find('.category-assigned').hasClass(cat)) {
+					if (t.hasClass(opt) || t.has('.test-node.' + opt).length > 0) {
+						t.addClass('displayed').show(0);
 					}
-					$('.test').hide(0).removeClass('displayed');
-					$(activeTest + '.test:has(.test-node.' + opt + '), .test.' + opt).fadeIn(200).addClass('displayed');
 				}
-				
-				redrawCharts();
-			}
+			});
+		} 
+		else {
+			$('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).fadeIn(200).addClass('displayed');
 		}
+		
+		$('.test.displayed').eq(0).click();
+		redrawCharts();
 	});
 	
 	/* filter tests by category [TEST] */
-	$('.category-toggle li').click(function() {
-		var opt = $(this).text().toLowerCase();
-		var opt2 = $('.tests-toggle li.active').text().toLowerCase();
-		
-		if (opt2 == 'choose your option' || opt2 == 'clear filters') {
-			opt2 = '';
+	$('#category-toggle li').click(function() {
+		if ($(this).hasClass('clear')) {
+			resetFilters();
+			return;
 		}
 		
-		if (opt != 'choose your option') {
-			if (opt == 'clear filters') {
-				resetFilters();
-			} 
-			else {
-				$('.category-toggle li').removeClass('active');
-				$(this).addClass('active');
-				$('.test').hide(0).removeClass('displayed');
+		var opt = $(this).text().toLowerCase();
+		var status = $('#tests-toggle li.active').text().toLowerCase();
+		
+		$('#category-toggle li').removeClass('active');
+		$(this).addClass('active');
+		$('.test').hide(0).removeClass('displayed');
+		
+		if (status != '') {
+			$('.test').each(function() {
+				var t = $(this);
 				
-				if (opt2 != '') {
-					$('.test').each(function() {
-						var t = $(this);
-						
-						if (t.find('.category-assigned').hasClass(opt)) {
-							if (t.hasClass(opt2) || t.has('.test-node.' + opt2).length > 0 || (t.hasClass('active') && $('#test-details-wrapper .test-node.' + opt2).length > 0)) {
-								t.addClass('displayed').show(0);                                        
-							}
-						}
-					});
-				} 
-				else {
-					$('.test').each(function() {
-						if ($(this).find('.category-assigned').hasClass(opt)) {
-							$(this).fadeIn(200).addClass('displayed');
-						}
-					});
+				if (t.find('.category-assigned').hasClass(opt)) {
+					if (t.hasClass(status) || t.has('.test-node.' + status).length > 0) {
+						t.addClass('displayed').show(0);                                        
+					}
 				}
-				redrawCharts();
-			}
-		}                                
+			});
+		} 
+		else {
+			$('.test').each(function() {
+				if ($(this).find('.category-assigned').hasClass(opt)) {
+					$(this).fadeIn(200).addClass('displayed');
+				}
+			});
+		}
+		
+		$('.test.displayed').eq(0).click();
+		redrawCharts();                     
+	});
+	
+	/* clear filters button */
+	$('#clear-filters').click(function() {
+		resetFilters();
 	});
 
 	/* hide testrunner-logs view if no logs added [TESTRUNNER-LOGS] */
 	if ($('#testrunner-logs-view .card-panel > p').length == 0) {
 		$('.analysis > .testrunner-logs-view').addClass('hide');
 	}
-	
-	$('#enableDashboard').click();
 	
 	/* reset test/category filters on document load */
 	resetFilters();
@@ -363,9 +332,8 @@ $(document).ready(function() {
 /* action to perform when 'Clear Filters' option is selected [TEST] */
 function resetFilters() {
 	$('.dropdown-content li').removeClass('active');
-	$('.test').addClass('displayed').show(0);
+	$('.test, .node-list > li').addClass('displayed').show(0);
 	redrawCharts();
-	$('.dropdown-content li:first-child').addClass('active').click();
 }
 
 /* formats date in mm-dd-yyyy hh:mm:ss [UTIL] */
@@ -425,13 +393,13 @@ function refreshData() {
 	var el = $('#test-count-setting');
 	
 	totalTests = $('.test:not(:has(.test-node)), .test-node').length;
-	passedTests = $('.details-container .test-node.pass, .test.displayed .test-node.pass, .test.displayed.pass:not(.hasChildren)').length;
-	failedTests = $('.details-container .test-node.fail, .test.displayed .test-node.fail, .test.displayed.fail:not(.hasChildren)').length;
-	fatalTests = $('.details-container .test-node.fatal, .test.displayed .test-node.fatal, .test.displayed.fatal:not(.hasChildren)').length;
-	warningTests = $('.details-container .test-node.warning, .test.displayed .test-node.warning, .test.displayed.warning:not(.hasChildren)').length;
-	errorTests = $('.details-container .test-node.error, .test.displayed .test-node.error, .test.displayed.error:not(.hasChildren)').length;
-	skippedTests = $('.details-container .test-node.skip, .test.displayed .test-node.skip, .test.displayed.skip:not(.hasChildren)').length;
-	unknownTests = $('.details-container .test-node.unknown, .test.displayed .test-node.unknown, .test.displayed.unknown:not(.hasChildren)').length;
+	passedTests = $('.test.displayed .node-list > li.pass.displayed, .test.displayed.pass:not(.hasChildren)').length;
+	failedTests = $('.test.displayed .node-list > li.fail.displayed, .test.displayed.fail:not(.hasChildren)').length;
+	fatalTests = $('.test.displayed .node-list > li.fatal.displayed, .test.displayed.fatal:not(.hasChildren)').length;
+	warningTests = $('.test.displayed .node-list > li.warning.displayed, .test.displayed.warning:not(.hasChildren)').length;
+	errorTests = $('.test.displayed .node-list > li.error.displayed, .test.displayed.error:not(.hasChildren)').length;
+	skippedTests = $('.test.displayed .node-list > li.skip.displayed, .test.displayed.skip:not(.hasChildren)').length;
+	unknownTests = $('.test.displayed .node-list > li.unknown.displayed, .test.displayed.unknown:not(.hasChildren)').length;
 	
 	if (el.hasClass('parentWithoutNodes')) {
 		totalTests = $('.test.displayed').length;
@@ -445,13 +413,13 @@ function refreshData() {
 	}
 	else if (el.hasClass('childNodes')) {
 		totalTests = $('.test-node').length;
-		passedTests = $('.test.displayed .test-node.pass, .details-container .test-node.pass').length;
-		failedTests = $('.test.displayed .test-node.fail, .details-container .test-node.fail').length;
-		fatalTests = $('.test.displayed .test-node.fatal, .details-container .test-node.fatal').length;
-		warningTests = $('.test.displayed .test-node.warning, .details-container .test-node.warning').length;
-		errorTests = $('.test.displayed .test-node.error, .details-container .test-node.error').length;
-		skippedTests = $('.test.displayed .test-node.skip, .details-container .test-node.skip').length;
-		unknownTests = $('.test.displayed .test-node.unknown, .details-container .test-node.unknown').length;
+		passedTests = $('.test.displayed .node-list > li.pass.displayed').length;
+		failedTests = $('.test.displayed .node-list > li.fail.displayed').length;
+		fatalTests = $('.test.displayed .node-list > li.fatal.displayed').length;
+		warningTests = $('.test.displayed .node-list > li.warning.displayed').length;
+		errorTests = $('.test.displayed .node-list > li.error.displayed').length;
+		skippedTests = $('.test.displayed .node-list > li.skip.displayed').length;
+		unknownTests = $('.test.displayed .node-list > li.unknown.displayed').length;
 	}
 	
 	totalSteps = $('td.status').length;
@@ -570,3 +538,4 @@ function drawLegend(chart, id) {
   redrawCharts();
   
   $('#dashboard-view').addClass('hide');
+  
