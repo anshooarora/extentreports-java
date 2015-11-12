@@ -11,19 +11,28 @@ namespace RelevantCodes.ExtentReports.Model
         public string TestName
         {
             get;
-            private set;
+            internal set;
         }
 
         public string Source
         {
             get;
-            private set;
+            internal set;
         }
 
-        public Media(string TestName, string Source)
+        public Guid TestID
+        {
+            get;
+            internal set;
+        }
+
+        public Media() { }
+
+        public Media(string TestName, string Source, Guid TestID)
         {
             this.TestName = TestName;
             this.Source = Source;
+            this.TestID = TestID;
         }
     }
 }

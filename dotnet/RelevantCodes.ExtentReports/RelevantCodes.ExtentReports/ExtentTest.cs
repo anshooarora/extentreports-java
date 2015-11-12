@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using RelevantCodes.ExtentReports.Model;
+using RelevantCodes.ExtentReports.View;
 
 namespace RelevantCodes.ExtentReports
 {
@@ -41,9 +43,58 @@ namespace RelevantCodes.ExtentReports
             Log(Status, null, Details);
         }
 
-        public string AddScreenCapture(string ImgPath)
+        public string AddScreenCapture(string ImagePath)
         {
-            return null;
+            string screenCaptureHtml;
+
+            if (IsPathRelative(ImagePath))
+            {
+                screenCaptureHtml = ScreenCaptureHtml.GetSource(ImagePath).Replace("file:///", "");
+            }
+            else
+            {
+                screenCaptureHtml = ScreenCaptureHtml.GetSource(ImagePath);
+            }
+
+            var img = new ScreenCapture();
+            img.Source = screenCaptureHtml;
+            img.TestName = _test.Name;
+            img.TestID = _test.ID;
+
+            _test.ScreenCapture.Add(img);
+
+            return screenCaptureHtml;
+        }
+
+        public string AddScreencast(string ScreencastPath)
+        {
+            if (IsPathRelative(ScreencastPath))
+            {
+                ScreencastPath = ScreencastHtml.GetSource(ScreencastPath).Replace("file:///", "");
+            }
+            else
+            {
+                ScreencastPath = ScreencastHtml.GetSource(ScreencastPath);
+            }
+
+            var sc = new Screencast();
+            sc.Source = ScreencastPath;
+            sc.TestName = _test.Name;
+            sc.TestID = _test.ID;
+
+            _test.Screencast.Add(sc);
+
+            return ScreencastPath;
+        }
+
+        private Boolean IsPathRelative(string FilePath)
+        {
+            if (FilePath.StartsWith("http") || !Path.IsPathRooted(FilePath))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public ExtentTest AssignCategory(params string[] Category)
@@ -89,7 +140,7 @@ namespace RelevantCodes.ExtentReports
             return _testStatus;
         }
 
-        internal Test GetTest()
+        public Test GetTest()
         {
             return _test;
         }

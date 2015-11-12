@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RelevantCodes.ExtentReports.Model
+namespace RelevantCodes.ExtentReports.Tests
 {
-    internal class Screencast : Media
+    class Program
     {
-        public Screencast() : base() { }
+        static void Main(string[] args)
+        {
+        }
     }
 }

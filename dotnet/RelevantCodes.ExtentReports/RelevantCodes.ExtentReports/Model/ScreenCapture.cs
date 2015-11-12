@@ -8,6 +8,6 @@ namespace RelevantCodes.ExtentReports.Model
 {
     internal class ScreenCapture : Media
     {
-        public ScreenCapture(string TestName, string Source) : base(TestName, Source) { }
+        public ScreenCapture() : base() { }
     }
 }

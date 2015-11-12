@@ -13,6 +13,8 @@ namespace RelevantCodes.ExtentReports.View
             get
             {
                 return @"
+                    @using RelevantCodes.ExtentReports;
+                    @using RelevantCodes.ExtentReports.View;
                     <!DOCTYPE html>
                     <html>
                         <head>
@@ -25,11 +27,12 @@ namespace RelevantCodes.ExtentReports.View
                             <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
                             <meta name='robots' content='noodp, noydir' />
                             <meta name='viewport' content='width=device-width, initial-scale=1' />
+                            <title>@Raw(Model.ConfigurationMap[""documentTitle""])</title>
                             <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
-                            <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css' type='text/css'>
+                            <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
                             <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
                             <link href='http://cdn.rawgit.com/anshooarora/extentreports/master/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
-                            <title>ExtentReports 2.40</title>
+                            <style>@Raw(Model.ConfigurationMap[""css""])</style>
                         </head>
                         <body class='extent'>  
                             <nav>
@@ -44,18 +47,10 @@ namespace RelevantCodes.ExtentReports.View
                                     <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
                                 </ul>
                                 <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
-                                <span class='report-name'>Automation Report</span> <span class='report-headline'></span>
+                                <span class='report-name'>@Raw(Model.ConfigurationMap[""reportName""])</span> <span class='report-headline'>@Raw(Model.ConfigurationMap[""reportHeadline""])</span>
                                 <ul class='right hide-on-med-and-down nav-right'>
-                                    <li class='test-view-only'>
-                                        <input type='checkbox' id='enableDashboard' />
-                                        <label for='enableDashboard'>Enable Dashboard</label>
-                                    </li>
                                     <li>
-                                        <input type='checkbox' class='enabled' id='refreshCharts' />
-                                        <label for='refreshCharts'>Redraw Charts on Filter</label>
-                                    </li>
-                                    <li>
-                                        <span class='suite-started-time'></span>
+                                        <span class='suite-started-time'>@Model.StartTime</span>
                                     </li>
                                     <li>
                                         <span>v2.40.0</span>
@@ -80,19 +75,19 @@ namespace RelevantCodes.ExtentReports.View
                                         <div class='col l4 m4 s12'>
                                             <div class='card suite-total-steps'> 
                                                 <span class='panel-name'>Total Time Taken</span> 
-                                                <span class='suite-total-time-taken panel-lead'></span> 
+                                                <span class='suite-total-time-taken panel-lead'>@Model.GetRunTime()</span> 
                                             </div> 
                                         </div>
                                         <div class='col l2 m6 s6 suite-start-time'>
                                             <div class='card green-accent'> 
                                                 <span class='panel-name'>Start</span> 
-                                                <span class='panel-lead suite-started-time'></span> 
+                                                <span class='panel-lead suite-started-time'>@Model.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span> 
                                             </div> 
                                         </div>
                                         <div class='col l2 m6 s6 suite-end-time'>
                                             <div class='card pink-accent'> 
                                                 <span class='panel-name'>End</span> 
-                                                <span class='panel-lead suite-ended-time'></span> 
+                                                <span class='panel-lead suite-ended-time'>@DateTime.Now.ToString(""yyyy-MM-dd HH:mm:ss"")</span> 
                                             </div> 
                                         </div>
                                     </div>
@@ -157,14 +152,20 @@ namespace RelevantCodes.ExtentReports.View
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <!--SystemInfo-->
+									                    @foreach (KeyValuePair<string, string> entry in Model.SystemInfo)
+                                                        {
+                                                            <tr>
+                                                                <td>@entry.Key</td>
+                                                                <td>@entry.Value</td>
+                                                            </tr>
+                                                        }
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
                                     <div class='category-summary-view'>
-                                        <div class='col l2 m6 s12 hide'>
+                                        <div class='col l2 m6 s12'>
                                             <div class='card-panel'>
                                                 <span class='label info right'>Categories</span>
                                                 <table>
@@ -174,6 +175,12 @@ namespace RelevantCodes.ExtentReports.View
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @foreach (KeyValuePair<string, List<RelevantCodes.ExtentReports.Model.Test>> entry in Model.CategoryMap)
+                                                        {
+                                                            <tr>
+                                                                <td>@entry.Key</td>
+                                                            </tr>
+                                                        }
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -183,43 +190,175 @@ namespace RelevantCodes.ExtentReports.View
                                 <div id='test-view' class='row'>
                                     <div class='col s5'>
                                         <div class='card-panel filters'>
-                                            <div class='input-field no-margin-v'>
-                                                <input id='searchTests' type='text' class='validate'>
-                                                <span class='clear'><i class='mdi-navigation-close'></i></span>
-                                                <label class='active' for='searchTests'>Search Tests..</label>
+                                            <div>
+                                                <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button'><i class='mdi-action-subject icon'></i></a>
+                                                <ul id='tests-toggle' class='dropdown-content'>
+                                                    <li class='pass'><a href='#!'>Pass</a></li>
+                                                    <li class='fail'><a href='#!'>Fail</a></li>
+                                                    <li class='fatal hide'><a href='#!'>Fatal</a></li>
+                                                    <li class='error hide'><a href='#!'>Error</a></li>
+                                                    <li class='warning hide'><a href='#!'>Warning</a></li>
+                                                    <li class='skip'><a href='#!'>Skip</a></li>
+                                                    <li class='unknown hide'><a href='#!'>Unknown</a></li>
+                                                    <li class='divider'></li>
+                                                    <li class='clear'><a href='#!'>Clear Filters</a></li>
+                                                </ul>
+                                            </div>                                            
+                                            <div>
+                                                <a data-activates='category-toggle' data-constrainwidth='false' data-beloworigin='true' data-hover='true' href='#' class='category-toggle dropdown-button button'><i class='mdi-image-style icon'></i></a>
+                                                <ul id='category-toggle' class='dropdown-content'>
+                                                    <li class='divider'></li>
+                                                    @foreach (KeyValuePair<string, List<RelevantCodes.ExtentReports.Model.Test>> entry in Model.CategoryMap)
+                                                    {
+                                                        <li class='@entry.Key'><a href='#!'>@entry.Key</a></li>
+                                                    }
+                                                    <li class='clear'><a href='#!'>Clear Filters</a></li>
+                                                </ul>
                                             </div>
-                                            <div class='row'>
-                                                <div class='col s6'>
-                                                    <div class='input-field tests-toggle'>
-                                                        <select>
-                                                            <option value='0' selected>Choose your option</option>
-                                                            <option value='1'>Pass</option>
-                                                            <option value='2'>Fatal</option>
-                                                            <option value='3'>Fail</option>
-                                                            <option value='4'>Error</option>
-                                                            <option value='5'>Warning</option>
-                                                            <option value='6'>Skip</option>
-                                                            <option value='7'>Unknown</option>
-                                                            <option value='8'>Clear Filters</option>
-                                                        </select>
-                                                        <label>Filter By Status</label>
-                                                    </div>
+                                            <div>
+                                                <a id='clear-filters' alt='Clear Filters' title='Clear Filters'><i class='mdi-navigation-close icon'></i></a>
+                                            </div>
+                                            <div class='search right' alt='Search tests' title='Search tests'>
+                                                <div class='input-field left'>
+                                                    <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
                                                 </div>
-                                                <div class='col s6'>
-                                                    <div class='input-field category-toggle'>
-                                                        <select>
-                                                            <option value='0' selected>Choose your option</option>
-                                                            <option value='8'>Clear Filters</option>
-                                                        </select>
-                                                        <label>Filter By Category</label>
-                                                    </div>
-                                                </div>
+                                                <i class='mdi-action-search icon'></i>
+                                            </div>
+                                            <div>&nbsp;&middot;&nbsp;</div>
+                                            <div>
+                                                <a id='enableDashboard' alt='Enable Dashboard' title='Enable Dashboard'><i class='mdi-action-track-changes icon'></i></a>
+                                            </div> 
+                                            <div>
+                                                <a id='refreshCharts' alt='Refresh Charts on Filter' title='Refresh Charts on Filter' class='enabled'><i class='mdi-navigation-refresh icon'></i></i></a>
                                             </div>
                                         </div>
                                         <div class='card-panel no-padding-h no-padding-v'>
                                             <div class='wrapper'>
                                                 <ul id='test-collection' class='test-collection'>
-                                                    <!--%Test%-->
+                                                    @foreach (var extentTest in Model.TestList)
+                                                    {
+                                                        var test = extentTest.GetTest();
+                                                        <li class='collection-item test displayed active @test.Status.ToString().ToLower() @if(test.ContainsChildNodes){ <x> hasChildren </x> }' extentid='@test.ID'>
+                                                            <div class='test-head'>
+                                                                <span class='test-name'>@test.Name</span>
+                                                                <span class='test-status right label capitalize @test.Status.ToString().ToLower()'>@test.Status.ToString().ToLower()</span>
+                                                                <span class='category-assigned hide @test.GetCombinedCategories().ToLower()'></span>
+                                                            </div>
+                                                            <div class='test-body'>
+                                                                <div class='test-info'>
+                                                                    <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@test.StartTime</span>
+                                                                    <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@test.EndTime</span>
+                                                                    <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>@test.GetRunTime()</span>
+                                                                </div>
+                                                                <div class='test-desc'>@test.Description</div>
+                                                                <div class='test-attributes'>
+                                                                    @if (test.CategoryList != null && test.CategoryList.Count() > 0)
+                                                                    {
+                                                                        <div class='categories'>
+                                                                        @foreach (var cat in test.CategoryList)
+                                                                        {
+                                                                            <span class='category'>@cat.Name</span>
+                                                                        }
+                                                                        </div>
+                                                                    }
+                                                                    @if (test.AuthorList != null && test.AuthorList.Count() > 0)
+                                                                    {
+                                                                        <div class='authors'>
+                                                                        @foreach (var author in test.AuthorList)
+                                                                        {
+                                                                            <span class='author'>@author.Name</span>
+                                                                        }
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                                <div class='test-steps'>
+                                                                    @if (test.LogList != null && test.LogList.Count() > 0)
+                                                                    {
+                                                                        <table class='bordered table-results'>
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Status</th>
+                                                                                    <th>Timestamp</th>
+                                                                                    @if (test.LogList[0].StepName != null)
+                                                                                    {
+                                                                                        <th>StepName</th>
+                                                                                    }
+                                                                                    <th>Details</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var log in test.LogList)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class='status @log.LogStatus.ToString().ToLower()'><i class='fa fa-@Icon.GetIcon(@log.LogStatus)'></i></td>" +
+                                                                                        "<td class='timestamp'>@string.Format(\"{0:HH:mm:ss}\", log.Timestamp)</td>" +
+                                                                                        @"@if (test.LogList[0].StepName != null)
+                                                                                        {
+                                                                                            <td class='step-name'>@log.StepName</td>
+                                                                                        }
+                                                                                        <td class='step-details'>@Raw(log.Details)</td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    }
+                                                                    @if (test.ContainsChildNodes)
+                                                                    {
+                                                                        <ul class='collapsible node-list' data-collapsible='accordion'>
+                                                                            @foreach (var node in test.NodeList)
+                                                                            {
+                                                                                <li class='node-1x' extentid='@node.ID'>
+                                                                                    <div class='collapsible-header test-node @node.Status.ToString().ToLower()'>
+                                                                                        <div class='right test-info'>
+                                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@node.StartTime</span>
+                                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@node.EndTime</span>
+                                                                                            <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>@node.GetRunTime()</span>
+                                                                                            <span class='test-status label capitalize @node.Status.ToString().ToLower()'>@node.Status.ToString().ToLower()</span>
+                                                                                        </div>
+                                                                                        <div class='test-node-name'>@node.Name</div>
+                                                                                    </div>
+                                                                                    <div class='collapsible-body'>
+                                                                                        <div class='test-steps'>
+                                                                                            @if (node.LogList != null && node.LogList.Count() > 0)
+                                                                                            {
+                                                                                                <table class='bordered table-results'>
+                                                                                                    <thead>
+                                                                                                        <tr>
+                                                                                                            <th>Status</th>
+                                                                                                            <th>Timestamp</th>
+                                                                                                            @if (node.LogList[0].StepName != null)
+                                                                                                            {                                                
+                                                                                                                <th>StepName</th>
+                                                                                                            }
+                                                                                                            <th>Details</th>
+                                                                                                        </tr>
+                                                                                                    </thead>
+                                                                                                    <tbody>
+                                                                                                        @foreach (var log in node.LogList)
+                                                                                                        {
+                                                                                                            <tr>
+                                                                                                                <td class='status @log.LogStatus.ToString().ToLower()'><i class='fa fa-@Icon.GetIcon(@log.LogStatus)'></i></td>" +
+                                                                                                                "<td class='timestamp'>@string.Format(\"{0:HH:mm:ss}\", log.Timestamp)</td>" +
+                                                                                                                @"@if (node.LogList[0].StepName != null)
+                                                                                                                {
+                                                                                                                    <td class='step-name'>@log.StepName</td>
+                                                                                                                }
+                                                                                                                <td class='step-details'>@Raw(log.Details)</td>
+                                                                                                            </tr>
+                                                                                                        }
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </li>
+                                                                            }
+                                                                        </ul>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    }
                                                 </ul>
                                             </div>
                                         </div>
@@ -234,16 +373,54 @@ namespace RelevantCodes.ExtentReports.View
                                 </div>
                                 <div id='categories-view' class='row hide'>
                                     <div class='col s5'>
-                                        <div class='card-panel filters'>
-                                            <div class='input-field no-margin-v'>
-                                                <input id='searchCats' type='text' class='validate'>
-                                                <span class='clear'><i class='mdi-navigation-close'></i></span>
-                                                <label class='active' for='searchCats'>Search Categories..</label>
-                                            </div>
-                                        </div>
                                         <div class='card-panel no-padding-h no-padding-v vh100'>
                                             <div class='wrapper'>
                                                 <ul id='cat-collection' class='cat-collection'>
+                                                    @foreach (KeyValuePair<string, List<RelevantCodes.ExtentReports.Model.Test>> entry in Model.CategoryMap)
+                                                    {
+                                                        var passed = entry.Value.Where(x => x.Status.Equals(LogStatus.Pass)).Count();
+                                                        var failed = entry.Value.Where(x => x.Status.Equals(LogStatus.Fail)).Count();
+                                                        var others = entry.Value.Count - (passed + failed);
+
+                                                        <li class='category-item displayed @entry.Key.ToLower()'>
+				                                            <div class='cat-head'>
+					                                            <span class='category-name'>@entry.Key</span>
+				                                            </div>
+				                                            <div class='category-status-counts'>
+					                                            <span class='cat-pass label'>Pass: @passed</span>
+					                                            <span class='cat-fail label'>Fail: @failed</span>
+					                                            <span class='cat-other label'>Others: @others</span>
+				                                            </div>
+				                                            <div class='cat-body'>
+					                                            <div class='category-status-counts'>
+						                                            <span class='cat-pass label'>Pass: @passed</span>
+						                                            <span class='cat-fail label'>Fail: @failed</span>
+						                                            <span class='cat-other label'>Others: @others</span>
+					                                            </div>
+					                                            <div class='cat-tests'>
+						                                            <table class='bordered'>
+							                                            <thead>
+								                                            <tr>
+									                                            <th>Run Date</th>
+									                                            <th>Test Name</th>
+									                                            <th>Status</th>
+								                                            </tr>
+							                                            </thead>
+                                                                        <tbody>
+                                                                            @foreach (var test in entry.Value)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td>@test.StartTime.ToString(""MM/dd HH:mm:ss"")</td>
+                                                                                    <td><span class='category-link linked' extentid='@test.ID'>@test.Name</span></td>
+                                                                                    <td><div class='status label capitalize @test.Status.ToString().ToLower()'>@test.Status</div></td>
+                                                                                </tr>
+                                                                            }
+                                                                        </tbody>
+						                                            </table>
+					                                            </div>
+				                                            </div>
+			                                            </li>
+                                                    }
                                                 </ul>
                                             </div>
                                         </div>
@@ -259,6 +436,11 @@ namespace RelevantCodes.ExtentReports.View
                                 <div id='testrunner-logs-view' class='row hide'>
                                     <div class='col s12'>
                                         <div class='card-panel'>
+                                            <h5>TestRunner Logs</h5>
+                                            @foreach (var log in Model.TestRunnerLogs)
+                                            {
+                                                <p>@Raw(log)</p>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -311,12 +493,14 @@ namespace RelevantCodes.ExtentReports.View
                                 </div> 
                             </div>
                             <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
-                            <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js'></script>
+                            <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
                             <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
                             <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
                             <script src='http://cdn.rawgit.com/anshooarora/extentreports/master/dist-artifacts/extent.js' type='text/javascript'></script>
+                            <script>@Raw(Model.ConfigurationMap[""js""])</script>
                         </body>
-                    </html>".Replace("    ", "").Replace("\t", "").Replace("\r", "").Replace("\n", "");
+                    </html>
+                    ";//.Replace("    ", "").Replace("\t", "").Replace("\r", "").Replace("\n", "");
             }
         }
     }

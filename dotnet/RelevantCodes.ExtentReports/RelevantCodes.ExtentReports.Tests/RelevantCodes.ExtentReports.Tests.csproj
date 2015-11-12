@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{48FAC3CF-9E50-4CF1-B898-C2A54ADEC5F7}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{D78499D7-F3E1-4530-9C22-C4B5F77F535B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RelevantCodes.ExtentReports</RootNamespace>
-    <AssemblyName>RelevantCodes.ExtentReports</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>RelevantCodes.ExtentReports.Tests</RootNamespace>
+    <AssemblyName>RelevantCodes.ExtentReports.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,21 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RazorEngine, Version=3.7.3.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RazorEngine.3.7.3\lib\net40\RazorEngine.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,40 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\ConfigReader.cs" />
-    <Compile Include="DBReporter.cs" />
-    <Compile Include="DisplayOrder.cs" />
-    <Compile Include="ExtentReports.cs" />
-    <Compile Include="HTMLReporter.cs" />
-    <Compile Include="IReporter.cs" />
-    <Compile Include="LogStatus.cs" />
-    <Compile Include="Model\Author.cs" />
-    <Compile Include="Model\Category.cs" />
-    <Compile Include="Model\Log.cs" />
-    <Compile Include="Model\ExtentIterator.cs" />
-    <Compile Include="Model\Media.cs" />
-    <Compile Include="Model\ScreenCapture.cs" />
-    <Compile Include="Model\Screencast.cs" />
-    <Compile Include="Model\StandardSystemInfo.cs" />
-    <Compile Include="Model\Test.cs" />
-    <Compile Include="Model\TestAttribute.cs" />
-    <Compile Include="NetworkMode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\Report.cs" />
-    <Compile Include="View\Extent.cs" />
-    <Compile Include="View\Icon.cs" />
-    <Compile Include="View\ScreenCaptureHtml.cs" />
-    <Compile Include="View\ScreencastHtml.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Compile Include="ExtentTest.cs" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sources\Offline\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

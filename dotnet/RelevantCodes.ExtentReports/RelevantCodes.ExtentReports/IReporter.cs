@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using RelevantCodes.ExtentReports.Model;
+
 namespace RelevantCodes.ExtentReports
 {
     public interface IReporter

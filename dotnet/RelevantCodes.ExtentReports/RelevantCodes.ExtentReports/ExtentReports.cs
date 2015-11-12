@@ -4,25 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using RelevantCodes.ExtentReports.Config;
 using RelevantCodes.ExtentReports.Model;
 
 namespace RelevantCodes.ExtentReports
 {
     public class ExtentReports : Report
     {
-        public ExtentReports(string FilePath, bool ReplaceExisting = true, DisplayOrder Order = DisplayOrder.OldestFirst, NetworkMode NetworkMode = NetworkMode.Online)
+        public ExtentReports(string FilePath, DisplayOrder Order = DisplayOrder.OldestFirst)
         {
             this.FilePath = FilePath;
-            this.ReplaceExisting = ReplaceExisting;
             this.DisplayOrder = DisplayOrder;
-            this.NetworkMode = NetworkMode;
 
             Attach(new HTMLReporter());
         }
 
-        public ExtentReports StartReporter()
+        new public ExtentReports ConfigurationFromFile(string FilePath)
         {
-            throw new NotImplementedException();
+            base.ConfigurationFromFile(FilePath);
+
+            return this;
         }
 
         public ExtentTest StartTest(string Name, string Description = "")
@@ -43,13 +44,20 @@ namespace RelevantCodes.ExtentReports
             Test.GetTest().Ended = true;
 
             AddTest(Test.GetTest());
+
+            RemoveChildTests();
         }
 
         public ExtentReports AddSystemInfo(string Param, string Value)
         {
-            SystemInfo.Add(Param, Value);
+            SystemInfo[Param] = Value;
 
             return this;
+        }
+
+        public void AddTestRunnerOutput(string log)
+        {
+            TestRunnerLogs.Add(log);
         }
 
         new public void Flush()
@@ -57,11 +65,16 @@ namespace RelevantCodes.ExtentReports
             base.Flush();
         }
 
-        new public void Terminate()
+        public void Close()
         {
             Flush();
 
             base.Terminate();
+        }
+
+        private void RemoveChildTests()
+        {
+            TestList = TestList.Where(x => !x.GetTest().ChildNode).ToList();
         }
     }
 }

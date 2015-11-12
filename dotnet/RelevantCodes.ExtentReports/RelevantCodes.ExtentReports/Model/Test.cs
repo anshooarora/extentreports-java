@@ -35,6 +35,10 @@ namespace RelevantCodes.ExtentReports.Model
 
         public List<TestAttribute> CategoryList;
 
+        internal List<ScreenCapture> ScreenCapture;
+
+        internal List<Screencast> Screencast;
+
         public void AddCategory(string Category)
         {
             if (!CategoryList.Select(x => x.Name).ToList().Contains(Category))
@@ -67,6 +71,15 @@ namespace RelevantCodes.ExtentReports.Model
             return new ExtentIterator<Log>(LogList);
         }
 
+        public string GetCombinedCategories()
+        {
+            string cats = "";
+
+            CategoryList.ForEach(x => cats += " " + x.Name);
+
+            return cats;
+        }
+
         public void TrackLastRunStatus()
         {
             LogList.ForEach(x =>
@@ -91,7 +104,7 @@ namespace RelevantCodes.ExtentReports.Model
 
             if (test.ContainsChildNodes)
             {
-                NodeList.ForEach(x => UpdateStatusRecursive(x));
+                test.NodeList.ForEach(x => UpdateStatusRecursive(x));
             }
         }
 
@@ -166,8 +179,8 @@ namespace RelevantCodes.ExtentReports.Model
             AuthorList = new List<TestAttribute>();
             LogList = new List<Log>();
             NodeList = new List<Test>();
-            //ScreenCapture = new List<ScreenCapture>();
-            //Screencast = new List<Screencast>();
+            ScreenCapture = new List<ScreenCapture>();
+            Screencast = new List<Screencast>();
         }
 
         public const string ChildNodeClass = "hasChildren";

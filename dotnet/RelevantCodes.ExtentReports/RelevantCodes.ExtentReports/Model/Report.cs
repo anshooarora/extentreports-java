@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using RelevantCodes.ExtentReports.Config;
 using RelevantCodes.ExtentReports.Model;
 
-namespace RelevantCodes.ExtentReports
+namespace RelevantCodes.ExtentReports.Model
 {
     public abstract class Report
     {
@@ -15,6 +16,7 @@ namespace RelevantCodes.ExtentReports
         private List<IReporter> _reporterList;
         private LogStatus _reportStatus;
         private bool _terminated = false;
+        private string _configFile;
 
         public string FilePath { get; protected set; }
 
@@ -26,11 +28,17 @@ namespace RelevantCodes.ExtentReports
 
         public List<ExtentTest> TestList { get; protected set; }
 
+        public Dictionary<string, List<Test>> CategoryMap { get; private set; }
+
         public DateTime StartTime;
 
         internal Test Test { get; private set; }
 
         public Dictionary<string, string> SystemInfo { get; protected set; }
+
+        public List<string> TestRunnerLogs { get; protected set; }
+
+        public Dictionary<string, string> ConfigurationMap { get; private set; }
 
         protected void Attach(IReporter Reporter)
         {
@@ -54,6 +62,18 @@ namespace RelevantCodes.ExtentReports
             this.Test = Test;
 
             Test.PrepareFinalize();
+
+            Test.CategoryList.ForEach(x =>
+            {
+                if (!CategoryMap.ContainsKey(x.Name))
+                {
+                    CategoryMap.Add(x.Name, new List<Test>() { Test });
+                }
+                else
+                {
+                    CategoryMap[x.Name].Add(Test);
+                }
+            });
 
             _reporterList.ForEach(x => x.AddTest());
 
@@ -80,6 +100,19 @@ namespace RelevantCodes.ExtentReports
             }
 
             _reporterList.ForEach(x => x.Flush());
+        }
+
+        protected virtual void ConfigurationFromFile(string FilePath)
+        {
+            var configReader = new ConfigReader(FilePath);
+            ConfigurationMap = configReader.Read();
+        }
+
+        public string GetRunTime()
+        {
+            TimeSpan diff = DateTime.Now.Subtract(StartTime);
+
+            return String.Format("{0}h {1}m {2}s+{3}ms", diff.Hours, diff.Minutes, diff.Seconds, diff.Milliseconds);
         }
 
         private void UpdateReportStatus(LogStatus logStatus)
@@ -146,9 +179,11 @@ namespace RelevantCodes.ExtentReports
         public Report() 
         {
             _id = Guid.NewGuid();
-            
+
+            CategoryMap = new Dictionary<string, List<Test>>();
             StartTime = DateTime.Now;
             SystemInfo = new StandardSystemInfo().GetInfo();
+            TestRunnerLogs = new List<string>();
         }
     }
 }
