@@ -35,7 +35,7 @@ $(document).ready(function() {
 		var scrollTop = $('.charts').is(':visible') ? 425 : 100;
 		
 		if ($(window).scrollTop() > scrollTop) {
-			var margin = $('.charts').is(':visible') ? '-335px' : '-45px';
+			var margin = $('.charts').is(':visible') ? '-335px' : '-40px';
 			$('.details-view').css('position', 'fixed').css('margin-top', margin);
 		} 
 		else {
@@ -312,7 +312,7 @@ $(document).ready(function() {
 		}
 		
 		$('.test.displayed').eq(0).click();
-		redrawCharts();                     
+		redrawCharts();
 	});
 	
 	/* clear filters button */
@@ -349,12 +349,16 @@ function formatDt(d) {
 /* finds test by its name and extentId  [UTIL] */
 function findTestByNameId(name, id) {
 	$('.test').each(function() {
-		if ($(this).find('.test-name').text().trim() == name && $(this).attr('extentid') == id) {
+		var t = $(this);
+		
+		if (t.find('.test-name').text().trim() == name && t.attr('extentid') == id) {
 			$('.analysis > .test-view').click();
+			
 			$('html, body').animate({
 				scrollTop: $('.details-name').offset().top
 			}, 400);
-			$(this).click();
+			
+			t.click();
 			return;
 		}
 	});
@@ -363,9 +367,13 @@ function findTestByNameId(name, id) {
 /* refresh and redraw charts [DASHBOARD] */
 function redrawCharts() {
 	if (!$('#dashboard-view .charts').is(':visible') || !$('#refreshCharts').hasClass('enabled')) {
+		console.log('out');
 		return;
 	}
+	
+	console.log('in');
 	refreshData();
+	
 	testChart.segments[0].value = passedTests;
 	testChart.segments[1].value = failedTests;
 	testChart.segments[2].value = fatalTests;
@@ -381,10 +389,13 @@ function redrawCharts() {
 	stepChart.segments[5].value = warningSteps;
 	stepChart.segments[6].value = skippedSteps;
 	stepChart.segments[7].value = unknownSteps;
+	
 	$('#test-analysis, #step-analysis').html('');
 	$('ul.doughnut-legend').remove();
+	
 	testsChart();
 	stepsChart();
+	
 	$('ul.doughnut-legend').addClass('right');
 }
 
