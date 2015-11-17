@@ -15,13 +15,17 @@ import com.relevantcodes.extentreports.LogStatus;
 public class Icon {
     private static HashMap<LogStatus, String> map = new HashMap<LogStatus, String>();
     
-    public static void override(LogStatus status, String icon) {
+    public void override(LogStatus status, String icon) {
         map.put(status, icon);
     }
     
-    public static String getIcon(LogStatus status) {
+    public String getIcon(LogStatus status) {
         if (map.containsKey(status))
             return map.get(status);
+
+        if (status == null) {
+        	status = LogStatus.UNKNOWN;
+        }
         
         String s = status.toString().toLowerCase();
         

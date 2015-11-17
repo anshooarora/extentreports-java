@@ -21,4 +21,8 @@ public class ExtentManager {
         
         return extent;
     }
+    
+    public synchronized static ExtentReports getReporter() {
+    	return extent;
+    }
 }

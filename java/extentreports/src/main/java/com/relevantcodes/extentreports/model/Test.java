@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import com.relevantcodes.extentreports.LogCounts;
 import com.relevantcodes.extentreports.LogStatus;
+import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
 public class Test {
     /**
@@ -191,6 +192,10 @@ public class Test {
         return startTime;
     }
     
+    public String getRunDuration() {
+    	return DateTimeUtil.getDiff(endTime, startTime);
+    }
+    
     // ended time
     public void setEndedTime(Date endedTime) {
         this.endTime = endedTime;
@@ -268,6 +273,10 @@ public class Test {
         logList.add(log);
     }
     
+    public List<Log> getLogList() {
+    	return logList;
+    }
+    
     public int getLogColumnSize() {
         int logSize = 3;
         
@@ -307,6 +316,7 @@ public class Test {
     // nodes
     public void setNodeList(List<Test> nodeList) {
         this.nodeList = nodeList;
+        updateTestStatusRecursively(this); 
     }
     
     public void setNode(Test node) {

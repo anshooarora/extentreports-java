@@ -13,30 +13,73 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.relevantcodes.extentreports.model.SuiteTimeInfo;
 import com.relevantcodes.extentreports.model.Test;
+import com.relevantcodes.extentreports.model.TestAttribute;
+import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
 // Report abstract
 abstract class Report extends LogSettings {
+	private static final Logger logger = Logger.getLogger(Report.class.getName());
+	
     private String filePath;
     private DisplayOrder displayOrder;
     private NetworkMode networkMode;
     private Boolean replaceExisting;
     private LogStatus reportStatus = LogStatus.UNKNOWN;    
     private Date startedTime;
-    private String testRunnerLogs;
+    private List<String> testRunnerLogList;
     private List<IReporter> reporters;
     private Test test;
     private UUID reportId;
     private Boolean terminated = false;
+    private Map<String, List<Test>> categoryTestMap;
+    private Map<String, String> configurationMap;
     
     protected SuiteTimeInfo suiteTimeInfo;
     protected SystemInfo systemInfo;
     protected List<ExtentTest> testList;
+    protected File configFile = null;
+
+    protected List<ExtentTest> getTestList() {
+        return testList;
+    }
+    
+    protected Date getStartedTime() {
+        return startedTime;
+    }
+    
+    protected String getRunDuration() {
+    	return DateTimeUtil.getDiff(Calendar.getInstance().getTime(), startedTime);
+    }
+    
+    protected List<String> getTestRunnerLogList() {
+        return testRunnerLogList;
+    }
+
+    protected Map<String, String> getConfigurationMap() {
+    	return configurationMap;
+    }
+    
+    protected Map<String, List<Test>> getCategoryTestMap() {
+    	return categoryTestMap;
+    }
+    
+    protected SystemInfo getSystemInfo() {
+        return systemInfo;
+    }
+    
+    protected Map<String, String> getSystemInfoMap() {
+    	return getSystemInfo().getInfo();
+    }
     
     protected void attach(IReporter reporter) {
         if (reporters == null) {
@@ -53,9 +96,25 @@ abstract class Report extends LogSettings {
     }
     
     protected void addTest(Test test) {
-    	
         if (test.getEndedTime() == null) {
             test.setEndedTime(Calendar.getInstance().getTime());
+        }
+        
+        Iterator<TestAttribute> catIter = test.categoryIterator();
+        
+        // add each category and associated test
+        while (catIter.hasNext()) {
+        	TestAttribute category = catIter.next();
+        	
+        	if (!categoryTestMap.containsKey(category.getName())) {
+        		List<Test> testList = new ArrayList<Test>();
+        		testList.add(test);
+        		
+        		categoryTestMap.put(category.getName(), testList);
+        	}
+        	else {
+        		categoryTestMap.get(category.getName()).add(test);
+        	}
         }
         
         test.prepareFinalize();
@@ -96,7 +155,7 @@ abstract class Report extends LogSettings {
                 throw new IOException("Unable to write source: Stream closed.");
             } 
             catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "Stream closed", e);
             }
             
             return;
@@ -107,16 +166,12 @@ abstract class Report extends LogSettings {
         }
     }
     
-    protected void setTestRunnerLogs(String logs) {
-        testRunnerLogs = logs;
-        
-        for (IReporter reporter : reporters) {
-            reporter.setTestRunnerLogs();    
-        }
+    protected void loadConfig(Configuration config) {
+   		configurationMap = config.getConfigurationMap();
     }
     
-    protected String getTestRunnerLogs() {
-        return testRunnerLogs;
+    protected void setTestRunnerLogs(String logs) {
+        testRunnerLogList.add(logs);
     }
     
     protected Test getTest() {
@@ -160,29 +215,31 @@ abstract class Report extends LogSettings {
     protected NetworkMode getNetworkMode() {
         return networkMode;
     }
-    
-    protected SystemInfo getSystemInfo() {
-        return systemInfo;
-    }
-    
-    protected List<ExtentTest> getTestList() {
-        return testList;
-    }
-    
+        
     protected UUID getId() {
         return reportId;
     }
-    
-    protected Date getStartedTime() {
-        return startedTime;
-    }
-    
+
     protected LogStatus getStatus() {
         return reportStatus;
     }
     
     protected SuiteTimeInfo getSuiteTimeInfo() {
         return suiteTimeInfo;
+    }
+    
+    protected void setStartedTime(long startTime) {
+        suiteTimeInfo.setSuiteStartTimestamp(startTime);
+    }
+    
+    protected Report() {
+    	categoryTestMap = new HashMap<String, List<Test>>();
+    	systemInfo = new SystemInfo();
+        suiteTimeInfo = new SuiteTimeInfo();
+        testRunnerLogList = new ArrayList<String>();
+        
+        reportId = UUID.randomUUID();
+        startedTime = new Date(suiteTimeInfo.getSuiteStartTimestamp());
     }
     
     private void updateReportStatus(LogStatus logStatus) {
@@ -236,17 +293,5 @@ abstract class Report extends LogSettings {
         }
         
         reportStatus = LogStatus.UNKNOWN;
-    }
-    
-    protected void setStartedTime(long startTime) {
-        suiteTimeInfo.setSuiteStartTimestamp(startTime);
-    }
-    
-    protected Report() {
-        systemInfo = new SystemInfo();
-        suiteTimeInfo = new SuiteTimeInfo();
-        
-        reportId = UUID.randomUUID();
-        startedTime = new Date(suiteTimeInfo.getSuiteStartTimestamp());
     }
 }

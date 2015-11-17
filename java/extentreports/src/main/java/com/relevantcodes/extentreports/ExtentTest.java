@@ -20,24 +20,37 @@ import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Screencast;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
+import com.relevantcodes.extentreports.utils.ExceptionUtil;
 import com.relevantcodes.extentreports.view.ScreencastHtml;
 import com.relevantcodes.extentreports.view.ScreenshotHtml;
 
 /** 
- * Defines a node in the report file
+ * <p>
+ * Defines a node in the report file.
+ * 
+ * <p>
+ * By default, each started node is top-level. If <code>appendChild</code> method
+ * is used on any test, it automatically becomes a child-node. When this happens:
+ * 
+ * <ul>
+ * 	<li>parent test -> <code>hasChildNodes = true</code></li>
+ * 	<li>child test -> <code>isChildNode = true</code></li>
+ * </ul>
  * 
  * @author Anshoo
- *
  */
 public class ExtentTest {
     private LogStatus runStatus = LogStatus.UNKNOWN;
     private Test test;
     
     /**
-     * Builds a test toggle in the report with the TestName
+     * <p>
+     * This method creates a test node as a top-most level test
      * 
-     * @param testName Test name
-     * @param description A short description of the test
+     * @param testName 
+     * 		Test name
+     * @param description 
+     * 		A short description of the test
      */
     public ExtentTest(String testName, String description) {
         test = new Test();
@@ -47,17 +60,33 @@ public class ExtentTest {
     }
     
     /**
+     * <p>
      * Logs events for the test
      * 
-     * @param logStatus Status (see {@link LogStatus})
-     * @param stepName Name of the step
-     * @param details Details of the step
+     * <p>
+     * Log event with this signature is shown in the report with 4 columns:
+     * 
+     * <ul>
+     * 	<li>Timestamp</li>
+     * 	<li>Status</li>
+     * 	<li>StepName</li>
+     * 	<li>Details</li>
+     * </ul>
+     * 
+     * @param logStatus 
+     * 		Status (see {@link LogStatus})
+     * 
+     * @param stepName 
+     * 		Name of the step
+     * 
+     * @param details 
+     * 		Details of the step
      */
     public void log(LogStatus logStatus, String stepName, String details) {
         Log evt = new Log();
         
         evt.setLogStatus(logStatus);
-        evt.setStepName(stepName == null ? "" : stepName.trim()); 
+        evt.setStepName(stepName == null ? null : stepName.trim()); 
         evt.setDetails(details == null ? "" : details.trim());
                 
         test.setLog(evt);
@@ -67,20 +96,87 @@ public class ExtentTest {
     }
     
     /**
+     * <p>
      * Logs events for the test
      * 
-     * @param logStatus Status (see {@link LogStatus})
-     * @param details Details of the step
+     * <p>
+     * Log event with this signature is shown in the report with 4 columns:
+     * 
+     * <ul>
+     * 	<li>Timestamp</li>
+     * 	<li>Status</li>
+     * 	<li>StepName</li>
+     * 	<li>Details</li>
+     * </ul>
+     * 
+     * @param logStatus 
+     * 		Status (see {@link LogStatus})
+     * 
+     * @param stepName 
+     * 		Name of the step
+     * 
+     * @param t 
+     * 		Exception
      */
-    public void log(LogStatus logStatus, String details) {
-        log(logStatus, "", details);
+    public void log(LogStatus logStatus, String stepName, Throwable t) {
+    	log(logStatus, stepName, "<pre>" + ExceptionUtil.getStackTrace(t) + "</pre>");
     }
     
     /**
-     * Allows for adding a snapshot to the log event
+     * <p>
+     * Logs events for the test
      * 
-     * @param imgPath Path of the image
-     * @return A formed HTML img tag with the supplied path
+     * <p>
+     * Log event with this signature is shown in the report with 3 columns:
+     * 
+     * <ul>
+     * 	<li>Timestamp</li>
+     * 	<li>Status</li>
+     * 	<li>Details</li>
+     * </ul>
+     * 
+     * @param logStatus 
+     * 		Status (see {@link LogStatus})
+     * 
+     * @param t 
+     * 		Exception
+     */
+    public void log(LogStatus logStatus, Throwable t) {
+    	log(logStatus, null, "<pre>" + ExceptionUtil.getStackTrace(t) + "</pre>");
+    }
+    
+    /**
+     * <p>
+     * Logs events for the test
+     * 
+     * <p>
+     * Log event with this signature is shown in the report with 3 columns:
+     * 
+     * <ul>
+     * 	<li>Timestamp</li>
+     * 	<li>Status</li>
+     * 	<li>Details</li>
+     * </ul>
+     * 
+     * @param logStatus 
+     * 		Status (see {@link LogStatus})
+     * 
+     * @param details 
+     * 		Details of the step
+     */
+    public void log(LogStatus logStatus, String details) {
+        log(logStatus, null, details);
+    }
+    
+    /**
+     * <p>
+     * Allows for adding a snapshot to the log event details
+     * 
+     * @param imgPath 
+     * 		Path of the image
+     * 
+     * @return 
+     * 		A formed HTML img tag with the supplied path
      */
     public String addScreenCapture(String imgPath) {
         String screenCaptureHtml = isPathRelative(imgPath) 
@@ -98,10 +194,14 @@ public class ExtentTest {
     }
     
     /**
-     * Allows for adding a screen cast to the log event
+     * <p>
+     * Allows for adding a screen cast to the log event details
      * 
-     * @param screencastPath Path of the screencast
-     * @return A formed HTML video tag with the supplied path
+     * @param screencastPath 
+     * 		Path of the screencast
+     * 
+     * @return 
+     * 		A formed HTML video tag with the supplied path
      */
     public String addScreencast(String screencastPath) {
         String screencastHtml = isPathRelative(screencastPath) 
@@ -119,12 +219,19 @@ public class ExtentTest {
     }
     
     /**
+     * <p>
      * Assigns category to test
      * 
-     * <p><b>Usage:</b> test.assignCategory("ExtentAPI", "Regression");
+     * <p>
+     * Usage: <code>test.assignCategory("ExtentAPI");</code>
+     * <br>
+     * Usage: <code>test.assignCategory("ExtentAPI", "Regression", ...);</code>
      * 
-     * @param categories Category name
-     * @return {@link ExtentTest}
+     * @param categories 
+     * 		Category name
+     * 
+     * @return 
+     * 		A {@link ExtentTest} object
      */
     public ExtentTest assignCategory(String... categories) {
         List<String> list = new ArrayList<String>();
@@ -141,9 +248,13 @@ public class ExtentTest {
     }
     
     /**
+     * <p>
      * Assigns author(s) to test
      * 
-     * <p><b>Usage:</b> test.assignAuthor("Author1", "Author2", ...);
+     * <p>
+     * Usage: <code>test.assignAuthor("AuthorName");</code>
+     * <br>
+     * Usage: <code>test.assignAuthor("Author1", "Author2", ...);</code>
      * 
      * @param authors Author name
      * @return {@link ExtentTest}
@@ -163,10 +274,14 @@ public class ExtentTest {
     }
     
     /**
+     * <p>
      * Appends a child test to the current test
      * 
-     * @param node {@link ExtentTest}
-     * @return {@link ExtentTest}
+     * @param node 
+     * 		An {@link ExtentTest} object. Test that is added as the node.
+     * 
+     * @return 
+     * 		An {@link ExtentTest} object. Parent test which adds the node as its child.
      */
     public ExtentTest appendChild(ExtentTest node) {
         node.getTest().setEndedTime(Calendar.getInstance().getTime());
@@ -197,18 +312,22 @@ public class ExtentTest {
     }
     
     /**
+     * <p>
      * Provides the current run status of the test
      * 
-     * @return {@link LogStatus}
+     * @return 
+     * 		{@link LogStatus}
      */
     public LogStatus getRunStatus() {
         return runStatus;
     }
     
     /**
-     * Returns the underlying test
+     * <p>
+     * Returns the underlying test which controls the internal model
      * 
-     * @return {@link Test}
+     * @return 
+     * 		A {@link Test} object
      */
     public Test getTest() {        
         return test;

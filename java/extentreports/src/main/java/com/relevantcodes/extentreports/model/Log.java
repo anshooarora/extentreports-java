@@ -23,6 +23,10 @@ public class Log {
         return timestamp;
     }
     
+    public void setTimestamp(Date timestamp) {
+    	this.timestamp = timestamp;
+    }
+    
     public void setLogStatus(LogStatus logStatus) {
         this.logStatus = logStatus;
     }

@@ -15,6 +15,17 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateTimeUtil {
+	public static Date getDate(String date, String pattern) {
+		SimpleDateFormat sdfDate = new SimpleDateFormat(pattern);
+		
+		try {
+			return sdfDate.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
     public static String getFormattedDateTime(Date date, String pattern) {
         SimpleDateFormat sdfDate = new SimpleDateFormat(pattern);
 

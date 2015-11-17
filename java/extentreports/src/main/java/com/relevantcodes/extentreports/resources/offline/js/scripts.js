@@ -64,8 +64,7 @@ $(document).ready(function() {
     /* init */
     $('.button-collapse').sideNav({ menuWidth: menuWidth });
     $('select').material_select();
-    $('#enableDashboard').prop('checked', false);
-    $('#refreshCharts').prop('checked', true);
+    $('#refreshCharts').addClass('enabled').children('i').addClass('active');
     
     /* hide category toggle dropdown if no categories were added */
     if ($('#category-toggle > li').length <= 2) {
@@ -77,7 +76,7 @@ $(document).ready(function() {
         var scrollTop = $('.charts').is(':visible') ? 425 : 100;
         
         if ($(window).scrollTop() > scrollTop) {
-            var margin = $('.charts').is(':visible') ? '-335px' : '-45px';
+            var margin = $('.charts').is(':visible') ? '-335px' : '-40px';
             $('.details-view').css('position', 'fixed').css('margin-top', margin);
         } 
         else {
@@ -90,14 +89,14 @@ $(document).ready(function() {
     /* enable dashboard checkbox [TOPNAV] */
     $('#enableDashboard').click(function() {
         var t = $(this);
-        t.toggleClass('enabled');
+        t.toggleClass('enabled').children('i').toggleClass('active');
         $('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
         t.hasClass('enabled') ? redrawCharts() : null;
     });
     
     /* enable dashboard checkbox [TOPNAV] */
     $('#refreshCharts').click(function() {
-        $(this).toggleClass('enabled');
+        $(this).toggleClass('enabled').children('i').toggleClass('active');
     });
     
     /* menu-toggle [SIDE-NAV] */
@@ -179,24 +178,48 @@ $(document).ready(function() {
     if ($('.category').length == 0) {
         $('#slide-out > .analysis > .categories-view, .category-summary-view').addClass('hide').css('display', 'none');
     }
-    /* view cat info [CATEGORIES] */
+    
+    /* view category info [CATEGORIES] */
     $('.category-item').click(function() {
-        if ($('#cat-details-wrapper .cat-container').find('.cat-body').length > 0) {
-            $('.category-item').filter(function() {
-                return ($(this).find('.cat-body').length == 0);
-            }).append($('#cat-details-wrapper .cat-container').find('.cat-body'));
-        }
-        
         $('#cat-collection .category-item').removeClass('active');
-        $('#cat-details-wrapper .cat-container .cat-body').remove();
+        $('#cat-details-wrapper .cat-body').remove();
         
-        var el = $(this).addClass('active').find('.cat-body');
+        var el = $(this).addClass('active').find('.cat-body').clone();
         $('#cat-details-wrapper .cat-name').text($(this).find('.category-name').text());
         $('#cat-details-wrapper .cat-container').append($(el));
     });
     $('.category-item').eq(0).click();
     
-    /* navigation from cat-view to test-details [CATEGORIES] */
+    /* category filter by status */
+    $('#cat-details-wrapper').click(function(evt) {
+        var t = $(evt.target);
+        
+        if (t.is('.filter, .icon')) {
+            if (t.hasClass('icon')) {
+                t = t.parent();
+            }
+            
+            var wrap = $('#cat-details-wrapper');
+
+            /* push effect */
+            $('#cat-details-wrapper .filter').removeClass('active')
+            t.addClass('active');
+            
+            wrap.find('tbody > tr').removeClass('hide');
+            
+            if (t.hasClass('pass')) {
+                wrap.find('tbody > tr:not(.pass)').addClass('hide');
+            }
+            else if (t.hasClass('fail')) {
+                wrap.find('tbody > tr:not(.fail)').addClass('hide');
+            }
+            else {
+                wrap.find('tbody > tr.fail, tbody > tr.pass').addClass('hide');
+            }
+        }
+    });
+    
+    /* navigation from category-view to test-details [CATEGORIES] */
     $('.category-link').click(function() {
         var id = $(this).attr('extentid');
         findTestByNameId($(this).text().trim(), id);
@@ -330,6 +353,9 @@ $(document).ready(function() {
         var opt = $(this).text().toLowerCase();
         var status = $('#tests-toggle li.active').text().toLowerCase();
         
+        console.log(opt);
+        console.log(status);
+        
         $('#category-toggle li').removeClass('active');
         $(this).addClass('active');
         $('.test').hide(0).removeClass('displayed');
@@ -354,7 +380,7 @@ $(document).ready(function() {
         }
         
         $('.test.displayed').eq(0).click();
-        redrawCharts();                     
+        redrawCharts();
     });
     
     /* clear filters button */
@@ -391,12 +417,16 @@ function formatDt(d) {
 /* finds test by its name and extentId  [UTIL] */
 function findTestByNameId(name, id) {
     $('.test').each(function() {
-        if ($(this).find('.test-name').text().trim() == name && $(this).attr('extentid') == id) {
+        var t = $(this);
+        
+        if (t.find('.test-name').text().trim() == name && t.attr('extentid') == id) {
             $('.analysis > .test-view').click();
+            
             $('html, body').animate({
                 scrollTop: $('.details-name').offset().top
             }, 400);
-            $(this).click();
+            
+            t.click();
             return;
         }
     });
@@ -407,7 +437,9 @@ function redrawCharts() {
     if (!$('#dashboard-view .charts').is(':visible') || !$('#refreshCharts').hasClass('enabled')) {
         return;
     }
+    
     refreshData();
+    
     testChart.segments[0].value = passedTests;
     testChart.segments[1].value = failedTests;
     testChart.segments[2].value = fatalTests;
@@ -423,10 +455,13 @@ function redrawCharts() {
     stepChart.segments[5].value = warningSteps;
     stepChart.segments[6].value = skippedSteps;
     stepChart.segments[7].value = unknownSteps;
+    
     $('#test-analysis, #step-analysis').html('');
     $('ul.doughnut-legend').remove();
+    
     testsChart();
     stepsChart();
+    
     $('ul.doughnut-legend').addClass('right');
 }
 
@@ -550,9 +585,32 @@ function stepsChart() {
     var ctx = $('#step-analysis').get(0).getContext('2d');
     stepChart = new Chart(ctx).Doughnut(data, options);
 }
- 
+
+/* draw legend for test and step charts [DASHBOARD] */
+function drawLegend(chart, id) {
+    var helpers = Chart.helpers;
+    var legendHolder = document.getElementById(id);
+    legendHolder.innerHTML = chart.generateLegend();
+    
+    helpers.each(legendHolder.firstChild.childNodes, function(legendNode, index) {
+        helpers.addEvent(legendNode, 'mouseover', function() {
+            var activeSegment = chart.segments[index];
+            activeSegment.save();
+            activeSegment.fillColor = activeSegment.highlightColor;
+            chart.showTooltip([activeSegment]);
+            activeSegment.restore();
+        });
+    });
+    
+    Chart.helpers.addEvent(legendHolder.firstChild, 'mouseout', function() {
+        chart.draw();
+    });
+    $('#' + id).after(legendHolder.firstChild);
+}
+  
 testsChart(); stepsChart();
 $('ul.doughnut-legend').addClass('right');
 redrawCharts();
   
 $('#dashboard-view').addClass('hide');
+  

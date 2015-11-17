@@ -40,4 +40,8 @@ public class FileReaderEx {
 		
 		return null;
 	}
+	
+	public static String readAllText(File file) {
+		return readAllText(file.getAbsolutePath());
+	}
 }

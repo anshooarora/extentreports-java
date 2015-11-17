@@ -6,19 +6,30 @@
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com 
         -->
-        <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
+        <meta http-equiv='content-type' content='text/html; charset=<#if report.configurationMap??>${report.configurationMap["encoding"]}<#else>UTF-8</#if>' /> 
         <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <title>ExtentReports 2.40</title>
+        
+        <title>
+            <#if report.configurationMap??>
+                ${report.configurationMap["documentTitle"]}
+            </#if>
+        </title>
+        
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
         <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <!-- <link href='http://cdn.rawgit.com/anshooarora/extentreports/master/dist-artifacts/extent.css' type='text/css' rel='stylesheet' /> -->
-        <link href='file:///C:/Users/Anshoo/git/extentreports/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
-        <style></style>
+        <link href='http://cdn.rawgit.com/anshooarora/extentreports/master/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
+        
+        <style>
+            <#if report.configurationMap??>
+                ${report.configurationMap["styles"]}
+            </#if>
+        </style>
     </head>
-    <body class='extent'>  
+    <body class='extent'>
+        <!-- nav -->
         <nav>
             <ul id='slide-out' class='side-nav fixed'>
                 <li class='logo'>
@@ -31,17 +42,22 @@
                 <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
-            <span class='report-name'>Automation Report</span> <span class='report-headline'></span>
+            <span class='report-name'><#if report.configurationMap??>${report.configurationMap["reportName"]}</#if></span> <span class='report-headline'><#if report.configurationMap??>${report.configurationMap["reportHeadline"]}</#if></span>
             <ul class='right hide-on-med-and-down nav-right'>
                 <li>
-                    <span class='suite-started-time'>Nov 13, 2015 1:05:39 PM</span>
+                    <span class='suite-started-time'>${.now?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                 </li>
                 <li>
                     <span>v2.40.0</span>
                 </li>
             </ul>
         </nav>
+        <!-- /nav -->
+        
+        <!-- container -->
         <div class='container'>
+            
+            <!-- dashboard -->
             <div id='dashboard-view' class='row'>
                 <div class='time-totals'>
                     <div class='col l2 m4 s6'>
@@ -59,19 +75,19 @@
                     <div class='col l4 m4 s12'>
                         <div class='card suite-total-steps'> 
                             <span class='panel-name'>Total Time Taken</span> 
-                            <span class='suite-total-time-taken panel-lead'>0h 0m 0s+606ms</span> 
+                            <span class='suite-total-time-taken panel-lead'>${report.getRunDuration()}</span> 
                         </div> 
                     </div>
                     <div class='col l2 m6 s6 suite-start-time'>
                         <div class='card green-accent'> 
                             <span class='panel-name'>Start</span> 
-                            <span class='panel-lead suite-started-time'>Nov 13, 2015 1:05:39 PM</span> 
+                            <span class='panel-lead suite-started-time'>${report.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span> 
                         </div> 
                     </div>
                     <div class='col l2 m6 s6 suite-end-time'>
                         <div class='card pink-accent'> 
                             <span class='panel-name'>End</span> 
-                            <span class='panel-lead suite-ended-time'>Nov 13, 2015 1:05:39 PM</span> 
+                            <span class='panel-lead suite-ended-time'>${.now?datetime?string("yyyy-MM-dd HH:mm:ss")}</span> 
                         </div> 
                     </div>
                 </div>
@@ -136,22 +152,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <#list report.systemInfoMap?keys as info>
                                         <tr>
-                                            <td>OS</td>
-                                            <td>Windows 8.1</td>
+                                            <td>${info}</td>
+                                            <td>${report.systemInfoMap[info]}</td>
                                         </tr>
-                                        <tr>
-                                            <td>User Name</td>
-                                            <td>Anshoo</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Java Version</td>
-                                            <td>1.8.0_31</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Host Name</td>
-                                            <td>Sai</td>
-                                        </tr>
+                                    </#list>                                    
                                 </tbody>
                             </table>
                         </div>
@@ -168,12 +174,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <#list report.categoryTestMap?keys as category>
+                                        <tr>
+                                            <td>
+                                                ${category}
+                                            </td>
+                                        </tr>
+                                    </#list>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- /dashboard -->
+            
+            <!-- tests -->
             <div id='test-view' class='row'>
                 <div class='col s5'>
                     <div class='card-panel filters'>
@@ -191,6 +207,18 @@
                                 <li class='clear'><a href='#!'>Clear Filters</a></li>
                             </ul>
                         </div>
+                        <#if report.categoryTestMap?? && report.categoryTestMap?size != 0>
+                            <div>
+                                <a data-activates='category-toggle' data-constrainwidth='false' data-beloworigin='true' data-hover='true' href='#' class='category-toggle dropdown-button button'><i class='mdi-image-style icon'></i></a>
+                                <ul id='category-toggle' class='dropdown-content'>
+                                    <#list report.categoryTestMap?keys as category>
+                                        <li class='${category}'><a href='#!'>${category}</a></li>
+                                    </#list>
+                                    <li class='divider'></li>
+                                    <li class='clear'><a href='#!'>Clear Filters</a></li>
+                                </ul>
+                            </div>
+                        </#if>
                         <div>
                             <a id='clear-filters' alt='Clear Filters' title='Clear Filters'><i class='mdi-navigation-close icon'></i></a>
                         </div>
@@ -211,20 +239,36 @@
                     <div class='card-panel no-padding-h no-padding-v'>
                         <div class='wrapper'>
                             <ul id='test-collection' class='test-collection'>
-                                    <li class='collection-item test displayed active pass'>
+                                <#list report.testList as extentTest>
+                                    <#assign test = extentTest.getTest()>
+                                    <li class='collection-item test displayed active ${test.status}'>
                                         <div class='test-head'>
-                                            <span class='test-name'>passTest</span>
-                                            <span class='test-status right label capitalize pass'>pass</span>
-                                            <span class='category-assigned hide '></span>
+                                            <span class='test-name'>${test.name}</span>
+                                            <span class='test-status right label capitalize ${test.status}'>${test.status}</span>
+                                            <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case}</#list>'></span>
                                         </div>
                                         <div class='test-body'>
                                             <div class='test-info'>
-                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>Nov 13, 2015 1:05:36 PM</span>
-                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>Nov 13, 2015 1:05:38 PM</span>
-                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>0h 0m 2s+31ms</span>
+                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${test.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
+                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${test.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
+                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>${test.getRunDuration()}</span>
                                             </div>
-                                            <div class='test-desc'></div>
+                                            <div class='test-desc'>${test.description}</div>
                                             <div class='test-attributes'>
+                                                <#if test.categoryList?? && test.categoryList?size != 0>
+                                                    <div class='categories'>
+                                                        <#list test.categoryList as category>
+                                                            <span class='category text-white'>${category.name}</span>
+                                                        </#list>
+                                                    </div>
+                                                </#if>
+                                                <#if test.authorsList?? && test.authorsList?size != 0>
+                                                    <div class='authors'>
+                                                        <#list test.authorsList as author>
+                                                            <span class='author text-white'>${author.name}</span>
+                                                        </#list>
+                                                    </div>
+                                                </#if>
                                             </div>
                                             <div class='test-steps'>
                                                 <table class='bordered table-results'>
@@ -232,89 +276,78 @@
                                                         <tr>
                                                             <th>Status</th>
                                                             <th>Timestamp</th>
+                                                            <#if (test.logList[0].stepName)??>
+                                                                <th>StepName</th>
+                                                            </#if>
                                                             <th>Details</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        <#list test.logList as log>
                                                             <tr>
-                                                                <td class='status pass'><i class='fa fa-check-circle-o'></i></td>
-                                                                <td class='timestamp'>13:05:39</td>
-                                                                <td class='step-details'>Test passed</td>
+                                                                <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='fa fa-${Icon.getIcon(log.logStatus)}'></i></td>
+                                                                <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
+                                                                <#if test.logList[log?index].stepName?? && test.logList[log?index].stepName?has_content>
+                                                                    <td class='step-name'>${log.stepName}</td>
+                                                                </#if>
+                                                                <td class='step-details'>${log.details}</td>
                                                             </tr>
+                                                        </#list>
                                                     </tbody>
                                                 </table>
                                                 <ul class='collapsible node-list' data-collapsible='accordion'>
+                                                    <#if test.nodeList?? && test.nodeList?has_content>
+                                                        <@recurse_nodes nodeList=test.nodeList depth=1 />
+                                                        <#macro recurse_nodes nodeList depth>
+                                                            <#list nodeList as node>
+                                                                <li class='displayed ${node.status} node-${depth}x'>
+                                                                    <div class='collapsible-header test-node ${node.status}'>
+                                                                        <div class='right test-info'>
+                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
+                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
+                                                                            <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
+                                                                            <span class='test-status label capitalize ${node.status}'>${node.status}</span>
+                                                                        </div>
+                                                                        <div class='test-node-name'>${node.name}</div>
+                                                                    </div>
+                                                                    <div class='collapsible-body'>
+                                                                        <div class='test-steps'>
+                                                                            <table class='bordered table-results'>
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Status</th>
+                                                                                        <th>Timestamp</th>
+                                                                                        <#if (node.logList[0].stepName)??>
+                                                                                            <th>StepName</th>
+                                                                                        </#if>
+                                                                                        <th>Details</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <#list node.logList as log>
+                                                                                        <tr>
+                                                                                            <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='fa fa-${Icon.getIcon(log.logStatus)}'></i></td>
+                                                                                            <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
+                                                                                            <#if node.logList[log?index].stepName?? && node.logList[log?index].stepName?has_content>
+                                                                                                <td class='step-name'>${log.stepName}</td>
+                                                                                            </#if>
+                                                                                            <td class='step-details'>${log.details}</td>
+                                                                                        </tr>
+                                                                                    </#list>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <@recurse_nodes nodeList=node.nodeList depth=depth+1 />
+                                                            </#list>
+                                                        </#macro>
+                                                    </#if>
                                                 </ul>
                                             </div>
                                         </div>
                                     </li>
-                                    <li class='collection-item test displayed active fail'>
-                                        <div class='test-head'>
-                                            <span class='test-name'>intentionalFailure</span>
-                                            <span class='test-status right label capitalize fail'>fail</span>
-                                            <span class='category-assigned hide '></span>
-                                        </div>
-                                        <div class='test-body'>
-                                            <div class='test-info'>
-                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>Nov 13, 2015 1:05:34 PM</span>
-                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>Nov 13, 2015 1:05:36 PM</span>
-                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>0h 0m 2s+25ms</span>
-                                            </div>
-                                            <div class='test-desc'></div>
-                                            <div class='test-attributes'>
-                                            </div>
-                                            <div class='test-steps'>
-                                                <table class='bordered table-results'>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Status</th>
-                                                            <th>Timestamp</th>
-                                                            <th>Details</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                                <td class='status fail'><i class='fa fa-times-circle-o'></i></td>
-                                                                <td class='timestamp'>13:05:39</td>
-                                                                <td class='step-details'><pre>java.lang.AssertionError: expected [warning] but found [pass]
-	at org.testng.Assert.fail(Assert.java:94)
-	at org.testng.Assert.failNotEquals(Assert.java:494)
-	at org.testng.Assert.assertEquals(Assert.java:123)
-	at org.testng.Assert.assertEquals(Assert.java:165)
-	at com.relevantcodes.extentreports.testngexamples.ReportListenerTest.intentionalFailure(ReportListenerTest.java:18)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:84)
-	at org.testng.internal.Invoker.invokeMethod(Invoker.java:714)
-	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
-	at org.testng.TestRunner.privateRun(TestRunner.java:767)
-	at org.testng.TestRunner.run(TestRunner.java:617)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1224)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1149)
-	at org.testng.TestNG.run(TestNG.java:1057)
-	at org.testng.remote.RemoteTestNG.run(RemoteTestNG.java:111)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:204)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:175)
-</pre></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                                <ul class='collapsible node-list' data-collapsible='accordion'>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
+                                </#list>
                             </ul>
                         </div>
                     </div>
@@ -327,11 +360,66 @@
                     </div>
                 </div>
             </div>
+            <!-- /tests -->
+            
+            <!-- categories -->
             <div id='categories-view' class='row hide'>
                 <div class='col s5'>
                     <div class='card-panel no-padding-h no-padding-v vh100'>
                         <div class='wrapper'>
                             <ul id='cat-collection' class='cat-collection'>
+                                <#list report.categoryTestMap?keys as category>
+                                    <#assign testList = report.categoryTestMap[category]>
+                                    <#assign passed = 0, failed = 0, others = 0>
+                                    <#list testList as test>
+                                        <#if test.status == "pass">
+                                            <#assign passed = passed + 1>
+                                        <#elseif test.status == "fail">
+                                            <#assign failed = failed + 1>
+                                        <#else>
+                                            <#assign others = others + 1>
+                                        </#if>
+                                    </#list>
+                                    <li class='category-item displayed'>
+                                        <div class='cat-head'>
+                                            <span class='category-name'>${category}</span>
+                                        </div>
+                                        <div class='category-status-counts'>
+                                            <span class='pass label'>Pass: ${passed}</span>
+                                            <span class='fail label'>Fail: ${failed}</span>
+                                            <span class='other label'>Others: ${others}</span>
+                                        </div>
+                                        <div class='cat-body'>
+                                            <div class='category-status-counts'>
+                                                <div class='button-group'>
+                                                    <a href='#!' class='pass label filter'>Pass <span class='icon'>${passed}</span></a>
+                                                    <a href='#!' class='fail label filter'>Fail <span class='icon'>${failed}</span></a>
+                                                    <a href='#!' class='other label filter'>Others <span class='icon'>${others}</span></a>
+                                                </div>
+                                            </div>
+                                            <div class='cat-tests'>
+                                                <table class='bordered'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Run Date</th>
+                                                            <th>Test Name</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <#list testList as test>
+                                                            <tr class='${test.status}'>
+                                                                <td>${test.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                                                                <td><span class='category-link linked'>${test.name}</span></td>
+                                                                <td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
+                                                            </tr>
+                                                        </#list>
+                                                    <tbody>
+                                                </table>
+                                            </div>
+                                        </div> 
+                                    </li>
+                                </#list>
                             </ul>
                         </div>
                     </div>
@@ -344,15 +432,25 @@
                     </div>
                 </div>
             </div>
+            <!-- /categories -->
+            
+            <!-- testrunner logs -->
             <div id='testrunner-logs-view' class='row hide'>
                 <div class='col s12'>
                     <div class='card-panel'>
                         <h5>TestRunner Logs</h5>
-                        Started passTest
+                        <#list report.testRunnerLogList as trLog>
+                            <p>${trLog}</p>
+                        </#list>
                     </div>
                 </div>
             </div>
+            <!-- /testrunner logs -->
+            
         </div>
+        <!-- /container -->
+        
+        <!-- test dashboard counts setting -->
         <div id='test-count-setting' class='modal bottom-sheet'> 
             <div class='modal-content'> 
                 <h5>Configure Tests Count Setting</h5> 
@@ -368,7 +466,10 @@
             <div class='modal-footer'> 
                 <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
             </div> 
-        </div> 
+        </div>
+        <!-- /test dashboard counts setting -->
+        
+        <!-- filter for step status -->
         <div id='step-status-filter' class='modal bottom-sheet'> 
             <div class='modal-content'> 
                 <h5>Select status</h5> 
@@ -395,16 +496,22 @@
                 <br> 
                 <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-unknown'> 
                 <label for='step-dashboard-filter-unknown'>Unknown</label> 
-            </div> 
+            </div>
             <div class='modal-footer'> 
                 <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
             </div> 
         </div>
+        <!-- /filter for step status -->
+        
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <!-- <script src='http://cdn.rawgit.com/anshooarora/extentreports/master/dist-artifacts/extent.js' type='text/javascript'></script> -->
-        <script src='file:///C:/Users/Anshoo/git/extentreports/dist-artifacts/extent.js' type='text/javascript'></script>
+        <script src='http://cdn.rawgit.com/anshooarora/extentreports/master/dist-artifacts/extent.js' type='text/javascript'></script>
+        <script>
+            <#if report.configurationMap??>
+                ${report.configurationMap["scripts"]}
+            </#if>
+        </script>
     </body>
 </html>

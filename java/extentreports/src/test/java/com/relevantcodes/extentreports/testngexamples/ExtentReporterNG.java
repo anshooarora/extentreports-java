@@ -59,13 +59,13 @@ public class ExtentReporterNG implements IReporter {
 				
 				for (String group : result.getMethod().getGroups())
 					test.assignCategory(group);
-				
-				String message = "Test " + status.toString().toLowerCase() + "ed";
-				
-				if (result.getThrowable() != null)
-					message = "<pre>" + result.getThrowable().getMessage() + "</pre>";
-				
-				test.log(status, message);
+
+				if (result.getThrowable() != null) {
+					test.log(status, result.getThrowable());
+				}
+				else {
+					test.log(status, "Test " + status.toString().toLowerCase() + "ed");
+				}
 				
 				extent.endTest(test);
 			}

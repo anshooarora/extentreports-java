@@ -15,14 +15,10 @@ import com.relevantcodes.extentreports.model.SystemProperties;
 
 class SystemInfo {
     private SystemProperties systemProperties;
-    
-    public void clear() {
-        systemProperties.getSystemInfo().clear();
-    }
-    
+
     public Map<String, String> getInfo() {
         if (systemProperties == null) {
-            return null;            
+            return null;
         }
         
         return systemProperties.getSystemInfo();

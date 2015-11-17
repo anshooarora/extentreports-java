@@ -8,7 +8,7 @@
 
 package com.relevantcodes.extentreports;
 
-abstract class LogSettings {
+public abstract class LogSettings {
     protected static String getLogTimeFormat() {
     	return "HH:mm:ss";
     }
@@ -19,5 +19,9 @@ abstract class LogSettings {
     
     protected static String getLogDateTimeFormat() {
     	return getLogDateFormat() + " " + getLogTimeFormat();
+    }
+    
+    protected static String getLongDateTimeFormat() {
+    	return "MMM dd, yyyy hh:mm:ss a";
     }
 }
