@@ -6,113 +6,58 @@
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
-        <link rel='stylesheet' href='../../css/kube.min.css'>
-        <link rel='stylesheet' href='../../css/dropit.css'>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css">
         <link rel='stylesheet' href='../../css/css.css'>
         <title>ExtentReports</title>
     </head>
     <body>
-        <div class='container'>
-            <div class='header'>
-                <div class='units-row'>
-                    <div class='unit-centered unit-80 top-unit'>
-                        <div class='left'>
-                            <div class='logo'>
-                                <a href='http://extentreports.relevantcodes.com'>ExtentReports</a>
-                            </div>
-                        </div>
-                        <div class='menu right'>
-                            <ul class='menu-items'>
-                                <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
-								<li class='menu-item'><a href='../../faqs.html'>FAQs</a></li>
-								<!--<li class='menu-item'><a href='../users/showcase.html'>Showcase</a></li>-->
-                                <div class="btn-group active">
-									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Java</button>
-									<ul class="dropdown-menu">
-										<li class='menu-item dropdown-item'><a href="#">Version 1 Docs</a></li>
-										<li class='menu-item dropdown-item'><a href="../version2/docs.html">Version 2 Docs</a></li>
-									</ul>
-								</div>
-                                <li class='menu-item'><a href='../../net/docs.html'>.NET</a></li>
-								<li class='menu-item'><a href='../../extentmerge/docs.html'>ExtentMerge</a></li>
-								<li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='slider'>
-                
-            </div>
-            <div class='main'>
-                <div class='intro-area bg-gray'>
-                    <div class='units-row'>
-                        <div class='unit-80 centered top-unit'>
-                            <div class="units-row end">
-								<br />
-								<br />
-								<div class="alert">
-									Support for version 1 ended on September 31, 2015.  Consider upgrading to version 2.
-								</div>
-							
-                                <h1>Reviews</h1>
-                                <p>Below are a few reviews and usage examples by users:</p>
-                                <ul>
-                                    <li>Advance Selenium Reporting with Screenshots by Mukesh Otwani: <a href='http://learn-automation.com/advance-selenium-reporting-with-screenshots/'>here</a></li>
-                                    <li>Creating HTML reports for your Selenium tests using ExtentReports by Bas Dijkstra: <a href='http://www.ontestautomation.com/creating-html-reports-for-your-selenium-tests-using-extentreports/'>here</a></li>
-                                    <li>Selenium web driver tests using testng and HTML reports using ExtentReports by Madhu: <a href='http://tipsontestautomation.blogspot.com/'>here</a></li>
-									<li>ExtentReports in Selenium Webdriver by Prashanth KK: <a href='http://automationplace.blogspot.in/2015/06/extentreports-in-selenium-webdriver.html'>here</a></li>
-                                </ul>
-                                <h1>Samples</h1>
-                                <p>Version 1.x can create 2 types of grids, sample for each below:</p>
-                                <ul>
-                                    <li><a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>Standard Grid</a></li>
-                                    <li><a href='http://relevantcodes.com/Tools/ExtentReports/ExtentMasonry.html'>Masonry Grid</a></li>
-                                </ul>
-                                <h1>Docs</h1>
-                                <ul class='index'>
-                                    <li><a href='#whats-new'>What's new in version 1.41</a>
-                                    <li><a href='#author'>Owner / Developers</a>
-                                    <li><a href='#contributors'>Contributors</a>
-                                    <li><a href='#maven'>Maven / pom.xml</a></li>
-                                    <li><a href='#basic-usage'>Basic Usage</a>
-                                        <ul>
-                                            <li><a href='#initialize-report'>Initializing Report</a></li>
-                                            <li><a href='#logging'>Creating step logs</a></li>
-                                            <li><a href='#append-existing'>Appending to an existing report</a></li>
-                                            <li><a href='#add-test-desc'>Adding a test description</a></li>
-                                            <li><a href='#add-snapshot'>Inserting a snapshot</a></li>
-                                            <li><a href='#attach-snapshot'>Attaching a Snapshot without Status</a></li>
-                                            <li><a href='#relative-paths'>Using Relative paths for snapshots</a></li>
-                                            <li><a href='#add-label'>Inserting a label</a></li>
-                                            <li><a href='#add-link'>Inserting a link</a></li>
-                                            <li><a href='#add-html'>Inserting custom HTML</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href='#examples'>Examples</a>
-                                        <ul>
-                                            <li><a href='#basic-example'>Basic Usage Example</a></li>
-                                            <li><a href='#testng-basic-example'>TestNG Basic Example</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href='#customization'>Customization</a>
-                                        <ul>
-                                            <li><a href='#custom-css'>Using custom CSS</a></li>
-                                            <li><a href='#report-title'>Changing Report Title</a></li>
-                                            <li><a href='#themes'>Themes*</a></li>
-                                            <li><a href='#custom-js'>Using custom JS</a></li>
-                                            <li><a href='#add-remove-footer'>Add/Remove Extent footer</a></li>
-                                            <li><a href='#change-status-icon'>Changing status icon</a></li>
-                                            <li><a href='#change-summary'>Change top-level summary</a></li>
-                                            <li><a href='#change-chart-title'>Change chart title</a></li>
-                                            <li><a href='#change-img-size'>Change Screenshot Size</a></li>
-                                            <li><a href='#caller-class-display'>CallerClass display setting</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href='#license'>License</a></li>
-                                </ul>
-<h2>What's new in version 1.41</h2>
+		<div class='navbar-fixed'>
+			<nav>
+				<ul class='right hide-on-med-and-down'>
+					<div class='logo'>
+						ExtentReports
+						<div class='headline'>Created by Anshoo Arora</div>
+					</div>
+				</ul>
+				
+				<ul>
+					<li><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+					<li><a href='../../faqs.html'>FAQs</a></li>
+					<li><a class='dropdown-button' href='#!' data-activates='dropdown1'>Java<i class='mdi-navigation-arrow-drop-down right'></i></a></li>
+					<ul id='dropdown1' class='dropdown-content'>
+						<li><a href='#'>Version 1 Docs</a></li>
+						<li><a href='../version2/docs.html'>Version 2 Docs</a></li>
+					</ul>
+					<li><a href='../../net/docs.html'>.NET</a></li>
+					<li><a href='../../extentmerge/docs.html'>ExtentMerge</a></li>
+					<li>
+						<a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		
+		<div class='container'>
+			<div class='row'>
+				<div class='col l8 m12 s12'>
+					<div class='card-panel'>
+
+<h2>Reviews</h2>
+<p>Below are a few reviews and usage examples by users:</p>
+<ul>
+	<li>Advance Selenium Reporting with Screenshots by Mukesh Otwani: <a href='http://learn-automation.com/advance-selenium-reporting-with-screenshots/'>here</a></li>
+	<li>Creating HTML reports for your Selenium tests using ExtentReports by Bas Dijkstra: <a href='http://www.ontestautomation.com/creating-html-reports-for-your-selenium-tests-using-extentreports/'>here</a></li>
+	<li>Selenium web driver tests using testng and HTML reports using ExtentReports by Madhu: <a href='http://tipsontestautomation.blogspot.com/'>here</a></li>
+	<li>ExtentReports in Selenium Webdriver by Prashanth KK: <a href='http://automationplace.blogspot.in/2015/06/extentreports-in-selenium-webdriver.html'>here</a></li>
+</ul>
+<h2>Samples</h2>
+<p>Version 1.x can create 2 types of grids, sample for each below:</p>
+<ul>
+	<li><a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>Standard Grid</a></li>
+	<li><a href='http://relevantcodes.com/Tools/ExtentReports/ExtentMasonry.html'>Masonry Grid</a></li>
+</ul>
+<h3>What's new in version 1.41</h3>
 <p>The following have been added to the the latest version:</p>
 
 <ol>
@@ -122,17 +67,17 @@
     <li>New test search functionality that finds tests by matching keywords in the test name and description.</li>
 </ol>
     
-<h3 id='author'>Owner / Developer</h3>
+<h4 id='author'>Owner / Developer</h4>
 <p>This library is developed and maintained by:</p>
 <ul>
     <li>Anshoo Arora</li>
 </ul>
 
-<h3 id='contributors'>Contributors</h3>
+<h4 id='contributors'>Contributors</h4>
 <ul>
     <li>Bas Dijkstra</li>
 </ul>
-<h2 id='maven'>Maven</h2>                                
+<h3 id='maven'>Maven</h3>                                
 <p>Simply add the following to your pom.xml:</p>
 <pre><code class='xml'>
 &lt;dependency>
@@ -141,10 +86,10 @@
     &lt;version&gt;1.41&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
-<h2 id='basic-usage'>Basic Usage</h2>
+<h3 id='basic-usage'>Basic Usage</h3>
 This section demonstrates basic methods that you will be using with this library.
 
-<h3 id='initialize-report'>Initializing Report</h3>
+<h4 id='initialize-report'>Initializing Report</h4>
 <p>To initialize, simple call the init method:</p>
 
 <pre><code>
@@ -173,7 +118,7 @@ where:
 
 <p class='note'>By default, the oldest test appears at the top. To change this behavior, or to allow the latest test to appear at the top, use the code below. Report started in one order will remain in that order unless the report is over-written or a new report is created.</p>
 
-<h3 id='logging'>Creating step logs</h3>
+<h4 id='logging'>Creating step logs</h4>
 <p>It is possible to log your execution steps in 3 ways:</p>
 <pre><code class='java'>
 // log(LogStatus, details)
@@ -193,27 +138,27 @@ extent.log(LogStatus.INFO, "Image", "Image example:", "C:\\img.png");
     <li>#2 and #3 utilize 4 columns (Timestamp, Status, StepName, Details)</li>
 </ul>
 
-<h3 id='append-existing'>Appending to an existing report</h3>
+<h4 id='append-existing'>Appending to an existing report</h4>
 <p>Easy! Simply use <code>overwriteExisting = false</code> setting to initialize and your tests will be appended to your existing report:</p>
 <pre><code class='java'>
 extent.init("path-to-file", false);
 </code></pre>
 
-<h3 id='add-test-desc'>Adding a Test Description</h3>
+<h4 id='add-test-desc'>Adding a Test Description</h4>
 <p>You can insert a <a href='http://relevantcodes.com/Tools/ExtentReports/snapshots/description.png'>description</a> for your test using:</p>
 <pre><code class='java'>
 // startTest(String testName, String testDescription)
 extent.startTest("Test - With Description", "This description will show up under Test.");
 </code></pre>
 
-<h3 id='add-snapshot'>Inserting a Snapshot</h3>
+<h4 id='add-snapshot'>Inserting a Snapshot</h4>
 <p>You can insert <a href='http://relevantcodes.com/Tools/ExtentReports/snapshots/image.png'>snapshot</a> as a link or directly into the report using:</p>
 <pre><code class='java'>
 // log(LogStatus logStatus, String stepName, String details, String screenCapturePath)
 extent.log(LogStatus.INFO, "Image", "Image example:", "C:\\img.png");
 </code></pre>
 
-<h3 id='attach-snapshot'>Attaching a Snapshot without Status</h3>
+<h4 id='attach-snapshot'>Attaching a Snapshot without Status</h4>
 <p>You can attach a snapshot to the report (v1.2+) without having to specify status using:</p>
 <pre><code class='java'>
 // void attachScreenshot(path, details)
@@ -221,7 +166,7 @@ extent.attachScreenshot("pathToImg.png", "Attach screenshot without status.");
 </code></pre>
 <p>Attaching a screen-shot is not counted as a step and will not show under Execution Info either.</p>
 
-<h3 id='relative-paths'>Using Relative paths for snapshots</h3>
+<h4 id='relative-paths'>Using Relative paths for snapshots</h4>
 <p>Relative paths starting with "." and "/" characters are supported:</p>
 <pre><code class='java'>
 // ./pathToImg.png
@@ -233,7 +178,7 @@ extent.log(LogStatus.INFO, "Image", "Image example:", "/pathToImg.png");
 
 <p>If you using an absolute path, "file:///" will be automatically be appended for the image to load.</p>
 
-<h3 id='add-label'>Inserting a Label</h3>
+<h4 id='add-label'>Inserting a Label</h4>
 <p>You can add labels to your log events using <code>&lt;span class='label labelName'&gt;label message&lt;/span&gt;</code>.</p>
 <img class='bordered-img center' src='http://relevantcodes.com/Tools/ExtentReports/snapshots/labels.png' />    
 <pre><code class='java'>
@@ -243,22 +188,22 @@ extent.log(LogStatus.INFO, "Example: &lt;span class='label info'&gt;info&lt;/spa
 extent.log(LogStatus.INFO, "Example: &lt;span class='label warn'&gt;warning&lt;/span&gt;");
 </code></pre>
 
-<h3 id='add-link'>Inserting a Link</h3>
+<h4 id='add-link'>Inserting a Link</h4>
 <p>You can use HTML anywhere in this report. Simply do this to insert a link:</p>
 <pre><code class='java'>
 extent.log(LogStatus.PASS, "Link", "Usage: <a href='http://relevantcodes.com'>link</a>.");
 </code></pre>
 
-<h3 id='add-html'>Inserting Custom HTML</h3>
+<h4 id='add-html'>Inserting Custom HTML</h4>
 <p>Just like above, you can insert any HTML tag to your report:</p>
 <pre><code class='java'>
 test.log(LogStatus.INFO, "HTML", "Usage: &lt;span style='font-weight:bold;'&gt;BOLD TEXT&lt;/span&gt;");
 </code></pre>
 
-<h2 id='examples'>Examples</h2>
+<h3 id='examples'>Examples</h3>
 <p>This section shows basic examples to get started with ExtentReports.</p>
 
-<h3 id='basic-example'>Basic Usage Example</h3>
+<h4 id='basic-example'>Basic Usage Example</h4>
 <p>A simple example with a static method.</p>
 <pre><code class='java'>
 import com.relevantcodes.extentreports.*;
@@ -296,7 +241,7 @@ public class Main {
 }
 </code></pre>
 
-<h3 id='testng-basic-example'>TestNG Basic Example</h3>
+<h4 id='testng-basic-example'>TestNG Basic Example</h4>
 <p>A basic TestNG example that creates a local class instance.</p>
 
 <pre><code class='java'>
@@ -329,11 +274,11 @@ public class TestNGExample {
 }
 </code></pre>
 
-<h2 id='customization'>Customization</h2>
+<h3 id='customization'>Customization</h3>
 
 <p>You can customize the report as you want. Changes can be easily made to the overall CSS by bringing your own custom css, changes to the icons can be made by picking your own from font-awesome etc. Below is some basic usage to demonstrate this library's customization.</p>
 
-<h3 id='custom-css'>Using custom CSS</h3>
+<h4 id='custom-css'>Using custom CSS</h4>
 
 <p>You can use your custom CSS directly in the document or load a custom css-stylesheet.</p>
 
@@ -349,13 +294,13 @@ extent.config().addCustomStyles(style);
 extent.config().addCustomStylesheet("C:\\css.css");
 </code></pre>
 
-<h3 id='report-title'>Changing Report Title</h3>
+<h4 id='report-title'>Changing Report Title</h4>
 <p>It is possible to change the title of the report file (v1.2+) using:</p>
 <pre><code class='java'>
 extent.config().documentTitle("MyTestReport");
 </code></pre>
 
-<h3 id='themes'>Themes*</h3>
+<h4 id='themes'>Themes*</h4>
 
 <p>ExtentReports can be heavily themed/modified to suit a layout as per your needs. The example below shows a Cucumber like color-scheme:</p>
 
@@ -377,7 +322,7 @@ extent.config().addCustomStyles(css);
 
 <p>The above will result in the following <a href='http://relevantcodes.com/Tools/ExtentReports/ExtentTheme.html'>output</a>. Its a small change, but quite different from the <a href='http://relevantcodes.com/Tools/ExtentReports/Extent.html'>original</a>.</p>
 
-<h3 id='custom-js'>Using custom JS</h3>
+<h4 id='custom-js'>Using custom JS</h4>
 
 <p>Just like having the ability to change document styles, you can also add your own custom scripts.</p>
 
@@ -385,7 +330,7 @@ extent.config().addCustomStyles(css);
 extent.config().insertJS("$('.test').click(function(){ alert('test clicked'); });");
 </code></pre>
 
-<h3 id='add-remove-footer'>Add/Remove Extent footer</h3>
+<h4 id='add-remove-footer'>Add/Remove Extent footer</h4>
 
 <p>Its possible to add/remove the Extent footer using the following configuration:</p>
 
@@ -397,7 +342,7 @@ extent.config().useExtentFooter(false);
 extent.config().useExtentFooter(true);
 </code></pre>
 
-<h3 id='change-status-icon'>Change status icons</h3>
+<h4 id='change-status-icon'>Change status icons</h4>
 
 <p>Not a lot of people would do this, but you can choose to use your own icons for log status (PASS, FAIL, WARNING etc.) by choosing one of the icons from Fontawesome website: http://fortawesome.github.io/Font-Awesome/icons/.</p>
 
@@ -405,13 +350,13 @@ extent.config().useExtentFooter(true);
 extent.config().statusIcon(LogStatus.PASS, "check-circle");
 </code></pre>
 
-<h3 id='change-summary'>Changing the top-level summary</h3>
+<h4 id='change-summary'>Changing the top-level summary</h4>
 <p>You can remove or add your own summary by using the following config:</p>
 <pre><code class='java'>
 extent.config().reportHeadline("My custom report summary.");
 </code></pre>
 
-<h3 id='change-chart-title'>Change chart title</h3>
+<h4 id='change-chart-title'>Change chart title</h4>
 <p>It is possible (v1.4+) to customize the chart-title text by using the following config:</p>
 <pre><code class='java'>
 extent.config()
@@ -420,20 +365,20 @@ extent.config()
 </code></pre>
 <img class='bordered-img' src='./img/chart-title.png' />   
 
-<h3 id='change-img-size'>Change Screenshot size</h3>
+<h4 id='change-img-size'>Change Screenshot size</h4>
 <p>The default screenshot size attached to the report is <code>50%</code>.  It is possible to change screenshot size (v1.4+) by specifying a percentage:</p>
 <pre><code class='java'>
 extent.config().setImageSize("30%");
 </code></pre>
 
-<h3 id='caller-class-display'>CallerClass display setting</h3>
+<h4 id='caller-class-display'>CallerClass display setting</h4>
 <p>It is now possible to hide the caller class by this simple setting:</p>
 <pre><code class='java'>
 extent.config().displayCallerClass(false);
 </code></pre>
 <img class='bordered-img' src='http://relevantcodes.com/Tools/ExtentReports/snapshots/caller-class.png' />  
 
-<h2 id='license'>License</h2>
+<h3 id='license'>License</h3>
 <h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>
 <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
 
@@ -444,31 +389,63 @@ extent.config().displayCallerClass(false);
 </ol>
 
 <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Anshoo Arora or RelevantCodes.com BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='footer bg-inverse'>
-                <div class='units-row'>
-                    <div class='unit-100'>
-                        <div class='unit-80 centered top-unit'>
-                            <div class='left'>
-                                <span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
-                            </div>
-                            <div class='right'>
-                                <span><a href='http://relevantcodes.com/extentreports-for-selenium/'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+					
+					</div>
+				</div>
+				
+				<div class='col l4 hide-on-med-and-down'>
+					<div class='card-panel toc'>
+						<ul class='index'>
+							<li><a href='#whats-new'>What's new in version 1.41</a>
+							<li><a href='#author'>Owner / Developers</a>
+							<li><a href='#contributors'>Contributors</a>
+							<li><a href='#maven'>Maven / pom.xml</a></li>
+							<li><a href='#basic-usage'>Basic Usage</a>
+								<ul>
+									<li><a href='#initialize-report'>Initializing Report</a></li>
+									<li><a href='#logging'>Creating step logs</a></li>
+									<li><a href='#append-existing'>Appending to an existing report</a></li>
+									<li><a href='#add-test-desc'>Adding a test description</a></li>
+									<li><a href='#add-snapshot'>Inserting a snapshot</a></li>
+									<li><a href='#attach-snapshot'>Attaching a Snapshot without Status</a></li>
+									<li><a href='#relative-paths'>Using Relative paths for snapshots</a></li>
+									<li><a href='#add-label'>Inserting a label</a></li>
+									<li><a href='#add-link'>Inserting a link</a></li>
+									<li><a href='#add-html'>Inserting custom HTML</a></li>
+								</ul>
+							</li>
+							<li><a href='#examples'>Examples</a>
+								<ul>
+									<li><a href='#basic-example'>Basic Usage Example</a></li>
+									<li><a href='#testng-basic-example'>TestNG Basic Example</a></li>
+								</ul>
+							</li>
+							<li><a href='#customization'>Customization</a>
+								<ul>
+									<li><a href='#custom-css'>Using custom CSS</a></li>
+									<li><a href='#report-title'>Changing Report Title</a></li>
+									<li><a href='#themes'>Themes*</a></li>
+									<li><a href='#custom-js'>Using custom JS</a></li>
+									<li><a href='#add-remove-footer'>Add/Remove Extent footer</a></li>
+									<li><a href='#change-status-icon'>Changing status icon</a></li>
+									<li><a href='#change-summary'>Change top-level summary</a></li>
+									<li><a href='#change-chart-title'>Change chart title</a></li>
+									<li><a href='#change-img-size'>Change Screenshot Size</a></li>
+									<li><a href='#caller-class-display'>CallerClass display setting</a></li>
+								</ul>
+							</li>
+							<li><a href='#license'>License</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
-        <script src="../../js/kube.min.js"></script>
-        <script src="../../js/dropit.js"></script>
-        <script src="../../js/scripts.js"></script> 
-		<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>
+        <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+		<script src="../../js/scripts.js"></script> 
     </body>
 </html>
+	

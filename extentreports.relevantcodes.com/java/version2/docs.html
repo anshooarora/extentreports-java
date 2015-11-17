@@ -6,155 +6,90 @@
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
-        <link rel='stylesheet' href='../../css/kube.min.css'>
-        <link rel='stylesheet' href='../../css/dropit.css'>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css">
         <link rel='stylesheet' href='../../css/css.css'>
         <title>ExtentReports</title>
     </head>
     <body>
-        <div class='container'>
-            <div class='header'>
-                <div class='units-row'>
-                    <div class='unit-centered unit-80 top-unit'>
-                        <div class='left'>
-                            <div class='logo'>
-                                <a href='http://extentreports.relevantcodes.com'>ExtentReports</a>
-                            </div>
-                        </div>
-                        <div class='menu right'>
-                            <ul class='menu-items'>
-                                <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
-                                <li class='menu-item'><a href='../../faqs.html'>FAQs</a></li>
-								<!--<li class='menu-item'><a href='../users/showcase.html'>Showcase</a></li>-->
-                                <div class="btn-group active">
-									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Java</button>
-									<ul class="dropdown-menu">
-										<li class='menu-item dropdown-item'><a href="../version1/docs.html">Version 1 Docs</a></li>
-										<li class='menu-item dropdown-item'><a href="#">Version 2 Docs</a></li>
-									</ul>
-								</div>
-                                <li class='menu-item'><a href='../../net/docs.html'>.NET</a></li>
-								<li class='menu-item'><a href='../../extentmerge/docs.html'>ExtentMerge</a></li>
-                                <li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='slider'>
-                
-            </div>
-             <div class='main'>
-                <div class='intro-area bg-gray'>
-                    <div class='units-row'>
-                        <div class='unit-80 centered top-unit'>
-                            <div class="units-row end">
-							
-							<br />
-							<br />
-							<div class="alert">
-								Merge your reports to create trends using ExtentMerge. Sample: <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentMerge.html'>linky</a>
-							</div>
-							
-							<h2>Reviews</h2>
-							<p>Below are a few reviews and usage examples by users:</p>
-							<ul>
-								<li>ExtentReports review by Richard Kieft (also shows simplifying logs with the @Rule annotation): <a href='http://www.kieftsoft.nl/?p=81'>here</a></li>
-								<li> Advance Selenium Reporting with Screenshots Part 2 by Mukesh Otwani: <a href='http://learn-automation.com/advance-selenium-reporting-with-screenshots-part-2/'>here</a></li>
-								<li>ExtentReports comparison between 2.03.1 & 2.04 by Rogelio "CAGS" Caga-anan Jr: <a href='http://relevantcodes.com/Tools/ExtentReports2/reviews/ExtentReport Review.pptx'>here</a></li>
-								<li>Selenium HTML result reporting using ExtentReports Version 2 by Sunil Patro: <a href='http://www.qavalidation.com/2015/07/selenium-extentreport-2x.html'>here</a></li>
-							</ul>
-							
-							<h2>Examples</h2>
-							<ul>
-								<li>Virender has created an example of parallel execution using TestNG. View project <a href='https://github.com/virenv/ExtentReportUsage'>here</a></li>
-								<li>Using the ExtentReports TestNG listener in Selenium Page Object tests by Bas Dijkstra: <a href='http://www.ontestautomation.com/using-the-extentreports-testng-listener-in-selenium-page-object-tests/'>here</a></li>
-							</ul>
-							
-                            <h2>Sample</h2>
-                            <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.</p>
-                            
-							<h2>Screenshots</h2>
-							<img class='bordered-img center' src='./img/analysis.png' width='80%' />
-							<img class='bordered-img center' src='./img/testview.png' width='80%' />
-							
-                            <h2>Current Version</h2>
-                            <p>2.10</p>							
-							
-                            <h1>Docs</h1>
-                            <ul class='index'>
-                                <li><a href='#whats-new'>What's new in 2.10</a></li>
-                                <li><a href='#author'>Owner / Developer</a>
-								<li><a href='#contributors'>Contributors</a>
-                                <li><a href='#beta-testers'>Beta Testers</a>
-                                <li><a href='#maven'>Maven</a>
-                                <li><a href='#basic-usage'>Basic Usage</a>
-                                    <ul>
-                                        <li><a href='#initialize-report'>Initializing Report</a>
-											<ul>
-												<li><a href='#offline-report'>Offline Report</a></li>
-											</ul>
-										</li>
-										<li><a href='#custom-reporter'>Starting Custom Reporters</a></li>
-                                        <li><a href='#write-to-report'>Writing to Report</a></li>
-                                        <li><a href='#append-to-report'>Appending to an Existing Report</a></li>
-                                        <li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
-                                        <li><a href='#create-step-logs'>Creating Step Logs</a></li>
-										<li><a href='#current-runstatus'>Getting Current RunStatus of Test</a></li>
-                                        <li><a href='#assign-category'>Assign Test Categories</a></li>
-                                        <li><a href='#child-tests'>Adding Child Tests</a></li>
-                                        <li><a href='#insert-custom-html'>Inserting Custom HTML</a></li>
-                                        <li><a href='#insert-screenshots'>Insert Screenshots</a></li>
-                                        <li><a href='#insert-screencast'>Insert Screencasts</a></li>
-                                        <li><a href='#add-system-info'>Adding System Info</a></li>
-                                        <li><a href='#close-extent'>Clear all resources</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href='#examples'>Examples</a>
-                                    <ul>
-                                        <li><a href='#basic-usage-example'>Basic Usage Example</a></li>
-                                        <li><a href='#basic-junit-selenium-example'>JUnit Selenium Example</a></li>
-                                        <li><a href='#testng-selenium-assert'>TestNG Selenium Example With Soft Asserts</a></li>
-                                        <li><a href='#testng-listener'>Creating TestNG Listener using ExtentReports</a></li>
-                                        <li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href='#parallel-runs'>Creating Parallel Runs</a>
-                                    <ul>
-                                        <li><a href='#parallel-classes'>Parallel Classes</a></li>
-                                        <li><a href='#parallel-methods'>Parallel Methods</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href='#customization'>Customization</a>
-                                    <ul>
-                                        <li><a href='#using-custom-css'>Using custom CSS</a></li>
-                                        <li><a href='#using-custom-js'>Using custom JS</a></li>
-                                        <li><a href='#document-title'>Setting Document/Report Title</a></li>
-                                        <li><a href='#report-name'>Setting Report Name</a></li>
-                                        <li><a href='#report-headline'>Setting Report Headline</a></li>
-										<li><a href='#themes'>Creating Themes Using Customization*</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href='#license'>License</a></li>
-                            </ul>
-                            
-<h2 id='whats-new'>What's new in 2.10</h2>
-<p>Version 2.10 launched on 10/09/2015 and it is a complete redesign from the previous version 2.05. Here is what's new:</p>
+		<div class='navbar-fixed'>
+			<nav>
+				<ul class='right hide-on-med-and-down'>
+					<div class='logo'>
+						ExtentReports
+						<div class='headline'>Created by Anshoo Arora</div>
+					</div>
+				</ul>
+				
+				<ul>
+					<li><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+					<li><a href='../../faqs.html'>FAQs</a></li>
+					<li><a class='dropdown-button' href='#!' data-activates='dropdown1'>Java<i class='mdi-navigation-arrow-drop-down right'></i></a></li>
+					<ul id='dropdown1' class='dropdown-content'>
+						<li><a href='../version1/docs.html'>Version 1 Docs</a></li>
+						<li><a href='#'>Version 2 Docs</a></li>
+					</ul>
+					<li><a href='../../net/docs.html'>.NET</a></li>
+					<li><a href='../../extentmerge/docs.html'>ExtentMerge</a></li>
+					<li>
+						<a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		
+		<div class='container'>
+			<div class='row'>
+				<div class='col l8 m12 s12'>
+					<div class='card-panel content'>
+
+<h2 id='reviews'>Reviews</h2>
+<p>Below are a few reviews and usage examples by users:</p>
 <ul>
-	<li>Allows different types of charts for tests:
-		<ul>
-			<li>Parent tests only</li>
-			<li>Parent tests without child tests + child tests</li>
-			<li>Child tests only</li>
-		</ul>
-	</li>
-	<li>You can create a database file for your runs and store all your run data to it. It is recommended to use a single database file for all your runs. To start the DB reporter, use:
+	<li>ExtentReports review by Richard Kieft (also shows simplifying logs with the @Rule annotation): <a href='http://www.kieftsoft.nl/?p=81'>here</a></li>
+	<li> Advance Selenium Reporting with Screenshots Part 2 by Mukesh Otwani: <a href='http://learn-automation.com/advance-selenium-reporting-with-screenshots-part-2/'>here</a></li>
+	<li>ExtentReports comparison between 2.03.1 & 2.04 by Rogelio "CAGS" Caga-anan Jr: <a href='http://relevantcodes.com/Tools/ExtentReports2/reviews/ExtentReport Review.pptx'>here</a></li>
+	<li>Selenium HTML result reporting using ExtentReports Version 2 by Sunil Patro: <a href='http://www.qavalidation.com/2015/07/selenium-extentreport-2x.html'>here</a></li>
+</ul>
+
+<h2 id='user-examples'>User Examples</h2>
+<ul>
+	<li>Virender has created an example of parallel execution using TestNG. View project <a href='https://github.com/virenv/ExtentReportUsage'>here</a></li>
+	<li>Using the ExtentReports TestNG listener in Selenium Page Object tests by Bas Dijkstra: <a href='http://www.ontestautomation.com/using-the-extentreports-testng-listener-in-selenium-page-object-tests/'>here</a></li>
+</ul>
+
+<h2 id='sample'>Sample</h2>
+<p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.</p>
+
+<h2 id='screenshots'>Screenshots</h2>
+<img class='bordered-img center' src='./img/analysis.png' width='80%' />
+<img class='bordered-img center' src='./img/testview.png' width='80%' />
+
+<h2 id='current-version'>Current Version</h2>
+<p>2.40.0-beta</p>			
+                            
+<h2 id='whats-new'>What's new in 2.40.0-beta</h2>
+<p>Version 2.40.0-beta launched on Nov 16. Here is what's new:</p>
+<ul>
+	<li>All configuration and customization will be performed using an external file using the below methods. See <a href='#configuration'>Configuration</a> section for more details.
 <pre><code class='java'>
-extent.startReporter(ReporterType.DB, "path-to-db-file");
+loadConfig(File configFile);
+loadConfig(Class clazz, String fileName);
+loadConfig(Class clazz, String basePackagePath, String fileName);
 </code></pre>
-	<p class='alert'>It is highly recommended to use a single database file if you plan to use <a href='../../extentmerge/docs.html'>ExtentMerge</a> - which merges information from all your runs into a single report. Using a single database file will make it very easy to merge reports as you do not have to keep track of each file to be merged. See <a href='../../extentmerge/docs.html#database'>here</a> for more info.</p>
 	</li>
+	<li>2 new <code>log</code> methods have been now added to accept exception directly and show as a code block in the report:
+<pre><code class='java'>
+log(LogStatus logStatus, String stepName, Throwable t);
+log(LogStatus logStatus, Throwable t);
+</code></pre>
+	</li>
+	<li>Add the author of the test using:
+<pre><code class='java'>
+test.assignAuthor("Anshoo");
+</code></pre>
+	</li>
+	<li>Possble to filter tests by status in the category view</li>
 </ul>
 
 <h3 id='author'>Owner / Developer</h3>
@@ -203,10 +138,10 @@ ExtentReports extent = ExtentReports(String filePath)
 </code></pre>
 <ul>
 	<li><strong>filePath</strong> - path of the file, in .htm or .html format</li>
-	<li><strong>replaceExisting</strong>
+	<li><strong>replaceExisting</strong> - Setting to overwrite (TRUE) the existing file or append to it
 		<ul>
 			<li>True (default): the file will be replaced with brand new markup, and all existing data will be lost. Use this option to create a brand new report</li>
-			<li>False: existing data will remain, new tests will be appended to the existing report</li>
+			<li>False: existing data will remain, new tests will be appended to the existing report. If the the supplied path does not exist, a new file will be created.</li>
 		</ul>
 	</li>
 	<li><strong>displayOrder</strong>
@@ -217,8 +152,8 @@ ExtentReports extent = ExtentReports(String filePath)
 	</li>
 	<li><strong>networkMode</strong>
 		<ul>
-			<li>ONLINE (default)</li>
-			<li>OFFLINE - report viewed without active internet connectivity</li>
+			<li>ONLINE (default): creates a single report file with all artifacts</li>
+			<li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code> and report will be accessible without internet connectivity</li>
 		</ul>
 	</li>
 </ul>
@@ -275,9 +210,11 @@ extent.flush();
 <pre><code class='java'>
 // creates 3 columns in table: TimeStamp, Status, Details
 log(LogStatus, details);
+log(LogStatus logStatus, Throwable t);
 
 // creates 4 columns in table: TimeStamp, Status, StepName, Details
 log(LogStatus, stepName, details);
+log(LogStatus logStatus, String stepName, Throwable t);
 </code></pre>
 
 <h3 id='current-runstatus'>Getting Current RunStatus of Test</h3>
@@ -299,8 +236,13 @@ ExtentTest test = extent
     .startTest("Categories")
     .assignCategory("Regression", "ExtentAPI");
 </code></pre>
-<p>Each category will show under the test-name along with a list to filter tests:</p>
-<img class='bordered-img center' src='./img/category.png' />
+
+<h3 id='assign-author'>Assign Test Author(s)</h3>
+<p>Assign the author of the test (similar to <code>assignCategory</code> above):</p>
+<pre><code class='java'>
+test.assignAuthor("Anshoo");
+test.assignAuthor("Anshoo", "Viren");
+</code></pre>
 
 <h3 id='child-tests'>Adding Child Tests</h3>
 <p>To add a test node as a child of another test, use the <code>appendChild</code> method.</p>
@@ -354,7 +296,6 @@ sysInfo.put("Environment", "Prod");
 
 extent.addSystemInfo(sysInfo);
 </code></pre>
-<img class='bordered-img center' src='./img/system-info.png' /> 
 
 <h3 id='close-extent'>Clear all resources</h3>
 <p>Call <code>close()</code> at the very end of your session to clear all resources. If any of your test ended abruptly causing any side-affects (not all logs sent to ExtentReports, information missing), this method will ensure that the test is still appended to the report with a warning message.</p>
@@ -405,209 +346,82 @@ public class Main {
 }
 </code></pre>
 
-<h3 id='basic-junit-selenium-example'>JUnit Selenium Example</h3>
-<p>A basic JUnit example using Selenium with and without an Assert. The test with Assert will fail.</p>
-<pre><code class='java'>
-public class ExtentManager {
-    private static ExtentReports extent;
-    
-    public static ExtentReports getInstance() {
-        if (extent == null) {
-            extent = new ExtentReports("file-path", true);
-            
-            // optional
-            extent.config()
-                .documentTitle("Automation Report")
-                .reportName("Regression")
-                .reportHeadline("");
-               
-            // optional
-            extent
-                .addSystemInfo("Selenium Version", "2.46")
-                .addSystemInfo("Environment", "QA");
-        }
-        return extent;
-    }
-}
-
-public class SeleniumExample {
-    private ExtentReports extent = ExtentManager.getInstance();
-    private ExtentTest test;
-    private WebDriver driver;
-    
-    @Test
-    public void GoogleWithoutAssert() {
-        test = extent
-            .startTest("Google Search Without Assert", "Verifies if Google search button is displayed")
-            .assignCategory("NoAssert", "ExtentAPI");
-
-        test.log(LogStatus.INFO, "Launching browser");
-        driver = new FirefoxDriver();
-
-        test.log(LogStatus.INFO, "Navigating to google.com");
-        driver.get("http://google.com");
-
-        try
-        {
-            driver.findElement(By.cssSelector("input[value*='Google Search']"));
-            test.log(LogStatus.PASS, "Search button displayed");
-        }
-        catch (NoSuchElementException e)
-        {
-            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.toString() + "&lt;/pre&gt;");
-            throw e;
-        }
-    }
-
-    @Test
-    public void GoogleWithAssert() {
-        test = extent
-            .startTest("Google Search With Assert", "Verifies if Google search button is displayed")
-            .assignCategory("Assert", "ExtentAPI");
-
-        test.log(LogStatus.INFO, "Launching browser");
-        driver = new FirefoxDriver();
-
-        test.log(LogStatus.INFO, "Navigating to google.com");
-        driver.get("http://google.com");
-
-        Boolean isFound = IsElementPresent(driver, By.cssSelector("input[value*='Googl Search']"));
-
-        try
-        {
-            Assert.assertTrue(isFound);
-            test.log(LogStatus.PASS, "Search button displayed");
-        }
-        catch (AssertionError e)
-        {
-            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.toString() + "&lt;/pre&gt;");
-            throw e;
-        }
-    }
-
-    private Boolean IsElementPresent(WebDriver driver, By by) {
-        try
-        {
-            driver.findElement(by);
-            return true;
-        }
-        catch (NoSuchElementException e) { return false; }
-    }
-
-    @After
-    public void Teardown() {
-        driver.quit();
-        extent.endTest(test);
-        extent.flush();
-    }
-}
-</code></pre>
-<p>View the <a href='./samples/JUnitSeleniumExample.html'>result</a>.</p>
-
-<h3 id='testng-selenium-assert'>TestNG Selenium Example With Soft Asserts</h3>
+<h3 id='testng-example'>TestNG Example</h3>
 <p>A simple example that uses a global ExtentReports instance showing 2 tests that check for Google search button text. The test with the assert will fail. </p>
-
+	
 <pre><code class='java'>
+public class SingleLogTest extends BaseExample {
+    private final String filePath = "file-path.html";
+    
+    @BeforeClass
+    public void beforeClass() {
+        extent = new ExtentReports(filePath, true);
+        
+        // optional - to store all results in a database
+        extent.startReporter(ReporterType.DB, "extent.db");
+        
+        extent.addSystemInfo("Host Name", "Anshoo");
+    }
+    
+    @Test
+    public void passTest() {
+        test = extent.startTest("passTest");
+        test.log(LogStatus.PASS, "Pass");
+        
+        Assert.assertEquals(test.getRunStatus(), LogStatus.PASS);
+    }
+    
+    @Test
+    public void intentionalFailure() {
+        test = extent.startTest("intentionalFailure");
+        test.log(LogStatus.FAIL, "Fail");
+        
+        Assert.assertEquals(test.getRunStatus(), LogStatus.PASS);
+    }
+}
+
 public class ExtentManager {
     private static ExtentReports extent;
     
-    public static ExtentReports getInstance() {
+    public synchronized static ExtentReports getReporter(String filePath) {
         if (extent == null) {
-            extent = new ExtentReports("file-path", true);
+            extent = new ExtentReports(filePath, true, NetworkMode.ONLINE);
             
-            // optional
-            extent.config()
-                .documentTitle("Automation Report")
-                .reportName("Regression")
-                .reportHeadline("");
-               
-            // optional
             extent
-                .addSystemInfo("Selenium Version", "2.46")
-                .addSystemInfo("Environment", "QA");
+              .addSystemInfo("Host Name", "Anshoo")
+              .addSystemInfo("Environment", "QA");
         }
+        
         return extent;
     }
 }
 
-public class TestNgSeleniumExample {
-    private ExtentReports extent = ExtentManager.getInstance();
-    private SoftAssert softAssert = new SoftAssert();
-    private ExtentTest test;
-    private WebDriver driver;
-    
-    @Test
-    public void googleWithoutAssert() {
-        test = extent
-            .startTest("Google Search Without Assert", "Verifies if Google search button is displayed")
-            .assignCategory("NoAssert", "ExtentAPI");
-
-        test.log(LogStatus.INFO, "Launching browser");
-        driver = new FirefoxDriver();
-
-        test.log(LogStatus.INFO, "Navigating to google.com");
-        driver.get("http://google.com");
-
-        try
-        {
-            driver.findElement(By.cssSelector("input[value*='Google Search']"));
-            test.log(LogStatus.PASS, "Search button displayed");
-        }
-        catch (NoSuchElementException e)
-        {
-            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.toString() + "&lt;/pre&gt;");
-            throw e;
-        }
-    }
-
-    @Test
-    public void googleWithAssert() {
-        test = extent
-            .startTest("Google Search With Assert", "Verifies if Google search button is displayed")
-            .assignCategory("NoAssert", "ExtentAPI");
-
-        test.log(LogStatus.INFO, "Launching browser");
-        driver = new FirefoxDriver();
-
-        test.log(LogStatus.INFO, "Navigating to google.com");
-        driver.get("http://google.com");
-
-        Boolean isFound = IsElementPresent(driver, By.cssSelector("input[value*='Googl Search']"));
-
-        try
-        {
-            softAssert.assertTrue(isFound, "googleWithAssert-&gt;IsFound");
-            softAssert.assertAll();
-            test.log(LogStatus.PASS, "Search button displayed");
-        }
-        catch (AssertionError e)
-        {
-            test.log(LogStatus.FAIL, "&lt;pre&gt;" + e.getMessage() + "&lt;/pre&gt;");
-            throw e;
-        }
-    }
-
-    private Boolean IsElementPresent(WebDriver driver, By by) {
-        try
-        {
-            driver.findElement(by);
-            return true;
-        }
-        catch (NoSuchElementException e) { return false; }
-    }
+public abstract class BaseExample {
+    protected ExtentReports extent;
+    protected ExtentTest test;
 
     @AfterMethod
-    public void afterMethod() {
-        driver.quit();
-        extent.endTest(test);
+    protected void afterEachTest(ITestResult result) {
+        if (!result.isSuccess()) {
+            test.log(LogStatus.FAIL, result.getThrowable());
+        }
+        
+        extent.endTest(test);        
         extent.flush();
+    }
+    
+    @AfterSuite
+    protected void afterSuite() {
+        extent.close();
     }
 }
 </code></pre>
-<p>View the <a href='./samples/TestNGSeleniumExample.html'>result</a>.</p>
 
 <h3 id='testng-listener'>Creating TestNG Listener using ExtentReports</h3>
 <p>If you use ExtentReports and do not want to use it like a normal logger, it is also possible to use it as a listener for TestNG to still be able to generate a beautiful report with dashboards. See <a href='http://relevantcodes.com/extentreports-listener-for-testng/'>this post</a> for more information.</p>
+
+<h3 id='junit-example'>JUnit Example</h3>
+<p>See <a href='http://www.kieftsoft.nl/?p=81'>this</a> article by Richard Kieft showing JUnit usage with <code>@Rule</code> annotation.</p>
 
 <h3 id='multiple-report-files'>Creating Multiple Reports For a Run Session</h3>
 <p>ExtentReports 2 makes it extremely easy to create multiple reports for a run session. Simply create the same number of </p>
@@ -655,95 +469,77 @@ public class ReportFruit {
 <p>Below is a sample <code>testng.xml</code> file for running parallel classes.</p>
 <pre><code class='java'>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;suite name="SuiteName" parallel="classes"&gt;
-    &lt;test name="TestName" allow-return-values="true"&gt;
+&lt;suite name="Extent Parallel Test" parallel="classes" thread-count="2"&gt;
+    &lt;test name="ExtentWithParallelClasses"&gt;
         &lt;classes&gt;
-            &lt;class name="package.class" /&gt;
-            &lt;class name="package.class" /&gt;
+            &lt;class name="ParallelClass1" /&gt;
+            &lt;class name="ParallelClass2" /&gt;
         &lt;/classes&gt;
     &lt;/test&gt;
 &lt;/suite&gt;
 </code></pre>
-
-<p>Because each class runs in its own thread, you can either use a global instance of ExtentReports (recommended) or create a new instance in each class (thread). Below is an example that shows 2 parallel classes utilizing the same global ExtentReports instance, which also shows different ways of structuring your classes.</p>
-
+	
 <pre><code class='java'>
-public class ExtentManager {
-    private static ExtentReports extent;
-    
-    public static ExtentReports getInstance() {
-        if (extent == null) {
-            extent = new ExtentReports("file-path", true);
-            
-            // optional
-            extent.config()
-                .documentTitle("Automation Report")
-                .reportName("Regression")
-                .reportHeadline("");
-               
-            // optional
-            extent
-                .addSystemInfo("Selenium Version", "2.46")
-                .addSystemInfo("Environment", "QA");
-        }
-        return extent;
-    }
-}
-
-// Approach 1
-// Instance retrieved from ExtentManager
-// endTest() called after every test (see @AfterTest)
-// flush() called at the end of suite (see @AfterSuite)
-//     only need to call flush() once
-public class Fruit {
-    private ExtentReports extent = ExtentManager.getInstance();
+public class ParallelClass1 extends ParallelClassBase {
     private ExtentTest test;
     
     @Test
-    public void testPass() {
-        test = extent.startTest("Pass Test", "Sample description");
-        test.log(LogStatus.PASS, "Details");
-    }
-    
-    @Test
-    public void testError() {
-        test = extent.startTest("Error Test", "Sample description");
-        test.log(LogStatus.ERROR, "Details");
-    }
-    
-    @AfterTest
-    public void afterTest() {
-        extent.endTest(test);
-    }
-    
-    @AfterSuite
-    public void afterSuite() {
-        extent.flush();
+    public void parallelClass1TestResultMustEqualPass() {
+        test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
+        test.log(LogStatus.PASS, "Log from threadId: " + Thread.currentThread().getId());
+        test.log(LogStatus.INFO, "Log from threadId: " + Thread.currentThread().getId());
         
-        // terminates extent and clears the underlying stream
-        extent.close();
+        Assert.assertEquals(test.getRunStatus(), LogStatus.PASS);
+    }
+    
+    @AfterMethod
+    public void afterEachTest(ITestResult result) {
+        if (!result.isSuccess()) {
+            test.log(LogStatus.FAIL, result.getThrowable());
+        }
+        
+        extent.endTest(test);
+        extent.flush();
     }
 }
 
-// Approach 2
-// Instance retrieved from ExtentManager
-// endTest() called in testWarn()
-// not required to call flush() here as it will be called in Fruit class -> @AfterSuite
-public class Vegetable {
-    private ExtentReports extent = ExtentManager.getInstance();
-
-    @Test
-    public void testWarn() {
-        ExtentTest test = extent.startTest("Warning Test", "Sample description");
-        test.log(LogStatus.WARNING, "Details");
-        extent.endTest(test);
-    }
+public class ParallelClass2 extends ParallelClassBase {
+    private ExtentTest test;
     
     @Test
-    public void testFail() {
-        ExtentTest test = extent.startTest("Fail Test", "Sample description");
-        test.log(LogStatus.FAIL, "Details");
+    public void parallelClass2TestResultMustEqualFail() {
+        test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
+        test.log(LogStatus.FAIL, "Log from threadId: " + Thread.currentThread().getId());
+        test.log(LogStatus.INFO, "Log from threadId: " + Thread.currentThread().getId());
+        
+        Assert.assertEquals(test.getRunStatus(), LogStatus.FAIL);
+    }
+    
+    @AfterMethod
+    public void afterEachTest(ITestResult result) {
+        if (!result.isSuccess()) {
+            test.log(LogStatus.FAIL, result.getThrowable());
+        }
+        
         extent.endTest(test);
+        extent.flush();
+    }
+}
+
+public abstract class ParallelClassBase {
+    protected ExtentReports extent;
+    protected final String filePath = "ParallelClassesTest.html";
+    
+    @BeforeClass
+    public void beforeClass() {
+        extent = ExtentManager.getReporter(filePath);
+    }
+    
+    protected String getStackTrace(Throwable t) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        t.printStackTrace(pw);
+        return sw.toString();
     }
 }
 </code></pre>
@@ -753,74 +549,146 @@ public class Vegetable {
 
 <pre><code class='java'>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;suite name="SuiteName" parallel="methods"&gt;
-    &lt;test name="TestName" allow-return-values="true"&gt;
+&lt;suite name="Extent Parallel Test" parallel="methods"&gt;
+    &lt;test name="ExtentWithParallelMethods" allow-return-values="true"&gt;
         &lt;classes&gt;
-            &lt;class name="package.class" /&gt;
+            &lt;class name="ParallelMethodsTest" /&gt;
         &lt;/classes&gt;
     &lt;/test&gt;
 &lt;/suite&gt;
 </code></pre>
 
 <p>An important thing to note when executing parallel methods is that, since each <code>@Test</code> method runs in its own thread, you must start and end your tests in the same <code>@Test</code> itself.</p>
-
+	
 <pre><code class='java'>
-public class ExtentManager {
-    private static ExtentReports extent;
+@Test
+public class ParallelMethodsTest extends BaseExample {
+    private final String filePath = "ParallelMethodsTest.html";
     
-    public static ExtentReports getInstance() {
-        if (extent == null) {
-            extent = new ExtentReports("file-path", true);
-            
-            // optional
-            extent.config()
-                .documentTitle("Automation Report")
-                .reportName("Regression")
-                .reportHeadline("");
-               
-            // optional
-            extent
-                .addSystemInfo("Selenium Version", "2.46")
-                .addSystemInfo("Environment", "QA");
-        }
-        return extent;
+    @BeforeClass
+    public void beforeClass() {
+        extent = ExtentManager.getReporter(filePath);
+    }
+    
+    @Test
+    public void parallelTest01() {
+        ExtentTest test = ExtentTestManager.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
+        test.log(LogStatus.INFO, "Log from threadId: " + Thread.currentThread().getId());
+        test.log(LogStatus.INFO, "Log from threadId: " + Thread.currentThread().getId());
+        ExtentTestManager.endTest();
+    }
+    
+    @Test
+    public void parallelTest02() {
+        ExtentTest test = ExtentTestManager.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
+        test.log(LogStatus.ERROR, "Log from threadId: " + Thread.currentThread().getId());
+        test.log(LogStatus.ERROR, "Log from threadId: " + Thread.currentThread().getId());
+        ExtentTestManager.endTest();
     }
 }
 
-// Instance retrieved from ExtentManager
-// Test started and ended in the same method (!IMPORTANT)
-//    It is important to start and end test at the @Test level because each @Test is a separate thread
-// flush() called at the end of suite (see @AfterSuite)
-public class Fruit {
-    private ExtentReports extent = Extent.getInstance();
-    
-    // Note: test started and ended within @Test
-    @Test
-    public void testOne() {
-        ExtentTest test = extent.startTest("My First Test", "Sample description");
-        test.log(LogStatus.PASS, "StepName", "PASS Details");
-        extent.endTest(test);
+public class ExtentTestManager {  // new
+    static Map<Integer, ExtentTest> extentTestMap = new HashMap<Integer, ExtentTest>();
+    private static ExtentReports extent = ExtentManager.getReporter();
+
+    public static synchronized ExtentTest getTest() {
+        return extentTestMap.get((int) (long) (Thread.currentThread().getId()));
     }
-    
-    // Note: test started and ended within @Test
-    @Test
-    public void testTwo() {
-        ExtentTest test = extent.startTest("My Second Test", "Sample description");
-        test.log(LogStatus.PASS, "StepName", "PASS Details");
-        extent.endTest(test);
+
+    public static synchronized void endTest() {
+        extent.endTest(extentTestMap.get((int) (long) (Thread.currentThread().getId())));
     }
+
+    public static synchronized ExtentTest startTest(String testName) {
+        return startTest(testName, "");
+    }
+
+    public static synchronized ExtentTest startTest(String testName, String desc) {
+        ExtentTest test = extent.startTest(testName, desc);
+        extentTestMap.put((int) (long) (Thread.currentThread().getId()), test);
+
+        return test;
+    }
+}
+
+public class ExtentManager {
+    private static ExtentReports extent;
     
-    @AfterSuite
-    public void afterSuite() {
-        extent.flush();
+    public synchronized static ExtentReports getReporter(String filePath) {
+        if (extent == null) {
+            extent = new ExtentReports(filePath, true, NetworkMode.ONLINE);
+            
+            extent
+                .addSystemInfo("Host Name", "Anshoo")
+                .addSystemInfo("Environment", "QA");
+        }
         
-        // terminates extent and clears the underlying stream
-        extent.close();
+        return extent;
+    }
+    
+    public synchronized static ExtentReports getReporter() {
+        return extent;
     }
 }
 </code></pre>
 
-<h2 id='customization'>Customization</h2>
+<h2 id='configuration'>Configuration</h2>
+
+<div class='col s5'>
+    <ul class='tabs'>
+    	<li class='tab col s3'><a class='active' href='#v240'>Version 2.40.0</a></li>
+		<li class='tab col s3'><a href='#v210'>Version 2.10.0</a></li>
+	</ul>
+</div>
+<div id='v240' class='col s12'>
+<p>Version 2.40+ uses a <code>extent-config.xml</code> file to manage all customization of the report and also keep the configuration component separate from the code. Below is a sample of config xml:</p>
+<pre><code class='xml'>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;extentreports&gt;
+    &lt;configuration&gt;
+        &lt;!-- title of the document --&gt;
+        &lt;documentTitle&gt;ExtentReports 2.0&lt;/documentTitle&gt;
+        
+        &lt;!-- report name - displayed at top-nav --&gt;
+        &lt;reportName&gt;Automation Report&lt;/reportName&gt;
+        
+        &lt;!-- report headline - displayed at top-nav, after reportHeadline --&gt;
+        &lt;reportHeadline&gt;&lt;/reportHeadline&gt;
+        
+        &lt;!-- custom javascript --&gt;
+        &lt;js&gt;
+            &lt;![CDATA[
+                $(document).ready(function() {
+                    $('#enableDashboard').click();
+                });
+            ]]&gt;
+        &lt;/js&gt;
+        
+        &lt;!-- custom styles --&gt;
+        &lt;css&gt;
+            &lt;![CDATA[
+                
+            ]]&gt;
+        &lt;/css&gt;
+    &lt;/configuration&gt;
+&lt;/extentreports&gt;
+</code></pre>
+
+<img class='bordered-img' src='img/config.png' />
+
+<p>The configuration file can be saved as one of your project resources of kept externally.</p>
+
+<p>To use this configuration, in your Java code, call <code>loadConfig</code>:</p>
+
+<pre><code class='java'>
+loadConfig(File configFile);
+loadConfig(Class clazz, String fileName);
+loadConfig(Class clazz, String basePackagePath, String fileName);
+</code></pre>
+
+</div>
+<div id='v210' class='col s12'>
+
 <p>All customization is done at the report level and by using the <code>config()</code> method of ExtentReports. Remember, you can chain these methods as <code>config()</code> is fluent as shown below:</p>
 
 <pre><code class='java'>
@@ -830,9 +698,8 @@ extent.config()
         .reportHeadline("A short headline.")
         .insertCustomStyles(".test { border:2px solid #444; }");
 </code></pre>
-<p>Output: <a href='./samples/Customization.html'>Customization.html</a></p>
 
-<h3 id='using-custom-css'>Using custom CSS</h3>
+<h4 id='using-custom-css'>Using custom CSS</h4>
 <p>You can use your custom CSS directly in the document or load a custom css-stylesheet.</p>
 
 <pre><code class='java'>
@@ -845,49 +712,34 @@ extent.config().insertCustomStyles(style);
 extent.config().addCustomStylesheet("C:\\css.css");
 </code></pre>
 
-<h3 id='using-custom-js'>Using custom JS</h3>
+<h4 id='using-custom-js'>Using custom JS</h4>
 <p>Just like having the ability to change document styles, you can also add your own custom scripts.</p>
 
 <pre><code class='java'>
 extent.config().insertJs("$('.test').click(function(){ alert('test clicked'); });");
 </code></pre>
 
-<h3 id='document-title'>Setting Document Title</h3>
+<h4 id='document-title'>Setting Document Title</h4>
 <p>It is possible to change the title of the report file using:</p>
 <pre><code class='java'>
 extent.config().documentTitle("ExtentReports - DocumentTitle");
 </code></pre>
 
-<h3 id='report-name'>Setting Report Name</h3>
+<h4 id='report-name'>Setting Report Name</h4>
 <p>To set the report name, simply call the <code>reportName()</code> method:</p>
 <pre><code class='java'>
 extent.config().reportName("ExtentReports - ReportName");
 </code></pre>
 <p>The max length allowed for report-name is 20 characters.</p>
 
-<h3 id='report-headline'>Change Report Headline</h3>
+<h4 id='report-headline'>Change Report Headline</h4>
 <p>You can remove or add your own summary by using the following config:</p>
 <pre><code class='java'>
 extent.config().reportHeadline("ExtentReports - ReportHeadline");
 </code></pre>
 <p>The max length allowed for report-headline is 70 characters.</p>
+</div>
 
-<h3 id='themes'>Creating Themes Using Customization*</h3>
-<p>You can use your own styles to build themes to customize the layout as per your needs. Below is an example of a dark theme:</p>
-<img class='bordered-img center' src='../../img/darktheme.png' />
-<pre><code class='java'>
-String css = "body, .test .right span, .collapsible-header { background: #333; color: #fff; }" +
-                "nav, .tab, .card-panel { background: #000 !important; }" +
-                "table { border: 1px solid #555 !important; }" +
-                "pre { background: #333; border: 1px solid #777 !important; color: #eee !important; }" +
-                ".select-dropdown { background: #333; border-bottom: 1px solid #777 !important; }" +
-                ".select-dropdown li:hover, .select-dropdown li.active { background: #555; }" +
-                "table.bordered > thead > tr, table.bordered > tbody > tr, th, td { border-bottom: 1px solid #555 !important; }" +
-                "th, td, .test-name, .test-desc, .test .right span { color: #fff !important; }" +
-                ".test-body .collapsible > li { border: 1px solid #777; }";
-
-extent.config().insertCustomStyles(css);
-</code></pre>
 
 <h2 id='license'>License</h2>
 <h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>
@@ -900,31 +752,75 @@ extent.config().insertCustomStyles(css);
 </ol>
 
 <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Anshoo Arora or RelevantCodes.com BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='footer bg-inverse'>
-                <div class='units-row'>
-                    <div class='unit-100'>
-                        <div class='unit-80 centered top-unit'>
-                            <div class='left'>
-                                <span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
-                            </div>
-                            <div class='right'>
-                                <span><a href='http://relevantcodes.com/extentreports-for-selenium/'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+					</div>
+				</div>
+				
+				<div class='col l4 hide-on-med-and-down'>
+					<div class='card-panel toc'>
+						<ul class='index'>
+							<li><a href='#reviews'>Reviews</a></li>
+							<li><a href='#user-examples'>User Examples</a></li>
+							<li><a href='#sample'>Sample</a></li>
+							<li><a href='#screenshots'>Screenshots</a></li>
+							<li><a href='#current-version'>Current Version</a></li>
+							
+							<li class='divider'></li>
+							
+							<li><a href='#whats-new'>What's new in 2.10</a></li>
+							<li><a href='#author'>Owner / Developer</a>
+							<li><a href='#contributors'>Contributors</a>
+							<li><a href='#beta-testers'>Beta Testers</a>
+							<li><a href='#maven'>Maven</a>
+							<li><a href='#basic-usage'>Basic Usage</a>
+								<ul>
+									<li><a href='#initialize-report'>Initializing Report</a>
+										<ul>
+											<li><a href='#offline-report'>Offline Report</a></li>
+										</ul>
+									</li>
+									<li><a href='#custom-reporter'>Starting Custom Reporters</a></li>
+									<li><a href='#write-to-report'>Writing to Report</a></li>
+									<li><a href='#append-to-report'>Appending to an Existing Report</a></li>
+									<li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
+									<li><a href='#create-step-logs'>Creating Step Logs</a></li>
+									<li><a href='#current-runstatus'>Getting Current RunStatus of Test</a></li>
+									<li><a href='#assign-category'>Assign Test Categories</a></li>
+									<li><a href='#assign-author'>Assign Test Author(s)</a></li>
+									<li><a href='#child-tests'>Adding Child Tests</a></li>
+									<li><a href='#insert-custom-html'>Inserting Custom HTML</a></li>
+									<li><a href='#insert-screenshots'>Insert Screenshots</a></li>
+									<li><a href='#insert-screencast'>Insert Screencasts</a></li>
+									<li><a href='#add-system-info'>Adding System Info</a></li>
+									<li><a href='#close-extent'>Clear all resources</a></li>
+								</ul>
+							</li>
+							<li><a href='#examples'>Examples</a>
+								<ul>
+									<li><a href='#basic-usage-example'>Basic Usage Example</a></li>
+									<li><a href='#junit-example'>JUnit Example</a></li>
+									<li><a href='#testng-example'>TestNG Example</a></li>
+									<li><a href='#testng-listener'>Creating TestNG Listener using ExtentReports</a></li>
+									<li><a href='#multiple-report-files'>Creating Multiple Reports For a Run Session</a></li>
+								</ul>
+							</li>
+							<li><a href='#parallel-runs'>Creating Parallel Runs</a>
+								<ul>
+									<li><a href='#parallel-classes'>Parallel Classes</a></li>
+									<li><a href='#parallel-methods'>Parallel Methods</a></li>
+								</ul>
+							</li>
+							<li><a href='#configuration'>Configuration</a></li>
+							<li><a href='#license'>License</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
-        <script src="../../js/kube.min.js"></script> 
-        <script src="../../js/dropit.js"></script>
-        <script src="../../js/scripts.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>
         <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+		<script src="../../js/scripts.js"></script> 
     </body>
 </html>

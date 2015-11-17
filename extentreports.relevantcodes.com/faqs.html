@@ -1,67 +1,48 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name='description' content='ExtentReports 2.0 (by Anshoo Arora) is an extremely easy to use reporting library which creates detailed and attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.' />
+        <meta name='description' content='ExtentReports 2.0 (by Anshoo Arora) is a HTML reporting library for Selenium WebDriver for Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
-        <link rel='stylesheet' href='./css/kube.min.css'>
-        <link rel='stylesheet' href='./css/dropit.css'>
-        <link rel='stylesheet' href='./css/css.css'>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css">
+        <link rel='stylesheet' href='css/css.css'>
         <title>ExtentReports</title>
     </head>
-    <body>    
-        <div class='container'>
-            <div class='header'>
-                <div class='units-row'>
-                    <div class='unit-centered unit-80 top-unit'>
-                        <div class='left'>
-                            <div class='logo'>
-                                <a href='http://extentreports.relevantcodes.com'>ExtentReports</a>
-                            </div>
-                        </div>
-                        <div class='menu right'>
-                            <ul class='menu-items'>
-                                <li class='menu-item'><a href='http://extentreports.relevantcodes.com'>Home</a></li>
-                                <li class='menu-item active'><a href='#'>FAQs</a></li>
-								<!--<li class='menu-item'><a href='./users/showcase.html'>Showcase</a></li>-->
-                                <div class="btn-group">
-									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Java</button>
-									<ul class="dropdown-menu">
-										<li class='menu-item dropdown-item'><a href="./java/version1/docs.html">Version 1 Docs</a></li>
-										<li class='menu-item dropdown-item'><a href="./java/version2/docs.html">Version 2 Docs</a></li>
-									</ul>
-								</div>
-                                <li class='menu-item'><a href='./net/docs.html'>.NET</a></li>
-								<li class='menu-item'><a href='./extentmerge/docs.html'>ExtentMerge</a></li>
-                                <li class='menu-item'><a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='slider'>
-                
-            </div>
-            <div class='main'>
-                <div class='intro-area'>
-                    <div class='units-row'>
-                        <div class='unit-80 centered top-unit'>
-                            <div class="units-row end">
-                                <h1>FAQs</h1>
-                                <ul>
-                                    <li><a href='#correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</a></li>
-									<li><a href='#support-for-tools'>Will Extent work with Cucumber, JBehave, [insert your tool here]?</a></li>
-									<li><a href='#help-me-customize'>I need Extent to customize a report feature, can you help me with the JS/CSS?</a></li>
-                                    <li><a href='#categories'>How can I categorize my tests?</a></li>
-                                    <li><a href='#append-report'>Is it possible to keep results from my previous run and append my tests to the same file?</a></li>
-									<li><a href='#log-hierarchy'>What is the log hierarchy used by Extent?</a></li>
-                                    <li><a href='#issue'>Something is not working correctly, what should I do?</a></li>
-                                </ul>
-								
-                                <h4 id='correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</h4>
+    <body>
+		<div class='navbar-fixed'>
+			<nav>
+				<ul class='right hide-on-med-and-down'>
+					<div class='logo'>
+						ExtentReports
+						<div class='headline'>Created by Anshoo Arora</div>
+					</div>
+				</ul>
+				
+				<ul>
+					<li><a href='http://extentreports.relevantcodes.com'>Home</a></li>
+					<li><a href='./faqs.html'>FAQs</a></li>
+					<li><a class='dropdown-button' href='#!' data-activates='dropdown1'>Java<i class='mdi-navigation-arrow-drop-down right'></i></a></li>
+					<ul id='dropdown1' class='dropdown-content'>
+						<li><a href='./java/version1/docs.html'>Version 1 Docs</a></li>
+						<li><a href='./java/version2/docs.html'>Version 2 Docs</a></li>
+					</ul>
+					<li><a href='./net/docs.html'>.NET</a></li>
+					<li><a href='./extentmerge/docs.html'>ExtentMerge</a></li>
+					<li>
+						<a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		
+		<div class='container'>
+			<div class='row'>
+				<div class='col l8 m12 s12'>
+					<div class='card-panel content'>
+						<h4 id='correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</h4>
                                 <p>There is generally only 1 reason why this happens. The statement that sends a <code>failed</code> event to ExtentReports never gets executed. Consider the following example:</p>
 <pre><code class='java'>
 public static void main(String[] args) {
@@ -145,32 +126,29 @@ private ExtentReports extent = new ExtentReports("file-path", false);
 
                                 <h4 id='issue'>Something is not working correctly, what should I do?</h4>
                                 <p>You can log all bugs or features <a href='https://github.com/anshooarora/extentreports/issues'>here</a>. Provide as much information as possible, i.e. steps to reproduce, code examples, type of test runner, Extent version etc.</p>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='footer bg-inverse'>
-                <div class='units-row'>
-                    <div class='unit-100'>
-                        <div class='unit-80 centered top-unit'>
-                            <div class='left'>
-                                <span>Created by <a href='http://relevantcodes.com'>Anshoo Arora (Relevant Codes)</a></span>
-                            </div>
-                            <div class='right'>
-                                <span><a href='http://relevantcodes.com/extentreports-for-selenium/'>Download</a> &middot; <a href='https://github.com/anshooarora/extentreports'>GitHub Project</a> &middot; BSD 3 License</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+					</div>
+				</div>
+				
+				<div class='col l4 hide-on-med-and-down'>
+					<div class='card-panel toc'>
+						<ul class='index'>
+							<li><a href='#correct-status-not-shown'>My test failed, but ExtentReports shows it as passed.</a></li>
+							<li><a href='#support-for-tools'>Will Extent work with Cucumber, JBehave, [insert your tool here]?</a></li>
+							<li><a href='#help-me-customize'>I need Extent to customize a report feature, can you help me with the JS/CSS?</a></li>
+							<li><a href='#categories'>How can I categorize my tests?</a></li>
+							<li><a href='#append-report'>Is it possible to keep results from my previous run and append my tests to the same file?</a></li>
+							<li><a href='#log-hierarchy'>What is the log hierarchy used by Extent?</a></li>
+							<li><a href='#issue'>Something is not working correctly, what should I do?</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
-        <script src="./js/kube.min.js"></script> 
-        <script src="./js/dropit.js"></script> 
-        <script src="./js/scripts.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>
         <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+		<script src="js/scripts.js"></script> 
     </body>
 </html>
