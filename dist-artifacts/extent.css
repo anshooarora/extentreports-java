@@ -570,6 +570,48 @@ span.category {
 	cursor: pointer;
 }
 
+/* -- [ button-group ] -- */
+.button-group > a {
+	border: none !important;
+	border-radius: 5px !important;
+	color: #fff !important;
+	padding: 3px 7px;
+	transition-duration: .3s;
+}
+.button-group .icon {
+	border: none !important;
+	color: #fff !important;
+	font-size: 12px !important;
+	margin-left: 5px;
+}
+.button-group a.pass {
+	background: #32CD32;
+	border-bottom: 3px solid #069e06 !important;
+}
+.button-group a.pass .icon {
+	background: #069e06;
+}
+.button-group a.fail {
+	background: #eb4549;
+	border-bottom: 3px solid #bf191d !important;
+}
+.button-group a.fail .icon {
+	background: #bf191d;
+}
+.button-group a.other {
+	background: #22a1c4;
+	border-bottom: 3px solid #00799c !important;
+}
+.button-group a.other .icon {
+	background: #00799c;
+}
+.button-group > a:last-child {
+	border-right: 1px solid #ccc !important;
+}
+.button-group a.active {
+	border-bottom: 3px solid transparent !important;
+}
+
 /* -- [ status styles ] -- */
 .status.fail, .fail i {
 	color: #eb4549;
@@ -613,12 +655,9 @@ span.category {
 .test.active.pass {
 	border-left-color: #60b963;
 }
-.label.success, .label.pass, .cat-pass {
+.label.success, .label.pass {
 	border-color: #60b963;
 	color: #60b963;
-}
-.cat-label {
-	border: 1px solid #999;
 }
 .test.active.fail {
 	border-left-color: #c64444;
@@ -630,7 +669,7 @@ span.category {
 	border-color: rgb(139, 0, 0);
 	color: rgb(139, 0, 0);
 }
-.label.failure, .label.fail, .cat-fail {
+.label.failure, .label.fail {
 	border-color: #c64444;
 	color: #c64444;
 }
@@ -648,7 +687,7 @@ span.category {
 .test.active.warning {
 	border-left-color: #d88519;
 }
-.label.warn, .label.warning, .cat-other {
+.label.warn, .label.warning {
 	border-color: #d88519;
 	color: #d88519;
 }

@@ -137,24 +137,48 @@ $(document).ready(function() {
 	if ($('.category').length == 0) {
 		$('#slide-out > .analysis > .categories-view, .category-summary-view').addClass('hide').css('display', 'none');
 	}
-	/* view cat info [CATEGORIES] */
+	
+	/* view category info [CATEGORIES] */
 	$('.category-item').click(function() {
-		if ($('#cat-details-wrapper .cat-container').find('.cat-body').length > 0) {
-			$('.category-item').filter(function() {
-				return ($(this).find('.cat-body').length == 0);
-			}).append($('#cat-details-wrapper .cat-container').find('.cat-body'));
-		}
-		
 		$('#cat-collection .category-item').removeClass('active');
-		$('#cat-details-wrapper .cat-container .cat-body').remove();
+		$('#cat-details-wrapper .cat-body').remove();
 		
-		var el = $(this).addClass('active').find('.cat-body');
+		var el = $(this).addClass('active').find('.cat-body').clone();
 		$('#cat-details-wrapper .cat-name').text($(this).find('.category-name').text());
 		$('#cat-details-wrapper .cat-container').append($(el));
 	});
 	$('.category-item').eq(0).click();
 	
-	/* navigation from cat-view to test-details [CATEGORIES] */
+	/* category filter by status */
+	$('#cat-details-wrapper').click(function(evt) {
+		var t = $(evt.target);
+		
+		if (t.is('.filter, .icon')) {
+			if (t.hasClass('icon')) {
+				t = t.parent();
+			}
+			
+			var wrap = $('#cat-details-wrapper');
+
+			/* push effect */
+			$('#cat-details-wrapper .filter').removeClass('active')
+			t.addClass('active');
+			
+			wrap.find('tbody > tr').removeClass('hide');
+			
+			if (t.hasClass('pass')) {
+				wrap.find('tbody > tr:not(.pass)').addClass('hide');
+			}
+			else if (t.hasClass('fail')) {
+				wrap.find('tbody > tr:not(.fail)').addClass('hide');
+			}
+			else {
+				wrap.find('tbody > tr.fail, tbody > tr.pass').addClass('hide');
+			}
+		}
+	});
+	
+	/* navigation from category-view to test-details [CATEGORIES] */
 	$('.category-link').click(function() {
 		var id = $(this).attr('extentid');
 		findTestByNameId($(this).text().trim(), id);
@@ -288,6 +312,9 @@ $(document).ready(function() {
 		var opt = $(this).text().toLowerCase();
 		var status = $('#tests-toggle li.active').text().toLowerCase();
 		
+		console.log(opt);
+		console.log(status);
+		
 		$('#category-toggle li').removeClass('active');
 		$(this).addClass('active');
 		$('.test').hide(0).removeClass('displayed');
@@ -367,11 +394,9 @@ function findTestByNameId(name, id) {
 /* refresh and redraw charts [DASHBOARD] */
 function redrawCharts() {
 	if (!$('#dashboard-view .charts').is(':visible') || !$('#refreshCharts').hasClass('enabled')) {
-		console.log('out');
 		return;
 	}
 	
-	console.log('in');
 	refreshData();
 	
 	testChart.segments[0].value = passedTests;
