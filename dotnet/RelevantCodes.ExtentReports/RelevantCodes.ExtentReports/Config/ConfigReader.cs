@@ -18,7 +18,7 @@ namespace RelevantCodes.ExtentReports.Config
             {
                 return null;
             }
-
+            
             var configMap = new Dictionary<string, string>();
 
             var doc = XDocument.Load(_filePath, LoadOptions.None);

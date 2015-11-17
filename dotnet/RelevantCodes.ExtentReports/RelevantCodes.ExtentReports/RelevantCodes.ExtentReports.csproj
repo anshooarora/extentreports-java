@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{48FAC3CF-9E50-4CF1-B898-C2A54ADEC5F7}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RelevantCodes.ExtentReports</RootNamespace>
     <AssemblyName>RelevantCodes.ExtentReports</AssemblyName>
