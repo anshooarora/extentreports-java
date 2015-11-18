@@ -29,7 +29,13 @@
 						<li><a href='../version1/docs.html'>Version 1 Docs</a></li>
 						<li><a href='#'>Version 2 Docs</a></li>
 					</ul>
-					<li><a href='../../net/docs.html'>.NET</a></li>
+					
+					<li><a class='dropdown-button' href='#!' data-activates='dropdown2'>.NET<i class='mdi-navigation-arrow-drop-down right'></i></a></li>
+					<ul id='dropdown2' class='dropdown-content'>
+						<li><a href='../../net/docs.html'>Version 2.40.0b</a></li>
+						<li><a href='../../net/version-2.02/docs.html'>Version 2.02</a></li>
+					</ul>
+					
 					<li><a href='../../extentmerge/docs.html'>ExtentMerge</a></li>
 					<li>
 						<a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a>
@@ -684,6 +690,28 @@ public class ExtentManager {
 loadConfig(File configFile);
 loadConfig(Class clazz, String fileName);
 loadConfig(Class clazz, String basePackagePath, String fileName);
+</code></pre>
+
+<p>Examples:</p>
+
+<pre><code class='java'>
+// file location: "C:\HelloWorld\extent-config.xml"
+loadConfig(new File("C:\HelloWorld\extent-config.xml"));
+
+
+// loadConfig(Class clazz, String fileName);
+// clazz: com.relevantcodes.extentreports.ExtentReports
+// packagePath of clazz: com/relevantcodes/extentreports
+// final path: com/relevantcodes/extentreports/extent-config.xml
+loadConfig(ExtentReports.class, "extent-config.xml");
+
+
+// loadConfig(Class clazz, String basePackagePath, String fileName;
+// clazz: com.relevantcodes.extentreports.ExtentReports
+// 	packagePath of clazz: com/relevantcodes/extentreports
+// basePackagePath: "resources"
+// final path: com/relevantcodes/extentreports/resources/extent-config.xml
+loadConfig(ExtentReports.class, "resources", "extent-config.xml");
 </code></pre>
 
 </div>

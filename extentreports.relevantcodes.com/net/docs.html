@@ -24,12 +24,18 @@
 				<ul>
 					<li><a href='http://extentreports.relevantcodes.com'>Home</a></li>
 					<li><a href='../faqs.html'>FAQs</a></li>
+					
 					<li><a class='dropdown-button' href='#!' data-activates='dropdown1'>Java<i class='mdi-navigation-arrow-drop-down right'></i></a></li>
 					<ul id='dropdown1' class='dropdown-content'>
 						<li><a href='../java/version1/docs.html'>Version 1 Docs</a></li>
 						<li><a href='../java/version2/docs.html'>Version 2 Docs</a></li>
 					</ul>
-					<li><a href='#'>.NET</a></li>
+					
+					<li><a class='dropdown-button' href='#!' data-activates='dropdown2'>.NET<i class='mdi-navigation-arrow-drop-down right'></i></a></li>
+					<ul id='dropdown2' class='dropdown-content'>
+						<li><a href='#'>Version 2.40.0b</a></li>
+						<li><a href='version-2.02/docs.html'>Version 2.02</a></li>
+					</ul>
 					<li><a href='../extentmerge/docs.html'>ExtentMerge</a></li>
 					<li>
 						<a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a>
@@ -42,33 +48,38 @@
 			<div class='row'>
 				<div class='col l8 m12 s12'>
 					<div class='card-panel content'>
+
+<p class='alert'>Documentation still in progress..  These documents are not yet complete as the .NET version is still in beta.  I am working on finalizing the API and also updating the docs.  Please use the information here to test the beta-version and open any issues/questions at Github/extentreports.</p>
 					
-<h2 id='whats-new'>What's new in 2.02</h2>
-<p>Version 2.02 launched on 08/20/2015. Here is what's new:</p>
+<h2 id='sample'>Sample</h2>
+<p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.Net.html'>here</a>.</p>
+
+<h2 id='screenshots'>Screenshots</h2>
+<img class='bordered-img center' src='./img/analysis.png' width='80%' />
+<img class='bordered-img center' src='./img/testview.png' width='80%' />
+
+<h2 id='current-version'>Current Version</h2>
+<p>2.40.0-beta</p>			
+                            
+<h2 id='whats-new'>What's new in 2.40.0-beta</h2>
+<p>Version 2.40.0-beta launched on Nov 16. Here is what's new:</p>
 <ul>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/5'>#5</a>, <a href='https://github.com/anshooarora/extentreports/issues/15'>#15</a>) You can now add child tests using <code>appendChild</code> method:
+	<li>All configuration and customization will be performed using an external file using the below methods. See <a href='#configuration'>Configuration</a> section for more details.
 <pre><code class='java'>
-ExtentTest parent = extent.startTest("Parent");
-
-ExtentTest child1 = extent.startTest("Child 1");
-child1.log(LogStatus.INFO, "Info");
-
-ExtentTest child2 = extent.startTest("Child 2");
-child2.log(LogStatus.PASS, "Pass");
-
-parent
-    .appendChild(child1)
-    .appendChild(child2);
-    
-extent.endTest(parent);
+LoadConfig(string FilePath);
 </code></pre>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/29'>#29</a>) Hierarchical display of results - any number of child nodes are now allowed. Child nodes can also use the <code>appendChild</code> method to add nodes</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/36'>#36</a>) Fixed issue Filtering on details is broken</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/41'>#41</a>) The category view will now display the number of tests Passed, Failed and Others</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/42'>#42</a>) Added support for Cyrillic characters</li>
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/44'>#44</a>) Show Child test's step counts in Quick Test Summary
-	<li>(<a href='https://github.com/anshooarora/extentreports/issues/45'>#45</a>) In Quick Test Summary, only the headers that have at least 1 event-type will be displayed, all others will be hidden</li>
-	<li>Added controls to quickly expand and collapse all tests</li>
+	</li>
+	<li>2 new <code>log</code> methods have been now added to accept exception directly and show as a code block in the report:
+<pre><code class='java'>
+log(LogStatus logStatus, String stepName, Throwable t);
+log(LogStatus logStatus, Throwable t);
+</code></pre>
+	<li>Add the author of the test using:
+<pre><code class='java'>
+test.AssignAuthor("Anshoo");
+</code></pre>
+	</li>
+	<li>Possble to filter tests by status in the category view</li>
 </ul>
 
 <h3 id='author'>Owner / Developer</h3>
@@ -81,41 +92,34 @@ extent.endTest(parent);
 <p>This section demonstrates basic methods that you will be using with this library.</p>
 
 <h3 id='initialize-report'>Initializing Report</h3>
-<p>To initialize the report, you must create an instance of <code>ExtentReports</code>. It is possible to initialize in 2 different ways as shown below.</p>
+<p>To initialize the report, you must create an instance of <code>ExtentReports</code>. It is possible to initialize in the following different ways:</p>
 <pre><code>
-var extent = new ExtentReports(file-path, replaceExisting);
-var extent = new ExtentReports(file-path, replaceExisting, DisplayOrder);
-
-where:
-    filePath (string):  path of the file, in .htm or .html format
-    overwriteExisting (boolean):  (true|false) 
-        true:  the file will be replaced with brand new markup, 
-            and all existing data will be lost. Use this option to create a brand new report
-        false:  existing data will remain, new tests will be appended to the existing report
-    DisplayOrder:  this determines the order in which your tests will be displayed
-        OLDEST_FIRST (default) - oldest test at the top, newest at the end
-        NEWEST_FIRST - newest test at the top, oldest at the end
+ExtentReports extent = ExtentReports(string filePath)
+ExtentReports extent = ExtentReports(string filePath, DisplayOrder displayOrder)
 </code></pre>
+<ul>
+	<li><strong>filePath</strong> - path of the file, in .htm or .html format</li>
+	<li><strong>displayOrder</strong>
+		<ul>
+			<li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
+			<li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
+		</ul>
+	</li>
+</ul>
 
 <h3 id='write-to-report'>Writing to Report</h3>
-<p>Once your session is complete and you are ready to write all logs to the report, simply call the <code>Flush()</code> method.</p>
-<pre><code class='csharp'>
+<p>Once your session is complete and you are ready to write all logs to the report, simply call the <code>flush()</code> method.</p>
+<pre><code class='java'>
 // writing everything to document
-extent.Flush();
+extent.flush();
 </code></pre>
-<p class='note'>It is recommended to call <code>Flush</code> only once at the end of your session because calling it multiple times will reduce the performance as the log file will be written/updated multiple times.</p>
-
-<h3 id='append-to-report'>Appending to an Existing Report</h3>
-<p>To append to a report you had previously created, simply mark <code>replaceExisting = false</code> and new tests will be appended to the same report.</p>
-<pre><code class='csharp'>
-var extent = new ExtentReports(file-path, false);
-</code></pre>
+<p class='note'>It is recommended to call <code>flush</code> only once at the end of your session because calling it multiple times will reduce the performance as the log file will be written/updated multiple times.</p>
 
 <h3 id='start-end-tests'>Starting and Ending Tests</h3>
-<p>To start tests, a new instance of <code>ExtentTest</code> must be created. To end, simply call <code>EndTest(testInstance)</code>.</p>
-<pre><code class='csharp'>
+<p>To start tests, a new instance of <code>ExtentTest</code> must be created. To end, simply call <code>endTest(testInstance)</code>.</p>
+<pre><code class='java'>
 // new instance
-var extent = new ExtentReports(file-path, replaceExisting);
+var extent = new ExtentReports(file-path);
 
 // starting test
 var test = extent.StartTest("Test Name", "Sample description");
@@ -132,16 +136,24 @@ extent.Flush();
 
 <h3 id='create-step-logs'>Creating Step Logs</h3>
 <p>There are 2 ways logs can be created: one that creates 3 columns and other that creates 4.  Always use only 1 type of log for the test otherwise the table will become malformed.</p>
-<pre><code class='csharp'>
+<pre><code class='java'>
 // creates 3 columns in table: TimeStamp, Status, Details
-Log(LogStatus, details);
+Log(LogStatus, Details);
+Log(LogStatus, Exception);
 
 // creates 4 columns in table: TimeStamp, Status, StepName, Details
-Log(LogStatus, stepName, details);
+Log(LogStatus, StepName, Details);
+Log(LogStatus, StepName, Exception);
+</code></pre>
+
+<h3 id='current-runstatus'>Getting Current RunStatus of Test</h3>
+<p>You can know the current status of the test during execution by calling the <code>GetRunStatus()</code> method.</p>
+<pre><code class='java'>
+LogStatus status = test.GetCurrentStatus();
 </code></pre>
 
 <h3 id='assign-category'>Assign Test Categories</h3>
-<p>You can assign categories to tests using <code>assignCategory(String... params)</code> method:</p>
+<p>You can assign categories to tests using <code>AssignCategory(String... params)</code> method:</p>
 <pre><code class='java'>
 test.AssignCategory("Regression");
 test.AssignCategory("Regression", "ExtentAPI");
@@ -153,18 +165,23 @@ var test = extent
     .StartTest("Categories")
     .AssignCategory("Regression", "ExtentAPI");
 </code></pre>
-<p>Each category will show under the test-name along with a list to filter tests:</p>
-<img class='bordered-img center' src='./img/category.png' />
+
+<h3 id='assign-author'>Assign Test Author(s)</h3>
+<p>Assign the author of the test (similar to <code>AssignCategory</code> above):</p>
+<pre><code class='java'>
+test.AssignAuthor("Anshoo");
+test.AssignAuthor("Anshoo", "Viren");
+</code></pre>
 
 <h3 id='child-tests'>Adding Child Tests</h3>
-<p>To add a test node as a child of another test, use the <code>AppendChild</code> method.</p>
+<p>To add a test node as a child of another test, use the <code>appendChild</code> method.</p>
 <pre><code class='java'>
-ExtentTest parent = extent.StartTest("Parent");
+var parent = extent.StartTest("Parent");
 
-ExtentTest child1 = extent.StartTest("Child 1");
+var child1 = extent.StartTest("Child 1");
 child1.Log(LogStatus.Info, "Info");
 
-ExtentTest child2 = extent.startTest("Child 2");
+var child2 = extent.StartTest("Child 2");
 child2.Log(LogStatus.Pass, "Pass");
 
 parent
@@ -176,30 +193,30 @@ extent.EndTest(parent);
 
 <h3 id='insert-custom-html'>Inserting custom HTML</h3>
 <p>Simply insert any custom HTML in the logs by using an HTML tag:</p>
-<pre><code class='csharp'>
-test.Log(LogStatus.INFO, "HTML", "Usage: &lt;span style='font-weight:bold;'&gt;BOLD TEXT&lt;/span&gt;");
+<pre><code class='java'>
+extent.Log(LogStatus.Info, "HTML", "Usage: &lt;span style='font-weight:bold;'&gt;BOLD TEXT&lt;/span&gt;");
 </code></pre>
 
 <h3 id='insert-screenshots'>Insert Snapshots</h3>
-<p>To add a screen-shot, simply call <code>AddScreenCapture</code>. This method returns the HTML with &lt;img&gt; tag which can be used anywhere in the log details. Calling <code>AddScreenCapture</code> will also add the image to the ImageCollectionView from where you can see all images used by your tests.</p>
-<pre><code class='csharp'>
-test.Log(LogStatus.INFO, "Snapshot below: " + test.AddScreenCapture("screenshot-path"));
+<p>To add a screen-shot, simply call <code>addScreenCapture</code>. This method returns the HTML with &lt;img&gt; tag which can be used anywhere in the log details. Calling <code>addScreenCapture</code> will also add the image to the ImageCollectionView from where you can see all images used by your tests.</p>
+<pre><code class='java'>
+test.Log(LogStatus.Info, "Snapshot below: " + test.addScreenCapture("screenshot-path"));
 </code></pre>
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the image to load.</p>
 
 <h3 id='insert-screencast'>Insert Screencast</h3>
-<p>To add a screencast/recording of your test run, use the <code>AddScreencast</code> method anywhere in the log details:</p>
-<pre><code class='csharp'>
-test.Log(LogStatus.INFO, "Screencast below: " + test.AddScreencast("screencast-path"));
+<p>To add a screencast/recording of your test run, use the <code>addScreencast</code> method anywhere in the log details:</p>
+<pre><code class='java'>
+test.Log(LogStatus.Info, "Screencast below: " + test.addScreencast("screencast-path"));
 </code></pre>
 <p>Relative paths starting with <code>.</code> and <code>/</code> are supported. If you using an absolute path, <code>file:///</code> will be automatically be appended for the screencst to load.</p>
 
 <h3 id='add-system-info'>Adding System Info</h3>
-<p>It is possible to add system or environment info for your using using the <code>AddSystemInfo</code> method. It is an overloaded method that allows you to add via a <code>Dictionary</code> or string pairs.</p>
+<p>It is possible to add system or environment info for your using using the <code>AddSystemInfo</code> method.</p>
 <p class='note'>By default, the <code>OS</code>, <code>User Name</code>, <code>Java Version</code> and <code>Host Name</code> will be available. You do not have to add these 4 items manually.</p>
-<pre><code class='csharp'>
-extent.AddSystemInfo("Selenium Version", "2.46");
-extent.AddSystemInfo("Environment", "Prod");
+<pre><code class='java'>
+extent.addSystemInfo("Selenium Version", "2.46");
+extent.addSystemInfo("Environment", "Prod");
 </code></pre>
 <pre><code class='csharp'>
 Dictionary<string, string> si = new Dictionary<string, string>()
@@ -210,7 +227,6 @@ Dictionary<string, string> si = new Dictionary<string, string>()
 
 extent.AddSystemInfo(si);
 </code></pre>
-<img class='bordered-img center' src='./img/system-info.png' /> 
 
 <h3 id='close-extent'>Clear all resources</h3>
 <p>Call <code>close()</code> at the very end of your session to clear all resources. If any of your test ended abruptly causing any side-affects (not all logs sent to ExtentReports, information missing), this method will ensure that the test is still appended to the report with a warning message.</p>
@@ -222,13 +238,16 @@ extent.AddSystemInfo(si);
     <li>You can call <code>flush</code> any number of times for a report session but <code>close</code> only once, because:</li>
     <li>Close closes the underlying stream and destroys the source references so no other Extent commands can be used</li>
 </ul>
+<pre><code class='java'>
+extent.close();
+</code></pre>
 
 <h2 id='examples'>Examples</h2>
 <p>This section shows basic examples to get started with ExtentReports 2.0. For multi-threaded execution models, see section <a href='#parallel-runs'>Creating Parallel Runs</a>.</p>
 
 <h3 id='basic-usage-example'>Basic Usage Example</h3>
 <p>A simple example with a static method.</p>
-<pre><code class='csharp'>
+<pre><code class='java'>
 namespace RelevantCodes.ExtentReports
 {
     class Program
@@ -257,212 +276,52 @@ namespace RelevantCodes.ExtentReports
 }
 </code></pre>
 
-<h3 id='nunit-example'>Nunit Example</h3>
-<p>A basic NUnit example with 2 tests - one passed and one with an error.</p>
-<pre><code class='csharp'>
-namespace NUnitDemo
-{
-    using System;
-    using NUnit.Framework;
-    using RelevantCodes.ExtentReports;
+<h2 id='configuration'>Configuration</h2>
 
-    public class ExtentManager
-    {
-        private static ExtentReports extent;
-
-        public static ExtentReports Instance
-        {
-            get
-            {
-                if (extent == null)
-                {
-                    extent = new ExtentReports(@"file-path", true);
-                }
-                return extent;
-            }
-        }
-    }
-
-    [TestFixture]
-    public class Demo
-    {
-        private ExtentReports extent = ExtentManager.Instance;
-        private ExtentTest test;
-
-        [TearDown]
-        public void Teardown()
-        {
-            extent.EndTest(test);
-            extent.Flush();
-        }
-
-        [Test]
-        public void FirstTest()
-        {
-            test = extent.StartTest("First Test", "Test Description");
-            test.Log(LogStatus.Info, "Info");
-        }
-
-        [Test]
-        public void SecondTest()
-        {
-            test = extent.StartTest("Second Test");
-            test.Log(LogStatus.Error, "Error");
-        }
-    }
-}
+<p>Version 2.40+ uses a <code>extent-config.xml</code> file to manage all customization of the report and also keep the configuration component separate from the code. Below is a sample of config xml:</p>
+<pre><code class='xml'>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;extentreports&gt;
+    &lt;configuration&gt;
+        &lt;!-- title of the document --&gt;
+        &lt;documentTitle&gt;ExtentReports 2.0&lt;/documentTitle&gt;
+        
+        &lt;!-- report name - displayed at top-nav --&gt;
+        &lt;reportName&gt;Automation Report&lt;/reportName&gt;
+        
+        &lt;!-- report headline - displayed at top-nav, after reportHeadline --&gt;
+        &lt;reportHeadline&gt;&lt;/reportHeadline&gt;
+        
+        &lt;!-- custom javascript --&gt;
+        &lt;js&gt;
+            &lt;![CDATA[
+                $(document).ready(function() {
+                    $('#enableDashboard').click();
+                });
+            ]]&gt;
+        &lt;/js&gt;
+        
+        &lt;!-- custom styles --&gt;
+        &lt;css&gt;
+            &lt;![CDATA[
+                
+            ]]&gt;
+        &lt;/css&gt;
+    &lt;/configuration&gt;
+&lt;/extentreports&gt;
 </code></pre>
 
-<h3 id='nunit-selenium-example'>Nunit Selenium Example With and Without Assert</h3>
-<p>A basic NUnit example showing a test with simple try-catch mechanism and an assert.</p>
-<pre><code class='csharp'>
-[TestFixture]
-public class NUnitTests
-{
-    private ExtentReports extent = ExtentManager.Instance;
-    private ExtentTest test;
-    private IWebDriver driver;
+<img class='bordered-img' src='img/config.png' />
 
-    [Test]
-    public void GoogleWithoutAssert()
-    {
-        test = extent
-            .StartTest("Google Search Without Assert", "Verifies if Google search button is displayed")
-            .AssignCategory("ExtentAPI", "NoAssert");
+<p>The configuration file can be saved as one of your project resources of kept externally.</p>
 
-        test.Log(LogStatus.Info, "Launching browser");
-        driver = new ChromeDriver();
-
-        test.Log(LogStatus.Info, "Navigating to google.com");
-        driver.Navigate().GoToUrl("http://google.com");
-
-        try
-        {
-            driver.FindElement(By.CssSelector("input[value*='Google Search']"));
-            test.Log(LogStatus.Pass, "Search button displayed");
-        }
-        catch (NoSuchElementException ex)
-        {
-            test.Log(LogStatus.Fail, "&lt;pre&gt;" + ex.StackTrace + "&lt;/pre&gt;");
-            throw;
-        }
-    }
-
-    [Test]
-    public void GoogleWithAssert()
-    {
-        test = extent
-            .StartTest("Google Search With Assert", "Verifies if Google search button is displayed")
-            .AssignCategory("ExtentAPI", "Assert");
-
-        test.Log(LogStatus.Info, "Launching browser");
-        driver = new ChromeDriver();
-
-        test.Log(LogStatus.Info, "Navigating to google.com");
-        driver.Navigate().GoToUrl("http://google.com");
-
-        var isFound = IsElementPresent(driver, By.CssSelector("input[value*='Googl Search']"));
-
-        try
-        {
-            Assert.AreEqual(true, isFound);
-            test.Log(LogStatus.Pass, "Search button displayed");
-        }
-        catch (AssertionException ex)
-        {
-            test.Log(LogStatus.Fail, "&lt;pre&gt;" + ex.StackTrace + "&lt;/pre&gt;");
-            throw;
-        }
-    }
-
-    private bool IsElementPresent(IWebDriver driver, By by)
-    {
-        try
-        {
-            driver.FindElement(by);
-            return true;
-        }
-        catch (NoSuchElementException) { return false; }
-    }
-
-    [TearDown]
-    public void Teardown()
-    {
-        driver.Quit();
-        extent.EndTest(test);
-        extent.Flush();
-    }
-}
-</code></pre>
-<p>View the <a href='./samples/SeleniumExample.html'>result</a>.</p>
-
-<h2 id='customization'>Customization</h2>
-<p>All customization is done at the report level and by using the <code>config()</code> method of ExtentReports. Remember, you can chain these methods as <code>config()</code> is fluent as shown below:</p>
-
-<pre><code class='csharp'>
-extent.Config()
-        .DocumentTitle("Title of the Report")
-        .ReportName("ExtentReports")
-        .ReportHeadline("A short headline.")
-        .InsertCustomStyles(".test { border:2px solid #444; }");
-</code></pre>
-<p>Output: <a href='./samples/Customization.html'>Customization.html</a></p>
-
-<h3 id='using-custom-css'>Using custom CSS</h3>
-<p>You can use your custom CSS directly in the document or load a custom css-stylesheet.</p>
-
-<pre><code class='csharp'>
-// custom styles
-String style = ".test { border: 2px solid #444; }";
-extent.Config().InsertCustomStyles(style);
-</code></pre>
-<pre><code class='csharp'>
-// custom stylesheet
-extent.Config().AddCustomStylesheet("C:\\css.css");
-</code></pre>
-
-<h3 id='using-custom-js'>Using custom JS</h3>
-<p>Just like having the ability to change document styles, you can also add your own custom scripts.</p>
-
-<pre><code class='csharp'>
-extent.Config().InsertJs("$('.test').click(function(){ alert('test clicked'); });");
-</code></pre>
-
-<h3 id='document-title'>Setting Document Title</h3>
-<p>It is possible to change the title of the report file using:</p>
-<pre><code class='csharp'>
-extent.Config().DocumentTitle("ExtentReports - DocumentTitle");
-</code></pre>
-
-<h3 id='report-name'>Setting Report Name</h3>
-<p>To set the report name, simply call the <code>reportName()</code> method:</p>
-<pre><code class='csharp'>
-extent.Config().ReportName("ExtentReports - ReportName");
-</code></pre>
-<p>The max length allowed for report-name is 20 characters.</p>
-
-<h3 id='report-headline'>Change Report Headline</h3>
-<p>You can remove or add your own summary by using the following config:</p>
-<pre><code class='csharp'>
-extent.Config().ReportHeadline("ExtentReports - ReportHeadline");
-</code></pre>
-<p>The max length allowed for report-headline is 70 characters.</p>
-
-<h3 id='themes'>Creating Themes Using Customization*</h3>
-<p>You can use your own styles to build themes to customize the layout as per your needs. Below is an example of a dark theme:</p>
+<p>To use this configuration, in your code, call <code>LoadConfig</code>:</p>
 
 <pre><code class='java'>
-String css = "body, .test .right span, .collapsible-header { background: #333; color: #fff; }" +
-                "nav, .tab, .card-panel { background: #000 !important; }" +
-                "table { border: 1px solid #555 !important; }" +
-                "pre { background: #333; border: 1px solid #777 !important; color: #eee !important; }" +
-                ".select-dropdown { background: #333; border-bottom: 1px solid #777 !important; }" +
-                ".select-dropdown li:hover, .select-dropdown li.active { background: #555; }" +
-                "table.bordered > thead > tr, table.bordered > tbody > tr, th, td { border-bottom: 1px solid #555 !important; }" +
-                "th, td, .test-name, .test-desc, .test .right span { color: #fff !important; }" +
-                ".test-body .collapsible > li { border: 1px solid #777; }";
+LoadConfig(File configFile);
 
-extent.config().insertCustomStyles(css);
+// file location: "C:\HelloWorld\extent-config.xml"
+loadConfig(new File(@"C:\HelloWorld\extent-config.xml"));
 </code></pre>
 
 <h2 id='license'>License</h2>
@@ -482,16 +341,25 @@ extent.config().insertCustomStyles(css);
 				<div class='col l4 hide-on-med-and-down'>
 					<div class='card-panel toc'>
 						<ul class='index'>
-							<li><a href='#whats-new'>What's new in 2.02</a></li>
+							<li><a href='#sample'>Sample</a></li>
+							<li><a href='#screenshots'>Screenshots</a></li>
+							<li><a href='#current-version'>Current Version</a></li>
+							
+							<li class='divider'></li>
+							
+							<li><a href='#whats-new'>What's new in 2.40.0-beta</a></li>
 							<li><a href='#author'>Owner / Developer</a>
 							<li><a href='#basic-usage'>Basic Usage</a>
 								<ul>
 									<li><a href='#initialize-report'>Initializing Report</a></li>
+									<li><a href='#custom-reporter'>Starting Custom Reporters</a></li>
 									<li><a href='#write-to-report'>Writing to Report</a></li>
 									<li><a href='#append-to-report'>Appending to an Existing Report</a></li>
 									<li><a href='#start-end-tests'>Starting and Ending Tests</a></li>
 									<li><a href='#create-step-logs'>Creating Step Logs</a></li>
+									<li><a href='#current-runstatus'>Getting Current RunStatus of Test</a></li>
 									<li><a href='#assign-category'>Assign Test Categories</a></li>
+									<li><a href='#assign-author'>Assign Test Author(s)</a></li>
 									<li><a href='#child-tests'>Adding Child Tests</a></li>
 									<li><a href='#insert-custom-html'>Inserting Custom HTML</a></li>
 									<li><a href='#insert-screenshots'>Insert Screenshots</a></li>
@@ -503,20 +371,9 @@ extent.config().insertCustomStyles(css);
 							<li><a href='#examples'>Examples</a>
 								<ul>
 									<li><a href='#basic-usage-example'>Basic Usage Example</a></li>
-									<li><a href='#nunit-example'>NUnit Example</a></li>
-									<li><a href='#nunit-selenium-example'>Nunit Selenium Example With and Without Assert</a></li>
 								</ul>
 							</li>
-							<li><a href='#customization'>Customization</a>
-								<ul>
-									<li><a href='#using-custom-css'>Using custom CSS</a></li>
-									<li><a href='#using-custom-js'>Using custom JS</a></li>
-									<li><a href='#document-title'>Setting Document/Report Title</a></li>
-									<li><a href='#report-name'>Setting Report Name</a></li>
-									<li><a href='#report-headline'>Setting Report Headline</a></li>
-									<li><a href='#themes'>Creating Themes Using Customization*</a></li>
-								</ul>
-							</li>
+							<li><a href='#configuration'>Configuration</a></li>
 							<li><a href='#license'>License</a></li>
 						</ul>
 					</div>
