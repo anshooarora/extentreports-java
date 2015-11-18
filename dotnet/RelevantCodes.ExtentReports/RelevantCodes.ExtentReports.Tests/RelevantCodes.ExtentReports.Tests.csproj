@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\NUnit 2.6.4\bin\framework\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,11 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ExtentManager.cs" />
+    <Compile Include="NUnit\AuthorTest.cs" />
+    <Compile Include="NUnit\CategoryAndAuthorTest.cs" />
+    <Compile Include="NUnit\ExtentBase.cs" />
+    <Compile Include="NUnit\CategoryTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NUnit\SingleLogTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RelevantCodes.ExtentReports\RelevantCodes.ExtentReports.csproj">
+      <Project>{48fac3cf-9e50-4cf1-b898-c2a54adec5f7}</Project>
+      <Name>RelevantCodes.ExtentReports</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

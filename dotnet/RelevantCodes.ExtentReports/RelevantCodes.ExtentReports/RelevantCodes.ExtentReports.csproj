@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{48FAC3CF-9E50-4CF1-B898-C2A54ADEC5F7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RelevantCodes.ExtentReports</RootNamespace>
     <AssemblyName>RelevantCodes.ExtentReports</AssemblyName>
@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\ConfigReader.cs" />
+    <Compile Include="Config\Configuration.cs" />
     <Compile Include="DBReporter.cs" />
     <Compile Include="DisplayOrder.cs" />
     <Compile Include="ExtentReports.cs" />

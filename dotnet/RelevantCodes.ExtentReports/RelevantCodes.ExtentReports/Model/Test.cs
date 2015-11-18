@@ -171,6 +171,8 @@ namespace RelevantCodes.ExtentReports.Model
 
         public Test()
         {
+            Status = LogStatus.Unknown;
+            
             StartTime = DateTime.Now;
             ID = Guid.NewGuid();
             //InternalWarning = "";

@@ -15,7 +15,7 @@ using RelevantCodes.ExtentReports.View;
 
 namespace RelevantCodes.ExtentReports
 {
-    internal class HTMLReporter : IReporter
+    public class HTMLReporter : IReporter
     {
          // report instance    
         private Report _report;
@@ -92,9 +92,62 @@ namespace RelevantCodes.ExtentReports
 
         public virtual void AddTest()
         {
-            _extentSource = Engine.Razor.RunCompile(View.Extent.Source, "extent", typeof(Model.Report), _report);
+            _extentSource = Engine.Razor.RunCompile(View.Extent.Source, "extent", typeof(HTMLReporter), this);
         }
 
+        public List<ExtentTest> TestList
+        {
+            get
+            {
+                return _report.TestList;
+            }
+        }
+
+        public Dictionary<string, List<Test>> CategoryMap 
+        { 
+            get
+            {
+                return _report.CategoryMap;
+            }
+        }
+
+        public DateTime StartTime
+        {
+            get
+            {
+                return _report.StartTime;
+            }
+        }
+
+        public Dictionary<string, string> SystemInfo
+        {
+            get
+            {
+                return _report.SystemInfo;
+            }
+        }
+
+        public List<string> TestRunnerLogs
+        {
+            get
+            {
+                return _report.TestRunnerLogs;
+            }
+        }
+
+        public Dictionary<string, string> ConfigurationMap
+        {
+            get
+            {
+                return _report.ConfigurationMap;
+            }
+        }
+
+        public string GetRunTime()
+        {
+            return _report.GetRunTime();
+        }
+        
         private void InitializeRazor()
         {
             TemplateServiceConfiguration templateConfig = new TemplateServiceConfiguration();

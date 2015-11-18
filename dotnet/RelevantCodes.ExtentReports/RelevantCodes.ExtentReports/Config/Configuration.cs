@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RelevantCodes.ExtentReports.Config
 {
-    internal class ConfigReader
+    public class Configuration
     {
         private string _filePath;
 
@@ -31,7 +31,7 @@ namespace RelevantCodes.ExtentReports.Config
             return configMap;
         }
 
-        public ConfigReader(string FilePath)
+        public Configuration(string FilePath)
         {
             _filePath = FilePath;
         }

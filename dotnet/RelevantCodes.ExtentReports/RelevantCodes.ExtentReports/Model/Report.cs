@@ -16,29 +16,28 @@ namespace RelevantCodes.ExtentReports.Model
         private List<IReporter> _reporterList;
         private LogStatus _reportStatus;
         private bool _terminated = false;
-        private string _configFile;
 
-        public string FilePath { get; protected set; }
+        internal string FilePath { get; set; }
 
-        public bool ReplaceExisting { get; protected set; }
+        internal bool ReplaceExisting { get; set; }
 
-        public DisplayOrder DisplayOrder { get; protected set; }
+        internal DisplayOrder DisplayOrder { get; set; }
 
-        public NetworkMode NetworkMode { get; protected set; }
+        internal NetworkMode NetworkMode { get; set; }
 
-        public List<ExtentTest> TestList { get; protected set; }
+        internal List<ExtentTest> TestList { get; set; }
 
-        public Dictionary<string, List<Test>> CategoryMap { get; private set; }
+        internal Dictionary<string, List<Test>> CategoryMap { get; private set; }
 
-        public DateTime StartTime;
+        internal DateTime StartTime;
 
         internal Test Test { get; private set; }
 
-        public Dictionary<string, string> SystemInfo { get; protected set; }
+        internal Dictionary<string, string> SystemInfo { get; set; }
 
-        public List<string> TestRunnerLogs { get; protected set; }
+        internal List<string> TestRunnerLogs { get; set; }
 
-        public Dictionary<string, string> ConfigurationMap { get; private set; }
+        internal Dictionary<string, string> ConfigurationMap { get; private set; }
 
         protected void Attach(IReporter Reporter)
         {
@@ -102,13 +101,12 @@ namespace RelevantCodes.ExtentReports.Model
             _reporterList.ForEach(x => x.Flush());
         }
 
-        protected virtual void ConfigurationFromFile(string FilePath)
+        protected virtual void LoadConfig(Configuration Config)
         {
-            var configReader = new ConfigReader(FilePath);
-            ConfigurationMap = configReader.Read();
+            ConfigurationMap = Config.Read();
         }
 
-        public string GetRunTime()
+        internal string GetRunTime()
         {
             TimeSpan diff = DateTime.Now.Subtract(StartTime);
 
