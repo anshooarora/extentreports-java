@@ -281,7 +281,7 @@ $(document).ready(function() {
 
 		$('#tests-toggle li').removeClass('active');
 		$(this).addClass('active');
-		$('.test, .node-list > li').hide(0).removeClass('displayed');
+		$('.test, .node-list > li').addClass('hide').removeClass('displayed');
 		
 		if (cat != '') {
 			$('.test').each(function() {
@@ -289,13 +289,13 @@ $(document).ready(function() {
 				
 				if (t.find('.category-assigned').hasClass(cat)) {
 					if (t.hasClass(opt) || t.has('.test-node.' + opt).length > 0) {
-						t.addClass('displayed').show(0);
+						t.addClass('displayed').removeClass('hide');
 					}
 				}
 			});
 		} 
 		else {
-			$('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).fadeIn(200).addClass('displayed');
+			$('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).removeClass('hide').addClass('displayed');
 		}
 		
 		$('.test.displayed').eq(0).click();
@@ -312,12 +312,9 @@ $(document).ready(function() {
 		var opt = $(this).text().toLowerCase();
 		var status = $('#tests-toggle li.active').text().toLowerCase();
 		
-		console.log(opt);
-		console.log(status);
-		
 		$('#category-toggle li').removeClass('active');
 		$(this).addClass('active');
-		$('.test').hide(0).removeClass('displayed');
+		$('.test').addClass('hide').removeClass('displayed');
 		
 		if (status != '') {
 			$('.test').each(function() {
@@ -325,16 +322,14 @@ $(document).ready(function() {
 				
 				if (t.find('.category-assigned').hasClass(opt)) {
 					if (t.hasClass(status) || t.has('.test-node.' + status).length > 0) {
-						t.addClass('displayed').show(0);                                        
+						t.addClass('displayed').removeClass('hide');
 					}
 				}
 			});
 		} 
 		else {
-			$('.test').each(function() {
-				if ($(this).find('.category-assigned').hasClass(opt)) {
-					$(this).fadeIn(200).addClass('displayed');
-				}
+			$('#test-collection .category-assigned.' + opt).each(function() {
+				$(this).parents(':eq(1)').removeClass('hide').addClass('displayed');
 			});
 		}
 		
@@ -359,7 +354,7 @@ $(document).ready(function() {
 /* action to perform when 'Clear Filters' option is selected [TEST] */
 function resetFilters() {
 	$('.dropdown-content li').removeClass('active');
-	$('.test, .node-list > li').addClass('displayed').show(0);
+	$('.test, .node-list > li').addClass('displayed').removeClass('hide');
 	redrawCharts();
 }
 
@@ -458,15 +453,15 @@ function refreshData() {
 		unknownTests = $('.test.displayed .node-list > li.unknown.displayed').length;
 	}
 	
-	totalSteps = $('td.status').length;
-	passedSteps = $('td.status.pass').length;
-	failedSteps = $('td.status.fail').length;
-	fatalSteps = $('td.status.fatal').length;
-	warningSteps = $('td.status.warning').length;
-	errorSteps = $('td.status.error').length;
-	infoSteps = $('td.status.info').length;
-	skippedSteps = $('td.status.skip').length;
-	unknownSteps = $('td.status.unknown').length;
+	totalSteps = $('#test-collection td.status').length;
+	passedSteps = $('#test-collection td.status.pass').length;
+	failedSteps = $('#test-collection td.status.fail').length;
+	fatalSteps = $('#test-collection td.status.fatal').length;
+	warningSteps = $('#test-collection td.status.warning').length;
+	errorSteps = $('#test-collection td.status.error').length;
+	infoSteps = $('#test-collection td.status.info').length;
+	skippedSteps = $('#test-collection td.status.skip').length;
+	unknownSteps = $('#test-collection td.status.unknown').length;
 	
 	$('.t-pass-count').text(passedTests);
 	$('.t-fail-count').text(failedTests + fatalTests);
