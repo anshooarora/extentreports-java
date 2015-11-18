@@ -20,9 +20,8 @@
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
         <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <link href='http://cdn.rawgit.com/anshooarora/extentreports/602ad4549f7418b85d1a2d7b491803532ceb728d/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
-        
-        
+        <link href='http://cdn.rawgit.com/anshooarora/extentreports/27b4c7a9179b9a686be0234008d723fe6980379a/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
+                
         <style>
             <#if report.configurationMap??>
                 ${report.configurationMap["styles"]}
@@ -251,8 +250,8 @@
                                         <div class='test-body'>
                                             <div class='test-info'>
                                                 <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${test.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
-                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${test.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
-                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>${test.getRunDuration()}</span>
+                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'><#if test.endedTime??>${test.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</#if></span>
+                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'><#if test.endedTime??>${test.getRunDuration()}</#if></span>
                                             </div>
                                             <div class='test-desc'>${test.description}</div>
                                             <div class='test-attributes'>
@@ -508,8 +507,7 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <script src='http://cdn.rawgit.com/anshooarora/extentreports/602ad4549f7418b85d1a2d7b491803532ceb728d/dist-artifacts/extent.js' type='text/javascript'></script>
-        
+        <script src='http://cdn.rawgit.com/anshooarora/extentreports/27b4c7a9179b9a686be0234008d723fe6980379a/dist-artifacts/extent.js' type='text/javascript'></script>
         <script>
             <#if report.configurationMap??>
                 ${report.configurationMap["scripts"]}

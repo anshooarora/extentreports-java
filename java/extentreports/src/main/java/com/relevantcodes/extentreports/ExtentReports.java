@@ -70,7 +70,16 @@ public class ExtentReports extends Report {
         setDisplayOrder(displayOrder);
         setNetworkMode(networkMode);
         
-        loadConfig(ExtentReports.class, "resources", extentConfigFile);
+        String resourceFile = ExtentReports.class
+        		.getPackage()
+        		.getName()
+        		.replace(".", "/")
+        			+ "/resources/"
+        			+ extentConfigFile;
+
+        loadConfig(
+        		getClass().getClassLoader().getResource(resourceFile)
+        );
         
         attach(new HTMLReporter(filePath));
         
@@ -253,6 +262,17 @@ public class ExtentReports extends Report {
 
     /**
      * <p>
+     * Allows performing configuration and customization to the HTML report from URL resource
+     * 
+     * @param url
+     * 		URL pointer to the resource file
+     */
+	public void loadConfig(URL url) {
+    	loadConfig(new Configuration(url));
+    }
+    
+    /**
+     * <p>
      * Allows performing configuration and customization to the HTML report from local resource
      * 
      * @param clazz
@@ -429,7 +449,7 @@ public class ExtentReports extends Report {
      * 		Name of system parameter
      * 
      * @param value 
-     * 		Value
+     * 		Value of system parameter
      * 
      * @return 
      * 		An {@link ExtentReports} object

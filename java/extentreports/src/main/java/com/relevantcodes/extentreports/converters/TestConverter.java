@@ -30,7 +30,7 @@ public class TestConverter extends LogSettings {
 		if (body == null || body.size() == 0) {
 			logger.log(
 					Level.SEVERE, 
-					"The supplied file " + file.getAbsolutePath() + " is not a valid Extent file." +
+					"The supplied file " + file.getAbsolutePath() + " is not a valid Extent file. " +
 					"Unable to parse file to extra test contents."
 			);
 			
@@ -51,13 +51,13 @@ public class TestConverter extends LogSettings {
             extentTest.getTest().setStartedTime(
             		DateTimeUtil.getDate(
             				test.select(".test-started-time").first().text(), 
-            				LogSettings.getLongDateTimeFormat()
+            				LogSettings.getLogDateTimeFormat()
             		)
             );
             extentTest.getTest().setEndedTime(
             		DateTimeUtil.getDate(
             				test.select(".test-ended-time").first().text(),
-            				LogSettings.getLongDateTimeFormat()
+            				LogSettings.getLogDateTimeFormat()
             		)
             );
             

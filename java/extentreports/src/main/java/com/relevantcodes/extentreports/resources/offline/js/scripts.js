@@ -322,7 +322,7 @@ $(document).ready(function() {
 
         $('#tests-toggle li').removeClass('active');
         $(this).addClass('active');
-        $('.test, .node-list > li').hide(0).removeClass('displayed');
+        $('.test, .node-list > li').addClass('hide').removeClass('displayed');
         
         if (cat != '') {
             $('.test').each(function() {
@@ -330,13 +330,13 @@ $(document).ready(function() {
                 
                 if (t.find('.category-assigned').hasClass(cat)) {
                     if (t.hasClass(opt) || t.has('.test-node.' + opt).length > 0) {
-                        t.addClass('displayed').show(0);
+                        t.addClass('displayed').removeClass('hide');
                     }
                 }
             });
         } 
         else {
-            $('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).fadeIn(200).addClass('displayed');
+            $('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).removeClass('hide').addClass('displayed');
         }
         
         $('.test.displayed').eq(0).click();
@@ -353,12 +353,9 @@ $(document).ready(function() {
         var opt = $(this).text().toLowerCase();
         var status = $('#tests-toggle li.active').text().toLowerCase();
         
-        console.log(opt);
-        console.log(status);
-        
         $('#category-toggle li').removeClass('active');
         $(this).addClass('active');
-        $('.test').hide(0).removeClass('displayed');
+        $('.test').addClass('hide').removeClass('displayed');
         
         if (status != '') {
             $('.test').each(function() {
@@ -366,16 +363,14 @@ $(document).ready(function() {
                 
                 if (t.find('.category-assigned').hasClass(opt)) {
                     if (t.hasClass(status) || t.has('.test-node.' + status).length > 0) {
-                        t.addClass('displayed').show(0);                                        
+                        t.addClass('displayed').removeClass('hide');
                     }
                 }
             });
         } 
         else {
-            $('.test').each(function() {
-                if ($(this).find('.category-assigned').hasClass(opt)) {
-                    $(this).fadeIn(200).addClass('displayed');
-                }
+            $('#test-collection .category-assigned.' + opt).each(function() {
+                $(this).parents(':eq(1)').removeClass('hide').addClass('displayed');
             });
         }
         

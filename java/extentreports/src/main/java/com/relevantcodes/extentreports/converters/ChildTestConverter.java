@@ -42,14 +42,14 @@ public class ChildTestConverter extends LogSettings {
                 extentNode.setStartedTime(
                         DateTimeUtil.getDate(
                                 node.select(".test-started-time").first().text(), 
-                                getLongDateTimeFormat()
+                                getLogDateTimeFormat()
                         )
                 );
                 
                 extentNode.setEndedTime(
                         DateTimeUtil.getDate(
                                 node.select(".test-ended-time").first().text(), 
-                                getLongDateTimeFormat()
+                                getLogDateTimeFormat()
                         )
                 );
                 

@@ -45,7 +45,7 @@ public class ExtentTest {
     
     /**
      * <p>
-     * This method creates a test node as a top-most level test
+     * Creates a test node as a top-most level test
      * 
      * @param testName 
      * 		Test name
@@ -64,7 +64,7 @@ public class ExtentTest {
      * Logs events for the test
      * 
      * <p>
-     * Log event with this signature is shown in the report with 4 columns:
+     * Log event is shown in the report with 4 columns:
      * 
      * <ul>
      * 	<li>Timestamp</li>
@@ -100,7 +100,7 @@ public class ExtentTest {
      * Logs events for the test
      * 
      * <p>
-     * Log event with this signature is shown in the report with 4 columns:
+     * Log event is shown in the report with 4 columns:
      * 
      * <ul>
      * 	<li>Timestamp</li>
@@ -127,7 +127,7 @@ public class ExtentTest {
      * Logs events for the test
      * 
      * <p>
-     * Log event with this signature is shown in the report with 3 columns:
+     * Log event is shown in the report with 3 columns:
      * 
      * <ul>
      * 	<li>Timestamp</li>
@@ -150,7 +150,7 @@ public class ExtentTest {
      * Logs events for the test
      * 
      * <p>
-     * Log event with this signature is shown in the report with 3 columns:
+     * Log event is shown in the report with 3 columns:
      * 
      * <ul>
      * 	<li>Timestamp</li>
@@ -170,7 +170,11 @@ public class ExtentTest {
     
     /**
      * <p>
-     * Allows for adding a snapshot to the log event details
+     * Adds a snapshot to the log event details
+     * 
+     * <p>
+     * Note: this method does not attach the screen-cast to the report, it only
+     * links to the path
      * 
      * @param imgPath 
      * 		Path of the image
@@ -195,7 +199,11 @@ public class ExtentTest {
     
     /**
      * <p>
-     * Allows for adding a screen cast to the log event details
+     * Adds a screen cast to the log event details
+     * 
+     * <p>
+     * Note: this method does not attach the screen-cast to the report, it only
+     * links to the path
      * 
      * @param screencastPath 
      * 		Path of the screencast
@@ -326,6 +334,10 @@ public class ExtentTest {
      * <p>
      * Returns the underlying test which controls the internal model
      * 
+     * <p>
+     * This allows manipulating the test instance by accessing the internal methods 
+     * and properties of the test
+     * 
      * @return 
      * 		A {@link Test} object
      */
@@ -333,6 +345,16 @@ public class ExtentTest {
         return test;
     }
     
+    /**
+     * <p>
+     * Determines if path of the file is relative or absolute
+     * 
+     * @param path
+     * 		Path of the file
+     * 
+     * @return
+     * 		Boolean
+     */
     private Boolean isPathRelative(String path) {
         if (path.indexOf("http") == 0 || !new File(path).isAbsolute()) {
             return true;

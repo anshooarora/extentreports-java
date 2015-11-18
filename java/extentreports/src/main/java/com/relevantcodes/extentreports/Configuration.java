@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +61,7 @@ public class Configuration {
 			return configurationMap;
 		} 
 		catch (IOException e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, "The configuration file or URL was not found", e);
 		}
 		catch (SAXException e) {
 			e.printStackTrace();
@@ -78,11 +77,8 @@ public class Configuration {
 		try {
 			stream = url.openStream();
 			
-			try {
-				logger.log(Level.INFO, "Configurating report from " + url.toURI());
-			} 
-			catch (URISyntaxException e) { }
-			
+			logger.log(Level.INFO, "Configurating report from " + url.getPath());
+
 			configurationMap = new HashMap<String, String>();
 		} 
 		catch (IOException e) {
@@ -94,7 +90,7 @@ public class Configuration {
 		try {
 			stream = new FileInputStream(file);
 			
-			logger.log(Level.INFO, "Configurating report from " + file.getAbsolutePath());
+			logger.log(Level.INFO, "Configurating report from " + file.getPath());
 			
 			configurationMap = new HashMap<String, String>();
 		} 
