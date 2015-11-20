@@ -18,6 +18,12 @@
         </title>
         
         <link href='./extentreports/css/css.css' type='text/css' rel='stylesheet' />
+        
+        <style>
+            <#if report.configurationMap??>
+                ${report.configurationMap["styles"]}
+            </#if>
+        </style>
     </head>
     <body class='extent'>
         <!-- nav -->
@@ -36,7 +42,7 @@
             <span class='report-name'><#if report.configurationMap??>${report.configurationMap["reportName"]}</#if></span> <span class='report-headline'><#if report.configurationMap??>${report.configurationMap["reportHeadline"]}</#if></span>
             <ul class='right hide-on-med-and-down nav-right'>
                 <li>
-                    <span class='suite-started-time'>${.now?datetime}</span>
+                    <span class='suite-started-time'>${.now?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                 </li>
                 <li>
                     <span>v2.40.0</span>
@@ -72,13 +78,13 @@
                     <div class='col l2 m6 s6 suite-start-time'>
                         <div class='card green-accent'> 
                             <span class='panel-name'>Start</span> 
-                            <span class='panel-lead suite-started-time'>${report.startedTime?datetime}</span> 
+                            <span class='panel-lead suite-started-time'>${report.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span> 
                         </div> 
                     </div>
                     <div class='col l2 m6 s6 suite-end-time'>
                         <div class='card pink-accent'> 
                             <span class='panel-name'>End</span> 
-                            <span class='panel-lead suite-ended-time'>${.now?datetime}</span> 
+                            <span class='panel-lead suite-ended-time'>${.now?datetime?string("yyyy-MM-dd HH:mm:ss")}</span> 
                         </div> 
                     </div>
                 </div>
@@ -189,11 +195,19 @@
                             <ul id='tests-toggle' class='dropdown-content'>
                                 <li class='pass'><a href='#!'>Pass</a></li>
                                 <li class='fail'><a href='#!'>Fail</a></li>
-                                <li class='fatal hide'><a href='#!'>Fatal</a></li>
-                                <li class='error hide'><a href='#!'>Error</a></li>
-                                <li class='warning hide'><a href='#!'>Warning</a></li>
+                                <#if report.logStatusList?? && report.logStatusList?seq_contains(LogStatus.FATAL)>
+                                    <li class='fatal'><a href='#!'>Fatal</a></li>                                
+                                </#if>
+                                <#if report.logStatusList?? && report.logStatusList?seq_contains(LogStatus.ERROR)>
+                                    <li class='error'><a href='#!'>Error</a></li>
+                                </#if>
+                                <#if report.logStatusList?? && report.logStatusList?seq_contains(LogStatus.WARNING)>
+                                    <li class='warning'><a href='#!'>Warning</a></li>
+                                </#if>    
                                 <li class='skip'><a href='#!'>Skip</a></li>
-                                <li class='unknown hide'><a href='#!'>Unknown</a></li>
+                                <#if report.logStatusList?? && report.logStatusList?seq_contains(LogStatus.UNKNOWN)>
+                                    <li class='unknown'><a href='#!'>Unknown</a></li>
+                                </#if>
                                 <li class='divider'></li>
                                 <li class='clear'><a href='#!'>Clear Filters</a></li>
                             </ul>
@@ -234,15 +248,15 @@
                                     <#assign test = extentTest.getTest()>
                                     <li class='collection-item test displayed active ${test.status}'>
                                         <div class='test-head'>
-                                            <span class='test-name'>${test.name}</span>
+                                            <span class='test-name'>${test.name} <#if test.internalWarning??><i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='${test.internalWarning}'></i></#if></span>
                                             <span class='test-status right label capitalize ${test.status}'>${test.status}</span>
                                             <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case}</#list>'></span>
                                         </div>
                                         <div class='test-body'>
                                             <div class='test-info'>
-                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${test.startedTime?datetime}</span>
-                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${test.endedTime?datetime}</span>
-                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>${test.getRunDuration()}</span>
+                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${test.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
+                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'><#if test.endedTime??>${test.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</#if></span>
+                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'><#if test.endedTime??>${test.getRunDuration()}</#if></span>
                                             </div>
                                             <div class='test-desc'>${test.description}</div>
                                             <div class='test-attributes'>
@@ -278,7 +292,7 @@
                                                             <tr>
                                                                 <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='fa fa-${Icon.getIcon(log.logStatus)}'></i></td>
                                                                 <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
-                                                                <#if test.logList[log?index].stepName?? && test.logList[log?index].stepName?has_content>
+                                                                <#if test.logList[0].stepName??>
                                                                     <td class='step-name'>${log.stepName}</td>
                                                                 </#if>
                                                                 <td class='step-details'>${log.details}</td>
@@ -294,8 +308,8 @@
                                                                 <li class='displayed ${node.status} node-${depth}x'>
                                                                     <div class='collapsible-header test-node ${node.status}'>
                                                                         <div class='right test-info'>
-                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime}</span>
-                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime}</span>
+                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
+                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                                                                             <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
                                                                             <span class='test-status label capitalize ${node.status}'>${node.status}</span>
                                                                         </div>
@@ -494,7 +508,8 @@
         </div>
         <!-- /filter for step status -->
         
-        <script type='text/javascript' src='./extentreports/js/scripts.js'></script>
+        <script type='text/javascript' src='./extentreports/js/scripts.js'></script>        
+        <script>jQuery(document).ready(function() { jQuery('.logo span').html('ExtentReports'); });</script>
         <script>
             <#if report.configurationMap??>
                 ${report.configurationMap["scripts"]}

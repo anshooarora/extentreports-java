@@ -106,7 +106,17 @@ $(document).ready(function() {
         if (pinWidth == '54.5%') { pinWidth = '49.5%'; }
         else { pinWidth = '54.5%'; }
         
-        $('.logo .left, .side-nav input, .side-nav label').toggleClass('hide');
+        if (menuWidth == 240) {
+            $('.logo > a:first-child').delay(120).queue(function(next){
+                $(this).removeClass('hide');
+                next();
+            });
+        }
+        else {
+            $('.logo > a:first-child').addClass('hide');
+        }
+        
+        $('.side-nav input, .side-nav label').toggleClass('hide');
         
         $('.side-nav').animate({
             width: menuWidth + 'px'
@@ -247,38 +257,29 @@ $(document).ready(function() {
     });
     
     /* filter tests by text [TEST] */
-    $(document).keypress(function(e) {
-        if(e.which == 13) {
-            if ($('#searchTests').is(':focus')) {
-                var txt = $('#searchTests').val().toLowerCase();
-                
-                hideElement($('#test-collection .test'));
-                
-                $('.test-name, .test-desc').each(function() {
-                    var t = $(this);
-                    
-                    if (t.text().toLowerCase().indexOf(txt) >= 0) {
-                        showElement(t.closest('.test'));
-                    }
-                });
-                
-                $('.test-node-name').each(function() {
-                    var t = $(this);
-                    if (t.text().toLowerCase().indexOf(txt) >= 0) {
-                        showElement(t.closest('.test'));
-                    }                               
-                });
-                
-                $('.details-container .test-node-name').each(function() {
-                    if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
-                        showElement($('.test.active'));
-                    }
-                });
-                
-                $('.test:visible').eq(0).click();
+    $.fn.dynamicTestSearch = function(){ 
+        var target = $(this);
+        var searchBox = $('#searchTests');
+        
+        searchBox.off('keyup').on('keyup', function() {
+            pattern = RegExp(searchBox.val(), 'gi');
+            
+            if (searchBox.val() == '') {
+                target.removeClass('hide');
             }
-        }
-    });
+            else {
+                target.addClass('hide').each(function() {
+                    var t = $(this);
+                    if (pattern.test(t.html())) {
+                        t.removeClass('hide');
+                    }
+                });
+            }
+        });
+        
+        return target;
+    }
+    $('.test').dynamicTestSearch();
 
     /* if only header row is available for test, hide the table [TEST] */
     $('.table-results').filter(function() {
@@ -394,8 +395,8 @@ $(document).ready(function() {
 
 /* action to perform when 'Clear Filters' option is selected [TEST] */
 function resetFilters() {
-    $('.dropdown-content li').removeClass('active');
-    $('.test, .node-list > li').addClass('displayed').show(0);
+    $('.dropdown-content, .dropdown-content li').removeClass('active');
+    $('.test, .node-list > li').addClass('displayed').removeClass('hide');
     redrawCharts();
 }
 
@@ -494,15 +495,15 @@ function refreshData() {
         unknownTests = $('.test.displayed .node-list > li.unknown.displayed').length;
     }
     
-    totalSteps = $('td.status').length;
-    passedSteps = $('td.status.pass').length;
-    failedSteps = $('td.status.fail').length;
-    fatalSteps = $('td.status.fatal').length;
-    warningSteps = $('td.status.warning').length;
-    errorSteps = $('td.status.error').length;
-    infoSteps = $('td.status.info').length;
-    skippedSteps = $('td.status.skip').length;
-    unknownSteps = $('td.status.unknown').length;
+    totalSteps = $('#test-collection td.status').length;
+    passedSteps = $('#test-collection td.status.pass').length;
+    failedSteps = $('#test-collection td.status.fail').length;
+    fatalSteps = $('#test-collection td.status.fatal').length;
+    warningSteps = $('#test-collection td.status.warning').length;
+    errorSteps = $('#test-collection td.status.error').length;
+    infoSteps = $('#test-collection td.status.info').length;
+    skippedSteps = $('#test-collection td.status.skip').length;
+    unknownSteps = $('#test-collection td.status.unknown').length;
     
     $('.t-pass-count').text(passedTests);
     $('.t-fail-count').text(failedTests + fatalTests);

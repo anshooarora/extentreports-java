@@ -69,6 +69,10 @@ td {
     padding: 7px 10px;
     word-break: break-all;
 }
+input[type='text'] {
+    font-size: inherit;
+    height: 2rem;
+}
 i { 
     cursor: default;
 }
@@ -115,10 +119,6 @@ h5 {
 .input-field label {
     font-size: 11px !important;
     left: 0;
-}
-input[type='text'] {
-    font-size: inherit;
-    height: 2rem;
 }
 
 /* -- [ global structure ] -- */
@@ -235,8 +235,8 @@ img.active {
     margin-right: 10px;
 }
 .icon {
-    border: 2px solid #7e757d;
-    color: #7e757d;
+    border: 1px solid #aaa;
+    color: #777;
     border-radius: 100%;
     font-size: 1rem !important;
     padding: 1px 6px;
@@ -294,10 +294,8 @@ nav ul li:hover {
 .side-nav li {
     display: block;
 }
-.side-nav .active, .side-nav .active, .analysis:hover {
-    
-}
 .side-nav a, .side-nav label, .analysis i {
+    cursor: default;
     font-size: 13px !important;
 }
 .analysis i {
@@ -305,9 +303,8 @@ nav ul li:hover {
 }
 .side-nav .menu-toggle {
     background: #25cbe3;
-    cursor: pointer;
-    margin-right: -15px;
-    padding: 0 24px !important;
+    margin-right: -24px;
+    padding: 0 22px 0 12px !important;
 }
 .logo {
     background: #00bcd4;
@@ -320,8 +317,10 @@ nav ul li:hover {
     color: #fff !important;
 }
 .logo i {
-    margin-top: 10px;
     padding: 0;
+}
+.menu-toggle > i {
+    font-size: 2.8rem !important;
 }
 
 /* -- [ dashboard ] -- */
@@ -436,14 +435,16 @@ nav ul li:hover {
 .filters > div {
     display: inline-block;
 }
-.search {
-    margin-left: 10px;
-}
 .search > .input-field {
     display: inline-block;
+    height: 1px;
+    margin-left: 10px;
     margin-right: 10px;
     margin-top: 0;
     width: 0;
+}
+.search .icon {
+    margin-left: -16px;
 }
 .dropdown-content li > a, .dropdown-content li > span {
     color: #444;
@@ -648,6 +649,9 @@ span.category {
 }
 
 /* -- [ status styles ] -- */
+.status i {
+    font-size: 1rem;
+}
 .status.fail, .fail i {
     color: #eb4549;
 } 
@@ -755,7 +759,7 @@ th {
 }
 .icon {
     border-radius: 60px;
-    font-size: 1rem !important;
+    font-size: .8rem !important;
     padding: 5px 7px;
 }
 #cat-details-wrapper .icon {

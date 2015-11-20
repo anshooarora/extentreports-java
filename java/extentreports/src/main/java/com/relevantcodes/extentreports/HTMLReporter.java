@@ -23,9 +23,13 @@ import com.relevantcodes.extentreports.utils.Resources;
 import com.relevantcodes.extentreports.utils.Writer;
 import com.relevantcodes.extentreports.view.Icon;
 
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import freemarker.template.TemplateHashModel;
+import freemarker.template.TemplateModelException;
 
 
 /**  
@@ -57,10 +61,21 @@ public class HTMLReporter extends LogSettings implements IReporter {
         if (templateMap != null) {
             return;
         }
-        
+
         templateMap = new HashMap<String, Object>();
         templateMap.put("report", this);
-        templateMap.put("Icon", new Icon());
+        templateMap.put("Icon", new Icon(report.getNetworkMode()));
+        
+        BeansWrapperBuilder builder = new BeansWrapperBuilder(Configuration.VERSION_2_3_23);
+        BeansWrapper beansWrapper = builder.build();
+        
+        try {
+			TemplateHashModel fieldTypeModel = (TemplateHashModel)beansWrapper.getEnumModels().get(LogStatus.class.getName());
+			templateMap.put("LogStatus", fieldTypeModel);
+		} 
+        catch (TemplateModelException e) {
+			e.printStackTrace();
+		}
         
         File reportFile = new File(filePath);
 
@@ -72,7 +87,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
     }
     
     private void initOfflineMode(File file) {
-    	String s = File.separator;
+    	String s = "/";
     	
     	String resourcePackagePath = HTMLReporter.class.getPackage().getName().replace(".", s);
     	resourcePackagePath += s + "resources" + s;
@@ -154,7 +169,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
 
         cfg.setClassForTemplateLoading(HTMLReporter.class, "view");
         cfg.setDefaultEncoding("UTF-8");
-
+        
         return cfg;
     }
     
@@ -204,6 +219,10 @@ public class HTMLReporter extends LogSettings implements IReporter {
     
     public List<String> getTestRunnerLogList() {
         return report.getTestRunnerLogList();
+    }
+    
+    public List<LogStatus> getLogStatusList() {
+    	return report.getLogStatusList();
     }
     
     public HTMLReporter(String filePath) { 

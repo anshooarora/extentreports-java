@@ -6,19 +6,31 @@
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com 
         -->
-        <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
+        <meta http-equiv='content-type' content='text/html; charset=UTF-8' /> 
         <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <title>ExtentReports 2.40</title>
+        
+        <title>
+                ExtentReports 2.0
+        </title>
+        
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
         <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <!-- <link href='http://cdn.rawgit.com/anshooarora/extentreports/master/dist-artifacts/extent.css' type='text/css' rel='stylesheet' /> -->
-        <link href='file:///C:/Users/Anshoo/git/extentreports/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
-        <style></style>
+        <link href='http://cdn.rawgit.com/anshooarora/extentreports/27b4c7a9179b9a686be0234008d723fe6980379a/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
+        <!-- <link href='file:///C:/Users/Anshoo/git/extentreports/dist-artifacts/extent.css' type='text/css' rel='stylesheet' /> -->
+        
+        <style>
+                
+            
+                
+            
+        
+        </style>
     </head>
-    <body class='extent'>  
+    <body class='extent'>
+        <!-- nav -->
         <nav>
             <ul id='slide-out' class='side-nav fixed'>
                 <li class='logo'>
@@ -31,17 +43,22 @@
                 <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
-            <span class='report-name'>Automation Report</span> <span class='report-headline'></span>
+            <span class='report-name'>Automation Report</span> <span class='report-headline'> [Headline]</span>
             <ul class='right hide-on-med-and-down nav-right'>
                 <li>
-                    <span class='suite-started-time'>Nov 13, 2015 1:05:39 PM</span>
+                    <span class='suite-started-time'>2015-11-19 08:58:55</span>
                 </li>
                 <li>
                     <span>v2.40.0</span>
                 </li>
             </ul>
         </nav>
+        <!-- /nav -->
+        
+        <!-- container -->
         <div class='container'>
+            
+            <!-- dashboard -->
             <div id='dashboard-view' class='row'>
                 <div class='time-totals'>
                     <div class='col l2 m4 s6'>
@@ -59,19 +76,19 @@
                     <div class='col l4 m4 s12'>
                         <div class='card suite-total-steps'> 
                             <span class='panel-name'>Total Time Taken</span> 
-                            <span class='suite-total-time-taken panel-lead'>0h 0m 0s+606ms</span> 
+                            <span class='suite-total-time-taken panel-lead'>0h 0m 0s+506ms</span> 
                         </div> 
                     </div>
                     <div class='col l2 m6 s6 suite-start-time'>
                         <div class='card green-accent'> 
                             <span class='panel-name'>Start</span> 
-                            <span class='panel-lead suite-started-time'>Nov 13, 2015 1:05:39 PM</span> 
+                            <span class='panel-lead suite-started-time'>2015-11-19 08:58:54</span> 
                         </div> 
                     </div>
                     <div class='col l2 m6 s6 suite-end-time'>
                         <div class='card pink-accent'> 
                             <span class='panel-name'>End</span> 
-                            <span class='panel-lead suite-ended-time'>Nov 13, 2015 1:05:39 PM</span> 
+                            <span class='panel-lead suite-ended-time'>2015-11-19 08:58:55</span> 
                         </div> 
                     </div>
                 </div>
@@ -174,6 +191,9 @@
                     </div>
                 </div>
             </div>
+            <!-- /dashboard -->
+            
+            <!-- tests -->
             <div id='test-view' class='row'>
                 <div class='col s5'>
                     <div class='card-panel filters'>
@@ -219,9 +239,9 @@
                                         </div>
                                         <div class='test-body'>
                                             <div class='test-info'>
-                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>Nov 13, 2015 1:05:36 PM</span>
-                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>Nov 13, 2015 1:05:38 PM</span>
-                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>0h 0m 2s+31ms</span>
+                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>2015-11-19 08:58:52</span>
+                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>2015-11-19 08:58:54</span>
+                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>0h 0m 2s+4ms</span>
                                             </div>
                                             <div class='test-desc'></div>
                                             <div class='test-attributes'>
@@ -237,8 +257,8 @@
                                                     </thead>
                                                     <tbody>
                                                             <tr>
-                                                                <td class='status pass'><i class='fa fa-check-circle-o'></i></td>
-                                                                <td class='timestamp'>13:05:39</td>
+                                                                <td class='status pass' title='pass' alt='pass'><i class='fa fa-check-circle-o'></i></td>
+                                                                <td class='timestamp'>08:58:54</td>
                                                                 <td class='step-details'>Test passed</td>
                                                             </tr>
                                                     </tbody>
@@ -256,9 +276,9 @@
                                         </div>
                                         <div class='test-body'>
                                             <div class='test-info'>
-                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>Nov 13, 2015 1:05:34 PM</span>
-                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>Nov 13, 2015 1:05:36 PM</span>
-                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>0h 0m 2s+25ms</span>
+                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>2015-11-19 08:58:50</span>
+                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>2015-11-19 08:58:52</span>
+                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>0h 0m 2s+19ms</span>
                                             </div>
                                             <div class='test-desc'></div>
                                             <div class='test-attributes'>
@@ -274,8 +294,8 @@
                                                     </thead>
                                                     <tbody>
                                                             <tr>
-                                                                <td class='status fail'><i class='fa fa-times-circle-o'></i></td>
-                                                                <td class='timestamp'>13:05:39</td>
+                                                                <td class='status fail' title='fail' alt='fail'><i class='fa fa-times-circle-o'></i></td>
+                                                                <td class='timestamp'>08:58:54</td>
                                                                 <td class='step-details'><pre>java.lang.AssertionError: expected [warning] but found [pass]
 	at org.testng.Assert.fail(Assert.java:94)
 	at org.testng.Assert.failNotEquals(Assert.java:494)
@@ -327,6 +347,9 @@
                     </div>
                 </div>
             </div>
+            <!-- /tests -->
+            
+            <!-- categories -->
             <div id='categories-view' class='row hide'>
                 <div class='col s5'>
                     <div class='card-panel no-padding-h no-padding-v vh100'>
@@ -344,15 +367,24 @@
                     </div>
                 </div>
             </div>
+            <!-- /categories -->
+            
+            <!-- testrunner logs -->
             <div id='testrunner-logs-view' class='row hide'>
                 <div class='col s12'>
                     <div class='card-panel'>
                         <h5>TestRunner Logs</h5>
-                        Started passTest
+                            <p>Started intentionalFailure</p>
+                            <p>Started passTest</p>
                     </div>
                 </div>
             </div>
+            <!-- /testrunner logs -->
+            
         </div>
+        <!-- /container -->
+        
+        <!-- test dashboard counts setting -->
         <div id='test-count-setting' class='modal bottom-sheet'> 
             <div class='modal-content'> 
                 <h5>Configure Tests Count Setting</h5> 
@@ -368,7 +400,10 @@
             <div class='modal-footer'> 
                 <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
             </div> 
-        </div> 
+        </div>
+        <!-- /test dashboard counts setting -->
+        
+        <!-- filter for step status -->
         <div id='step-status-filter' class='modal bottom-sheet'> 
             <div class='modal-content'> 
                 <h5>Select status</h5> 
@@ -395,16 +430,26 @@
                 <br> 
                 <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-unknown'> 
                 <label for='step-dashboard-filter-unknown'>Unknown</label> 
-            </div> 
+            </div>
             <div class='modal-footer'> 
                 <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
             </div> 
         </div>
+        <!-- /filter for step status -->
+        
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <!-- <script src='http://cdn.rawgit.com/anshooarora/extentreports/master/dist-artifacts/extent.js' type='text/javascript'></script> -->
-        <script src='file:///C:/Users/Anshoo/git/extentreports/dist-artifacts/extent.js' type='text/javascript'></script>
+        <script src='http://cdn.rawgit.com/anshooarora/extentreports/27b4c7a9179b9a686be0234008d723fe6980379a/dist-artifacts/extent.js' type='text/javascript'></script>
+        <script>
+                
+            
+                $(document).ready(function() {
+                    
+                });
+            
+        
+        </script>
     </body>
 </html>

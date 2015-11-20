@@ -17,11 +17,10 @@
             </#if>
         </title>
         
-        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
         <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <link href='http://cdn.rawgit.com/anshooarora/extentreports/27b4c7a9179b9a686be0234008d723fe6980379a/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
-                
+        <link href='http://cdn.rawgit.com/anshooarora/extentreports/17b24f85b2ebf65407a96ed566b5ef7492500fb1/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
+        
         <style>
             <#if report.configurationMap??>
                 ${report.configurationMap["styles"]}
@@ -34,14 +33,14 @@
             <ul id='slide-out' class='side-nav fixed'>
                 <li class='logo'>
                     <a class='left hide' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
-                    <a class='menu-toggle right'><i class='fa fa-bars fa-2x'></i></a>
+                    <a class='menu-toggle right'><i class='mdi-navigation-menu'></i></a>
                 </li> 
                 <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Test Details</a></li>
                 <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='mdi-maps-local-offer'></i>Categories</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='fa fa-line-chart'></i></i>Analysis</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='mdi-action-track-changes'></i></i>Analysis</a></li>
                 <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
             </ul>
-            <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
+            <a href='#' data-activates='slide-out' class='button-collapse'><i class='mdi-navigation-menu medium'></i></a>
             <span class='report-name'><#if report.configurationMap??>${report.configurationMap["reportName"]}</#if></span> <span class='report-headline'><#if report.configurationMap??>${report.configurationMap["reportHeadline"]}</#if></span>
             <ul class='right hide-on-med-and-down nav-right'>
                 <li>
@@ -198,11 +197,19 @@
                             <ul id='tests-toggle' class='dropdown-content'>
                                 <li class='pass'><a href='#!'>Pass</a></li>
                                 <li class='fail'><a href='#!'>Fail</a></li>
-                                <li class='fatal hide'><a href='#!'>Fatal</a></li>
-                                <li class='error hide'><a href='#!'>Error</a></li>
-                                <li class='warning hide'><a href='#!'>Warning</a></li>
+                                <#if report.logStatusList?? && report.logStatusList?seq_contains(LogStatus.FATAL)>
+                                    <li class='fatal'><a href='#!'>Fatal</a></li>                                
+                                </#if>
+                                <#if report.logStatusList?? && report.logStatusList?seq_contains(LogStatus.ERROR)>
+                                    <li class='error'><a href='#!'>Error</a></li>
+                                </#if>
+                                <#if report.logStatusList?? && report.logStatusList?seq_contains(LogStatus.WARNING)>
+                                    <li class='warning'><a href='#!'>Warning</a></li>
+                                </#if>    
                                 <li class='skip'><a href='#!'>Skip</a></li>
-                                <li class='unknown hide'><a href='#!'>Unknown</a></li>
+                                <#if report.logStatusList?? && report.logStatusList?seq_contains(LogStatus.UNKNOWN)>
+                                    <li class='unknown'><a href='#!'>Unknown</a></li>
+                                </#if>    
                                 <li class='divider'></li>
                                 <li class='clear'><a href='#!'>Clear Filters</a></li>
                             </ul>
@@ -222,18 +229,19 @@
                         <div>
                             <a id='clear-filters' alt='Clear Filters' title='Clear Filters'><i class='mdi-navigation-close icon'></i></a>
                         </div>
-                        <div class='search right' alt='Search tests' title='Search tests'>
-                            <div class='input-field left'>
-                                <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
-                            </div>
-                            <i class='mdi-action-search icon'></i>
-                        </div>
-                        <div>&nbsp;</div>
+                        <div>&nbsp;&middot;&nbsp;</div>
                         <div>
                             <a id='enableDashboard' alt='Enable Dashboard' title='Enable Dashboard'><i class='mdi-action-track-changes icon'></i></a>
                         </div>
                         <div>
                             <a id='refreshCharts' alt='Refresh Charts on Filter' title='Refresh Charts on Filter' class='enabled'><i class='mdi-navigation-refresh icon'></i></i></a>
+                        </div>
+                        <div>&nbsp;&middot;</div>
+                        <div class='search' alt='Search tests' title='Search tests'>
+                            <div class='input-field left'>
+                                <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
+                            </div>
+                            <i class='mdi-action-search icon'></i>
                         </div>
                     </div>
                     <div class='card-panel no-padding-h no-padding-v'>
@@ -243,7 +251,7 @@
                                     <#assign test = extentTest.getTest()>
                                     <li class='collection-item test displayed active ${test.status}'>
                                         <div class='test-head'>
-                                            <span class='test-name'>${test.name}</span>
+                                            <span class='test-name'>${test.name} <#if test.internalWarning??><i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='${test.internalWarning}'></i></#if></span>
                                             <span class='test-status right label capitalize ${test.status}'>${test.status}</span>
                                             <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case}</#list>'></span>
                                         </div>
@@ -285,9 +293,9 @@
                                                     <tbody>
                                                         <#list test.logList as log>
                                                             <tr>
-                                                                <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='fa fa-${Icon.getIcon(log.logStatus)}'></i></td>
+                                                                <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='${Icon.getIcon(log.logStatus)}'></i></td>
                                                                 <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
-                                                                <#if test.logList[log?index].stepName?? && test.logList[log?index].stepName?has_content>
+                                                                <#if test.logList[0].stepName??>
                                                                     <td class='step-name'>${log.stepName}</td>
                                                                 </#if>
                                                                 <td class='step-details'>${log.details}</td>
@@ -326,9 +334,9 @@
                                                                                 <tbody>
                                                                                     <#list node.logList as log>
                                                                                         <tr>
-                                                                                            <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='fa fa-${Icon.getIcon(log.logStatus)}'></i></td>
+                                                                                            <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='${Icon.getIcon(log.logStatus)}'></i></td>
                                                                                             <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
-                                                                                            <#if node.logList[log?index].stepName?? && node.logList[log?index].stepName?has_content>
+                                                                                            <#if node.logList[0].stepName??>
                                                                                                 <td class='step-name'>${log.stepName}</td>
                                                                                             </#if>
                                                                                             <td class='step-details'>${log.details}</td>
@@ -507,7 +515,9 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <script src='http://cdn.rawgit.com/anshooarora/extentreports/27b4c7a9179b9a686be0234008d723fe6980379a/dist-artifacts/extent.js' type='text/javascript'></script>
+        <script src='http://cdn.rawgit.com/anshooarora/extentreports/17b24f85b2ebf65407a96ed566b5ef7492500fb1/dist-artifacts/extent.js' type='text/javascript'></script>
+        
+        <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
         <script>
             <#if report.configurationMap??>
                 ${report.configurationMap["scripts"]}

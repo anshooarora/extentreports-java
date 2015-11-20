@@ -82,7 +82,7 @@ public class Test {
     private String description;
     
     // internal warning - only enabled if the test is not ended safely
-    private String internalWarning;
+    private String internalWarning = null;
     
     // test name
     private String name;
@@ -412,8 +412,6 @@ public class Test {
     }
     
     public Test() {
-        internalWarning = "";
-        
         id = UUID.randomUUID();
         setStartedTime(Calendar.getInstance().getTime());
         

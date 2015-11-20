@@ -28,7 +28,8 @@ import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
 // Report abstract
 abstract class Report extends LogSettings {
-	private static final Logger logger = Logger.getLogger(Report.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(Report.class.getName());
+	private static final String INTERNAL_WARNING = "Close was called before test could end safely using EndTest.";
 	
     private String filePath;
     private DisplayOrder displayOrder;
@@ -37,6 +38,7 @@ abstract class Report extends LogSettings {
     private LogStatus reportStatus = LogStatus.UNKNOWN;    
     private Date startedTime;
     private List<String> testRunnerLogList;
+    private List<LogStatus> logStatusList;
     private List<IReporter> reporters;
     private Test test;
     private UUID reportId;
@@ -51,6 +53,10 @@ abstract class Report extends LogSettings {
 
     protected List<ExtentTest> getTestList() {
         return testList;
+    }
+    
+    protected List<LogStatus> getLogStatusList() {
+    	return logStatusList;
     }
     
     protected Date getStartedTime() {
@@ -99,7 +105,7 @@ abstract class Report extends LogSettings {
         if (test.getEndedTime() == null) {
             test.setEndedTime(Calendar.getInstance().getTime());
         }
-        
+
         Iterator<TestAttribute> catIter = test.categoryIterator();
         
         // add each category and associated test
@@ -130,6 +136,28 @@ abstract class Report extends LogSettings {
         updateReportStartedTime(test);
     }
     
+    protected void updateTestStatusList(Test test) {
+        Boolean toAdd = false;
+
+    	toAdd = test.getStatus() == LogStatus.FATAL || test.getStatus() == LogStatus.ERROR || test.getStatus() == LogStatus.WARNING || test.getStatus() == LogStatus.UNKNOWN
+    			? true
+    			: false;
+    	
+    	if (toAdd) {
+    		if (!logStatusList.contains(test.getStatus())) {
+    			logStatusList.add(test.getStatus());
+    		}
+    	}
+        
+        if (test.hasChildNodes) {
+        	List<Test> nodeList = test.getNodeList();
+        
+        	for (Test node : nodeList) {
+        		updateTestStatusList(node);
+        	}
+        }
+    }
+    
     private void updateReportStartedTime(Test test) {
         long testStartedTime = test.getStartedTime().getTime();
         
@@ -139,6 +167,22 @@ abstract class Report extends LogSettings {
     }
     
     protected void terminate() {
+    	for (ExtentTest extentTest : testList) {
+    		Test test = extentTest.getTest();
+    		
+    		if (!test.hasEnded) {
+    			ExtentTestInterruptedException e = new ExtentTestInterruptedException(INTERNAL_WARNING);
+    			
+    			test.setInternalWarning(INTERNAL_WARNING);
+    			extentTest.log(LogStatus.FAIL, e);
+    			test.hasEnded = true;
+    			
+    			addTest(test);
+    		}
+    	}
+    	
+    	flush();
+    	
         Iterator<IReporter> iter = reporters.iterator();
         
         while (iter.hasNext()) {
@@ -155,11 +199,15 @@ abstract class Report extends LogSettings {
                 throw new IOException("Unable to write source: Stream closed.");
             } 
             catch (IOException e) {
-                logger.log(Level.SEVERE, "Stream closed", e);
+                LOGGER.log(Level.SEVERE, "Stream closed", e);
             }
             
             return;
         }
+    	
+    	for (ExtentTest test : getTestList()) { 
+    		updateTestStatusList(test.getTest());
+    	}
     	
         for (IReporter reporter : reporters) {
             reporter.flush();            
@@ -237,6 +285,7 @@ abstract class Report extends LogSettings {
     	systemInfo = new SystemInfo();
         suiteTimeInfo = new SuiteTimeInfo();
         testRunnerLogList = new ArrayList<String>();
+        logStatusList = new ArrayList<LogStatus>();
         
         reportId = UUID.randomUUID();
         startedTime = new Date(suiteTimeInfo.getSuiteStartTimestamp());

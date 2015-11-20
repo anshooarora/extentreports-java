@@ -69,7 +69,7 @@ public class ExtentReports extends Report {
         setReplaceExisting(replaceExisting);
         setDisplayOrder(displayOrder);
         setNetworkMode(networkMode);
-        
+
         String resourceFile = ExtentReports.class
         		.getPackage()
         		.getName()
@@ -420,10 +420,11 @@ public class ExtentReports extends Report {
      * @param test 
      * 		An {@link ExtentTest} object
      */
-    public synchronized void endTest(ExtentTest test) {
-        test.getTest().hasEnded = true;
+    public synchronized void endTest(ExtentTest extentTest) {
+    	Test test = extentTest.getTest();    	
+        test.hasEnded = true;
 
-        addTest(test.getTest());
+        addTest(test);
     }
     
     /**
@@ -500,8 +501,6 @@ public class ExtentReports extends Report {
      * still appended to the report with a warning message.
      */
     public synchronized void close() {
-        flush();
-
         terminate();
         
         if (testList != null) {

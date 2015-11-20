@@ -11,7 +11,7 @@
         <reportName>Automation Report</reportName>
         
         <!-- report headline - displayed at top-nav, after reportHeadline -->
-        <reportHeadline> [Headline]</reportHeadline>
+        <reportHeadline></reportHeadline>
         
         <!-- custom javascript -->
         <scripts>
