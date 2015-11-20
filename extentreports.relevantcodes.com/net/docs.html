@@ -33,8 +33,8 @@
 					
 					<li><a class='dropdown-button' href='#!' data-activates='dropdown2'>.NET<i class='mdi-navigation-arrow-drop-down right'></i></a></li>
 					<ul id='dropdown2' class='dropdown-content'>
-						<li><a href='#'>Version 2.40.0b</a></li>
 						<li><a href='version-2.02/docs.html'>Version 2.02</a></li>
+						<li><a href='#'>Version 2.40.0b</a></li>
 					</ul>
 					<li><a href='../extentmerge/docs.html'>ExtentMerge</a></li>
 					<li>
@@ -71,8 +71,8 @@ LoadConfig(string FilePath);
 	</li>
 	<li>2 new <code>log</code> methods have been now added to accept exception directly and show as a code block in the report:
 <pre><code class='java'>
-log(LogStatus logStatus, String stepName, Throwable t);
-log(LogStatus logStatus, Throwable t);
+log(LogStatus, StepName, Exception);
+log(LogStatus, Exception);
 </code></pre>
 	<li>Add the author of the test using:
 <pre><code class='java'>
@@ -239,11 +239,11 @@ extent.AddSystemInfo(si);
     <li>Close closes the underlying stream and destroys the source references so no other Extent commands can be used</li>
 </ul>
 <pre><code class='java'>
-extent.close();
+extent.Close();
 </code></pre>
 
 <h2 id='examples'>Examples</h2>
-<p>This section shows basic examples to get started with ExtentReports 2.0. For multi-threaded execution models, see section <a href='#parallel-runs'>Creating Parallel Runs</a>.</p>
+<p>This section shows basic examples to get started.</p>
 
 <h3 id='basic-usage-example'>Basic Usage Example</h3>
 <p>A simple example with a static method.</p>
@@ -272,6 +272,86 @@ namespace RelevantCodes.ExtentReports
             // calling Flush writes everything to the log file
             extent.Flush();
         }
+    }
+}
+</code></pre>
+
+<h3 id='nunit-example'>NUnit Example</h3>
+<p>Below is a quick example showing a base class containing <code>TearDown</code> which manages automatic failure messages so you only have to create your tests as you normally do. If an assert causes a failure, it will be caught and reported to Extent here.</p>
+
+<pre><code class='java'>
+internal class ExtentManager
+{
+    private static readonly ExtentReports _instance = 
+        new ExtentReports("Extent.Net.html", DisplayOrder.OldestFirst);
+
+    static ExtentManager() { }
+
+    private ExtentManager() { }
+
+    public static ExtentReports Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+}
+
+public abstract class ExtentBase
+{
+    protected ExtentReports extent;
+    protected ExtentTest test;
+
+    [OneTimeSetUp]
+    public void FixtureInit()
+    {
+        extent = ExtentManager.Instance;
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        var status = TestContext.CurrentContext.Result.Outcome.Status;
+        var stacktrace = string.IsNullOrEmpty(TestContext.CurrentContext.Result.StackTrace)
+                ? ""
+                : string.Format("&lt;pre&gt;{0}&lt;/pre&gt;", TestContext.CurrentContext.Result.StackTrace);
+        LogStatus logstatus;
+
+        switch (status)
+        {
+            case TestStatus.Failed:
+                logstatus = LogStatus.Fail;
+                break;
+            case TestStatus.Inconclusive:
+                logstatus = LogStatus.Warning;
+                break;
+            case TestStatus.Skipped:
+                logstatus = LogStatus.Skip;
+                break;
+            default:
+                logstatus = LogStatus.Pass;
+                break;
+        }
+
+        test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
+
+        extent.EndTest(test);
+        extent.Flush();
+    }
+}
+
+[TestFixture]
+public class SingleLogTests : ExtentBase
+{
+    [Test]
+    public void IntentionalFailure()
+    {
+        test = extent.StartTest("PassTest");
+        test.Log(LogStatus.Pass, "Pass");
+
+        // intentional failure 
+        Assert.True(test.GetCurrentStatus() == LogStatus.Fail);
     }
 }
 </code></pre>
@@ -321,7 +401,7 @@ namespace RelevantCodes.ExtentReports
 LoadConfig(File configFile);
 
 // file location: "C:\HelloWorld\extent-config.xml"
-loadConfig(new File(@"C:\HelloWorld\extent-config.xml"));
+LoadConfig(new File(@"C:\HelloWorld\extent-config.xml"));
 </code></pre>
 
 <h2 id='license'>License</h2>
@@ -371,6 +451,7 @@ loadConfig(new File(@"C:\HelloWorld\extent-config.xml"));
 							<li><a href='#examples'>Examples</a>
 								<ul>
 									<li><a href='#basic-usage-example'>Basic Usage Example</a></li>
+									<li><a href='#nunit-example'>NUnit Example</a></li>
 								</ul>
 							</li>
 							<li><a href='#configuration'>Configuration</a></li>
