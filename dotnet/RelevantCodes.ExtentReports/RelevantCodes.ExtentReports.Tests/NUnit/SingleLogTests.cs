@@ -18,7 +18,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
         public void Pass()
         {
             test = extent.StartTest("Pass");
-            test.Log(LogStatus.Pass, "Current status: " + test.GetCurrentStatus());
+            test.Log(LogStatus.Pass, "Details");
 
             Assert.True(test.GetCurrentStatus() == LogStatus.Pass);
         }
@@ -27,7 +27,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
         public void Info()
         {
             test = extent.StartTest("Info");
-            test.Log(LogStatus.Info, "Current status: " + test.GetCurrentStatus());
+            test.Log(LogStatus.Info, "Details");
 
             Assert.True(test.GetCurrentStatus() == LogStatus.Pass);
         }
@@ -36,7 +36,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
         public void Warning()
         {
             test = extent.StartTest("Warning");
-            test.Log(LogStatus.Warning, "Current status: " + test.GetCurrentStatus());
+            test.Log(LogStatus.Warning, "Details");
 
             Assert.True(test.GetCurrentStatus() == LogStatus.Warning);
         }
@@ -45,7 +45,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
         public void Error()
         {
             test = extent.StartTest("Error");
-            test.Log(LogStatus.Error, "Current status: " + test.GetCurrentStatus());
+            test.Log(LogStatus.Error, "Details");
 
             Assert.True(test.GetCurrentStatus() == LogStatus.Error);
         }
@@ -54,7 +54,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
         public void Fail()
         {
             test = extent.StartTest("Fail");
-            test.Log(LogStatus.Fail, "Current status: " + test.GetCurrentStatus());
+            test.Log(LogStatus.Fail, "Details");
 
             Assert.True(test.GetCurrentStatus() == LogStatus.Fail);
         }
@@ -63,7 +63,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
         public void Fatal()
         {
             test = extent.StartTest("Fatal");
-            test.Log(LogStatus.Fatal, "Current status: " + test.GetCurrentStatus());
+            test.Log(LogStatus.Fatal, "Details");
 
             Assert.True(test.GetCurrentStatus() == LogStatus.Fatal);
         }
@@ -72,7 +72,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
         public void Skip()
         {
             test = extent.StartTest("Skip");
-            test.Log(LogStatus.Skip, "Current status: " + test.GetCurrentStatus());
+            test.Log(LogStatus.Skip, "Details");
 
             Assert.True(test.GetCurrentStatus() == LogStatus.Skip);
         }
@@ -81,7 +81,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
         public void Unknown()
         {
             test = extent.StartTest("Unknown");
-            test.Log(LogStatus.Unknown, "Current status: " + test.GetCurrentStatus());
+            test.Log(LogStatus.Unknown, "Details");
 
             Assert.True(test.GetCurrentStatus() == LogStatus.Unknown);
         }

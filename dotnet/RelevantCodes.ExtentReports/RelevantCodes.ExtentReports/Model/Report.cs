@@ -16,6 +16,7 @@ namespace RelevantCodes.ExtentReports.Model
         private List<IReporter> _reporterList;
         private LogStatus _reportStatus;
         private bool _terminated = false;
+        private const string InternalWarning = "Close was called before test could end safely using EndTest.";
 
         internal string FilePath { get; set; }
 
@@ -81,6 +82,21 @@ namespace RelevantCodes.ExtentReports.Model
 
         protected virtual void Terminate()
         {
+            TestList.ForEach(x =>
+            {
+                if (!x.GetTest().HasEnded)
+                {
+                    var ex = new ExtentTestInterruptedException(InternalWarning);
+
+                    x.GetTest().InternalWarning = InternalWarning;
+                    x.Log(LogStatus.Fail, ex);
+
+                    AddTest(x.GetTest());
+                }
+            });
+
+            Flush();
+
             _reporterList.ForEach(x => 
             {
                 x.Stop();
@@ -103,7 +119,12 @@ namespace RelevantCodes.ExtentReports.Model
 
         protected virtual void LoadConfig(Configuration Config)
         {
-            ConfigurationMap = Config.Read();
+            var config = Config.Read();
+
+            if (config != null) 
+            {
+                ConfigurationMap = config;
+            }
         }
 
         internal string GetRunTime()

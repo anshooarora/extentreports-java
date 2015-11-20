@@ -10,15 +10,7 @@ namespace RelevantCodes.ExtentReports
     {
         static void Main(string[] args)
         {
-            var extent = new ExtentReports("Extent.Net.html");
-            var report = extent.StartTest("Test");
             
-            report.Log(LogStatus.Info, "Created new Lead email: ");
-            report.Log(LogStatus.Pass, "Test");
-
-            extent.EndTest(report);//here exception
-            extent.Flush();
-            extent.Close();
         }
     }
 }

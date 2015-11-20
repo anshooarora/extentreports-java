@@ -39,6 +39,10 @@ namespace RelevantCodes.ExtentReports.Model
 
         internal List<Screencast> Screencast;
 
+        internal Boolean HasEnded = false;
+
+        public string InternalWarning = null;
+
         public void AddCategory(string Category)
         {
             if (!CategoryList.Select(x => x.Name).ToList().Contains(Category))
@@ -93,7 +97,8 @@ namespace RelevantCodes.ExtentReports.Model
 
         public void PrepareFinalize()
         {
-            this.EndTime = DateTime.Now;
+            EndTime = DateTime.Now;
+            HasEnded = true;
 
             UpdateStatusRecursive(this);
         }
@@ -175,7 +180,6 @@ namespace RelevantCodes.ExtentReports.Model
             
             StartTime = DateTime.Now;
             ID = Guid.NewGuid();
-            //InternalWarning = "";
 
             CategoryList = new List<TestAttribute>();
             AuthorList = new List<TestAttribute>();

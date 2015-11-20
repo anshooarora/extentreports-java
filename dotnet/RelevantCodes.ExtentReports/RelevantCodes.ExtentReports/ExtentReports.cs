@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using RelevantCodes.ExtentReports.Config;
 using RelevantCodes.ExtentReports.Model;
+using System.Xml.Linq;
 
 namespace RelevantCodes.ExtentReports
 {
@@ -32,6 +33,9 @@ namespace RelevantCodes.ExtentReports
             this.FilePath = FilePath;
             this.DisplayOrder = DisplayOrder;
 
+            var xdoc = XDocument.Parse(Properties.Resources.extent_config);
+            LoadConfig(new Configuration(xdoc));
+            
             Attach(new HTMLReporter());
         }
 
@@ -157,9 +161,7 @@ namespace RelevantCodes.ExtentReports
         /// </summary>
         public void Close()
         {
-            Flush();
-
-            base.Terminate();
+            Terminate();
         }
 
         /// <summary>

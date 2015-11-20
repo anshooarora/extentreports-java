@@ -12,14 +12,14 @@ namespace RelevantCodes.ExtentReports.View
         {
             switch (Enum.GetName(typeof(LogStatus), Status).ToLower())
             {
-                case "fail": return "times-circle-o";
-                case "fatal": return "exclamation-circle";
-                case "error": return "exclamation-circle";
-                case "warning": return "warning";
-                case "pass": return "check-circle-o";
-                case "info": return "info-circle";
-                case "skip": return "chevron-circle-right";
-                default: return "question";
+                case "fail": return "mdi-navigation-cancel";
+                case "fatal": return "mdi-navigation-cancel";
+                case "error": return "mdi-alert-error";
+                case "warning": return "mdi-alert-warning";
+                case "pass": return "mdi-action-check-circle";
+                case "info": return "mdi-action-info-outline";
+                case "skip": return "mdi-av-skip-next";
+                default: return "mdi-action-help";
             }
         }
     }

@@ -33,10 +33,9 @@ namespace RelevantCodes.ExtentReports.View
                                     @Raw(Model.ConfigurationMap[""documentTitle""])
                                 }
                             </title>
-                            <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' type='text/css'>
                             <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
                             <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-                            <link href='http://cdn.rawgit.com/anshooarora/extentreports/27b4c7a9179b9a686be0234008d723fe6980379a/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
+                            <link href='http://cdn.rawgit.com/anshooarora/extentreports/17b24f85b2ebf65407a96ed566b5ef7492500fb1/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
 
                             <style>
                                 @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""css""))
@@ -50,14 +49,14 @@ namespace RelevantCodes.ExtentReports.View
                                 <ul id='slide-out' class='side-nav fixed'>
                                     <li class='logo'>
                                         <a class='left hide' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
-                                        <a class='menu-toggle right'><i class='fa fa-bars fa-2x'></i></a>
+                                        <a class='menu-toggle right'><i class='mdi-navigation-menu'></i></a>
                                     </li> 
                                     <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Test Details</a></li>
                                     <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='mdi-maps-local-offer'></i>Categories</a></li>
-                                    <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='fa fa-line-chart'></i></i>Analysis</a></li>
+                                    <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='mdi-action-track-changes'></i></i>Analysis</a></li>
                                     <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
                                 </ul>
-                                <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
+                                <a href='#' data-activates='slide-out' class='button-collapse'><i class='mdi-navigation-menu'></i></a>
                                 <span class='report-name'>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""reportName"")) { @Raw(Model.ConfigurationMap[""reportName""]) }</span> <span class='report-headline'>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""reportHeadline"")) { @Raw(Model.ConfigurationMap[""reportHeadline""]) }</span>
                                 <ul class='right hide-on-med-and-down nav-right'>
                                     <li>
@@ -209,11 +208,23 @@ namespace RelevantCodes.ExtentReports.View
                                                 <ul id='tests-toggle' class='dropdown-content'>
                                                     <li class='pass'><a href='#!'>Pass</a></li>
                                                     <li class='fail'><a href='#!'>Fail</a></li>
-                                                    <li class='fatal hide'><a href='#!'>Fatal</a></li>
-                                                    <li class='error hide'><a href='#!'>Error</a></li>
-                                                    <li class='warning hide'><a href='#!'>Warning</a></li>
+                                                    @if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Fatal)).Count() > 0)
+                                                    {
+                                                        <li class='fatal'><a href='#!'>Fatal</a></li>
+                                                    }
+                                                    @if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Error)).Count() > 0)
+                                                    {
+                                                        <li class='error'><a href='#!'>Error</a></li>
+                                                    }
+                                                    @if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Warning)).Count() > 0)
+                                                    {
+                                                        <li class='warning'><a href='#!'>Warning</a></li>
+                                                    }
                                                     <li class='skip'><a href='#!'>Skip</a></li>
-                                                    <li class='unknown hide'><a href='#!'>Unknown</a></li>
+                                                    @if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Unknown)).Count() > 0)
+                                                    {
+                                                        <li class='unknown'><a href='#!'>Unknown</a></li>
+                                                    }
                                                     <li class='divider'></li>
                                                     <li class='clear'><a href='#!'>Clear Filters</a></li>
                                                 </ul>
@@ -235,18 +246,19 @@ namespace RelevantCodes.ExtentReports.View
                                             <div>
                                                 <a id='clear-filters' alt='Clear Filters' title='Clear Filters'><i class='mdi-navigation-close icon'></i></a>
                                             </div>
-                                            <div class='search right' alt='Search tests' title='Search tests'>
-                                                <div class='input-field left'>
-                                                    <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
-                                                </div>
-                                                <i class='mdi-action-search icon'></i>
-                                            </div>
                                             <div>&nbsp;&middot;&nbsp;</div>
                                             <div>
                                                 <a id='enableDashboard' alt='Enable Dashboard' title='Enable Dashboard'><i class='mdi-action-track-changes icon'></i></a>
                                             </div> 
                                             <div>
                                                 <a id='refreshCharts' alt='Refresh Charts on Filter' title='Refresh Charts on Filter' class='enabled'><i class='mdi-navigation-refresh icon'></i></i></a>
+                                            </div>
+                                            <div>&nbsp;&middot;</div>
+                                            <div class='search' alt='Search tests' title='Search tests'>
+                                                <div class='input-field left'>
+                                                    <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
+                                                </div>
+                                                <i class='mdi-action-search icon'></i>
                                             </div>
                                         </div>
                                         <div class='card-panel no-padding-h no-padding-v'>
@@ -257,7 +269,7 @@ namespace RelevantCodes.ExtentReports.View
                                                         var test = extentTest.GetTest();
                                                         <li class='collection-item test displayed active @test.Status.ToString().ToLower() @if(test.ContainsChildNodes){ <x> hasChildren </x> }' extentid='@test.ID'>
                                                             <div class='test-head'>
-                                                                <span class='test-name'>@test.Name</span>
+                                                                <span class='test-name'>@Raw(test.Name) @if (!String.IsNullOrEmpty(test.InternalWarning)) { <i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='@Raw(test.InternalWarning)'></i> }</span>
                                                                 <span class='test-status right label capitalize @test.Status.ToString().ToLower()'>@test.Status.ToString().ToLower()</span>
                                                                 <span class='category-assigned hide @test.GetCombinedCategories().ToLower()'></span>
                                                             </div>
@@ -267,7 +279,7 @@ namespace RelevantCodes.ExtentReports.View
                                                                     <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@test.EndTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
                                                                     <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>@test.GetRunTime()</span>
                                                                 </div>
-                                                                <div class='test-desc'>@test.Description</div>
+                                                                <div class='test-desc'>@Raw(test.Description)</div>
                                                                 <div class='test-attributes'>
                                                                     @if (test.CategoryList != null && test.CategoryList.Count() > 0)
                                                                     {
@@ -307,11 +319,11 @@ namespace RelevantCodes.ExtentReports.View
                                                                                 @foreach (var log in test.LogList)
                                                                                 {
                                                                                     <tr>
-                                                                                        <td class='status @log.LogStatus.ToString().ToLower()'><i class='fa fa-@Icon.GetIcon(@log.LogStatus)'></i></td>" +
+                                                                                        <td class='status @log.LogStatus.ToString().ToLower()'><i class='@Icon.GetIcon(@log.LogStatus)'></i></td>" +
                                                                                         "<td class='timestamp'>@string.Format(\"{0:HH:mm:ss}\", log.Timestamp)</td>" +
                                                                                         @"@if (test.LogList[0].StepName != null)
                                                                                         {
-                                                                                            <td class='step-name'>@log.StepName</td>
+                                                                                            <td class='step-name'>@Raw(log.StepName)</td>
                                                                                         }
                                                                                         <td class='step-details'>@Raw(log.Details)</td>
                                                                                     </tr>
@@ -332,7 +344,7 @@ namespace RelevantCodes.ExtentReports.View
                                                                                             <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>@node.GetRunTime()</span>
                                                                                             <span class='test-status label capitalize @node.Status.ToString().ToLower()'>@node.Status.ToString().ToLower()</span>
                                                                                         </div>
-                                                                                        <div class='test-node-name'>@node.Name</div>
+                                                                                        <div class='test-node-name'>@Raw(node.Name)</div>
                                                                                     </div>
                                                                                     <div class='collapsible-body'>
                                                                                         <div class='test-steps'>
@@ -354,11 +366,11 @@ namespace RelevantCodes.ExtentReports.View
                                                                                                         @foreach (var log in node.LogList)
                                                                                                         {
                                                                                                             <tr>
-                                                                                                                <td class='status @log.LogStatus.ToString().ToLower()'><i class='fa fa-@Icon.GetIcon(@log.LogStatus)'></i></td>" +
+                                                                                                                <td class='status @log.LogStatus.ToString().ToLower()'><i class='@Icon.GetIcon(@log.LogStatus)'></i></td>" +
                                                                                                                 "<td class='timestamp'>@string.Format(\"{0:HH:mm:ss}\", log.Timestamp)</td>" +
                                                                                                                 @"@if (node.LogList[0].StepName != null)
                                                                                                                 {
-                                                                                                                    <td class='step-name'>@log.StepName</td>
+                                                                                                                    <td class='step-name'>@Raw(log.StepName)</td>
                                                                                                                 }
                                                                                                                 <td class='step-details'>@Raw(log.Details)</td>
                                                                                                             </tr>
@@ -406,9 +418,9 @@ namespace RelevantCodes.ExtentReports.View
 					                                                <span class='category-name'>@entry.Key</span>
 				                                                </div>
 				                                                <div class='category-status-counts'>
-					                                                <span class='cat-pass label'>Pass: @passed</span>
-					                                                <span class='cat-fail label'>Fail: @failed</span>
-					                                                <span class='cat-other label'>Others: @others</span>
+					                                                <span class='pass label'>Pass: @passed</span>
+					                                                <span class='fail label'>Fail: @failed</span>
+					                                                <span class='other label'>Others: @others</span>
 				                                                </div>
 				                                                <div class='cat-body'>
 					                                                <div class='category-status-counts'>
@@ -518,9 +530,11 @@ namespace RelevantCodes.ExtentReports.View
                             <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
                             <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
                             <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-                            <script src='http://cdn.rawgit.com/anshooarora/extentreports/27b4c7a9179b9a686be0234008d723fe6980379a/dist-artifacts/extent.js' type='text/javascript'></script>
-
+                            <script src='http://cdn.rawgit.com/anshooarora/extentreports/17b24f85b2ebf65407a96ed566b5ef7492500fb1/dist-artifacts/extent.js' type='text/javascript'></script>
+                            
+                            <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });
                             <script>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""scripts"")) { @Raw(Model.ConfigurationMap[""scripts""]) }</script>
+                            
                         </body>
                     </html>
                     ";//.Replace("    ", "").Replace("\t", "").Replace("\r", "").Replace("\n", "");
