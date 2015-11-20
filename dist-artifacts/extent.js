@@ -65,7 +65,17 @@ $(document).ready(function() {
 		if (pinWidth == '54.5%') { pinWidth = '49.5%'; }
 		else { pinWidth = '54.5%'; }
 		
-		$('.logo .left, .side-nav input, .side-nav label').toggleClass('hide');
+		if (menuWidth == 240) {
+			$('.logo > a:first-child').delay(120).queue(function(next){
+				$(this).removeClass('hide');
+				next();
+			});
+		}
+		else {
+			$('.logo > a:first-child').addClass('hide');
+		}
+		
+		$('.side-nav input, .side-nav label').toggleClass('hide');
 		
 		$('.side-nav').animate({
 			width: menuWidth + 'px'
@@ -206,38 +216,29 @@ $(document).ready(function() {
 	});
 	
 	/* filter tests by text [TEST] */
-	$(document).keypress(function(e) {
-		if(e.which == 13) {
-			if ($('#searchTests').is(':focus')) {
-				var txt = $('#searchTests').val().toLowerCase();
-				
-				hideElement($('#test-collection .test'));
-				
-				$('.test-name, .test-desc').each(function() {
-					var t = $(this);
-					
-					if (t.text().toLowerCase().indexOf(txt) >= 0) {
-						showElement(t.closest('.test'));
-					}
-				});
-				
-				$('.test-node-name').each(function() {
-					var t = $(this);
-					if (t.text().toLowerCase().indexOf(txt) >= 0) {
-						showElement(t.closest('.test'));
-					}                               
-				});
-				
-				$('.details-container .test-node-name').each(function() {
-					if ($(this).text().toLowerCase().indexOf(txt) >= 0) {
-						showElement($('.test.active'));
-					}
-				});
-				
-				$('.test:visible').eq(0).click();
+	$.fn.dynamicTestSearch = function(){ 
+		var target = $(this);
+		var searchBox = $('#searchTests');
+		
+		searchBox.off('keyup').on('keyup', function() {
+			pattern = RegExp(searchBox.val(), 'gi');
+			
+			if (searchBox.val() == '') {
+				target.removeClass('hide');
 			}
-		}
-	});
+			else {
+				target.addClass('hide').each(function() {
+					var t = $(this);
+					if (pattern.test(t.html())) {
+						t.removeClass('hide');
+					}
+				});
+			}
+		});
+		
+		return target;
+	}
+	$('.test').dynamicTestSearch();
 
 	/* if only header row is available for test, hide the table [TEST] */
 	$('.table-results').filter(function() {
@@ -353,7 +354,7 @@ $(document).ready(function() {
 
 /* action to perform when 'Clear Filters' option is selected [TEST] */
 function resetFilters() {
-	$('.dropdown-content li').removeClass('active');
+	$('.dropdown-content, .dropdown-content li').removeClass('active');
 	$('.test, .node-list > li').addClass('displayed').removeClass('hide');
 	redrawCharts();
 }
