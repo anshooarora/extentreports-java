@@ -176,7 +176,7 @@ $(document).ready(function() {
 	$('.test').eq(0).click();
 	
 	/* toggle search */
-	$('.mdi-action-search').click(function() {
+	$('.mdi-action-search, .fa-search').click(function() {
 		var s = $('.search > .input-field');
 		s.animate({ width: s.css('width') == '0px' ? '240px' : '0px'}, 200);
 	});
