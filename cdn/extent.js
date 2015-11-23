@@ -36,8 +36,14 @@ $(document).ready(function() {
 		}
 	});
 	
+	/* toggle side-nav */
 	$('.menu-toggle').click(function() {
 		$('.side-nav').toggleClass('active');
+	});
+	
+	/* theme selector */
+	$('.theme-selector').click(function() {
+		$('body').toggleClass('dark');
 	});
 	
 	/* enable dashboard checkbox [TOPNAV] */
@@ -177,6 +183,7 @@ $(document).ready(function() {
 	
 	/* toggle search */
 	$('.mdi-action-search, .fa-search').click(function() {
+		$(this).toggleClass('active');
 		var s = $('.search > .input-field');
 		s.animate({ width: s.css('width') == '0px' ? '240px' : '0px'}, 200);
 	});
@@ -269,7 +276,8 @@ $(document).ready(function() {
 			$('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).removeClass('hide').addClass('displayed');
 		}
 		
-		$('.test.displayed').eq(0).click();
+		$('#test-view .tests-toggle > i').addClass('active');
+		$('#test-collection .test.displayed').eq(0).click();
 		redrawCharts();
 	});
 	
@@ -304,6 +312,7 @@ $(document).ready(function() {
 			});
 		}
 		
+		$('#test-view .category-toggle > i').addClass('active');
 		$('.test.displayed').eq(0).click();
 		redrawCharts();
 	});
@@ -326,6 +335,7 @@ $(document).ready(function() {
 function resetFilters() {
 	$('.dropdown-content, .dropdown-content li').removeClass('active');
 	$('.test, .node-list > li').addClass('displayed').removeClass('hide');
+	$('#test-view .tests-toggle > i, #test-view .category-toggle > i').removeClass('active');
 	redrawCharts();
 }
 
@@ -468,7 +478,7 @@ function refreshData() {
 /* dashboard chart options [DASHBOARD] */
 var options = {
 	segmentShowStroke : true, 
-	segmentStrokeColor : '#eee', 
+	segmentStrokeColor : 'transparent', 
 	segmentStrokeWidth : 1, 
 	percentageInnerCutout : 55, 
 	animationSteps : 30, 
