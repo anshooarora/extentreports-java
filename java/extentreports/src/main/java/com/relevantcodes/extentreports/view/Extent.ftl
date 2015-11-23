@@ -19,8 +19,8 @@
         
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
         <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <link href='http://cdn.rawgit.com/anshooarora/extentreports/17b24f85b2ebf65407a96ed566b5ef7492500fb1/dist-artifacts/extent.css' type='text/css' rel='stylesheet' />
-        
+        <link href='http://cdn.rawgit.com/anshooarora/extentreports/f7a713fc6648889c6709356af9b16a95d4ee1ac5/cdn/extent.css' type='text/css' rel='stylesheet' />
+
         <style>
             <#if report.configurationMap??>
                 ${report.configurationMap["styles"]}
@@ -32,7 +32,7 @@
         <nav>
             <ul id='slide-out' class='side-nav fixed'>
                 <li class='logo'>
-                    <a class='left hide' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
+                    <a class='logo-content' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
                     <a class='menu-toggle right'><i class='mdi-navigation-menu'></i></a>
                 </li> 
                 <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Test Details</a></li>
@@ -244,7 +244,11 @@
                             <i class='mdi-action-search icon'></i>
                         </div>
                     </div>
-                    <div class='card-panel no-padding-h no-padding-v'>
+                    <#assign optionalClass = ''>
+                    <#if report.testList?size < 15>
+                        <#assign optionalClass = 'vh100'>
+                    </#if>
+                    <div class='card-panel no-padding-h no-padding-v no-margin-v ${optionalClass}'>
                         <div class='wrapper'>
                             <ul id='test-collection' class='test-collection'>
                                 <#list report.testList as extentTest>
@@ -252,7 +256,7 @@
                                     <li class='collection-item test displayed active ${test.status}'>
                                         <div class='test-head'>
                                             <span class='test-name'>${test.name} <#if test.internalWarning??><i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='${test.internalWarning}'></i></#if></span>
-                                            <span class='test-status right label capitalize ${test.status}'>${test.status}</span>
+                                            <span class='test-status label left capitalize ${test.status}'>${test.status}</span>
                                             <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case}</#list>'></span>
                                         </div>
                                         <div class='test-body'>
@@ -314,7 +318,7 @@
                                                                             <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                                                                             <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                                                                             <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
-                                                                            <span class='test-status label capitalize ${node.status}'>${node.status}</span>
+                                                                            <span class='test-status label outline capitalize ${node.status}'>${node.status}</span>
                                                                         </div>
                                                                         <div class='test-node-name'>${node.name}</div>
                                                                     </div>
@@ -373,6 +377,14 @@
             <!-- categories -->
             <div id='categories-view' class='row hide'>
                 <div class='col s5'>
+                    <div class='card-panel filters'>
+                        <div class='search' alt='Search tests' title='Search tests'>
+                            <div class='input-field left'>
+                                <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
+                            </div>
+                            <i class='mdi-action-search icon'></i>
+                        </div>
+                    </div>
                     <div class='card-panel no-padding-h no-padding-v vh100'>
                         <div class='wrapper'>
                             <ul id='cat-collection' class='cat-collection'>
@@ -393,9 +405,9 @@
                                             <span class='category-name'>${category}</span>
                                         </div>
                                         <div class='category-status-counts'>
-                                            <span class='pass label'>Pass: ${passed}</span>
-                                            <span class='fail label'>Fail: ${failed}</span>
-                                            <span class='other label'>Others: ${others}</span>
+                                            <span class='pass label outline'>Pass: ${passed}</span>
+                                            <span class='fail label outline'>Fail: ${failed}</span>
+                                            <span class='other label outline'>Others: ${others}</span>
                                         </div>
                                         <div class='cat-body'>
                                             <div class='category-status-counts'>
@@ -419,7 +431,7 @@
                                                             <tr class='${test.status}'>
                                                                 <td>${test.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</td>
                                                                 <td><span class='category-link linked'>${test.name}</span></td>
-                                                                <td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
+                                                                <td><div class='status label capitalize outline ${test.status}'>${test.status}</div></td>
                                                             </tr>
                                                         </#list>
                                                     <tbody>
@@ -515,8 +527,8 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <script src='http://cdn.rawgit.com/anshooarora/extentreports/17b24f85b2ebf65407a96ed566b5ef7492500fb1/dist-artifacts/extent.js' type='text/javascript'></script>
-        
+        <script src='http://cdn.rawgit.com/anshooarora/extentreports/f7a713fc6648889c6709356af9b16a95d4ee1ac5/cdn/extent.js' type='text/javascript'></script>
+
         <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
         <script>
             <#if report.configurationMap??>

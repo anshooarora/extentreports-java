@@ -30,15 +30,15 @@
         <nav>
             <ul id='slide-out' class='side-nav fixed'>
                 <li class='logo'>
-                    <a class='left hide' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
-                    <a class='menu-toggle right'><i class='fa fa-bars fa-2x'></i></a>
+                    <a class='logo-content' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
+                    <a class='menu-toggle right'><i class='fa fa-bars fa-2'></i></a>
                 </li> 
                 <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='fa fa-tasks'></i>Test Details</a></li>
                 <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='fa fa-tags'></i>Categories</a></li>
                 <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='fa fa-dashboard'></i></i>Dashboard</a></li>                
                 <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='fa fa-file-text-o'></i>TestRunner Logs</a></li>
             </ul>
-            <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-2x'></i></a>
+            <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-3x'></i></a>
             <span class='report-name'><#if report.configurationMap??>${report.configurationMap["reportName"]}</#if></span> <span class='report-headline'><#if report.configurationMap??>${report.configurationMap["reportHeadline"]}</#if></span>
             <ul class='right hide-on-med-and-down nav-right'>
                 <li>
@@ -207,7 +207,7 @@
                                 <li class='skip'><a href='#!'>Skip</a></li>
                                 <#if report.logStatusList?? && report.logStatusList?seq_contains(LogStatus.UNKNOWN)>
                                     <li class='unknown'><a href='#!'>Unknown</a></li>
-                                </#if>
+                                </#if>    
                                 <li class='divider'></li>
                                 <li class='clear'><a href='#!'>Clear Filters</a></li>
                             </ul>
@@ -227,18 +227,19 @@
                         <div>
                             <a id='clear-filters' alt='Clear Filters' title='Clear Filters'><i class='fa fa-close icon'></i></a>
                         </div>
-                        <div class='search right' alt='Search tests' title='Search tests'>
-                            <div class='input-field left'>
-                                <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
-                            </div>
-                            <i class='fa fa-search icon'></i>
-                        </div>
-                        <div>&nbsp;</div>
+                        <div>&nbsp;&middot;&nbsp;</div>
                         <div>
                             <a id='enableDashboard' alt='Enable Dashboard' title='Enable Dashboard'><i class='fa fa-pie-chart icon'></i></a>
                         </div>
                         <div>
                             <a id='refreshCharts' alt='Refresh Charts on Filter' title='Refresh Charts on Filter' class='enabled'><i class='fa fa-refresh icon'></i></i></a>
+                        </div>
+                        <div>&nbsp;&middot;</div>
+                        <div class='search' alt='Search tests' title='Search tests'>
+                            <div class='input-field left'>
+                                <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
+                            </div>
+                            <i class='fa fa-search icon'></i>
                         </div>
                     </div>
                     <div class='card-panel no-padding-h no-padding-v'>
@@ -249,7 +250,7 @@
                                     <li class='collection-item test displayed active ${test.status}'>
                                         <div class='test-head'>
                                             <span class='test-name'>${test.name} <#if test.internalWarning??><i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='${test.internalWarning}'></i></#if></span>
-                                            <span class='test-status right label capitalize ${test.status}'>${test.status}</span>
+                                            <span class='test-status label left capitalize ${test.status}'>${test.status}</span>
                                             <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case}</#list>'></span>
                                         </div>
                                         <div class='test-body'>
@@ -311,7 +312,7 @@
                                                                             <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                                                                             <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                                                                             <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
-                                                                            <span class='test-status label capitalize ${node.status}'>${node.status}</span>
+                                                                            <span class='test-status label outline capitalize ${node.status}'>${node.status}</span>
                                                                         </div>
                                                                         <div class='test-node-name'>${node.name}</div>
                                                                     </div>
@@ -333,7 +334,7 @@
                                                                                         <tr>
                                                                                             <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='fa fa-${Icon.getIcon(log.logStatus)}'></i></td>
                                                                                             <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
-                                                                                            <#if node.logList[log?index].stepName?? && node.logList[log?index].stepName?has_content>
+                                                                                            <#if node.logList[0].stepName??>
                                                                                                 <td class='step-name'>${log.stepName}</td>
                                                                                             </#if>
                                                                                             <td class='step-details'>${log.details}</td>
@@ -370,6 +371,14 @@
             <!-- categories -->
             <div id='categories-view' class='row hide'>
                 <div class='col s5'>
+                    <div class='card-panel filters'>
+                        <div class='search' alt='Search tests' title='Search tests'>
+                            <div class='input-field left'>
+                                <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
+                            </div>
+                            <i class='fa fa-search icon'></i>
+                        </div>
+                    </div>
                     <div class='card-panel no-padding-h no-padding-v vh100'>
                         <div class='wrapper'>
                             <ul id='cat-collection' class='cat-collection'>
@@ -390,9 +399,9 @@
                                             <span class='category-name'>${category}</span>
                                         </div>
                                         <div class='category-status-counts'>
-                                            <span class='pass label'>Pass: ${passed}</span>
-                                            <span class='fail label'>Fail: ${failed}</span>
-                                            <span class='other label'>Others: ${others}</span>
+                                            <span class='pass label outline'>Pass: ${passed}</span>
+                                            <span class='fail label outline'>Fail: ${failed}</span>
+                                            <span class='other label outline'>Others: ${others}</span>
                                         </div>
                                         <div class='cat-body'>
                                             <div class='category-status-counts'>
@@ -416,7 +425,7 @@
                                                             <tr class='${test.status}'>
                                                                 <td>${test.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</td>
                                                                 <td><span class='category-link linked'>${test.name}</span></td>
-                                                                <td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
+                                                                <td><div class='status label capitalize outline ${test.status}'>${test.status}</div></td>
                                                             </tr>
                                                         </#list>
                                                     <tbody>

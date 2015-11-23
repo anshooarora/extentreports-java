@@ -39,12 +39,6 @@ c(a(this),0)}),j.find("img").each(function(){var b="data:image/gif;base64,R0lGOD
  * ExtentReports
 */
 
-/* default sidenav width */
-var menuWidth = 70;
-
-/* default content container (right-side container) width */
-var pinWidth = '54.5%';
-
 /* counts */
 var totalTests, passedTests, failedTests, fatalTests, warningTests, errorTests, skippedTests, unknownTests;
 var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
@@ -62,7 +56,6 @@ function showElement(el) {
 
 $(document).ready(function() {
     /* init */
-    $('.button-collapse').sideNav({ menuWidth: menuWidth });
     $('select').material_select();
     $('#refreshCharts').addClass('enabled').children('i').addClass('active');
     
@@ -73,17 +66,19 @@ $(document).ready(function() {
     
     /* [WINDOW] */
     $(window).scroll(function() {
-        var scrollTop = $('.charts').is(':visible') ? 425 : 100;
+        var scrollTop = $('.charts').is(':visible') ? 350 : 100;
         
         if ($(window).scrollTop() > scrollTop) {
-            var margin = $('.charts').is(':visible') ? '-335px' : '-40px';
+            var margin = $('.charts').is(':visible') ? '-346px' : '-48px';
             $('.details-view').css('position', 'fixed').css('margin-top', margin);
         } 
         else {
             $('.details-view').removeAttr('style').css('position', 'absolute');
         }
-        
-        $('.pin').css('width', pinWidth);
+    });
+    
+    $('.menu-toggle').click(function() {
+        $('.side-nav').toggleClass('active');
     });
     
     /* enable dashboard checkbox [TOPNAV] */
@@ -97,38 +92,6 @@ $(document).ready(function() {
     /* enable dashboard checkbox [TOPNAV] */
     $('#refreshCharts').click(function() {
         $(this).toggleClass('enabled').children('i').toggleClass('active');
-    });
-    
-    /* menu-toggle [SIDE-NAV] */
-    $('.menu-toggle').click(function() {
-        menuWidth = menuWidth > 100 ? 70 : 240;
-        
-        if (pinWidth == '54.5%') { pinWidth = '49.5%'; }
-        else { pinWidth = '54.5%'; }
-        
-        if (menuWidth == 240) {
-            $('.logo > a:first-child').delay(120).queue(function(next){
-                $(this).removeClass('hide');
-                next();
-            });
-        }
-        else {
-            $('.logo > a:first-child').addClass('hide');
-        }
-        
-        $('.side-nav input, .side-nav label').toggleClass('hide');
-        
-        $('.side-nav').animate({
-            width: menuWidth + 'px'
-        }, 200);
-        
-        $('.container, nav').animate({
-            'padding-left': menuWidth + 'px'
-        }, 200);
-        
-        $('.pin').animate({
-            'width': pinWidth
-        }, 200);
     });
     
     /* side-nav navigation [SIDE-NAV] */
@@ -184,7 +147,7 @@ $(document).ready(function() {
        $('#step-status-filter').toggleClass($(this).prop('id').replace('step-dashboard-filter-', ''));
     });
     
-    /* hide category menu if no categories exist [CATEGORIES] */
+    /* hide category menu if no categories exist  */
     if ($('.category').length == 0) {
         $('#slide-out > .analysis > .categories-view, .category-summary-view').addClass('hide').css('display', 'none');
     }
@@ -192,7 +155,7 @@ $(document).ready(function() {
     /* view category info [CATEGORIES] */
     $('.category-item').click(function() {
         $('#cat-collection .category-item').removeClass('active');
-        $('#cat-details-wrapper .cat-body').remove();
+        $('#cat-details-wrapper .cat-body').html('');
         
         var el = $(this).addClass('active').find('.cat-body').clone();
         $('#cat-details-wrapper .cat-name').text($(this).find('.category-name').text());
@@ -240,26 +203,29 @@ $(document).ready(function() {
         var t = $(this);
 
         $('#test-collection .test').removeClass('active');
-        $('#test-details-wrapper .test-body').remove();
+        $('#test-details-wrapper .test-body').html('');
         
         var el = t.addClass('active').find('.test-body').clone();
         $('#test-details-wrapper .details-name').text(t.find('.test-name').text());
         $('#test-details-wrapper .details-container').append($(el));
         
-        $('#test-details-wrapper .collapsible').collapsible({ accordion : true });
+        var collapsible = $('#test-details-wrapper .collapsible');
+        if (collapsible.length > 0) {
+            collapsible.collapsible({ accordion : true });
+        }
     });
     $('.test').eq(0).click();
     
     /* toggle search */
-    $('.mdi-action-search').click(function() {
+    $('.mdi-action-search, .fa-search').click(function() {
         var s = $('.search > .input-field');
         s.animate({ width: s.css('width') == '0px' ? '240px' : '0px'}, 200);
     });
     
-    /* filter tests by text [TEST] */
-    $.fn.dynamicTestSearch = function(){ 
+    /* filter tests by text in test and categories view */
+    $.fn.dynamicTestSearch = function(id){ 
         var target = $(this);
-        var searchBox = $('#searchTests');
+        var searchBox = $(id);
         
         searchBox.off('keyup').on('keyup', function() {
             pattern = RegExp(searchBox.val(), 'gi');
@@ -279,8 +245,9 @@ $(document).ready(function() {
         
         return target;
     }
-    $('.test').dynamicTestSearch();
-
+    $('#test-collection .test').dynamicTestSearch('#test-view #searchTests');
+    $('#cat-collection .category-item').dynamicTestSearch('#categories-view #searchTests');
+    
     /* if only header row is available for test, hide the table [TEST] */
     $('.table-results').filter(function() {
         return ($(this).find('tr').length == 1);
@@ -290,7 +257,8 @@ $(document).ready(function() {
     $('#test-analysis').click(
         function(evt) {
             var label = testChart.getSegmentsAtEvent(evt)[0].label;
-            $('.tests-toggle li').filter(
+            
+            $('#tests-toggle li').filter(
                 function() {
                     return ($(this).text() == label);
                 }
@@ -301,8 +269,10 @@ $(document).ready(function() {
     /* clicking the category tag will automatically filter tests by category */
     $('#test-details-wrapper').click(function(evt) {
         var el = $(evt.target);
+        
         if (el.hasClass('category')) {
             var label = el.text();
+            
             $('#category-toggle a').filter(
                 function() {
                     return ($(this).text() == label);
@@ -453,7 +423,7 @@ function redrawCharts() {
     stepChart.segments[7].value = unknownSteps;
     
     $('#test-analysis, #step-analysis').html('');
-    $('ul.doughnut-legend').remove();
+    $('ul.doughnut-legend').html('');
     
     testsChart();
     stepsChart();

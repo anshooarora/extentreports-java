@@ -149,7 +149,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
             
             try {
 				template.process(templateMap, out);
-				extentSource = out.toString();
+				extentSource = out.toString().replace("\t", "").replace("    ", "");
 			} 
             catch (TemplateException e) {
 				e.printStackTrace();
