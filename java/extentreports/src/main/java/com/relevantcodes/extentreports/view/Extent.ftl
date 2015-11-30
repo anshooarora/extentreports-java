@@ -19,7 +19,7 @@
         
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
         <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <link href='http://cdn.rawgit.com/anshooarora/extentreports/005d99e2f2716f6d749c77c65b57ca3c632c35a8/cdn/extent.css' type='text/css' rel='stylesheet' />
+        <link href='http://cdn.rawgit.com/anshooarora/extentreports/c52c8b4c4cf7853d658daeb1cb09207ed5a667c6/cdn/extent.css' type='text/css' rel='stylesheet' />
         
         <style>
             <#if report.configurationMap??>
