@@ -229,27 +229,34 @@ public class HTMLReporter extends LogSettings implements IReporter {
         this.filePath = filePath;
     }
     
+    @Deprecated
     public class Config {
+    	@Deprecated
         public Config insertJs(String js) {
             return this;
         }
 
+    	@Deprecated
         public Config insertCustomStyles(String styles) {
             return this;
         }
         
+    	@Deprecated
         public Config addCustomStylesheet(String cssFilePath) {
             return this;
         }
         
+    	@Deprecated
         public Config reportHeadline(String headline) {
             return this;
         }
 
+    	@Deprecated
         public Config reportName(String name) {
             return this;
         }
 
+    	@Deprecated
         public Config documentTitle(String title) {
             return this;
         }

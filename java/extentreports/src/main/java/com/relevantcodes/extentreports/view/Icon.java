@@ -49,7 +49,7 @@ public class Icon {
         	if (s.equals("warning")) { return "mdi-alert-warning"; }
 	        if (s.equals("pass")) { return "mdi-action-check-circle"; }
 	        if (s.equals("info")) { return "mdi-action-info-outline"; }
-	        if (s.equals("skip")) { return "mdi-av-skip-next"; }
+	        if (s.equals("skip")) { return "mdi-content-redo"; }
 	        
 	        return "mdi-action-help";
         }

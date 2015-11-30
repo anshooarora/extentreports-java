@@ -98,7 +98,7 @@ public class ExtentReports extends Report {
      * Initializes Extent HTML report
      * 
      * <ul>
-     * 	<li>Default setting {@link NetworkMode.ONLINE} for {@link NetworkMode} is used</li>
+     * 	<li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li>
      * </ul> 
      * 
      * @param filePath 
@@ -129,7 +129,7 @@ public class ExtentReports extends Report {
      * Initializes Extent HTML report
      * 
      * <ul>
-     * 	<li>Default setting {@link DisplayOrder.OLDEST_FIRST} is used for {@link DisplayOrder}</li>
+     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
      * </ul>
      * 
      * @param filePath 
@@ -166,7 +166,7 @@ public class ExtentReports extends Report {
      * 
      * <ul>
      * 	<li>Default setting (true) is used for replaceExisting</li>
-     * 	<li>Default setting {@link DisplayOrder.OLDEST_FIRST} is used for {@link DisplayOrder}</li>
+     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
      * </ul>
      * 
      * @param filePath 
@@ -193,8 +193,8 @@ public class ExtentReports extends Report {
      * Initializes Extent HTML report
      * 
      * <ul>
-     * 	<li>Default setting {@link DisplayOrder.OLDEST_FIRST} is used for {@link DisplayOrder}</li>
-     * 	<li>Default setting {@link NetworkMode.ONLINE} for {@link NetworkMode} is used</li> 
+     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
+     * 	<li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li> 
      * </ul>
      * 
      * @param filePath 
@@ -219,8 +219,8 @@ public class ExtentReports extends Report {
      * 
      * <ul>
      * 	<li>Default setting (true) is used for replaceExisting</li>
-     * 	<li>Default setting {@link DisplayOrder.OLDEST_FIRST} is used for {@link DisplayOrder}</li>
-     * 	<li>Default setting {@link NetworkMode.ONLINE} for {@link NetworkMode} is used</li>
+     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
+     * 	<li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li>
      * </ul>
      * 
      * @param filePath 
@@ -349,7 +349,7 @@ public class ExtentReports extends Report {
      * the reporter-type will be started.
      * 
      * <p>
-     * For {@link ReporterType.DB} the extension must be <code>.db</code>
+     * For <code>ReporterType</code> the extension must be <code>.db</code>
      * 
      * @param reporterType {@link ReporterType} 
      * 		Type of the reporter to be initialized
@@ -412,12 +412,12 @@ public class ExtentReports extends Report {
 
     /**
      * <p>
-     * Ends the current test
+     * Ends and prepares the test to be added to the report on <code>flush()</code>
      * 
      * <p>
-     * If {@link ReporterType.DB} is used, a row in the TEST table is created
+     * If <code>ReporterType.DB</code> is used, a row in the TEST table is created
      * 
-     * @param test 
+     * @param extentTest 
      * 		An {@link ExtentTest} object
      */
     public synchronized void endTest(ExtentTest extentTest) {
@@ -482,7 +482,7 @@ public class ExtentReports extends Report {
      * no information will be appended.
      * 
      * <p>
-     * Note: If <code>flush()</code> while the test is running (not yet ended),
+     * Note: If <code>flush()</code> is called while the test is running (not yet ended),
      * it will not be appended to the report.
      */
     public synchronized void flush() {
@@ -494,6 +494,10 @@ public class ExtentReports extends Report {
     /**
      * <p>
      * Closes the underlying stream and clears all resources
+     * 
+     * <p>
+     * Once close is called, additional information will not be sent to the report. Any
+     * attempt to <code>flush()</code> will result in a <code>IOException</code>.
      * 
      * <p>
      * If any of your test ended abruptly causing any side-affects  (not all logs sent 

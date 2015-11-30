@@ -19,8 +19,8 @@
         
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
         <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <link href='http://cdn.rawgit.com/anshooarora/extentreports/f7a713fc6648889c6709356af9b16a95d4ee1ac5/cdn/extent.css' type='text/css' rel='stylesheet' />
-
+        <link href='http://cdn.rawgit.com/anshooarora/extentreports/005d99e2f2716f6d749c77c65b57ca3c632c35a8/cdn/extent.css' type='text/css' rel='stylesheet' />
+        
         <style>
             <#if report.configurationMap??>
                 ${report.configurationMap["styles"]}
@@ -43,6 +43,9 @@
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='mdi-navigation-menu medium'></i></a>
             <span class='report-name'><#if report.configurationMap??>${report.configurationMap["reportName"]}</#if></span> <span class='report-headline'><#if report.configurationMap??>${report.configurationMap["reportHeadline"]}</#if></span>
             <ul class='right hide-on-med-and-down nav-right'>
+                <li class='theme-selector' alt='Click to toggle dark theme. To enable by default, use js configuration $(".theme-selector").click();' title='Click to toggle dark theme. To enable by default, use js configuration $(".theme-selector").click();'>
+                    <i class='mdi-hardware-desktop-windows'></i>
+                </li>
                 <li>
                     <span class='suite-started-time'>${.now?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                 </li>
@@ -142,7 +145,7 @@
                 <div class='system-view'>
                     <div class='col l4 m12 s12'>
                         <div class='card-panel'>
-                            <span class='label info right'>Environment</span>
+                            <span class='label info outline right'>Environment</span>
                             <table>
                                 <thead>
                                     <tr>
@@ -156,16 +159,16 @@
                                             <td>${info}</td>
                                             <td>${report.systemInfoMap[info]}</td>
                                         </tr>
-                                    </#list>                                    
+                                    </#list>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
                 <div class='category-summary-view'>
-                    <div class='col l2 m6 s12'>
+                    <div class='col l4 m6 s12'>
                         <div class='card-panel'>
-                            <span class='label info right'>Categories</span>
+                            <span class='label info outline right'>Categories</span>
                             <table>
                                 <thead>
                                     <tr>
@@ -191,9 +194,12 @@
             <!-- tests -->
             <div id='test-view' class='row'>
                 <div class='col s5'>
+                    <div class='card-panel heading'>
+                        <h5>Tests</h5>
+                    </div>
                     <div class='card-panel filters'>
                         <div>
-                            <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button'><i class='mdi-action-subject icon'></i></a>
+                            <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button tests-toggle'><i class='mdi-action-subject icon'></i></a>
                             <ul id='tests-toggle' class='dropdown-content'>
                                 <li class='pass'><a href='#!'>Pass</a></li>
                                 <li class='fail'><a href='#!'>Fail</a></li>
@@ -256,8 +262,8 @@
                                     <li class='collection-item test displayed active ${test.status}'>
                                         <div class='test-head'>
                                             <span class='test-name'>${test.name} <#if test.internalWarning??><i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='${test.internalWarning}'></i></#if></span>
-                                            <span class='test-status label left capitalize ${test.status}'>${test.status}</span>
-                                            <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case}</#list>'></span>
+                                            <span class='test-status label right capitalize outline ${test.status}'>${test.status}</span>
+                                            <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case?replace(".", "")?replace("#", "")}</#list>'></span>
                                         </div>
                                         <div class='test-body'>
                                             <div class='test-info'>
@@ -377,6 +383,9 @@
             <!-- categories -->
             <div id='categories-view' class='row hide'>
                 <div class='col s5'>
+                    <div class='card-panel heading'>
+                        <h5>Categories</h5>
+                    </div>
                     <div class='card-panel filters'>
                         <div class='search' alt='Search tests' title='Search tests'>
                             <div class='input-field left'>
@@ -405,9 +414,15 @@
                                             <span class='category-name'>${category}</span>
                                         </div>
                                         <div class='category-status-counts'>
-                                            <span class='pass label outline'>Pass: ${passed}</span>
-                                            <span class='fail label outline'>Fail: ${failed}</span>
-                                            <span class='other label outline'>Others: ${others}</span>
+                                            <#if (passed > 0)>
+                                                <span class='pass label dot'>Pass: ${passed}</span>
+                                            </#if>
+                                            <#if (failed > 0)>
+                                                <span class='fail label dot'>Fail: ${failed}</span>
+                                            </#if>
+                                            <#if (others > 0)>
+                                                <span class='other label dot'>Others: ${others}</span>
+                                            </#if>
                                         </div>
                                         <div class='cat-body'>
                                             <div class='category-status-counts'>
@@ -431,7 +446,7 @@
                                                             <tr class='${test.status}'>
                                                                 <td>${test.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</td>
                                                                 <td><span class='category-link linked'>${test.name}</span></td>
-                                                                <td><div class='status label capitalize outline ${test.status}'>${test.status}</div></td>
+                                                                <td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
                                                             </tr>
                                                         </#list>
                                                     <tbody>
@@ -527,8 +542,8 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <script src='http://cdn.rawgit.com/anshooarora/extentreports/f7a713fc6648889c6709356af9b16a95d4ee1ac5/cdn/extent.js' type='text/javascript'></script>
-
+        <script src='http://cdn.rawgit.com/anshooarora/extentreports/005d99e2f2716f6d749c77c65b57ca3c632c35a8/cdn/extent.js' type='text/javascript'></script>
+        
         <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
         <script>
             <#if report.configurationMap??>

@@ -33,8 +33,8 @@ import com.relevantcodes.extentreports.view.ScreenshotHtml;
  * is used on any test, it automatically becomes a child-node. When this happens:
  * 
  * <ul>
- * 	<li>parent test -> <code>hasChildNodes = true</code></li>
- * 	<li>child test -> <code>isChildNode = true</code></li>
+ * 	<li>parent test: <code>hasChildNodes = true</code></li>
+ * 	<li>child test: <code>isChildNode = true</code></li>
  * </ul>
  * 
  * @author Anshoo
@@ -283,7 +283,7 @@ public class ExtentTest {
     
     /**
      * <p>
-     * Appends a child test to the current test
+     * Appends a child test (another {@link ExtentTest}) to the current test
      * 
      * @param node 
      * 		An {@link ExtentTest} object. Test that is added as the node.

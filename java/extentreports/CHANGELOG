@@ -65,3 +65,16 @@
         Child tests only
     Possible to create a database file for your runs and store all your run data to it. It is recommended to use a single database file for all your runs. To start the DB reporter, use:
         extent.startReporter(ReporterType.DB, "path-to-db-file");
+
+#2.40 <11-30-2015>
+    extent.config() is not deprecated, use loadConfig() instead
+    2 new log methods have been now added to accept exception directly and show as a code block in the report:
+        log(LogStatus logStatus, String stepName, Throwable t);
+        log(LogStatus logStatus, Throwable t);
+    Features
+        Ability to assign authors to test
+        Search functionality will also find child tests
+    Fixes
+        (#103) Fixed issue with initialization of offline report
+        Fixed issue with invalid time stamps showing up when used via listener
+        Fixed issue with filters not selecting the active test

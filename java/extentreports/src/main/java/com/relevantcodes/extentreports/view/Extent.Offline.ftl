@@ -41,6 +41,9 @@
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-3x'></i></a>
             <span class='report-name'><#if report.configurationMap??>${report.configurationMap["reportName"]}</#if></span> <span class='report-headline'><#if report.configurationMap??>${report.configurationMap["reportHeadline"]}</#if></span>
             <ul class='right hide-on-med-and-down nav-right'>
+                <li class='theme-selector' alt='Click to toggle dark theme. To enable by default, use js configuration $(".theme-selector").click();' title='Click to toggle dark theme. To enable by default, use js configuration $(".theme-selector").click();'>
+                    <i class='fa fa-desktop'></i>
+                </li>
                 <li>
                     <span class='suite-started-time'>${.now?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                 </li>
@@ -140,7 +143,7 @@
                 <div class='system-view'>
                     <div class='col l4 m12 s12'>
                         <div class='card-panel'>
-                            <span class='label info right'>Environment</span>
+                            <span class='label info outline right'>Environment</span>
                             <table>
                                 <thead>
                                     <tr>
@@ -161,7 +164,7 @@
                     </div>
                 </div>
                 <div class='category-summary-view'>
-                    <div class='col l2 m6 s12'>
+                    <div class='col l4 m6 s12'>
                         <div class='card-panel'>
                             <span class='label info right'>Categories</span>
                             <table>
@@ -189,9 +192,12 @@
             <!-- tests -->
             <div id='test-view' class='row'>
                 <div class='col s5'>
+                    <div class='card-panel heading'>
+                        <h5>Tests</h5>
+                    </div>
                     <div class='card-panel filters'>
                         <div>
-                            <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button'><i class='fa fa-list icon'></i></a>
+                            <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button tests-toggle'><i class='fa fa-list icon'></i></a>
                             <ul id='tests-toggle' class='dropdown-content'>
                                 <li class='pass'><a href='#!'>Pass</a></li>
                                 <li class='fail'><a href='#!'>Fail</a></li>
@@ -242,7 +248,11 @@
                             <i class='fa fa-search icon'></i>
                         </div>
                     </div>
-                    <div class='card-panel no-padding-h no-padding-v'>
+                    <#assign optionalClass = ''>
+                    <#if report.testList?size < 15>
+                        <#assign optionalClass = 'vh100'>
+                    </#if>
+                    <div class='card-panel no-padding-h no-padding-v ${optionalClass}'>
                         <div class='wrapper'>
                             <ul id='test-collection' class='test-collection'>
                                 <#list report.testList as extentTest>
@@ -250,7 +260,7 @@
                                     <li class='collection-item test displayed active ${test.status}'>
                                         <div class='test-head'>
                                             <span class='test-name'>${test.name} <#if test.internalWarning??><i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='${test.internalWarning}'></i></#if></span>
-                                            <span class='test-status label left capitalize ${test.status}'>${test.status}</span>
+                                            <span class='test-status label right capitalize outline ${test.status}'>${test.status}</span>
                                             <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case}</#list>'></span>
                                         </div>
                                         <div class='test-body'>
@@ -371,6 +381,9 @@
             <!-- categories -->
             <div id='categories-view' class='row hide'>
                 <div class='col s5'>
+                    <div class='card-panel heading'>
+                        <h5>Categories</h5>
+                    </div>
                     <div class='card-panel filters'>
                         <div class='search' alt='Search tests' title='Search tests'>
                             <div class='input-field left'>
@@ -399,9 +412,15 @@
                                             <span class='category-name'>${category}</span>
                                         </div>
                                         <div class='category-status-counts'>
-                                            <span class='pass label outline'>Pass: ${passed}</span>
-                                            <span class='fail label outline'>Fail: ${failed}</span>
-                                            <span class='other label outline'>Others: ${others}</span>
+                                            <#if (passed > 0)>
+                                                <span class='pass label dot'>Pass: ${passed}</span>
+                                            </#if>
+                                            <#if (failed > 0)>
+                                                <span class='fail label dot'>Fail: ${failed}</span>
+                                            </#if>
+                                            <#if (others > 0)>
+                                                <span class='other label dot'>Others: ${others}</span>
+                                            </#if>
                                         </div>
                                         <div class='cat-body'>
                                             <div class='category-status-counts'>

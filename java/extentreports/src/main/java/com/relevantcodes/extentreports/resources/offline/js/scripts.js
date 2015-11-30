@@ -77,8 +77,14 @@ $(document).ready(function() {
         }
     });
     
+    /* toggle side-nav */
     $('.menu-toggle').click(function() {
         $('.side-nav').toggleClass('active');
+    });
+    
+    /* theme selector */
+    $('.theme-selector').click(function() {
+        $('body').toggleClass('dark');
     });
     
     /* enable dashboard checkbox [TOPNAV] */
@@ -153,7 +159,7 @@ $(document).ready(function() {
     }
     
     /* view category info [CATEGORIES] */
-    $('.category-item').click(function() {
+    $('.category-item').click(function(evt) {       
         $('#cat-collection .category-item').removeClass('active');
         $('#cat-details-wrapper .cat-body').html('');
         
@@ -166,6 +172,11 @@ $(document).ready(function() {
     /* category filter by status */
     $('#cat-details-wrapper').click(function(evt) {
         var t = $(evt.target);
+        
+        if (t.is('.category-link')) {
+            var id = t.attr('extentid');
+            findTestByNameId(t.text().trim(), id);
+        }
         
         if (t.is('.filter, .icon')) {
             if (t.hasClass('icon')) {
@@ -192,12 +203,6 @@ $(document).ready(function() {
         }
     });
     
-    /* navigation from category-view to test-details [CATEGORIES] */
-    $('.category-link').click(function() {
-        var id = $(this).attr('extentid');
-        findTestByNameId($(this).text().trim(), id);
-    });
-    
     /* view test info [TEST] */
     $('.test').click(function() {
         var t = $(this);
@@ -206,7 +211,7 @@ $(document).ready(function() {
         $('#test-details-wrapper .test-body').html('');
         
         var el = t.addClass('active').find('.test-body').clone();
-        $('#test-details-wrapper .details-name').text(t.find('.test-name').text());
+        $('#test-details-wrapper .details-name').html(t.find('.test-name').html());
         $('#test-details-wrapper .details-container').append($(el));
         
         var collapsible = $('#test-details-wrapper .collapsible');
@@ -218,6 +223,7 @@ $(document).ready(function() {
     
     /* toggle search */
     $('.mdi-action-search, .fa-search').click(function() {
+        $(this).toggleClass('active');
         var s = $('.search > .input-field');
         s.animate({ width: s.css('width') == '0px' ? '240px' : '0px'}, 200);
     });
@@ -310,7 +316,8 @@ $(document).ready(function() {
             $('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).removeClass('hide').addClass('displayed');
         }
         
-        $('.test.displayed').eq(0).click();
+        $('#test-view .tests-toggle > i').addClass('active');
+        $('#test-collection .test.displayed').eq(0).click();
         redrawCharts();
     });
     
@@ -321,7 +328,7 @@ $(document).ready(function() {
             return;
         }
         
-        var opt = $(this).text().toLowerCase();
+        var opt = $(this).text().toLowerCase().replace(/\./g, '').replace(/\#/g, '');
         var status = $('#tests-toggle li.active').text().toLowerCase();
         
         $('#category-toggle li').removeClass('active');
@@ -345,6 +352,7 @@ $(document).ready(function() {
             });
         }
         
+        $('#test-view .category-toggle > i').addClass('active');
         $('.test.displayed').eq(0).click();
         redrawCharts();
     });
@@ -367,6 +375,7 @@ $(document).ready(function() {
 function resetFilters() {
     $('.dropdown-content, .dropdown-content li').removeClass('active');
     $('.test, .node-list > li').addClass('displayed').removeClass('hide');
+    $('#test-view .tests-toggle > i, #test-view .category-toggle > i').removeClass('active');
     redrawCharts();
 }
 
@@ -508,14 +517,9 @@ function refreshData() {
 
 /* dashboard chart options [DASHBOARD] */
 var options = {
-    segmentShowStroke : true, 
-    segmentStrokeColor : '#eee', 
-    segmentStrokeWidth : 1, 
+    segmentShowStroke : false, 
     percentageInnerCutout : 55, 
-    animationSteps : 30, 
-    animationEasing : 'easeOutBounce', 
-    animateRotate : true, 
-    animateScale : false,
+    animationSteps : 1,
     legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
 };
 
