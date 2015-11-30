@@ -35,7 +35,7 @@ namespace RelevantCodes.ExtentReports.View
                             </title>
                             <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
                             <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-                            <link href='http://cdn.rawgit.com/anshooarora/extentreports/f7a713fc6648889c6709356af9b16a95d4ee1ac5/cdn/extent.css' type='text/css' rel='stylesheet' />
+                            <link href='http://cdn.rawgit.com/anshooarora/extentreports/c52c8b4c4cf7853d658daeb1cb09207ed5a667c6/cdn/extent.css' type='text/css' rel='stylesheet' />
 
                             <style>
                                 @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""css""))
@@ -59,6 +59,9 @@ namespace RelevantCodes.ExtentReports.View
                                 <a href='#' data-activates='slide-out' class='button-collapse'><i class='mdi-navigation-menu'></i></a>
                                 <span class='report-name'>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""reportName"")) { @Raw(Model.ConfigurationMap[""reportName""]) }</span> <span class='report-headline'>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""reportHeadline"")) { @Raw(Model.ConfigurationMap[""reportHeadline""]) }</span>
                                 <ul class='right hide-on-med-and-down nav-right'>
+                                    <li class='theme-selector' alt='Click to toggle dark theme. To enable by default, use js configuration $("".theme-selector"").click();' title='Click to toggle dark theme. To enable by default, use js configuration $("".theme-selector"").click();'>
+                                        <i class='mdi-hardware-desktop-windows'></i>
+                                    </li>
                                     <li>
                                         <span class='suite-started-time'>@Model.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
                                     </li>
@@ -175,7 +178,7 @@ namespace RelevantCodes.ExtentReports.View
                                         </div>
                                     </div>
                                     <div class='category-summary-view'>
-                                        <div class='col l2 m6 s12'>
+                                        <div class='col l4 m6 s12'>
                                             <div class='card-panel'>
                                                 <span class='label info right'>Categories</span>
                                                 <table>
@@ -202,6 +205,9 @@ namespace RelevantCodes.ExtentReports.View
                                 </div>
                                 <div id='test-view' class='row'>
                                     <div class='col s5'>
+                                        <div class='card-panel heading'>
+                                            <h5>Tests</h5>
+                                        </div>
                                         <div class='card-panel filters'>
                                             <div>
                                                 <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button'><i class='mdi-action-subject icon'></i></a>
@@ -275,7 +281,7 @@ namespace RelevantCodes.ExtentReports.View
                                                         <li class='collection-item test displayed active @test.Status.ToString().ToLower() @if(test.ContainsChildNodes){ <x> hasChildren </x> }' extentid='@test.ID'>
                                                             <div class='test-head'>
                                                                 <span class='test-name'>@Raw(test.Name) @if (!String.IsNullOrEmpty(test.InternalWarning)) { <i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='@Raw(test.InternalWarning)'></i> }</span>
-                                                                <span class='test-status left label capitalize @test.Status.ToString().ToLower()'>@test.Status.ToString().ToLower()</span>
+                                                                <span class='test-status right label capitalize outline @test.Status.ToString().ToLower()'>@test.Status.ToString().ToLower()</span>
                                                                 <span class='category-assigned hide @test.GetCombinedCategories().ToLower()'></span>
                                                             </div>
                                                             <div class='test-body'>
@@ -407,6 +413,9 @@ namespace RelevantCodes.ExtentReports.View
                                 </div>
                                 <div id='categories-view' class='row hide'>
                                     <div class='col s5'>
+                                        <div class='card-panel heading'>
+                                            <h5>Categories</h5>
+                                        </div>
                                         <div class='card-panel filters'>
                                             <div class='search' alt='Search tests' title='Search tests'>
                                                 <div class='input-field left'>
@@ -431,9 +440,18 @@ namespace RelevantCodes.ExtentReports.View
 					                                                <span class='category-name'>@entry.Key</span>
 				                                                </div>
 				                                                <div class='category-status-counts'>
-					                                                <span class='pass label outline'>Pass: @passed</span>
-					                                                <span class='fail label outline'>Fail: @failed</span>
-					                                                <span class='other label outline'>Others: @others</span>
+                                                                    @if (passed > 0)
+                                                                    {
+					                                                    <span class='pass label dot'>Pass: @passed</span>
+                                                                    }
+                                                                    @if (failed > 0)
+                                                                    {
+					                                                    <span class='fail label dot'>Fail: @failed</span>
+                                                                    }
+                                                                    @if (others > 0)
+                                                                    {
+					                                                    <span class='other label dot'>Others: @others</span>
+                                                                    }
 				                                                </div>
 				                                                <div class='cat-body'>
 					                                                <div class='category-status-counts'>
@@ -543,7 +561,7 @@ namespace RelevantCodes.ExtentReports.View
                             <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
                             <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
                             <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-                            <script src='http://cdn.rawgit.com/anshooarora/extentreports/f7a713fc6648889c6709356af9b16a95d4ee1ac5/cdn/extent.js' type='text/javascript'></script>
+                            <script src='http://cdn.rawgit.com/anshooarora/extentreports/005d99e2f2716f6d749c77c65b57ca3c632c35a8/cdn/extent.js' type='text/javascript'></script>
 
                             <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
                             <script>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""scripts"")) { @Raw(Model.ConfigurationMap[""scripts""]) }</script>

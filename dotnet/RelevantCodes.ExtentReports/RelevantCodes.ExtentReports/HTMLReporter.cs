@@ -43,6 +43,8 @@ namespace RelevantCodes.ExtentReports
 
         public virtual void Start(Report Report)
         {
+            InitializeRazor();
+
             _report = Report;
 
             _filePath = Report.FilePath;
