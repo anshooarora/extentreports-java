@@ -4,14 +4,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
     <groupId>com.relevantcodes</groupId>
     <artifactId>extentreports</artifactId>
-    <version>2.10</version>
+    <version>2.40</version>
     <packaging>jar</packaging>
 
     <name>ExtentReports for Selenium</name>
     <url>http://relevantcodes.com/extentreports-for-selenium/</url>
 
     <description>
-        ExtentReports (by Anshoo Arora) is a reporting library for automation testing, written in Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.
+        ExtentReports is an open-source reporting library for test automation. It is very easily integrated with all test-frameworks (TestNG, JUnit, NUnit etc.) and provides better looking reports. Because Extent is created as a logging utility, it is also possible to use custom logs for each test, add snapshots &amp; videos, assign categories and authors and filter using several parameters. 
     </description>
     
     <licenses>
