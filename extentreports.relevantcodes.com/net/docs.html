@@ -34,7 +34,7 @@
 					<li><a class='dropdown-button' href='#!' data-activates='dropdown2'>.NET<i class='mdi-navigation-arrow-drop-down right'></i></a></li>
 					<ul id='dropdown2' class='dropdown-content'>
 						<li><a href='version-2.02/docs.html'>Version 2.02</a></li>
-						<li><a href='#'>Version 2.40.0b</a></li>
+						<li><a href='#'>Version 2.40</a></li>
 					</ul>
 					<li><a href='../extentmerge/docs.html'>ExtentMerge</a></li>
 					<li>
@@ -49,9 +49,7 @@
 				<div class='col l8 m12 s12'>
 					<div class='card-panel content'>
 
-<p class='alert'>Documentation still in progress..  These documents are not yet complete as the .NET version is still in beta.  I am working on finalizing the API and also updating the docs.  Please use the information here to test the beta-version and open any issues/questions at Github/extentreports.</p>
-					
-<h2 id='sample'>Sample</h2>
+					<h2 id='sample'>Sample</h2>
 <p>View ExtentReports 2.0 sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.Net.html'>here</a>.</p>
 
 <h2 id='screenshots'>Screenshots</h2>
@@ -59,10 +57,10 @@
 <img class='bordered-img center' src='./img/testview.png' width='80%' />
 
 <h2 id='current-version'>Current Version</h2>
-<p>2.40.0-beta</p>			
+<p>2.40</p>			
                             
-<h2 id='whats-new'>What's new in 2.40.0-beta</h2>
-<p>Version 2.40.0-beta launched on Nov 16. Here is what's new:</p>
+<h2 id='whats-new'>What's new in 2.40</h2>
+<p>Version 2.40 launched on Nov 30. Here is what's new:</p>
 <ul>
 	<li>All configuration and customization will be performed using an external file using the below methods. See <a href='#configuration'>Configuration</a> section for more details.
 <pre><code class='java'>
@@ -111,7 +109,7 @@ ExtentReports extent = ExtentReports(string filePath, DisplayOrder displayOrder)
 <p>Once your session is complete and you are ready to write all logs to the report, simply call the <code>flush()</code> method.</p>
 <pre><code class='java'>
 // writing everything to document
-extent.flush();
+extent.Flush();
 </code></pre>
 <p class='note'>It is recommended to call <code>flush</code> only once at the end of your session because calling it multiple times will reduce the performance as the log file will be written/updated multiple times.</p>
 
@@ -427,7 +425,7 @@ LoadConfig(new File(@"C:\HelloWorld\extent-config.xml"));
 							
 							<li class='divider'></li>
 							
-							<li><a href='#whats-new'>What's new in 2.40.0-beta</a></li>
+							<li><a href='#whats-new'>What's new in 2.40</a></li>
 							<li><a href='#author'>Owner / Developer</a>
 							<li><a href='#basic-usage'>Basic Usage</a>
 								<ul>
