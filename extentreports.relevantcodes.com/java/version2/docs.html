@@ -48,7 +48,7 @@
 			<div class='row'>
 				<div class='col l8 m12 s12'>
 					<div class='card-panel content'>
-
+					
 <h2 id='reviews'>Reviews</h2>
 <p>Below are a few reviews and usage examples by users:</p>
 <ul>
@@ -652,8 +652,11 @@ public class ExtentManager {
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;extentreports&gt;
     &lt;configuration&gt;
+        &lt;!-- document encoding --&gt;
+        &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+        
         &lt;!-- title of the document --&gt;
-        &lt;documentTitle&gt;ExtentReports 2.0&lt;/documentTitle&gt;
+        &lt;documentTitle&gt;Custom&lt;/documentTitle&gt;
         
         &lt;!-- report name - displayed at top-nav --&gt;
         &lt;reportName&gt;Automation Report&lt;/reportName&gt;
@@ -662,20 +665,20 @@ public class ExtentManager {
         &lt;reportHeadline&gt;&lt;/reportHeadline&gt;
         
         &lt;!-- custom javascript --&gt;
-        &lt;js&gt;
+        &lt;scripts&gt;
             &lt;![CDATA[
                 $(document).ready(function() {
                     $('#enableDashboard').click();
                 });
             ]]&gt;
-        &lt;/js&gt;
+        &lt;/scripts&gt;
         
         &lt;!-- custom styles --&gt;
-        &lt;css&gt;
+        &lt;styles&gt;
             &lt;![CDATA[
                 
             ]]&gt;
-        &lt;/css&gt;
+        &lt;/styles&gt;
     &lt;/configuration&gt;
 &lt;/extentreports&gt;
 </code></pre>

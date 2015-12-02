@@ -361,8 +361,11 @@ public class SingleLogTests : ExtentBase
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;extentreports&gt;
     &lt;configuration&gt;
+        &lt;!-- document encoding --&gt;
+        &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+        
         &lt;!-- title of the document --&gt;
-        &lt;documentTitle&gt;ExtentReports 2.0&lt;/documentTitle&gt;
+        &lt;documentTitle&gt;Custom&lt;/documentTitle&gt;
         
         &lt;!-- report name - displayed at top-nav --&gt;
         &lt;reportName&gt;Automation Report&lt;/reportName&gt;
@@ -371,20 +374,20 @@ public class SingleLogTests : ExtentBase
         &lt;reportHeadline&gt;&lt;/reportHeadline&gt;
         
         &lt;!-- custom javascript --&gt;
-        &lt;js&gt;
+        &lt;scripts&gt;
             &lt;![CDATA[
                 $(document).ready(function() {
                     $('#enableDashboard').click();
                 });
             ]]&gt;
-        &lt;/js&gt;
+        &lt;/scripts&gt;
         
         &lt;!-- custom styles --&gt;
-        &lt;css&gt;
+        &lt;styles&gt;
             &lt;![CDATA[
                 
             ]]&gt;
-        &lt;/css&gt;
+        &lt;/styles&gt;
     &lt;/configuration&gt;
 &lt;/extentreports&gt;
 </code></pre>
@@ -396,10 +399,10 @@ public class SingleLogTests : ExtentBase
 <p>To use this configuration, in your code, call <code>LoadConfig</code>:</p>
 
 <pre><code class='java'>
-LoadConfig(File configFile);
+LoadConfig(string ConfigFile);
 
 // file location: "C:\HelloWorld\extent-config.xml"
-LoadConfig(new File(@"C:\HelloWorld\extent-config.xml"));
+LoadConfig(@"C:\HelloWorld\extent-config.xml");
 </code></pre>
 
 <h2 id='license'>License</h2>
