@@ -77,7 +77,7 @@ public class Configuration {
 		try {
 			stream = url.openStream();
 			
-			logger.log(Level.INFO, "Configurating report from " + url.getPath());
+			logger.log(Level.INFO, "Configuring report from " + url.getPath());
 
 			configurationMap = new HashMap<String, String>();
 		} 
@@ -90,7 +90,7 @@ public class Configuration {
 		try {
 			stream = new FileInputStream(file);
 			
-			logger.log(Level.INFO, "Configurating report from " + file.getPath());
+			logger.log(Level.INFO, "Configuring report from " + file.getPath());
 			
 			configurationMap = new HashMap<String, String>();
 		} 
