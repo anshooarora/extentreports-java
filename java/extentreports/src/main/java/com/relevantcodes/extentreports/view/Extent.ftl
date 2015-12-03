@@ -305,7 +305,7 @@
                                                             <tr>
                                                                 <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='${Icon.getIcon(log.logStatus)}'></i></td>
                                                                 <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
-                                                                <#if test.logList[0].stepName??>
+                                                                <#if test.logList[0].stepName?? && log.stepName??>
                                                                     <td class='step-name'>${log.stepName}</td>
                                                                 </#if>
                                                                 <td class='step-details'>${log.details}</td>
@@ -346,7 +346,7 @@
                                                                                         <tr>
                                                                                             <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='${Icon.getIcon(log.logStatus)}'></i></td>
                                                                                             <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
-                                                                                            <#if node.logList[0].stepName??>
+                                                                                            <#if node.logList[0].stepName?? && log.stepName??>
                                                                                                 <td class='step-name'>${log.stepName}</td>
                                                                                             </#if>
                                                                                             <td class='step-details'>${log.details}</td>
