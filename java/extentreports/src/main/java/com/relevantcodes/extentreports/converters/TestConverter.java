@@ -43,8 +43,8 @@ public class TestConverter extends LogSettings {
 		
         // build Test model
         for (Element test : allTests) {
-            String name = test.select(".test-name").first().text().trim();
-            String description = test.select(".test-desc").first().text().trim();
+            String name = test.select(".test-name").first().html().trim();
+            String description = test.select(".test-desc").first().html().trim();
             
             extentTest = extent.startTest(name, description);
             
