@@ -327,6 +327,7 @@
                                                                             <span class='test-status label outline capitalize ${node.status}'>${node.status}</span>
                                                                         </div>
                                                                         <div class='test-node-name'>${node.name}</div>
+                                                                        <div class='test-node-desc'>${node.description}</div>
                                                                     </div>
                                                                     <div class='collapsible-body'>
                                                                         <div class='test-steps'>

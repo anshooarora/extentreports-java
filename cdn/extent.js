@@ -445,15 +445,15 @@ function refreshData() {
 	$('.pass-percentage.panel-lead').text(percentage);
 	$('#dashboard-view .determinate').attr('style', 'width:' + percentage);
 
-	totalSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status, #test-collection .node-list > li.displayed td.status').length;
-	passedSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.pass, #test-collection .node-list > li.displayed td.status.pass').length;
-	failedSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.fail, #test-collection .node-list > li.displayed td.status.fail').length;
-	fatalSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.fatal, #test-collection .node-list > li.displayed td.status.fatal').length;
-	warningSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.warning, #test-collection .node-list > li.displayed td.status.warning').length;
-	errorSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.error, #test-collection .node-list > li.displayed td.status.error').length;
-	infoSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.info, #test-collection .node-list > li.displayed td.status.info').length;
-	skippedSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.skip, #test-collection .node-list > li.displayed td.status.skip').length;
-	unknownSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.unknown, #test-collection .node-list > li.displayed td.status.unknown').length;
+	totalSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status, #test-collection .test.displayed .node-list > li.displayed td.status').length;
+	passedSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.pass, #test-collection .test.displayed .node-list > li.displayed td.status.pass').length;
+	failedSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.fail, #test-collection .test.displayed .node-list > li.displayed td.status.fail').length;
+	fatalSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.fatal, #test-collection .test.displayed .node-list > li.displayed td.status.fatal').length;
+	warningSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.warning, #test-collection .test.displayed .node-list > li.displayed td.status.warning').length;
+	errorSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.error, #test-collection .test.displayed .node-list > li.displayed td.status.error').length;
+	infoSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.info, #test-collection .test.displayed .node-list > li.displayed td.status.info').length;
+	skippedSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.skip, #test-collection .test.displayed .node-list > li.displayed td.status.skip').length;
+	unknownSteps = $('#test-collection .test.displayed > .test-body > .test-steps > table td.status.unknown, #test-collection .test.displayed .node-list > li.displayed td.status.unknown').length;
 		
 	if ($('#step-status-filter').hasClass('pass')) { passedSteps = 0; }
 	if ($('#step-status-filter').hasClass('fail')) { failedSteps = 0; }
