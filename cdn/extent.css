@@ -534,6 +534,10 @@ nav ul li:hover {
 }
 .test-node-name {
 	display: inline-block;
+	font-weight: 500;
+}
+.test-node-desc {
+	padding: 10px 0 0;
 }
 .test-node .test-started-time, .test-node  .test-ended-time, .test-node  .test-time-taken {
 	display: none;
