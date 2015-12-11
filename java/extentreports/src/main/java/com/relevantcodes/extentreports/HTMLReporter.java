@@ -210,7 +210,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
     }
     
     public Date getStartedTime() {
-        return report.getStartedTime();
+        return new Date(report.getSuiteTimeInfo().getSuiteStartTimestamp());
     }
     
     public String getRunDuration() {
