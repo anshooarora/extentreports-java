@@ -35,7 +35,7 @@ namespace RelevantCodes.ExtentReports.View
                             </title>
                             <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
                             <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-                            <link href='http://cdn.rawgit.com/anshooarora/extentreports/c52c8b4c4cf7853d658daeb1cb09207ed5a667c6/cdn/extent.css' type='text/css' rel='stylesheet' />
+                            <link href='http://cdn.rawgit.com/anshooarora/extentreports/91d2454f7f15961cc3916d3cf9d8819027e17aab/cdn/extent.css' type='text/css' rel='stylesheet' />
 
                             <style>
                                 @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""css""))
@@ -210,7 +210,7 @@ namespace RelevantCodes.ExtentReports.View
                                         </div>
                                         <div class='card-panel filters'>
                                             <div>
-                                                <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button'><i class='mdi-action-subject icon'></i></a>
+                                                <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button tests-toggle'><i class='mdi-action-subject icon'></i></a>
                                                 <ul id='tests-toggle' class='dropdown-content'>
                                                     <li class='pass'><a href='#!'>Pass</a></li>
                                                     <li class='fail'><a href='#!'>Fail</a></li>
@@ -347,7 +347,7 @@ namespace RelevantCodes.ExtentReports.View
                                                                         <ul class='collapsible node-list' data-collapsible='accordion'>
                                                                             @foreach (var node in test.NodeList)
                                                                             {
-                                                                                <li class='node-1x' extentid='@node.ID'>
+                                                                                <li class='displayed node-1x @node.Status.ToString().ToLower()' extentid='@node.ID'>
                                                                                     <div class='collapsible-header test-node @node.Status.ToString().ToLower()'>
                                                                                         <div class='right test-info'>
                                                                                             <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@node.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
@@ -356,6 +356,7 @@ namespace RelevantCodes.ExtentReports.View
                                                                                             <span class='test-status label capitalize @node.Status.ToString().ToLower()'>@node.Status.ToString().ToLower()</span>
                                                                                         </div>
                                                                                         <div class='test-node-name'>@Raw(node.Name)</div>
+                                                                                        <div class='test-node-desc'>@Raw(node.Description)</div>
                                                                                     </div>
                                                                                     <div class='collapsible-body'>
                                                                                         <div class='test-steps'>
@@ -561,7 +562,7 @@ namespace RelevantCodes.ExtentReports.View
                             <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
                             <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
                             <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-                            <script src='http://cdn.rawgit.com/anshooarora/extentreports/005d99e2f2716f6d749c77c65b57ca3c632c35a8/cdn/extent.js' type='text/javascript'></script>
+                            <script src='http://cdn.rawgit.com/anshooarora/extentreports/91d2454f7f15961cc3916d3cf9d8819027e17aab/cdn/extent.js' type='text/javascript'></script>
 
                             <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
                             <script>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""scripts"")) { @Raw(Model.ConfigurationMap[""scripts""]) }</script>
