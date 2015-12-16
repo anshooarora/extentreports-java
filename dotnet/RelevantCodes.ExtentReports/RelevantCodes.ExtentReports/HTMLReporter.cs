@@ -105,7 +105,7 @@ namespace RelevantCodes.ExtentReports
             }
         }
 
-        public Dictionary<string, List<Test>> CategoryMap 
+        public IDictionary<string, List<Test>> CategoryMap 
         { 
             get
             {

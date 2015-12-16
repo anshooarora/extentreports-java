@@ -28,7 +28,7 @@ namespace RelevantCodes.ExtentReports.Model
 
         internal List<ExtentTest> TestList { get; set; }
 
-        internal Dictionary<string, List<Test>> CategoryMap { get; private set; }
+        internal IDictionary<string, List<Test>> CategoryMap { get; private set; }
 
         internal DateTime StartTime;
 
@@ -199,7 +199,7 @@ namespace RelevantCodes.ExtentReports.Model
         {
             _id = Guid.NewGuid();
 
-            CategoryMap = new Dictionary<string, List<Test>>();
+            CategoryMap = new SortedDictionary<string, List<Test>>();
             StartTime = DateTime.Now;
             SystemInfo = new StandardSystemInfo().GetInfo();
             TestRunnerLogs = new List<string>();
