@@ -1,3 +1,7 @@
+<#assign dateFormat = report.configurationMap["dateFormat"]>
+<#assign timeFormat = report.configurationMap["timeFormat"]>
+<#assign dateTimeFormat = report.configurationMap["dateFormat"] + " " + report.configurationMap["timeFormat"]>
+        
 <!DOCTYPE html>
 <html>
     <head>
@@ -47,7 +51,7 @@
                     <i class='mdi-hardware-desktop-windows'></i>
                 </li>
                 <li>
-                    <span class='suite-started-time'>${.now?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
+                    <span class='suite-started-time'>${.now?datetime?string(dateTimeFormat)}</span>
                 </li>
                 <li>
                     <span>v2.40.0</span>
@@ -83,13 +87,13 @@
                     <div class='col l2 m6 s6 suite-start-time'>
                         <div class='card green-accent'> 
                             <span class='panel-name'>Start</span> 
-                            <span class='panel-lead suite-started-time'>${report.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span> 
+                            <span class='panel-lead suite-started-time'>${report.startedTime?datetime?string(dateTimeFormat)}</span> 
                         </div> 
                     </div>
                     <div class='col l2 m6 s6 suite-end-time'>
                         <div class='card pink-accent'> 
                             <span class='panel-name'>End</span> 
-                            <span class='panel-lead suite-ended-time'>${.now?datetime?string("yyyy-MM-dd HH:mm:ss")}</span> 
+                            <span class='panel-lead suite-ended-time'>${.now?datetime?string(dateTimeFormat)}</span> 
                         </div> 
                     </div>
                 </div>
@@ -267,8 +271,8 @@
                                         </div>
                                         <div class='test-body'>
                                             <div class='test-info'>
-                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${test.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
-                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'><#if test.endedTime??>${test.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</#if></span>
+                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${test.startedTime?datetime?string(dateTimeFormat)}</span>
+                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'><#if test.endedTime??>${test.endedTime?datetime?string(dateTimeFormat)}</#if></span>
                                                 <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'><#if test.endedTime??>${test.getRunDuration()}</#if></span>
                                             </div>
                                             <div class='test-desc'>${test.description}</div>
@@ -304,7 +308,7 @@
                                                         <#list test.logList as log>
                                                             <tr>
                                                                 <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='${Icon.getIcon(log.logStatus)}'></i></td>
-                                                                <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
+                                                                <td class='timestamp'>${log.timestamp?datetime?string(timeFormat)}</td>
                                                                 <#if test.logList[0].stepName?? && log.stepName??>
                                                                     <td class='step-name'>${log.stepName}</td>
                                                                 </#if>
@@ -321,13 +325,15 @@
                                                                 <li class='displayed ${node.status} node-${depth}x'>
                                                                     <div class='collapsible-header test-node ${node.status}'>
                                                                         <div class='right test-info'>
-                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
-                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
+                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string(dateTimeFormat)}</span>
+                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string(dateTimeFormat)}</span>
                                                                             <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
                                                                             <span class='test-status label outline capitalize ${node.status}'>${node.status}</span>
                                                                         </div>
                                                                         <div class='test-node-name'>${node.name}</div>
-                                                                        <div class='test-node-desc'>${node.description}</div>
+                                                                        <#if node.description??>
+                                                                            <div class='test-node-desc'>${node.description}</div>
+                                                                        </#if>
                                                                     </div>
                                                                     <div class='collapsible-body'>
                                                                         <div class='test-steps'>
@@ -346,7 +352,7 @@
                                                                                     <#list node.logList as log>
                                                                                         <tr>
                                                                                             <td class='status ${log.logStatus}' title='${log.logStatus}' alt='${log.logStatus}'><i class='${Icon.getIcon(log.logStatus)}'></i></td>
-                                                                                            <td class='timestamp'>${log.timestamp?datetime?string("HH:mm:ss")}</td>
+                                                                                            <td class='timestamp'>${log.timestamp?datetime?string(timeFormat)}</td>
                                                                                             <#if node.logList[0].stepName?? && log.stepName??>
                                                                                                 <td class='step-name'>${log.stepName}</td>
                                                                                             </#if>
@@ -445,7 +451,7 @@
                                                     <tbody>
                                                         <#list testList as test>
                                                             <tr class='${test.status}'>
-                                                                <td>${test.startedTime?datetime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                                                                <td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
                                                                 <td><span class='category-link linked'>${test.name}</span></td>
                                                                 <td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
                                                             </tr>

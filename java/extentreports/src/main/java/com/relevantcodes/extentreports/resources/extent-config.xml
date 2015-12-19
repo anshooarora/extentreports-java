@@ -13,6 +13,12 @@
         <!-- report headline - displayed at top-nav, after reportHeadline -->
         <reportHeadline></reportHeadline>
         
+        <!-- date format override -->
+        <dateFormat>yyyy-MM-dd</dateFormat>
+        
+        <!-- time format override -->
+        <timeFormat>HH:mm:ss</timeFormat>
+        
         <!-- custom javascript -->
         <scripts>
             <![CDATA[

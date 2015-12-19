@@ -10,6 +10,7 @@ package com.relevantcodes.extentreports;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +32,13 @@ abstract class Report extends LogSettings {
 	private static final Logger LOGGER = Logger.getLogger(Report.class.getName());
 	private static final String INTERNAL_WARNING = "Close was called before test could end safely using EndTest.";
 	
+	/**
+	 * Default configuration file for HTML report. This file is loaded by default
+	 * when the {@link ExtentReports} initializes, and overridden when user provides
+	 * their own configuration using <code>loadConfig(args)</code>. 
+	 */
+	private final String extentConfigFile = "extent-config.xml";
+	
     private String filePath;
     private DisplayOrder displayOrder;
     private NetworkMode networkMode;
@@ -45,12 +53,13 @@ abstract class Report extends LogSettings {
     private Boolean terminated = false;
     private Map<String, List<Test>> categoryTestMap;
     private Map<String, String> configurationMap;
+    private Map<String, String> defaultConfiguration;
     
     protected SuiteTimeInfo suiteTimeInfo;
     protected SystemInfo systemInfo;
     protected List<ExtentTest> testList;
     protected File configFile = null;
-
+    
     protected List<ExtentTest> getTestList() {
         return testList;
     }
@@ -214,8 +223,43 @@ abstract class Report extends LogSettings {
         }
     }
     
-    protected void loadConfig(Configuration config) {
-   		configurationMap = config.getConfigurationMap();
+    protected Map<String, String> loadConfig(Configuration config) {
+  		configurationMap = config.getConfigurationMap();
+  		
+  		// if user is using an out-dated version of the configuration file, 
+  		// use default configuration for keys that are not available
+  		if (defaultConfiguration != null) {
+	  		for (Map.Entry<String, String> entry : defaultConfiguration.entrySet()) {
+	  			if (!configurationMap.containsKey(entry.getKey())) {
+	  				configurationMap.put(entry.getKey(), entry.getValue());
+	  			}  		    
+	  		}
+  		}
+  		
+  		updateBaseSettings(configurationMap);
+  		
+  		return configurationMap;
+    }
+    
+    /**
+     * Updates LogSettings with custom values
+     * 
+     * @param configurationMap
+     */
+    private void updateBaseSettings(Map<String, String> configurationMap) {
+    	if (configurationMap.get("dateFormat") != null && !configurationMap.get("dateFormat").isEmpty()) {
+    		setLogDateFormat(configurationMap.get("dateFormat"));
+    	}
+    	else {
+    		configurationMap.put("dateFormat", getLogDateFormat());
+    	}
+    		
+    	if (configurationMap.get("timeFormat") != null && !configurationMap.get("timeFormat").isEmpty()) {
+    		setLogTimeFormat(configurationMap.get("timeFormat"));
+    	}
+    	else {
+    		configurationMap.put("timeFormat", getLogTimeFormat());
+    	}
     }
     
     protected void setTestRunnerLogs(String logs) {
@@ -281,6 +325,16 @@ abstract class Report extends LogSettings {
     }
     
     protected Report() {
+    	String resourceFile = Report.class
+        		.getPackage()
+        		.getName()
+        		.replace(".", "/")
+        			+ "/resources/"
+        			+ extentConfigFile;
+
+    	URL url = getClass().getClassLoader().getResource(resourceFile);
+    	defaultConfiguration = loadConfig(new Configuration(url));
+    	
     	categoryTestMap = new TreeMap<String, List<Test>>();
     	systemInfo = new SystemInfo();
         suiteTimeInfo = new SuiteTimeInfo();

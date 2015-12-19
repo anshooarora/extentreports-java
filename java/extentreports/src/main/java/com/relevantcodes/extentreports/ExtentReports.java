@@ -23,13 +23,6 @@ public class ExtentReports extends Report {
 	private static final Logger logger = Logger.getLogger(ExtentReports.class.getName());
 	
 	/**
-	 * Default configuration file for HTML report. This file is loaded by default
-	 * when the {@link ExtentReports} initializes, and overridden when user provides
-	 * their own configuration using <code>loadConfig(args)</code>. 
-	 */
-	private final String extentConfigFile = "extent-config.xml";
-	
-	/**
 	 * <p>
      * Initializes Extent HTML report
      * 
@@ -70,17 +63,6 @@ public class ExtentReports extends Report {
         setDisplayOrder(displayOrder);
         setNetworkMode(networkMode);
 
-        String resourceFile = ExtentReports.class
-        		.getPackage()
-        		.getName()
-        		.replace(".", "/")
-        			+ "/resources/"
-        			+ extentConfigFile;
-
-        loadConfig(
-        		getClass().getClassLoader().getResource(resourceFile)
-        );
-        
         attach(new HTMLReporter(filePath));
         
         if (!replaceExisting) {

@@ -31,7 +31,7 @@ public class TestConverter extends LogSettings {
 			logger.log(
 					Level.SEVERE, 
 					"The supplied file " + file.getAbsolutePath() + " is not a valid Extent file. " +
-					"Unable to parse file to extra test contents."
+					"Parsing failed, tests from the supplied file will not be listed in the current report."
 			);
 			
 			return;
