@@ -691,7 +691,7 @@ nav ul li:hover {
 	color: tomato;
 } 
 .status.warning, .warning > i {
-	color: orange;
+	color: #f9a63a;
 }
 .status.pass, .pass > i {
 	color: #32CD32;

@@ -254,22 +254,15 @@ $(document).ready(function() {
 		}
 		
 		var opt = $(this).text().toLowerCase();
-		var cat = $('#category-toggle li.active').text().toLowerCase();
+		var cat = $('#category-toggle li.active').text().toLowerCase().replace(/\./g, '').replace(/\#/g, '').replace(/ /g, '');
 
 		$('#tests-toggle li').removeClass('active');
 		$(this).addClass('active');
 		$('.test, .node-list > li').addClass('hide').removeClass('displayed');
-		
+
 		if (cat != '') {
-			$('.test').each(function() {
-				var t = $(this);
-				
-				if (t.find('.category-assigned').hasClass(cat)) {
-					if (t.hasClass(opt) || t.has('.test-node.' + opt).length > 0) {
-						t.addClass('displayed').removeClass('hide');
-					}
-				}
-			});
+			$('#test-collection .category-assigned.' + cat).closest('.test.' + opt + ', .test:has(.test-node.' + opt + ')').removeClass('hide').addClass('displayed');
+			$('.node-list > li.' + opt).removeClass('hide').addClass('displayed');
 		} 
 		else {
 			$('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).removeClass('hide').addClass('displayed');
@@ -287,28 +280,18 @@ $(document).ready(function() {
 			return;
 		}
 		
-		var opt = $(this).text().toLowerCase().replace(/\./g, '').replace(/\#/g, '');
+		var opt = $(this).text().toLowerCase().replace(/\./g, '').replace(/\#/g, '').replace(/ /g, '');
 		var status = $('#tests-toggle li.active').text().toLowerCase();
 		
 		$('#category-toggle li').removeClass('active');
 		$(this).addClass('active');
 		$('.test').addClass('hide').removeClass('displayed');
-		
+
 		if (status != '') {
-			$('.test').each(function() {
-				var t = $(this);
-				
-				if (t.find('.category-assigned').hasClass(opt)) {
-					if (t.hasClass(status) || t.has('.test-node.' + status).length > 0) {
-						t.addClass('displayed').removeClass('hide');
-					}
-				}
-			});
+			$('#test-collection .category-assigned.' + opt).closest('.test.' + status + ', .test:has(.test-node.' + status + ')').removeClass('hide').addClass('displayed');
 		} 
 		else {
-			$('#test-collection .category-assigned.' + opt).each(function() {
-				$(this).parents(':eq(1)').removeClass('hide').addClass('displayed');
-			});
+			$('#test-collection .category-assigned.' + opt).closest('.test').removeClass('hide').addClass('displayed');
 		}
 		
 		$('#test-view .category-toggle > i').addClass('active');
