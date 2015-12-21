@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extentreports>
-    <configuration>
-		<!-- document encoding -->
-		<encoding>UTF-8</encoding>
+  <configuration>
+    <!-- document encoding -->
+    <encoding>UTF-8</encoding>
 		
-        <!-- title of the document -->
-        <documentTitle>ExtentReports 2.0</documentTitle>
+    <!-- title of the document -->
+    <documentTitle>ExtentReports 2.0</documentTitle>
         
-        <!-- report name - displayed at top-nav -->
-        <reportName>Automation Report</reportName>
+    <!-- report name - displayed at top-nav -->
+    <reportName>Automation Report</reportName>
         
-        <!-- report headline - displayed at top-nav, after reportHeadline -->
-        <reportHeadline></reportHeadline>
-        
-        <!-- custom javascript -->
-        <scripts>
-            <![CDATA[
-                $(document).ready(function() {
+    <!-- report headline - displayed at top-nav, after reportHeadline -->
+    <reportHeadline></reportHeadline>
 
-                });
-            ]]>
-        </scripts>
+    <!-- global date format override -->
+    <dateFormat>yyyy-MM-dd</dateFormat>
+
+    <!-- global time format override -->
+    <timeFormat>HH:mm:ss</timeFormat>
+      
+    <!-- custom javascript -->
+    <scripts>
+      <![CDATA[
+      $(document).ready(function() {
+
+      });
+      ]]>
+    </scripts>
         
-        <!-- custom styles -->
-        <styles>
-            <![CDATA[
+    <!-- custom styles -->
+    <styles>
+      <![CDATA[
                 
-            ]]>
-        </styles>
-    </configuration>
+      ]]>
+    </styles>
+  </configuration>
 </extentreports>

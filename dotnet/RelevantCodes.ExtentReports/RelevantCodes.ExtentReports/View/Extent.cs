@@ -15,6 +15,10 @@ namespace RelevantCodes.ExtentReports.View
                 return @"
                     @using RelevantCodes.ExtentReports;
                     @using RelevantCodes.ExtentReports.View;
+                    @{var dateFormat = Model.ConfigurationMap[""dateFormat""];
+                    var timeFormat = Model.ConfigurationMap[""timeFormat""];
+                    var dateTimeFormat = Model.ConfigurationMap[""dateFormat""] + "" "" + Model.ConfigurationMap[""timeFormat""];
+                    }
                     <!DOCTYPE html>
                     <html>
                         <head>
@@ -63,7 +67,7 @@ namespace RelevantCodes.ExtentReports.View
                                         <i class='mdi-hardware-desktop-windows'></i>
                                     </li>
                                     <li>
-                                        <span class='suite-started-time'>@Model.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
+                                        <span class='suite-started-time'>@Model.StartTime.ToString(dateTimeFormat)</span>
                                     </li>
                                     <li>
                                         <span>v2.40.0</span>
@@ -94,13 +98,13 @@ namespace RelevantCodes.ExtentReports.View
                                         <div class='col l2 m6 s6 suite-start-time'>
                                             <div class='card green-accent'> 
                                                 <span class='panel-name'>Start</span> 
-                                                <span class='panel-lead suite-started-time'>@Model.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span> 
+                                                <span class='panel-lead suite-started-time'>@Model.StartTime.ToString(dateTimeFormat)</span> 
                                             </div> 
                                         </div>
                                         <div class='col l2 m6 s6 suite-end-time'>
                                             <div class='card pink-accent'> 
                                                 <span class='panel-name'>End</span> 
-                                                <span class='panel-lead suite-ended-time'>@DateTime.Now.ToString(""yyyy-MM-dd HH:mm:ss"")</span> 
+                                                <span class='panel-lead suite-ended-time'>@DateTime.Now.ToString(dateTimeFormat)</span> 
                                             </div> 
                                         </div>
                                     </div>
@@ -286,8 +290,8 @@ namespace RelevantCodes.ExtentReports.View
                                                             </div>
                                                             <div class='test-body'>
                                                                 <div class='test-info'>
-                                                                    <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@test.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
-                                                                    <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@test.EndTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
+                                                                    <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@test.StartTime.ToString(dateTimeFormat)</span>
+                                                                    <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@test.EndTime.ToString(dateTimeFormat)</span>
                                                                     <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>@test.RunTime</span>
                                                                 </div>
                                                                 <div class='test-desc'>@Raw(test.Description)</div>
@@ -350,8 +354,8 @@ namespace RelevantCodes.ExtentReports.View
                                                                                 <li class='displayed node-1x @node.Status.ToString().ToLower()' extentid='@node.ID'>
                                                                                     <div class='collapsible-header test-node @node.Status.ToString().ToLower()'>
                                                                                         <div class='right test-info'>
-                                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@node.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
-                                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@node.EndTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
+                                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@node.StartTime.ToString(dateTimeFormat)</span>
+                                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@node.EndTime.ToString(dateTimeFormat)</span>
                                                                                             <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>@node.RunTime</span>
                                                                                             <span class='test-status label capitalize @node.Status.ToString().ToLower()'>@node.Status.ToString().ToLower()</span>
                                                                                         </div>
@@ -475,7 +479,7 @@ namespace RelevantCodes.ExtentReports.View
                                                                                 @foreach (var test in entry.Value)
                                                                                 {
                                                                                     <tr>
-                                                                                        <td>@test.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</td>
+                                                                                        <td>@test.StartTime.ToString(dateTimeFormat)</td>
                                                                                         <td><span class='category-link linked' extentid='@test.ID'>@test.Name</span></td>
                                                                                         <td><div class='status label outline capitalize @test.Status.ToString().ToLower()'>@test.Status</div></td>
                                                                                     </tr>

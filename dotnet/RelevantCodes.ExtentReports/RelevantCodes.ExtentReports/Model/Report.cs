@@ -12,11 +12,14 @@ namespace RelevantCodes.ExtentReports.Model
 {
     public abstract class Report
     {
+        private const string InternalWarning = "Close was called before test could end safely using EndTest.";
+        private const string DateFormat = "yyyy-MM-dd";
+        private const string TimeFormat = "HH:mm:ss";
+        
         private Guid _id;
         private List<IReporter> _reporterList;
         private LogStatus _reportStatus;
         private bool _terminated = false;
-        private const string InternalWarning = "Close was called before test could end safely using EndTest.";
 
         internal string FilePath { get; set; }
 
@@ -124,6 +127,16 @@ namespace RelevantCodes.ExtentReports.Model
             if (config != null) 
             {
                 ConfigurationMap = config;
+            }
+
+            if (!ConfigurationMap.ContainsKey("dateFormat") || string.IsNullOrEmpty(ConfigurationMap["dateFormat"]))
+            {
+                ConfigurationMap["dateFormat"] = DateFormat;
+            }
+
+            if (!ConfigurationMap.ContainsKey("timeFormat") || string.IsNullOrEmpty(ConfigurationMap["timeFormat"]))
+            {
+                ConfigurationMap["timeFormat"] = TimeFormat;
             }
         }
 
