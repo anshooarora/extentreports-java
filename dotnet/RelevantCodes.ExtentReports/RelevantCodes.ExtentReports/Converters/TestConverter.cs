@@ -132,7 +132,6 @@ namespace RelevantCodes.ExtentReports.Converters
         {
             if (NodeListNode != null & NodeListNode.Any())
             {
-                ExtentTest.GetTest().Name += "-FromParser";
                 ExtentTest.GetTest().ContainsChildNodes = true;
 
                 var nodes = new NodeConverter(NodeListNode.First(), ExtentTest).Convert();
