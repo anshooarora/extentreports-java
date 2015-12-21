@@ -6,7 +6,7 @@
 <html>
     <head>
         <!--
-            ExtentReports Library 2.40.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            ExtentReports Library 2.40.1 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
             Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
             Documentation: http://extentreports.relevantcodes.com 
         -->
@@ -23,7 +23,7 @@
         
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
         <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <link href='http://cdn.rawgit.com/anshooarora/extentreports/91d2454f7f15961cc3916d3cf9d8819027e17aab/cdn/extent.css' type='text/css' rel='stylesheet' />
+        <link href='http://cdn.rawgit.com/anshooarora/extentreports/d623d6debbc34eefcfb45e56b34eb2b487c095e2/cdn/extent.css' type='text/css' rel='stylesheet' />        
         
         <style>
             <#if report.configurationMap??>
@@ -54,7 +54,7 @@
                     <span class='suite-started-time'>${.now?datetime?string(dateTimeFormat)}</span>
                 </li>
                 <li>
-                    <span>v2.40.0</span>
+                    <span>v2.40.1</span>
                 </li>
             </ul>
         </nav>
@@ -549,7 +549,7 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <script src='http://cdn.rawgit.com/anshooarora/extentreports/91d2454f7f15961cc3916d3cf9d8819027e17aab/cdn/extent.js' type='text/javascript'></script>
+        <script src='http://cdn.rawgit.com/anshooarora/extentreports/d623d6debbc34eefcfb45e56b34eb2b487c095e2/cdn/extent.js' type='text/javascript'></script>
         
         <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
         <script>
