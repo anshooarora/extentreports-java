@@ -288,7 +288,7 @@ namespace RelevantCodes.ExtentReports.View
                                                                 <div class='test-info'>
                                                                     <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@test.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
                                                                     <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@test.EndTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
-                                                                    <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>@test.GetRunTime()</span>
+                                                                    <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>@test.RunTime</span>
                                                                 </div>
                                                                 <div class='test-desc'>@Raw(test.Description)</div>
                                                                 <div class='test-attributes'>
@@ -352,7 +352,7 @@ namespace RelevantCodes.ExtentReports.View
                                                                                         <div class='right test-info'>
                                                                                             <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@node.StartTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
                                                                                             <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@node.EndTime.ToString(""yyyy-MM-dd HH:mm:ss"")</span>
-                                                                                            <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>@node.GetRunTime()</span>
+                                                                                            <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>@node.RunTime</span>
                                                                                             <span class='test-status label capitalize @node.Status.ToString().ToLower()'>@node.Status.ToString().ToLower()</span>
                                                                                         </div>
                                                                                         <div class='test-node-name'>@Raw(node.Name)</div>

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using RelevantCodes.ExtentReports.Config;
+using RelevantCodes.ExtentReports.Converters;
 using RelevantCodes.ExtentReports.Model;
 using System.Xml.Linq;
 
@@ -28,15 +30,22 @@ namespace RelevantCodes.ExtentReports
         ///     </item>
         /// </list>
         /// </param>
-        public ExtentReports(string FilePath, DisplayOrder Order = DisplayOrder.OldestFirst)
+        public ExtentReports(string FilePath, bool ReplaceExisting = true, DisplayOrder Order = DisplayOrder.OldestFirst)
         {
             this.FilePath = FilePath;
+            this.ReplaceExisting = ReplaceExisting;
             this.DisplayOrder = DisplayOrder;
 
             var xdoc = XDocument.Parse(Properties.Resources.extent_config);
             LoadConfig(new Configuration(xdoc));
             
             Attach(new HTMLReporter());
+
+            if (!ReplaceExisting && File.Exists(FilePath))
+            {
+                new TestConverter(this, FilePath).Convert();
+                //TestList.AddRange(n);
+            }
         }
 
         /// <summary>

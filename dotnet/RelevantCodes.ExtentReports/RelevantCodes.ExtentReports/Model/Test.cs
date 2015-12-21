@@ -12,20 +12,23 @@ namespace RelevantCodes.ExtentReports.Model
 
         public string Description { get; set; }
 
-        public DateTime StartTime { get; private set; }
+        public DateTime StartTime { get; internal set; }
 
-        public DateTime EndTime { get; private set; }
+        public DateTime EndTime { get; internal set; }
 
-        public string GetRunTime()
+        public string RunTime
         {
-            TimeSpan diff = EndTime.Subtract(StartTime);
+            get
+            {
+                TimeSpan diff = EndTime.Subtract(StartTime);
 
-            return String.Format("{0}h {1}m {2}s+{3}ms", diff.Hours, diff.Minutes, diff.Seconds, diff.Milliseconds);
+                return String.Format("{0}h {1}m {2}s+{3}ms", diff.Hours, diff.Minutes, diff.Seconds, diff.Milliseconds);
+            }
         }
 
         public LogStatus Status { get; private set; }
 
-        public Guid ID { get; private set; }
+        public Guid ID { get; internal set; }
 
         public bool ChildNode { get; set;}
 
@@ -87,10 +90,9 @@ namespace RelevantCodes.ExtentReports.Model
         public void TrackLastRunStatus()
         {
             LogList.ForEach(x =>
-                {
-                    FindStatus(x.LogStatus);
-                }
-            );
+            {
+                FindStatus(x.LogStatus);
+            });
 
             Status = Status == LogStatus.Info ? LogStatus.Pass : Status;
         }

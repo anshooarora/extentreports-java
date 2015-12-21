@@ -294,10 +294,10 @@ namespace RelevantCodes.ExtentReports
             node.ChildNode = true;
             node.Ended = true;
 
-            node.TrackLastRunStatus();
-
             node.CategoryList.ForEach(c => AssignCategory(c.Name));
             node.AuthorList.ForEach(a => AssignAuthor(a.Name));
+
+            node.PrepareFinalize();
 
             _test.NodeList.Add(node);
             _test.ContainsChildNodes = true;

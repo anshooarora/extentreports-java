@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{48FAC3CF-9E50-4CF1-B898-C2A54ADEC5F7}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RelevantCodes.ExtentReports</RootNamespace>
     <AssemblyName>RelevantCodes.ExtentReports</AssemblyName>
@@ -36,6 +36,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net40\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="RazorEngine, Version=3.7.3.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RazorEngine.3.7.3\lib\net40\RazorEngine.dll</HintPath>
@@ -55,6 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\Configuration.cs" />
+    <Compile Include="Converters\IConvertible.cs" />
+    <Compile Include="Converters\LogConverter.cs" />
+    <Compile Include="Converters\NodeConverter.cs" />
+    <Compile Include="Converters\TestConverter.cs" />
     <Compile Include="DBReporter.cs" />
     <Compile Include="DisplayOrder.cs" />
     <Compile Include="ExtentTestInterruptedException.cs" />
