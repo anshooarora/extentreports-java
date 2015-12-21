@@ -267,7 +267,7 @@
                                         <div class='test-head'>
                                             <span class='test-name'>${test.name} <#if test.internalWarning??><i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='${test.internalWarning}'></i></#if></span>
                                             <span class='test-status label right capitalize outline ${test.status}'>${test.status}</span>
-                                            <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case?replace(".", "")?replace("#", "")}</#list>'></span>
+                                            <span class='category-assigned hide <#list test.categoryList as category> ${category.name?lower_case?replace(".", "")?replace("#", "")?replace(" ", "")}</#list>'></span>
                                         </div>
                                         <div class='test-body'>
                                             <div class='test-info'>

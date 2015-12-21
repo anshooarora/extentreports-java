@@ -82,7 +82,7 @@ namespace RelevantCodes.ExtentReports.Model
         {
             string cats = "";
 
-            CategoryList.ForEach(x => cats += " " + x.Name);
+            CategoryList.ForEach(x => cats += " " + x.Name.Trim().Replace(" ", ""));
 
             return cats;
         }
