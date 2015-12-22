@@ -23,12 +23,12 @@ namespace RelevantCodes.ExtentReports.View
                     <html>
                         <head>
                             <!--
-                                ExtentReports Library 2.40.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
-                                Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
-                                Documentation: http://extentreports.relevantcodes.com 
+                                ExtentReports Librería 2.40.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+                                Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Derechos de autor bajo la nueva licencia BSD | http://opensource.org/licenses/BSD-3-Clause
+                                Documentación: http://extentreports.relevantcodes.com 
                             -->
                             <meta http-equiv='content-type' content='text/html; charset=@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""encoding"")) { @Raw(Model.ConfigurationMap[""encoding""]); };' /> 
-                            <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
+                            <meta name='description' content='ExtentReports (by Anshoo Arora) es una librería para el reporte de tests automatizados realizada en .NET y Java. Podrás crear detallados y bonitos informes HTML para los navegadores más modernos. ExtentReports muestra los tests y los pasos en un dashboard realizado especialmente para un análisis simple y rápido de los resultados de las pruebas.' />
                             <meta name='robots' content='noodp, noydir' />
                             <meta name='viewport' content='width=device-width, initial-scale=1' />
                             <title>
@@ -55,15 +55,15 @@ namespace RelevantCodes.ExtentReports.View
                                         <a class='logo-content' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
                                         <a class='menu-toggle right'><i class='mdi-navigation-menu'></i></a>
                                     </li> 
-                                    <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Test Details</a></li>
-                                    <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='mdi-maps-local-offer'></i>Categories</a></li>
-                                    <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='mdi-action-track-changes'></i></i>Analysis</a></li>
-                                    <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
+                                    <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Detalles de tests</a></li>
+                                    <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='mdi-maps-local-offer'></i>Categorías</a></li>
+                                    <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='mdi-action-track-changes'></i></i>Análisis</a></li>
+                                    <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>Log</a></li>
                                 </ul>
                                 <a href='#' data-activates='slide-out' class='button-collapse'><i class='mdi-navigation-menu'></i></a>
                                 <span class='report-name'>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""reportName"")) { @Raw(Model.ConfigurationMap[""reportName""]) }</span> <span class='report-headline'>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""reportHeadline"")) { @Raw(Model.ConfigurationMap[""reportHeadline""]) }</span>
                                 <ul class='right hide-on-med-and-down nav-right'>
-                                    <li class='theme-selector' alt='Click to toggle dark theme. To enable by default, use js configuration $("".theme-selector"").click();' title='Click to toggle dark theme. To enable by default, use js configuration $("".theme-selector"").click();'>
+                                    <li class='theme-selector' alt='Haga clic para cambiar al tema oscuro. Para habilitar de forma predeterminada, utilice la configuración js. $("".theme-selector"").click();' title='Haga clic para cambiar al tema oscuro. Para habilitar de forma predeterminada, utilice la configuración js $("".theme-selector"").click();'>
                                         <i class='mdi-hardware-desktop-windows'></i>
                                     </li>
                                     <li>
@@ -79,31 +79,31 @@ namespace RelevantCodes.ExtentReports.View
                                     <div class='time-totals'>
                                         <div class='col l2 m4 s6'>
                                             <div class='card suite-total-tests'> 
-                                                <span class='panel-name'>Total Tests</span> 
+                                                <span class='panel-name'>Tests totales</span> 
                                                 <span class='total-tests'> <span class='panel-lead'></span> </span> 
                                             </div> 
                                         </div>
                                         <div class='col l2 m4 s6'>
                                             <div class='card suite-total-steps'> 
-                                                <span class='panel-name'>Total Steps</span> 
+                                                <span class='panel-name'>Pasos totales</span> 
                                                 <span class='total-steps'> <span class='panel-lead'></span> </span> 
                                             </div> 
                                         </div>
                                         <div class='col l4 m4 s12'>
                                             <div class='card suite-total-steps'> 
-                                                <span class='panel-name'>Total Time Taken</span> 
+                                                <span class='panel-name'>Tiempo total insumido</span> 
                                                 <span class='suite-total-time-taken panel-lead'>@Model.GetRunTime()</span> 
                                             </div> 
                                         </div>
                                         <div class='col l2 m6 s6 suite-start-time'>
                                             <div class='card green-accent'> 
-                                                <span class='panel-name'>Start</span> 
+                                                <span class='panel-name'>Comienzo</span> 
                                                 <span class='panel-lead suite-started-time'>@Model.StartTime.ToString(dateTimeFormat)</span> 
                                             </div> 
                                         </div>
                                         <div class='col l2 m6 s6 suite-end-time'>
                                             <div class='card pink-accent'> 
-                                                <span class='panel-name'>End</span> 
+                                                <span class='panel-name'>Fin</span> 
                                                 <span class='panel-lead suite-ended-time'>@DateTime.Now.ToString(dateTimeFormat)</span> 
                                             </div> 
                                         </div>
@@ -112,7 +112,7 @@ namespace RelevantCodes.ExtentReports.View
                                         <div class='col s12 m6 l4 fh'> 
                                             <div class='card-panel'> 
                                                 <div>
-                                                    <span class='panel-name'>Tests View</span>
+                                                    <span class='panel-name'>Resultados de test</span>
                                                 </div> 
                                                 <div class='panel-setting modal-trigger test-count-setting right'>
                                                     <a href='#test-count-setting'><i class='mdi-navigation-more-vert text-md'></i></a>
@@ -121,17 +121,17 @@ namespace RelevantCodes.ExtentReports.View
                                                     <canvas class='text-centered' id='test-analysis'></canvas>
                                                 </div> 
                                                 <div>
-                                                    <span class='weight-light'><span class='t-pass-count weight-normal'></span> test(s) passed</span>
+                                                    <span class='weight-light'><span class='t-pass-count weight-normal'></span> Test(s) correcto(s)</span>
                                                 </div> 
                                                 <div>
-                                                    <span class='weight-light'><span class='t-fail-count weight-normal'></span> test(s) failed, <span class='t-others-count weight-normal'></span> others</span>
+                                                    <span class='weight-light'><span class='t-fail-count weight-normal'></span> Test(s) fallado(s), <span class='t-others-count weight-normal'></span> otro(s)</span>
                                                 </div> 
                                             </div> 
                                         </div> 
                                         <div class='col s12 m6 l4 fh'> 
                                             <div class='card-panel'> 
                                                 <div>
-                                                    <span class='panel-name'>Steps View</span>
+                                                    <span class='panel-name'>Resultados de pasos</span>
                                                 </div> 
                                                 <div class='panel-setting modal-trigger step-status-filter right'>
                                                     <a href='#step-status-filter'><i class='mdi-navigation-more-vert text-md'></i></a>
@@ -140,16 +140,16 @@ namespace RelevantCodes.ExtentReports.View
                                                     <canvas class='text-centered' id='step-analysis'></canvas>
                                                 </div> 
                                                 <div>
-                                                    <span class='weight-light'><span class='s-pass-count weight-normal'></span> step(s) passed</span>
+                                                    <span class='weight-light'><span class='s-pass-count weight-normal'></span> paso(s) correcto(s)</span>
                                                 </div> 
                                                 <div>
-                                                    <span class='weight-light'><span class='s-fail-count weight-normal'></span> step(s) failed, <span class='s-others-count weight-normal'></span> others</span>
+                                                    <span class='weight-light'><span class='s-fail-count weight-normal'></span> paso(s) fallado(s), <span class='s-others-count weight-normal'></span> otro(s)</span>
                                                 </div> 
                                             </div> 
                                         </div>
                                         <div class='col s12 m12 l4 fh'> 
                                             <div class='card-panel'> 
-                                                <span class='panel-name'>Pass Percentage</span> 
+                                                <span class='panel-name'>Porcentaje de test correctos</span> 
                                                 <span class='pass-percentage panel-lead'></span> 
                                                 <div class='progress light-blue lighten-3'> 
                                                     <div class='determinate light-blue'></div> 
@@ -160,12 +160,12 @@ namespace RelevantCodes.ExtentReports.View
                                     <div class='system-view'>
                                         <div class='col l4 m12 s12'>
                                             <div class='card-panel'>
-                                                <span class='label info right'>Environment</span>
+                                                <span class='label info right'>Ambiente</span>
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <th>Param</th>
-                                                            <th>Value</th>
+                                                            <th>Parámetro</th>
+                                                            <th>Valor</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -188,7 +188,7 @@ namespace RelevantCodes.ExtentReports.View
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <th>Name</th>
+                                                            <th>Nombre</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -216,8 +216,8 @@ namespace RelevantCodes.ExtentReports.View
                                             <div>
                                                 <a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button tests-toggle'><i class='mdi-action-subject icon'></i></a>
                                                 <ul id='tests-toggle' class='dropdown-content'>
-                                                    <li class='pass'><a href='#!'>Pass</a></li>
-                                                    <li class='fail'><a href='#!'>Fail</a></li>
+                                                    <li class='pass'><a href='#!'>Correctos</a></li>
+                                                    <li class='fail'><a href='#!'>Fallados</a></li>
                                                     @if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Fatal)).Count() > 0)
                                                     {
                                                         <li class='fatal'><a href='#!'>Fatal</a></li>
@@ -228,15 +228,15 @@ namespace RelevantCodes.ExtentReports.View
                                                     }
                                                     @if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Warning)).Count() > 0)
                                                     {
-                                                        <li class='warning'><a href='#!'>Warning</a></li>
+                                                        <li class='warning'><a href='#!'>Atención</a></li>
                                                     }
-                                                    <li class='skip'><a href='#!'>Skip</a></li>
+                                                    <li class='skip'><a href='#!'>Omitido</a></li>
                                                     @if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Unknown)).Count() > 0)
                                                     {
-                                                        <li class='unknown'><a href='#!'>Unknown</a></li>
+                                                        <li class='unknown'><a href='#!'>Desconocido</a></li>
                                                     }
                                                     <li class='divider'></li>
-                                                    <li class='clear'><a href='#!'>Clear Filters</a></li>
+                                                    <li class='clear'><a href='#!'>Borrar filtro</a></li>
                                                 </ul>
                                             </div>                                            
                                             <div>
@@ -250,7 +250,7 @@ namespace RelevantCodes.ExtentReports.View
                                                             <li class='@entry.Key'><a href='#!'>@entry.Key</a></li>
                                                         }
                                                     }
-                                                    <li class='clear'><a href='#!'>Clear Filters</a></li>
+                                                    <li class='clear'><a href='#!'>Borrar filtro(s)</a></li>
                                                 </ul>
                                             </div>
                                             <div>
@@ -258,13 +258,13 @@ namespace RelevantCodes.ExtentReports.View
                                             </div>
                                             <div>&nbsp;&middot;&nbsp;</div>
                                             <div>
-                                                <a id='enableDashboard' alt='Enable Dashboard' title='Enable Dashboard'><i class='mdi-action-track-changes icon'></i></a>
+                                                <a id='enableDashboard' alt='Activar Dashboard' title='Activar Dashboard'><i class='mdi-action-track-changes icon'></i></a>
                                             </div> 
                                             <div>
-                                                <a id='refreshCharts' alt='Refresh Charts on Filter' title='Refresh Charts on Filter' class='enabled'><i class='mdi-navigation-refresh icon'></i></i></a>
+                                                <a id='refreshCharts' alt='Refrescar gráficos con filtro' title='Refrescar gráficos con filtro' class='enabled'><i class='mdi-navigation-refresh icon'></i></i></a>
                                             </div>
                                             <div>&nbsp;&middot;</div>
-                                            <div class='search' alt='Search tests' title='Search tests'>
+                                            <div class='search' alt='Buscar test(s)' title='Buscar test(s)'>
                                                 <div class='input-field left'>
                                                     <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
                                                 </div>
@@ -290,9 +290,9 @@ namespace RelevantCodes.ExtentReports.View
                                                             </div>
                                                             <div class='test-body'>
                                                                 <div class='test-info'>
-                                                                    <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@test.StartTime.ToString(dateTimeFormat)</span>
-                                                                    <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@test.EndTime.ToString(dateTimeFormat)</span>
-                                                                    <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'>@test.RunTime</span>
+                                                                    <span title='Comienzo del test' class='test-started-time label green lighten-2 text-white'>@test.StartTime.ToString(dateTimeFormat)</span>
+                                                                    <span title='Fin de test' class='test-ended-time label red lighten-2 text-white'>@test.EndTime.ToString(dateTimeFormat)</span>
+                                                                    <span title='Tiempo de ejecución' class='test-time-taken label blue-grey lighten-3 text-white'>@test.RunTime</span>
                                                                 </div>
                                                                 <div class='test-desc'>@Raw(test.Description)</div>
                                                                 <div class='test-attributes'>
@@ -321,13 +321,13 @@ namespace RelevantCodes.ExtentReports.View
                                                                         <table class='bordered table-results'>
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th>Status</th>
-                                                                                    <th>Timestamp</th>
+                                                                                    <th>Resultado</th>
+                                                                                    <th>Hora</th>
                                                                                     @if (test.LogList[0].StepName != null)
                                                                                     {
                                                                                         <th>StepName</th>
                                                                                     }
-                                                                                    <th>Details</th>
+                                                                                    <th>Detalle</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
@@ -354,9 +354,9 @@ namespace RelevantCodes.ExtentReports.View
                                                                                 <li class='displayed node-1x @node.Status.ToString().ToLower()' extentid='@node.ID'>
                                                                                     <div class='collapsible-header test-node @node.Status.ToString().ToLower()'>
                                                                                         <div class='right test-info'>
-                                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>@node.StartTime.ToString(dateTimeFormat)</span>
-                                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>@node.EndTime.ToString(dateTimeFormat)</span>
-                                                                                            <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>@node.RunTime</span>
+                                                                                            <span title='Hora de comienoz' class='test-started-time label green lighten-2 text-white'>@node.StartTime.ToString(dateTimeFormat)</span>
+                                                                                            <span title='Hora de finalización' class='test-ended-time label red lighten-2 text-white'>@node.EndTime.ToString(dateTimeFormat)</span>
+                                                                                            <span title='Tiempo de ejecución' class='test-time-taken label blue-grey lighten-2 text-white'>@node.RunTime</span>
                                                                                             <span class='test-status label capitalize @node.Status.ToString().ToLower()'>@node.Status.ToString().ToLower()</span>
                                                                                         </div>
                                                                                         <div class='test-node-name'>@Raw(node.Name)</div>
@@ -369,13 +369,13 @@ namespace RelevantCodes.ExtentReports.View
                                                                                                 <table class='bordered table-results'>
                                                                                                     <thead>
                                                                                                         <tr>
-                                                                                                            <th>Status</th>
-                                                                                                            <th>Timestamp</th>
+                                                                                                            <th>Resultado</th>
+                                                                                                            <th>Hora</th>
                                                                                                             @if (node.LogList[0].StepName != null)
                                                                                                             {                                                
-                                                                                                                <th>StepName</th>
+                                                                                                                <th>Nombre</th>
                                                                                                             }
-                                                                                                            <th>Details</th>
+                                                                                                            <th>Detalle</th>
                                                                                                         </tr>
                                                                                                     </thead>
                                                                                                     <tbody>
@@ -419,10 +419,10 @@ namespace RelevantCodes.ExtentReports.View
                                 <div id='categories-view' class='row hide'>
                                     <div class='col s5'>
                                         <div class='card-panel heading'>
-                                            <h5>Categories</h5>
+                                            <h5>Categorias</h5>
                                         </div>
                                         <div class='card-panel filters'>
-                                            <div class='search' alt='Search tests' title='Search tests'>
+                                            <div class='search' alt='Buscar test(s)' title='Buscar test(s)'>
                                                 <div class='input-field left'>
                                                     <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
                                                 </div>
@@ -470,9 +470,9 @@ namespace RelevantCodes.ExtentReports.View
 						                                                <table class='bordered'>
 							                                                <thead>
 								                                                <tr>
-									                                                <th>Run Date</th>
-									                                                <th>Test Name</th>
-									                                                <th>Status</th>
+									                                                <th>Fecha de ejecución</th>
+									                                                <th>Nombre del test</th>
+									                                                <th>Resultado</th>
 								                                                </tr>
 							                                                </thead>
                                                                             <tbody>
@@ -506,7 +506,7 @@ namespace RelevantCodes.ExtentReports.View
                                 <div id='testrunner-logs-view' class='row hide'>
                                     <div class='col s12'>
                                         <div class='card-panel'>
-                                            <h5>TestRunner Logs</h5>
+                                            <h5>Log</h5>
                                             @foreach (var log in Model.TestRunnerLogs)
                                             {
                                                 <p>@Raw(log)</p>
@@ -517,15 +517,15 @@ namespace RelevantCodes.ExtentReports.View
                             </div>
                             <div id='test-count-setting' class='modal bottom-sheet'> 
                                 <div class='modal-content'> 
-                                    <h5>Configure Tests Count Setting</h5> 
+                                    <h5>Configurar el tipo de vista</h5> 
                                     <input name='test-count-setting' type='radio' id='parentWithoutNodes' class='with-gap'> 
-                                    <label for='parentWithoutNodes'>Parent Tests Only (Does not include child nodes in counts)</label> 
+                                    <label for='parentWithoutNodes'>Solo test padres</label> 
                                     <br> 
                                     <input name='test-count-setting' type='radio' id='parentWithoutNodesAndNodes' class='with-gap'> 
-                                    <label for='parentWithoutNodesAndNodes'>Parent Tests Without Child Tests + Child Tests</label> 
+                                    <label for='parentWithoutNodesAndNodes'>Test padres y test hijos</label> 
                                     <br> 
                                     <input name='test-count-setting' type='radio' id='childNodes' class='with-gap'> 
-                                    <label for='childNodes'>Child Tests Only</label> 
+                                    <label for='childNodes'>Únicamente test hijos</label> 
                                 </div> 
                                 <div class='modal-footer'> 
                                     <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
@@ -533,12 +533,12 @@ namespace RelevantCodes.ExtentReports.View
                             </div> 
                             <div id='step-status-filter' class='modal bottom-sheet'> 
                                 <div class='modal-content'> 
-                                    <h5>Select status</h5> 
+                                    <h5>Seleccionar resultado</h5> 
                                     <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-pass'> 
-                                    <label for='step-dashboard-filter-pass'>Pass</label> 
+                                    <label for='step-dashboard-filter-pass'>Correctos</label> 
                                     <br> 
                                     <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-fail'> 
-                                    <label for='step-dashboard-filter-fail'>Fail</label> 
+                                    <label for='step-dashboard-filter-fail'>Fallados</label> 
                                     <br> 
                                     <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-fatal'> 
                                     <label for='step-dashboard-filter-fatal'>Fatal</label> 
@@ -547,19 +547,19 @@ namespace RelevantCodes.ExtentReports.View
                                     <label for='step-dashboard-filter-error'>Error</label> 
                                     <br> 
                                     <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-warning'> 
-                                    <label for='step-dashboard-filter-warning'>Warning</label> 
+                                    <label for='step-dashboard-filter-warning'>Atención</label> 
                                     <br> 
                                     <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-skip'> 
-                                    <label for='step-dashboard-filter-skip'>Skipped</label> 
+                                    <label for='step-dashboard-filter-skip'>Omitidos</label> 
                                     <br> 
                                     <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-info'> 
-                                    <label for='step-dashboard-filter-info'>Info</label> 
+                                    <label for='step-dashboard-filter-info'>Información</label> 
                                     <br> 
                                     <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-unknown'> 
-                                    <label for='step-dashboard-filter-unknown'>Unknown</label> 
+                                    <label for='step-dashboard-filter-unknown'>Desconocido</label> 
                                 </div> 
                                 <div class='modal-footer'> 
-                                    <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
+                                    <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Guardar</a> 
                                 </div> 
                             </div>
                             <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
