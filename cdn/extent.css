@@ -682,7 +682,7 @@ nav ul li:hover {
 	font-size: 1rem;
 }
 .status.fail, .fail i {
-	color: #eb4549;
+	color: #eb4550;
 } 
 .status.fatal, .fatal > i {
 	color: darkred;

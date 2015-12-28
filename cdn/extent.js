@@ -61,7 +61,7 @@ $(document).ready(function() {
 	
 	/* side-nav navigation [SIDE-NAV] */
 	$('.analysis').click(function() {
-		$('.container > .row, .nav-right > .test-view-only').addClass('hide');
+		$('.container > .row').addClass('hide');
 		
 		var el = $(this);
 		var cls = el.children('a').prop('class');
@@ -69,14 +69,15 @@ $(document).ready(function() {
 		$('#' + cls).removeClass('hide');
 		
 		if (cls == 'test-view') { 
-			$('.nav-right > .test-view-only').removeClass('hide');
-			
-			if ($('#enableDashboard').hasClass('enabled') && !$('#dashboard-view > .charts').is(':visible')) {
-				$('#enableDashboard').click().prop('checked', true).addClass('enabled');
+			if ($('#enableDashboard').hasClass('enabled') && $('#dashboard-view').hasClass('hide')) {
+				$('#enableDashboard').click().addClass('enabled');
 			}
 		}
 		else {
+			// if any other view besides test-view, show all divs of dashboard-view
 			$('#dashboard-view > div').removeClass('hide');
+			
+			if (cls == 'dashboard-view') { redrawCharts(); }
 		}
 		
 		$('#slide-out > .analysis').removeClass('active');
@@ -309,16 +310,17 @@ $(document).ready(function() {
 		$('.analysis > .testrunner-logs-view').addClass('hide');
 	}
 	
-	/* reset test/category filters on document load */
-	resetFilters();
+	resetFilters(function() { $('#dashboard-view').addClass('hide'); });
 });
 
 /* action to perform when 'Clear Filters' option is selected [TEST] */
-function resetFilters() {
+function resetFilters(cb) {
 	$('.dropdown-content, .dropdown-content li').removeClass('active');
 	$('.test, .node-list > li').addClass('displayed').removeClass('hide');
 	$('#test-view .tests-toggle > i, #test-view .category-toggle > i').removeClass('active');
 	redrawCharts();
+	
+	if (cb) { cb(); }
 }
 
 /* formats date in mm-dd-yyyy hh:mm:ss [UTIL] */
@@ -351,11 +353,15 @@ function findTestByNameId(name, id) {
 
 /* refresh and redraw charts [DASHBOARD] */
 function redrawCharts() {
-	if (!$('#dashboard-view .charts').is(':visible') || !$('#refreshCharts').hasClass('enabled')) {
+	if (!$('#refreshCharts').hasClass('enabled')) {
 		return;
 	}
 	
 	refreshData();
+	
+	if ($('#dashboard-view').hasClass('hide')) {
+		return;
+	}
 	
 	testChart.segments[0].value = passedTests;
 	testChart.segments[1].value = failedTests;
@@ -524,7 +530,3 @@ function drawLegend(chart, id) {
   
 testsChart(); stepsChart();
 $('ul.doughnut-legend').addClass('right');
-redrawCharts();
-  
-$('#dashboard-view').addClass('hide');
-  
