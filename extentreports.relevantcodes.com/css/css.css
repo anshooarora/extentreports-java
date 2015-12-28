@@ -155,6 +155,9 @@ nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
 .card-panel {
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16);
 }
+i.right {
+	margin-left: 8px;
+}
 
 /* - [ nav, sidenav ] - */
 nav {

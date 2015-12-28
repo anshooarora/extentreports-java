@@ -3,6 +3,7 @@
     <head>
         <meta name='description' content='ExtentReports 2.0 (by Anshoo Arora) is a HTML reporting library for Selenium WebDriver for Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.' />
         <meta name='robots' content='noodp, noydir' />
+		<meta name="google-site-verification" content="vZ2BTugizbcajTUwumqK5Jmku3nz9VrT-Q6AkouUl14" />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
@@ -36,6 +37,7 @@
 						<li><a href='../../net/docs.html'>Version 2.40</a></li>
 					</ul>
 					
+					<li><a href='../../ruby/docs.html'>Ruby</a></li>
 					<li><a href='../../extentmerge/docs.html'>ExtentMerge</a></li>
 					<li>
 						<a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a>
@@ -71,12 +73,33 @@
 <img class='bordered-img center' src='./img/analysis.png' width='80%' />
 <img class='bordered-img center' src='./img/testview.png' width='80%' />
 
-<h2 id='current-version'>Current Version</h2>
-<p>2.40.0-beta</p>			
+<h2 id='current-version'>Current Stable Version</h2>
+<p>2.40.0</p>			
 
-<h2 id='whats-new'>What's new in 2.40.0</h2>
-<p>Version 2.40.0 launched on Nov 30. Here is what's new:</p>
+<h2 id='whats-new'>What's new in 2.40.1</h2>
+<p>Version 2.40.1-beta2 launched on 12/28/2015. Here is what's new:</p>
 <ul>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/144'>#144</a>) Fixed issue causing wrong start time appearing in dashboard for reported creating using TestNG listener</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/164'>#164</a>) Performance improvements for filters</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/188'>#188</a>) Allow adding HTML to test description</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/189'>#189</a>) Categories will be sorted alphabetically</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/190'>#190</a>) Template error when user creates logs with and without stepName.</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/191'>#191</a>) Update steps-chart when filtering by status & category</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/196'>#196</a>) Show child test descriptions</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/215'>#215</a>) Ability to specify date and timeformat in <code>extent-config.xml</code></li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/221'>#221</a>) Adds localization for Spanish, to specify your locale, use (all unsupported locales default to "en"):
+<pre><code class='java'>
+// java
+ExtentReports(String filePath, Locale locale);
+ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode, Locale locale);
+ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, Locale locale);
+ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode, Locale locale);
+
+// usage
+ExtentReports("file-path", new Locale("es"));
+</code></pre>
+    </li>
+     
 	<li>All configuration and customization will be performed using an external file using the below methods. See <a href='#configuration'>Configuration</a> section for more details.
 <pre><code class='java'>
 loadConfig(File configFile);
@@ -135,11 +158,16 @@ test.assignAuthor("Anshoo");
 <h3 id='initialize-report'>Initializing Report</h3>
 <p>To initialize the report, you must create an instance of <code>ExtentReports</code>. It is possible to initialize in the following different ways:</p>
 <pre><code>
+ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode, Locale locale)
 ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode)
+ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, Locale locale)
 ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder)
+ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode, Locale locale)
 ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode)
 ExtentReports extent = ExtentReports(String filePath, NetworkMode networkMode)
+ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, Locale locale)
 ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting)
+ExtentReports extent = ExtentReports(String filePath, Locale locale)
 ExtentReports extent = ExtentReports(String filePath)
 </code></pre>
 <ul>
@@ -162,14 +190,20 @@ ExtentReports extent = ExtentReports(String filePath)
 			<li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code> and report will be accessible without internet connectivity</li>
 		</ul>
 	</li>
+    <li><strong>locale</strong> - locale of the HTML report, see list of supported locales <a href='#localized-versions'>here</a>. To add a localized version of report, create a new <code>.properties</code> file as shown <a href='https://github.com/anshooarora/extentreports/tree/master/java/extentreports/src/main/java/com/relevantcodes/extentreports/view/resources'>here</a>.
 </ul>
 
 <h4 id='offline-report'>Offline Report</h4>
 <p>To create an offline report, use<code>NetworkMode.OFFLINE</code> in your initialization:</p>
 <pre><code>
-ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode)
-ExtentReports extent = ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode)
-ExtentReports extent = ExtentReports(String filePath, NetworkMode networkMode)
+ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode, Locale locale)
+ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode)
+ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode, Locale locale)
+ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode)
+ExtentReports(String filePath, NetworkMode networkMode)
+
+// usage:
+ExtentReports extent = ExtentReports("file-path", NetworkMode.OFFLINE);
 </code></pre>
 
 <h3 id='custom-reporter'>Starting Custom Reporters</h3>
@@ -638,11 +672,18 @@ public class ExtentManager {
 }
 </code></pre>
 
+<h2 id='localized-versions'>Localized Versions</h2>
+<p>Extent currently supports the following localized versions of the document:</p>
+<ul>
+    <li>English ("en")</li>
+    <li>Spanish ("es")</li>
+</ul>
+
 <h2 id='configuration'>Configuration</h2>
 
 <div class='col s5'>
     <ul class='tabs'>
-    	<li class='tab col s3'><a class='active' href='#v240'>Version 2.40.0</a></li>
+    	<li class='tab col s3'><a class='active' href='#v240'>Version 2.40</a></li>
 		<li class='tab col s3'><a href='#v210'>Version 2.10.0</a></li>
 	</ul>
 </div>
@@ -651,35 +692,48 @@ public class ExtentManager {
 <pre><code class='xml'>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;extentreports&gt;
-    &lt;configuration&gt;
-        &lt;!-- document encoding --&gt;
-        &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+  &lt;configuration&gt;
+    &lt;!-- document encoding --&gt;
+    &lt;!-- defaults to UTF-8 --&gt;
+    &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+
+    &lt;!-- protocol for script and stylesheets --&gt;
+    &lt;!-- defaults to https --&gt;
+    &lt;protocol&gt;https&lt;/protocol&gt;
+    
+    &lt;!-- title of the document --&gt;
+    &lt;documentTitle&gt;ExtentReports 2.0&lt;/documentTitle&gt;
         
-        &lt;!-- title of the document --&gt;
-        &lt;documentTitle&gt;Custom&lt;/documentTitle&gt;
+    &lt;!-- report name - displayed at top-nav --&gt;
+    &lt;reportName&gt;Automation Report&lt;/reportName&gt;
         
-        &lt;!-- report name - displayed at top-nav --&gt;
-        &lt;reportName&gt;Automation Report&lt;/reportName&gt;
+    &lt;!-- report headline - displayed at top-nav, after reportHeadline --&gt;
+    &lt;reportHeadline&gt;&lt;/reportHeadline&gt;
+
+    &lt;!-- global date format override --&gt;
+    &lt;!-- defaults to yyyy-MM-dd --&gt;
+    &lt;dateFormat&gt;yyyy-MM-dd&lt;/dateFormat&gt;
+
+    &lt;!-- global time format override --&gt;
+    &lt;!-- defaults to HH:mm:ss --&gt;
+    &lt;timeFormat&gt;HH:mm:ss&lt;/timeFormat&gt;
+      
+    &lt;!-- custom javascript --&gt;
+    &lt;scripts&gt;
+      &lt;![CDATA[
+      $(document).ready(function() {
+
+      });
+      ]]&gt;
+    &lt;/scripts&gt;
         
-        &lt;!-- report headline - displayed at top-nav, after reportHeadline --&gt;
-        &lt;reportHeadline&gt;&lt;/reportHeadline&gt;
-        
-        &lt;!-- custom javascript --&gt;
-        &lt;scripts&gt;
-            &lt;![CDATA[
-                $(document).ready(function() {
-                    $('#enableDashboard').click();
-                });
-            ]]&gt;
-        &lt;/scripts&gt;
-        
-        &lt;!-- custom styles --&gt;
-        &lt;styles&gt;
-            &lt;![CDATA[
+    &lt;!-- custom styles --&gt;
+    &lt;styles&gt;
+      &lt;![CDATA[
                 
-            ]]&gt;
-        &lt;/styles&gt;
-    &lt;/configuration&gt;
+      ]]&gt;
+    &lt;/styles&gt;
+  &lt;/configuration&gt;
 &lt;/extentreports&gt;
 </code></pre>
 
@@ -771,7 +825,6 @@ extent.config().reportHeadline("ExtentReports - ReportHeadline");
 <p>The max length allowed for report-headline is 70 characters.</p>
 </div>
 
-
 <h2 id='license'>License</h2>
 <h4>Copyright 2015 Anshoo Arora (Relevant Codes)</h4>
 <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
@@ -797,7 +850,7 @@ extent.config().reportHeadline("ExtentReports - ReportHeadline");
 							
 							<li class='divider'></li>
 							
-							<li><a href='#whats-new'>What's new in 2.40</a></li>
+							<li><a href='#whats-new'>What's new in 2.40.1 (beta)</a></li>
 							<li><a href='#author'>Owner / Developer</a>
 							<li><a href='#contributors'>Contributors</a>
 							<li><a href='#beta-testers'>Beta Testers</a>
@@ -840,7 +893,8 @@ extent.config().reportHeadline("ExtentReports - ReportHeadline");
 									<li><a href='#parallel-methods'>Parallel Methods</a></li>
 								</ul>
 							</li>
-							<li><a href='#configuration'>Configuration</a></li>
+							<li><a href='#localized-versions'>Localized Versions</a></li>
+                            <li><a href='#configuration'>Configuration</a></li>
 							<li><a href='#license'>License</a></li>
 						</ul>
 					</div>

@@ -3,6 +3,7 @@
     <head>
         <meta name='description' content='ExtentReports 2.0 (by Anshoo Arora) is a HTML reporting library for Selenium WebDriver for Java and creates easy to use, attractive reports. It shows test and step summary, test steps and status in a toggle view for quick analysis.' />
         <meta name='robots' content='noodp, noydir' />
+		<meta name="google-site-verification" content="vZ2BTugizbcajTUwumqK5Jmku3nz9VrT-Q6AkouUl14" />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
@@ -36,6 +37,7 @@
 						<li><a href='version-2.02/docs.html'>Version 2.02</a></li>
 						<li><a href='#'>Version 2.40</a></li>
 					</ul>
+					<li><a href='../ruby/docs.html'>Ruby</a></li>
 					<li><a href='../extentmerge/docs.html'>ExtentMerge</a></li>
 					<li>
 						<a aria-label="Star anshooarora/extentreports on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/anshooarora/extentreports#stargazers_count" data-count-href="/anshooarora/extentreports/stargazers" data-style="mega" data-icon="octicon-star" href="https://github.com/anshooarora/extentreports" class="github-button">Star</a>
@@ -56,12 +58,34 @@
 <img class='bordered-img center' src='./img/analysis.png' width='80%' />
 <img class='bordered-img center' src='./img/testview.png' width='80%' />
 
-<h2 id='current-version'>Current Version</h2>
-<p>2.40</p>			
-                            
-<h2 id='whats-new'>What's new in 2.40</h2>
-<p>Version 2.40 launched on Nov 30. Here is what's new:</p>
+<h2 id='current-version'>Current Stable Version</h2>
+<p>2.40.0</p>			
+
+<h2 id='whats-new'>What's new in 2.40.1</h2>
+<p>Version 2.40.1-beta2 launched on 12/28/2015. Here is what's new:</p>
 <ul>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/144'>#144</a>) Fixed issue causing wrong start time appearing in dashboard for reported creating using TestNG listener</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/164'>#164</a>) Performance improvements for filters</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/188'>#188</a>) Allow adding HTML to test description</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/189'>#189</a>) Categories will be sorted alphabetically</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/190'>#190</a>) Template error when user creates logs with and without stepName.</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/191'>#191</a>) Update steps-chart when filtering by status & category</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/196'>#196</a>) Show child test descriptions</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/201'>#201</a>) Ability to append to an existing report by specifying the <code>ReplaceExisting</code> as <code>false</code>. If <code>true</code>, the file will be replaced and a brand new report created. <code>ReplaceExisting</code> is <code>true</code> by default.
+<pre><code class='java'>
+ExtentReports(FilePath, ReplaceExisting = true, DisplayOrder Order = DisplayOrder.OldestFirst);
+</code></pre>
+    </li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/202'>#202</a>) In categories view, fix status filters for Pass, Fail, Others</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/215'>#215</a>) Ability to specify date and timeformat in <code>extent-config.xml</code></li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/221'>#221</a>) Adds localization for Spanish, to specify your locale, use (all unsupported locales default to "en"):
+<pre><code class='dotnet'>
+// c#
+// use this at the beginning of your session
+Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-ES");
+</code></pre>
+    </li>
+    
 	<li>All configuration and customization will be performed using an external file using the below methods. See <a href='#configuration'>Configuration</a> section for more details.
 <pre><code class='java'>
 LoadConfig(string FilePath);
@@ -92,11 +116,19 @@ test.AssignAuthor("Anshoo");
 <h3 id='initialize-report'>Initializing Report</h3>
 <p>To initialize the report, you must create an instance of <code>ExtentReports</code>. It is possible to initialize in the following different ways:</p>
 <pre><code>
-ExtentReports extent = ExtentReports(string filePath)
-ExtentReports extent = ExtentReports(string filePath, DisplayOrder displayOrder)
+var extent = ExtentReports(string filePath)
+var extent = ExtentReports(string filePath, bool replaceExisting)
+var extent = ExtentReports(string filePath, DisplayOrder displayOrder)
+var extent = ExtentReports(string filePath, DisplayOrder displayOrder, bool replaceExisting)
 </code></pre>
 <ul>
 	<li><strong>filePath</strong> - path of the file, in .htm or .html format</li>
+    <li><strong>replaceExisting</strong> - Setting to overwrite (TRUE) the existing file or append to it
+		<ul>
+			<li>True (default): the file will be replaced with brand new markup, and all existing data will be lost. Use this option to create a brand new report</li>
+			<li>False: existing data will remain, new tests will be appended to the existing report. If the the supplied path does not exist, a new file will be created.</li>
+		</ul>
+	</li>
 	<li><strong>displayOrder</strong>
 		<ul>
 			<li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
@@ -104,6 +136,15 @@ ExtentReports extent = ExtentReports(string filePath, DisplayOrder displayOrder)
 		</ul>
 	</li>
 </ul>
+
+<h3 id='specifying-locale'>Specifying Locale</h3>
+<p>To use a localized version (see supported localized versions <a href='#localized-versions'>here</a>), use:</p>
+
+<pre><code class='java'>
+Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-ES");
+// or
+Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es");    
+</code></pre>
 
 <h3 id='write-to-report'>Writing to Report</h3>
 <p>Once your session is complete and you are ready to write all logs to the report, simply call the <code>flush()</code> method.</p>
@@ -211,7 +252,6 @@ test.Log(LogStatus.Info, "Screencast below: " + test.addScreencast("screencast-p
 
 <h3 id='add-system-info'>Adding System Info</h3>
 <p>It is possible to add system or environment info for your using using the <code>AddSystemInfo</code> method.</p>
-<p class='note'>By default, the <code>OS</code>, <code>User Name</code>, <code>Java Version</code> and <code>Host Name</code> will be available. You do not have to add these 4 items manually.</p>
 <pre><code class='java'>
 extent.addSystemInfo("Selenium Version", "2.46");
 extent.addSystemInfo("Environment", "Prod");
@@ -354,41 +394,61 @@ public class SingleLogTests : ExtentBase
 }
 </code></pre>
 
+<h2 id='localized-versions'>Localized Versions</h2>
+<p>Extent currently supports the following localized versions of the document:</p>
+<ul>
+    <li>English ("en")</li>
+    <li>Spanish ("es")</li>
+</ul>
+
 <h2 id='configuration'>Configuration</h2>
 
 <p>Version 2.40+ uses a <code>extent-config.xml</code> file to manage all customization of the report and also keep the configuration component separate from the code. Below is a sample of config xml:</p>
 <pre><code class='xml'>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;extentreports&gt;
-    &lt;configuration&gt;
-        &lt;!-- document encoding --&gt;
-        &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+  &lt;configuration&gt;
+    &lt;!-- document encoding --&gt;
+    &lt;!-- defaults to UTF-8 --&gt;
+    &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+
+    &lt;!-- protocol for script and stylesheets --&gt;
+    &lt;!-- defaults to https --&gt;
+    &lt;protocol&gt;https&lt;/protocol&gt;
+    
+    &lt;!-- title of the document --&gt;
+    &lt;documentTitle&gt;ExtentReports 2.0&lt;/documentTitle&gt;
         
-        &lt;!-- title of the document --&gt;
-        &lt;documentTitle&gt;Custom&lt;/documentTitle&gt;
+    &lt;!-- report name - displayed at top-nav --&gt;
+    &lt;reportName&gt;Automation Report&lt;/reportName&gt;
         
-        &lt;!-- report name - displayed at top-nav --&gt;
-        &lt;reportName&gt;Automation Report&lt;/reportName&gt;
+    &lt;!-- report headline - displayed at top-nav, after reportHeadline --&gt;
+    &lt;reportHeadline&gt;&lt;/reportHeadline&gt;
+
+    &lt;!-- global date format override --&gt;
+    &lt;!-- defaults to yyyy-MM-dd --&gt;
+    &lt;dateFormat&gt;yyyy-MM-dd&lt;/dateFormat&gt;
+
+    &lt;!-- global time format override --&gt;
+    &lt;!-- defaults to HH:mm:ss --&gt;
+    &lt;timeFormat&gt;HH:mm:ss&lt;/timeFormat&gt;
+      
+    &lt;!-- custom javascript --&gt;
+    &lt;scripts&gt;
+      &lt;![CDATA[
+      $(document).ready(function() {
+
+      });
+      ]]&gt;
+    &lt;/scripts&gt;
         
-        &lt;!-- report headline - displayed at top-nav, after reportHeadline --&gt;
-        &lt;reportHeadline&gt;&lt;/reportHeadline&gt;
-        
-        &lt;!-- custom javascript --&gt;
-        &lt;scripts&gt;
-            &lt;![CDATA[
-                $(document).ready(function() {
-                    $('#enableDashboard').click();
-                });
-            ]]&gt;
-        &lt;/scripts&gt;
-        
-        &lt;!-- custom styles --&gt;
-        &lt;styles&gt;
-            &lt;![CDATA[
+    &lt;!-- custom styles --&gt;
+    &lt;styles&gt;
+      &lt;![CDATA[
                 
-            ]]&gt;
-        &lt;/styles&gt;
-    &lt;/configuration&gt;
+      ]]&gt;
+    &lt;/styles&gt;
+  &lt;/configuration&gt;
 &lt;/extentreports&gt;
 </code></pre>
 
@@ -428,7 +488,7 @@ LoadConfig(@"C:\HelloWorld\extent-config.xml");
 							
 							<li class='divider'></li>
 							
-							<li><a href='#whats-new'>What's new in 2.40</a></li>
+							<li><a href='#whats-new'>What's new in 2.40.1 (beta)</a></li>
 							<li><a href='#author'>Owner / Developer</a>
 							<li><a href='#basic-usage'>Basic Usage</a>
 								<ul>
@@ -455,6 +515,7 @@ LoadConfig(@"C:\HelloWorld\extent-config.xml");
 									<li><a href='#nunit-example'>NUnit Example</a></li>
 								</ul>
 							</li>
+                            <li><a href='#localized-versions'>Localized Versions</a></li>
 							<li><a href='#configuration'>Configuration</a></li>
 							<li><a href='#license'>License</a></li>
 						</ul>
