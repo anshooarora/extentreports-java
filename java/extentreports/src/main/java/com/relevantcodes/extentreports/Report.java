@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -31,6 +32,7 @@ import com.relevantcodes.extentreports.utils.DateTimeUtil;
 abstract class Report extends LogSettings {
 	private static final Logger LOGGER = Logger.getLogger(Report.class.getName());
 	private static final String INTERNAL_WARNING = "Close was called before test could end safely using EndTest.";
+	private static final String DEFAULT_PROTOCOL = "https";
 	
 	/**
 	 * Default configuration file for HTML report. This file is loaded by default
@@ -54,6 +56,7 @@ abstract class Report extends LogSettings {
     private Map<String, List<Test>> categoryTestMap;
     private Map<String, String> configurationMap;
     private Map<String, String> defaultConfiguration;
+    private Locale locale = Locale.ENGLISH;
     
     protected SuiteTimeInfo suiteTimeInfo;
     protected SystemInfo systemInfo;
@@ -236,7 +239,7 @@ abstract class Report extends LogSettings {
 	  		}
   		}
   		
-  		updateBaseSettings(configurationMap);
+  		updateBaseDefaultSettings(configurationMap);
   		
   		return configurationMap;
     }
@@ -246,7 +249,7 @@ abstract class Report extends LogSettings {
      * 
      * @param configurationMap
      */
-    private void updateBaseSettings(Map<String, String> configurationMap) {
+    private void updateBaseDefaultSettings(Map<String, String> configurationMap) {
     	if (configurationMap.get("dateFormat") != null && !configurationMap.get("dateFormat").isEmpty()) {
     		setLogDateFormat(configurationMap.get("dateFormat"));
     	}
@@ -259,6 +262,10 @@ abstract class Report extends LogSettings {
     	}
     	else {
     		configurationMap.put("timeFormat", getLogTimeFormat());
+    	}
+    	
+    	if (configurationMap.get("protocol") == null || configurationMap.get("protocol").isEmpty()) {
+    		configurationMap.put("protocol", DEFAULT_PROTOCOL);
     	}
     }
     
@@ -322,6 +329,14 @@ abstract class Report extends LogSettings {
     
     protected void setStartedTime(long startTime) {
         suiteTimeInfo.setSuiteStartTimestamp(startTime);
+    }
+    
+    protected void setDocumentLocale(Locale locale) {
+    	this.locale = locale;
+    }
+    
+    protected Locale getDocumentLocale() {
+    	return locale;
     }
     
     protected Report() {

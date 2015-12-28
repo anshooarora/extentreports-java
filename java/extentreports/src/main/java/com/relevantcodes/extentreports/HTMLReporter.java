@@ -14,7 +14,9 @@ import java.io.StringWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,9 +64,12 @@ public class HTMLReporter extends LogSettings implements IReporter {
             return;
         }
 
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("com.relevantcodes.extentreports.view.resources.localized", getDocumentLocale());
+        
         templateMap = new HashMap<String, Object>();
         templateMap.put("report", this);
         templateMap.put("Icon", new Icon(report.getNetworkMode()));
+        templateMap.put("resourceBundle", resourceBundle);
         
         BeansWrapperBuilder builder = new BeansWrapperBuilder(Configuration.VERSION_2_3_23);
         BeansWrapper beansWrapper = builder.build();
@@ -227,6 +232,10 @@ public class HTMLReporter extends LogSettings implements IReporter {
     
     public HTMLReporter(String filePath) { 
         this.filePath = filePath;
+    }
+    
+    private Locale getDocumentLocale() {
+    	return report.getDocumentLocale();
     }
     
     @Deprecated

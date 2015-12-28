@@ -6,12 +6,12 @@
 <html>
     <head>
         <!--
-            ExtentReports Library 2.40.1 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
-            Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
-            Documentation: http://extentreports.relevantcodes.com 
+            ExtentReports ${resourceBundle.getString("head.library")} 2.40.1 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            Copyright (c) 2015, Anshoo Arora (Relevant Codes) | ${resourceBundle.getString("head.copyrights")} | http://opensource.org/licenses/BSD-3-Clause
+            ${resourceBundle.getString("head.documentation")}: http://extentreports.relevantcodes.com 
         -->
         <meta http-equiv='content-type' content='text/html; charset=<#if report.configurationMap??>${report.configurationMap["encoding"]}<#else>UTF-8</#if>' /> 
-        <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
+        <meta name='description' content='${resourceBundle.getString("head.metaDescription")}' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         
@@ -21,9 +21,15 @@
             </#if>
         </title>
         
-        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css'>
-        <link href='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <link href='http://cdn.rawgit.com/anshooarora/extentreports/d623d6debbc34eefcfb45e56b34eb2b487c095e2/cdn/extent.css' type='text/css' rel='stylesheet' />        
+        <#if report.configurationMap??>
+            <#assign protocol = report.configurationMap["protocol"]>
+        <#else>
+            <#assign protocol = https>
+        </#if>
+        
+        <link href='${protocol}://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css' rel='stylesheet'>
+        <link href='${protocol}://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
+        <link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/d623d6debbc34eefcfb45e56b34eb2b487c095e2/cdn/extent.css' type='text/css' rel='stylesheet' />        
         
         <style>
             <#if report.configurationMap??>
@@ -39,15 +45,15 @@
                     <a class='logo-content' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
                     <a class='menu-toggle right'><i class='mdi-navigation-menu'></i></a>
                 </li> 
-                <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>Test Details</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='mdi-maps-local-offer'></i>Categories</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='mdi-action-track-changes'></i></i>Analysis</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>TestRunner Logs</a></li>
+                <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='mdi-action-dashboard'></i>${resourceBundle.getString("nav.menu.testDetails")}</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='mdi-maps-local-offer'></i>${resourceBundle.getString("nav.menu.categories")}</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='mdi-action-track-changes'></i></i>${resourceBundle.getString("nav.menu.analysis")}</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>${resourceBundle.getString("nav.menu.testRunnerLogs")}</a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='mdi-navigation-menu medium'></i></a>
             <span class='report-name'><#if report.configurationMap??>${report.configurationMap["reportName"]}</#if></span> <span class='report-headline'><#if report.configurationMap??>${report.configurationMap["reportHeadline"]}</#if></span>
             <ul class='right hide-on-med-and-down nav-right'>
-                <li class='theme-selector' alt='Click to toggle dark theme. To enable by default, use js configuration $(".theme-selector").click();' title='Click to toggle dark theme. To enable by default, use js configuration $(".theme-selector").click();'>
+                <li class='theme-selector' alt='${resourceBundle.getString("nav.menuright.themeSelectorMessage")}' title='${resourceBundle.getString("nav.menuright.themeSelectorMessage")}'>
                     <i class='mdi-hardware-desktop-windows'></i>
                 </li>
                 <li>
@@ -68,31 +74,31 @@
                 <div class='time-totals'>
                     <div class='col l2 m4 s6'>
                         <div class='card suite-total-tests'> 
-                            <span class='panel-name'>Total Tests</span> 
+                            <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.totalTests")}</span> 
                             <span class='total-tests'> <span class='panel-lead'></span> </span> 
                         </div> 
                     </div>
                     <div class='col l2 m4 s6'>
                         <div class='card suite-total-steps'> 
-                            <span class='panel-name'>Total Steps</span> 
+                            <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.totalSteps")}</span> 
                             <span class='total-steps'> <span class='panel-lead'></span> </span> 
                         </div> 
                     </div>
                     <div class='col l4 m4 s12'>
                         <div class='card suite-total-steps'> 
-                            <span class='panel-name'>Total Time Taken</span> 
+                            <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.totalTimeTaken")}</span> 
                             <span class='suite-total-time-taken panel-lead'>${report.getRunDuration()}</span> 
                         </div> 
                     </div>
                     <div class='col l2 m6 s6 suite-start-time'>
                         <div class='card green-accent'> 
-                            <span class='panel-name'>Start</span> 
+                            <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.start")}</span> 
                             <span class='panel-lead suite-started-time'>${report.startedTime?datetime?string(dateTimeFormat)}</span> 
                         </div> 
                     </div>
                     <div class='col l2 m6 s6 suite-end-time'>
                         <div class='card pink-accent'> 
-                            <span class='panel-name'>End</span> 
+                            <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.end")}</span> 
                             <span class='panel-lead suite-ended-time'>${.now?datetime?string(dateTimeFormat)}</span> 
                         </div> 
                     </div>
@@ -101,7 +107,7 @@
                     <div class='col s12 m6 l4 fh'> 
                         <div class='card-panel'> 
                             <div>
-                                <span class='panel-name'>Tests View</span>
+                                <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.testsView")}</span>
                             </div> 
                             <div class='panel-setting modal-trigger test-count-setting right'>
                                 <a href='#test-count-setting'><i class='mdi-navigation-more-vert text-md'></i></a>
@@ -110,17 +116,17 @@
                                 <canvas class='text-centered' id='test-analysis'></canvas>
                             </div> 
                             <div>
-                                <span class='weight-light'><span class='t-pass-count weight-normal'></span> test(s) passed</span>
+                                <span class='weight-light'><span class='t-pass-count weight-normal'></span> ${resourceBundle.getString("dashboard.panel.label.testsPassed")}</span>
                             </div> 
                             <div>
-                                <span class='weight-light'><span class='t-fail-count weight-normal'></span> test(s) failed, <span class='t-others-count weight-normal'></span> others</span>
+                                <span class='weight-light'><span class='t-fail-count weight-normal'></span> ${resourceBundle.getString("dashboard.panel.label.testsFailed")}, <span class='t-others-count weight-normal'></span> ${resourceBundle.getString("dashboard.panel.label.others")}</span>
                             </div> 
                         </div> 
                     </div> 
                     <div class='col s12 m6 l4 fh'> 
                         <div class='card-panel'> 
                             <div>
-                                <span class='panel-name'>Steps View</span>
+                                <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.stepsView")}</span>
                             </div> 
                             <div class='panel-setting modal-trigger step-status-filter right'>
                                 <a href='#step-status-filter'><i class='mdi-navigation-more-vert text-md'></i></a>
@@ -129,16 +135,16 @@
                                 <canvas class='text-centered' id='step-analysis'></canvas>
                             </div> 
                             <div>
-                                <span class='weight-light'><span class='s-pass-count weight-normal'></span> step(s) passed</span>
+                                <span class='weight-light'><span class='s-pass-count weight-normal'></span> ${resourceBundle.getString("dashboard.panel.label.stepsPassed")}</span>
                             </div> 
                             <div>
-                                <span class='weight-light'><span class='s-fail-count weight-normal'></span> step(s) failed, <span class='s-others-count weight-normal'></span> others</span>
+                                <span class='weight-light'><span class='s-fail-count weight-normal'></span> ${resourceBundle.getString("dashboard.panel.label.stepsFailed")}, <span class='s-others-count weight-normal'></span> ${resourceBundle.getString("dashboard.panel.label.others")}</span>
                             </div> 
                         </div> 
                     </div>
                     <div class='col s12 m12 l4 fh'> 
                         <div class='card-panel'> 
-                            <span class='panel-name'>Pass Percentage</span> 
+                            <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.passPercentage")}</span> 
                             <span class='pass-percentage panel-lead'></span> 
                             <div class='progress light-blue lighten-3'> 
                                 <div class='determinate light-blue'></div> 
@@ -149,12 +155,12 @@
                 <div class='system-view'>
                     <div class='col l4 m12 s12'>
                         <div class='card-panel'>
-                            <span class='label info outline right'>Environment</span>
+                            <span class='label info outline right'>${resourceBundle.getString("dashboard.panel.name.environment")}</span>
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Param</th>
-                                        <th>Value</th>
+                                        <th>${resourceBundle.getString("dashboard.panel.th.param")}</th>
+                                        <th>${resourceBundle.getString("dashboard.panel.th.value")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -172,11 +178,11 @@
                 <div class='category-summary-view'>
                     <div class='col l4 m6 s12'>
                         <div class='card-panel'>
-                            <span class='label info outline right'>Categories</span>
+                            <span class='label info outline right'>${resourceBundle.getString("dashboard.panel.name.categories")}</span>
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>${resourceBundle.getString("dashboard.panel.th.name")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -232,24 +238,24 @@
                                         <li class='${category}'><a href='#!'>${category}</a></li>
                                     </#list>
                                     <li class='divider'></li>
-                                    <li class='clear'><a href='#!'>Clear Filters</a></li>
+                                    <li class='clear'><a href='#!'>${resourceBundle.getString("tests.filters.clearFilters")}</a></li>
                                 </ul>
                             </div>
                         </#if>
                         <div>
-                            <a id='clear-filters' alt='Clear Filters' title='Clear Filters'><i class='mdi-navigation-close icon'></i></a>
+                            <a id='clear-filters' alt='${resourceBundle.getString("tests.filters.clearFilters")}' title='${resourceBundle.getString("tests.filters.clearFilters")}'><i class='mdi-navigation-close icon'></i></a>
                         </div>
                         <div>&nbsp;&middot;&nbsp;</div>
                         <div>
-                            <a id='enableDashboard' alt='Enable Dashboard' title='Enable Dashboard'><i class='mdi-action-track-changes icon'></i></a>
+                            <a id='enableDashboard' alt='${resourceBundle.getString("tests.filters.enableDashboard")}' title='${resourceBundle.getString("tests.filters.enableDashboard")}'><i class='mdi-action-track-changes icon'></i></a>
                         </div>
                         <div>
-                            <a id='refreshCharts' alt='Refresh Charts on Filter' title='Refresh Charts on Filter' class='enabled'><i class='mdi-navigation-refresh icon'></i></i></a>
+                            <a id='refreshCharts' alt='${resourceBundle.getString("tests.filters.refreshCharts")}' title='${resourceBundle.getString("tests.filters.refreshCharts")}' class='enabled'><i class='mdi-navigation-refresh icon'></i></i></a>
                         </div>
                         <div>&nbsp;&middot;</div>
-                        <div class='search' alt='Search tests' title='Search tests'>
+                        <div class='search' alt='${resourceBundle.getString("tests.filters.searchTests")}' title='${resourceBundle.getString("tests.filters.searchTests")}'>
                             <div class='input-field left'>
-                                <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
+                                <input id='searchTests' type='text' class='validate' placeholder='${resourceBundle.getString("tests.filters.searchTests")}...'>
                             </div>
                             <i class='mdi-action-search icon'></i>
                         </div>
@@ -271,9 +277,9 @@
                                         </div>
                                         <div class='test-body'>
                                             <div class='test-info'>
-                                                <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${test.startedTime?datetime?string(dateTimeFormat)}</span>
-                                                <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'><#if test.endedTime??>${test.endedTime?datetime?string(dateTimeFormat)}</#if></span>
-                                                <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-3 text-white'><#if test.endedTime??>${test.getRunDuration()}</#if></span>
+                                                <span title='${resourceBundle.getString("tests.test.info.testStartTime")}' alt='${resourceBundle.getString("tests.test.info.testStartTime")}' class='test-started-time label green lighten-2 text-white'>${test.startedTime?datetime?string(dateTimeFormat)}</span>
+                                                <span title='${resourceBundle.getString("tests.test.info.testEndTime")}' alt='${resourceBundle.getString("tests.test.info.testEndTime")}' class='test-ended-time label red lighten-2 text-white'><#if test.endedTime??>${test.endedTime?datetime?string(dateTimeFormat)}</#if></span>
+                                                <span title='${resourceBundle.getString("tests.test.info.timeTaken")}' alt='${resourceBundle.getString("tests.test.info.timeTaken")}' class='test-time-taken label blue-grey lighten-3 text-white'><#if test.endedTime??>${test.getRunDuration()}</#if></span>
                                             </div>
                                             <div class='test-desc'>${test.description}</div>
                                             <div class='test-attributes'>
@@ -296,12 +302,12 @@
                                                 <table class='bordered table-results'>
                                                     <thead>
                                                         <tr>
-                                                            <th>Status</th>
-                                                            <th>Timestamp</th>
+                                                            <th>${resourceBundle.getString("tests.test.log.th.status")}</th>
+                                                            <th>${resourceBundle.getString("tests.test.log.th.timestamp")}</th>
                                                             <#if (test.logList[0].stepName)??>
                                                                 <th>StepName</th>
                                                             </#if>
-                                                            <th>Details</th>
+                                                            <th>${resourceBundle.getString("tests.test.log.th.details")}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -325,9 +331,9 @@
                                                                 <li class='displayed ${node.status} node-${depth}x'>
                                                                     <div class='collapsible-header test-node ${node.status}'>
                                                                         <div class='right test-info'>
-                                                                            <span title='Test started time' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string(dateTimeFormat)}</span>
-                                                                            <span title='Test ended time' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string(dateTimeFormat)}</span>
-                                                                            <span title='Time taken to finish' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
+                                                                            <span title='${resourceBundle.getString("tests.test.info.testStartTime")}' alt='${resourceBundle.getString("tests.test.info.testStartTime")}' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string(dateTimeFormat)}</span>
+                                                                            <span title='${resourceBundle.getString("tests.test.info.testEndTime")}' alt='${resourceBundle.getString("tests.test.info.testEndTime")}' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string(dateTimeFormat)}</span>
+                                                                            <span title='${resourceBundle.getString("tests.test.info.timeTaken")}' alt='${resourceBundle.getString("tests.test.info.timeTaken")}' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
                                                                             <span class='test-status label outline capitalize ${node.status}'>${node.status}</span>
                                                                         </div>
                                                                         <div class='test-node-name'>${node.name}</div>
@@ -340,12 +346,12 @@
                                                                             <table class='bordered table-results'>
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        <th>Status</th>
-                                                                                        <th>Timestamp</th>
+                                                                                        <th>${resourceBundle.getString("tests.test.log.th.status")}</th>
+                                                                                        <th>${resourceBundle.getString("tests.test.log.th.timestamp")}</th>
                                                                                         <#if (node.logList[0].stepName)??>
                                                                                             <th>StepName</th>
                                                                                         </#if>
-                                                                                        <th>Details</th>
+                                                                                        <th>${resourceBundle.getString("tests.test.log.th.details")}</th>
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
@@ -391,7 +397,7 @@
             <div id='categories-view' class='row hide'>
                 <div class='col s5'>
                     <div class='card-panel heading'>
-                        <h5>Categories</h5>
+                        <h5>${resourceBundle.getString("categories.heading")}</h5>
                     </div>
                     <div class='card-panel filters'>
                         <div class='search' alt='Search tests' title='Search tests'>
@@ -443,9 +449,9 @@
                                                 <table class='bordered'>
                                                     <thead>
                                                         <tr>
-                                                            <th>Run Date</th>
-                                                            <th>Test Name</th>
-                                                            <th>Status</th>
+                                                            <th>${resourceBundle.getString("categories.th.runDate")}</th>
+                                                            <th>${resourceBundle.getString("categories.th.testName")}</th>
+                                                            <th>${resourceBundle.getString("categories.th.status")}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -480,7 +486,7 @@
             <div id='testrunner-logs-view' class='row hide'>
                 <div class='col s12'>
                     <div class='card-panel'>
-                        <h5>TestRunner Logs</h5>
+                        <h5>${resourceBundle.getString("logs.heading")}</h5>
                         <#list report.testRunnerLogList as trLog>
                             <p>${trLog}</p>
                         </#list>
@@ -495,18 +501,18 @@
         <!-- test dashboard counts setting -->
         <div id='test-count-setting' class='modal bottom-sheet'> 
             <div class='modal-content'> 
-                <h5>Configure Tests Count Setting</h5> 
+                <h5>${resourceBundle.getString("modal.heading.testCount")}</h5> 
                 <input name='test-count-setting' type='radio' id='parentWithoutNodes' class='with-gap'> 
-                <label for='parentWithoutNodes'>Parent Tests Only (Does not include child nodes in counts)</label> 
+                <label for='parentWithoutNodes'>${resourceBundle.getString("modal.selection.parentTestOnly")}</label> 
                 <br> 
                 <input name='test-count-setting' type='radio' id='parentWithoutNodesAndNodes' class='with-gap'> 
-                <label for='parentWithoutNodesAndNodes'>Parent Tests Without Child Tests + Child Tests</label> 
+                <label for='parentWithoutNodesAndNodes'>${resourceBundle.getString("modal.selection.parentWithoutChildNodes")}</label> 
                 <br> 
                 <input name='test-count-setting' type='radio' id='childNodes' class='with-gap'> 
-                <label for='childNodes'>Child Tests Only</label> 
+                <label for='childNodes'>${resourceBundle.getString("modal.selection.childTests")}</label> 
             </div> 
             <div class='modal-footer'> 
-                <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
+                <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>${resourceBundle.getString("modal.button.save")}</a> 
             </div> 
         </div>
         <!-- /test dashboard counts setting -->
@@ -514,7 +520,7 @@
         <!-- filter for step status -->
         <div id='step-status-filter' class='modal bottom-sheet'> 
             <div class='modal-content'> 
-                <h5>Select status</h5> 
+                <h5>${resourceBundle.getString("modal.heading.selectStatus")}</h5> 
                 <input checked class='filled-in' type='checkbox' id='step-dashboard-filter-pass'> 
                 <label for='step-dashboard-filter-pass'>Pass</label> 
                 <br> 
@@ -540,16 +546,17 @@
                 <label for='step-dashboard-filter-unknown'>Unknown</label> 
             </div>
             <div class='modal-footer'> 
-                <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>Save</a> 
+                <a href='#!' class='modal-action modal-close waves-effect waves-green btn'>${resourceBundle.getString("modal.button.save")}</a> 
             </div> 
         </div>
         <!-- /filter for step status -->
         
-        <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-        <script src='https://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <script src='http://cdn.rawgit.com/anshooarora/extentreports/d623d6debbc34eefcfb45e56b34eb2b487c095e2/cdn/extent.js' type='text/javascript'></script>
+        <script src='${protocol}://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
+        <script src='${protocol}://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
+        <script src='${protocol}://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+        <script src='${protocol}://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
+        <!--<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/d623d6debbc34eefcfb45e56b34eb2b487c095e2/cdn/extent.js' type='text/javascript'></script>-->
+        <script src='file:///c:/users/anshoo/git/extentreports/cdn/extent.js' type='text/javascript'></script>-->
         
         <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
         <script>

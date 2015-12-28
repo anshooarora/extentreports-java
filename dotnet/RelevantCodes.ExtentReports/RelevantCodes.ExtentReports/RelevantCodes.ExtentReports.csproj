@@ -66,6 +66,7 @@
     <Compile Include="DisplayOrder.cs" />
     <Compile Include="ExtentTestInterruptedException.cs" />
     <Compile Include="ExtentReports.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="HTMLReporter.cs" />
     <Compile Include="IReporter.cs" />
     <Compile Include="LogStatus.cs" />
@@ -91,6 +92,16 @@
     <Compile Include="Utils\ResourceUtils.cs" />
     <Compile Include="View\Extent.cs" />
     <Compile Include="View\Icon.cs" />
+    <Compile Include="View\Resources\Localized.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localized.resx</DependentUpon>
+    </Compile>
+    <Compile Include="View\Resources\Localized.es.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localized.es.resx</DependentUpon>
+    </Compile>
     <Compile Include="View\ScreenCaptureHtml.cs" />
     <Compile Include="View\ScreencastHtml.cs" />
   </ItemGroup>
@@ -107,9 +118,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\Resources\Localized.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localized.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Resources\Localized.es.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localized.es.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\extent-config.xml" />
+    <None Include="Resources\extent-config.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

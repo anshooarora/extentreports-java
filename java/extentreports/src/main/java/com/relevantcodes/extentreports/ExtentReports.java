@@ -12,6 +12,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,69 @@ import com.relevantcodes.extentreports.model.Test;
 public class ExtentReports extends Report {
 	private static final Logger logger = Logger.getLogger(ExtentReports.class.getName());
 	
+	/**
+	 * <p>
+     * Initializes a localized version of Extent HTML report
+     * 
+     * @param filePath 
+     * 		Path of the file, in .htm or .html format
+     * 
+     * @param replaceExisting 
+     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     * 		<ul>
+     * 			<li>true - the file will be replaced with brand new markup, and all existing data
+     * 			will be lost. Use this option to create a brand new report</li>
+     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
+     * 			If the the supplied path does not exist, a new file will be created.</li>
+     * 		</ul>
+     * 
+     * @param displayOrder 
+     * 		Determines the order in which your tests will be displayed
+     *		<ul>
+     *			<li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
+     * 			<li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
+     * 		</ul>
+     * 
+     * @param networkMode 
+     * 		<ul>
+     * 			<li>ONLINE - creates a single report file with all artifacts</li>
+     * 			<li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
+     *				with the following structure:
+     *				<br>
+     *				- extentreports/css
+     *				<br>
+     *				- extentreports/js
+     * 			</li>
+     * 		</ul>
+     * 
+     * @param locale
+     * 		Locale to adapt for the report. All standard text for the report will be displayed
+     * 		in the selected locale. 
+     */
+    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode, Locale locale) {
+    	replaceExisting = replaceExisting == null ? true : replaceExisting;
+    	displayOrder = displayOrder == null ? DisplayOrder.OLDEST_FIRST : displayOrder;
+    	networkMode = networkMode == null ? NetworkMode.ONLINE : networkMode;
+    	locale = locale == null ? Locale.ENGLISH : locale;
+    	
+        setFilePath(filePath);
+        setReplaceExisting(replaceExisting);
+        setDisplayOrder(displayOrder);
+        setNetworkMode(networkMode);
+        setDocumentLocale(locale);
+
+        attach(new HTMLReporter(filePath));
+        
+        if (!replaceExisting) {
+        	File file = new File(filePath);
+        	
+        	if (file.exists()) {
+        		TestConverter converter = new TestConverter(this, file);
+        		converter.createTestList();
+        	}
+        }
+    }
+    
 	/**
 	 * <p>
      * Initializes Extent HTML report
@@ -58,21 +122,43 @@ public class ExtentReports extends Report {
      * 		</ul>
      */
     public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode) {
-        setFilePath(filePath);
-        setReplaceExisting(replaceExisting);
-        setDisplayOrder(displayOrder);
-        setNetworkMode(networkMode);
-
-        attach(new HTMLReporter(filePath));
-        
-        if (!replaceExisting) {
-        	File file = new File(filePath);
-        	
-        	if (file.exists()) {
-        		TestConverter converter = new TestConverter(this, file);
-        		converter.createTestList();
-        	}
-        }
+        this(filePath, replaceExisting, displayOrder, networkMode, null);
+    }
+    
+    /**
+     * <p>
+     * Initializes a localized version of Extent HTML report. To see a list of supported locales,
+     * 		visit: http://extentreports.relevantcodes.com
+     * 
+     * <ul>
+     * 	<li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li>
+     * </ul> 
+     * 
+     * @param filePath 
+     * 		Path of the file, in .htm or .html format
+     * 
+     * @param replaceExisting 
+     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     * 		<ul>
+     * 			<li>true - the file will be replaced with brand new markup, and all existing data
+     * 			will be lost. Use this option to create a brand new report</li>
+     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
+     * 			If the the supplied path does not exist, a new file will be created.</li>
+     * 		</ul>
+     * 
+     * @param displayOrder 
+     * 		Determines the order in which your tests will be displayed
+     *		<ul>
+     *			<li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
+     * 			<li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
+     * 		</ul>
+     * 
+     * @param locale
+     * 		Locale to adapt for the report. All standard text for the report will be displayed
+     * 		in the selected locale. 
+     */
+    public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, Locale locale) {        
+        this(filePath, replaceExisting, displayOrder, null, locale);
     }
     
     /**
@@ -103,7 +189,48 @@ public class ExtentReports extends Report {
      * 		</ul>
      */
     public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {        
-        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST, NetworkMode.ONLINE);
+        this(filePath, replaceExisting, displayOrder, null, null);
+    }
+    
+    /**
+     * <p>
+     * Initializes a localized version of Extent HTML report. To see a list of supported locales,
+     * 		visit: http://extentreports.relevantcodes.com
+     * 
+     * <ul>
+     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
+     * </ul>
+     * 
+     * @param filePath 
+     * 		Path of the file, in .htm or .html format
+     * 
+     * @param replaceExisting 
+     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     * 		<ul>
+     * 			<li>true - the file will be replaced with brand new markup, and all existing data
+     * 			will be lost. Use this option to create a brand new report</li>
+     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
+     * 			If the the supplied path does not exist, a new file will be created.</li>
+     * 		</ul>
+     * 
+     * @param networkMode 
+     * 		<ul>
+     * 			<li>ONLINE - creates a single report file with all artifacts</li>
+     * 			<li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
+     *				with the following structure:
+     *				<br>
+     *				- extentreports/css
+     *				<br>
+     *				- extentreports/js
+     * 			</li>
+     *         </ul>
+     *         
+     * @param locale
+     * 		Locale to adapt for the report. All standard text for the report will be displayed
+     * 		in the selected locale. 
+     */
+    public ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode, Locale locale) {
+        this(filePath, replaceExisting, null, networkMode, locale);
     }
     
     /**
@@ -139,7 +266,7 @@ public class ExtentReports extends Report {
      *         </ul>
      */
     public ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode) {
-        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST, networkMode);
+        this(filePath, replaceExisting, null, networkMode, null);
     }
     
     /**
@@ -167,7 +294,44 @@ public class ExtentReports extends Report {
      * 		</ul>
      */
     public ExtentReports(String filePath, NetworkMode networkMode) {
-        this(filePath, true, DisplayOrder.OLDEST_FIRST, networkMode);
+        this(filePath, null, null, networkMode, null);
+    }
+    
+    /**
+     * <p>
+     * Initializes a localized version of Extent HTML report. To see a list of supported locales,
+     * 		visit: http://extentreports.relevantcodes.com
+     * 
+     * <p>
+     * Note: a new report will be created by default since <code>replaceExisting</code> is 
+     * <code>true</code> by default
+     * 
+     * <p>
+     * Examples:
+     * 
+     * <ul>
+     * 	<li>English (default): <code>new ExtentReports("filePath", Locale.ENGLISH);</code></li>
+     * 	<li>Spanish locale: <code>new ExtentReports("filePath", new Locale("es"));</code></li>
+     * </ul>
+     * 
+     * @param filePath 
+     * 		Path of the file, in .htm or .html format
+     * 
+     * @param replaceExisting 
+     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     * 		<ul>
+     * 			<li>true - the file will be replaced with brand new markup, and all existing data
+     * 			will be lost. Use this option to create a brand new report</li>
+     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
+     * 			If the the supplied path does not exist, a new file will be created.</li>
+     * 		</ul>
+     * 
+     * @param locale
+     * 		Locale to adapt for the report. All standard text for the report will be displayed
+     * 		in the selected locale. 
+     */
+    public ExtentReports(String filePath, Boolean replaceExisting, Locale locale) {
+    	this(filePath, replaceExisting, null, null, locale);
     }
     
     /**
@@ -192,7 +356,35 @@ public class ExtentReports extends Report {
      * 		</ul>
      */
     public ExtentReports(String filePath, Boolean replaceExisting) {
-        this(filePath, replaceExisting, DisplayOrder.OLDEST_FIRST, NetworkMode.ONLINE);
+        this(filePath, replaceExisting, null, null, null);
+    }
+    
+    /**
+     * <p>
+     * Initializes a localized version of Extent HTML report. To see a list of supported locales,
+     * 		visit: http://extentreports.relevantcodes.com
+     * 
+     * <p>
+     * Note: a new report will be created by default since <code>replaceExisting</code> is 
+     * <code>true</code> by default
+     * 
+     * <p>
+     * Examples:
+     * 
+     * <ul>
+     * 	<li>English (default): <code>new ExtentReports("filePath", Locale.ENGLISH);</code></li>
+     * 	<li>Spanish locale: <code>new ExtentReports("filePath", new Locale("es"));</code></li>
+     * </ul>
+     * 
+     * @param filePath 
+     * 		Path of the file, in .htm or .html format
+     * 
+     * @param locale
+     * 		Locale to adapt for the report. All standard text for the report will be displayed
+     * 		in the selected locale. 
+     */
+    public ExtentReports(String filePath, Locale locale) {
+    	this(filePath, null, null, null, locale);
     }
     
     /**
@@ -209,7 +401,7 @@ public class ExtentReports extends Report {
      * 		Path of the file, in .htm or .html format
      */
     public ExtentReports(String filePath) {
-        this(filePath, true, DisplayOrder.OLDEST_FIRST, NetworkMode.ONLINE);
+        this(filePath, null, null, null, null);
     }
     
     /**
