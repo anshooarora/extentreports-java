@@ -4,6 +4,9 @@
 		<!-- document encoding -->
 		<encoding>UTF-8</encoding>
 		
+		<!-- protocol for script and stylesheets -->
+		<protocol>https</protocol>
+		
         <!-- title of the document -->
         <documentTitle>ExtentReports 2.0</documentTitle>
         
