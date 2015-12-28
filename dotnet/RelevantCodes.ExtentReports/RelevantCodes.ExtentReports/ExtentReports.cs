@@ -49,6 +49,24 @@ namespace RelevantCodes.ExtentReports
         }
 
         /// <summary>
+        /// Initializes Extent HTML report with the DisplayOrder setting
+        /// </summary>
+        /// 
+        /// <param name="FilePath">Path of the file, in .htm or .html format</param>
+        /// <param name="Order">
+        /// Determines the order in which your tests will be displayed
+        /// <list type="bullet">
+        ///     <item>
+        ///         <description>OldestFirst (default) - oldest test at the top, newest at the end</description>
+        ///     </item>
+        ///     <item>
+        ///         <description>NewestFirst - newest test at the top, oldest at the end</description>
+        ///     </item>
+        /// </list>
+        /// </param>
+        public ExtentReports(string FilePath, DisplayOrder Order = DisplayOrder.OldestFirst) : this(FilePath, true, Order) { }
+
+        /// <summary>
         /// Allows performing configuration and customization to the HTML report from 
         /// configuration external file
         /// </summary>
