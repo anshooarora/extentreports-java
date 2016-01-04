@@ -110,7 +110,7 @@ namespace RelevantCodes.ExtentReports.View
                                             </div> 
                                         </div>
                                         <div class='col l4 m4 s12'>
-                                            <div class='card suite-total-steps'> 
+                                            <div class='card suite-time'> 
                                                 <span class='panel-name'>@Localized.dashboard_panel_name_totalTimeTaken</span> 
                                                 <span class='suite-total-time-taken panel-lead'>@Model.GetRunTime()</span> 
                                             </div> 
@@ -306,7 +306,14 @@ namespace RelevantCodes.ExtentReports.View
                                                     @foreach (var extentTest in Model.TestList)
                                                     {
                                                         var test = extentTest.GetTest();
-                                                        <li class='collection-item test displayed active @test.Status.ToString().ToLower() @if(test.ContainsChildNodes){ <x> hasChildren </x> }' extentid='@test.ID'>
+
+                                                        var cls = """";
+                                                        if(test.ContainsChildNodes)
+                                                        { 
+                                                            cls = ""hasChildren""; 
+                                                        }
+
+                                                        <li class='collection-item test displayed active @test.Status.ToString().ToLower() @cls' extentid='@test.ID'>
                                                             <div class='test-head'>
                                                                 <span class='test-name'>@Raw(test.Name) @if (!String.IsNullOrEmpty(test.InternalWarning)) { <i class='tooltipped mdi-alert-error' data-position='top' data-delay='50' data-tooltip='@Raw(test.InternalWarning)'></i> }</span>
                                                                 <span class='test-status right label capitalize outline @test.Status.ToString().ToLower()'>@test.Status.ToString().ToLower()</span>
@@ -607,7 +614,7 @@ namespace RelevantCodes.ExtentReports.View
                             <script>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""scripts"")) { @Raw(Model.ConfigurationMap[""scripts""]) }</script>
                         </body>
                     </html>
-                    ";//.Replace("    ", "").Replace("\t", "").Replace("\r", "").Replace("\n", "");
+                    ".Replace("    ", "").Replace("\t", "").Replace("\r", "").Replace("\n", "");
             }
         }
     }

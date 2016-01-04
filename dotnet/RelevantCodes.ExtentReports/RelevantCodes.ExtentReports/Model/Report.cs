@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+
+using HtmlAgilityPack;
 
 using RelevantCodes.ExtentReports.Config;
 using RelevantCodes.ExtentReports.Model;
@@ -26,6 +30,8 @@ namespace RelevantCodes.ExtentReports.Model
         internal DisplayOrder DisplayOrder { get; set; }
 
         internal NetworkMode NetworkMode { get; set; }
+
+        internal CultureInfo Culture { get; set; }
 
         internal List<ExtentTest> TestList { get; set; }
 
@@ -58,6 +64,7 @@ namespace RelevantCodes.ExtentReports.Model
             _reporterList.Remove(Reporter);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         protected void AddTest(Test Test)
         {
             this.Test = Test;
@@ -143,11 +150,14 @@ namespace RelevantCodes.ExtentReports.Model
             }
         }
 
-        internal string GetRunTime()
+        internal string RunTime
         {
-            TimeSpan diff = DateTime.Now.Subtract(StartTime);
+            get
+            {
+                TimeSpan diff = DateTime.Now.Subtract(StartTime);
 
-            return String.Format("{0}h {1}m {2}s+{3}ms", diff.Hours, diff.Minutes, diff.Seconds, diff.Milliseconds);
+                return String.Format("{0}h {1}m {2}s+{3}ms", diff.Hours, diff.Minutes, diff.Seconds, diff.Milliseconds);
+            }
         }
 
         private void UpdateReportStatus(LogStatus logStatus)

@@ -99,7 +99,9 @@ namespace RelevantCodes.ExtentReports.Model
 
         public void PrepareFinalize()
         {
-            EndTime = DateTime.Now;
+            if (EndTime.Equals(DateTime.MinValue))
+                EndTime = DateTime.Now;
+
             HasEnded = true;
 
             UpdateStatusRecursive(this);

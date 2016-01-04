@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+
+using HtmlAgilityPack;
 
 using RazorEngine.Configuration;
 using RazorEngine.Text;
@@ -35,6 +39,9 @@ namespace RelevantCodes.ExtentReports
         // extent document source
         private string _extentSource = null;
 
+        // lock for document source: _extentSource
+        private static readonly object _lock = new Object();
+
         // lock for extent source
         private object _sourcelock = new object();
 
@@ -50,7 +57,9 @@ namespace RelevantCodes.ExtentReports
             _filePath = Report.FilePath;
             _displayOrder = Report.DisplayOrder;
             _networkMode = Report.NetworkMode;
-            
+
+            Thread.CurrentThread.CurrentUICulture = Report.Culture;
+
             bool replaceExisting = Report.ReplaceExisting;
 
             if (!File.Exists(_filePath))
@@ -75,6 +84,7 @@ namespace RelevantCodes.ExtentReports
             _terminated = true;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public virtual void Flush()
         {
             if (_terminated)
@@ -94,14 +104,20 @@ namespace RelevantCodes.ExtentReports
 
         public virtual void AddTest()
         {
-            _extentSource = Engine.Razor.RunCompile(View.Extent.Source, "extent", typeof(HTMLReporter), this);
+            lock (_lock)
+            {
+                _extentSource = Engine.Razor.RunCompile(View.Extent.Source, "extent", typeof(HTMLReporter), this);
+            }
         }
 
         public List<ExtentTest> TestList
         {
             get
             {
-                return _report.TestList;
+                var testList = new List<ExtentTest>();
+                testList.AddRange(_report.TestList);
+
+                return testList;
             }
         }
 
@@ -147,7 +163,7 @@ namespace RelevantCodes.ExtentReports
 
         public string GetRunTime()
         {
-            return _report.GetRunTime();
+            return _report.RunTime;
         }
         
         private void InitializeRazor()
