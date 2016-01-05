@@ -595,7 +595,7 @@ public class ExtentReports extends Report {
      * 		An {@link ExtentTest} object
      */
     public synchronized void endTest(ExtentTest extentTest) {
-    	Test test = extentTest.getTest();    	
+    	Test test = extentTest.getInternalTest();    	
         test.hasEnded = true;
 
         addTest(test);
@@ -715,7 +715,7 @@ public class ExtentReports extends Report {
         Test t;
         
         while (iterator.hasNext()) {
-            t = iterator.next().getTest();
+            t = iterator.next().getInternalTest();
             
             if (t.isChildNode) {
                 iterator.remove();

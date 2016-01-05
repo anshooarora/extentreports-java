@@ -95,7 +95,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
     	String s = "/";
     	
     	String resourcePackagePath = HTMLReporter.class.getPackage().getName().replace(".", s);
-    	resourcePackagePath += s + "resources" + s;
+    	resourcePackagePath += s + "view" + s;
     	
         String cssPath = resourcePackagePath + "offline" + s + "css" + s;
         String fontsPath = cssPath + "fonts" + s;
@@ -112,11 +112,26 @@ public class HTMLReporter extends LogSettings implements IReporter {
                 "fontawesome-webfont.woff",
                 "fontawesome-webfont.woff2",
                 "FontAwesome.otf",
-                "Material-Design-Icons.eot",
-                "Material-Design-Icons.svg",
-                "Material-Design-Icons.ttf",
-                "Material-Design-Icons.woff",
-                "Material-Design-Icons.woff2"
+                "Roboto-Bold.eot",
+                "Roboto-Bold.ttf",
+                "Roboto-Bold.woff",
+                "Roboto-Bold.woff2",
+                "Roboto-Light.eot",
+                "Roboto-Light.ttf",
+                "Roboto-Light.woff",
+                "Roboto-Light.woff2",
+                "Roboto-Medium.eot",
+                "Roboto-Medium.ttf",
+                "Roboto-Medium.woff",
+                "Roboto-Medium.woff2",
+                "Roboto-Regular.eot",
+                "Roboto-Regular.ttf",
+                "Roboto-Regular.woff",
+                "Roboto-Regular.woff2",
+                "Roboto-Thin.eot",
+                "Roboto-Thin.ttf",
+                "Roboto-Thin.woff",
+                "Roboto-Thin.woff2"
         };
         String[] js = { 
                 "scripts.js"
@@ -129,7 +144,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
             new File(file.getParent() + s + offlineFolderParent + s + name).mkdirs();
         }
         
-        String destPath = file.getParent() + s + offlineFolderParent + s;
+        String destPath = file.getParent().replace("\\", s) + s + offlineFolderParent + s;
         
         // copy files to extent/dir
         for (String f : css) {
@@ -200,6 +215,10 @@ public class HTMLReporter extends LogSettings implements IReporter {
     
     public Map<String, List<Test>> getCategoryTestMap() {
     	return report.getCategoryTestMap();
+    }
+    
+    public Map<String, List<Test>> getExceptionTestMap() {
+    	return report.getExceptionTestMap();
     }
     
     public SystemInfo getSystemInfo() {

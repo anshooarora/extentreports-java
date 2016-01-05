@@ -10,7 +10,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.relevantcodes.extentreports.ExtentReports;
+
+import com.relevantcodes.extentreports.*;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogSettings;
 import com.relevantcodes.extentreports.model.Log;
@@ -84,7 +85,7 @@ public class TestConverter extends LogSettings {
             List<Test> nodeList = nodeConverter.getNodeList();
             
             if (nodeList != null && nodeList.size() > 0) {
-            	extentTest.getTest().hasChildNodes = true;
+            	extentTest.getTest().hasChildNodes(true);
             	extentTest.getTest().setNodeList(nodeList);
             }
             

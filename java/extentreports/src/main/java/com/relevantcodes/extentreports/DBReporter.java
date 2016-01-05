@@ -277,7 +277,7 @@ class DBReporter extends LogSettings implements IReporter {
             return;
         }
         
-        this.test = report.getTest();
+        this.test = report.getCurrentTest();
 
         try {
             PreparedStatement stmt = connection.prepareStatement(INSERT_TEST);

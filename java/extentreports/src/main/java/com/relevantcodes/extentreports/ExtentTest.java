@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.relevantcodes.extentreports.model.Author;
 import com.relevantcodes.extentreports.model.Category;
+import com.relevantcodes.extentreports.model.ITest;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Screencast;
@@ -39,7 +40,7 @@ import com.relevantcodes.extentreports.view.ScreenshotHtml;
  * 
  * @author Anshoo
  */
-public class ExtentTest {
+public class ExtentTest implements IExtentTestClass {
     private LogStatus runStatus = LogStatus.UNKNOWN;
     private Test test;
     
@@ -119,6 +120,8 @@ public class ExtentTest {
      * 		Exception
      */
     public void log(LogStatus logStatus, String stepName, Throwable t) {
+    	this.getInternalTest().setException(t);
+    	
     	log(logStatus, stepName, "<pre>" + ExceptionUtil.getStackTrace(t) + "</pre>");
     }
     
@@ -142,7 +145,7 @@ public class ExtentTest {
      * 		Exception
      */
     public void log(LogStatus logStatus, Throwable t) {
-    	log(logStatus, null, "<pre>" + ExceptionUtil.getStackTrace(t) + "</pre>");
+    	log(logStatus, null, t);
     }
     
     /**
@@ -292,9 +295,9 @@ public class ExtentTest {
      * 		An {@link ExtentTest} object. Parent test which adds the node as its child.
      */
     public ExtentTest appendChild(ExtentTest node) {
-        node.getTest().setEndedTime(Calendar.getInstance().getTime());
-        node.getTest().isChildNode = true;
-        node.getTest().trackLastRunStatus();
+        node.getInternalTest().setEndedTime(Calendar.getInstance().getTime());
+        node.getInternalTest().isChildNode = true;
+        node.getInternalTest().trackLastRunStatus();
         
         test.hasChildNodes = true;
 
@@ -308,13 +311,13 @@ public class ExtentTest {
         }
         
         // add all categories to parent-test
-        for (TestAttribute attr : node.getTest().getCategoryList()) {
+        for (TestAttribute attr : node.getInternalTest().getCategoryList()) {
             if (!list.contains(attr.getName())) {
                 this.test.setCategory(attr);
             }
         }
 
-        test.setNode(node.getTest());
+        test.setNode(node.getInternalTest());
                 
         return this;
     }
@@ -332,16 +335,27 @@ public class ExtentTest {
     
     /**
      * <p>
+     * Returns the interface that exposes some important methods of the underlying test
+     * 
+     * @return 
+     * 		A {@link ITest} object
+     */
+    public ITest getTest() {
+    	return test;
+    }
+    
+    /**
+     * <p>
      * Returns the underlying test which controls the internal model
      * 
      * <p>
-     * This allows manipulating the test instance by accessing the internal methods 
+     * Allows manipulating the test instance by accessing the internal methods 
      * and properties of the test
      * 
      * @return 
      * 		A {@link Test} object
      */
-    public Test getTest() {        
+    Test getInternalTest() {        
         return test;
     }
     
