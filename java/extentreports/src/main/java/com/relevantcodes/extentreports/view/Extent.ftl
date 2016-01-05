@@ -1,7 +1,7 @@
 <#assign dateFormat = report.configurationMap["dateFormat"]>
 <#assign timeFormat = report.configurationMap["timeFormat"]>
 <#assign dateTimeFormat = report.configurationMap["dateFormat"] + " " + report.configurationMap["timeFormat"]>
-        
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,9 +30,8 @@
         
         <link href='${protocol}://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css' type='text/css' rel='stylesheet'>
         <link href='${protocol}://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/f2c48481b01fcb263b28d7b037c993e354c1fd1c/cdn/extent.css' type='text/css' rel='stylesheet' />        
-        
-        
+        <link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/3792d0fdb706caa24ce479cbf0a5996e8c168805/cdn/extent.css' type='text/css' rel='stylesheet' />
+       
         <style>
             <#if report.configurationMap??>
                 ${report.configurationMap["styles"]}
@@ -67,7 +66,7 @@
                     <span class='suite-started-time'>${.now?datetime?string(dateTimeFormat)}</span>
                 </li>
                 <li>
-                    <span>v2.40.1</span>
+                    <span>v2.40.1-beta-3</span>
                 </li>
             </ul>
         </nav>
@@ -213,7 +212,7 @@
                 <div class='col _addedCell1'>
                     <div class='contents'>
                         <div class='card-panel heading'>
-                            <h5>Tests</h5>
+                            <h5>${resourceBundle.getString("tests.heading")}</h5>
                         </div>
                         <div class='card-panel filters'>
                             <div>
@@ -235,7 +234,7 @@
                                         <li class='unknown'><a href='#!'>Unknown</a></li>
                                     </#if>    
                                     <li class='divider'></li>
-                                    <li class='clear'><a href='#!'>Clear Filters</a></li>
+                                    <li class='clear'><a href='#!'>${resourceBundle.getString("tests.filters.clearFilters")}</a></li>
                                 </ul>
                             </div>
                             <#if report.categoryTestMap?? && report.categoryTestMap?size != 0>
@@ -518,6 +517,9 @@
                                                 <div class='exception-head'>
                                                     <span class='exception-name'>${exception}</span>
                                                 </div>
+                                                <div class='exception-test-count'>
+                                                    <span class='fail label'>${testList?size}</span>
+                                                </div>
                                                 <div class='exception-body'>
                                                     <div class='exception-tests'>
                                                         <table class='bordered'>
@@ -525,7 +527,6 @@
                                                                 <tr>
                                                                     <th>${resourceBundle.getString("exceptions.th.runDate")}</th>
                                                                     <th>${resourceBundle.getString("exceptions.th.testName")}</th>
-                                                                    <th>${resourceBundle.getString("exceptions.th.status")}</th>
                                                                     <th>${resourceBundle.getString("exceptions.th.exception")}</th>
                                                                 </tr>
                                                             </thead>
@@ -534,7 +535,6 @@
                                                                     <tr class='${test.status}'>
                                                                         <td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
                                                                         <td><span class='category-link linked'>${test.name}</span></td>
-                                                                        <td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
                                                                         <td><div class='exception-message'>${test.lastExceptionMessage}</div></td>
                                                                     </tr>
                                                                 </#list>
@@ -632,12 +632,12 @@
         <!-- /filter for step status -->
         
         <script src='${protocol}://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
-        <script src="${protocol}://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="${protocol}://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
         <script src='${protocol}://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js'></script>
         <script src='${protocol}://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='${protocol}://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/f2c48481b01fcb263b28d7b037c993e354c1fd1c/cdn/extent.js' type='text/javascript'></script>
-        
+        <script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/3792d0fdb706caa24ce479cbf0a5996e8c168805/cdn/extent.js' type='text/javascript'></script>
+
         <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
         <script>
             <#if report.configurationMap??>
