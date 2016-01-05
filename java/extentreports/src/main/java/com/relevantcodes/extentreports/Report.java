@@ -27,6 +27,7 @@ import com.relevantcodes.extentreports.model.SuiteTimeInfo;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
+import com.relevantcodes.extentreports.utils.ExceptionUtil;
 
 // Report abstract
 abstract class Report extends LogSettings {
@@ -39,7 +40,7 @@ abstract class Report extends LogSettings {
 	 * when the {@link ExtentReports} initializes, and overridden when user provides
 	 * their own configuration using <code>loadConfig(args)</code>. 
 	 */
-	private final String extentConfigFile = "extent-config.xml";
+	private final String CONFIG_FILE = "extent-config.xml";
 	
     private String filePath;
     private DisplayOrder displayOrder;
@@ -54,6 +55,7 @@ abstract class Report extends LogSettings {
     private UUID reportId;
     private Boolean terminated = false;
     private Map<String, List<Test>> categoryTestMap;
+    private Map<String, List<Test>> exceptionTestMap;
     private Map<String, String> configurationMap;
     private Map<String, String> defaultConfiguration;
     private Locale locale = Locale.ENGLISH;
@@ -89,6 +91,10 @@ abstract class Report extends LogSettings {
     
     protected Map<String, List<Test>> getCategoryTestMap() {
     	return categoryTestMap;
+    }
+    
+    protected Map<String, List<Test>> getExceptionTestMap() {
+    	return exceptionTestMap;
     }
     
     protected SystemInfo getSystemInfo() {
@@ -135,6 +141,14 @@ abstract class Report extends LogSettings {
         	}
         }
         
+        List<Throwable> tList = test.getExceptionList();
+        
+        if (tList != null) { 
+        	for (Throwable t : tList) {
+        		setCauseTest(t, test);
+        	}
+        }
+        
         test.prepareFinalize();
         
         this.test = test;
@@ -148,7 +162,21 @@ abstract class Report extends LogSettings {
         updateReportStartedTime(test);
     }
     
-    protected void updateTestStatusList(Test test) {
+    private void setCauseTest(Throwable t, Test test) {
+    	String ex = ExceptionUtil.getExceptionHeadline(t);
+    	
+    	if (!exceptionTestMap.containsKey(ex)) {
+    		List<Test> testList = new ArrayList<Test>();
+    		testList.add(test);
+    		
+    		exceptionTestMap.put(ex, testList);
+    	}
+    	else {
+    		exceptionTestMap.get(ex).add(test);
+    	}
+    }
+    
+    private void updateTestStatusList(Test test) {
         Boolean toAdd = false;
 
     	toAdd = test.getStatus() == LogStatus.FATAL || test.getStatus() == LogStatus.ERROR || test.getStatus() == LogStatus.WARNING || test.getStatus() == LogStatus.UNKNOWN
@@ -180,7 +208,7 @@ abstract class Report extends LogSettings {
     
     protected void terminate() {
     	for (ExtentTest extentTest : testList) {
-    		Test test = extentTest.getTest();
+    		Test test = extentTest.getInternalTest();
     		
     		if (!test.hasEnded) {
     			ExtentTestInterruptedException e = new ExtentTestInterruptedException(INTERNAL_WARNING);
@@ -218,7 +246,7 @@ abstract class Report extends LogSettings {
         }
     	
     	for (ExtentTest test : getTestList()) { 
-    		updateTestStatusList(test.getTest());
+    		updateTestStatusList(test.getInternalTest());
     	}
     	
         for (IReporter reporter : reporters) {
@@ -273,7 +301,7 @@ abstract class Report extends LogSettings {
         testRunnerLogList.add(logs);
     }
     
-    protected Test getTest() {
+    protected Test getCurrentTest() {
         return test;
     }
     
@@ -345,12 +373,13 @@ abstract class Report extends LogSettings {
         		.getName()
         		.replace(".", "/")
         			+ "/resources/"
-        			+ extentConfigFile;
+        			+ CONFIG_FILE;
 
     	URL url = getClass().getClassLoader().getResource(resourceFile);
     	defaultConfiguration = loadConfig(new Configuration(url));
     	
     	categoryTestMap = new TreeMap<String, List<Test>>();
+    	exceptionTestMap = new TreeMap<String, List<Test>>();
     	systemInfo = new SystemInfo();
         suiteTimeInfo = new SuiteTimeInfo();
         testRunnerLogList = new ArrayList<String>();

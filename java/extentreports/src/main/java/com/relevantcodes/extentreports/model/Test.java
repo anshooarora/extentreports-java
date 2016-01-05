@@ -19,8 +19,9 @@ import java.util.UUID;
 import com.relevantcodes.extentreports.LogCounts;
 import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
+import com.relevantcodes.extentreports.utils.ExceptionUtil;
 
-public class Test {
+public class Test implements ITest {
     /**
      * Attribute to mark the test as a child node<br>
      * Top-most test will always have this attribute as false<br>
@@ -48,9 +49,11 @@ public class Test {
     // parent test contains all categories from child tests
     private List<TestAttribute> categoryList;
     
-    // not yet implemented
     // assign author(s) of the test
     private List<TestAttribute> authorsList;
+    
+    // list of exceptions occurred for the test
+    private List<Throwable> exceptionList;
     
     // logs
     private List<Log> logList;
@@ -264,6 +267,23 @@ public class Test {
         return authorsList;
     }
     
+    // exceptions
+    public void setException(Throwable t) {
+    	if (exceptionList == null) {
+    		exceptionList = new ArrayList<Throwable>();
+    	}
+    	
+    	exceptionList.add(t);
+    }
+    
+    public List<Throwable> getExceptionList() {
+    	return exceptionList;
+    }
+    
+    public String getLastExceptionMessage() {
+    	return ExceptionUtil.getStackTrace(exceptionList.get(exceptionList.size() - 1));
+    }
+    
     // logs
     public void setLog(List<Log> logList) {
         this.logList = logList;
@@ -314,6 +334,11 @@ public class Test {
     }
     
     // nodes
+    @Override
+	public void hasChildNodes(boolean val) {
+		hasChildNodes = val;
+	}
+    
     public void setNodeList(List<Test> nodeList) {
         this.nodeList = nodeList;
         updateTestStatusRecursively(this); 

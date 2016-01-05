@@ -1,13 +1,18 @@
+<#assign dateFormat = report.configurationMap["dateFormat"]>
+<#assign timeFormat = report.configurationMap["timeFormat"]>
+<#assign dateTimeFormat = report.configurationMap["dateFormat"] + " " + report.configurationMap["timeFormat"]>
+
 <!DOCTYPE html>
 <html>
     <head>
         <!--
-            ExtentReports Library 2.40.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
-            Copyright (c) 2015, Anshoo Arora (Relevant Codes) | Copyrights licensed under the New BSD License | http://opensource.org/licenses/BSD-3-Clause
-            Documentation: http://extentreports.relevantcodes.com 
+            ExtentReports ${resourceBundle.getString("head.library")} 2.40.1 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+            Copyright (c) 2015, Anshoo Arora (Relevant Codes) | ${resourceBundle.getString("head.copyrights")} | http://opensource.org/licenses/BSD-3-Clause
+            ${resourceBundle.getString("head.documentation")}: http://extentreports.relevantcodes.com 
         -->
+
         <meta http-equiv='content-type' content='text/html; charset=<#if report.configurationMap??>${report.configurationMap["encoding"]}<#else>UTF-8</#if>' /> 
-        <meta name='description' content='ExtentReports (by Anshoo Arora) is a reporting library for automation testing for .NET and Java. It creates detailed and beautiful HTML reports for modern browsers. ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.' />
+        <meta name='description' content='${resourceBundle.getString("head.metaDescription")}' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         
@@ -33,22 +38,23 @@
                     <a class='logo-content' href='http://extentreports.relevantcodes.com'><span>ExtentReports</span></a>
                     <a class='menu-toggle right'><i class='fa fa-bars fa-2'></i></a>
                 </li> 
-                <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='fa fa-tasks'></i>Test Details</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='fa fa-tags'></i>Categories</a></li>
-                <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='fa fa-dashboard'></i></i>Dashboard</a></li>                
-                <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='fa fa-file-text-o'></i>TestRunner Logs</a></li>
+                <li class='analysis waves-effect active'><a href='#!' class='test-view'><i class='fa fa-tasks'></i>${resourceBundle.getString("nav.menu.testDetails")}</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='categories-view'><i class='fa fa-tags'></i>${resourceBundle.getString("nav.menu.categories")}</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='exceptions-view'><i class='fa fa-bug'></i>${resourceBundle.getString("nav.menu.exceptions")}</a></li>
+                <li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='fa fa-dashboard'></i></i>${resourceBundle.getString("nav.menu.analysis")}</a></li>                
+                <li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='fa fa-file-text-o'></i>${resourceBundle.getString("nav.menu.testRunnerLogs")}</a></li>
             </ul>
             <a href='#' data-activates='slide-out' class='button-collapse'><i class='fa fa-bars fa-3x'></i></a>
             <span class='report-name'><#if report.configurationMap??>${report.configurationMap["reportName"]}</#if></span> <span class='report-headline'><#if report.configurationMap??>${report.configurationMap["reportHeadline"]}</#if></span>
             <ul class='right hide-on-med-and-down nav-right'>
-                <li class='theme-selector' alt='Click to toggle dark theme. To enable by default, use js configuration $(".theme-selector").click();' title='Click to toggle dark theme. To enable by default, use js configuration $(".theme-selector").click();'>
+                <li class='theme-selector' alt='${resourceBundle.getString("nav.menuright.themeSelectorMessage")}' title='${resourceBundle.getString("nav.menuright.themeSelectorMessage")}'>
                     <i class='fa fa-desktop'></i>
                 </li>
                 <li>
                     <span class='suite-started-time'>${.now?datetime?string("yyyy-MM-dd HH:mm:ss")}</span>
                 </li>
                 <li>
-                    <span>v2.40.0</span>
+                    <span>v2.40.1</span>
                 </li>
             </ul>
         </nav>
@@ -466,6 +472,71 @@
                 </div>
             </div>
             <!-- /categories -->
+            
+            <!-- exceptions -->
+            <#if report.exceptionTestMap?? && (report.exceptionTestMap?size > 0)>
+                <div id='exceptions-view' class='row hide'>
+                    <div class='col s5'>
+                        <div class='card-panel heading'>
+                            <h5>${resourceBundle.getString("exceptions.heading")}</h5>
+                        </div>
+                        <div class='card-panel filters'>
+                            <div class='search' alt='Search tests' title='Search tests'>
+                                <div class='input-field left'>
+                                    <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
+                                </div>
+                                <i class='fa fa-search icon'></i>
+                            </div>
+                        </div>
+                        <div class='card-panel no-padding-h no-padding-v vh100'>
+                            <div class='wrapper'>
+                                <ul id='exception-collection' class='exception-collection'>
+                                    <#list report.exceptionTestMap?keys as exception>
+                                        <#assign testList = report.exceptionTestMap[exception]>
+                                        <li class='exception-item displayed'>
+                                            <div class='exception-head'>
+                                                <span class='exception-name'>${exception}</span>
+                                            </div>
+                                            <div class='exception-body'>
+                                                <div class='exception-tests'>
+                                                    <table class='bordered'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>${resourceBundle.getString("exceptions.th.runDate")}</th>
+                                                                <th>${resourceBundle.getString("exceptions.th.testName")}</th>
+                                                                <th>${resourceBundle.getString("exceptions.th.status")}</th>
+                                                                <th>${resourceBundle.getString("exceptions.th.exception")}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <#list testList as test>
+                                                                <tr class='${test.status}'>
+                                                                    <td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
+                                                                    <td><span class='category-link linked'>${test.name}</span></td>
+                                                                    <td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
+                                                                    <td><div class='exception-message'>${test.lastExceptionMessage}</div></td>
+                                                                </tr>
+                                                            </#list>
+                                                        <tbody>
+                                                    </table>
+                                                </div>
+                                            </div> 
+                                        </li>
+                                    </#list>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id='exception-details-wrapper' class='col s7'>
+                        <div class='card-panel vh100 details-view pin'>
+                            <h5 class='exception-name'></h5>
+                            <div class='exception-container'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </#if>
+            <!-- /exceptions -->
             
             <!-- testrunner logs -->
             <div id='testrunner-logs-view' class='row hide'>
