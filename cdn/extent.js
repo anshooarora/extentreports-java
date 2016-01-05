@@ -73,10 +73,12 @@ function _adjustSize(){
     ct.find('._addedCell1 .contents, ._addedCell2 .contents').css({'height':($(window).height() - 65)+'px'});
     
     if (currentBrowserIE == false){
-        ct.find('._addedCell1, ._addedCell2').css({'overflow-y':'auto'});
+        ct.find('._addedCell1').css({'overflow-y':'scroll'});
+        ct.find('._addedCell2').css({'overflow-y':'auto'});
     }
     else {
-        ct.find('._addedCell1 .contents, ._addedCell2 .contents').css({'overflow-y':'auto'});
+        ct.find('._addedCell1 .contents').css({'overflow-y':'scroll'});
+        ct.find('._addedCell2 .contents').css({'overflow-y':'auto'});
     }
     
     if ($(window).width() < 992){

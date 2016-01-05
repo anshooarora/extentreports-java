@@ -246,7 +246,6 @@ img.active {
 }
 ._addedCell2 {
 	float: left;
-	margin-left: 5px;
 }
 .ui-resizable {
 	position: relative;
@@ -356,7 +355,7 @@ nav ul a:hover {
 	padding: 0 0.25rem;
 }
 #dashboard-view .card-panel, #dashboard-view .card {
-	margin: 0.25rem 0;
+	margin: 0 0 0.25rem;
 }
 #test-analysis, #step-analysis {
 	height: 130px;
@@ -447,12 +446,14 @@ nav ul a:hover {
 .cat-head {
 	width: 60%;
 }
-.cat-head, .category-status-counts {
+.cat-head, .category-status-counts, .exception-head, .exception-test-count {
 	display: inline-block;
 }
-#cat-collection .category-status-counts {
+.category-status-counts, .exception-test-count {
 	float: right;
-	margin-top: -5px;
+}
+.category-status-counts {
+    margin-top: -5px;
 }
 .category-status > span {
 	border-radius: 3px;
