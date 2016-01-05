@@ -1,19 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 using RelevantCodes.ExtentReports.Config;
 using RelevantCodes.ExtentReports.Converters;
 using RelevantCodes.ExtentReports.Model;
-using System.Xml.Linq;
 
 namespace RelevantCodes.ExtentReports
 {
     public class ExtentReports : Report
     {
+        /// <summary>
+        /// Initializes Extent HTML report
+        /// </summary>
+        /// 
+        /// <param name="FilePath">Path of the file, in .htm or .html format</param>
+        /// <param name="Culture">Culture for the report, used as CultureInfo.GetCultureInfo("es-ES")</param>
+        /// <param name="Order">
+        /// Determines the order in which your tests will be displayed
+        /// <list type="bullet">
+        ///     <item>
+        ///         <description>OldestFirst (default) - oldest test at the top, newest at the end</description>
+        ///     </item>
+        ///     <item>
+        ///         <description>NewestFirst - newest test at the top, oldest at the end</description>
+        ///     </item>
+        /// </list>
+        /// </param>
+        public ExtentReports(string FilePath, CultureInfo Culture, bool ReplaceExisting = true, DisplayOrder Order = DisplayOrder.OldestFirst)
+        {
+            this.FilePath = FilePath;
+            this.ReplaceExisting = ReplaceExisting;
+            this.DisplayOrder = DisplayOrder;
+            this.Culture = Culture == null 
+                ? CultureInfo.GetCultureInfo("en") 
+                : Culture;
+
+            var xdoc = XDocument.Parse(Properties.Resources.extent_config);
+            LoadConfig(new Configuration(xdoc));
+
+            Attach(new HTMLReporter());
+
+            if (!ReplaceExisting && File.Exists(FilePath))
+            {
+                new TestConverter(this, FilePath).Convert();
+            }
+        }
+
+        /// <summary>
+        /// Initializes Extent HTML report
+        /// </summary>
+        /// 
+        /// <param name="FilePath">Path of the file, in .htm or .html format</param>
+        /// <param name="ReplaceExisting">Setting to overwrite (TRUE) the existing file or append (FALSE) to it</param>
+        /// <param name="Order">
+        /// Determines the order in which your tests will be displayed
+        /// <list type="bullet">
+        ///     <item>
+        ///         <description>OldestFirst (default) - oldest test at the top, newest at the end</description>
+        ///     </item>
+        ///     <item>
+        ///         <description>NewestFirst - newest test at the top, oldest at the end</description>
+        ///     </item>
+        /// </list>
+        /// </param>
+        public ExtentReports(string FilePath, bool ReplaceExisting = true, DisplayOrder Order = DisplayOrder.OldestFirst) 
+            : this(FilePath, null, ReplaceExisting, Order) 
+        { }
+
         /// <summary>
         /// Initializes Extent HTML report
         /// </summary>
@@ -30,41 +90,9 @@ namespace RelevantCodes.ExtentReports
         ///     </item>
         /// </list>
         /// </param>
-        public ExtentReports(string FilePath, bool ReplaceExisting = true, DisplayOrder Order = DisplayOrder.OldestFirst)
-        {
-            this.FilePath = FilePath;
-            this.ReplaceExisting = ReplaceExisting;
-            this.DisplayOrder = DisplayOrder;
-
-            var xdoc = XDocument.Parse(Properties.Resources.extent_config);
-            LoadConfig(new Configuration(xdoc));
-            
-            Attach(new HTMLReporter());
-
-            if (!ReplaceExisting && File.Exists(FilePath))
-            {
-                new TestConverter(this, FilePath).Convert();
-                //TestList.AddRange(n);
-            }
-        }
-
-        /// <summary>
-        /// Initializes Extent HTML report with the DisplayOrder setting
-        /// </summary>
-        /// 
-        /// <param name="FilePath">Path of the file, in .htm or .html format</param>
-        /// <param name="Order">
-        /// Determines the order in which your tests will be displayed
-        /// <list type="bullet">
-        ///     <item>
-        ///         <description>OldestFirst (default) - oldest test at the top, newest at the end</description>
-        ///     </item>
-        ///     <item>
-        ///         <description>NewestFirst - newest test at the top, oldest at the end</description>
-        ///     </item>
-        /// </list>
-        /// </param>
-        public ExtentReports(string FilePath, DisplayOrder Order = DisplayOrder.OldestFirst) : this(FilePath, true, Order) { }
+        public ExtentReports(string FilePath, DisplayOrder Order)
+            : this(FilePath, null, true, Order)
+        { }
 
         /// <summary>
         /// Allows performing configuration and customization to the HTML report from 
@@ -198,7 +226,10 @@ namespace RelevantCodes.ExtentReports
         /// </summary>
         private void RemoveChildTests()
         {
-            TestList = TestList.Where(x => !x.GetTest().ChildNode).ToList();
+            lock(TestList)
+            { 
+                TestList = TestList.Where(x => !x.GetTest().ChildNode).ToList();
+            }
         }
     }
 }
