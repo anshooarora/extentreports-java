@@ -4,6 +4,8 @@
 body {
 	background: #eceff5;
 	font-size: 13px;
+    height: 100%;
+    overflow: hidden;
 }
 pre {
 	border: 1px solid #ebedef;
@@ -51,9 +53,15 @@ h5 {
 /* -- [ containers ] -- */
 .container {
 	max-width: none;
-	padding-left: 70px;
+	padding-left: 66px;
 	padding-bottom: 100px;
 	width: 98%;
+}
+.container {
+	width: 100%;
+}
+.container .row {
+	margin: 0px;
 }
 .wrapper {
 	background: #fff;
@@ -73,6 +81,9 @@ h5 {
 	border: 2px solid #ddd;
 	left: 7px;
 	margin-top: 4px;
+}
+nav i {
+    display: inline !important;
 }
 .select-wrapper input.select-dropdown, .input-field label {
 	font-size: 0.8rem;
@@ -106,9 +117,6 @@ h5 {
 }
 :-ms-input-placeholder {  
    color: #9f9f9f;
-}
-.vh100 {
-	height: 100vh;
 }
 .capitalize {
 	text-transform: capitalize !important;
@@ -216,12 +224,53 @@ img.active {
 	color: #4CAEFF;
 }
 
-/* -- [ top-nav ] -- */
-nav, .side-nav {
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+/* -- [ fixed containers ] -- */
+._addedTable {
+	width: 100%;
+	display: table;
+	overflow: hidden;
 }
+._addedCell1, ._addedCell2 {
+	display: block;
+	background-color: #FFFFFF;
+}
+._addedCell1 {
+	float: left;
+	min-width: 10%;
+	max-width: 80%;
+	width: 30%;
+	margin: 0px 0px 0px 5px;
+	resize: horizontal;
+	background-color: white;
+	vertical-align: top;
+}
+._addedCell2 {
+	float: left;
+	margin-left: 5px;
+}
+.ui-resizable {
+	position: relative;
+}
+.ui-resizable-handle {
+	position: absolute;
+	font-size: 0.1px;
+	display: block;
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.ui-resizable-e {
+	cursor: col-resize;
+	width: 7px;
+	right: -5px;
+	top: 0;
+	height: 100%;
+}
+.fixed {
+    overflow: hidden;
+}
+
+/* -- [ top-nav ] -- */
 nav {
-	margin-bottom: 6px;
 	padding-left: 70px;
 }
 nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i, .logo a, nav label {
@@ -230,8 +279,16 @@ nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i, .logo a
 	height: 48px;
 	line-height: 46px;
 }
+nav i {
+    font-size: 12px !important;
+    height: 46px !important;
+    line-height: 46px !important;
+}
 nav ul li:hover {
 	background: none;
+}
+nav ul a:hover {
+    background: transparent;
 }
 .nav-right {
 	margin-right: 35px;
@@ -247,14 +304,27 @@ nav ul li:hover {
 }
 .report-name {
 	display: inline-block;
-	padding-left: 25px;
+	padding-left: 72px;
 }
+    /* -- [ logo ] -- */
+    .logo-container {
+        z-index:2000; 
+        width:120px; 
+        position:absolute; 
+        top:0px; left:0px; 
+        text-align:center; 
+        background-color:#039be5!important; 
+        height: 48px; 
+        padding: 0!important;
+    }
+
 
 /* -- [ side-nav ] -- */
 .side-nav {
-	background: #fff;
+	background: #f3f3f3;
 	transition-duration: .25s;
-	width: 70px;
+	top: 48px; 
+    width: 70px;
 }
 .side-nav.active {
 	width: 240px;
@@ -268,27 +338,17 @@ nav ul li:hover {
 	font-size: 13px !important;
 }
 .analysis i {
+    line-height: 64px !important;
 	padding-right: 15px;
 }
 .side-nav .menu-toggle {
     background: #0fb5ff;
-}
-.logo {
-	background: #02A8F3 !important;
-	height: 48px;
-	padding: 0 !important;
 }
 .side-nav.fixed .logo-content {
 	display: none;
 }
 .side-nav.active .logo-content {
 	display: inline-block;
-}
-.logo a {
-	color: #fff !important;
-}
-.menu-toggle > i {
-	font-size: 2.8rem !important;
 }
 
 /* -- [ dashboard ] -- */
@@ -356,6 +416,33 @@ nav ul li:hover {
 	text-transform: capitalize;
 }
 
+/* -- [ collections ] -- */
+#test-collection, #cat-collection, #exception-collection {
+	margin: 0;
+}
+.test-collection {
+	margin-bottom: 0;
+	position: relative;
+}
+.test-collection li, .cat-collection li, .exception-collection li {
+	border-bottom: 1px solid #eee;
+	padding: 10px 10px 10px 30px;
+}
+.cat-collection li {
+	padding-right: 20px;
+}
+
+/* -- [ view headings ] -- */
+.heading {
+	border-bottom: 1px solid #eee;
+}
+.heading h5 {
+	color: #555;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
 /* -- [ categories-view ] -- */
 .cat-head {
 	width: 60%;
@@ -393,31 +480,9 @@ nav ul li:hover {
     background: #0277d4;
 }
 
-/* -- [ collections ] -- */
-#test-collection, #cat-collection {
-	margin: 0;
-}
-.test-collection {
-	margin-bottom: 0;
-	position: relative;
-}
-.test-collection li, .cat-collection li {
-	border-bottom: 1px solid #eee;
-	padding: 10px 10px 10px 30px;
-}
-.cat-collection li {
-	padding-right: 20px;
-}
-
-/* -- [ view headings ] -- */
-.heading {
-	border-bottom: 1px solid #eee;
-}
-.heading h5 {
-	color: #555;
-	font-size: 15px;
-	font-weight: 600;
-	text-transform: uppercase;
+/* -- [ exceptions-view ] -- */
+.exception-name {
+    margin-bottom: 40px;
 }
 
 /* -- [ filters ] -- */
@@ -454,11 +519,11 @@ nav ul li:hover {
 #dashboard-view:not(.hide) + #test-view {
 	margin-top: -15px;
 }
-.test.active, .category-item.active {
+.test.active, .category-item.active, .exception-item.active {
 	background: #f7f7f7;
 	font-weight: 500;
 }
-.test .test-body, .cat-collection .cat-body {
+.test .test-body, .cat-collection .cat-body, .exception-collection .exception-body {
 	display: none;
 }
 .test-info {
@@ -599,15 +664,6 @@ nav ul li:hover {
 		background: #fff none repeat scroll 0 0;
 		margin: 0 -20px;
 		padding: 0 20px 75px;
-	}
-	.details-view {
-		position: absolute;
-	}
-	.pin {
-		height: 100%;
-		right: 5px;
-		overflow-y: auto;
-		width: 56%;
 	}
 
 	/* -- [ test-attributes ] -- */
@@ -858,19 +914,6 @@ nav ul li:hover {
 	}
 	
 /* -- [ media queries ] -- */
-@media all and (min-width: 2299px) { .pin { width: 56.10%; } }
-@media all and (max-width: 2000px) { .pin { width: 55.50%; } }
-@media all and (max-width: 1800px) { .pin { width: 55.35%; } }
-@media all and (max-width: 1700px) { .pin { width: 55.15%; } }
-@media all and (max-width: 1600px) { .pin { width: 55.00%; } }
-@media all and (max-width: 1525px) { .pin { width: 54.80%; } }
-@media all and (max-width: 1450px) { .pin { width: 54.65%; } }
-@media all and (max-width: 1401px) { .pin { width: 54.50%; } }
-@media all and (max-width: 1370px) { .pin { width: 54.40%; } }
-@media all and (max-width: 1301px) { .pin { width: 54.25%; } }
-@media all and (max-width: 1230px) { .pin { width: 54.15%; } }
-@media all and (max-width: 1150px) { .pin { width: 53.70%; } }
-@media all and (max-width: 1051px) { .pin { width: 53.55%; } }
 @media all and (max-width: 992px) {
 	nav {
 		padding-left: 1%;
