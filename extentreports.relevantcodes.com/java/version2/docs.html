@@ -77,6 +77,37 @@
 <p>2.40.0</p>			
 
 <h2 id='whats-new'>What's new in 2.40.1</h2>
+
+<h4>2.40.1 Beta 4</h4>
+<pre><code class='xml'>
+&lt;dependency>
+    &lt;groupId&gt;com.relevantcodes&lt;/groupId&gt;
+    &lt;artifactId&gt;extentreports&lt;/artifactId&gt;
+    &lt;version&gt;2.40.1-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>Version 2.40.1-beta4 launched on 01/11/2016. Here is what's new:</p>
+<ul>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/253'>#253</a>) Adds an overall time taken field in the dashboard view to show total time by all tests if <code>replaceExisting = false</code></li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/259'>#259</a>) Fixes java.sql.SQLException while writing result to DB due to duplicate test-ids</li>
+    <li>Several updates to UI and improvements to full-size container view</li>
+</ul>
+
+<h4>2.40.1 Beta 3</h4>
+<p>Version 2.40.1-beta3 launched on 01/05/2016. Here is what's new:</p>
+<ul>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/149'>#149</a>) UX updates - containers are now resizable</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/150'>#150</a>) Exception View - This view is automatically created if an error is logged using the following logs:
+<pre><code class='java'>
+log(LogStatus logStatus, Throwable t);
+log(LogStatus logStatus, String stepName, Throwable t);
+</code></pre>
+    <img class='bordered-img center' src='img/exception-view.png' />
+    </li>
+</ul>
+
+<h4>2.40.1 Beta 2</h4>
 <p>Version 2.40.1-beta2 launched on 12/28/2015. Here is what's new:</p>
 <ul>
     <li>(<a href='https://github.com/anshooarora/extentreports/issues/144'>#144</a>) Fixed issue causing wrong start time appearing in dashboard for reported creating using TestNG listener</li>
@@ -99,7 +130,9 @@ ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrde
 ExtentReports("file-path", new Locale("es"));
 </code></pre>
     </li>
-     
+</ul>
+<h4>2.40.1 Beta 1</h4>
+<ul>
 	<li>All configuration and customization will be performed using an external file using the below methods. See <a href='#configuration'>Configuration</a> section for more details.
 <pre><code class='java'>
 loadConfig(File configFile);
@@ -675,8 +708,16 @@ public class ExtentManager {
 <h2 id='localized-versions'>Localized Versions</h2>
 <p>Extent currently supports the following localized versions of the document:</p>
 <ul>
-    <li>English ("en")</li>
-    <li>Spanish ("es")</li>
+    <li>English ("en") [default]
+<pre><code class='java'>
+new Locale("en-US");
+</code></pre>
+    </li>
+    <li>Spanish ("es")
+<pre><code class='java'>
+new Locale("es-ES");
+</code></pre>
+    </li>
 </ul>
 
 <h2 id='configuration'>Configuration</h2>

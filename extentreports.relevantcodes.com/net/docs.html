@@ -62,9 +62,23 @@
 <p>2.40.0</p>			
 
 <h2 id='whats-new'>What's new in 2.40.1</h2>
+<h4>2.40.1 Beta 3</h4>
+<p>Version 2.40.1-beta3 launched on 01/05/2016. Here is what's new:</p>
+<ul>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/149'>#149</a>) UX updates - containers are now resizable</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/241'>#241</a>) Fixed issue when running tests in parallel: System.InvalidOperationException : Collection was modified; enumeration operation may not execute</li>
+    <li>(<a href='https://github.com/anshooarora/extentreports/issues/150'>#150</a>) Exception View - This view is automatically created if an error is logged using the following logs:
+<pre><code class='java'>
+log(LogStatus status, Exception ex);
+log(LogStatus status, string stepName, Exception ex);
+</code></pre>
+    <img class='bordered-img center' src='img/exception-view.png' />
+    </li>
+</ul>
+
+<h4>2.40.1 Beta 2</h4>
 <p>Version 2.40.1-beta2 launched on 12/28/2015. Here is what's new:</p>
 <ul>
-    <li>(<a href='https://github.com/anshooarora/extentreports/issues/144'>#144</a>) Fixed issue causing wrong start time appearing in dashboard for reported creating using TestNG listener</li>
     <li>(<a href='https://github.com/anshooarora/extentreports/issues/164'>#164</a>) Performance improvements for filters</li>
     <li>(<a href='https://github.com/anshooarora/extentreports/issues/188'>#188</a>) Allow adding HTML to test description</li>
     <li>(<a href='https://github.com/anshooarora/extentreports/issues/189'>#189</a>) Categories will be sorted alphabetically</li>
@@ -85,7 +99,10 @@ ExtentReports(FilePath, ReplaceExisting = true, DisplayOrder Order = DisplayOrde
 Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-ES");
 </code></pre>
     </li>
-    
+</ul>
+
+<h4>2.40.1 Beta 1</h4>
+<ul>
 	<li>All configuration and customization will be performed using an external file using the below methods. See <a href='#configuration'>Configuration</a> section for more details.
 <pre><code class='java'>
 LoadConfig(string FilePath);
