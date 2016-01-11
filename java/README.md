@@ -1,32 +1,86 @@
-# ExtentReports Library
+### Changelog
 
-ExtentReports (by <a href='http://relevantcodes.com'>Anshoo Arora</a>) is a reporting library for automation testing, written in Java.  It creates detailed and beautiful HTML reports for modern browsers.  ExtentReports shows test and step summary along with dashboards, system and environment details for quick analysis of your tests.
+* 2.40.1 []
+    * (#144) Fixed issue causing wrong start time appearing in dashboard for reported creating using TestNG listener
+    * (#149) UX updates - containers are now resizable
+    * (#150) Exception View - This view is automatically created if an error is logged using the following logs: 
+    * (#164) Performance improvements for filters
+    * (#188) Allow adding HTML to test description
+    * (#189) Categories will be sorted alphabetically
+    * (#190) Template error when user creates logs with and without stepName.
+    * (#191) Update steps-chart when filtering by status & category
+    * (#196) Show child test descriptions
+    * (#215) Ability to specify date and timeformat in extent-config.xml
+    * (#221) Adds localization for Spanish, to specify your locale, use (all unsupported locales default to "en"): 
+    * (#253) Adds an overall time taken field in the dashboard view to show total time by all tests if replaceExisting = false
+    * (#259) Fixes java.sql.SQLException while writing result to DB due to duplicate test-ids
+    
+* 2.40 [11-30-2015]
+    * extent.config() is not deprecated, use loadConfig() instead
+    * 2 new log methods have been now added to accept exception directly and show as a code block in the report:
+        * log(LogStatus logStatus, String stepName, Throwable t);
+        * log(LogStatus logStatus, Throwable t);
+    * Ability to assign authors to test
+    * Search functionality will also find child tests
+    * (#103) Fixed issue with initialization of offline report
+    * Fixed issue with invalid time stamps showing up when used via listener
+    * Fixed issue with filters not selecting the active test
 
-View ExtentReports sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.
+* 2.10 <10-09-2015>
+    * Allows different types of charts for tests:
+        * Parent tests only
+        * Parent tests without child tests + child tests
+        * Child tests only
+    * Possible to create a database file for your runs and store all your run data to it. It is recommended to use a single database file for all your runs. To start the DB reporter, use:
+       * extent.startReporter(ReporterType.DB, "path-to-db-file");
+        
+* 2.05 <09-02-2015>
+    * (#39) Standalone/Offline ExtentReports - allows viewing Extent's report offline by saving all resources locally
+    * Added new control to allow quickly open/close test toggles by performing mouseOver on the testName
+    * (#43) LogStatus.INFO overrides LogStatus.SKIP in report
+    * (#54) New feature request - User should have the option to add the Product Logo into extent report 
+    * (#61) Synchronization on methods which modify testList in ExtentReports class
+    * (#63) Micro / Minor (spelling) correction 
+    * (#64) Test View is showing incorrect result. Request to show the Test Case results and Test Steps results separately
+    * (#67) NullPointerException on flush()
+        
+* 2.04 <08-12-2015>
+    * (#29) Hierarchical display of results - any number of child nodes are now allowed
+    * (#41) The category view will now display the number of tests Passed, Failed and Others
+    * (#42) Added support for Cyrillic characters
+    * (#45) In Quick Test Summary, only the headers that have at least 1 event-type will be displayed, all others will be hidden
+    * Added controls to quickly expand and collapse all tests
+    * (#33) Fixed typo in docs
+    * (#36) Fixed issue Filtering on details is broken
+    * (#40) Fixed issues with images not opening for some users        
+        
+* 2.03.1 <07-30-2015>
+    * (#28) Fixed issue Run Info View - "Started At" is picking wrong time
+    * (#32) Using TestNG listener, correct test start and end times will be reported, correct total-time will be reported
+    * Fixed issue with a long test-name going out of bounds
+        
+* 2.03 <07-26-2015>
+    * (#5) Assign categories to tests
+    * (#13) Add total execution time in test report
+    * (#23) Ability to filter by category and test status at the same time
+    * A new method getRunStatus() introduced to provide the current run status of the test
+    * Graphs will change depending upon the filter applied (status, category)
+    * Option to select the steps you want displayed in the steps chart
+    * Time taken by tests will now be displayed by default
+    * Test case name in the summary view will link to the test case in details view. Clicking the test case will take you directly to the test details
+    * RunInfo view shows passed and failed counts along with percentages        
+    * Fixed issues with relative paths not showing up correctly
+    * Fixed issue where a long test name overflows causing timestamp area to shift down
+    * Fixed issue to show Unknown status tests, skipped steps
 
-### Download
-
-Download the jar and view latest details & comments from <a href='http://relevantcodes.com/extentreports-for-selenium/'>this</a> link.
-
-### Snapshots
-
-![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-1.png)
-![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-2.png)
-
-### Usage and Documentation
-
-For most complete and up-to-date documentation, visit <a href='http://extentreports.relevantcodes.com'>this link</a>.
-
-### Software License Agreement (<a href='http://opensource.org/licenses/BSD-3-Clause'>BSD License</a>)
-
-#### Copyright 2015 Anshoo Arora (Relevant Codes)
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-<ol>
-	<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
-	<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
-	<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
-</ol>
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Anshoo Arora or RelevantCodes.com BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+* 2.02 <07-14-2015>
+    * It is possible to assign categories to test using assignCategory()
+    * Option to select the steps to view in the Steps-View dashboard
+    * Time taken by the test will be displayed
+    * RunInfo view will show passed and failed counts along with percentages
+    * Long test names will no longer overflow to hide the description and the time
+    * Unknown status tests will now show in the tests dashboard
+    * Skipped steps will now show in the steps dashboard
+        
+* 2.01 <06-29-2015>
+    * Initial
