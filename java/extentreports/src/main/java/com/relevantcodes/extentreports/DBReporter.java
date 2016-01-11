@@ -45,8 +45,7 @@ class DBReporter extends LogSettings implements IReporter {
                             "ReportIDExtent TEXT NOT NULL, " +
                             "StartMillis TIME NOT NULL, " +
                             "EndMillis TIME NOT NULL, " +
-                            "ReportStatus TEXT NOT NULL, " +
-                            "PRIMARY KEY (ReportIDExtent)" +
+                            "ReportStatus TEXT NOT NULL" +
                         ")";
     private final String INSERT_REPORT = "INSERT INTO Report " +
                         "( " +
@@ -95,8 +94,7 @@ class DBReporter extends LogSettings implements IReporter {
                             "StepsInfo INTEGER NOT NULL, " + 
                             "StepsSkip INTEGER NOT NULL, " + 
                             "StepsUnknown INTEGER NOT NULL, " + 
-                            "ChildNodesCount INTEGER, " +
-                            "PRIMARY KEY (TestIDExtent)" +
+                            "ChildNodesCount INTEGER" +
                         ")";
     private final String INSERT_TEST = "INSERT INTO Test " +
                         "( " +
