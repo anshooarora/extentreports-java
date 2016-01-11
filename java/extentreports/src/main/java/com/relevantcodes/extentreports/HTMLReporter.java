@@ -241,6 +241,10 @@ public class HTMLReporter extends LogSettings implements IReporter {
     	return report.getRunDuration();
     }
     
+    public String getRunDurationOverall() {
+        return report.getRunDurationOverall();
+    }
+    
     public List<String> getTestRunnerLogList() {
         return report.getTestRunnerLogList();
     }

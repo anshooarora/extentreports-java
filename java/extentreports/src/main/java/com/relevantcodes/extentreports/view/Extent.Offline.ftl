@@ -82,10 +82,16 @@
                             <span class='total-steps'> <span class='panel-lead'></span> </span> 
                         </div> 
                     </div>
-                    <div class='col l4 m4 s12'>
-                        <div class='card suite-total-steps'> 
-                            <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.totalTimeTaken")}</span> 
-                            <span class='suite-total-time-taken panel-lead'>${report.getRunDuration()}</span> 
+                    <div class='col l2 m4 s12'>
+                        <div class='card suite-total-time-current'> 
+                            <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.totalTimeTaken.current")}</span> 
+                            <span class='suite-total-time-current-value panel-lead'>${report.getRunDuration()}</span> 
+                        </div> 
+                    </div>
+                    <div class='col l2 m4 s12'>
+                        <div class='card suite-total-time-overall'> 
+                            <span class='panel-name'>${resourceBundle.getString("dashboard.panel.name.totalTimeTaken.overall")}</span> 
+                            <span class='suite-total-time-overall-value panel-lead'>${report.getRunDurationOverall()}</span> 
                         </div> 
                     </div>
                     <div class='col l2 m6 s6 suite-start-time'>

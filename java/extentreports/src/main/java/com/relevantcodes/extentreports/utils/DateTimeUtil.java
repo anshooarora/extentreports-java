@@ -66,6 +66,10 @@ public class DateTimeUtil {
         long hours = mins / 60;
         mins = mins % 60;
 
-        return hours + "h " + mins + "m " + secs + "s+" + millis + "ms";
+        return getHMS(hours, mins, secs, millis);
+    }
+    
+    public static String getHMS(long hours, long mins, long secs, long ms) {
+    	return hours + "h " + mins + "m " + secs + "s+" + ms + "ms";    	
     }
 }

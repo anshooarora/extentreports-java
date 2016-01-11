@@ -82,6 +82,8 @@ public class ExtentReports extends Report {
         	if (file.exists()) {
         		TestConverter converter = new TestConverter(this, file);
         		converter.createTestList();
+        		
+        		convertUpdateLastRunDuration();
         	}
         }
     }

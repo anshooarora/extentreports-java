@@ -20,9 +20,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.relevantcodes.extentreports.converters.TimeConverter;
 import com.relevantcodes.extentreports.model.SuiteTimeInfo;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
@@ -48,6 +50,8 @@ abstract class Report extends LogSettings {
     private Boolean replaceExisting;
     private LogStatus reportStatus = LogStatus.UNKNOWN;    
     private Date startedTime;
+    private long totalDurationPastRun = 0; // millis
+    private String lastRunDuration;
     private List<String> testRunnerLogList;
     private List<LogStatus> logStatusList;
     private List<IReporter> reporters;
@@ -78,7 +82,32 @@ abstract class Report extends LogSettings {
     }
     
     protected String getRunDuration() {
-    	return DateTimeUtil.getDiff(Calendar.getInstance().getTime(), startedTime);
+    	lastRunDuration = DateTimeUtil.getDiff(Calendar.getInstance().getTime(), startedTime);
+    	return lastRunDuration;
+    }
+    
+    protected String getRunDurationOverall() {
+    	if (totalDurationPastRun == 0) {
+    		if (lastRunDuration == null) {
+    			getRunDuration();
+    		}
+    		
+    		return lastRunDuration;
+    	}
+    	
+    	long millis = (Calendar.getInstance().getTime().getTime() - startedTime.getTime());
+    	millis += totalDurationPastRun;
+    	
+    	long hours = TimeUnit.MILLISECONDS.toHours(millis);
+    	long mins = TimeUnit.MILLISECONDS.toMinutes(millis);
+    	long secs = TimeUnit.MILLISECONDS.toSeconds(millis);
+    	millis -= secs * 1000;
+    	
+    	return DateTimeUtil.getHMS(hours, mins, secs, millis);
+    }
+    
+    protected void convertUpdateLastRunDuration() {
+    	totalDurationPastRun = new TimeConverter(filePath).getLastRunDurationMillis();
     }
     
     protected List<String> getTestRunnerLogList() {

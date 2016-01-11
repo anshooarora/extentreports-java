@@ -30,8 +30,8 @@
         
         <link href='${protocol}://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css' type='text/css' rel='stylesheet'>
         <link href='${protocol}://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <!--<link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/3792d0fdb706caa24ce479cbf0a5996e8c168805/cdn/extent.css' type='text/css' rel='stylesheet' />-->
-        <link href='file:///c:/Users/Anshoo/git/extentreports/cdn/extent.css' type='text/css' rel='stylesheet' />
+        <link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/aac91b51dac7509a363ea8f5fb812ed8e47eb636/cdn/extent.css' type='text/css' rel='stylesheet' />
+
         <style>
             <#if report.configurationMap??>
                 ${report.configurationMap["styles"]}
@@ -652,8 +652,7 @@
         <script src='${protocol}://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js'></script>
         <script src='${protocol}://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
         <script src='${protocol}://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <!--<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/3792d0fdb706caa24ce479cbf0a5996e8c168805/cdn/extent.js' type='text/javascript'></script>-->
-        <script src='file:///C:/Users/Anshoo/git/extentreports/cdn/extent.js'></script>
+        <script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/aac91b51dac7509a363ea8f5fb812ed8e47eb636/cdn/extent.js' type='text/javascript'></script>
 
         <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
         <script>
