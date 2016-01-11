@@ -331,6 +331,10 @@ nav ul a:hover {
 }
 .side-nav li {
 	display: block;
+    padding: 0;
+}
+.side-nav.fixed a {
+    padding: 0 30px;    
 }
 .side-nav a, .side-nav label, .analysis i {
 	cursor: default;
@@ -338,7 +342,6 @@ nav ul a:hover {
 }
 .analysis i {
     line-height: 64px !important;
-	padding-right: 15px;
 }
 .side-nav .menu-toggle {
     background: #0fb5ff;
@@ -355,7 +358,7 @@ nav ul a:hover {
 	padding: 0 0.25rem;
 }
 #dashboard-view .card-panel, #dashboard-view .card {
-	margin: 0 0 0.25rem;
+	margin: 0 0 0.5rem;
 }
 #test-analysis, #step-analysis {
 	height: 130px;
@@ -449,7 +452,7 @@ nav ul a:hover {
 .cat-head, .category-status-counts, .exception-head, .exception-test-count {
 	display: inline-block;
 }
-.category-status-counts, .exception-test-count {
+#cat-collection .category-status-counts, #exception-collection .exception-test-count {
 	float: right;
 }
 .category-status-counts {
@@ -771,7 +774,7 @@ nav ul a:hover {
 }
 .test-status.label {
 	border: none;
-	margin-right: 15px;
+	margin-right: 5px;
 	padding: 4px 6px !important;
 }
 .label.dot {

@@ -55,7 +55,7 @@ function _updateCurrentStage(n) {
         ct = $('#categories-view');
     }
     if (n == 2){
-            ct = $('#exceptions-view');
+        ct = $('#exceptions-view');
     }
     
     var timer = setTimeout(function() {
@@ -129,12 +129,7 @@ $(document).ready(function() {
 	/* init */
 	$('select').material_select();
 	$('#refreshCharts').addClass('enabled').children('i').addClass('active');
-	
-	/* hide category toggle dropdown if no categories were added */
-	if ($('#category-toggle > li').length <= 2) {
-		$('a.category-toggle').addClass('hide');
-	}
-	
+    
 	/* [WINDOW] */
 	$(window).scroll(function() {
 		var scrollTop = $('.charts').is(':visible') ? 350 : 100;
@@ -148,11 +143,6 @@ $(document).ready(function() {
 		}
 	});
 
-	/* toggle side-nav */
-	$('.menu-toggle').click(function() {
-		$('.side-nav').toggleClass('active');
-	});
-	
 	/* theme selector */
 	$('.theme-selector').click(function() {
 		$('body').toggleClass('dark');
@@ -225,11 +215,6 @@ $(document).ready(function() {
 	   $('#step-status-filter').toggleClass($(this).prop('id').replace('step-dashboard-filter-', ''));
 	});
 	
-	/* hide category menu if no categories exist  */
-	if ($('.category').length == 0) {
-		$('#slide-out > .analysis > .categories-view, .category-summary-view').addClass('hide').css('display', 'none');
-	}
-	
 	/* view category info [CATEGORIES] */
 	$('.category-item').click(function(evt) {
 		$('#cat-collection .category-item').removeClass('active');
@@ -242,10 +227,10 @@ $(document).ready(function() {
 	$('.category-item').eq(0).click();
     
 	/* category filter by status */
-	$('#cat-details-wrapper').click(function(evt) {
+	$('#cat-details-wrapper, #exception-details-wrapper').click(function(evt) {
 		var t = $(evt.target);
-		
-		if (t.is('.category-link')) {
+        
+		if (t.is('.exception-link') || t.is('.category-link')) {
 			var id = t.attr('extentid');
 			findTestByNameId(t.text().trim(), id);
 		}
@@ -428,12 +413,7 @@ $(document).ready(function() {
 	$('#clear-filters').click(function() {
 		resetFilters();
 	});
-
-	/* hide testrunner-logs view if no logs added [TESTRUNNER-LOGS] */
-	if ($('#testrunner-logs-view .card-panel > p').length == 0) {
-		$('.analysis > .testrunner-logs-view').addClass('hide');
-	}
-	
+    
 	resetFilters(function() { $('#dashboard-view').addClass('hide'); });
 });
 
@@ -464,11 +444,7 @@ function findTestByNameId(name, id) {
 		
 		if (t.find('.test-name').text().trim() == name && t.attr('extentid') == id) {
 			$('.analysis > .test-view').click();
-			
-			$('html, body').animate({
-				scrollTop: $('.details-name').offset().top
-			}, 400);
-			
+            
 			t.click();
 			return;
 		}
