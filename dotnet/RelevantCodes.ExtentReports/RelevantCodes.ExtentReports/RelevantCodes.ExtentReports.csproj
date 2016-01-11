@@ -68,6 +68,7 @@
     <Compile Include="ExtentReports.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="HTMLReporter.cs" />
+    <Compile Include="IExtentTestClass.cs" />
     <Compile Include="IReporter.cs" />
     <Compile Include="LogStatus.cs" />
     <Compile Include="Model\Author.cs" />
@@ -89,6 +90,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ExceptionUtil.cs" />
     <Compile Include="Utils\ResourceUtils.cs" />
     <Compile Include="View\Extent.cs" />
     <Compile Include="View\Icon.cs" />

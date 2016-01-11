@@ -216,20 +216,23 @@
   <data name="modal_selection_parentWithoutChildNodes" xml:space="preserve">
     <value>Test padres y test hijos</value>
   </data>
+  <data name="nav_menuright_themeSelectorMessage" xml:space="preserve">
+    <value>Haga clic para cambiar al tema oscuro. Para habilitar de forma predeterminada, utilice la configuración js. $('body').addClass('dark');</value>
+  </data>
   <data name="nav_menu_analysis" xml:space="preserve">
     <value>Análisis</value>
   </data>
   <data name="nav_menu_categories" xml:space="preserve">
     <value>Categorías</value>
   </data>
+  <data name="nav_menu_exceptions" xml:space="preserve">
+    <value>Exceptions</value>
+  </data>
   <data name="nav_menu_testDetails" xml:space="preserve">
     <value>Detalles de tests</value>
   </data>
   <data name="nav_menu_testRunnerLogs" xml:space="preserve">
     <value>Log</value>
-  </data>
-  <data name="nav_menuright_themeSelectorMessage" xml:space="preserve">
-    <value>Haga clic para cambiar al tema oscuro. Para habilitar de forma predeterminada, utilice la configuración js. $('body').addClass('dark');</value>
   </data>
   <data name="status_fail" xml:space="preserve">
     <value>Fallados</value>
@@ -278,5 +281,17 @@
   </data>
   <data name="tests_test_log_th_timestamp" xml:space="preserve">
     <value>Hora</value>
+  </data>
+  <data name="exceptions_heading" xml:space="preserve">
+    <value>Exceptions</value>
+  </data>
+  <data name="exceptions_th_exception" xml:space="preserve">
+    <value>Exception</value>
+  </data>
+  <data name="exceptions_th_runDate" xml:space="preserve">
+    <value>Run Date</value>
+  </data>
+  <data name="exceptions_th_testName" xml:space="preserve">
+    <value>Test Name</value>
   </data>
 </root>

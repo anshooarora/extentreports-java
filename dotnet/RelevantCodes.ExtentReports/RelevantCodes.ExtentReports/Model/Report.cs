@@ -11,6 +11,7 @@ using HtmlAgilityPack;
 
 using RelevantCodes.ExtentReports.Config;
 using RelevantCodes.ExtentReports.Model;
+using RelevantCodes.ExtentReports.Utils;
 
 namespace RelevantCodes.ExtentReports.Model
 {
@@ -33,10 +34,6 @@ namespace RelevantCodes.ExtentReports.Model
 
         internal CultureInfo Culture { get; set; }
 
-        internal List<ExtentTest> TestList { get; set; }
-
-        internal IDictionary<string, List<Test>> CategoryMap { get; private set; }
-
         internal DateTime StartTime;
 
         internal Test Test { get; private set; }
@@ -45,15 +42,13 @@ namespace RelevantCodes.ExtentReports.Model
 
         internal List<string> TestRunnerLogs { get; set; }
 
-        internal Dictionary<string, string> ConfigurationMap { get; private set; }
-
         protected void Attach(IReporter Reporter)
         {
             if (_reporterList == null)
             {
                 _reporterList = new List<IReporter>();
             }
-
+            
             _reporterList.Add(Reporter);
             Reporter.Start(this);
         }
@@ -63,6 +58,10 @@ namespace RelevantCodes.ExtentReports.Model
             Reporter.Stop();
             _reporterList.Remove(Reporter);
         }
+
+        internal IDictionary<string, List<Test>> CategoryMap { get; private set; }
+
+        internal IDictionary<string, List<Test>> ExceptionMap { get; private set; }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         protected void AddTest(Test Test)
@@ -83,10 +82,26 @@ namespace RelevantCodes.ExtentReports.Model
                 }
             });
 
+            Test.ExceptionList.ForEach(x =>
+            {
+                var ex = ExceptionUtil.GetExceptionHeadline(x);
+
+                if (!ExceptionMap.ContainsKey(ex))
+                {
+                    ExceptionMap.Add(ex, new List<Test>() { Test });
+                }
+                else
+                {
+                    ExceptionMap[ex].Add(Test);
+                }
+            });
+
             _reporterList.ForEach(x => x.AddTest());
 
             UpdateReportStatus(Test.Status);
         }
+
+        internal List<ExtentTest> TestList { get; set; }
 
         protected virtual void Terminate()
         {
@@ -124,6 +139,8 @@ namespace RelevantCodes.ExtentReports.Model
 
             _reporterList.ForEach(x => x.Flush());
         }
+
+        internal Dictionary<string, string> ConfigurationMap { get; private set; }
 
         protected virtual void LoadConfig(Configuration Config)
         {
@@ -226,6 +243,7 @@ namespace RelevantCodes.ExtentReports.Model
             _id = Guid.NewGuid();
 
             CategoryMap = new SortedDictionary<string, List<Test>>();
+            ExceptionMap = new SortedDictionary<string, List<Test>>();
             StartTime = DateTime.Now;
             SystemInfo = new StandardSystemInfo().GetInfo();
             TestRunnerLogs = new List<string>();

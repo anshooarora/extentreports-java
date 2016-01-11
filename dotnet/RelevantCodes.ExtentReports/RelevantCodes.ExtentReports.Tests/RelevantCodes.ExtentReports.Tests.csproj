@@ -48,6 +48,7 @@
     <Compile Include="Common\ExtentManager.cs" />
     <Compile Include="NUnit\AuthorTest.cs" />
     <Compile Include="NUnit\CategoryAndAuthorTest.cs" />
+    <Compile Include="NUnit\ExceptionViewTest.cs" />
     <Compile Include="NUnit\ExtentBase.cs" />
     <Compile Include="NUnit\CategoryTest.cs" />
     <Compile Include="Program.cs" />

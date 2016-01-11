@@ -36,8 +36,6 @@ namespace RelevantCodes.ExtentReports.Model
 
         public bool ContainsChildNodes { get; set; }
 
-        public List<TestAttribute> CategoryList;
-
         internal List<ScreenCapture> ScreenCapture;
 
         internal List<Screencast> Screencast;
@@ -46,7 +44,11 @@ namespace RelevantCodes.ExtentReports.Model
 
         public string InternalWarning = null;
 
-        public void AddCategory(string Category)
+        public List<Exception> ExceptionList { get; internal set; }
+
+        public List<TestAttribute> CategoryList { get; private set; }
+
+        internal void AddCategory(string Category)
         {
             if (!CategoryList.Select(x => x.Name).ToList().Contains(Category))
             {
@@ -54,7 +56,16 @@ namespace RelevantCodes.ExtentReports.Model
             }
         }
 
-        public List<TestAttribute> AuthorList;
+        public string GetCombinedCategories()
+        {
+            string cats = "";
+
+            CategoryList.ForEach(x => cats += " " + x.Name.Trim().Replace(" ", ""));
+
+            return cats;
+        }
+
+        public List<TestAttribute> AuthorList { get; private set; }
 
         public void AddAuthor(string Author)
         {
@@ -76,15 +87,6 @@ namespace RelevantCodes.ExtentReports.Model
         public IEnumerable<Log> LogIterator()
         {
             return new ExtentIterator<Log>(LogList);
-        }
-
-        public string GetCombinedCategories()
-        {
-            string cats = "";
-
-            CategoryList.ForEach(x => cats += " " + x.Name.Trim().Replace(" ", ""));
-
-            return cats;
         }
 
         public void TrackLastRunStatus()
@@ -186,6 +188,7 @@ namespace RelevantCodes.ExtentReports.Model
             ID = Guid.NewGuid();
 
             CategoryList = new List<TestAttribute>();
+            ExceptionList = new List<Exception>();
             AuthorList = new List<TestAttribute>();
             LogList = new List<Log>();
             NodeList = new List<Test>();

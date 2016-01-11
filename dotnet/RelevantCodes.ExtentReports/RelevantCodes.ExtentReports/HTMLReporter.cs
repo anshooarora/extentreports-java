@@ -129,6 +129,14 @@ namespace RelevantCodes.ExtentReports
             }
         }
 
+        public IDictionary<string, List<Test>> ExceptionMap
+        {
+            get
+            {
+                return _report.ExceptionMap;
+            }
+        }
+
         public DateTime StartTime
         {
             get

@@ -259,6 +259,42 @@ namespace RelevantCodes.ExtentReports.View.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exceptions.
+        /// </summary>
+        public static string exceptions_heading {
+            get {
+                return ResourceManager.GetString("exceptions_heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception.
+        /// </summary>
+        public static string exceptions_th_exception {
+            get {
+                return ResourceManager.GetString("exceptions_th_exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run Date.
+        /// </summary>
+        public static string exceptions_th_runDate {
+            get {
+                return ResourceManager.GetString("exceptions_th_runDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test Name.
+        /// </summary>
+        public static string exceptions_th_testName {
+            get {
+                return ResourceManager.GetString("exceptions_th_testName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copyrights licensed under the New BSD License.
         /// </summary>
         public static string head_copyrights {
@@ -372,6 +408,15 @@ namespace RelevantCodes.ExtentReports.View.Resources {
         public static string nav_menu_categories {
             get {
                 return ResourceManager.GetString("nav_menu_categories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exceptions.
+        /// </summary>
+        public static string nav_menu_exceptions {
+            get {
+                return ResourceManager.GetString("nav_menu_exceptions", resourceCulture);
             }
         }
         

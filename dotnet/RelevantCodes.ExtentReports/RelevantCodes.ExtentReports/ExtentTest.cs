@@ -25,7 +25,7 @@ namespace RelevantCodes.ExtentReports
     ///     </item>
     /// </list>
     /// </summary>
-    public class ExtentTest
+    public class ExtentTest : IExtentTestClass
     {
         private LogStatus _testStatus = LogStatus.Unknown;
         private Test _test;
@@ -160,6 +160,8 @@ namespace RelevantCodes.ExtentReports
         /// <param name="Exception">Exception</param>
         public void Log(LogStatus Status, string StepName, Exception Exception)
         {
+            this.GetTest().ExceptionList.Add(Exception);
+
             string details = string.Format("<pre>{0}</pre>", Exception.ToString());
 
             Log(Status, StepName, details);
