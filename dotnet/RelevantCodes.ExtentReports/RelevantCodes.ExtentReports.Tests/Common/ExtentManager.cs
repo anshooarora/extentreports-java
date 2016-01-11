@@ -10,7 +10,7 @@ namespace RelevantCodes.ExtentReports.Tests.Common
 {
     internal class ExtentManager
     {
-        private static readonly ExtentReports _instance = new ExtentReports("Extent.Net.html", DisplayOrder.OldestFirst);
+        private static readonly ExtentReports _instance = new ExtentReports("Extent.Net.html");
 
         static ExtentManager() { }
 

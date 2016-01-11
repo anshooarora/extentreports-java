@@ -11,9 +11,11 @@ using RelevantCodes.ExtentReports.Tests.Common;
 
 namespace RelevantCodes.ExtentReports.Tests.NUnit
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class AuthorTest : ExtentBase
     {
+        [Parallelizable(ParallelScope.Self)]
         [Test]
         public void SingleAuthor()
         {
@@ -25,6 +27,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
             Assert.True(test.GetTest().AuthorList.Count == 1);
         }
 
+        [Parallelizable(ParallelScope.Self)]
         [Test]
         public void ManyAuthors()
         {

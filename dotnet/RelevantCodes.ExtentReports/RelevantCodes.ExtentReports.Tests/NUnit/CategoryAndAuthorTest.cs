@@ -11,9 +11,11 @@ using RelevantCodes.ExtentReports.Tests.Common;
 
 namespace RelevantCodes.ExtentReports.Tests.NUnit
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CategoryAndAuthorTest : ExtentBase
     {
+        [Parallelizable(ParallelScope.Self)]
         [Test]
         public void SingleCategorySingleAuthor()
         {
@@ -27,6 +29,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
             Assert.True(test.GetTest().AuthorList.Count == 1);
         }
 
+        [Parallelizable(ParallelScope.Self)]
         [Test]
         public void ManyCategoriesManyAuthors()
         {
