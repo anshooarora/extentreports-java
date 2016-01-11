@@ -97,8 +97,8 @@ class FileInfoAggregator implements IAggregator {
             for (Element test : allTests) {
                 extentTest = new Test();
                 
-                extentTest.setName(test.select(".test-name").first().text());
-                extentTest.setDescription(test.select(".test-desc").first().text());
+                extentTest.setName(test.select(".test-name").first().html());
+                extentTest.setDescription(test.select(".test-desc").first().html());
                 
                 extentTest.setStatus(
                         ExtentUtils.toLogStatus(
@@ -158,7 +158,7 @@ class FileInfoAggregator implements IAggregator {
                 
                 extentNode.isChildNode = true;
                 
-                extentNode.setName(node.select(".test-node-name").first().text());
+                extentNode.setName(node.select(".test-node-name").first().html());
                 
                 extentNode.setStatus(
                         ExtentUtils.toLogStatus(
@@ -212,11 +212,11 @@ class FileInfoAggregator implements IAggregator {
             );
             
             if (log.select(".step-name").size() == 1) {
-                extentLog.setStepName(log.select(".step-name").first().text());
+                extentLog.setStepName(log.select(".step-name").first().html());
             }
             
             extentLog.setLogStatus(ExtentUtils.toLogStatus(log.select(".status").first().attr("title")));
-            extentLog.setDetails(log.select(".step-details").first().text());
+            extentLog.setDetails(log.select(".step-details").first().html());
             
             extentLogList.add(extentLog);
         }
