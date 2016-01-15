@@ -35,7 +35,7 @@ namespace RelevantCodes.ExtentReports.View
                                 Copyright (c) 2015, Anshoo Arora (Relevant Codes) | @Localized.head_copyrights | http://opensource.org/licenses/BSD-3-Clause
                                 @Localized.head_documentation: http://extentreports.relevantcodes.com 
                             -->
-                            <meta http-equiv='content-type' content='text/html; charset=@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""encoding"")) { @Raw(Model.ConfigurationMap[""encoding""]); };' /> 
+                            <meta charset='@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""encoding"")) { @Raw(Model.ConfigurationMap[""encoding""]); }' /> 
                             <meta name='description' content='@Localized.head_metaDescription' />
                             <meta name='robots' content='noodp, noydir' />
                             <meta name='viewport' content='width=device-width, initial-scale=1' />
@@ -47,9 +47,8 @@ namespace RelevantCodes.ExtentReports.View
                                 }
                             </title>
 
-                            <link href='@protocol://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css' type='text/css' rel='stylesheet' />
-                            <link href='@protocol://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/aac91b51dac7509a363ea8f5fb812ed8e47eb636/cdn/extent.css' type='text/css' rel='stylesheet' />
+                            <link href='@protocol://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css' type='text/css' rel='stylesheet'>
+                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/a7fadea2f449184064e06465391f689653dea590/cdn/extent.css' type='text/css' rel='stylesheet' />
 
                             <style>
                                 @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""css""))
@@ -216,31 +215,34 @@ namespace RelevantCodes.ExtentReports.View
                                             </div>
                                         </div>
                                     </div>
-                                    <div class='category-summary-view'>
-                                        <div class='col l4 m6 s12'>
-                                            <div class='card-panel'>
-                                                <span class='label info right outline'>@Localized.dashboard_panel_name_categories</span>
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>@Localized.dashboard_panel_th_name</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (Model.CategoryMap != null)
-                                                        {
-                                                            foreach (KeyValuePair<string, List<RelevantCodes.ExtentReports.Model.Test>> entry in Model.CategoryMap)
+                                    @if (Model.CategoryMap != null && Model.CategoryMap.Count > 0)
+                                    {
+                                        <div class='category-summary-view'>
+                                            <div class='col l4 m6 s12'>
+                                                <div class='card-panel'>
+                                                    <span class='label info right outline'>@Localized.dashboard_panel_name_categories</span>
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>@Localized.dashboard_panel_th_name</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @if (Model.CategoryMap != null)
                                                             {
-                                                                <tr>
-                                                                    <td>@entry.Key</td>
-                                                                </tr>
+                                                                foreach (KeyValuePair<string, List<RelevantCodes.ExtentReports.Model.Test>> entry in Model.CategoryMap)
+                                                                {
+                                                                    <tr>
+                                                                        <td>@entry.Key</td>
+                                                                    </tr>
+                                                                }
                                                             }
-                                                        }
-                                                    </tbody>
-                                                </table>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
                                 </div>
                                 <!-- /dashboard -->
 
@@ -705,12 +707,7 @@ namespace RelevantCodes.ExtentReports.View
                             </div>
                             <!-- /modals -->
 
-                            <script src='@protocol://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
-                            <script src='@protocol://code.jquery.com/ui/1.11.4/jquery-ui.min.js'></script>
-                            <script src='@protocol://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js'></script>
-                            <script src='@protocol://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-                            <script src='@protocol://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/aac91b51dac7509a363ea8f5fb812ed8e47eb636/cdn/extent.js' type='text/javascript'></script>
+                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/a7fadea2f449184064e06465391f689653dea590/cdn/extent.js' type='text/javascript'></script>
 
                             <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
                             <script>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""scripts"")) { @Raw(Model.ConfigurationMap[""scripts""]) }</script>

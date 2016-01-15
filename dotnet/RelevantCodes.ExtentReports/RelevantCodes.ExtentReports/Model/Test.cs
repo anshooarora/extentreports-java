@@ -153,19 +153,19 @@ namespace RelevantCodes.ExtentReports.Model
                 return;
             }
 
-            if (Status == LogStatus.Pass) return;
-
-            if (logStatus == LogStatus.Pass)
-            {
-                Status = LogStatus.Pass;
-                return;
-            }
-
             if (Status == LogStatus.Skip) return;
 
             if (logStatus == LogStatus.Skip)
             {
                 Status = LogStatus.Skip;
+                return;
+            }
+
+            if (Status == LogStatus.Pass) return;
+
+            if (logStatus == LogStatus.Pass)
+            {
+                Status = LogStatus.Pass;
                 return;
             }
 

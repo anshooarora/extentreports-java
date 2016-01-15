@@ -105,6 +105,11 @@ namespace RelevantCodes.ExtentReports.Model
 
         protected virtual void Terminate()
         {
+            if (TestList == null)
+            {
+                return;
+            }
+
             TestList.ForEach(x =>
             {
                 if (!x.GetTest().HasEnded)
