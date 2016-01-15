@@ -11,7 +11,7 @@
             ${resourceBundle.getString("head.documentation")}: http://extentreports.relevantcodes.com 
         -->
 
-        <meta http-equiv='content-type' content='text/html; charset=<#if report.configurationMap??>${report.configurationMap["encoding"]}<#else>UTF-8</#if>' /> 
+        <meta charset='<#if report.configurationMap??>${report.configurationMap["encoding"]}<#else>UTF-8</#if>' /> 
         <meta name='description' content='${resourceBundle.getString("head.metaDescription")}' />
         <meta name='robots' content='noodp, noydir' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
@@ -29,9 +29,8 @@
         </#if>
         
         <link href='${protocol}://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css' type='text/css' rel='stylesheet'>
-        <link href='${protocol}://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.css' type='text/css' rel='stylesheet' />
-        <link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/aac91b51dac7509a363ea8f5fb812ed8e47eb636/cdn/extent.css' type='text/css' rel='stylesheet' />
-
+        <link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/a7fadea2f449184064e06465391f689653dea590/cdn/extent.css' type='text/css' rel='stylesheet' />
+		
         <style>
             <#if report.configurationMap??>
                 ${report.configurationMap["styles"]}
@@ -72,7 +71,7 @@
                     <span class='suite-started-time'>${.now?datetime?string(dateTimeFormat)}</span>
                 </li>
                 <li>
-                    <span>v2.40.1-beta-3</span>
+                    <span>v2.40.1-beta-final</span>
                 </li>
             </ul>
         </nav>
@@ -647,12 +646,7 @@
         </div>
         <!-- /filter for step status -->
         
-        <script src='${protocol}://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script> 
-        <script src="${protocol}://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-        <script src='${protocol}://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js'></script>
-        <script src='${protocol}://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-        <script src='${protocol}://cdn.rawgit.com/noelboss/featherlight/1.3.4/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
-        <script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/aac91b51dac7509a363ea8f5fb812ed8e47eb636/cdn/extent.js' type='text/javascript'></script>
+        <script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/a7fadea2f449184064e06465391f689653dea590/cdn/extent.js' type='text/javascript'></script>
 
         <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
         <script>
