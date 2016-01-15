@@ -553,22 +553,6 @@ public class ExtentReports extends Report {
      * @param testName 
      * 		Name of the test
      * 
-     * @return
-     * 		An {@link ExtentTest} object
-     */
-    public synchronized ExtentTest startTest(String testName) {
-        return startTest(testName, "");
-    }
-    
-    /**
-     * <p>
-     * Calling startTest() generates a toggle for the test in the HTML file and adds all
-     * log events under this level. This is a required step and without calling this method
-     * the toggle will not be created for the test and log will not be added.
-     * 
-     * @param testName 
-     * 		Name of the test
-     * 
      * @param description 
      * 		A short description of the test
      * 
@@ -581,9 +565,26 @@ public class ExtentReports extends Report {
         }
         
         ExtentTest test = new ExtentTest(testName, description);
-        testList.add(test);
+        
+        updateTestQueue(test);
         
         return test;
+    }
+    
+    /**
+     * <p>
+     * Calling startTest() generates a toggle for the test in the HTML file and adds all
+     * log events under this level. This is a required step and without calling this method
+     * the toggle will not be created for the test and log will not be added.
+     * 
+     * @param testName 
+     * 		Name of the test
+     * 
+     * @return
+     * 		An {@link ExtentTest} object
+     */
+    public synchronized ExtentTest startTest(String testName) {
+        return startTest(testName, "");
     }
 
     /**
@@ -600,7 +601,7 @@ public class ExtentReports extends Report {
     	Test test = extentTest.getInternalTest();    	
         test.hasEnded = true;
 
-        addTest(test);
+        finalizeTest(test);
     }
     
     /**

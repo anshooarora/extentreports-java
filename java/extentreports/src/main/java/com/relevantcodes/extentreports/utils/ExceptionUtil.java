@@ -7,6 +7,10 @@ import java.util.regex.Pattern;
 
 public class ExceptionUtil {
 	public static String getStackTrace(Throwable t) {
+		if (t == null) {
+			return null;
+		}
+		
 		StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         t.printStackTrace(pw);
