@@ -188,9 +188,8 @@ class DBReporter extends LogSettings implements IReporter {
                         ") " +
                     "VALUES (?, ?, ?, ?)";
     
-    private final String sqliteClass = "org.sqlite.JDBC";
-    private final String dbClass = "jdbc:sqlite";
-    private final String dbName = "extent.db";
+    private final String DEFAULT_DB_NAME = "extent";
+    private final String DEFAULT_DB_EXT = "db";
     
     private String filePath;
     
@@ -199,7 +198,7 @@ class DBReporter extends LogSettings implements IReporter {
         this.report = report;
         
         try {
-            Class.forName(sqliteClass);
+            Class.forName("org.sqlite.JDBC");
         }
         catch (ClassNotFoundException e) {
             System.out.println("Unable to start database reporter. Extent database will not be created.");
@@ -208,10 +207,22 @@ class DBReporter extends LogSettings implements IReporter {
             return;
         }
         
-        File dbFile = new File(filePath).getParentFile();
+        File dbFile = new File(filePath);
+        if (!dbFile.exists() && !dbFile.getParentFile().exists()) {
+            dbFile.getParentFile().mkdirs();
+        }
+        
+        int index = dbFile.getName().lastIndexOf(".");
+        if (index > 0 && !dbFile.getName().substring(index + 1).equals("db")) {
+            filePath = dbFile.getParentFile().getPath() + "/" + DEFAULT_DB_NAME + "." + DEFAULT_DB_EXT;
+        }
+        else if (index == -1) {
+            filePath = dbFile.getPath() + "/" + DEFAULT_DB_NAME + "." + DEFAULT_DB_EXT;
+        }
         
         try {
-            connection = DriverManager.getConnection(dbClass + ":" + dbFile.getPath() + File.separator + dbName);
+            // jdbc:sqlite:folder/file-name.db
+            connection = DriverManager.getConnection("jdbc:sqlite" + ":" + filePath);
         }
         catch (SQLException e) {
             e.printStackTrace();
