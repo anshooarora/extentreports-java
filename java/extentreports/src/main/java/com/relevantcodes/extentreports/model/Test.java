@@ -412,19 +412,19 @@ public class Test implements ITest {
             return;
         }
         
-        if (status == LogStatus.PASS) return;
-        
-        if (logStatus == LogStatus.PASS) {
-            status = LogStatus.PASS;
-            return;
-        }
-        
         if (status == LogStatus.SKIP) return;
         
         if (logStatus == LogStatus.SKIP) {
             status = LogStatus.SKIP;
             return;
         }
+        
+        if (status == LogStatus.PASS) return;
+        
+        if (logStatus == LogStatus.PASS) {
+            status = LogStatus.PASS;
+            return;
+        }        
         
         if (status == LogStatus.INFO) return;
         
