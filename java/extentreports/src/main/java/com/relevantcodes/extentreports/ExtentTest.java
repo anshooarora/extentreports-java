@@ -176,19 +176,22 @@ public class ExtentTest implements IExtentTestClass {
      * Adds a snapshot to the log event details
      * 
      * <p>
-     * Note: this method does not attach the screen-cast to the report, it only
-     * links to the path
+     * Note: this method does not create the screen-capture for the report, it only
+     * sets the name of the image file in the report. The user is responsible for
+     * capturing the screen and for supplying the name of the image file
+     * including the extension. Also make sure that the image is in the same location
+     * as the report file.
      * 
-     * @param imgPath 
-     * 		Path of the image
-     * 
-     * @return 
-     * 		A formed HTML img tag with the supplied path
+     * @param imageName
+     * 		Name of the image
+     *
+     * @return
+     * 		A formed HTML img tag
      */
-    public String addScreenCapture(String imgPath) {
-        String screenCaptureHtml = isPathRelative(imgPath) 
-                ? ScreenshotHtml.getSource(imgPath).replace("file:///", "") 
-                        : ScreenshotHtml.getSource(imgPath);
+    public String addScreenCapture(String imageName) {
+        String screenCaptureHtml = isPathRelative(imageName)
+                ? ScreenshotHtml.getSource(imageName).replace("file:///", "")
+                        : ScreenshotHtml.getSource(imageName);
         
         ScreenCapture img = new ScreenCapture();
         img.setSource(screenCaptureHtml);

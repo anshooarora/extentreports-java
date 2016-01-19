@@ -2,3 +2,6 @@
 *.db
 *.jar
 *.lst
+*.iml
+*.idea
+uiDesigner.xml
