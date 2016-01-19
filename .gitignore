@@ -2,6 +2,6 @@
 *.db
 *.jar
 *.lst
-java/extentreports/extentreports.iml
-java/extentreports/.idea/*
+*.iml
+*.idea
 uiDesigner.xml
