@@ -25,7 +25,7 @@ public abstract class BaseExample {
 	@AfterMethod
 	protected void afterEachTest(ITestResult result) {
 		if (!result.isSuccess()) {
-			test.log(LogStatus.FAIL, "<pre>" + getStackTrace(result.getThrowable()) + "</pre>");
+			test.log(LogStatus.FAIL, result.getThrowable());
 		}
 		
 		if (test != null) {

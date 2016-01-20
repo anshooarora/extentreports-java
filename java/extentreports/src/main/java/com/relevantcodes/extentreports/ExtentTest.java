@@ -11,6 +11,7 @@ package com.relevantcodes.extentreports;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.relevantcodes.extentreports.model.Author;
@@ -83,6 +84,7 @@ public class ExtentTest implements IExtentTestClass {
      * @param details 
      * 		Details of the step
      */
+    @Override
     public void log(LogStatus logStatus, String stepName, String details) {
         Log evt = new Log();
         
@@ -119,6 +121,7 @@ public class ExtentTest implements IExtentTestClass {
      * @param t 
      * 		Exception
      */
+    @Override
     public void log(LogStatus logStatus, String stepName, Throwable t) {
     	this.getInternalTest().setException(t);
     	
@@ -144,6 +147,7 @@ public class ExtentTest implements IExtentTestClass {
      * @param t 
      * 		Exception
      */
+    @Override
     public void log(LogStatus logStatus, Throwable t) {
     	log(logStatus, null, t);
     }
@@ -167,8 +171,88 @@ public class ExtentTest implements IExtentTestClass {
      * @param details 
      * 		Details of the step
      */
+    @Override
     public void log(LogStatus logStatus, String details) {
         log(logStatus, null, details);
+    }
+    
+    /**
+     * <p>
+     * Sets the current test description
+     * 
+     * @param description
+     *      Description of the test
+     */
+    @Override
+    public void setDescription(String description) {
+        test.setDescription(description);        
+    }
+
+    /**
+     * <p>
+     * Gets the current test description
+     */
+    @Override
+    public String getDescription() {
+        return test.getDescription();
+    }
+    
+    /**
+     * <p>
+     * Provides the start time of the current test
+     */
+    @Override
+    public Date getStartedTime() {
+        return test.getStartedTime();
+    }
+    
+    /**
+     * <p>
+     * Allows overriding the default start time of the test
+     * 
+     * <p>
+     * Note: when a test is started using <code>extent.startTest(testName)</code>,
+     * the value for started time is created automatically. This method allows 
+     * overriding the start time in cases where the actual test had already been 
+     * run prior to extent logging the test details in the report. An example of
+     * this scenario is while using TestNG's <code>IReporter</code> listener and
+     * creating the report after the tests have already executed.
+     * 
+     * @param startedTime
+     *      Test's start time
+     */
+    @Override
+    public void setStartedTime(Date startedTime) {
+        test.setStartedTime(startedTime);
+    }
+
+    /**
+     * <p>
+     * Provides the end time of the current test
+     */
+    @Override
+    public Date getEndedTime() {
+        return test.getEndedTime();
+    }
+    
+    /**
+     * <p>
+     * Allows overriding the default end time of the test
+     * 
+     * <p>
+     * Note: when a test is ended using <code>extent.endTest(extentTest)</code>,
+     * the value for ended time is created automatically. This method allows 
+     * overriding the end time in cases where the actual test had already been 
+     * run prior to extent logging the test details in the report. An example of
+     * this scenario is while using TestNG's <code>IReporter</code> listener and
+     * creating the report after the tests have already executed.
+     * 
+     * @param endedTime
+     *      Test's end time
+     */
+    @Override
+    public void setEndedTime(Date endedTime) {
+        test.setEndedTime(endedTime);
     }
     
     /**
@@ -186,6 +270,7 @@ public class ExtentTest implements IExtentTestClass {
      * @return
      * 		A formed HTML img tag
      */
+    @Override
     public String addScreenCapture(String imagePath) {
         String screenCaptureHtml = isPathRelative(imagePath)
                 ? ScreenshotHtml.getSource(imagePath).replace("file:///", "")
@@ -215,6 +300,7 @@ public class ExtentTest implements IExtentTestClass {
      * @return 
      * 		A formed HTML video tag with the supplied path
      */
+    @Override
     public String addScreencast(String screencastPath) {
         String screencastHtml = isPathRelative(screencastPath) 
                 ? ScreencastHtml.getSource(screencastPath).replace("file:///", "") 
@@ -245,6 +331,7 @@ public class ExtentTest implements IExtentTestClass {
      * @return 
      * 		A {@link ExtentTest} object
      */
+    @Override
     public ExtentTest assignCategory(String... categories) {
         List<String> list = new ArrayList<String>();
         
@@ -271,6 +358,7 @@ public class ExtentTest implements IExtentTestClass {
      * @param authors Author name
      * @return {@link ExtentTest}
      */
+    @Override
     public ExtentTest assignAuthor(String... authors) {
         List<String> list = new ArrayList<String>();
         
@@ -295,6 +383,7 @@ public class ExtentTest implements IExtentTestClass {
      * @return 
      * 		An {@link ExtentTest} object. Parent test which adds the node as its child.
      */
+    @Override
     public ExtentTest appendChild(ExtentTest node) {
         node.getInternalTest().setEndedTime(Calendar.getInstance().getTime());
         node.getInternalTest().isChildNode = true;
@@ -330,6 +419,7 @@ public class ExtentTest implements IExtentTestClass {
      * @return 
      * 		{@link LogStatus}
      */
+    @Override
     public LogStatus getRunStatus() {
         return runStatus;
     }
@@ -341,6 +431,7 @@ public class ExtentTest implements IExtentTestClass {
      * @return 
      * 		A {@link ITest} object
      */
+    @Override
     public ITest getTest() {
     	return test;
     }

@@ -1,5 +1,7 @@
 package com.relevantcodes.extentreports;
 
+import java.util.Date;
+
 import com.relevantcodes.extentreports.model.ITest;
 
 public interface IExtentTestClass {
@@ -11,6 +13,18 @@ public interface IExtentTestClass {
 
 	void log(LogStatus logStatus, Throwable t);
 
+	void setDescription(String description);
+	
+	String getDescription();
+	
+	void setStartedTime(Date startedTime);
+	
+	Date getStartedTime();
+	
+	void setEndedTime(Date endedTime);
+	
+	Date getEndedTime();
+	
 	String addScreenCapture(String imgPath);
 
 	String addScreencast(String screencastPath);

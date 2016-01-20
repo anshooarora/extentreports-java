@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -404,6 +405,22 @@ public class ExtentReports extends Report {
      */
     public ExtentReports(String filePath) {
         this(filePath, null, null, null, null);
+    }
+    
+    /**
+     * <p>
+     * Gets the UUID of the report
+     * 
+     * <p>
+     * Note: Each time an instance of <code>ExtentReports</code> is created, a unique
+     * UUID is created for that instance automatically. This unique UUID is also stored
+     * in the database (if the database reporter is started).
+     * 
+     * @return
+     *      Report's unique {@link UUID}
+     */
+    public UUID getReportId() {
+        return getId();
     }
     
     /**

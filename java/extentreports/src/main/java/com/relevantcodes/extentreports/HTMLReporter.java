@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -251,6 +252,10 @@ public class HTMLReporter extends LogSettings implements IReporter {
     
     public List<LogStatus> getLogStatusList() {
     	return report.getLogStatusList();
+    }
+    
+    public UUID getReportId() {
+        return report.getId();
     }
     
     public HTMLReporter(String filePath) { 

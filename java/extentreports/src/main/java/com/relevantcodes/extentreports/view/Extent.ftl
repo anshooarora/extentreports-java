@@ -11,6 +11,8 @@
             ${resourceBundle.getString("head.documentation")}: http://extentreports.relevantcodes.com 
         -->
 
+		<extent id='${report.reportId}' />
+
         <meta charset='<#if report.configurationMap??>${report.configurationMap["encoding"]}<#else>UTF-8</#if>' /> 
         <meta name='description' content='${resourceBundle.getString("head.metaDescription")}' />
         <meta name='robots' content='noodp, noydir' />
@@ -646,7 +648,7 @@
         </div>
         <!-- /filter for step status -->
         
-        <script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/a7fadea2f449184064e06465391f689653dea590/cdn/extent.js' type='text/javascript'></script>
+        <script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/3caea19ade2c7b195f5ab8aecb6e22541651f5d1/cdn/extent.js' type='text/javascript'></script>
 
         <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
         <script>
