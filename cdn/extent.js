@@ -175,19 +175,6 @@ $(document).ready(function() {
 	/* init */
 	$('select').material_select();
 	$('#refreshCharts').addClass('enabled').children('i').addClass('active');
-    
-	/* [WINDOW] */
-	$(window).scroll(function() {
-		var scrollTop = $('.charts').is(':visible') ? 350 : 100;
-		
-		if ($(window).scrollTop() > scrollTop) {
-			var margin = $('.charts').is(':visible') ? '-346px' : '-48px';
-			$('.details-view').css('position', 'fixed').css('margin-top', margin);
-		} 
-		else {
-			$('.details-view').removeAttr('style').css('position', 'absolute');
-		}
-	});
 
 	/* theme selector */
 	$('.theme-selector').click(function() {
