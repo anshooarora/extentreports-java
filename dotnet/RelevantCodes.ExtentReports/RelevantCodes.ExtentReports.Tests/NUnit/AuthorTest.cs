@@ -15,6 +15,11 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
     [TestFixture]
     public class AuthorTest : ExtentBase
     {
+        public AuthorTest()
+        {
+            extent = new ExtentReports("AuthorTest.html", true);
+        }
+
         [Parallelizable(ParallelScope.Self)]
         [Test]
         public void SingleAuthor()

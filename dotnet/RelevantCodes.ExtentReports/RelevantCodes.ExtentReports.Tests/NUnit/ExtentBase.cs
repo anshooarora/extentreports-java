@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
 using RelevantCodes.ExtentReports.Tests.Common;
@@ -19,7 +13,7 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
         [OneTimeSetUp]
         public void FixtureInit()
         {
-            extent = ExtentManager.Instance;
+            //extent = ExtentManager.Instance;
         }
 
         [TearDown]

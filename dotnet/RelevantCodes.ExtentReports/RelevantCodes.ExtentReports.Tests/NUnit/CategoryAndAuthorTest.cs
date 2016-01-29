@@ -15,6 +15,11 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
     [TestFixture]
     public class CategoryAndAuthorTest : ExtentBase
     {
+        public CategoryAndAuthorTest()
+        {
+            extent = new ExtentReports("CategoryAndAuthorTest.html", true);
+        }
+
         [Parallelizable(ParallelScope.Self)]
         [Test]
         public void SingleCategorySingleAuthor()

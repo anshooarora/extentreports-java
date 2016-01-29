@@ -15,6 +15,11 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
     [TestFixture]
     public class SingleLogTests : ExtentBase
     {
+        public SingleLogTests()
+        {
+            extent = new ExtentReports("SingleLogTests.html", true);
+        }
+
         [Parallelizable(ParallelScope.Self)]
         [Test]
         public void Pass()

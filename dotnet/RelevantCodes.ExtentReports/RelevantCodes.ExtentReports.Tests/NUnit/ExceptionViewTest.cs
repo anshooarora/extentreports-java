@@ -12,13 +12,17 @@ namespace RelevantCodes.ExtentReports.Tests.NUnit
     [TestFixture]
     class ExceptionViewTest : ExtentBase
     {
+        public ExceptionViewTest()
+        {
+            extent = new ExtentReports("ExceptionViewTest.html", true);
+        }
+
         [Parallelizable(ParallelScope.Self)]
         [Test]
         public void EnablesExceptionView()
         {
             test = extent
-                .StartTest("ExceptionTestEnablesExceptionView")
-                .AssignCategory("Exception");
+                .StartTest("ExceptionTestEnablesExceptionView");
             test.Log(LogStatus.Pass, "Details");
             test.Log(LogStatus.Fail, new Exception("Exception"));
 
