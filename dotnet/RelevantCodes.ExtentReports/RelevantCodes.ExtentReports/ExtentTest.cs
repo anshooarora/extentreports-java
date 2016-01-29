@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using RelevantCodes.ExtentReports.Model;
 using RelevantCodes.ExtentReports.View;
@@ -315,6 +312,60 @@ namespace RelevantCodes.ExtentReports
         public LogStatus GetCurrentStatus()
         {
             return _testStatus;
+        }
+
+        /// <summary>
+        /// Set or get the current test's description
+        /// </summary>
+        public string Description {
+            get
+            {
+                return _test.Description;
+            }
+            set
+            {
+                _test.Description = value;
+            }
+        }
+
+        /// <summary>
+        /// Sets or gets the start time of the test
+        /// 
+        /// Note: when a test is started using <code>extent.StartTest(TestName)</code>,
+        /// the value for started time is created automatically.This method allows 
+        /// overriding the start time in cases where the actual test had already been 
+        /// run prior to extent logging the test details in the report.
+        /// </summary>
+        public DateTime StartTime
+        {
+            get
+            {
+                return _test.StartTime;
+            }
+            set
+            {
+                _test.StartTime = value;
+            }
+        }
+
+        /// <summary>
+        /// Sets or gets the end time of the test
+        /// 
+        /// Note: when a test is ended using <code>extent.EndTest(ExtentTest)</code>,
+        /// the value for ended time is created automatically.This method allows 
+        /// overriding the end time in cases where the actual test had already been 
+        /// run prior to extent logging the test details in the report. 
+        /// </summary>
+        public DateTime EndTime
+        {
+            get
+            {
+                return _test.EndTime;
+            }
+            set
+            {
+                _test.EndTime = value;
+            }
         }
 
         /// <summary>

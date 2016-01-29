@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using RelevantCodes.ExtentReports.Config;
@@ -16,6 +13,21 @@ namespace RelevantCodes.ExtentReports
 {
     public class ExtentReports : Report
     {
+        /// <summary>
+        /// Returns the Guid of the report
+        /// 
+        /// Note: Each time an instance of <code>ExtentReports</code> is created, a unique
+        /// Guid is created for that instance automatically. This unique Guid is also stored
+        /// in the database (if the database reporter is started).
+        /// </summary>
+        public Guid ReportId
+        {
+            get
+            {
+                return base.ReportId;
+            }
+        }
+        
         /// <summary>
         /// Initializes Extent HTML report
         /// </summary>

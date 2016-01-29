@@ -2,15 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-using HtmlAgilityPack;
 
 using RelevantCodes.ExtentReports.Config;
-using RelevantCodes.ExtentReports.Model;
 using RelevantCodes.ExtentReports.Utils;
 
 namespace RelevantCodes.ExtentReports.Model
@@ -19,10 +13,11 @@ namespace RelevantCodes.ExtentReports.Model
     {
         private const string InternalWarning = "Close was called before test could end safely using EndTest.";
 
-        private Guid _id;
         private List<IReporter> _reporterList;
         private LogStatus _reportStatus;
         private bool _terminated = false;
+
+        protected Guid ReportId;
 
         internal string FilePath { get; set; }
 
@@ -245,7 +240,7 @@ namespace RelevantCodes.ExtentReports.Model
 
         public Report() 
         {
-            _id = Guid.NewGuid();
+            ReportId = Guid.NewGuid();
 
             CategoryMap = new SortedDictionary<string, List<Test>>();
             ExceptionMap = new SortedDictionary<string, List<Test>>();

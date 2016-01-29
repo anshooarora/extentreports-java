@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-
-using HtmlAgilityPack;
 
 using RazorEngine.Configuration;
 using RazorEngine.Text;
@@ -99,16 +94,15 @@ namespace RelevantCodes.ExtentReports
                 return;
             }
 
-            File.WriteAllText(_filePath, _extentSource);
-        }
-
-        public virtual void AddTest()
-        {
             lock (_lock)
             {
                 _extentSource = Engine.Razor.RunCompile(View.Extent.Source, "extent", typeof(HTMLReporter), this);
             }
+
+            File.WriteAllText(_filePath, _extentSource);
         }
+
+        public virtual void AddTest() { }
 
         public List<ExtentTest> TestList
         {

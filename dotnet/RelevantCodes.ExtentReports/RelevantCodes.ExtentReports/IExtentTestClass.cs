@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RelevantCodes.ExtentReports
 {
@@ -27,6 +24,10 @@ namespace RelevantCodes.ExtentReports
 
 	    LogStatus GetCurrentStatus();
 
-	    //ITest getTest();
+        string Description { get; set; }
+
+        DateTime StartTime { get; set; }
+
+        DateTime EndTime { get; set; }
     }
 }

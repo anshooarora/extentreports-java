@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RelevantCodes.ExtentReports.View
+﻿namespace RelevantCodes.ExtentReports.View
 {
     internal class Extent
     {
@@ -51,7 +45,7 @@ namespace RelevantCodes.ExtentReports.View
                             <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/a7fadea2f449184064e06465391f689653dea590/cdn/extent.css' type='text/css' rel='stylesheet' />
 
                             <style>
-                                @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""css""))
+                                @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""styles""))
                                 {
                                     @Raw(Model.ConfigurationMap[""styles""])
                                 }
@@ -100,7 +94,7 @@ namespace RelevantCodes.ExtentReports.View
                                         <span class='suite-started-time'>@Model.StartTime.ToString(dateTimeFormat)</span>
                                     </li>
                                     <li>
-                                        <span>v2.40.1-beta-3</span>
+                                        <span>v2.40.1</span>
                                     </li>
                                 </ul>
                                 <!-- /navright -->
@@ -503,11 +497,11 @@ namespace RelevantCodes.ExtentReports.View
 				                                                        <div class='category-status-counts'>
                                                                             @if (passed > 0)
                                                                             {
-					                                                            <span class='pass label dot'>Pass: @passed</span>
+					                                                            <span class='pass label dot'>Pass: @passed</span> 
                                                                             }
                                                                             @if (failed > 0)
                                                                             {
-					                                                            <span class='fail label dot'>Fail: @failed</span>
+					                                                            <span class='fail label dot'>Fail: @failed</span> 
                                                                             }
                                                                             @if (others > 0)
                                                                             {
@@ -517,8 +511,8 @@ namespace RelevantCodes.ExtentReports.View
 				                                                        <div class='cat-body'>
 					                                                        <div class='category-status-counts'>
 						                                                        <div class='button-group'>
-                                                                                    <a href='#!' class='pass label filter'>Pass <span class='icon'>@passed</span></a>
-                                                                                    <a href='#!' class='fail label filter'>Fail <span class='icon'>@failed</span></a>
+                                                                                    <a href='#!' class='pass label filter'>Pass <span class='icon'>@passed</span></a> 
+                                                                                    <a href='#!' class='fail label filter'>Fail <span class='icon'>@failed</span></a> 
                                                                                     <a href='#!' class='other label filter'>Others <span class='icon'>@others</span></a>
                                                                                 </div>
 					                                                        </div>
@@ -595,6 +589,9 @@ namespace RelevantCodes.ExtentReports.View
 				                                                        <div class='exception-head'>
 					                                                        <span class='exception-name'>@entry.Key</span>
 				                                                        </div>
+                                                                        <div class='exception-test-count'>
+                                                                            <span class='fail label'>@count</span>
+                                                                        </div>
 				                                                        <div class='exception-body'>
 					                                                        <div class='exception-tests'>
 						                                                        <table class='bordered'>
@@ -707,7 +704,7 @@ namespace RelevantCodes.ExtentReports.View
                             </div>
                             <!-- /modals -->
 
-                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/a7fadea2f449184064e06465391f689653dea590/cdn/extent.js' type='text/javascript'></script>
+                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/3caea19ade2c7b195f5ab8aecb6e22541651f5d1/cdn/extent.js' type='text/javascript'></script>
 
                             <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
                             <script>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""scripts"")) { @Raw(Model.ConfigurationMap[""scripts""]) }</script>
