@@ -710,7 +710,7 @@ public class ExtentReports extends Report {
      * <p>
      * This method is deprecated and replace with an external configuration file. For more
      * information, visit this link: 
-     * extentreports.relevantcodes.com/java/version2/docs.html#configuration
+     * http://extentreports.relevantcodes.com/java/version2/docs.html#configuration
      * 
      * @return 
      * 		HTMLReporter.Config object

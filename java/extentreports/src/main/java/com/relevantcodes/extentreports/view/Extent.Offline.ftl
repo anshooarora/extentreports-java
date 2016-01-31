@@ -11,6 +11,8 @@
             ${resourceBundle.getString("head.documentation")}: http://extentreports.relevantcodes.com 
         -->
 
+        <extent id='${report.reportId}' />
+        
         <meta http-equiv='content-type' content='text/html; charset=<#if report.configurationMap??>${report.configurationMap["encoding"]}<#else>UTF-8</#if>' /> 
         <meta name='description' content='${resourceBundle.getString("head.metaDescription")}' />
         <meta name='robots' content='noodp, noydir' />
@@ -58,7 +60,7 @@
                     <span class='suite-started-time'>${.now?datetime?string(dateTimeFormat)}</span>
                 </li>
                 <li>
-                    <span>v2.40.1-beta-3</span>
+                    <span>v2.40.1</span>
                 </li>
             </ul>
         </nav>
@@ -398,96 +400,98 @@
             <!-- /tests -->
             
             <!-- categories -->
-            <div id='categories-view' class='row _addedTable hide'>
-                <div class='col _addedCell1'>
-                    <div class='contents'>
-                        <div class='card-panel heading'>
-                            <h5>${resourceBundle.getString("categories.heading")}</h5>
-                        </div>
-                        <div class='card-panel filters'>
-                            <div class='search' alt='Search tests' title='Search tests'>
-                                <div class='input-field left'>
-                                    <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
-                                </div>
-                                <i class='fa fa-search icon'></i>
-                            </div>
-                        </div>
-                        <div class='card-panel no-padding-h no-padding-v'>
-                            <div class='wrapper'>
-                                <ul id='cat-collection' class='cat-collection'>
-                                    <#list report.categoryTestMap?keys as category>
-                                        <#assign testList = report.categoryTestMap[category]>
-                                        <#assign passed = 0, failed = 0, others = 0>
-                                        <#list testList as test>
-                                            <#if test.status == "pass">
-                                                <#assign passed = passed + 1>
-                                            <#elseif test.status == "fail">
-                                                <#assign failed = failed + 1>
-                                            <#else>
-                                                <#assign others = others + 1>
-                                            </#if>
-                                        </#list>
-                                        <li class='category-item displayed'>
-                                            <div class='cat-head'>
-                                                <span class='category-name'>${category}</span>
-                                            </div>
-                                            <div class='category-status-counts'>
-                                                <#if (passed > 0)>
-                                                    <span class='pass label dot'>Pass: ${passed}</span>
-                                                </#if>
-                                                <#if (failed > 0)>
-                                                    <span class='fail label dot'>Fail: ${failed}</span>
-                                                </#if>
-                                                <#if (others > 0)>
-                                                    <span class='other label dot'>Others: ${others}</span>
-                                                </#if>
-                                            </div>
-                                            <div class='cat-body'>
-                                                <div class='category-status-counts'>
-                                                    <div class='button-group'>
-                                                        <a href='#!' class='pass label filter'>Pass <span class='icon'>${passed}</span></a>
-                                                        <a href='#!' class='fail label filter'>Fail <span class='icon'>${failed}</span></a>
-                                                        <a href='#!' class='other label filter'>Others <span class='icon'>${others}</span></a>
-                                                    </div>
-                                                </div>
-                                                <div class='cat-tests'>
-                                                    <table class='bordered'>
-                                                        <thead>
-                                                            <tr>
-                                                                <th>${resourceBundle.getString("categories.th.runDate")}</th>
-                                                                <th>${resourceBundle.getString("categories.th.testName")}</th>
-                                                                <th>${resourceBundle.getString("categories.th.status")}</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <#list testList as test>
-                                                                <tr class='${test.status}'>
-                                                                    <td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
-                                                                    <td><span class='category-link linked'>${test.name}</span></td>
-                                                                    <td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
-                                                                </tr>
-                                                            </#list>
-                                                        <tbody>
-                                                    </table>
-                                                </div>
-                                            </div> 
-                                        </li>
-                                    </#list>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id='cat-details-wrapper' class='col _addedCell2'>
-                    <div class='contents'>
-                        <div class='card-panel details-view'>
-                            <h5 class='cat-name'></h5>
-                            <div class='cat-container'>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <#if report.categoryTestMap?? && (report.categoryTestMap?size != 0)>
+	            <div id='categories-view' class='row _addedTable hide'>
+	                <div class='col _addedCell1'>
+	                    <div class='contents'>
+	                        <div class='card-panel heading'>
+	                            <h5>${resourceBundle.getString("categories.heading")}</h5>
+	                        </div>
+	                        <div class='card-panel filters'>
+	                            <div class='search' alt='Search tests' title='Search tests'>
+	                                <div class='input-field left'>
+	                                    <input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
+	                                </div>
+	                                <i class='fa fa-search icon'></i>
+	                            </div>
+	                        </div>
+	                        <div class='card-panel no-padding-h no-padding-v'>
+	                            <div class='wrapper'>
+	                                <ul id='cat-collection' class='cat-collection'>
+	                                    <#list report.categoryTestMap?keys as category>
+	                                        <#assign testList = report.categoryTestMap[category]>
+	                                        <#assign passed = 0, failed = 0, others = 0>
+	                                        <#list testList as test>
+	                                            <#if test.status == "pass">
+	                                                <#assign passed = passed + 1>
+	                                            <#elseif test.status == "fail">
+	                                                <#assign failed = failed + 1>
+	                                            <#else>
+	                                                <#assign others = others + 1>
+	                                            </#if>
+	                                        </#list>
+	                                        <li class='category-item displayed'>
+	                                            <div class='cat-head'>
+	                                                <span class='category-name'>${category}</span>
+	                                            </div>
+	                                            <div class='category-status-counts'>
+	                                                <#if (passed > 0)>
+	                                                    <span class='pass label dot'>Pass: ${passed}</span>
+	                                                </#if>
+	                                                <#if (failed > 0)>
+	                                                    <span class='fail label dot'>Fail: ${failed}</span>
+	                                                </#if>
+	                                                <#if (others > 0)>
+	                                                    <span class='other label dot'>Others: ${others}</span>
+	                                                </#if>
+	                                            </div>
+	                                            <div class='cat-body'>
+	                                                <div class='category-status-counts'>
+	                                                    <div class='button-group'>
+	                                                        <a href='#!' class='pass label filter'>Pass <span class='icon'>${passed}</span></a>
+	                                                        <a href='#!' class='fail label filter'>Fail <span class='icon'>${failed}</span></a>
+	                                                        <a href='#!' class='other label filter'>Others <span class='icon'>${others}</span></a>
+	                                                    </div>
+	                                                </div>
+	                                                <div class='cat-tests'>
+	                                                    <table class='bordered'>
+	                                                        <thead>
+	                                                            <tr>
+	                                                                <th>${resourceBundle.getString("categories.th.runDate")}</th>
+	                                                                <th>${resourceBundle.getString("categories.th.testName")}</th>
+	                                                                <th>${resourceBundle.getString("categories.th.status")}</th>
+	                                                            </tr>
+	                                                        </thead>
+	                                                        <tbody>
+	                                                            <#list testList as test>
+	                                                                <tr class='${test.status}'>
+	                                                                    <td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
+	                                                                    <td><span class='category-link linked'>${test.name}</span></td>
+	                                                                    <td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
+	                                                                </tr>
+	                                                            </#list>
+	                                                        <tbody>
+	                                                    </table>
+	                                                </div>
+	                                            </div> 
+	                                        </li>
+	                                    </#list>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div id='cat-details-wrapper' class='col _addedCell2'>
+	                    <div class='contents'>
+	                        <div class='card-panel details-view'>
+	                            <h5 class='cat-name'></h5>
+	                            <div class='cat-container'>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </#if>
             <!-- /categories -->
             
             <!-- exceptions -->
@@ -561,16 +565,18 @@
             <!-- /exceptions -->
             
             <!-- testrunner logs -->
-            <div id='testrunner-logs-view' class='row hide'>
-                <div class='col s12'>
-                    <div class='card-panel'>
-                        <h5>TestRunner Logs</h5>
-                        <#list report.testRunnerLogList as trLog>
-                            <p>${trLog}</p>
-                        </#list>
-                    </div>
-                </div>
-            </div>
+            <#if report.testRunnerLogList?? && (report.testRunnerLogList?size != 0)>
+				<div id='testrunner-logs-view' class='row hide'>
+	                <div class='col s12'>
+	                    <div class='card-panel'>
+	                        <h5>${resourceBundle.getString("logs.heading")}</h5>
+	                        <#list report.testRunnerLogList as trLog>
+	                            <p>${trLog}</p>
+	                        </#list>
+	                    </div>
+	                </div>
+	            </div>
+	        </#if>
             <!-- /testrunner logs -->
             
         </div>

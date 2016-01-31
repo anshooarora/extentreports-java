@@ -1,4 +1,4 @@
-#2.40.1 <>
+#2.40.1 <01-20-2016>
 	(#144) Fixed issue causing wrong start time appearing in dashboard for reported creating using TestNG listener
 	(#149) UX updates - containers are now resizable
 	(#150) Exception View - This view is automatically created if an error is logged using the following logs: 
@@ -25,6 +25,15 @@
     Add the author of the test using:
     	test.assignAuthor("Anshoo");
     Possble to filter tests by status in the category view
+    New methods added to ExtentTest:
+		void setDescription(String description);
+		String getDescription();
+		Date getStartedTime();
+		void setStartedTime(Date startedTime);
+		Date getEndedTime();
+		void setEndedTime(Date endedTime);
+	New method available to ExtentReports:
+		UUID getReportId()
 
 #2.40 <11-30-2015>
     extent.config() is not deprecated, use loadConfig() instead

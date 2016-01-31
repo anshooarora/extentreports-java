@@ -11,7 +11,7 @@
             ${resourceBundle.getString("head.documentation")}: http://extentreports.relevantcodes.com 
         -->
 
-		<extent id='${report.reportId}' />
+        <extent id='${report.reportId}' />
 
         <meta charset='<#if report.configurationMap??>${report.configurationMap["encoding"]}<#else>UTF-8</#if>' /> 
         <meta name='description' content='${resourceBundle.getString("head.metaDescription")}' />
@@ -32,7 +32,7 @@
         
         <link href='${protocol}://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css' type='text/css' rel='stylesheet'>
         <link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/a7fadea2f449184064e06465391f689653dea590/cdn/extent.css' type='text/css' rel='stylesheet' />
-		
+        
         <style>
             <#if report.configurationMap??>
                 ${report.configurationMap["styles"]}
@@ -73,7 +73,7 @@
                     <span class='suite-started-time'>${.now?datetime?string(dateTimeFormat)}</span>
                 </li>
                 <li>
-                    <span>v2.40.1-beta-final</span>
+                    <span>v2.40.1</span>
                 </li>
             </ul>
         </nav>

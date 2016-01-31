@@ -11,7 +11,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <url>http://relevantcodes.com/extentreports-for-selenium/</url>
 
     <description>
-        ExtentReports is an open-source reporting library for test automation. It is very easily integrated with all test-frameworks (TestNG, JUnit, NUnit etc.) and provides better looking reports. Because Extent is created as a logging utility, it is also possible to use custom logs for each test, add snapshots &amp; videos, assign categories and authors and filter using several parameters. 
+        An open-source reporting library for Java, .Net and Ruby. 
     </description>
     
     <licenses>
@@ -109,14 +109,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.0-alpha-4</version>
+                        <version>1.4</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
                                 <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
                                 <configuration>
                                     <sources>
                                         <source>src/</source>
@@ -127,12 +124,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                     </plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.18.1</version>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>2.3.2</version>
 						<configuration>
-							<suiteXmlFiles>
-								<suiteXmlFile>testng.xml</suiteXmlFile>
-							</suiteXmlFiles>
+							<source>1.6</source>
+							<target>1.6</target>
 						</configuration>
 					</plugin>
                     <plugin>
@@ -143,6 +139,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
+						<version>2.3</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -155,6 +152,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.3</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
