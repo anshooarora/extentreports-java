@@ -488,6 +488,9 @@ nav ul a:hover {
 .exception-name {
     margin-bottom: 40px;
 }
+.exception-body td:first-child {
+    width: 150px;
+}
 
 /* -- [ filters ] -- */
 .filters {

@@ -171,59 +171,257 @@ function detectIE() {
 }
 /* /fixed-containers */
 
+/* theme selector */
+$('.theme-selector').click(function() {
+    $('body').toggleClass('dark');
+});
+
+/* enable dashboard checkbox [TOPNAV] */
+$('#enableDashboard').click(function() {
+    var t = $(this);
+    t.toggleClass('enabled').children('i').toggleClass('active');
+    $('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
+    t.hasClass('enabled') ? redrawCharts() : null;
+});
+
+/* enable dashboard checkbox [TOPNAV] */
+$('#refreshCharts').click(function() {
+    $(this).toggleClass('enabled').children('i').toggleClass('active');
+});
+
+/* side-nav navigation [SIDE-NAV] */
+$('.analysis').click(function() {
+    $('.container > .row').addClass('hide');
+    
+    var el = $(this);
+    var cls = el.children('a').prop('class');
+    
+    $('#' + cls).removeClass('hide');
+    
+    if (cls == 'test-view') { 
+        if ($('#enableDashboard').hasClass('enabled') && $('#dashboard-view').hasClass('hide')) {
+            $('#enableDashboard').click().addClass('enabled');
+        }
+    }
+    else {
+        // if any other view besides test-view, show all divs of dashboard-view
+        $('#dashboard-view > div').removeClass('hide');
+        
+        if (cls == 'dashboard-view') { redrawCharts(); }
+    }
+    
+    $('#slide-out > .analysis').removeClass('active');
+    el.addClass('active');
+});
+
+/* test-dashboard settings [DASHBOARD] */
+$('#dashboard-view .test-count-setting').click(function() {
+    $('#test-count-setting').openModal();
+});
+
+/* step-dashboard settings [DASHBOARD] */
+$('#dashboard-view .step-status-filter').click(function() {
+    $('#step-status-filter').openModal();
+});
+
+/* refresh charts when chart setting is saved */
+$('.modal-footer').click(function() {
+    redrawCharts();
+});
+
+/* view category info [CATEGORIES] */
+$('.category-item').click(function(evt) {
+    $('#cat-collection .category-item').removeClass('active');
+    $('#cat-details-wrapper .cat-container').html('');
+    
+    var el = $(this).addClass('active').find('.cat-body').clone();
+    $('#cat-details-wrapper .cat-name').text($(this).find('.category-name').text());
+    $('#cat-details-wrapper .cat-container').append($(el));
+});
+
+/* category filter by status */
+$('#cat-details-wrapper, #exception-details-wrapper').click(function(evt) {
+    var t = $(evt.target);
+    
+    if (t.is('.exception-link') || t.is('.category-link')) {
+        var id = t.attr('extentid');
+        findTestByNameId(t.text().trim(), id);
+    }
+    
+    if (t.is('.filter, .icon')) {
+        if (t.hasClass('icon')) {
+            t = t.parent();
+        }
+        
+        var wrap = $('#cat-details-wrapper');
+
+        /* push effect */
+        $('#cat-details-wrapper .filter').removeClass('active')
+        t.addClass('active');
+        
+        wrap.find('tbody > tr').removeClass('hide');
+        
+        if (t.hasClass('pass')) {
+            wrap.find('tbody > tr:not(.pass)').addClass('hide');
+        }
+        else if (t.hasClass('fail')) {
+            wrap.find('tbody > tr:not(.fail)').addClass('hide');
+        }
+        else {
+            wrap.find('tbody > tr.fail, tbody > tr.pass').addClass('hide');
+        }
+    }
+});
+
+/* view exception info [EXCEPTIONS] */
+$('.exception-item').click(function(evt) {
+    $('#exception-collection .exception-item').removeClass('active');
+    $('#exception-details-wrapper .exception-container').html('');
+    
+    var el = $(this).addClass('active').find('.exception-body').clone();
+    $('#exception-details-wrapper .exception-name').text($(this).find('.exception-name').text());
+    $('#exception-details-wrapper .exception-container').append($(el));
+});
+
+/* view test info [TEST] */
+$('.test').click(function() {
+    var t = $(this);
+
+    $('#test-collection .test').removeClass('active');
+    $('#test-details-wrapper .test-body').html('');
+    
+    var el = t.addClass('active').find('.test-body').clone();
+    $('#test-details-wrapper .details-name').html(t.find('.test-name').html());
+    $('#test-details-wrapper .details-container').append($(el));
+    
+    var collapsible = $('#test-details-wrapper .collapsible');
+    if (collapsible.length > 0) {
+        collapsible.collapsible({ accordion : true });
+    }
+});
+
+/* toggle search */
+$('.mdi-action-search, .fa-search').click(function() {
+    $(this).toggleClass('active');
+    var s = $('.search > .input-field');
+    s.animate({ width: s.css('width') == '0px' ? '240px' : '0px'}, 200);
+});
+
+/* filter tests by text in test and categories view */
+$.fn.dynamicTestSearch = function(id){ 
+    var target = $(this);
+    var searchBox = $(id);
+    
+    searchBox.off('keyup').on('keyup', function() {
+        pattern = RegExp(searchBox.val(), 'gi');
+        
+        if (searchBox.val() == '') {
+            target.removeClass('hide');
+        }
+        else {
+            target.addClass('hide').each(function() {
+                var t = $(this);
+                if (pattern.test(t.html())) {
+                    t.removeClass('hide');
+                }
+            });
+        }
+    });
+    
+    return target;
+}
+
+/* clicking a section on pie chart will automatically filter tests by status */
+$('#test-analysis').click(
+    function(evt) {
+        var label = testChart.getSegmentsAtEvent(evt)[0].label;
+        
+        $('#tests-toggle li').filter(
+            function() {
+                return ($(this).text() == label);
+            }
+        ).click();
+    }
+);
+
+/* clicking the category tag will automatically filter tests by category */
+$('#test-details-wrapper').click(function(evt) {
+    var el = $(evt.target);
+    
+    if (el.hasClass('category')) {
+        var label = el.text();
+        
+        $('#category-toggle a').filter(
+            function() {
+                return ($(this).text() == label);
+            }
+        ).click();
+    }
+});
+
+/* filter tests by status [TEST] */
+$('#tests-toggle li').click(function() {
+    if ($(this).hasClass('clear')) {
+        resetFilters();
+        return;
+    }
+    
+    var opt = $(this).text().toLowerCase();
+    var cat = $('#category-toggle li.active').text().toLowerCase().replace(/\./g, '').replace(/\#/g, '').replace(/ /g, '');
+
+    $('#tests-toggle li').removeClass('active');
+    $(this).addClass('active');
+    $('.test, .node-list > li').addClass('hide').removeClass('displayed');
+
+    if (cat != '') {
+        $('#test-collection .category-assigned.' + cat).closest('.test.' + opt + ', .test:has(.test-node.' + opt + ')').removeClass('hide').addClass('displayed');
+        $('.node-list > li.' + opt).removeClass('hide').addClass('displayed');
+    } 
+    else {
+        $('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).removeClass('hide').addClass('displayed');
+    }
+    
+    $('#test-view .tests-toggle > i').addClass('active');
+    $('#test-collection .test.displayed').eq(0).click();
+    redrawCharts();
+});
+
+/* filter tests by category [TEST] */
+$('#category-toggle li').click(function() {
+    if ($(this).hasClass('clear')) {
+        resetFilters();
+        return;
+    }
+    
+    var opt = $(this).text().toLowerCase().replace(/\./g, '').replace(/\#/g, '').replace(/ /g, '');
+    var status = $('#tests-toggle li.active').text().toLowerCase();
+    
+    $('#category-toggle li').removeClass('active');
+    $(this).addClass('active');
+    $('.test').addClass('hide').removeClass('displayed');
+
+    if (status != '') {
+        $('#test-collection .category-assigned.' + opt).closest('.test.' + status + ', .test:has(.test-node.' + status + ')').removeClass('hide').addClass('displayed');
+    } 
+    else {
+        $('#test-collection .category-assigned.' + opt).closest('.test').removeClass('hide').addClass('displayed');
+    }
+    
+    $('#test-view .category-toggle > i').addClass('active');
+    $('.test.displayed').eq(0).click();
+    redrawCharts();
+});
+
+/* clear filters button */
+$('#clear-filters').click(function() {
+    resetFilters();
+});
+
 $(document).ready(function() {
 	/* init */
 	$('select').material_select();
 	$('#refreshCharts').addClass('enabled').children('i').addClass('active');
 
-	/* theme selector */
-	$('.theme-selector').click(function() {
-		$('body').toggleClass('dark');
-	});
-	
-	/* enable dashboard checkbox [TOPNAV] */
-	$('#enableDashboard').click(function() {
-		var t = $(this);
-		t.toggleClass('enabled').children('i').toggleClass('active');
-		$('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
-		t.hasClass('enabled') ? redrawCharts() : null;
-	});
-	
-	/* enable dashboard checkbox [TOPNAV] */
-	$('#refreshCharts').click(function() {
-		$(this).toggleClass('enabled').children('i').toggleClass('active');
-	});
-	
-	/* side-nav navigation [SIDE-NAV] */
-	$('.analysis').click(function() {
-		$('.container > .row').addClass('hide');
-		
-		var el = $(this);
-		var cls = el.children('a').prop('class');
-		
-		$('#' + cls).removeClass('hide');
-		
-		if (cls == 'test-view') { 
-			if ($('#enableDashboard').hasClass('enabled') && $('#dashboard-view').hasClass('hide')) {
-				$('#enableDashboard').click().addClass('enabled');
-			}
-		}
-		else {
-			// if any other view besides test-view, show all divs of dashboard-view
-			$('#dashboard-view > div').removeClass('hide');
-			
-			if (cls == 'dashboard-view') { redrawCharts(); }
-		}
-		
-		$('#slide-out > .analysis').removeClass('active');
-		el.addClass('active');
-	});
-	
-	/* test-dashboard settings [DASHBOARD] */
-	$('#dashboard-view .test-count-setting').click(function() {
-		$('#test-count-setting').openModal();
-	});
-	
 	/* test count setting */
 		/* init */
 		$('#parentWithoutNodesAndNodes').click();
@@ -232,126 +430,22 @@ $(document).ready(function() {
 		$('#test-count-setting').addClass($(this).prop('id'));
 	});
 	
-	/* step-dashboard settings [DASHBOARD] */
-	$('#dashboard-view .step-status-filter').click(function() {
-		$('#step-status-filter').openModal();
-	});
-	
-	/* refresh charts when chart setting is saved */
-	$('.modal-footer').click(function() {
-		redrawCharts();
-	});
-	
 	/* check all checkboxes for step-dashboard filter to allow filtering the steps to be displayed [DASHBOARD] */
 	$('#step-status-filter input').prop('checked', 'checked');
 	$('#step-status-filter input').click(function() {
 	   $('#step-status-filter').toggleClass($(this).prop('id').replace('step-dashboard-filter-', ''));
 	});
 	
-	/* view category info [CATEGORIES] */
-	$('.category-item').click(function(evt) {
-		$('#cat-collection .category-item').removeClass('active');
-		$('#cat-details-wrapper .cat-container').html('');
-		
-		var el = $(this).addClass('active').find('.cat-body').clone();
-		$('#cat-details-wrapper .cat-name').text($(this).find('.category-name').text());
-		$('#cat-details-wrapper .cat-container').append($(el));
-	});
+    /* select the first category item in categories view by default */
 	$('.category-item').eq(0).click();
     
-	/* category filter by status */
-	$('#cat-details-wrapper, #exception-details-wrapper').click(function(evt) {
-		var t = $(evt.target);
-        
-		if (t.is('.exception-link') || t.is('.category-link')) {
-			var id = t.attr('extentid');
-			findTestByNameId(t.text().trim(), id);
-		}
-		
-		if (t.is('.filter, .icon')) {
-			if (t.hasClass('icon')) {
-				t = t.parent();
-			}
-			
-			var wrap = $('#cat-details-wrapper');
-
-			/* push effect */
-			$('#cat-details-wrapper .filter').removeClass('active')
-			t.addClass('active');
-			
-			wrap.find('tbody > tr').removeClass('hide');
-			
-			if (t.hasClass('pass')) {
-				wrap.find('tbody > tr:not(.pass)').addClass('hide');
-			}
-			else if (t.hasClass('fail')) {
-				wrap.find('tbody > tr:not(.fail)').addClass('hide');
-			}
-			else {
-				wrap.find('tbody > tr.fail, tbody > tr.pass').addClass('hide');
-			}
-		}
-	});
-    
-    /* view exception info [EXCEPTIONS] */
-	$('.exception-item').click(function(evt) {
-		$('#exception-collection .exception-item').removeClass('active');
-		$('#exception-details-wrapper .exception-container').html('');
-		
-		var el = $(this).addClass('active').find('.exception-body').clone();
-		$('#exception-details-wrapper .exception-name').text($(this).find('.exception-name').text());
-		$('#exception-details-wrapper .exception-container').append($(el));
-	});
+	/* select the first exception item in exceptions view by default */
     $('.exception-item').eq(0).click();
 	
-	/* view test info [TEST] */
-	$('.test').click(function() {
-		var t = $(this);
-
-		$('#test-collection .test').removeClass('active');
-		$('#test-details-wrapper .test-body').html('');
-		
-		var el = t.addClass('active').find('.test-body').clone();
-		$('#test-details-wrapper .details-name').html(t.find('.test-name').html());
-		$('#test-details-wrapper .details-container').append($(el));
-		
-		var collapsible = $('#test-details-wrapper .collapsible');
-		if (collapsible.length > 0) {
-			collapsible.collapsible({ accordion : true });
-		}
-	});
+	/* select the first test in test's view by default */
 	$('.test').eq(0).click();
 	
-	/* toggle search */
-	$('.mdi-action-search, .fa-search').click(function() {
-		$(this).toggleClass('active');
-		var s = $('.search > .input-field');
-		s.animate({ width: s.css('width') == '0px' ? '240px' : '0px'}, 200);
-	});
-	
-	/* filter tests by text in test and categories view */
-	$.fn.dynamicTestSearch = function(id){ 
-		var target = $(this);
-		var searchBox = $(id);
-		
-		searchBox.off('keyup').on('keyup', function() {
-			pattern = RegExp(searchBox.val(), 'gi');
-			
-			if (searchBox.val() == '') {
-				target.removeClass('hide');
-			}
-			else {
-				target.addClass('hide').each(function() {
-					var t = $(this);
-					if (pattern.test(t.html())) {
-						t.removeClass('hide');
-					}
-				});
-			}
-		});
-		
-		return target;
-	}
+    /* bind the search functionality on Tests, Categories and Exceptions view */
 	$('#test-collection .test').dynamicTestSearch('#test-view #searchTests');
 	$('#cat-collection .category-item').dynamicTestSearch('#categories-view #searchTests');
 	$('#exception-collection .exception-item').dynamicTestSearch('#exceptions-view #searchTests');
@@ -360,92 +454,6 @@ $(document).ready(function() {
 	$('.table-results').filter(function() {
 		return ($(this).find('tr').length == 1);
 	}).hide(0);
-	
-	/* clicking a section on pie chart will automatically filter tests by status */
-	$('#test-analysis').click(
-		function(evt) {
-			var label = testChart.getSegmentsAtEvent(evt)[0].label;
-			
-			$('#tests-toggle li').filter(
-				function() {
-					return ($(this).text() == label);
-				}
-			).click();
-		}
-	);
-	
-	/* clicking the category tag will automatically filter tests by category */
-	$('#test-details-wrapper').click(function(evt) {
-		var el = $(evt.target);
-		
-		if (el.hasClass('category')) {
-			var label = el.text();
-			
-			$('#category-toggle a').filter(
-				function() {
-					return ($(this).text() == label);
-				}
-			).click();
-		}
-	});
-	
-	/* filter tests by status [TEST] */
-	$('#tests-toggle li').click(function() {
-		if ($(this).hasClass('clear')) {
-			resetFilters();
-			return;
-		}
-		
-		var opt = $(this).text().toLowerCase();
-		var cat = $('#category-toggle li.active').text().toLowerCase().replace(/\./g, '').replace(/\#/g, '').replace(/ /g, '');
-
-		$('#tests-toggle li').removeClass('active');
-		$(this).addClass('active');
-		$('.test, .node-list > li').addClass('hide').removeClass('displayed');
-
-		if (cat != '') {
-			$('#test-collection .category-assigned.' + cat).closest('.test.' + opt + ', .test:has(.test-node.' + opt + ')').removeClass('hide').addClass('displayed');
-			$('.node-list > li.' + opt).removeClass('hide').addClass('displayed');
-		} 
-		else {
-			$('.test:has(.test-node.' + opt + '), .test.' + opt + ', .node-list > li.' + opt).removeClass('hide').addClass('displayed');
-		}
-		
-		$('#test-view .tests-toggle > i').addClass('active');
-		$('#test-collection .test.displayed').eq(0).click();
-		redrawCharts();
-	});
-	
-	/* filter tests by category [TEST] */
-	$('#category-toggle li').click(function() {
-		if ($(this).hasClass('clear')) {
-			resetFilters();
-			return;
-		}
-		
-		var opt = $(this).text().toLowerCase().replace(/\./g, '').replace(/\#/g, '').replace(/ /g, '');
-		var status = $('#tests-toggle li.active').text().toLowerCase();
-		
-		$('#category-toggle li').removeClass('active');
-		$(this).addClass('active');
-		$('.test').addClass('hide').removeClass('displayed');
-
-		if (status != '') {
-			$('#test-collection .category-assigned.' + opt).closest('.test.' + status + ', .test:has(.test-node.' + status + ')').removeClass('hide').addClass('displayed');
-		} 
-		else {
-			$('#test-collection .category-assigned.' + opt).closest('.test').removeClass('hide').addClass('displayed');
-		}
-		
-		$('#test-view .category-toggle > i').addClass('active');
-		$('.test.displayed').eq(0).click();
-		redrawCharts();
-	});
-	
-	/* clear filters button */
-	$('#clear-filters').click(function() {
-		resetFilters();
-	});
     
 	resetFilters(function() { $('#dashboard-view').addClass('hide'); });
 });
