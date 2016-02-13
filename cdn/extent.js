@@ -118,6 +118,7 @@ function _adjustSize(){
     ct.find('._addedCell1, ._addedCell2').css({'height':($(window).height() - 50)+'px'});
     ct.find('._addedCell1 .contents, ._addedCell2 .contents').css({'height':($(window).height() - 65)+'px'});
     
+    /*
     if (currentBrowserIE == false) {
         ct.find('._addedCell1').css({'overflow-y':'scroll'});
         ct.find('._addedCell2').css({'overflow-y':'auto'});
@@ -126,6 +127,7 @@ function _adjustSize(){
         ct.find('._addedCell1 .contents').css({'overflow-y':'scroll'});
         ct.find('._addedCell2 .contents').css({'overflow-y':'auto'});
     }
+    */
     
     if ($(window).width() < 992) {
         ct.find('._addedCell2').css({'width':Math.round($(window).width() - 18 - ct.find('._addedCell1').width())+'px'});
@@ -543,26 +545,26 @@ function refreshData() {
 	unknownTests = $('.test.displayed .node-list > li.unknown.displayed, .test.displayed.unknown:not(.hasChildren)').length;
 	
 	if (el.hasClass('parentWithoutNodes')) {
-		totalTests = $('.test.displayed').length;
-		passedTests = $('.test.displayed.pass').length;
-		failedTests = $('.test.displayed.fail').length;
-		fatalTests = $('.test.displayed.fatal').length;
-		warningTests = $('.test.displayed.warning').length;
-		errorTests = $('.test.displayed.error').length;
-		skippedTests = $('.test.displayed.skip').length;
-		unknownTests = $('.test.displayed.unknown').length;
+		totalTests = $('#test-collection .test.displayed').length;
+		passedTests = $('#test-collection .test.displayed.pass').length;
+		failedTests = $('#test-collection .test.displayed.fail').length;
+		fatalTests = $('#test-collection .test.displayed.fatal').length;
+		warningTests = $('#test-collection .test.displayed.warning').length;
+		errorTests = $('#test-collection .test.displayed.error').length;
+		skippedTests = $('#test-collection .test.displayed.skip').length;
+		unknownTests = $('#test-collection .test.displayed.unknown').length;
 	}
 	else if (el.hasClass('childNodes')) {
-		totalTests = $('.test-node').length;
-		passedTests = $('.test.displayed .node-list > li.pass.displayed').length;
-		failedTests = $('.test.displayed .node-list > li.fail.displayed').length;
-		fatalTests = $('.test.displayed .node-list > li.fatal.displayed').length;
-		warningTests = $('.test.displayed .node-list > li.warning.displayed').length;
-		errorTests = $('.test.displayed .node-list > li.error.displayed').length;
-		skippedTests = $('.test.displayed .node-list > li.skip.displayed').length;
-		unknownTests = $('.test.displayed .node-list > li.unknown.displayed').length;
+		totalTests = $('#test-collection .test-node').length;
+		passedTests = $('#test-collection .test.displayed .node-list > li.pass.displayed').length;
+		failedTests = $('#test-collection .test.displayed .node-list > li.fail.displayed').length;
+		fatalTests = $('#test-collection .test.displayed .node-list > li.fatal.displayed').length;
+		warningTests = $('#test-collection .test.displayed .node-list > li.warning.displayed').length;
+		errorTests = $('#test-collection .test.displayed .node-list > li.error.displayed').length;
+		skippedTests = $('#test-collection .test.displayed .node-list > li.skip.displayed').length;
+		unknownTests = $('#test-collection .test.displayed .node-list > li.unknown.displayed').length;
 	}
-	
+
 	$('.t-pass-count').text(passedTests);
 	$('.t-fail-count').text(failedTests + fatalTests);
 	$('.t-warning-count').text(warningTests);
