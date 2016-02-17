@@ -449,16 +449,6 @@ nav ul a:hover {
 	text-transform: capitalize;
 }
 
-/* -- [ test-runner logs ] -- */
-#testrunner-logs-view > .col > .card-panel {
-    bottom: 0;
-    left: 71px;
-    overflow-y: auto;
-    position: fixed;
-    right: 17px;
-    top: 48px;
-}
-
 /* -- [ collections ] -- */
 #test-collection, #cat-collection, #exception-collection {
 	margin: 0;

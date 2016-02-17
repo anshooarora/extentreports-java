@@ -615,10 +615,12 @@ public class ExtentReports extends Report {
      * 		An {@link ExtentTest} object
      */
     public synchronized void endTest(ExtentTest extentTest) {
-    	Test test = extentTest.getInternalTest();    	
-        test.hasEnded = true;
-
-        finalizeTest(test);
+        if (extentTest != null) {
+        	Test test = extentTest.getInternalTest();    	
+            test.hasEnded = true;
+    
+            finalizeTest(test);
+        }
     }
     
     /**
@@ -631,7 +633,9 @@ public class ExtentReports extends Report {
      * 		An {@link ExtentReports} object
      */
     public ExtentReports addSystemInfo(Map<String, String> info) {
-        systemInfo.setInfo(info);
+        if (info != null) {
+            systemInfo.setInfo(info);
+        }
         
         return this;
     }
@@ -650,7 +654,9 @@ public class ExtentReports extends Report {
      * 		An {@link ExtentReports} object
      */
     public ExtentReports addSystemInfo(String param, String value) {
-        systemInfo.setInfo(param, value);
+        if (param != null) {
+            systemInfo.setInfo(param, value);
+        }
         
         return this;
     }

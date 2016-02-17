@@ -199,7 +199,7 @@ $('.analysis').click(function() {
             $('#enableDashboard').click().addClass('enabled');
         }
     }
-    else if (cls == 'dashboard-view') {
+    else if (cls == 'dashboard-view' || cls == 'testrunner-logs-view') {
         $('body').removeClass('hide-overflow');
     }
     else {
