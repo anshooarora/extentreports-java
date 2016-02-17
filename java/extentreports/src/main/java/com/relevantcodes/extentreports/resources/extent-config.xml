@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extentreports>
     <configuration>
-		<!-- document encoding -->
-		<!-- defaults to UTF-8 -->
-		<encoding>UTF-8</encoding>
-		
-		<!-- protocol for script and stylesheets -->
-		<!-- defaults to https -->
-		<protocol>https</protocol>
-		
+        <!-- report theme -->
+        <!-- standard, dark -->
+        <theme>standard</theme>
+    
+        <!-- document encoding -->
+        <!-- defaults to UTF-8 -->
+        <encoding>UTF-8</encoding>
+        
+        <!-- protocol for script and stylesheets -->
+        <!-- defaults to https -->
+        <protocol>https</protocol>
+        
         <!-- title of the document -->
         <documentTitle>ExtentReports 2.0</documentTitle>
         

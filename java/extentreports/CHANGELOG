@@ -1,3 +1,10 @@
+#2.40.2
+	(#301) Automatically update log timestamps when used via TestNG listener
+    (#309) Fixes: TestRunner Logs view does not scroll beyond page + fix for dashboard view
+    (#310) Fixes: FreeMarker Template error when SystemInfo passed as null
+    (#320) Fixes: NullPointerException when flushing with nothing in report
+	(#336) Adds responsiveness for medium devices
+
 #2.40.1 <01-20-2016>
 	(#144) Fixed issue causing wrong start time appearing in dashboard for reported creating using TestNG listener
 	(#149) UX updates - containers are now resizable
