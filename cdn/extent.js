@@ -86,7 +86,6 @@ $(function() {
         $('._addedCell1').css({'resize':'horizontal'})
     }
     
-    
     _adjustSize();
 });
 
@@ -117,17 +116,6 @@ function _adjustSize(){
     
     ct.find('._addedCell1, ._addedCell2').css({'height':($(window).height() - 50)+'px'});
     ct.find('._addedCell1 .contents, ._addedCell2 .contents').css({'height':($(window).height() - 65)+'px'});
-    
-    /*
-    if (currentBrowserIE == false) {
-        ct.find('._addedCell1').css({'overflow-y':'scroll'});
-        ct.find('._addedCell2').css({'overflow-y':'auto'});
-    }
-    else {
-        ct.find('._addedCell1 .contents').css({'overflow-y':'scroll'});
-        ct.find('._addedCell2 .contents').css({'overflow-y':'auto'});
-    }
-    */
     
     if ($(window).width() < 992) {
         ct.find('._addedCell2').css({'width':Math.round($(window).width() - 18 - ct.find('._addedCell1').width())+'px'});
@@ -173,6 +161,11 @@ function detectIE() {
 }
 /* /fixed-containers */
 
+/* sidenav toggle */
+$('.button-collapse > i').click(function() {
+    $('.side-nav').toggleClass('hide-on-med-and-down');
+});
+
 /* theme selector */
 $('.theme-selector').click(function() {
     $('body').toggleClass('dark');
@@ -193,6 +186,7 @@ $('#refreshCharts').click(function() {
 
 /* side-nav navigation [SIDE-NAV] */
 $('.analysis').click(function() {
+    $('body').addClass('hide-overflow');
     $('.container > .row').addClass('hide');
     
     var el = $(this);
@@ -204,6 +198,9 @@ $('.analysis').click(function() {
         if ($('#enableDashboard').hasClass('enabled') && $('#dashboard-view').hasClass('hide')) {
             $('#enableDashboard').click().addClass('enabled');
         }
+    }
+    else if (cls == 'dashboard-view') {
+        $('body').removeClass('hide-overflow');
     }
     else {
         // if any other view besides test-view, show all divs of dashboard-view
