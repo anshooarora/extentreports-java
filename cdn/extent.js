@@ -199,10 +199,11 @@ $('.analysis').click(function() {
             $('#enableDashboard').click().addClass('enabled');
         }
     }
-    else if (cls == 'dashboard-view' || cls == 'testrunner-logs-view') {
-        $('body').removeClass('hide-overflow');
-    }
     else {
+        if (cls == 'dashboard-view' || cls == 'testrunner-logs-view') {
+            $('body').removeClass('hide-overflow');
+        }
+        
         // if any other view besides test-view, show all divs of dashboard-view
         $('#dashboard-view > div').removeClass('hide');
         
