@@ -29,8 +29,7 @@
 		</#if>
 		
 		<link href='${protocol}://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
-		<!--<link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/9217989cf143c60773725b8bbf5d7966479c969c/cdn/extent.css' type='text/css' rel='stylesheet' />-->
-		<link href='file:///C:/Users/Anshoo/Documents/GitHub/extentreports/cdn/extent.css' type='text/css' rel='stylesheet' />
+		<link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/e4f8ea1de961161791c01b99a71a1e17f81125cf/cdn/extent.css' type='text/css' rel='stylesheet' />
 		
 		<style>
 			<#if report.configurationMap??>
@@ -652,8 +651,7 @@
 		</div>
 		<!-- /filter for step status -->
 		
-		<!--<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/9217989cf143c60773725b8bbf5d7966479c969c/cdn/extent.js' type='text/javascript'></script>-->
-		<script src='file:///c:/Users/Anshoo/Documents/GitHub/extentreports/cdn/extent.js' type='text/javascript'></script>
+		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/e4f8ea1de961161791c01b99a71a1e17f81125cf/cdn/extent.js' type='text/javascript'></script>
 
 		<script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
 		<script>
