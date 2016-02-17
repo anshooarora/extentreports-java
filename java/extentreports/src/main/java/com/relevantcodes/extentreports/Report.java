@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.relevantcodes.extentreports.converters.TimeConverter;
+import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.SuiteTimeInfo;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
@@ -240,7 +241,7 @@ abstract class Report extends LogSettings {
     }
     
     protected String getRunDuration() {
-    	currentSuiteRunDuration = DateTimeUtil.getDiff(Calendar.getInstance().getTime(), startedTime);
+    	currentSuiteRunDuration = DateTimeUtil.getDiff(Calendar.getInstance().getTime(), new Date(suiteTimeInfo.getSuiteStartTimestamp()));
     	return currentSuiteRunDuration;
     }
     
@@ -335,6 +336,20 @@ abstract class Report extends LogSettings {
         		setCauseTest(t, test);
         	}
         }
+        
+        // #301 - for users using the TestNG listener, the log timestamps are all 
+        // recorded as the time at which the report is generated. This causes the
+        // log timestamps to be greater than the test ended time. Below fix ensures
+        // the log timestamp is always equal to or between test start and end times
+        Iterator<Log> logIter = test.logIterator();
+        
+        while (logIter.hasNext()) {
+            Log log = logIter.next();
+            
+            if (log.getTimestamp().after(test.getEndedTime())) {
+                log.setTimestamp(test.getEndedTime());
+            }
+        }       
         
         test.prepareFinalize();
         
@@ -432,13 +447,16 @@ abstract class Report extends LogSettings {
             return;
         }
     	
-    	for (ExtentTest test : getTestList()) { 
-    		updateTestStatusList(test.getInternalTest());
+    	// #320 - ensure atleast 1 test is added, otherwise skip the flush process
+    	if (getTestList() != null) {
+        	for (ExtentTest test : getTestList()) { 
+        		updateTestStatusList(test.getInternalTest());
+        	}
+        	
+        	for (IReporter reporter : reporters) {
+                reporter.flush();            
+            }
     	}
-    	
-        for (IReporter reporter : reporters) {
-            reporter.flush();            
-        }
     }
     
     protected Map<String, String> loadConfig(Configuration config) {
