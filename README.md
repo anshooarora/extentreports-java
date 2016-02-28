@@ -1,5 +1,7 @@
 ## ExtentReports
 
+[![Join the chat at https://gitter.im/anshooarora/extentreports](https://badges.gitter.im/anshooarora/extentreports.svg)](https://gitter.im/anshooarora/extentreports?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 An open-source reporting library for Java, .Net and Ruby.
 
 ### Usage and Documentation
