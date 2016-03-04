@@ -17,6 +17,7 @@ public class SingleLogTest extends BaseExample {
 	public void beforeClass() {
 		extent = new ExtentReports(filePath, true);
 		extent.startReporter(ReporterType.DB, (new File(filePath)).getParent() + File.separator + "extent.db");
+		extent.x();
 		
 		extent.addSystemInfo("Host Name", "Anshoo");
 	}

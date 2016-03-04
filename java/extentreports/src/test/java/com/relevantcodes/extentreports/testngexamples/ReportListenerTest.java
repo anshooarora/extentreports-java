@@ -15,6 +15,7 @@ public class ReportListenerTest {
 		
 		try { Thread.sleep(2000); } catch(Exception e) { }
 		
+		Assert.assertTrue(false);
 		Assert.assertEquals(LogStatus.PASS, LogStatus.WARNING);
 	}
 	

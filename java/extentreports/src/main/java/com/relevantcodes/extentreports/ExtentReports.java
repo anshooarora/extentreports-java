@@ -12,12 +12,17 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientURI;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import com.relevantcodes.extentreports.converters.TestConverter;
 import com.relevantcodes.extentreports.model.Test;
 
@@ -534,6 +539,189 @@ public class ExtentReports extends Report {
     	}
     	
     	loadConfig(new Configuration(url));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB using default host (localhost) and 
+     * port (27017)
+     */
+    public void x() {
+        attach(new ExtentX());
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB using host and default port (27017)
+     * 
+     * @param host
+     *      MongoDB's database's host address
+     */
+    public void x(String host) {
+        attach(new ExtentX(host));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB
+     * 
+     * @param host
+     *      The database's host address
+     *      
+     * @param port
+     *      The port on which the database is running            
+     */
+    public void x(String host, int port) {
+        attach(new ExtentX(host, port));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB described by a URI
+     * 
+     * <p>
+     * Creates a Mongo described by a URI. If only one address is used MongoClient 
+     * will only connect to that node, otherwise it will discover all nodes
+     * 
+     * @param uri
+     *      The URI
+     */
+    public void x(MongoClientURI uri) {
+        attach(new ExtentX(uri));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB based on a (single) mongodb 
+     * node (default port)
+     * 
+     * @param host
+     *      The database's host address
+     *      
+     * @param options
+     *      Default query options
+     */
+    public void x(String host,  MongoClientOptions options) {
+        attach(new ExtentX(host, options));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB
+     * 
+     * @param addr
+     *      The database address
+     */
+    public void x(ServerAddress addr) {
+        attach(new ExtentX(addr));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB. Creates a Mongo based on a list 
+     * of replica set members or a list of mongos.
+     * 
+     * @param seeds
+     *      List of mongod servers in the same replica set or a list of mongos 
+     *      servers in the same sharded cluster
+     */
+    public void x(List<ServerAddress> seeds) {
+        attach(new ExtentX(seeds));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB. Creates a Mongo based on a list 
+     * of replica set members or a list of mongos.
+     * 
+     * @param seeds
+     *      List of mongod servers in the same replica set or a list of mongos 
+     *      servers in the same sharded cluster
+     *      
+     * @param credentialsList
+     *      The list of credentials used to authenticate all connections
+     */
+    public void x(List<ServerAddress> seeds, List<MongoCredential> credentialsList) {
+        attach(new ExtentX(seeds, credentialsList));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB based on a list of replica set 
+     * members or a list of mongos
+     * 
+     * @param seeds
+     *      List of mongod servers in the same replica set or a list of mongos 
+     *      servers in the same sharded cluster
+     *      
+     * @param credentialsList
+     *      The list of credentials used to authenticate all connections
+     *      
+     * @param options
+     *      Default options
+     */
+    public void x(List<ServerAddress> seeds, List<MongoCredential> credentialsList, MongoClientOptions options) {
+        attach(new ExtentX(seeds, credentialsList, options));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB
+     * 
+     * @param seeds
+     *      List of mongod servers in the same replica set or a list of mongos 
+     *      servers in the same sharded cluster
+     *      
+     * @param options
+     *      Default options
+     */
+    public void x(List<ServerAddress> seeds, MongoClientOptions options) {
+        attach(new ExtentX(seeds, options));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB
+     * 
+     * @param addr
+     *      The database address
+     *      
+     * @param credentialsList
+     *      The list of credentials used to authenticate all connections
+     */
+    public void x(ServerAddress addr, List<MongoCredential> credentialsList) {
+        attach(new ExtentX(addr, credentialsList));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB
+     * 
+     * @param addr
+     *      The database address
+     *      
+     * @param credentialsList
+     *      The list of credentials used to authenticate all connections
+     *      
+     * @param options
+     *      Default options
+     */
+    public void x(ServerAddress addr, List<MongoCredential> credentialsList, MongoClientOptions options) {
+        attach(new ExtentX(addr, credentialsList, options));
+    }
+    
+    /**
+     * <p>
+     * Initializes ExtentX and connects to MongoDB
+     * 
+     * @param addr
+     *      The database address
+     *      
+     * @param options
+     *      Default options
+     */
+    public void x(ServerAddress addr, MongoClientOptions options) {
+        attach(new ExtentX(addr, options));
     }
     
     /**

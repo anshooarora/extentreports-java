@@ -651,7 +651,7 @@
 		</div>
 		<!-- /filter for step status -->
 		
-		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/e4f8ea1de961161791c01b99a71a1e17f81125cf/cdn/extent.js' type='text/javascript'></script>
+		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/c936a26fc8bb9c5fc0253b5bc6f289e1d14bb595/cdn/extent.js' type='text/javascript'></script>
 
 		<script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
 		<script>

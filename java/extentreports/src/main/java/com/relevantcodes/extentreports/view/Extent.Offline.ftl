@@ -471,7 +471,7 @@
 																<#list testList as test>
 																	<tr class='${test.status}'>
 																		<td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
-																		<td><span class='category-link linked'>${test.name}</span></td>
+																		<td><span class='category-link linked' extentid='${test.id?string}'>${test.name}</span></td>
 																		<td><div class='status label capitalize ${test.status}'>${test.status}</div></td>
 																	</tr>
 																</#list>
@@ -541,7 +541,7 @@
 																<#list testList as test>
 																	<tr class='${test.status}'>
 																		<td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
-																		<td><span class='category-link linked'>${test.name}</span></td>
+																		<td><span class='category-link linked' extentid='${test.id?string}'>${test.name}</span></td>
 																		<td><div class='exception-message'>${test.lastExceptionMessage}</div></td>
 																	</tr>
 																</#list>

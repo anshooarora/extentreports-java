@@ -17,6 +17,7 @@ public class LogHierarchyTest extends BaseExample {
 	public void beforeSuite() {
 		extent = new ExtentReports(filePath, true);
 		extent.startReporter(ReporterType.DB, (new File(filePath)).getParent() + File.separator + "extent.db");
+		extent.x();
 		
 		extent.addSystemInfo("Host Name", "Anshoo");
 	}

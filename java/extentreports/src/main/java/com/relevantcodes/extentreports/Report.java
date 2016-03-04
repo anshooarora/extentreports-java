@@ -447,6 +447,8 @@ abstract class Report extends LogSettings {
             return;
         }
     	
+    	suiteTimeInfo.setSuiteEndTimestamp(new Date().getTime());
+    	
     	// #320 - ensure atleast 1 test is added, otherwise skip the flush process
     	if (getTestList() != null) {
         	for (ExtentTest test : getTestList()) { 
