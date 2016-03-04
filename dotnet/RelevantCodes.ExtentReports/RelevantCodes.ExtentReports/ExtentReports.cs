@@ -186,9 +186,12 @@ namespace RelevantCodes.ExtentReports
         /// <returns>An ExtentReports object</returns>
         public ExtentReports AddSystemInfo(Dictionary<string, string> Info)
         {
-            foreach (KeyValuePair<string, string> entry in Info)
+            if (Info != null)
             {
-                AddSystemInfo(entry.Key, entry.Value);
+                foreach (KeyValuePair<string, string> entry in Info)
+                {
+                    AddSystemInfo(entry.Key, entry.Value);
+                }
             }
 
             return this;

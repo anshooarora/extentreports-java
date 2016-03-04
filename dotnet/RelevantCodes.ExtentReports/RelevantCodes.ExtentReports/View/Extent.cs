@@ -19,6 +19,12 @@
                         if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""protocol"")) {
                             protocol = Model.ConfigurationMap[""protocol""];
                         }
+
+                        var theme = """";
+                        if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""theme"")) {
+                            theme = Model.ConfigurationMap[""theme""];
+                        }
+
                     }
 
                     <!DOCTYPE html>
@@ -41,8 +47,8 @@
                                 }
                             </title>
 
-                            <link href='@protocol://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css' type='text/css' rel='stylesheet'>
-                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/a7fadea2f449184064e06465391f689653dea590/cdn/extent.css' type='text/css' rel='stylesheet' />
+                            <link href='@protocol://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
+                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/e4f8ea1de961161791c01b99a71a1e17f81125cf/cdn/extent.css' type='text/css' rel='stylesheet' />
 
                             <style>
                                 @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""styles""))
@@ -51,16 +57,14 @@
                                 }
                             </style>
                         </head>
-                        <body class='extent'>
+                        <body class='extent @theme'>
                             <!-- nav -->
                             <nav>
                                 <div class='logo-container'>
                                     <a class='logo-content' href='http://extentreports.relevantcodes.com'>
                                         <span>ExtentReports</span>
                                     </a>
-                                    <a class='menu-toggle right' style='display:none;'>
-                                        <i class='mdi-navigation-menu'></i>
-                                    </a>
+                                    <a href='#' data-activates='slide-out' class='button-collapse hide-on-large-only'><i class='mdi-navigation-apps'></i></a>
                                 </div>
 
                                 <!-- sidenav -->
@@ -82,19 +86,18 @@
                                 </ul>
                                 <!-- /sidenav -->
 
-                                <a href='#' data-activates='slide-out' class='button-collapse'><i class='mdi-navigation-menu'></i></a>
                                 <span class='report-name'>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""reportName"")) { @Raw(Model.ConfigurationMap[""reportName""]) }</span> <span class='report-headline'>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""reportHeadline"")) { @Raw(Model.ConfigurationMap[""reportHeadline""]) }</span>
 
                                 <!-- navright -->
                                 <ul class='right hide-on-med-and-down nav-right'>
-                                    <li class='theme-selector' alt='Click to toggle dark theme. To enable by default, use js configuration $("".theme-selector"").click();' title='Click to toggle dark theme. To enable by default, use js configuration $("".theme-selector"").click();'>
+                                    <li class='theme-selector' alt='Click to toggle dark theme.' title='Click to toggle dark theme.'>
                                         <i class='mdi-hardware-desktop-windows'></i>
                                     </li>
                                     <li>
                                         <span class='suite-started-time'>@Model.StartTime.ToString(dateTimeFormat)</span>
                                     </li>
                                     <li>
-                                        <span>v2.40.1</span>
+                                        <span>v2.40.2</span>
                                     </li>
                                 </ul>
                                 <!-- /navright -->
@@ -704,7 +707,7 @@
                             </div>
                             <!-- /modals -->
 
-                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/3caea19ade2c7b195f5ab8aecb6e22541651f5d1/cdn/extent.js' type='text/javascript'></script>
+                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/c936a26fc8bb9c5fc0253b5bc6f289e1d14bb595/cdn/extent.js' type='text/javascript'></script>
 
                             <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
                             <script>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""scripts"")) { @Raw(Model.ConfigurationMap[""scripts""]) }</script>
