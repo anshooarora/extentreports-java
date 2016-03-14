@@ -18,6 +18,8 @@ public interface ITest {
     Date getEndedTime();
 
     LogStatus getStatus();
+
+    void setStatus(LogStatus logStatus);
     
     void setDescription(String description);
     

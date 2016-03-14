@@ -84,4 +84,12 @@ public class SingleLogTest extends BaseExample {
 		
 		Assert.assertEquals(test.getRunStatus(), LogStatus.UNKNOWN);
 	}
+
+	@Test
+    public void setRunStatusTest() {
+        test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
+        test.getTest().setStatus(LogStatus.FAIL);
+
+        Assert.assertEquals(test.getTest().getStatus(), LogStatus.FAIL);
+    }
 }

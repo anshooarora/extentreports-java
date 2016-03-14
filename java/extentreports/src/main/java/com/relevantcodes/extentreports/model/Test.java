@@ -207,8 +207,12 @@ public class Test implements ITest {
     public Date getEndedTime() {
         return endTime;
     }
-    
-    // status
+
+    /**
+     * Set the status of the test
+     * @param status
+     *          The status ({@link LogStatus}) to be set
+     */
     public void setStatus(LogStatus status) {
         this.status = status;
     }
