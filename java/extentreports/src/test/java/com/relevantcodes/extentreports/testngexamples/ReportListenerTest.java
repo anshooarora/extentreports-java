@@ -8,15 +8,15 @@ import org.testng.annotations.Test;
 import com.relevantcodes.extentreports.LogStatus;
 
 @Listeners(ExtentReporterNG.class)
-public class ReportListenerTest {		
+public class ReportListenerTest {
+
 	@Test
 	public void intentionalFailure() {
 		Reporter.log("Started intentionalFailure");
 		
 		try { Thread.sleep(2000); } catch(Exception e) { }
-		
-		Assert.assertTrue(false);
-		Assert.assertEquals(LogStatus.PASS, LogStatus.WARNING);
+
+		Assert.assertNotEquals(LogStatus.PASS, LogStatus.WARNING);
 	}
 	
 	@Test
@@ -27,4 +27,5 @@ public class ReportListenerTest {
 		
 		Assert.assertEquals(LogStatus.PASS, LogStatus.PASS);
 	}
+
 }
