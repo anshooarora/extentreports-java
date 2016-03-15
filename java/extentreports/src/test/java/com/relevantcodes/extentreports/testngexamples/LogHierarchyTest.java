@@ -33,7 +33,7 @@ public class LogHierarchyTest extends BaseExample {
 		test.log(LogStatus.WARNING, "Warning");
 		test.log(LogStatus.UNKNOWN, "Unknown");
 		test.log(LogStatus.SKIP, "Skip");
-		
+
 		Assert.assertEquals(test.getRunStatus(), LogStatus.FATAL);
 	}
 	
@@ -75,43 +75,53 @@ public class LogHierarchyTest extends BaseExample {
 		
 		Assert.assertEquals(test.getRunStatus(), LogStatus.WARNING);
 	}
-	
+
+    @Test
+    public void hierarchicalLogsResultMustEqualSkip() {
+        test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
+        test.log(LogStatus.UNKNOWN, "Unknown");
+        test.log(LogStatus.SKIP, "Skip");
+
+        Assert.assertEquals(test.getRunStatus(), LogStatus.SKIP);
+    }
+
 	@Test
-	public void hierarchicalLogsResultMustEqualPass1() {
+	public void hierarchicalLogsResultMustEqualSkip1() {
 		test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
 		test.log(LogStatus.INFO, "Info");
 		test.log(LogStatus.PASS, "Pass");
 		test.log(LogStatus.UNKNOWN, "Unknown");
 		test.log(LogStatus.SKIP, "Skip");
-		
-		Assert.assertEquals(test.getRunStatus(), LogStatus.PASS);
-	}
-	
-	@Test
-	public void hierarchicalLogsResultMustEqualPass2() {
-		test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
-		test.log(LogStatus.INFO, "Info");
-		test.log(LogStatus.UNKNOWN, "Unknown");
-		test.log(LogStatus.SKIP, "Skip");
-		
-		Assert.assertEquals(test.getRunStatus(), LogStatus.PASS);
-	}
-	
-	@Test
-	public void hierarchicalLogsResultMustEqualSkip() {
-		test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
-		test.log(LogStatus.UNKNOWN, "Unknown");
-		test.log(LogStatus.SKIP, "Skip");
-		
+
 		Assert.assertEquals(test.getRunStatus(), LogStatus.SKIP);
 	}
-	
+
 	@Test
-	public void hierarchicalLogsResultMustEqualPass3() {
+	public void hierarchicalLogsResultMustEqualSkip2() {
+		test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
+		test.log(LogStatus.INFO, "Info");
+		test.log(LogStatus.UNKNOWN, "Unknown");
+		test.log(LogStatus.SKIP, "Skip");
+
+		Assert.assertEquals(test.getRunStatus(), LogStatus.SKIP);
+	}
+
+	@Test
+	public void hierarchicalLogsResultMustEqualPass() {
 		test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
 		test.log(LogStatus.INFO, "Info");
 		test.log(LogStatus.UNKNOWN, "Unknown");
 		
 		Assert.assertEquals(test.getRunStatus(), LogStatus.PASS);
 	}
+
+    @Test
+    public void hierarchicalLogsResultMustEqualPass1() {
+        test = extent.startTest(Thread.currentThread().getStackTrace()[1].getMethodName());
+        test.log(LogStatus.INFO, "Info");
+        test.log(LogStatus.PASS, "Pass");
+        test.log(LogStatus.UNKNOWN, "Unknown");
+
+        Assert.assertEquals(test.getRunStatus(), LogStatus.PASS);
+    }
 }
