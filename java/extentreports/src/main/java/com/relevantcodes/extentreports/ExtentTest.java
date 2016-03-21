@@ -285,6 +285,18 @@ public class ExtentTest implements IExtentTestClass {
 
         return screenCaptureHtml;
     }
+
+    public String addBase64ScreenShot(String base64) {
+        String screenCaptureHtml = ScreenshotHtml.getBase64Source(base64);
+        ScreenCapture img = new ScreenCapture();
+        img.setSource(screenCaptureHtml);
+        img.setTestName(test.getName());
+        img.setTestId(test.getId());
+
+        test.setScreenCapture(img);
+
+        return screenCaptureHtml;
+    }
     
     /**
      * <p>
