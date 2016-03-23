@@ -549,14 +549,15 @@
 																</tr>
 															</thead>
 															<tbody>
-																<#list testList as test>
-																	<tr class='${test.status}'>
-																		<td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
-																		<td><span class='exception-link linked' extentid='${test.id?string}'>${test.name}</span></td>
-																		<td><pre class='exception-message'>${test.lastExceptionMessage}</pre></td>
-																	</tr>
-																</#list>
-															<tbody>
+                                                               <#list testList as exceptionInfo>
+                                                                   <#assign test = exceptionInfo.test>
+                                                                   <tr class='${test.status}'>
+                                                                       <td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
+                                                                       <td><span class='exception-link linked' extentid='${test.id?string}'>${test.name}</span></td>
+                                                                       <td><pre class='exception-message'>${exceptionInfo.stackTrace}</pre></td>
+                                                                   </tr>
+                                                               </#list>
+                                                            </tbody>
 														</table>
 													</div>
 												</div> 

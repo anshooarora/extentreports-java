@@ -48,4 +48,8 @@ public interface ITest {
     List<Test> getNodeList();
     
     void setNodeList(List<Test> nodeList);
+
+    void setException(ExceptionInfo exceptionInfo);
+
+    void setUUID(UUID id);
 }

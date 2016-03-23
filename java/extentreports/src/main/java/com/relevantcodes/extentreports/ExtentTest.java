@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.relevantcodes.extentreports.model.Author;
 import com.relevantcodes.extentreports.model.Category;
+import com.relevantcodes.extentreports.model.ExceptionInfo;
 import com.relevantcodes.extentreports.model.ITest;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.ScreenCapture;
@@ -123,9 +124,9 @@ public class ExtentTest implements IExtentTestClass {
      */
     @Override
     public void log(LogStatus logStatus, String stepName, Throwable t) {
-    	this.getInternalTest().setException(t);
-    	
-    	log(logStatus, stepName, "<pre>" + ExceptionUtil.getStackTrace(t) + "</pre>");
+        ExceptionInfo exceptionInfo = ExceptionUtil.createExceptionInfo(t, (Test) getTest());
+        getInternalTest().setException(exceptionInfo);
+        log(logStatus, stepName, "<pre>" + exceptionInfo.getStackTrace() + "</pre>");
     }
     
     /**

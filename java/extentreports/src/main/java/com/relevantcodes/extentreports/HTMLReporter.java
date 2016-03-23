@@ -21,6 +21,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.relevantcodes.extentreports.model.ExceptionInfo;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.utils.Resources;
 import com.relevantcodes.extentreports.utils.Writer;
@@ -218,7 +219,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
     	return report.getCategoryTestMap();
     }
     
-    public Map<String, List<Test>> getExceptionTestMap() {
+    public Map<String, List<ExceptionInfo>> getExceptionTestMap() {
     	return report.getExceptionTestMap();
     }
     

@@ -53,7 +53,7 @@ public class Test implements ITest {
     private List<TestAttribute> authorsList;
     
     // list of exceptions occurred for the test
-    private List<Throwable> exceptionList;
+    private List<ExceptionInfo> exceptionList;
     
     // logs
     private List<Log> logList;
@@ -253,6 +253,11 @@ public class Test implements ITest {
         return id;
     }
     
+    @Override
+    public void setUUID(UUID id) {
+	this.id = id;
+    }
+
     // categories
     public void setCategory(TestAttribute category) {
         categoryList.add(category);
@@ -272,20 +277,15 @@ public class Test implements ITest {
     }
     
     // exceptions
-    public void setException(Throwable t) {
-    	if (exceptionList == null) {
-    		exceptionList = new ArrayList<Throwable>();
-    	}
-    	
-    	exceptionList.add(t);
+    public void setException(ExceptionInfo exceptionInfo) {
+	if (exceptionList == null) {
+	    exceptionList = new ArrayList<ExceptionInfo>();
+	}
+	exceptionList.add(exceptionInfo);
     }
     
-    public List<Throwable> getExceptionList() {
+    public List<ExceptionInfo> getExceptionList() {
     	return exceptionList;
-    }
-    
-    public String getLastExceptionMessage() {
-    	return ExceptionUtil.getStackTrace(exceptionList.get(exceptionList.size() - 1));
     }
     
     // logs

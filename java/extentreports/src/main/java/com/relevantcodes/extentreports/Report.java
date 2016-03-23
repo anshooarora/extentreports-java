@@ -25,12 +25,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.relevantcodes.extentreports.converters.TimeConverter;
+import com.relevantcodes.extentreports.model.ExceptionInfo;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.SuiteTimeInfo;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.model.TestAttribute;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
-import com.relevantcodes.extentreports.utils.ExceptionUtil;
 
 // Report abstract
 abstract class Report extends LogSettings {
@@ -190,7 +190,7 @@ abstract class Report extends LogSettings {
 	 * <p>
 	 * A map of exception headline and tests assigned
 	 */
-    private Map<String, List<Test>> exceptionTestMap;
+    private Map<String, List<ExceptionInfo>> exceptionTestMap;
     
     /**
 	 * Map of user defined configuration created from extent-config.xml
@@ -281,7 +281,7 @@ abstract class Report extends LogSettings {
     	return categoryTestMap;
     }
     
-    protected Map<String, List<Test>> getExceptionTestMap() {
+    protected Map<String, List<ExceptionInfo>> getExceptionTestMap() {
     	return exceptionTestMap;
     }
     
@@ -329,13 +329,12 @@ abstract class Report extends LogSettings {
         	}
         }
         
-        List<Throwable> tList = test.getExceptionList();
-        
-        if (tList != null) { 
-        	for (Throwable t : tList) {
-        		setCauseTest(t, test);
-        	}
-        }
+	List<ExceptionInfo> exceptionList = test.getExceptionList();
+	if (exceptionList != null) {
+	    for (ExceptionInfo exceptionInfo : exceptionList) {
+		setCauseTest(exceptionInfo);
+	    }
+	}
         
         // #301 - for users using the TestNG listener, the log timestamps are all 
         // recorded as the time at which the report is generated. This causes the
@@ -364,18 +363,12 @@ abstract class Report extends LogSettings {
         updateReportStartedTime(test);
     }
     
-    private void setCauseTest(Throwable t, Test test) {
-    	String ex = ExceptionUtil.getExceptionHeadline(t);
-    	
-    	if (!exceptionTestMap.containsKey(ex)) {
-    		List<Test> testList = new ArrayList<Test>();
-    		testList.add(test);
-    		
-    		exceptionTestMap.put(ex, testList);
-    	}
-    	else {
-    		exceptionTestMap.get(ex).add(test);
-    	}
+    private void setCauseTest(ExceptionInfo exceptionInfo) {
+	String ex = exceptionInfo.getExceptionName();
+	if (!exceptionTestMap.containsKey(ex)) {
+	    exceptionTestMap.put(ex, new ArrayList<ExceptionInfo>());
+	    exceptionTestMap.get(ex).add(exceptionInfo);
+	}
     }
     
     private void updateTestStatusList(Test test) {
@@ -586,7 +579,7 @@ abstract class Report extends LogSettings {
     	defaultConfiguration = loadConfig(new Configuration(url));
     	
     	categoryTestMap = new TreeMap<String, List<Test>>();
-    	exceptionTestMap = new TreeMap<String, List<Test>>();
+    	exceptionTestMap = new TreeMap<String, List<ExceptionInfo>>();
     	systemInfo = new SystemInfo();
         suiteTimeInfo = new SuiteTimeInfo();
         testRunnerLogList = new ArrayList<String>();

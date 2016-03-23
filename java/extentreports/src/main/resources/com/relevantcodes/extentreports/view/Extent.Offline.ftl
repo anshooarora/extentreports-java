@@ -537,15 +537,16 @@
 																	<th>${resourceBundle.getString("exceptions.th.exception")}</th>
 																</tr>
 															</thead>
-															<tbody>
-																<#list testList as test>
-																	<tr class='${test.status}'>
-																		<td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
-																		<td><span class='category-link linked' extentid='${test.id?string}'>${test.name}</span></td>
-																		<td><div class='exception-message'>${test.lastExceptionMessage}</div></td>
-																	</tr>
-																</#list>
-															<tbody>
+                                                            <tbody>
+                                                                <#list testList as exceptionInfo>
+                                                                    <#assign test = exceptionInfo.test>
+                                                                    <tr class='${test.status}'>
+                                                                        <td>${test.startedTime?datetime?string(dateTimeFormat)}</td>
+                                                                        <td><span class='exception-link linked' extentid='${test.id?string}'>${test.name}</span></td>
+                                                                        <td><pre class='exception-message'>${exceptionInfo.stackTrace}</pre></td>
+                                                                    </tr>
+                                                                </#list>
+                                                            </tbody>
 														</table>
 													</div>
 												</div> 
