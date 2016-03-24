@@ -1,7 +1,10 @@
 package com.relevantcodes.extentreports.converters;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +17,7 @@ import org.jsoup.select.Elements;
 import com.relevantcodes.extentreports.*;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogSettings;
+import com.relevantcodes.extentreports.model.ExceptionInfo;
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
@@ -38,6 +42,36 @@ public class TestConverter extends LogSettings {
 			return;
 		}
 		
+        Elements allExceptions = doc.select(".exception-item");
+
+        Hashtable<String, List<ExceptionInfo>> exceptions = new Hashtable<String, List<ExceptionInfo>>();
+        for (Element element : allExceptions) {
+            String exceptionName = element.select(".exception-name").text();
+
+            Elements failelements = element.select(".fail").not(".label");
+            failelements.addAll(element.select(".error"));
+            failelements.addAll(element.select(".fatal"));
+            failelements.addAll(element.select(".unknown"));
+            failelements.addAll(element.select(".pass"));
+            failelements.addAll(element.select(".warning"));
+            failelements.addAll(element.select(".info"));
+            failelements.addAll(element.select(".skip"));
+
+            for (Element failelement : failelements) {
+                String testId = failelement.select(".exception-link").attr("extentid").trim();
+                String exceptionMessage = failelement.select(".exception-message").text();
+
+                ExceptionInfo exceptionInfo = new ExceptionInfo();
+                exceptionInfo.setExceptionName(exceptionName);
+                exceptionInfo.setStackTrace(exceptionMessage);
+
+                if (!exceptions.containsKey(testId)) {
+                    exceptions.put(testId, new ArrayList<ExceptionInfo>());
+                }
+                exceptions.get(testId).add(exceptionInfo);
+            }
+        }
+
 		Elements allTests = doc.select(".test");
 		
         ExtentTest extentTest;
@@ -46,6 +80,7 @@ public class TestConverter extends LogSettings {
         for (Element test : allTests) {
             String name = test.select(".test-name").first().html().trim();
             String description = test.select(".test-desc").first().html().trim();
+            String id = test.attr("extentid").trim();
             
             extentTest = extent.startTest(name, description);
             
@@ -61,6 +96,7 @@ public class TestConverter extends LogSettings {
             				LogSettings.getLogDateTimeFormat()
             		)
             );
+            extentTest.getTest().setUUID(UUID.fromString(id));
             
             Elements categories = test.select(".category");
             
@@ -89,6 +125,13 @@ public class TestConverter extends LogSettings {
             	extentTest.getTest().setNodeList(nodeList);
             }
             
+            List<ExceptionInfo> exceptionsList = exceptions.get(id);
+            if (exceptionsList != null) {
+                for (ExceptionInfo exception : exceptionsList) {
+                    exception.setTest((Test) extentTest.getTest());
+                    extentTest.getTest().setException(exception);
+                }
+            }
             extent.endTest(extentTest);
         }
     }
