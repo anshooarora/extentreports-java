@@ -570,7 +570,7 @@ nav ul a:hover {
     font-size: .8rem;
 }
 .test-name {
-	width: 80% !important;
+	width: 72% !important;
 }
 .test-name, .category-name {
 	display: inline-block;
@@ -679,6 +679,9 @@ nav ul a:hover {
 		margin: 0 -20px;
 		padding: 0 20px 75px;
 	}
+    .step-filters {
+        font-size: 1.1rem;
+    }
 
 	/* -- [ test-attributes ] -- */
 	.categories, .authors, .classnames {
