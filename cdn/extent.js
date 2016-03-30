@@ -61,6 +61,7 @@ function showElement(el) {
 
 /* fixed-containers */
 var ct; // current page id
+var chartHeight = 0;
 
 var currentBrowserIE = detectIE();
 
@@ -92,9 +93,13 @@ $(function() {
 
 /* -- Check if current page is test or category --*/
 function _updateCurrentStage(n) {
-
+    chartHeight = 0;
+    
     if (n == 0){
-        ct = $('#test-view'); 
+        ct = $('#test-view');
+        
+        if ($('.charts').is(':visible'))
+            chartHeight = 275;
     }
     if (n == 1) {
         ct = $('#categories-view');
@@ -111,11 +116,10 @@ function _updateCurrentStage(n) {
 /* -- Check if current page is test or category --*/
 
 function _adjustSize(){
-
-    ct.find('._addedTable').css({'height':($(window).height() - 50)+'px'});
+    ct.find('._addedTable').css({'height':($(window).height() - 50 - chartHeight)+'px'});
     
-    ct.find('._addedCell1, ._addedCell2').css({'height':($(window).height() - 50)+'px'});
-    ct.find('._addedCell1 .contents, ._addedCell2 .contents').css({'height':($(window).height() - 65)+'px'});
+    ct.find('._addedCell1, ._addedCell2').css({'height':($(window).height() - 50 - chartHeight)+'px'});
+    ct.find('._addedCell1 .contents, ._addedCell2 .contents').css({'height':($(window).height() - 65 - chartHeight)+'px'});
     
     if ($(window).width() < 992) {
         ct.find('._addedCell2').css({'width':Math.round($(window).width() - 18 - ct.find('._addedCell1').width())+'px'});
@@ -177,6 +181,10 @@ $('#enableDashboard').click(function() {
     t.toggleClass('enabled').children('i').toggleClass('active');
     $('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
     t.hasClass('enabled') ? redrawCharts() : null;
+    
+    setTimeout(function() {
+        _updateCurrentStage(0);
+    }, 200);
 });
 
 /* enable dashboard checkbox [TOPNAV] */
