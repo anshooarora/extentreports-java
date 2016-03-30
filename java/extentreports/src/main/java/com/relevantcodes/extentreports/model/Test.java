@@ -19,7 +19,6 @@ import java.util.UUID;
 import com.relevantcodes.extentreports.LogCounts;
 import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
-import com.relevantcodes.extentreports.utils.ExceptionUtil;
 
 public class Test implements ITest {
     /**

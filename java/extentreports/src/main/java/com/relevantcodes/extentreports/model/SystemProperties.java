@@ -8,12 +8,16 @@
 
 package com.relevantcodes.extentreports.model;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SystemProperties {
     public void setSystemInfo(Map<String, String> info) {
-        this.info = info;
+        //if (this.info.size() > 0)
+            //info.putAll(this.info);
+        
+        //this.info = info;
+        this.info.putAll(info);
     }
     
     public void setSystemInfo(String k, String v) {
@@ -25,7 +29,7 @@ public class SystemProperties {
     }
     
     public SystemProperties() {
-        info = new HashMap<String, String>();        
+        info = new LinkedHashMap<String, String>();        
     }
     
     private Map<String, String> info;

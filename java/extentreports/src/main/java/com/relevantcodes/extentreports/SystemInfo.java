@@ -25,9 +25,7 @@ class SystemInfo {
     }
     
     public void setInfo(Map<String, String> info) {
-        for (Map.Entry<String, String> entry : info.entrySet()) {
-            systemProperties.setSystemInfo(entry.getKey(), entry.getValue());
-        }
+        systemProperties.setSystemInfo(info);
     }
     
     public void setInfo(String param, String value) {
