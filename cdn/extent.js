@@ -93,6 +93,8 @@ $(function() {
 
 /* -- Check if current page is test or category --*/
 function _updateCurrentStage(n) {
+    window.scrollTo(0,0);
+    
     chartHeight = 0;
     
     if (n == 0){
