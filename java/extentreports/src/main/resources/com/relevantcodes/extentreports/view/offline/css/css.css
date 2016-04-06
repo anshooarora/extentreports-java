@@ -593,7 +593,7 @@ nav ul a:hover {
     font-size: .8rem;
 }
 .test-name {
-	width: 80% !important;
+	width: 72% !important;
 }
 .test-name, .category-name {
 	display: inline-block;
@@ -979,8 +979,14 @@ body {
 	font-family: Roboto, Arial;
 	font-size: 13px;
 }
+th {
+	font-size: 11px;
+}
 th, .test.active, .category-item.active, .exception-item.active, span.author, span.category, span.classname {
 	font-weight: 500;
+}
+.step-filters {
+	font-size: 1rem;
 }
 nav .button-collapse i {
     font-size: 1.2rem !important;

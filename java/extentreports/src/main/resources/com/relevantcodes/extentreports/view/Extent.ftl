@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<!--
-			ExtentReports ${resourceBundle.getString("head.library")} 2.40.2 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+			ExtentReports ${resourceBundle.getString("head.library")} 2.41.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
 			Copyright (c) 2015, Anshoo Arora (Relevant Codes) | ${resourceBundle.getString("head.copyrights")} | http://opensource.org/licenses/BSD-3-Clause
 			${resourceBundle.getString("head.documentation")}: http://extentreports.relevantcodes.com 
 		-->
@@ -15,6 +15,7 @@
 		<meta name='description' content='${resourceBundle.getString("head.metaDescription")}' />
 		<meta name='robots' content='noodp, noydir' />
 		<meta name='viewport' content='width=device-width, initial-scale=1' />
+		<meta name='extentx' id='extentx' content='${report.mongoDBObjectID}' />
 		
 		<title>
 			<#if report.configurationMap??>
@@ -29,7 +30,7 @@
 		</#if>
 		
 		<link href='${protocol}://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
-		<link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/e4f8ea1de961161791c01b99a71a1e17f81125cf/cdn/extent.css' type='text/css' rel='stylesheet' />
+		<link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/8ff8b1e90cb9b17e353e79f9aa25f6378091d8dc/cdn/extent.css' type='text/css' rel='stylesheet' />
 		
 		<style>
 			<#if report.configurationMap??>
@@ -74,7 +75,7 @@
 					<span class='suite-started-time'>${.now?datetime?string(dateTimeFormat)}</span>
 				</li>
 				<li>
-					<span>v2.40.2</span>
+					<span>v2.41.0</span>
 				</li>
 			</ul>
 		</nav>
@@ -353,6 +354,7 @@
 																				<span title='${resourceBundle.getString("tests.test.info.testStartTime")}' alt='${resourceBundle.getString("tests.test.info.testStartTime")}' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string(dateTimeFormat)}</span>
 																				<span title='${resourceBundle.getString("tests.test.info.testEndTime")}' alt='${resourceBundle.getString("tests.test.info.testEndTime")}' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string(dateTimeFormat)}</span>
 																				<span title='${resourceBundle.getString("tests.test.info.timeTaken")}' alt='${resourceBundle.getString("tests.test.info.timeTaken")}' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
+																				<#if node.retryCount != 0><span class='label purple lighten-1 text-white'>Retries: <span class='retry-count'>${node.retryCount}</span></span></#if>
 																				<span class='test-status label outline capitalize ${node.status}'>${node.status}</span>
 																			</div>
 																			<div class='test-node-name'>${node.name}</div>
@@ -407,6 +409,16 @@
 					<div class='contents'>
 						<div class='card-panel details-view'>
 							<h5 class='details-name'></h5>
+							<div class='step-filters right'>
+								<span class='info' alt='info' title='info'><i class='mdi-action-info-outline'></i></span>
+								<span class='pass' alt='pass' title='pass'><i class='mdi-action-check-circle'></i></span>
+								<span class='fail' alt='fail' title='fail'><i class='mdi-navigation-cancel'></i></span>
+								<!--<span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>-->
+								<span class='error' alt='error' title='error'><i class='mdi-alert-error'></i></span>
+								<span class='warning' alt='warning' title='warning'><i class='mdi-alert-warning'></i></span>
+								<span class='skip' alt='skip' title='skip'><i class='mdi-content-redo'></i></span>
+								<span class='clear-step-filter' alt='Clear filters' title='Clear filters'><i class='mdi-content-clear'></i></span>
+							</div>
 							<div class='details-container'>
 							</div>
 						</div>
@@ -652,7 +664,7 @@
 		</div>
 		<!-- /filter for step status -->
 		
-		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/c936a26fc8bb9c5fc0253b5bc6f289e1d14bb595/cdn/extent.js' type='text/javascript'></script>
+		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/9829266d042c8d70e3c4ebf4ae400a3066d6a6c1/cdn/extent.js' type='text/javascript'></script>
 
 		<script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
 		<script>

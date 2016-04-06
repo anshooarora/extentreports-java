@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<!--
-			ExtentReports ${resourceBundle.getString("head.library")} 2.40.2 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+			ExtentReports ${resourceBundle.getString("head.library")} 2.41.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
 			Copyright (c) 2015, Anshoo Arora (Relevant Codes) | ${resourceBundle.getString("head.copyrights")} | http://opensource.org/licenses/BSD-3-Clause
 			${resourceBundle.getString("head.documentation")}: http://extentreports.relevantcodes.com 
 		-->
@@ -17,6 +17,7 @@
 		<meta name='description' content='${resourceBundle.getString("head.metaDescription")}' />
 		<meta name='robots' content='noodp, noydir' />
 		<meta name='viewport' content='width=device-width, initial-scale=1' />
+		<meta name='extentx' id='extentx' content='${report.mongoDBObjectID}' />
 		
 		<title>
 			<#if report.configurationMap??>
@@ -63,7 +64,7 @@
 					<span class='suite-started-time'>${.now?datetime?string(dateTimeFormat)}</span>
 				</li>
 				<li>
-					<span>v2.40.2</span>
+					<span>v2.41.0</span>
 				</li>
 			</ul>
 		</nav>
@@ -342,6 +343,7 @@
 																				<span title='${resourceBundle.getString("tests.test.info.testStartTime")}' alt='${resourceBundle.getString("tests.test.info.testStartTime")}' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string(dateTimeFormat)}</span>
 																				<span title='${resourceBundle.getString("tests.test.info.testEndTime")}' alt='${resourceBundle.getString("tests.test.info.testEndTime")}' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string(dateTimeFormat)}</span>
 																				<span title='${resourceBundle.getString("tests.test.info.timeTaken")}' alt='${resourceBundle.getString("tests.test.info.timeTaken")}' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
+																				<#if node.retryCount != 0><span class='label purple lighten-1 text-white'>Retries: <span class='retry-count'>${node.retryCount}</span></span></#if>
 																				<span class='test-status label outline capitalize ${node.status}'>${node.status}</span>
 																			</div>
 																			<div class='test-node-name'>${node.name}</div>
@@ -396,6 +398,15 @@
 					<div class='contents'>
 						<div class='card-panel details-view'>
 							<h5 class='details-name'></h5>
+							<div class='step-filters right'>
+								<span class='info' alt='info' title='info'><i class='fa fa-info-circle'></i></span>
+								<span class='pass' alt='pass' title='pass'><i class='fa fa-check-circle-o'></i></span>
+								<span class='fail' alt='fail' title='fail'><i class='fa fa-times-circle-o'></i></span>
+								<span class='error' alt='error' title='error'><i class='fa fa-exclamation-circle'></i></span>
+								<span class='warning' alt='warning' title='warning'><i class='fa fa-warning'></i></span>
+								<span class='skip' alt='skip' title='skip'><i class='fa fa-chevron-circle-right'></i></span>
+								<span class='clear-step-filter' alt='Clear filters' title='Clear filters'><i class='fa fa-times'></i></span>
+							</div>
 							<div class='details-container'>
 							</div>
 						</div>
