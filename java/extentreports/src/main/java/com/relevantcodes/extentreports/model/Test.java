@@ -88,6 +88,9 @@ public class Test implements ITest {
     
     // test name
     private String name;
+
+    // this test's parent, if this is a child node
+    private Test parentTest;
     
     // unique id assigned when the test starts
     private UUID id;
@@ -195,7 +198,7 @@ public class Test implements ITest {
     }
     
     public String getRunDuration() {
-    	return DateTimeUtil.getDiff(endTime, startTime);
+        return DateTimeUtil.getDiff(endTime, startTime);
     }
     
     // ended time
@@ -254,7 +257,7 @@ public class Test implements ITest {
     
     @Override
     public void setUUID(UUID id) {
-	this.id = id;
+    this.id = id;
     }
 
     // categories
@@ -277,14 +280,14 @@ public class Test implements ITest {
     
     // exceptions
     public void setException(ExceptionInfo exceptionInfo) {
-	if (exceptionList == null) {
-	    exceptionList = new ArrayList<ExceptionInfo>();
-	}
-	exceptionList.add(exceptionInfo);
+    if (exceptionList == null) {
+        exceptionList = new ArrayList<ExceptionInfo>();
+    }
+    exceptionList.add(exceptionInfo);
     }
     
     public List<ExceptionInfo> getExceptionList() {
-    	return exceptionList;
+        return exceptionList;
     }
     
     // logs
@@ -297,7 +300,7 @@ public class Test implements ITest {
     }
     
     public List<Log> getLogList() {
-    	return logList;
+        return logList;
     }
     
     public int getLogColumnSize() {
@@ -338,9 +341,9 @@ public class Test implements ITest {
     
     // nodes
     @Override
-	public void hasChildNodes(boolean val) {
-		hasChildNodes = val;
-	}
+    public void hasChildNodes(boolean val) {
+        hasChildNodes = val;
+    }
     
     public void setNodeList(List<Test> nodeList) {
         this.nodeList = nodeList;
@@ -353,7 +356,15 @@ public class Test implements ITest {
     
     public List<Test> getNodeList() {
         return nodeList;
-    }  
+    }
+    
+    public void setParentTest(Test test) {
+        parentTest = test;
+    }
+    
+    public Test getParentTest() {
+        return parentTest;
+    }
     
     public void prepareFinalize() {
         setLogCounts();

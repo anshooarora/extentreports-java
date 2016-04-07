@@ -23,57 +23,58 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import com.relevantcodes.extentreports.converters.ReportParser;
 import com.relevantcodes.extentreports.converters.TestConverter;
 import com.relevantcodes.extentreports.model.Test;
 
 public class ExtentReports extends Report {
-	private static final Logger logger = Logger.getLogger(ExtentReports.class.getName());
-	
-	/**
-	 * <p>
+    private static final Logger logger = Logger.getLogger(ExtentReports.class.getName());
+    
+    /**
+     * <p>
      * Initializes a localized version of Extent HTML report
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param replaceExisting 
-     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-     * 		<ul>
-     * 			<li>true - the file will be replaced with brand new markup, and all existing data
-     * 			will be lost. Use this option to create a brand new report</li>
-     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
-     * 			If the the supplied path does not exist, a new file will be created.</li>
-     * 		</ul>
+     *      Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *      <ul>
+     *          <li>true - the file will be replaced with brand new markup, and all existing data
+     *          will be lost. Use this option to create a brand new report</li>
+     *          <li>false - existing data will remain, new tests will be appended to the existing report.
+     *          If the the supplied path does not exist, a new file will be created.</li>
+     *      </ul>
      * 
      * @param displayOrder 
-     * 		Determines the order in which your tests will be displayed
-     *		<ul>
-     *			<li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
-     * 			<li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
-     * 		</ul>
+     *      Determines the order in which your tests will be displayed
+     *      <ul>
+     *          <li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
+     *          <li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
+     *      </ul>
      * 
      * @param networkMode 
-     * 		<ul>
-     * 			<li>ONLINE - creates a single report file with all artifacts</li>
-     * 			<li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
-     *				with the following structure:
-     *				<br>
-     *				- extentreports/css
-     *				<br>
-     *				- extentreports/js
-     * 			</li>
-     * 		</ul>
+     *      <ul>
+     *          <li>ONLINE - creates a single report file with all artifacts</li>
+     *          <li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
+     *              with the following structure:
+     *              <br>
+     *              - extentreports/css
+     *              <br>
+     *              - extentreports/js
+     *          </li>
+     *      </ul>
      * 
      * @param locale
-     * 		Locale to adapt for the report. All standard text for the report will be displayed
-     * 		in the selected locale. 
+     *      Locale to adapt for the report. All standard text for the report will be displayed
+     *      in the selected locale. 
      */
     public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode, Locale locale) {
-    	replaceExisting = replaceExisting == null ? true : replaceExisting;
-    	displayOrder = displayOrder == null ? DisplayOrder.OLDEST_FIRST : displayOrder;
-    	networkMode = networkMode == null ? NetworkMode.ONLINE : networkMode;
-    	locale = locale == null ? Locale.ENGLISH : locale;
-    	
+        replaceExisting = replaceExisting == null ? true : replaceExisting;
+        displayOrder = displayOrder == null ? DisplayOrder.OLDEST_FIRST : displayOrder;
+        networkMode = networkMode == null ? NetworkMode.ONLINE : networkMode;
+        locale = locale == null ? Locale.ENGLISH : locale;
+        
         setFilePath(filePath);
         setReplaceExisting(replaceExisting);
         setDisplayOrder(displayOrder);
@@ -83,51 +84,56 @@ public class ExtentReports extends Report {
         attach(new HTMLReporter(filePath));
         
         if (!replaceExisting) {
-        	File file = new File(filePath);
-        	
-        	if (file.exists()) {
-        		TestConverter converter = new TestConverter(this, file);
-        		converter.createTestList();
-        		
-        		convertUpdateLastRunDuration();
-        	}
+            File file = new File(filePath);
+            
+            if (file.exists()) {
+                TestConverter converter = new TestConverter(this, file);
+                converter.createTestList();
+                
+                convertUpdateLastRunDuration();
+                
+                // if ExtentX is the report server, 
+                // get the ID to append all results to the same report
+                ReportParser reportParser = new ReportParser(file);
+                setMongoDBObjectID(reportParser.getMongoDBObjectID());
+            }
         }
     }
     
-	/**
-	 * <p>
+    /**
+     * <p>
      * Initializes Extent HTML report
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param replaceExisting 
-     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-     * 		<ul>
-     * 			<li>true - the file will be replaced with brand new markup, and all existing data
-     * 			will be lost. Use this option to create a brand new report</li>
-     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
-     * 			If the the supplied path does not exist, a new file will be created.</li>
-     * 		</ul>
+     *      Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *      <ul>
+     *          <li>true - the file will be replaced with brand new markup, and all existing data
+     *          will be lost. Use this option to create a brand new report</li>
+     *          <li>false - existing data will remain, new tests will be appended to the existing report.
+     *          If the the supplied path does not exist, a new file will be created.</li>
+     *      </ul>
      * 
      * @param displayOrder 
-     * 		Determines the order in which your tests will be displayed
-     *		<ul>
-     *			<li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
-     * 			<li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
-     * 		</ul>
+     *      Determines the order in which your tests will be displayed
+     *      <ul>
+     *          <li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
+     *          <li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
+     *      </ul>
      * 
      * @param networkMode 
-     * 		<ul>
-     * 			<li>ONLINE - creates a single report file with all artifacts</li>
-     * 			<li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
-     *				with the following structure:
-     *				<br>
-     *				- extentreports/css
-     *				<br>
-     *				- extentreports/js
-     * 			</li>
-     * 		</ul>
+     *      <ul>
+     *          <li>ONLINE - creates a single report file with all artifacts</li>
+     *          <li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
+     *              with the following structure:
+     *              <br>
+     *              - extentreports/css
+     *              <br>
+     *              - extentreports/js
+     *          </li>
+     *      </ul>
      */
     public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, NetworkMode networkMode) {
         this(filePath, replaceExisting, displayOrder, networkMode, null);
@@ -136,34 +142,34 @@ public class ExtentReports extends Report {
     /**
      * <p>
      * Initializes a localized version of Extent HTML report. To see a list of supported locales,
-     * 		visit: http://extentreports.relevantcodes.com
+     *      visit: http://extentreports.relevantcodes.com
      * 
      * <ul>
-     * 	<li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li>
+     *  <li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li>
      * </ul> 
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param replaceExisting 
-     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-     * 		<ul>
-     * 			<li>true - the file will be replaced with brand new markup, and all existing data
-     * 			will be lost. Use this option to create a brand new report</li>
-     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
-     * 			If the the supplied path does not exist, a new file will be created.</li>
-     * 		</ul>
+     *      Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *      <ul>
+     *          <li>true - the file will be replaced with brand new markup, and all existing data
+     *          will be lost. Use this option to create a brand new report</li>
+     *          <li>false - existing data will remain, new tests will be appended to the existing report.
+     *          If the the supplied path does not exist, a new file will be created.</li>
+     *      </ul>
      * 
      * @param displayOrder 
-     * 		Determines the order in which your tests will be displayed
-     *		<ul>
-     *			<li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
-     * 			<li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
-     * 		</ul>
+     *      Determines the order in which your tests will be displayed
+     *      <ul>
+     *          <li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
+     *          <li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
+     *      </ul>
      * 
      * @param locale
-     * 		Locale to adapt for the report. All standard text for the report will be displayed
-     * 		in the selected locale. 
+     *      Locale to adapt for the report. All standard text for the report will be displayed
+     *      in the selected locale. 
      */
     public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder, Locale locale) {        
         this(filePath, replaceExisting, displayOrder, null, locale);
@@ -174,27 +180,27 @@ public class ExtentReports extends Report {
      * Initializes Extent HTML report
      * 
      * <ul>
-     * 	<li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li>
+     *  <li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li>
      * </ul> 
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param replaceExisting 
-     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-     * 		<ul>
-     * 			<li>true - the file will be replaced with brand new markup, and all existing data
-     * 			will be lost. Use this option to create a brand new report</li>
-     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
-     * 			If the the supplied path does not exist, a new file will be created.</li>
-     * 		</ul>
+     *      Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *      <ul>
+     *          <li>true - the file will be replaced with brand new markup, and all existing data
+     *          will be lost. Use this option to create a brand new report</li>
+     *          <li>false - existing data will remain, new tests will be appended to the existing report.
+     *          If the the supplied path does not exist, a new file will be created.</li>
+     *      </ul>
      * 
      * @param displayOrder 
-     * 		Determines the order in which your tests will be displayed
-     *		<ul>
-     *			<li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
-     * 			<li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
-     * 		</ul>
+     *      Determines the order in which your tests will be displayed
+     *      <ul>
+     *          <li>OLDEST_FIRST (default) - oldest test at the top, newest at the end</li>
+     *          <li>NEWEST_FIRST - newest test at the top, oldest at the end</li>
+     *      </ul>
      */
     public ExtentReports(String filePath, Boolean replaceExisting, DisplayOrder displayOrder) {        
         this(filePath, replaceExisting, displayOrder, null, null);
@@ -203,39 +209,39 @@ public class ExtentReports extends Report {
     /**
      * <p>
      * Initializes a localized version of Extent HTML report. To see a list of supported locales,
-     * 		visit: http://extentreports.relevantcodes.com
+     *      visit: http://extentreports.relevantcodes.com
      * 
      * <ul>
-     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
+     *  <li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
      * </ul>
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param replaceExisting 
-     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-     * 		<ul>
-     * 			<li>true - the file will be replaced with brand new markup, and all existing data
-     * 			will be lost. Use this option to create a brand new report</li>
-     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
-     * 			If the the supplied path does not exist, a new file will be created.</li>
-     * 		</ul>
+     *      Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *      <ul>
+     *          <li>true - the file will be replaced with brand new markup, and all existing data
+     *          will be lost. Use this option to create a brand new report</li>
+     *          <li>false - existing data will remain, new tests will be appended to the existing report.
+     *          If the the supplied path does not exist, a new file will be created.</li>
+     *      </ul>
      * 
      * @param networkMode 
-     * 		<ul>
-     * 			<li>ONLINE - creates a single report file with all artifacts</li>
-     * 			<li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
-     *				with the following structure:
-     *				<br>
-     *				- extentreports/css
-     *				<br>
-     *				- extentreports/js
-     * 			</li>
+     *      <ul>
+     *          <li>ONLINE - creates a single report file with all artifacts</li>
+     *          <li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
+     *              with the following structure:
+     *              <br>
+     *              - extentreports/css
+     *              <br>
+     *              - extentreports/js
+     *          </li>
      *         </ul>
      *         
      * @param locale
-     * 		Locale to adapt for the report. All standard text for the report will be displayed
-     * 		in the selected locale. 
+     *      Locale to adapt for the report. All standard text for the report will be displayed
+     *      in the selected locale. 
      */
     public ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode, Locale locale) {
         this(filePath, replaceExisting, null, networkMode, locale);
@@ -246,31 +252,31 @@ public class ExtentReports extends Report {
      * Initializes Extent HTML report
      * 
      * <ul>
-     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
+     *  <li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
      * </ul>
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param replaceExisting 
-     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-     * 		<ul>
-     * 			<li>true - the file will be replaced with brand new markup, and all existing data
-     * 			will be lost. Use this option to create a brand new report</li>
-     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
-     * 			If the the supplied path does not exist, a new file will be created.</li>
-     * 		</ul>
+     *      Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *      <ul>
+     *          <li>true - the file will be replaced with brand new markup, and all existing data
+     *          will be lost. Use this option to create a brand new report</li>
+     *          <li>false - existing data will remain, new tests will be appended to the existing report.
+     *          If the the supplied path does not exist, a new file will be created.</li>
+     *      </ul>
      * 
      * @param networkMode 
-     * 		<ul>
-     * 			<li>ONLINE - creates a single report file with all artifacts</li>
-     * 			<li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
-     *				with the following structure:
-     *				<br>
-     *				- extentreports/css
-     *				<br>
-     *				- extentreports/js
-     * 			</li>
+     *      <ul>
+     *          <li>ONLINE - creates a single report file with all artifacts</li>
+     *          <li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
+     *              with the following structure:
+     *              <br>
+     *              - extentreports/css
+     *              <br>
+     *              - extentreports/js
+     *          </li>
      *         </ul>
      */
     public ExtentReports(String filePath, Boolean replaceExisting, NetworkMode networkMode) {
@@ -282,24 +288,24 @@ public class ExtentReports extends Report {
      * Initializes Extent HTML report
      * 
      * <ul>
-     * 	<li>Default setting (true) is used for replaceExisting</li>
-     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
+     *  <li>Default setting (true) is used for replaceExisting</li>
+     *  <li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
      * </ul>
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param networkMode 
-     * 		<ul>
-     * 			<li>ONLINE - creates a single report file with all artifacts</li>
-     * 			<li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
-     *				with the following structure:
-     *				<br>
-     *				- extentreports/css
-     *				<br>
-     *				- extentreports/js
-     * 			</li>
-     * 		</ul>
+     *      <ul>
+     *          <li>ONLINE - creates a single report file with all artifacts</li>
+     *          <li>OFFLINE - all report artifacts will be stored locally in <code>%reportFolder%/extentreports</code>
+     *              with the following structure:
+     *              <br>
+     *              - extentreports/css
+     *              <br>
+     *              - extentreports/js
+     *          </li>
+     *      </ul>
      */
     public ExtentReports(String filePath, NetworkMode networkMode) {
         this(filePath, null, null, networkMode, null);
@@ -308,7 +314,7 @@ public class ExtentReports extends Report {
     /**
      * <p>
      * Initializes a localized version of Extent HTML report. To see a list of supported locales,
-     * 		visit: http://extentreports.relevantcodes.com
+     *      visit: http://extentreports.relevantcodes.com
      * 
      * <p>
      * Note: a new report will be created by default since <code>replaceExisting</code> is 
@@ -318,28 +324,28 @@ public class ExtentReports extends Report {
      * Examples:
      * 
      * <ul>
-     * 	<li>English (default): <code>new ExtentReports("filePath", Locale.ENGLISH);</code></li>
-     * 	<li>Spanish locale: <code>new ExtentReports("filePath", new Locale("es"));</code></li>
+     *  <li>English (default): <code>new ExtentReports("filePath", Locale.ENGLISH);</code></li>
+     *  <li>Spanish locale: <code>new ExtentReports("filePath", new Locale("es"));</code></li>
      * </ul>
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param replaceExisting 
-     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-     * 		<ul>
-     * 			<li>true - the file will be replaced with brand new markup, and all existing data
-     * 			will be lost. Use this option to create a brand new report</li>
-     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
-     * 			If the the supplied path does not exist, a new file will be created.</li>
-     * 		</ul>
+     *      Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *      <ul>
+     *          <li>true - the file will be replaced with brand new markup, and all existing data
+     *          will be lost. Use this option to create a brand new report</li>
+     *          <li>false - existing data will remain, new tests will be appended to the existing report.
+     *          If the the supplied path does not exist, a new file will be created.</li>
+     *      </ul>
      * 
      * @param locale
-     * 		Locale to adapt for the report. All standard text for the report will be displayed
-     * 		in the selected locale. 
+     *      Locale to adapt for the report. All standard text for the report will be displayed
+     *      in the selected locale. 
      */
     public ExtentReports(String filePath, Boolean replaceExisting, Locale locale) {
-    	this(filePath, replaceExisting, null, null, locale);
+        this(filePath, replaceExisting, null, null, locale);
     }
     
     /**
@@ -347,21 +353,21 @@ public class ExtentReports extends Report {
      * Initializes Extent HTML report
      * 
      * <ul>
-     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
-     * 	<li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li> 
+     *  <li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
+     *  <li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li> 
      * </ul>
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param replaceExisting 
-     * 		Setting to overwrite (TRUE) the existing file or append (FALSE) to it
-     * 		<ul>
-     * 			<li>true - the file will be replaced with brand new markup, and all existing data
-     * 			will be lost. Use this option to create a brand new report</li>
-     * 			<li>false - existing data will remain, new tests will be appended to the existing report.
-     * 			If the the supplied path does not exist, a new file will be created.</li>
-     * 		</ul>
+     *      Setting to overwrite (TRUE) the existing file or append (FALSE) to it
+     *      <ul>
+     *          <li>true - the file will be replaced with brand new markup, and all existing data
+     *          will be lost. Use this option to create a brand new report</li>
+     *          <li>false - existing data will remain, new tests will be appended to the existing report.
+     *          If the the supplied path does not exist, a new file will be created.</li>
+     *      </ul>
      */
     public ExtentReports(String filePath, Boolean replaceExisting) {
         this(filePath, replaceExisting, null, null, null);
@@ -370,7 +376,7 @@ public class ExtentReports extends Report {
     /**
      * <p>
      * Initializes a localized version of Extent HTML report. To see a list of supported locales,
-     * 		visit: http://extentreports.relevantcodes.com
+     *      visit: http://extentreports.relevantcodes.com
      * 
      * <p>
      * Note: a new report will be created by default since <code>replaceExisting</code> is 
@@ -380,19 +386,19 @@ public class ExtentReports extends Report {
      * Examples:
      * 
      * <ul>
-     * 	<li>English (default): <code>new ExtentReports("filePath", Locale.ENGLISH);</code></li>
-     * 	<li>Spanish locale: <code>new ExtentReports("filePath", new Locale("es"));</code></li>
+     *  <li>English (default): <code>new ExtentReports("filePath", Locale.ENGLISH);</code></li>
+     *  <li>Spanish locale: <code>new ExtentReports("filePath", new Locale("es"));</code></li>
      * </ul>
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      * 
      * @param locale
-     * 		Locale to adapt for the report. All standard text for the report will be displayed
-     * 		in the selected locale. 
+     *      Locale to adapt for the report. All standard text for the report will be displayed
+     *      in the selected locale. 
      */
     public ExtentReports(String filePath, Locale locale) {
-    	this(filePath, null, null, null, locale);
+        this(filePath, null, null, null, locale);
     }
     
     /**
@@ -400,16 +406,27 @@ public class ExtentReports extends Report {
      * Initializes Extent HTML report
      * 
      * <ul>
-     * 	<li>Default setting (true) is used for replaceExisting</li>
-     * 	<li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
-     * 	<li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li>
+     *  <li>Default setting (true) is used for replaceExisting</li>
+     *  <li>Default setting <code>DisplayOrder.OLDEST_FIRST</code> is used for {@link DisplayOrder}</li>
+     *  <li>Default setting <code>NetworkMode.ONLINE</code> for {@link NetworkMode} is used</li>
      * </ul>
      * 
      * @param filePath 
-     * 		Path of the file, in .htm or .html format
+     *      Path of the file, in .htm or .html format
      */
     public ExtentReports(String filePath) {
         this(filePath, null, null, null, null);
+    }
+    
+    /**
+     * <p>
+     * Assign a project name to the report
+     * 
+     * @param name
+     *      Project name
+     */
+    public void assignProject(String name) {
+        setProjectName(name);
     }
     
     /**
@@ -434,28 +451,28 @@ public class ExtentReports extends Report {
      * configuration external file
      * 
      * @param configFile 
-     * 		Config file (extent-config.xml)
+     *      Config file (extent-config.xml)
      */
     public void loadConfig(File configFile) {
-    	if (!configFile.exists()) {
-    		logger.log(
-    				Level.WARNING,
-    				"Unable to perform report configuration. The file " + configFile.getAbsolutePath() + " was not found."
-    		);
-    		
-    		return;
-    	}
-    	
-    	if (!configFile.getName().endsWith(".xml")) {
-    		logger.log(
-    				Level.WARNING, 
-    				"Unable to perform report configuration. The file " + configFile.getAbsolutePath()  + " must be an XML file."
-    		);
-    		
-    		return;
-    	}
+        if (!configFile.exists()) {
+            logger.log(
+                    Level.WARNING,
+                    "Unable to perform report configuration. The file " + configFile.getAbsolutePath() + " was not found."
+            );
+            
+            return;
+        }
+        
+        if (!configFile.getName().endsWith(".xml")) {
+            logger.log(
+                    Level.WARNING, 
+                    "Unable to perform report configuration. The file " + configFile.getAbsolutePath()  + " must be an XML file."
+            );
+            
+            return;
+        }
 
-    	loadConfig(new Configuration(configFile));
+        loadConfig(new Configuration(configFile));
     }
 
     /**
@@ -463,10 +480,10 @@ public class ExtentReports extends Report {
      * Allows performing configuration and customization to the HTML report from URL resource
      * 
      * @param url
-     * 		URL pointer to the resource file
+     *      URL pointer to the resource file
      */
-	public void loadConfig(URL url) {
-    	loadConfig(new Configuration(url));
+    public void loadConfig(URL url) {
+        loadConfig(new Configuration(url));
     }
     
     /**
@@ -474,14 +491,14 @@ public class ExtentReports extends Report {
      * Allows performing configuration and customization to the HTML report from local resource
      * 
      * @param clazz
-     * 		The class relative to which the configuration file will be loaded
+     *      The class relative to which the configuration file will be loaded
      * 
      * @param fileName
-     * 		Name of the file from the <code>clazz</code> package
+     *      Name of the file from the <code>clazz</code> package
      */
     @SuppressWarnings("rawtypes")
-	public void loadConfig(Class clazz, String fileName) {
-    	loadConfig(clazz, null, fileName);
+    public void loadConfig(Class clazz, String fileName) {
+        loadConfig(clazz, null, fileName);
     }
 
     /**
@@ -493,52 +510,52 @@ public class ExtentReports extends Report {
      * and <code>fileName</code>:
      * 
      * <ul>
-     * 	<li><code>clazz</code> : "com/relevantcodes/extentreports/ExtentReports.class"</li>
-     * 	<li><code>basePackagePath</code> : "resources"</li>
-     * 	<li><code>fileName</code> : "extent-config.xml"</li>
+     *  <li><code>clazz</code> : "com/relevantcodes/extentreports/ExtentReports.class"</li>
+     *  <li><code>basePackagePath</code> : "resources"</li>
+     *  <li><code>fileName</code> : "extent-config.xml"</li>
      * </ul>
      * 
      * <p>
      * The above inputs will build the final path as: "com/relevantcodes/extentreports/resources/extent-config.xml"
      * 
      * @param clazz 
-     * 		The class relative to which the configuration file will be loaded
+     *      The class relative to which the configuration file will be loaded
      * 
      * @param basePackagePath 
-     * 		The package that contains the configuration file. The basePackagePath is relative
-     * 		to the <code>clazz</code>
+     *      The package that contains the configuration file. The basePackagePath is relative
+     *      to the <code>clazz</code>
      * 
      * @param fileName
-     * 		Name of the file from the <code>clazz</code> package
+     *      Name of the file from the <code>clazz</code> package
      */
     @SuppressWarnings("rawtypes")
-	public void loadConfig(Class clazz, String basePackagePath, String fileName) {
-    	String fullPackagePath = 
-    			clazz.getPackage().getName().replace(".", File.separator) 
-    			+ File.separator
-    			+ fileName;
-    	
-    	if (basePackagePath != null) {
-	    	fullPackagePath = 
-	    			clazz.getPackage().getName().replace(".", File.separator) 
-	    			+ File.separator 
-	    			+ basePackagePath
-	    			+ File.separator
-	    			+ fileName;
-    	}
-    	
-    	URL url = getClass().getClassLoader().getResource(fullPackagePath);
+    public void loadConfig(Class clazz, String basePackagePath, String fileName) {
+        String fullPackagePath = 
+                clazz.getPackage().getName().replace(".", File.separator) 
+                + File.separator
+                + fileName;
+        
+        if (basePackagePath != null) {
+            fullPackagePath = 
+                    clazz.getPackage().getName().replace(".", File.separator) 
+                    + File.separator 
+                    + basePackagePath
+                    + File.separator
+                    + fileName;
+        }
+        
+        URL url = getClass().getClassLoader().getResource(fullPackagePath);
 
-    	if (url == null) {
-    		logger.log(
-    				Level.WARNING,
-    				"Unable to perform report configuration. The package or file " + fullPackagePath + " was not found."
-    		);
-    		
-    		return;
-    	}
-    	
-    	loadConfig(new Configuration(url));
+        if (url == null) {
+            logger.log(
+                    Level.WARNING,
+                    "Unable to perform report configuration. The package or file " + fullPackagePath + " was not found."
+            );
+            
+            return;
+        }
+        
+        loadConfig(new Configuration(url));
     }
     
     /**
@@ -733,13 +750,13 @@ public class ExtentReports extends Report {
      * For <code>ReporterType</code> the extension must be <code>.db</code>
      * 
      * @param reporterType {@link ReporterType} 
-     * 		Type of the reporter to be initialized
+     *      Type of the reporter to be initialized
      * 
      * @param filePath 
-     * 		Path of the report source, with the correct extension for the reporter
+     *      Path of the report source, with the correct extension for the reporter
      * 
      * @return
-     * 		An {@link ExtentReports} object
+     *      An {@link ExtentReports} object
      */
     public synchronized ExtentReports startReporter(ReporterType reporterType, String filePath) {
         if (reporterType == ReporterType.DB) {
@@ -756,13 +773,13 @@ public class ExtentReports extends Report {
      * the toggle will not be created for the test and log will not be added.
      * 
      * @param testName 
-     * 		Name of the test
+     *      Name of the test
      * 
      * @param description 
-     * 		A short description of the test
+     *      A short description of the test
      * 
      * @return 
-     * 		An {@link ExtentTest} object
+     *      An {@link ExtentTest} object
      */
     public synchronized ExtentTest startTest(String testName, String description) {
         if (testList == null) {
@@ -783,10 +800,10 @@ public class ExtentReports extends Report {
      * the toggle will not be created for the test and log will not be added.
      * 
      * @param testName 
-     * 		Name of the test
+     *      Name of the test
      * 
      * @return
-     * 		An {@link ExtentTest} object
+     *      An {@link ExtentTest} object
      */
     public synchronized ExtentTest startTest(String testName) {
         return startTest(testName, "");
@@ -800,11 +817,11 @@ public class ExtentReports extends Report {
      * If <code>ReporterType.DB</code> is used, a row in the TEST table is created
      * 
      * @param extentTest 
-     * 		An {@link ExtentTest} object
+     *      An {@link ExtentTest} object
      */
     public synchronized void endTest(ExtentTest extentTest) {
         if (extentTest != null) {
-        	Test test = extentTest.getInternalTest();    	
+            Test test = extentTest.getInternalTest();       
             test.hasEnded = true;
     
             finalizeTest(test);
@@ -816,9 +833,9 @@ public class ExtentReports extends Report {
      * Add system information to the SystemInfo view
      * 
      * @param info 
-     * 		SystemInfo values as Key-Value pairs
+     *      SystemInfo values as Key-Value pairs
      * @return 
-     * 		An {@link ExtentReports} object
+     *      An {@link ExtentReports} object
      */
     public ExtentReports addSystemInfo(Map<String, String> info) {
         if (info != null) {
@@ -833,13 +850,13 @@ public class ExtentReports extends Report {
      * Add system information to the SystemInfo view
      * 
      * @param param 
-     * 		Name of system parameter
+     *      Name of system parameter
      * 
      * @param value 
-     * 		Value of system parameter
+     *      Value of system parameter
      * 
      * @return 
-     * 		An {@link ExtentReports} object
+     *      An {@link ExtentReports} object
      */
     public ExtentReports addSystemInfo(String param, String value) {
         if (param != null) {
@@ -854,7 +871,7 @@ public class ExtentReports extends Report {
      * Adds logs from test framework tools such as TestNG
      *     
      * @param log 
-     * 		Log string from the TestRunner
+     *      Log string from the TestRunner
      */
     public void setTestRunnerOutput(String log) {
         setTestRunnerLogs(log);
@@ -907,7 +924,7 @@ public class ExtentReports extends Report {
      * http://extentreports.relevantcodes.com/java/version2/docs.html#configuration
      * 
      * @return 
-     * 		HTMLReporter.Config object
+     *      HTMLReporter.Config object
      */
     @Deprecated
     public HTMLReporter.Config config() {

@@ -43,10 +43,10 @@ import freemarker.template.TemplateModelException;
  *
  */
 public class HTMLReporter extends LogSettings implements IReporter {
-	private static final Logger logger = Logger.getLogger(HTMLReporter.class.getName());
-	
-	private Report report;
-	
+    private static final Logger logger = Logger.getLogger(HTMLReporter.class.getName());
+    
+    private Report report;
+    
     private Map<String, Object> templateMap;
     
     private String templateName = "Extent.ftl";
@@ -59,7 +59,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
 
     @Override
     public void start(Report report) {
-    	this.report = report;
+        this.report = report;
         
         // prevent re-initialization
         if (templateMap != null) {
@@ -77,12 +77,12 @@ public class HTMLReporter extends LogSettings implements IReporter {
         BeansWrapper beansWrapper = builder.build();
         
         try {
-			TemplateHashModel fieldTypeModel = (TemplateHashModel)beansWrapper.getEnumModels().get(LogStatus.class.getName());
-			templateMap.put("LogStatus", fieldTypeModel);
-		} 
+            TemplateHashModel fieldTypeModel = (TemplateHashModel)beansWrapper.getEnumModels().get(LogStatus.class.getName());
+            templateMap.put("LogStatus", fieldTypeModel);
+        } 
         catch (TemplateModelException e) {
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        }
         
         File reportFile = new File(filePath);
 
@@ -94,11 +94,11 @@ public class HTMLReporter extends LogSettings implements IReporter {
     }
     
     private void initOfflineMode(File file) {
-    	String s = "/";
-    	
-    	String resourcePackagePath = HTMLReporter.class.getPackage().getName().replace(".", s);
-    	resourcePackagePath += s + "view" + s;
-    	
+        String s = "/";
+        
+        String resourcePackagePath = HTMLReporter.class.getPackage().getName().replace(".", s);
+        resourcePackagePath += s + "view" + s;
+        
         String cssPath = resourcePackagePath + "offline" + s + "css" + s;
         String fontsPath = cssPath + "fonts" + s;
         String jsPath = resourcePackagePath + "offline" + s + "js" + s;
@@ -107,7 +107,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
                 "css.css"
         };
         String[] fonts = {
-        		"font-awesome.css.map", 
+                "font-awesome.css.map", 
                 "fontawesome-webfont.eot",
                 "fontawesome-webfont.svg",
                 "fontawesome-webfont.ttf",
@@ -153,7 +153,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
             Resources.moveResource(cssPath + f, destPath + "css" + s + f);
         }
         for (String f : fonts) {
-        	Resources.moveResource(fontsPath + f, destPath + "css" + s + "fonts" + s + f);
+            Resources.moveResource(fontsPath + f, destPath + "css" + s + "fonts" + s + f);
         }
         for (String f : js) {
             Writer.getInstance().write(new File(destPath + "js" + s + f), Resources.getText(jsPath + f));
@@ -170,17 +170,17 @@ public class HTMLReporter extends LogSettings implements IReporter {
             StringWriter out = new StringWriter();
             
             try {
-				template.process(templateMap, out);
-				extentSource = out.toString().replace("\t", "");
-			} 
+                template.process(templateMap, out);
+                extentSource = out.toString().replace("\t", "");
+            } 
             catch (TemplateException e) {
-				e.printStackTrace();
-			}
+                e.printStackTrace();
+            }
             
             out.close();
         }
         catch (IOException e) {
-        	logger.log(Level.SEVERE, "Template not found", e);
+            logger.log(Level.SEVERE, "Template not found", e);
         }
 
         Writer.getInstance().write(new File(filePath), extentSource);
@@ -212,15 +212,15 @@ public class HTMLReporter extends LogSettings implements IReporter {
     }
     
     public Map<String, String> getConfigurationMap() {
-    	return report.getConfigurationMap();
+        return report.getConfigurationMap();
     }
     
     public Map<String, List<Test>> getCategoryTestMap() {
-    	return report.getCategoryTestMap();
+        return report.getCategoryTestMap();
     }
     
     public Map<String, List<ExceptionInfo>> getExceptionTestMap() {
-    	return report.getExceptionTestMap();
+        return report.getExceptionTestMap();
     }
     
     public SystemInfo getSystemInfo() {
@@ -228,7 +228,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
     }
     
     public Map<String, String> getSystemInfoMap() {
-    	return report.getSystemInfoMap();
+        return report.getSystemInfoMap();
     }
     
     public List<ExtentTest> getTestList() {
@@ -240,7 +240,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
     }
     
     public String getRunDuration() {
-    	return report.getRunDuration();
+        return report.getRunDuration();
     }
     
     public String getRunDurationOverall() {
@@ -252,7 +252,15 @@ public class HTMLReporter extends LogSettings implements IReporter {
     }
     
     public List<LogStatus> getLogStatusList() {
-    	return report.getLogStatusList();
+        return report.getLogStatusList();
+    }
+    
+    public String getMongoDBObjectID() {
+        String id = report.getMongoDBObjectID();
+        
+        if (id == null) id = "";
+        
+        return id;
     }
     
     public UUID getReportId() {
@@ -264,37 +272,37 @@ public class HTMLReporter extends LogSettings implements IReporter {
     }
     
     private Locale getDocumentLocale() {
-    	return report.getDocumentLocale();
+        return report.getDocumentLocale();
     }
     
     @Deprecated
     public class Config {
-    	@Deprecated
+        @Deprecated
         public Config insertJs(String js) {
             return this;
         }
 
-    	@Deprecated
+        @Deprecated
         public Config insertCustomStyles(String styles) {
             return this;
         }
         
-    	@Deprecated
+        @Deprecated
         public Config addCustomStylesheet(String cssFilePath) {
             return this;
         }
         
-    	@Deprecated
+        @Deprecated
         public Config reportHeadline(String headline) {
             return this;
         }
 
-    	@Deprecated
+        @Deprecated
         public Config reportName(String name) {
             return this;
         }
 
-    	@Deprecated
+        @Deprecated
         public Config documentTitle(String title) {
             return this;
         }

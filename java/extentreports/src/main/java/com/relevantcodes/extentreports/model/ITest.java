@@ -7,7 +7,7 @@ import java.util.UUID;
 import com.relevantcodes.extentreports.LogStatus;
 
 public interface ITest {
-	void setStartedTime(Date startedTime);
+    void setStartedTime(Date startedTime);
     
     Date getStartedTime();
     

@@ -354,7 +354,6 @@
 																				<span title='${resourceBundle.getString("tests.test.info.testStartTime")}' alt='${resourceBundle.getString("tests.test.info.testStartTime")}' class='test-started-time label green lighten-2 text-white'>${node.startedTime?datetime?string(dateTimeFormat)}</span>
 																				<span title='${resourceBundle.getString("tests.test.info.testEndTime")}' alt='${resourceBundle.getString("tests.test.info.testEndTime")}' class='test-ended-time label red lighten-2 text-white'>${node.endedTime?datetime?string(dateTimeFormat)}</span>
 																				<span title='${resourceBundle.getString("tests.test.info.timeTaken")}' alt='${resourceBundle.getString("tests.test.info.timeTaken")}' class='test-time-taken label blue-grey lighten-2 text-white'>${node.getRunDuration()}</span>
-																				<#if node.retryCount != 0><span class='label purple lighten-1 text-white'>Retries: <span class='retry-count'>${node.retryCount}</span></span></#if>
 																				<span class='test-status label outline capitalize ${node.status}'>${node.status}</span>
 																			</div>
 																			<div class='test-node-name'>${node.name}</div>

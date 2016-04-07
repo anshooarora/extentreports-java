@@ -36,8 +36,8 @@ import com.relevantcodes.extentreports.view.ScreenshotHtml;
  * is used on any test, it automatically becomes a child-node. When this happens:
  * 
  * <ul>
- * 	<li>parent test: <code>hasChildNodes = true</code></li>
- * 	<li>child test: <code>isChildNode = true</code></li>
+ *  <li>parent test: <code>hasChildNodes = true</code></li>
+ *  <li>child test: <code>isChildNode = true</code></li>
  * </ul>
  * 
  * @author Anshoo
@@ -51,9 +51,9 @@ public class ExtentTest implements IExtentTestClass {
      * Creates a test node as a top-most level test
      * 
      * @param testName 
-     * 		Test name
+     *      Test name
      * @param description 
-     * 		A short description of the test
+     *      A short description of the test
      */
     public ExtentTest(String testName, String description) {
         test = new Test();
@@ -70,20 +70,20 @@ public class ExtentTest implements IExtentTestClass {
      * Log event is shown in the report with 4 columns:
      * 
      * <ul>
-     * 	<li>Timestamp</li>
-     * 	<li>Status</li>
-     * 	<li>StepName</li>
-     * 	<li>Details</li>
+     *  <li>Timestamp</li>
+     *  <li>Status</li>
+     *  <li>StepName</li>
+     *  <li>Details</li>
      * </ul>
      * 
      * @param logStatus 
-     * 		Status (see {@link LogStatus})
+     *      Status (see {@link LogStatus})
      * 
      * @param stepName 
-     * 		Name of the step
+     *      Name of the step
      * 
      * @param details 
-     * 		Details of the step
+     *      Details of the step
      */
     @Override
     public void log(LogStatus logStatus, String stepName, String details) {
@@ -107,20 +107,20 @@ public class ExtentTest implements IExtentTestClass {
      * Log event is shown in the report with 4 columns:
      * 
      * <ul>
-     * 	<li>Timestamp</li>
-     * 	<li>Status</li>
-     * 	<li>StepName</li>
-     * 	<li>Details</li>
+     *  <li>Timestamp</li>
+     *  <li>Status</li>
+     *  <li>StepName</li>
+     *  <li>Details</li>
      * </ul>
      * 
      * @param logStatus 
-     * 		Status (see {@link LogStatus})
+     *      Status (see {@link LogStatus})
      * 
      * @param stepName 
-     * 		Name of the step
+     *      Name of the step
      * 
      * @param t 
-     * 		Exception
+     *      Exception
      */
     @Override
     public void log(LogStatus logStatus, String stepName, Throwable t) {
@@ -137,20 +137,20 @@ public class ExtentTest implements IExtentTestClass {
      * Log event is shown in the report with 3 columns:
      * 
      * <ul>
-     * 	<li>Timestamp</li>
-     * 	<li>Status</li>
-     * 	<li>Details</li>
+     *  <li>Timestamp</li>
+     *  <li>Status</li>
+     *  <li>Details</li>
      * </ul>
      * 
      * @param logStatus 
-     * 		Status (see {@link LogStatus})
+     *      Status (see {@link LogStatus})
      * 
      * @param t 
-     * 		Exception
+     *      Exception
      */
     @Override
     public void log(LogStatus logStatus, Throwable t) {
-    	log(logStatus, null, t);
+        log(logStatus, null, t);
     }
     
     /**
@@ -161,16 +161,16 @@ public class ExtentTest implements IExtentTestClass {
      * Log event is shown in the report with 3 columns:
      * 
      * <ul>
-     * 	<li>Timestamp</li>
-     * 	<li>Status</li>
-     * 	<li>Details</li>
+     *  <li>Timestamp</li>
+     *  <li>Status</li>
+     *  <li>Details</li>
      * </ul>
      * 
      * @param logStatus 
-     * 		Status (see {@link LogStatus})
+     *      Status (see {@link LogStatus})
      * 
      * @param details 
-     * 		Details of the step
+     *      Details of the step
      */
     @Override
     public void log(LogStatus logStatus, String details) {
@@ -255,7 +255,7 @@ public class ExtentTest implements IExtentTestClass {
     public void setEndedTime(Date endedTime) {
         test.setEndedTime(endedTime);
     }
-    
+
     /**
      * <p>
      * Adds a snapshot to the log event details
@@ -266,10 +266,10 @@ public class ExtentTest implements IExtentTestClass {
      * capturing the screen and for constructing the path to the image file.
      * 
      * @param imagePath
-     * 		Path of the image in relation to where your report resides
+     *      Path of the image in relation to where your report resides
      *
      * @return
-     * 		A formed HTML img tag
+     *      A formed HTML img tag
      */
     @Override
     public String addScreenCapture(String imagePath) {
@@ -287,6 +287,16 @@ public class ExtentTest implements IExtentTestClass {
         return screenCaptureHtml;
     }
 
+    /**
+     * <p>
+     * Adds a snapshot to the log event details using a Base64 string
+     * 
+     * @param base64
+     *      Base64 image string
+     *
+     * @return
+     *      A formed HTML img tag
+     */
     public String addBase64ScreenShot(String base64) {
         String screenCaptureHtml = ScreenshotHtml.getBase64Source(base64);
         ScreenCapture img = new ScreenCapture();
@@ -308,10 +318,10 @@ public class ExtentTest implements IExtentTestClass {
      * links to the path
      * 
      * @param screencastPath 
-     * 		Path of the screencast
+     *      Path of the screencast
      * 
      * @return 
-     * 		A formed HTML video tag with the supplied path
+     *      A formed HTML video tag with the supplied path
      */
     @Override
     public String addScreencast(String screencastPath) {
@@ -339,10 +349,10 @@ public class ExtentTest implements IExtentTestClass {
      * Usage: <code>test.assignCategory("ExtentAPI", "Regression", ...);</code>
      * 
      * @param categories 
-     * 		Category name
+     *      Category name
      * 
      * @return 
-     * 		A {@link ExtentTest} object
+     *      A {@link ExtentTest} object
      */
     @Override
     public ExtentTest assignCategory(String... categories) {
@@ -391,16 +401,19 @@ public class ExtentTest implements IExtentTestClass {
      * Appends a child test (another {@link ExtentTest}) to the current test
      * 
      * @param node 
-     * 		An {@link ExtentTest} object. Test that is added as the node.
+     *      An {@link ExtentTest} object. Test that is added as the node.
      * 
      * @return 
-     * 		An {@link ExtentTest} object. Parent test which adds the node as its child.
+     *      An {@link ExtentTest} object. Parent test which adds the node as its child.
      */
     @Override
     public ExtentTest appendChild(ExtentTest node) {
-        node.getInternalTest().setEndedTime(Calendar.getInstance().getTime());
-        node.getInternalTest().isChildNode = true;
-        node.getInternalTest().trackLastRunStatus();
+        Test internalNode = node.getInternalTest();
+        
+        internalNode.setEndedTime(Calendar.getInstance().getTime());
+        internalNode.isChildNode = true;
+        internalNode.trackLastRunStatus();
+        internalNode.setParentTest(getInternalTest());
         
         test.hasChildNodes = true;
 
@@ -420,7 +433,7 @@ public class ExtentTest implements IExtentTestClass {
             }
         }
 
-        test.setNode(node.getInternalTest());
+        test.setNode(internalNode);
                 
         return this;
     }
@@ -430,7 +443,7 @@ public class ExtentTest implements IExtentTestClass {
      * Provides the current run status of the test
      * 
      * @return 
-     * 		{@link LogStatus}
+     *      {@link LogStatus}
      */
     @Override
     public LogStatus getRunStatus() {
@@ -442,11 +455,11 @@ public class ExtentTest implements IExtentTestClass {
      * Returns the interface that exposes some important methods of the underlying test
      * 
      * @return 
-     * 		A {@link ITest} object
+     *      A {@link ITest} object
      */
     @Override
     public ITest getTest() {
-    	return test;
+        return test;
     }
     
     /**
@@ -458,7 +471,7 @@ public class ExtentTest implements IExtentTestClass {
      * and properties of the test
      * 
      * @return 
-     * 		A {@link Test} object
+     *      A {@link Test} object
      */
     Test getInternalTest() {        
         return test;
@@ -469,10 +482,10 @@ public class ExtentTest implements IExtentTestClass {
      * Determines if path of the file is relative or absolute
      * 
      * @param path
-     * 		Path of the file
+     *      Path of the file
      * 
      * @return
-     * 		Boolean
+     *      Boolean
      */
     private Boolean isPathRelative(String path) {
         if (path.indexOf("http") == 0 || !new File(path).isAbsolute()) {
