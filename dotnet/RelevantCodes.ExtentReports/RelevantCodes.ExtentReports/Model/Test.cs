@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace RelevantCodes.ExtentReports.Model
 {
-    public class Test
+    public class Test 
     {
         public string Name { get; set; }
 
@@ -42,7 +42,7 @@ namespace RelevantCodes.ExtentReports.Model
 
         public string InternalWarning = null;
 
-        public List<Exception> ExceptionList { get; internal set; }
+        public List<ExceptionInfo> ExceptionList { get; internal set; }
 
         public List<TestAttribute> CategoryList { get; private set; }
 
@@ -71,6 +71,15 @@ namespace RelevantCodes.ExtentReports.Model
             {
                 AuthorList.Add(new Author(Author));
             }
+        }
+
+        public void setException(ExceptionInfo exceptionInfo)
+        {
+            if (exceptionInfo == null)
+            {
+                ExceptionList = new List<ExceptionInfo>();
+            }
+            ExceptionList.Add(exceptionInfo);
         }
 
         public List<Test> NodeList { get; set; }
@@ -186,7 +195,7 @@ namespace RelevantCodes.ExtentReports.Model
             ID = Guid.NewGuid();
 
             CategoryList = new List<TestAttribute>();
-            ExceptionList = new List<Exception>();
+            ExceptionList = new List<ExceptionInfo>();
             AuthorList = new List<TestAttribute>();
             LogList = new List<Log>();
             NodeList = new List<Test>();
