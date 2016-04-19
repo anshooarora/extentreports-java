@@ -425,8 +425,10 @@ public class ExtentReports extends Report {
      * @param name
      *      Project name
      */
-    public void assignProject(String name) {
+    public ExtentReports assignProject(String name) {
         setProjectName(name);
+        
+        return this;
     }
     
     /**
@@ -821,10 +823,14 @@ public class ExtentReports extends Report {
      */
     public synchronized void endTest(ExtentTest extentTest) {
         if (extentTest != null) {
-            Test test = extentTest.getInternalTest();       
-            test.hasEnded = true;
+            Test test = extentTest.getInternalTest();
+            
+            // ensure the same test isn't being closed twice 
+            if (!test.hasEnded) {
+                test.hasEnded = true;
     
-            finalizeTest(test);
+                finalizeTest(test);
+            }
         }
     }
     
