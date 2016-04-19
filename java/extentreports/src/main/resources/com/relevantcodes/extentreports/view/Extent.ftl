@@ -30,7 +30,7 @@
 		</#if>
 		
 		<link href='${protocol}://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
-		<link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/8ff8b1e90cb9b17e353e79f9aa25f6378091d8dc/cdn/extent.css' type='text/css' rel='stylesheet' />
+		<link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/8016a69ddb1d39913acfcee7e1b31e0b6661ccd6/cdn/extent.css' type='text/css' rel='stylesheet' />
 		
 		<style>
 			<#if report.configurationMap??>
@@ -663,7 +663,7 @@
 		</div>
 		<!-- /filter for step status -->
 		
-		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/9829266d042c8d70e3c4ebf4ae400a3066d6a6c1/cdn/extent.js' type='text/javascript'></script>
+		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/8016a69ddb1d39913acfcee7e1b31e0b6661ccd6/cdn/extent.js' type='text/javascript'></script>
 
 		<script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
 		<script>
