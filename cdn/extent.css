@@ -63,10 +63,6 @@ h5 {
 .container {
 	max-width: none;
 	padding-left: 66px;
-	padding-bottom: 100px;
-	width: 98%;
-}
-.container {
 	width: 100%;
 }
 .container .row {

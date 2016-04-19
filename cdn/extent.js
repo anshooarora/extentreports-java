@@ -100,8 +100,10 @@ function _updateCurrentStage(n) {
     if (n == 0){
         ct = $('#test-view');
         
-        if ($('.charts').is(':visible'))
-            chartHeight = 275;
+        setTimeout(function() {
+            if ($('.charts').is(':visible'))
+                chartHeight = 275;
+        }, 200);
     }
     if (n == 1) {
         ct = $('#categories-view');
@@ -556,14 +558,14 @@ function redrawCharts() {
 function refreshData() {
 	var el = $('#test-count-setting');
 	
-	totalTests = $('.test:not(:has(.test-node)), .test-node').length;
-	passedTests = $('.test.displayed .node-list > li.pass.displayed, .test.displayed.pass:not(.hasChildren)').length;
-	failedTests = $('.test.displayed .node-list > li.fail.displayed, .test.displayed.fail:not(.hasChildren)').length;
-	fatalTests = $('.test.displayed .node-list > li.fatal.displayed, .test.displayed.fatal:not(.hasChildren)').length;
-	warningTests = $('.test.displayed .node-list > li.warning.displayed, .test.displayed.warning:not(.hasChildren)').length;
-	errorTests = $('.test.displayed .node-list > li.error.displayed, .test.displayed.error:not(.hasChildren)').length;
-	skippedTests = $('.test.displayed .node-list > li.skip.displayed, .test.displayed.skip:not(.hasChildren)').length;
-	unknownTests = $('.test.displayed .node-list > li.unknown.displayed, .test.displayed.unknown:not(.hasChildren)').length;
+	totalTests = $('#test-collection .test:not(.hasChildren), #test-collection .test-node').length;
+	passedTests = $('#test-collection .test.displayed .node-list > li.pass.displayed, #test-collection .test.displayed.pass:not(.hasChildren)').length;
+	failedTests = $('#test-collection .test.displayed .node-list > li.fail.displayed, #test-collection .test.displayed.fail:not(.hasChildren)').length;
+	fatalTests = $('#test-collection .test.displayed .node-list > li.fatal.displayed, #test-collection .test.displayed.fatal:not(.hasChildren)').length;
+	warningTests = $('#test-collection .test.displayed .node-list > li.warning.displayed, #test-collection .test.displayed.warning:not(.hasChildren)').length;
+	errorTests = $('#test-collection .test.displayed .node-list > li.error.displayed, #test-collection .test.displayed.error:not(.hasChildren)').length;
+	skippedTests = $('#test-collection .test.displayed .node-list > li.skip.displayed, #test-collection .test.displayed.skip:not(.hasChildren)').length;
+	unknownTests = $('#test-collection .test.displayed .node-list > li.unknown.displayed, #test-collection .test.displayed.unknown:not(.hasChildren)').length;
 	
 	if (el.hasClass('parentWithoutNodes')) {
 		totalTests = $('#test-collection .test.displayed').length;
