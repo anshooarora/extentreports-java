@@ -207,9 +207,7 @@ public class HTMLReporter extends LogSettings implements IReporter {
     
     // adds tests as HTML source
     @Override
-    public synchronized void addTest() {
-
-    }
+    public synchronized void addTest(Test test) { }
     
     public Map<String, String> getConfigurationMap() {
         return report.getConfigurationMap();

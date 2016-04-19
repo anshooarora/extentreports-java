@@ -131,12 +131,10 @@ public class ExtentX extends LogSettings implements IReporter {
     }
     
     @Override
-    public void addTest() {
+    public void addTest(Test test) {
         if (reportId == null)
             insertReport();
-        
-        Test test = report.getCurrentTest();
-        
+
         testName = test.getName();
         
         Document doc = new Document("report", reportId)
@@ -199,15 +197,16 @@ public class ExtentX extends LogSettings implements IReporter {
     }
     
     private void addNodes(Test test, ObjectId testId, int level) {
-        if (test.hasChildNodes) {
-            for (Test node : test.getNodeList()) {
-                addNode(node, testId, ++level);
+        if (!test.hasChildNodes)
+            return;
+        
+        for (Test node : test.getNodeList()) {
+            addNode(node, testId, ++level);
+            --level;
+            
+            if (node.hasChildNodes) {
+                addNodes(node, testId, ++level);
                 --level;
-                
-                if (node.hasChildNodes) {
-                    addNodes(node, testId, ++level);
-                    --level;
-                }
             }
         }
     }

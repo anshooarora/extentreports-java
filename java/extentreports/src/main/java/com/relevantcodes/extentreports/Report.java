@@ -367,7 +367,7 @@ abstract class Report extends LogSettings {
         this.test = test;
         
         for (IReporter reporter : reporters) {
-            reporter.addTest();
+            reporter.addTest(test);
         }
         
         updateReportStatus(test.getStatus());

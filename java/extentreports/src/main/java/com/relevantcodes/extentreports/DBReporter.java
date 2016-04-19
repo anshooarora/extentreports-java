@@ -18,6 +18,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.Log;
@@ -31,6 +33,8 @@ import com.relevantcodes.extentreports.model.TestAttribute;
  *
  */
 class DBReporter extends LogSettings implements IReporter {
+    static final Logger logger = Logger.getLogger(LogSettings.class.getName()); 
+    
     private boolean isReady = false;
     
     private Report report;
@@ -201,7 +205,7 @@ class DBReporter extends LogSettings implements IReporter {
             Class.forName("org.sqlite.JDBC");
         }
         catch (ClassNotFoundException e) {
-            System.out.println("Unable to start database reporter. Extent database will not be created.");
+            logger.log(Level.SEVERE, "Unable to start database reporter. Extent database will not be created.", e);
             
             e.printStackTrace();
             return;
@@ -280,13 +284,13 @@ class DBReporter extends LogSettings implements IReporter {
     }
 
     @Override
-    public void addTest() {
+    public void addTest(Test test) {
         if (!isReady) {
-            System.out.println("Failed to add test " + test.getName() + " to Extent database");
+            logger.log(Level.SEVERE, "Failed to add test " + test.getName() + " to Extent database");
             return;
         }
         
-        this.test = report.getCurrentTest();
+        this.test = test;
 
         try {
             PreparedStatement stmt = connection.prepareStatement(INSERT_TEST);
