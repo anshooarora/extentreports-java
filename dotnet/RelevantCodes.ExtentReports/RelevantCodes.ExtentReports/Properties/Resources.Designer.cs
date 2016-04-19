@@ -63,20 +63,23 @@ namespace RelevantCodes.ExtentReports.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
         ///&lt;extentreports&gt;
-        ///    &lt;configuration&gt;
-        ///		&lt;!-- document encoding --&gt;
-        ///		&lt;encoding&gt;UTF-8&lt;/encoding&gt;
-        ///		
-        ///        &lt;!-- title of the document --&gt;
-        ///        &lt;documentTitle&gt;ExtentReports 2.0&lt;/documentTitle&gt;
-        ///        
-        ///        &lt;!-- report name - displayed at top-nav --&gt;
-        ///        &lt;reportName&gt;Automation Report&lt;/reportName&gt;
-        ///        
-        ///        &lt;!-- report headline - displayed at top-nav, after reportHeadline --&gt;
-        ///        &lt;reportHeadline&gt;&lt;/reportHeadline&gt;
-        ///        
-        ///        &lt;!-- cu [rest of string was truncated]&quot;;.
+        ///  &lt;configuration&gt;
+        ///    &lt;!-- report theme --&gt;
+        ///    &lt;!-- standard, dark --&gt;
+        ///    &lt;theme&gt;standard&lt;/theme&gt;
+        ///
+        ///    &lt;!-- document encoding --&gt;
+        ///    &lt;!-- defaults to UTF-8 --&gt;
+        ///    &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+        ///
+        ///    &lt;!-- protocol for script and stylesheets --&gt;
+        ///    &lt;!-- defaults to https --&gt;
+        ///    &lt;protocol&gt;https&lt;/protocol&gt;
+        ///
+        ///    &lt;!-- title of the document --&gt;
+        ///    &lt;documentTitle&gt;ExtentReports 2.0&lt;/documentTitle&gt;
+        ///
+        ///    &lt;!-- report name - displayed at top-nav [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string extent_config {
             get {

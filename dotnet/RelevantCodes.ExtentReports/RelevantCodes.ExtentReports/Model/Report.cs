@@ -14,8 +14,9 @@ namespace RelevantCodes.ExtentReports.Model
         private const string InternalWarning = "Close was called before test could end safely using EndTest.";
 
         private List<IReporter> _reporterList;
-        private LogStatus _reportStatus;
         private bool _terminated = false;
+
+        internal LogStatus ReportStatus;
 
         protected Guid ReportId;
 
@@ -31,11 +32,17 @@ namespace RelevantCodes.ExtentReports.Model
 
         internal DateTime StartTime;
 
+        internal DateTime EndTime;
+
         internal Test Test { get; private set; }
 
         internal Dictionary<string, string> SystemInfo { get; set; }
 
         internal List<string> TestRunnerLogs { get; set; }
+
+        internal string ProjectName { get; set; }
+
+        internal string MongoDBObjectId { get; set; }
 
         protected void Attach(IReporter Reporter)
         {
@@ -61,6 +68,8 @@ namespace RelevantCodes.ExtentReports.Model
         [MethodImpl(MethodImplOptions.Synchronized)]
         protected void AddTest(Test Test)
         {
+            EndTime = DateTime.Now;
+
             this.Test = Test;
 
             Test.PrepareFinalize();
@@ -91,7 +100,10 @@ namespace RelevantCodes.ExtentReports.Model
                 }
             });
 
-            _reporterList.ForEach(x => x.AddTest());
+            _reporterList.ForEach(x =>
+            {
+                x.AddTest(Test);
+            });
 
             UpdateReportStatus(Test.Status);
         }
@@ -132,6 +144,8 @@ namespace RelevantCodes.ExtentReports.Model
 
         protected virtual void Flush()
         {
+            EndTime = DateTime.Now;
+
             if (_terminated)
             {
                 throw new IOException("Unable to write source: Stream closed.");
@@ -179,63 +193,63 @@ namespace RelevantCodes.ExtentReports.Model
 
         private void UpdateReportStatus(LogStatus logStatus)
         {
-            if (_reportStatus == LogStatus.Fatal) return;
+            if (ReportStatus == LogStatus.Fatal) return;
 
             if (logStatus == LogStatus.Fatal)
             {
-                _reportStatus = logStatus;
+                ReportStatus = logStatus;
                 return;
             }
 
-            if (_reportStatus == LogStatus.Fail) return;
+            if (ReportStatus == LogStatus.Fail) return;
 
             if (logStatus == LogStatus.Fail)
             {
-                _reportStatus = logStatus;
+                ReportStatus = logStatus;
                 return;
             }
 
-            if (_reportStatus == LogStatus.Error) return;
+            if (ReportStatus == LogStatus.Error) return;
 
             if (logStatus == LogStatus.Error)
             {
-                _reportStatus = logStatus;
+                ReportStatus = logStatus;
                 return;
             }
 
-            if (_reportStatus == LogStatus.Warning) return;
+            if (ReportStatus == LogStatus.Warning) return;
 
             if (logStatus == LogStatus.Warning)
             {
-                _reportStatus = logStatus;
+                ReportStatus = logStatus;
                 return;
             }
 
-            if (_reportStatus == LogStatus.Pass) return;
+            if (ReportStatus == LogStatus.Pass) return;
 
             if (logStatus == LogStatus.Pass)
             {
-                _reportStatus = LogStatus.Pass;
+                ReportStatus = LogStatus.Pass;
                 return;
             }
 
-            if (_reportStatus == LogStatus.Skip) return;
+            if (ReportStatus == LogStatus.Skip) return;
 
             if (logStatus == LogStatus.Skip)
             {
-                _reportStatus = LogStatus.Skip;
+                ReportStatus = LogStatus.Skip;
                 return;
             }
 
-            if (_reportStatus == LogStatus.Info) return;
+            if (ReportStatus == LogStatus.Info) return;
 
             if (logStatus == LogStatus.Info)
             {
-                _reportStatus = LogStatus.Info;
+                ReportStatus = LogStatus.Info;
                 return;
             }
 
-            _reportStatus = LogStatus.Unknown;
+            ReportStatus = LogStatus.Unknown;
         }
 
         public Report() 

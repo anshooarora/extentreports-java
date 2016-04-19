@@ -39,6 +39,7 @@
                             <meta name='description' content='@Localized.head_metaDescription' />
                             <meta name='robots' content='noodp, noydir' />
                             <meta name='viewport' content='width=device-width, initial-scale=1' />
+                            <meta name='extentx' id='extentx' content='@Model.MongoDBObjectId' />
 
                             <title>
                                 @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""documentTitle""))
@@ -48,7 +49,7 @@
                             </title>
 
                             <link href='@protocol://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
-                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/e4f8ea1de961161791c01b99a71a1e17f81125cf/cdn/extent.css' type='text/css' rel='stylesheet' />
+                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/8ff8b1e90cb9b17e353e79f9aa25f6378091d8dc/cdn/extent.css' type='text/css' rel='stylesheet' />
 
                             <style>
                                 @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""styles""))
@@ -57,7 +58,7 @@
                                 }
                             </style>
                         </head>
-                        <body class='extent @theme'>
+                        <body class='extent @theme hide-overflow'>
                             <!-- nav -->
                             <nav>
                                 <div class='logo-container'>
@@ -97,7 +98,7 @@
                                         <span class='suite-started-time'>@Model.StartTime.ToString(dateTimeFormat)</span>
                                     </li>
                                     <li>
-                                        <span>v2.40.2</span>
+                                        <span>v2.41.0</span>
                                     </li>
                                 </ul>
                                 <!-- /navright -->
@@ -457,6 +458,18 @@
                                         <div class='contents'>
                                             <div class='card-panel details-view'>
                                                 <h5 class='details-name'></h5>
+
+                                                <div class='step-filters right'>
+								                    <span class='info' alt='info' title='info'><i class='mdi-action-info-outline'></i></span> 
+								                    <span class='pass' alt='pass' title='pass'><i class='mdi-action-check-circle'></i></span> 
+								                    <span class='fail' alt='fail' title='fail'><i class='mdi-navigation-cancel'></i></span> 
+								                    <!--<span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>-->
+								                    <span class='error' alt='error' title='error'><i class='mdi-alert-error'></i></span> 
+								                    <span class='warning' alt='warning' title='warning'><i class='mdi-alert-warning'></i></span> 
+								                    <span class='skip' alt='skip' title='skip'><i class='mdi-content-redo'></i></span> 
+								                    <span class='clear-step-filter' alt='Clear filters' title='Clear filters'><i class='mdi-content-clear'></i></span>
+							                    </div>
+
                                                 <div class='details-container'>
                                                 </div>
                                             </div>
@@ -707,7 +720,7 @@
                             </div>
                             <!-- /modals -->
 
-                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/c936a26fc8bb9c5fc0253b5bc6f289e1d14bb595/cdn/extent.js' type='text/javascript'></script>
+                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/9829266d042c8d70e3c4ebf4ae400a3066d6a6c1/cdn/extent.js' type='text/javascript'></script>
 
                             <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
                             <script>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""scripts"")) { @Raw(Model.ConfigurationMap[""scripts""]) }</script>

@@ -89,7 +89,7 @@ namespace RelevantCodes.ExtentReports
 
             var testList = _report.TestList;
 
-            if (testList.Equals(null))
+            if (testList == null)
             {
                 return;
             }
@@ -102,7 +102,7 @@ namespace RelevantCodes.ExtentReports
             File.WriteAllText(_filePath, _extentSource);
         }
 
-        public virtual void AddTest() { }
+        public void AddTest(Test test) { }
 
         public List<ExtentTest> TestList
         {
@@ -166,6 +166,14 @@ namespace RelevantCodes.ExtentReports
         public string GetRunTime()
         {
             return _report.RunTime;
+        }
+
+        public string MongoDBObjectId
+        {
+            get
+            {
+                return _report.MongoDBObjectId;
+            }
         }
         
         private void InitializeRazor()

@@ -869,11 +869,6 @@
             Intefaces
             </summary>
         </member>
-        <member name="F:RazorEngine.Compilation.ImpromptuInterface.Build.ActLikeProxySerializationHelper.MonoInterfaces">
-            <summary>
-            Interfaces by name for Mono workaround
-            </summary>
-        </member>
         <member name="F:RazorEngine.Compilation.ImpromptuInterface.Build.ActLikeProxySerializationHelper.Context">
             <summary>
             Type Context
@@ -4751,13 +4746,65 @@
             <param name="t"></param>
             <returns></returns>
         </member>
+        <member name="T:RazorEngine.Templating.FullPathWithModifiedTimeTemplateKey">
+            <summary>
+            This implementation adds ModifiedTime property to <see cref="T:RazorEngine.Templating.FullPathTemplateKey" />
+            </summary>
+        </member>
+        <member name="M:RazorEngine.Templating.FullPathWithModifiedTimeTemplateKey.#ctor(System.String,System.String,System.DateTime,RazorEngine.Templating.ResolveType,RazorEngine.Templating.ITemplateKey)">
+            <summary>
+            Initializes a new instance
+            </summary>
+            <param name="name"></param>
+            <param name="fullPath"></param>
+            <param name="modifiedTime"></param>
+            <param name="resolveType"></param>
+            <param name="context"></param>
+        </member>
+        <member name="P:RazorEngine.Templating.FullPathWithModifiedTimeTemplateKey.ModifiedTime">
+            <summary>
+            This value is used to check if cache is valid
+            </summary>
+        </member>
+        <member name="T:RazorEngine.Templating.InvalidatingByModifiedTimeCachingProvider">
+            <summary>
+            An memory leaking invalidating caching provider (See <see cref="T:RazorEngine.Templating.ICachingProvider"/>).
+            This implementation does a very simple in-memory caching and allows you to release templates
+            by trading with memory. File modification time is used to check if cached template is valid.
+            WARNING:
+            Use this caching provider only on AppDomains you recycle regularly, or to
+            improve the debugging experience.
+            Never use this in production without any recycle strategy.
+            </summary>
+        </member>
+        <member name="M:RazorEngine.Templating.InvalidatingByModifiedTimeCachingProvider.#ctor">
+            <summary>
+            Initializes a new instance
+            </summary>
+        </member>
+        <member name="M:RazorEngine.Templating.InvalidatingByModifiedTimeCachingProvider.#ctor(System.Action{System.String})">
+            <summary>
+            Initializes a new instance
+            </summary>
+            <param name="registerForCleanup"></param>
+        </member>
+        <member name="M:RazorEngine.Templating.InvalidatingByModifiedTimeCachingProvider.TryRetrieveTemplate(RazorEngine.Templating.ITemplateKey,System.Type,RazorEngine.Templating.ICompiledTemplate@)">
+            <summary>
+            Try to retrieve a template from the cache. See <see cref="M:RazorEngine.Templating.ICachingProvider.TryRetrieveTemplate(RazorEngine.Templating.ITemplateKey,System.Type,RazorEngine.Templating.ICompiledTemplate@)"/>.
+            If cached template has different modification time, then the cache is invalidated.
+            </summary>
+            <param name="templateKey"></param>
+            <param name="modelType"></param>
+            <param name="compiledTemplate"></param>
+            <returns></returns>
+        </member>
         <member name="T:RazorEngine.Templating.InvalidatingCachingProvider">
             <summary>
             An memory leaking invalidating caching provider (See <see cref="T:RazorEngine.Templating.ICachingProvider"/>).
             This implementation does a very simple in-memory caching and allows you to release templates
             by trading with memory.
             WARNING: 
-            Use this caching provider only on AppDomains you recycle regulary, or to 
+            Use this caching provider only on AppDomains you recycle regularly, or to
             improve the debugging experience. 
             Never use this in production without any recycle strategy.
             </summary>
@@ -5070,9 +5117,69 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:RazorEngine.Templating.ResolvePathTemplateManager">
+        <member name="T:RazorEngine.Templating.ResolvePathCheckModifiedTimeTemplateManager">
             <summary>
             A TemplateManager resolving remplates by path, given a list of folders to look into.
+            Uses <see cref="T:RazorEngine.Templating.FullPathWithModifiedTimeTemplateKey" /> to save template modification time.
+            </summary>
+        </member>
+        <member name="M:RazorEngine.Templating.ResolvePathCheckModifiedTimeTemplateManager.#ctor(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Initializes a new TemplateManager
+            </summary>
+            <param name="layoutRoots">the list of folders to look for templates.</param>
+        </member>
+        <member name="M:RazorEngine.Templating.ResolvePathCheckModifiedTimeTemplateManager.GetKey(System.String,RazorEngine.Templating.ResolveType,RazorEngine.Templating.ITemplateKey)">
+            <summary>
+            Get the given key.
+            </summary>
+            <param name="name"></param>
+            <param name="resolveType"></param>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RazorEngine.Templating.EmbeddedResourceTemplateManager">
+            <summary>
+            A TemplateManager loading templates from embedded resources.
+            </summary>
+        </member>
+        <member name="M:RazorEngine.Templating.EmbeddedResourceTemplateManager.#ctor(System.Type)">
+            <summary>
+            Initializes a new TemplateManager.
+            </summary>
+            <param name="rootType">The type from the assembly that contains embedded resources that will act as a root type for Assembly.GetManifestResourceStream() calls.</param>
+        </member>
+        <member name="P:RazorEngine.Templating.EmbeddedResourceTemplateManager.RootType">
+            <summary>
+            The type from the assembly that contains embedded resources
+            </summary>
+        </member>
+        <member name="M:RazorEngine.Templating.EmbeddedResourceTemplateManager.Resolve(RazorEngine.Templating.ITemplateKey)">
+            <summary>
+            Resolve the given key
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RazorEngine.Templating.EmbeddedResourceTemplateManager.GetKey(System.String,RazorEngine.Templating.ResolveType,RazorEngine.Templating.ITemplateKey)">
+            <summary>
+            Get the given key.
+            </summary>
+            <param name="name"></param>
+            <param name="resolveType"></param>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RazorEngine.Templating.EmbeddedResourceTemplateManager.AddDynamic(RazorEngine.Templating.ITemplateKey,RazorEngine.Templating.ITemplateSource)">
+            <summary>
+            Throws NotSupportedException.
+            </summary>
+            <param name="key"></param>
+            <param name="source"></param>
+        </member>
+        <member name="T:RazorEngine.Templating.ResolvePathTemplateManager">
+            <summary>
+            A TemplateManager resolving templates by path, given a list of folders to look into.
             </summary>
         </member>
         <member name="M:RazorEngine.Templating.ResolvePathTemplateManager.#ctor(System.Collections.Generic.IEnumerable{System.String})">
@@ -5096,6 +5203,14 @@
             <param name="resolveType"></param>
             <param name="context"></param>
             <returns></returns>
+        </member>
+        <member name="M:RazorEngine.Templating.ResolvePathTemplateManager.ResolveFilePath(System.String)">
+            <summary>
+            Resolve full file path using layout roots.
+            </summary>
+            <param name="name">file name</param>
+            <returns>full file path</returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
         </member>
         <member name="M:RazorEngine.Templating.ResolvePathTemplateManager.AddDynamic(RazorEngine.Templating.ITemplateKey,RazorEngine.Templating.ITemplateSource)">
             <summary>
@@ -5127,9 +5242,9 @@
             <summary>
             A ResolvePathTemplateManager which watches for changes in the 
             filesytem and invalides the corresponding cache entries.
-            WARNING: 
-            Use this only on AppDomains you recycle regulary, or to 
-            improve the debugging experience. 
+            WARNING:
+            Use this only on AppDomains you recycle regularly, or to
+            improve the debugging experience.
             Never use this in production without any recycle strategy.
             </summary>
         </member>
@@ -5895,7 +6010,7 @@
             Another template manager can read from different folders depending whether we include a layout or including a template.
             In that situation the <see cref="M:RazorEngine.Templating.ITemplateKey.GetUniqueKeyString"/> has to take that into account so that templates with the same name can not be confused.
             </remarks>
-            <param name="name">The name of the tempalte</param>
+            <param name="name">The name of the template</param>
             <param name="resolveType">how the template is resolved</param>
             <param name="context">gets the context for the current resolve operation. 
             Which template is resolving another template? (null = we search a global template)
@@ -6935,7 +7050,7 @@
             Renders the section with the specified name.
             </summary>
             <param name="name">The name of the section.</param>
-            <param name="isRequired">Flag to specify whether the section is required.</param>
+            <param name="required">Flag to specify whether the section is required.</param>
             <returns>The template writer helper.</returns>
         </member>
         <member name="M:RazorEngine.Templating.TemplateBase.RenderBody">
@@ -7047,9 +7162,23 @@
             <summary>
             Includes the template with the specified name.
             </summary>
-            <param name="cacheName">The name of the template type in cache.</param>
+            <param name="name">The name of the template type in cache.</param>
             <param name="model">The model or NULL if there is no model for the template.</param>
-            <param name="modelType"></param>
+            <returns>The template writer helper.</returns>
+        </member>
+        <member name="M:RazorEngine.Templating.TemplateBase`1.Include(System.String,System.Object)">
+            <summary>
+            Includes the template with the specified name.
+            </summary>
+            <param name="name">The name of the template type in cache.</param>
+            <param name="model">The model or NULL if there is no model for the template.</param>
+            <returns>The template writer helper.</returns>
+        </member>
+        <member name="M:RazorEngine.Templating.TemplateBase`1.Include(System.String)">
+            <summary>
+            Includes the template with the specified name, uses the current model and model-type.
+            </summary>
+            <param name="name">The name of the template type in cache.</param>
             <returns>The template writer helper.</returns>
         </member>
         <member name="M:RazorEngine.Templating.TemplateBase`1.ResolveLayout(System.String)">

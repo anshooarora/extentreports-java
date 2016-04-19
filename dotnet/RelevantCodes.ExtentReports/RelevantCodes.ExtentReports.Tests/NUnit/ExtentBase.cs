@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
-using RelevantCodes.ExtentReports.Tests.Common;
-
 namespace RelevantCodes.ExtentReports.Tests.NUnit
 {
     public abstract class ExtentBase

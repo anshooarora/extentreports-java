@@ -29,5 +29,10 @@ namespace RelevantCodes.ExtentReports
         {
             throw new NotImplementedException();
         }
+
+        public void AddTest(Test test)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

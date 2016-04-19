@@ -5,38 +5,21 @@ namespace RelevantCodes.ExtentReports.Model
 {
     public class ExceptionInfo
     {
-        private String exceptionName;
-        private String stackTrace;
-        private Test test;
+        public Exception Exception { get; private set; }
 
-        public String getExceptionName()
-        {
-            return exceptionName;
-        }
+        public string ExceptionName { get; private set; }
 
-        public String getStackTrace()
-        {
-            return stackTrace;
-        }
+        public string StackTrace { get; private set; }
 
-        public Test getTest()
-        {
-            return test;
-        }
+        public Test Test { get; private set; }
 
-        public void setTest(Test test)
+        public ExceptionInfo(Test test, Exception exception)
         {
-            this.test = test;
-        }
+            this.Test = test;
+            this.Exception = exception;
 
-        public void setExceptionName(String exceptionName)
-        {
-            this.exceptionName = exceptionName;
-        }
-
-        public void setStackTrace(String stackTrace)
-        {
-            this.stackTrace = stackTrace;
+            ExceptionName = exception.Message;
+            StackTrace = exception.StackTrace;
         }
     }
 }

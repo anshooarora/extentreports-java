@@ -4,6 +4,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
+
+using MongoDB.Driver;
 
 using RelevantCodes.ExtentReports.Config;
 using RelevantCodes.ExtentReports.Converters;
@@ -13,6 +16,8 @@ namespace RelevantCodes.ExtentReports
 {
     public class ExtentReports : Report
     {
+        private Object _lock = new Object();
+
         /// <summary>
         /// Returns the Guid of the report
         /// 
@@ -20,7 +25,7 @@ namespace RelevantCodes.ExtentReports
         /// Guid is created for that instance automatically. This unique Guid is also stored
         /// in the database (if the database reporter is started).
         /// </summary>
-        public Guid ReportId
+        new public Guid ReportId
         {
             get
             {
@@ -121,6 +126,51 @@ namespace RelevantCodes.ExtentReports
         }
 
         /// <summary>
+        /// Connects to MongoDB default settings, localhost:27017
+        /// </summary>
+        public void X()
+        {
+            Attach(new ExtentX());
+        }
+
+        /// <summary>
+        /// Connects to MongoDB using a connection string.
+        /// Example: mongodb://host:27017,host2:27017/?replicaSet=rs0
+        /// </summary>
+        /// <param name="connectionString"></param>
+        public void X(string connectionString)
+        {
+            Attach(new ExtentX(connectionString));
+        }
+
+        /// <summary>
+        /// Connects to MongoDB using MongoUrl
+        /// https://github.com/mongodb/mongo-csharp-driver/blob/master/src/MongoDB.Driver/MongoUrl.cs
+        /// </summary>
+        /// <param name="url"></param>
+        public void X(MongoUrl url)
+        {
+            Attach(new ExtentX(url));
+        }
+
+        /// <summary>
+        /// Connects to MongoDB using MongoClientSettings
+        /// https://github.com/mongodb/mongo-csharp-driver/blob/master/src/MongoDB.Driver/MongoClientSettings.cs
+        /// </summary>
+        /// <param name="settings"></param>
+        public void X(MongoClientSettings settings)
+        {
+            Attach(new ExtentX(settings));
+        }
+
+        public ExtentReports AssignProject(string ProjectName)
+        {
+            base.ProjectName = ProjectName;
+
+            return this;
+        }
+
+        /// <summary>
         /// Calling startTest() generates a toggle for the test in the HTML file and adds all 
         /// log events under this level. This is a required step and without calling this method 
         /// the toggle will not be created for the test and log will not be added.
@@ -129,25 +179,29 @@ namespace RelevantCodes.ExtentReports
         /// <param name="Name">Name of the test</param>
         /// <param name="Description">A short description of the test</param>
         /// <returns>An ExtentTest object</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public ExtentTest StartTest(string Name, string Description = "")
         {
-            if (TestList == null)
+            lock (_lock)
             {
-                TestList = new List<ExtentTest>();
-            }
+                if (TestList == null)
+                {
+                    TestList = new List<ExtentTest>();
+                }
 
-            var test = new ExtentTest(Name, Description);
+                var test = new ExtentTest(Name, Description);
 
-            if (DisplayOrder == DisplayOrder.OldestFirst)
-            {
-                TestList.Insert(0, test);
-            }
-            else
-            {
-                TestList.Add(test); 
-            }
+                if (DisplayOrder == DisplayOrder.OldestFirst)
+                {
+                    TestList.Insert(0, test);
+                }
+                else
+                {
+                    TestList.Add(test);
+                }
 
-            return test;
+                return test;
+            }
         }
 
         /// <summary>
@@ -155,6 +209,7 @@ namespace RelevantCodes.ExtentReports
         /// </summary>
         /// 
         /// <param name="Test">The ExtentTest object that is coming to an end</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EndTest(ExtentTest Test)
         {
             Test.GetTest().Ended = true;
@@ -239,10 +294,11 @@ namespace RelevantCodes.ExtentReports
         /// When <code>Flush()</code> is called, it adds all parent tests to the report and child 
         /// tests as nodes. This method makes sure no child tests are added as top-level nodes. 
         /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private void RemoveChildTests()
         {
-            lock(TestList)
-            { 
+            lock(_lock)
+            {
                 TestList = TestList.Where(x => !x.GetTest().ChildNode).ToList();
             }
         }

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
+
+using RelevantCodes.ExtentReports.Model;
 
 namespace RelevantCodes.ExtentReports.Utils
 {
@@ -19,6 +18,11 @@ namespace RelevantCodes.ExtentReports.Utils
             }
 
             return null;
+        }
+
+        public static string GetExceptionHeadline(ExceptionInfo ExInfo)
+        {
+            return GetExceptionHeadline(ExInfo.Exception);
         }
     }
 }

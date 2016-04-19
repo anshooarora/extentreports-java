@@ -42,7 +42,7 @@ namespace RelevantCodes.ExtentReports.Model
 
         public string InternalWarning = null;
 
-        public List<ExceptionInfo> ExceptionList { get; internal set; }
+        public List<ExceptionInfo> ExceptionList { get; private set; }
 
         public List<TestAttribute> CategoryList { get; private set; }
 
@@ -73,7 +73,7 @@ namespace RelevantCodes.ExtentReports.Model
             }
         }
 
-        public void setException(ExceptionInfo exceptionInfo)
+        internal void setException(ExceptionInfo exceptionInfo)
         {
             if (exceptionInfo == null)
             {
@@ -108,7 +108,7 @@ namespace RelevantCodes.ExtentReports.Model
 
         public void PrepareFinalize()
         {
-            if (EndTime.Equals(DateTime.MinValue))
+            if (EndTime.Equals(DateTime.MinValue) || EndTime == null)
                 EndTime = DateTime.Now;
 
             HasEnded = true;

@@ -157,7 +157,8 @@ namespace RelevantCodes.ExtentReports
         /// <param name="Exception">Exception</param>
         public void Log(LogStatus Status, string StepName, Exception Exception)
         {
-            this.GetTest().ExceptionList.Add(Exception);
+            var exceptionInfo = new ExceptionInfo(GetTest(), Exception);
+            GetTest().ExceptionList.Add(exceptionInfo);
 
             string details = string.Format("<pre>{0}</pre>", Exception.ToString());
 
@@ -185,6 +186,26 @@ namespace RelevantCodes.ExtentReports
             {
                 screenCaptureHtml = ScreenCaptureHtml.GetSource(ImagePath);
             }
+
+            var img = new ScreenCapture();
+            img.Source = screenCaptureHtml;
+            img.TestName = _test.Name;
+            img.TestID = _test.ID;
+
+            _test.ScreenCapture.Add(img);
+
+            return screenCaptureHtml;
+        }
+
+        /// <summary>
+        /// Adds a snapshot to the log event details using a Base64 string
+        /// </summary>
+        /// 
+        /// <param name="Base64String">Base64 image string</param>
+        /// <returns>A formed HTML img tag</returns>
+        public string AddBase64ScreenCapture(string Base64String)
+        {
+            string screenCaptureHtml = ScreenCaptureHtml.getBase64Source(Base64String);
 
             var img = new ScreenCapture();
             img.Source = screenCaptureHtml;
