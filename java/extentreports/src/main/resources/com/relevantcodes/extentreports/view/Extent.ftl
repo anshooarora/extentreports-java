@@ -663,7 +663,7 @@
 		</div>
 		<!-- /filter for step status -->
 		
-		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/8016a69ddb1d39913acfcee7e1b31e0b6661ccd6/cdn/extent.js' type='text/javascript'></script>
+		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/051be9b627c84bde3591f7e6268e8b70e334a760/cdn/extent.js' type='text/javascript'></script>
 
 		<script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
 		<script>
