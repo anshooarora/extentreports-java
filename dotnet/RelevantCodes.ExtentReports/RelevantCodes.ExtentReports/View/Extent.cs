@@ -49,7 +49,7 @@
                             </title>
 
                             <link href='@protocol://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
-                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/8ff8b1e90cb9b17e353e79f9aa25f6378091d8dc/cdn/extent.css' type='text/css' rel='stylesheet' />
+                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/8016a69ddb1d39913acfcee7e1b31e0b6661ccd6/cdn/extent.css' type='text/css' rel='stylesheet' />
 
                             <style>
                                 @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""styles""))
@@ -463,7 +463,7 @@
 								                    <span class='info' alt='info' title='info'><i class='mdi-action-info-outline'></i></span> 
 								                    <span class='pass' alt='pass' title='pass'><i class='mdi-action-check-circle'></i></span> 
 								                    <span class='fail' alt='fail' title='fail'><i class='mdi-navigation-cancel'></i></span> 
-								                    <!--<span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>-->
+								                    <span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>
 								                    <span class='error' alt='error' title='error'><i class='mdi-alert-error'></i></span> 
 								                    <span class='warning' alt='warning' title='warning'><i class='mdi-alert-warning'></i></span> 
 								                    <span class='skip' alt='skip' title='skip'><i class='mdi-content-redo'></i></span> 
@@ -720,7 +720,7 @@
                             </div>
                             <!-- /modals -->
 
-                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/9829266d042c8d70e3c4ebf4ae400a3066d6a6c1/cdn/extent.js' type='text/javascript'></script>
+                            <script src='@protocol://cdn.rawgit.com/anshooarora/extentreports/8016a69ddb1d39913acfcee7e1b31e0b6661ccd6/cdn/extent.js' type='text/javascript'></script>
 
                             <script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
                             <script>@if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""scripts"")) { @Raw(Model.ConfigurationMap[""scripts""]) }</script>
