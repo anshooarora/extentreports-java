@@ -1,4 +1,6 @@
 #2.41.0
+    (#448) Removes unused status categories for charts
+    (#446) Adds fatal category in step filter
 	(#395) On the List View of executed test cases with dashboard is enabled, user is unable to scroll the list till the end
 	(#397) Formatting causes status to shift
 	ExtentReports can now use the ExtentX report server, to connect, see this section
