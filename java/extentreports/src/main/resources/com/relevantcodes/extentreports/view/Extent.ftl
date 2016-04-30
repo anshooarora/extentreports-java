@@ -412,7 +412,7 @@
 								<span class='info' alt='info' title='info'><i class='mdi-action-info-outline'></i></span>
 								<span class='pass' alt='pass' title='pass'><i class='mdi-action-check-circle'></i></span>
 								<span class='fail' alt='fail' title='fail'><i class='mdi-navigation-cancel'></i></span>
-								<!--<span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>-->
+								<span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>
 								<span class='error' alt='error' title='error'><i class='mdi-alert-error'></i></span>
 								<span class='warning' alt='warning' title='warning'><i class='mdi-alert-warning'></i></span>
 								<span class='skip' alt='skip' title='skip'><i class='mdi-content-redo'></i></span>

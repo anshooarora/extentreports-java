@@ -401,6 +401,7 @@
 								<span class='info' alt='info' title='info'><i class='fa fa-info-circle'></i></span>
 								<span class='pass' alt='pass' title='pass'><i class='fa fa-check-circle-o'></i></span>
 								<span class='fail' alt='fail' title='fail'><i class='fa fa-times-circle-o'></i></span>
+								<span class='fatal' alt='fatal' title='fatal'><i class='fa fa-times-circle-o'></i></span>
 								<span class='error' alt='error' title='error'><i class='fa fa-exclamation-circle'></i></span>
 								<span class='warning' alt='warning' title='warning'><i class='fa fa-warning'></i></span>
 								<span class='skip' alt='skip' title='skip'><i class='fa fa-chevron-circle-right'></i></span>
