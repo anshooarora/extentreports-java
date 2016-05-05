@@ -49,7 +49,7 @@
                             </title>
 
                             <link href='@protocol://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
-                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/8016a69ddb1d39913acfcee7e1b31e0b6661ccd6/cdn/extent.css' type='text/css' rel='stylesheet' />
+                            <link href='@protocol://cdn.rawgit.com/anshooarora/extentreports/97fc3fe7f55cba86a4f5b6ff9a2bb80de3e4867c/cdn/extent.css' type='text/css' rel='stylesheet' />
 
                             <style>
                                 @if (Model.ConfigurationMap != null && Model.ConfigurationMap.ContainsKey(""styles""))
@@ -463,7 +463,7 @@
 								                    <span class='info' alt='info' title='info'><i class='mdi-action-info-outline'></i></span> 
 								                    <span class='pass' alt='pass' title='pass'><i class='mdi-action-check-circle'></i></span> 
 								                    <span class='fail' alt='fail' title='fail'><i class='mdi-navigation-cancel'></i></span> 
-								                    <span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>
+								                    <span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span> 
 								                    <span class='error' alt='error' title='error'><i class='mdi-alert-error'></i></span> 
 								                    <span class='warning' alt='warning' title='warning'><i class='mdi-alert-warning'></i></span> 
 								                    <span class='skip' alt='skip' title='skip'><i class='mdi-content-redo'></i></span> 
