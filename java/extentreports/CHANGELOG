@@ -1,14 +1,16 @@
 #2.41.0
     (#448) Removes unused status categories for charts
     (#446) Adds fatal category in step filter
+    (#441) Fixes current run and total time issue
+    (#422) Fixes layout issue for category dropdown horizontal overflow 
 	(#395) On the List View of executed test cases with dashboard is enabled, user is unable to scroll the list till the end
 	(#397) Formatting causes status to shift
-	ExtentReports can now use the ExtentX report server, to connect, see this section
 	(#315) Enhancement to be able to show/hide log depending on status
 	(#384) ExtentTest has addBase64ScreenShot method to add the screen shot image as base64 string
 	(#399) Control system-info order to be displayed sequentially
 	(#367) Added setStatus to the Test interface to set the status of the test. This will enable the user to set the status without additional step of log in the test
 	(#388) Keep Exceptions for replaceExisting=false
+	(#218) Fix for category/status dropdown having horizontal-slider
 
 #2.40.2
 	(#301) Automatically update log timestamps when used via TestNG listener
