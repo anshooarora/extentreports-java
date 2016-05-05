@@ -538,11 +538,14 @@ nav ul a:hover {
 .search .icon {
 	margin-left: -16px;
 }
+.dropdown-content {
+	min-width: 150px;
+}
 .dropdown-content li > a, .dropdown-content li > span {
 	color: #444;
 	font-size: 0.85rem;
 	line-height: 1.2rem;
-	padding: 0.5rem 1rem;
+	padding: 0.5rem 2rem 0.5rem 1rem;
 }
 .dropdown-button {
 	color: inherit;
