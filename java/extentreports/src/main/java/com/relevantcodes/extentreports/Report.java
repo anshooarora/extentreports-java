@@ -253,7 +253,7 @@ abstract class Report extends LogSettings {
     }
     
     protected String getRunDuration() {
-        currentSuiteRunDuration = DateTimeUtil.getDiff(Calendar.getInstance().getTime(), new Date(suiteTimeInfo.getSuiteStartTimestamp()));
+        currentSuiteRunDuration = DateTimeUtil.getDiff(Calendar.getInstance().getTime(), startedTime);
         return currentSuiteRunDuration;
     }
     

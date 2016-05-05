@@ -822,7 +822,7 @@ public class ExtentReports extends Report {
      *      An {@link ExtentTest} object
      */
     public synchronized void endTest(ExtentTest extentTest) {
-        if (extentTest != null) {
+        if (extentTest != null && !extentTest.getInternalTest().isChildNode) {
             Test test = extentTest.getInternalTest();
             
             // ensure the same test isn't being closed twice 
