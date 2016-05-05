@@ -474,7 +474,7 @@ nav ul a:hover {
 
 /* -- [ categories-view ] -- */
 .cat-head {
-	width: 60%;
+	width: 75%;
 }
 .cat-head, .category-status-counts, .exception-head, .exception-test-count {
 	display: inline-block;
@@ -946,6 +946,9 @@ nav ul a:hover {
     .report-name {
         padding-left: 160px;        
     }
+	.cat-head {
+		width: 60%;
+	}
 }
 @media only screen and (max-width:992px) {
     .side-nav.fixed {
