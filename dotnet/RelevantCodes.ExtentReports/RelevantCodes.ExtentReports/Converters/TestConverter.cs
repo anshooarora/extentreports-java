@@ -23,7 +23,7 @@ namespace RelevantCodes.ExtentReports.Converters
         public List<ExtentTest> Convert()
         {
             var document = new HtmlAgilityPack.HtmlDocument();
-            document.Load(_filePath);
+            document.Load(_filePath, true);
 
             var documentNode = document.DocumentNode;
 
