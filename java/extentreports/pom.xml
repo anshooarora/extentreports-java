@@ -4,7 +4,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
     <groupId>com.relevantcodes</groupId>
     <artifactId>extentreports</artifactId>
-    <version>2.40.2</version>
+    <version>2.41.0</version>
     <packaging>jar</packaging>
 
     <name>ExtentReports for Selenium</name>
@@ -86,7 +86,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 </property>
             </activation>
             <properties>
-                <gpg.keyname>F6C0B27B</gpg.keyname>    <!-- GPG Key ID to use for signing -->
+                <gpg.keyname>1C85C082</gpg.keyname>    <!-- GPG Key ID to use for signing -->
                 <release.username>anshooarora</release.username> <!-- username for our svn repository -->
             </properties>
             <build>
