@@ -1,6 +1,30 @@
 ### Changelog
 
-* 2.40.1 []
+* 2.41.0 [May 2016]
+    * (#218) Fix for category/status dropdown having horizontal-slider
+    * (#441) Fixes issue with incorrect time showing for current and total
+    * (#422) Category name does not fit into the row despite the available free space
+    * (#446) Adds fatal category to log filters
+    * (#448) Removes unused status categories for charts
+    * Few fixes to dashboard, fix bug showing incorrect counts for Parent + Child Nodes setting
+    * (#436) Issue: Test case duplication on Categories views
+    * (#395) On the List View of executed test cases with dashboard is enabled, user is unable to scroll the list till the end
+    * (#397) Formatting causes status to shift
+    * ExtentReports can now use the ExtentX report server, to connect, see this section
+    * (#315) Enhancement to be able to show/hide log depending on status
+    * (#384) ExtentTest has addBase64ScreenShot method to add the screen shot image as base64 string
+    * (#399) Control system-info order to be displayed sequentially
+    * (#367) Added setStatus to the Test interface to set the status of the test. This will enable the user to set the status without additional step of log in the test
+    * (#388) Keep Exceptions for replaceExisting=false
+
+* 2.40.1 [Feb 2016]
+    * (#301) Automatically update log timestamps when used via TestNG listener
+    * (#336) Adds responsiveness for medium devices
+    * (#309) Fixes: TestRunner Logs view does not scroll beyond page + fix for dashboard view
+    * (#310) Fixes: FreeMarker Template error when SystemInfo passed as null
+    * (#320) Fixes: NullPointerException when flushing with nothing in report
+
+* 2.40.1 [Jan 2016]
     * (#144) Fixed issue causing wrong start time appearing in dashboard for reported creating using TestNG listener
     * (#149) UX updates - containers are now resizable
     * (#150) Exception View - This view is automatically created if an error is logged using the following logs: 
@@ -15,7 +39,7 @@
     * (#253) Adds an overall time taken field in the dashboard view to show total time by all tests if replaceExisting = false
     * (#259) Fixes java.sql.SQLException while writing result to DB due to duplicate test-ids
     
-* 2.40 [11-30-2015]
+* 2.40 [Nov 2015]
     * extent.config() is not deprecated, use loadConfig() instead
     * 2 new log methods have been now added to accept exception directly and show as a code block in the report:
         * log(LogStatus logStatus, String stepName, Throwable t);
@@ -26,7 +50,7 @@
     * Fixed issue with invalid time stamps showing up when used via listener
     * Fixed issue with filters not selecting the active test
 
-* 2.10 <10-09-2015>
+* 2.10 [Oct 2015]
     * Allows different types of charts for tests:
         * Parent tests only
         * Parent tests without child tests + child tests
@@ -34,7 +58,7 @@
     * Possible to create a database file for your runs and store all your run data to it. It is recommended to use a single database file for all your runs. To start the DB reporter, use:
        * extent.startReporter(ReporterType.DB, "path-to-db-file");
         
-* 2.05 <09-02-2015>
+* 2.05 [Sep 2015]
     * (#39) Standalone/Offline ExtentReports - allows viewing Extent's report offline by saving all resources locally
     * Added new control to allow quickly open/close test toggles by performing mouseOver on the testName
     * (#43) LogStatus.INFO overrides LogStatus.SKIP in report
@@ -44,7 +68,7 @@
     * (#64) Test View is showing incorrect result. Request to show the Test Case results and Test Steps results separately
     * (#67) NullPointerException on flush()
         
-* 2.04 <08-12-2015>
+* 2.04 [Aug 2015]
     * (#29) Hierarchical display of results - any number of child nodes are now allowed
     * (#41) The category view will now display the number of tests Passed, Failed and Others
     * (#42) Added support for Cyrillic characters
@@ -54,12 +78,12 @@
     * (#36) Fixed issue Filtering on details is broken
     * (#40) Fixed issues with images not opening for some users        
         
-* 2.03.1 <07-30-2015>
+* 2.03.1 [Jul 2015]
     * (#28) Fixed issue Run Info View - "Started At" is picking wrong time
     * (#32) Using TestNG listener, correct test start and end times will be reported, correct total-time will be reported
     * Fixed issue with a long test-name going out of bounds
         
-* 2.03 <07-26-2015>
+* 2.03 [Jul 2015]
     * (#5) Assign categories to tests
     * (#13) Add total execution time in test report
     * (#23) Ability to filter by category and test status at the same time
@@ -73,7 +97,7 @@
     * Fixed issue where a long test name overflows causing timestamp area to shift down
     * Fixed issue to show Unknown status tests, skipped steps
 
-* 2.02 <07-14-2015>
+* 2.02 [Jun 2015]
     * It is possible to assign categories to test using assignCategory()
     * Option to select the steps to view in the Steps-View dashboard
     * Time taken by the test will be displayed
@@ -82,5 +106,5 @@
     * Unknown status tests will now show in the tests dashboard
     * Skipped steps will now show in the steps dashboard
         
-* 2.01 <06-29-2015>
+* 2.01 [Jun 2015]
     * Initial

@@ -6,11 +6,11 @@ An open-source reporting library for Java, .Net and Ruby.
 
 ### Usage and Documentation
 
-For most complete and up-to-date documentation, visit <a href='http://relevantcodes.com/extentreports-for-selenium/'>this link</a>.
+For most complete and up-to-date documentation, visit <a href='http://extentreports.relevantcodes.com'>this link</a>.
 
 ### Samples
 
-View the latest Java sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>.
+View the latest Java sample <a href='http://relevantcodes.com/Tools/ExtentReports2/ExtentJava.html'>here</a>. <br />
 View the latest .NET sample <a href='http://relevantcodes.com/Tools/ExtentReports2/Extent.Net.html'>here</a>.
 
 ### Download
@@ -23,17 +23,17 @@ Download the jar and view latest details & comments from <a href='http://relevan
 <br><br>
 ![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-2.png)
 
-### ExtentMerge (Extent Trends) Snapshots
+### ExtentX Snapshots
 
-![](http://extentreports.relevantcodes.com/extentmerge/img/analysis.png)
+![](http://extentreports.relevantcodes.com/images/extentx/extentx-dashboard.png)
 <br><br>
-![](http://extentreports.relevantcodes.com/extentmerge/img/trends.png)
+![](http://extentreports.relevantcodes.com/images/extentx/extentx-reports.png)
 <br><br>
-![](http://extentreports.relevantcodes.com/extentmerge/img/run-history.png)
+![](http://extentreports.relevantcodes.com/images/extentx/extentx-report.png)
 
 ### Software License Agreement (<a href='http://opensource.org/licenses/BSD-3-Clause'>BSD License</a>)
 
-#### Copyright 2015 Anshoo Arora (Relevant Codes)
+##### Copyright 2015 Anshoo Arora (Relevant Codes)
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
