@@ -19,9 +19,11 @@ Download the jar and view latest details & comments from <a href='http://relevan
 
 ### ExtentReports Snapshots
 
-![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-1.png)
+![](http://extentreports.relevantcodes.com/images/java/extent2-snapshot.png)
 <br><br>
-![](http://relevantcodes.com/Tools/ExtentReports2/snapshots/extent-large-2.png)
+![](http://extentreports.relevantcodes.com/images/java/analysis.png)
+<br><br>
+![](http://extentreports.relevantcodes.com/images/java/testview-dark.png)
 
 ### ExtentX Snapshots
 
