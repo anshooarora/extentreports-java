@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<!--
-			ExtentReports ${resourceBundle.getString("head.library")} 2.41.0 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
+			ExtentReports ${resourceBundle.getString("head.library")} 2.41.1 | http://relevantcodes.com/extentreports-for-selenium/ | https://github.com/anshooarora/
 			Copyright (c) 2015, Anshoo Arora (Relevant Codes) | ${resourceBundle.getString("head.copyrights")} | http://opensource.org/licenses/BSD-3-Clause
 			${resourceBundle.getString("head.documentation")}: http://extentreports.relevantcodes.com 
 		-->
@@ -30,7 +30,7 @@
 		</#if>
 		
 		<link href='${protocol}://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
-		<link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/97fc3fe7f55cba86a4f5b6ff9a2bb80de3e4867c/cdn/extent.css' type='text/css' rel='stylesheet' />
+		<link href='${protocol}://cdn.rawgit.com/anshooarora/extentreports/43cee84f5f223ef7dbbe0ee521f21a1b1c4066ab/cdn/extent.css' type='text/css' rel='stylesheet' />
 		
 		<style>
 			<#if report.configurationMap??>
@@ -44,10 +44,10 @@
 		<#assign theme = report.configurationMap["theme"]> 
 	</#if>
 	
-	<body class='extent ${theme} hide-overflow'>
+	<body class='extent default ${theme} hide-overflow'>
 		<!-- nav -->
 		<nav>
-			<div class='logo-container'>
+			<div class='logo-container blue darken-2'>
 				<a class='logo-content' href='http://extentreports.relevantcodes.com'>
 					<span>ExtentReports</span>
 				</a>
@@ -61,9 +61,11 @@
 				<#if report.exceptionTestMap?? && (report.exceptionTestMap?size != 0)>
 					<li class='analysis waves-effect'><a href='#!' class='exceptions-view' onclick="_updateCurrentStage(2)"><i class='mdi-action-bug-report'></i>${resourceBundle.getString("nav.menu.exceptions")}</a></li>
 				</#if>
-				<li class='analysis waves-effect'><a href='#!' class='dashboard-view'><i class='mdi-action-track-changes'></i></i>${resourceBundle.getString("nav.menu.analysis")}</a></li>
+				<li class='analysis waves-effect'>
+					<a href='#!' onclick="_updateCurrentStage(-1)" class='dashboard-view'><i class='mdi-action-track-changes'></i></i>${resourceBundle.getString("nav.menu.analysis")}</a>
+				</li>
 				<#if report.testRunnerLogList?? && (report.testRunnerLogList?size != 0)>
-					<li class='analysis waves-effect'><a href='#!' class='testrunner-logs-view'><i class='mdi-action-assignment'></i>${resourceBundle.getString("nav.menu.testRunnerLogs")}</a></li>
+					<li class='analysis waves-effect'><a href='#!' onclick="_updateCurrentStage(-1)" class='testrunner-logs-view'><i class='mdi-action-assignment'></i>${resourceBundle.getString("nav.menu.testRunnerLogs")}</a></li>
 				</#if>
 			</ul>
 			<span class='report-name'><#if report.configurationMap??>${report.configurationMap["reportName"]}</#if></span> <span class='report-headline'><#if report.configurationMap??>${report.configurationMap["reportHeadline"]}</#if></span>
@@ -75,7 +77,7 @@
 					<span class='suite-started-time'>${.now?datetime?string(dateTimeFormat)}</span>
 				</li>
 				<li>
-					<span>v2.41.0</span>
+					<span>v2.41.1</span>
 				</li>
 			</ul>
 		</nav>
@@ -233,7 +235,9 @@
 						</div>
 						<div class='card-panel filters'>
 							<div>
-								<a data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#' class='dropdown-button button tests-toggle'><i class='mdi-action-subject icon'></i></a>
+								<a class='dropdown-button btn-floating btn-small waves-effect waves-light grey tests-toggle' data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#'>
+									<i class='mdi-action-reorder'></i>
+								</a>
 								<ul id='tests-toggle' class='dropdown-content'>
 									<li class='pass'><a href='#!'>Pass</a></li>
 									<li class='fail'><a href='#!'>Fail</a></li>
@@ -256,7 +260,9 @@
 							</div>
 							<#if report.categoryTestMap?? && report.categoryTestMap?size != 0>
 								<div>
-									<a data-activates='category-toggle' data-constrainwidth='false' data-beloworigin='true' data-hover='true' href='#' class='category-toggle dropdown-button button'><i class='mdi-maps-local-offer icon'></i></a>
+									<a class='dropdown-button btn-floating btn-small waves-effect waves-light grey category-toggle' data-activates='category-toggle' data-constrainwidth='false' data-beloworigin='true' data-hover='true' href='#'>
+										<i class='mdi-maps-local-offer'></i>
+									</a>
 									<ul id='category-toggle' class='dropdown-content'>
 										<#list report.categoryTestMap?keys as category>
 											<li class='${category}'><a href='#!'>${category}</a></li>
@@ -267,21 +273,27 @@
 								</div>
 							</#if>
 							<div>
-								<a id='clear-filters' alt='${resourceBundle.getString("tests.filters.clearFilters")}' title='${resourceBundle.getString("tests.filters.clearFilters")}'><i class='mdi-navigation-close icon'></i></a>
-							</div>
-							<div>&nbsp;&middot;&nbsp;</div>
-							<div>
-								<a id='enableDashboard' alt='${resourceBundle.getString("tests.filters.enableDashboard")}' title='${resourceBundle.getString("tests.filters.enableDashboard")}'><i class='mdi-action-track-changes icon'></i></a>
+								<a class='btn-floating btn-small waves-effect waves-light grey' id='clear-filters' alt='${resourceBundle.getString("tests.filters.clearFilters")}' title='${resourceBundle.getString("tests.filters.clearFilters")}'>
+									<i class='mdi-navigation-close'></i>
+								</a>
 							</div>
 							<div>
-								<a id='refreshCharts' alt='${resourceBundle.getString("tests.filters.refreshCharts")}' title='${resourceBundle.getString("tests.filters.refreshCharts")}' class='enabled'><i class='mdi-navigation-refresh icon'></i></i></a>
+								<a class='btn-floating btn-small waves-effect waves-light grey  id='enableDashboard' alt='${resourceBundle.getString("tests.filters.enableDashboard")}' title='${resourceBundle.getString("tests.filters.enableDashboard")}'>
+									<i class='mdi-action-track-changes'></i>
+								</a>
 							</div>
-							<div>&nbsp;&middot;</div>
+							<div>
+								<a class='btn-floating btn-small waves-effect waves-light blue enabled' id='refreshCharts' alt='${resourceBundle.getString("tests.filters.refreshCharts")}' title='${resourceBundle.getString("tests.filters.refreshCharts")}'>
+									<i class='mdi-navigation-refresh'></i>
+								</a>
+							</div>
 							<div class='search' alt='${resourceBundle.getString("tests.filters.searchTests")}' title='${resourceBundle.getString("tests.filters.searchTests")}'>
 								<div class='input-field left'>
 									<input id='searchTests' type='text' class='validate' placeholder='${resourceBundle.getString("tests.filters.searchTests")}...'>
 								</div>
-								<i class='mdi-action-search icon'></i>
+								<a href="#" class='btn-floating btn-small waves-effect waves-light grey'>
+									<i class='mdi-action-search'></i>
+								</a>
 							</div>
 						</div>
 						<div class='card-panel no-padding-h no-padding-v no-margin-v'>
@@ -409,14 +421,14 @@
 						<div class='card-panel details-view'>
 							<h5 class='details-name'></h5>
 							<div class='step-filters right'>
-								<span class='info' alt='info' title='info'><i class='mdi-action-info-outline'></i></span>
-								<span class='pass' alt='pass' title='pass'><i class='mdi-action-check-circle'></i></span>
-								<span class='fail' alt='fail' title='fail'><i class='mdi-navigation-cancel'></i></span>
-								<span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>
-								<span class='error' alt='error' title='error'><i class='mdi-alert-error'></i></span>
-								<span class='warning' alt='warning' title='warning'><i class='mdi-alert-warning'></i></span>
-								<span class='skip' alt='skip' title='skip'><i class='mdi-content-redo'></i></span>
-								<span class='clear-step-filter' alt='Clear filters' title='Clear filters'><i class='mdi-content-clear'></i></span>
+								<span class='btn-floating btn-small waves-effect waves-light blue' status='info' alt='info' title='info'><i class='mdi-action-info-outline'></i></span>
+								<span class='btn-floating btn-small waves-effect waves-light green' status='pass' alt='pass' title='pass'><i class='mdi-action-check-circle'></i></span>
+								<span class='btn-floating btn-small waves-effect waves-light red' status='fail' alt='fail' title='fail'><i class='mdi-navigation-cancel'></i></span>
+								<span class='btn-floating btn-small waves-effect waves-light red darken-4' status='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>
+								<span class='btn-floating btn-small waves-effect waves-light red lighten-2' status='error' alt='error' title='error'><i class='mdi-alert-error'></i></span>
+								<span class='btn-floating btn-small waves-effect waves-light orange' alt='warning' status='warning' title='warning'><i class='mdi-alert-warning'></i></span>
+								<span class='btn-floating btn-small waves-effect waves-light cyan' status='skip' alt='skip' title='skip'><i class='mdi-content-redo'></i></span>
+								<span class='btn-floating btn-small waves-effect waves-light grey darken-2' status='clear-step-filter' alt='Clear filters' title='Clear filters'><i class='mdi-content-clear'></i></span>
 							</div>
 							<div class='details-container'>
 							</div>
@@ -437,9 +449,11 @@
 							<div class='card-panel filters'>
 								<div class='search' alt='Search tests' title='Search tests'>
 									<div class='input-field left'>
-										<input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
+										<input id='searchTests' type='text' class='validate' placeholder='Search...'>
 									</div>
-									<i class='mdi-action-search icon'></i>
+									<a href="#" class='btn-floating btn-small waves-effect waves-light blue lighten-1'>
+										<i class='mdi-action-search'></i>
+									</a>
 								</div>
 							</div>
 							<div class='card-panel no-padding-h no-padding-v'>
@@ -534,7 +548,9 @@
 									<div class='input-field left'>
 										<input id='searchTests' type='text' class='validate' placeholder='Search tests...'>
 									</div>
-									<i class='mdi-action-search icon'></i>
+									<a href="#" class='btn-floating btn-small waves-effect waves-light blue lighten-1'>
+										<i class='mdi-action-search'></i>
+									</a>
 								</div>
 							</div>
 							<div class='card-panel no-padding-h no-padding-v'>
@@ -663,7 +679,7 @@
 		</div>
 		<!-- /filter for step status -->
 		
-		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/051be9b627c84bde3591f7e6268e8b70e334a760/cdn/extent.js' type='text/javascript'></script>
+		<script src='${protocol}://cdn.rawgit.com/anshooarora/extentreports/43cee84f5f223ef7dbbe0ee521f21a1b1c4066ab/cdn/extent.js' type='text/javascript'></script>
 
 		<script>$(document).ready(function() { $('.logo span').html('ExtentReports'); });</script>
 		<script>
