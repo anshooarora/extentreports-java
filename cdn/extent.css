@@ -20,6 +20,9 @@ body {
     font-size: 14px;
     height: 100%;
 }
+body.default {
+	background: #fff;
+}
 pre {
 	border: 1px solid #ebedef;
 	border-radius: 4px;
@@ -62,7 +65,7 @@ h5 {
 /* -- [ containers ] -- */
 .container {
 	max-width: none;
-	padding-left: 66px;
+	padding-left: 57px;
 	width: 100%;
 }
 .container .row {
@@ -77,6 +80,16 @@ h5 {
 /* -- [ material overrides ] -- */
 .z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .collapsible, .side-nav {
 	box-shadow: none;
+}
+.btn-small {
+	height: 25px;
+	width: 26px;
+}
+.btn-small i {
+	font-size: 1rem;
+}
+.btn-small, .btn-small i {
+	line-height: 24px !important;
 }
 [type='checkbox']:checked + label::before {
 	border-color: transparent #eee #eee transparent;
@@ -223,17 +236,6 @@ img.active {
 .button-group {
 	margin-right: 10px;
 }
-.icon {
-	border: 1px solid #bbb;
-	color: #848484;
-	border-radius: 100%;
-	font-size: .8rem !important;
-	padding: 1px 5px 2px;
-}
-.icon.active, .icon:hover {
-	border-color: #4CAEFF !important;
-	color: #4CAEFF !important;
-}
 
 /* -- [ fixed containers ] -- */
 ._addedTable {
@@ -260,7 +262,7 @@ img.active {
 	float: left;
 }
 .side-nav, ._addedCell1 {
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #d9d9d9;
 }
 .ui-resizable {
 	position: relative;
@@ -312,15 +314,14 @@ nav ul a:hover {
     background: transparent;
 }
 .nav-right {
-	margin-right: 35px;
+	margin-right: 12px;
 }
 .nav-right li {
-	border-left: 1px solid #00758d;
+	border-left: 1px solid #444;
 	font-size: 12px;
 	padding: 0 10px;
 }
 .nav-right li:last-child {
-	border-right: 1px solid #00758d;
 	margin-right: -12px;
 }
 .report-name {
@@ -334,7 +335,6 @@ nav ul a:hover {
         position:absolute; 
         top:0px; left:0px; 
         text-align:center; 
-        background-color:#039be5!important; 
         height: 48px; 
         padding: 0!important;
     }
@@ -344,7 +344,7 @@ nav ul a:hover {
 	background: #f3f3f3;
 	transition-duration: .25s;
 	top: 48px; 
-    width: 70px;
+    width: 60px;
 }
 .side-nav.active {
 	width: 240px;
@@ -355,7 +355,7 @@ nav ul a:hover {
     padding: 0;
 }
 .side-nav.fixed a {
-    padding: 0 30px;    
+    padding: 0 25px;    
 }
 .side-nav a, .side-nav label, .analysis i {
 	cursor: default;
@@ -379,7 +379,7 @@ nav ul a:hover {
     bottom: 0;
     position: fixed;
     top: 50px;
-    width: 95%;
+    width: 98%;
 }
 #dashboard-view.row .col {
 	padding: 0 0.35rem;
@@ -530,10 +530,11 @@ nav ul a:hover {
 .search > .input-field {
     display: inline-block;
 	height: 1px;
-	margin-left: 10px;
-    margin-right: 10px;
     margin-top: 0;
 	width: 0;
+}
+.search > .input-field.enabled {
+    margin-left: 20px;
 }
 .search .icon {
 	margin-left: -16px;
@@ -716,9 +717,11 @@ nav ul a:hover {
 	transition-duration: .3s;
 }
 .button-group .icon {
-	border: none !important;
-	color: #fff !important;
-	margin-left: 5px;
+    border: medium none !important;
+    color: #fff !important;
+    margin-left: 5px;
+    padding: 1px 8px;
+    border-radius: 10px;
 }
 .button-group a.pass {
 	background: #32CD32;
