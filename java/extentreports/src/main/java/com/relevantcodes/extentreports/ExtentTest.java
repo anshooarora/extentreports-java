@@ -9,6 +9,7 @@
 package com.relevantcodes.extentreports;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,7 +43,9 @@ import com.relevantcodes.extentreports.view.ScreenshotHtml;
  * 
  * @author Anshoo
  */
-public class ExtentTest implements IExtentTestClass {
+public class ExtentTest implements IExtentTestClass, Serializable {
+    
+    private static final long serialVersionUID = 6551590667557434115L;
     private LogStatus runStatus = LogStatus.UNKNOWN;
     private Test test;
     
