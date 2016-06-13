@@ -10,7 +10,8 @@ package com.relevantcodes.extentreports.view;
 
 public class ScreenshotHtml {
     public static String getSource(String imgPath) {
-    	return "<img class='report-img' data-featherlight='file:///" + imgPath + "' src='file:///" + imgPath + "' />";
+    	return "<a href='" + imgPath + "' data-featherlight='image'><img class='report-img' " +
+                "src='file:///" + imgPath + "' /></a>";
     }
 
     /**
@@ -19,7 +20,7 @@ public class ScreenshotHtml {
      * @return Image tag with base64 string as source
      */
     public static String getBase64Source(String imgSrc) {
-        return "<img class='report-img' data-featherlight='<img src=\"" + imgSrc + "\" />' " +
-                "src='" + imgSrc + "' />";
+        return "<a href='" + imgSrc + "' data-featherlight='image'><img class='report-img' " +
+                "src='" + imgSrc + "' /></a>";
     }
 }
