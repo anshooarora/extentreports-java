@@ -8,8 +8,14 @@
 
 package com.relevantcodes.extentreports.model;
 
-public abstract class TestAttribute {
-    protected String name;
+import java.io.Serializable;
+
+public abstract class TestAttribute implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8574995780295912718L;
+	protected String name;
     
     public String getName() {
         return name;

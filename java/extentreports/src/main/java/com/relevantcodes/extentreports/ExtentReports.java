@@ -9,6 +9,7 @@
 package com.relevantcodes.extentreports;
 
 import java.io.File;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,7 +28,7 @@ import com.relevantcodes.extentreports.converters.ReportParser;
 import com.relevantcodes.extentreports.converters.TestConverter;
 import com.relevantcodes.extentreports.model.Test;
 
-public class ExtentReports extends Report {
+public class ExtentReports extends Report implements Serializable {
     private static final Logger logger = Logger.getLogger(ExtentReports.class.getName());
     
     /**
