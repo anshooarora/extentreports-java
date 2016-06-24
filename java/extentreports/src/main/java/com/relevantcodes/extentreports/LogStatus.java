@@ -8,13 +8,15 @@
 
 package com.relevantcodes.extentreports;
 
+import java.io.Serializable;
+
 /**
  * Specifies the log status of the log-event
  * 
  * @author Anshoo Arora
  *
  */
-public enum LogStatus {
+public enum LogStatus implements Serializable {
     PASS, 
     FAIL, 
     FATAL, 

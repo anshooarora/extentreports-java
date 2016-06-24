@@ -8,6 +8,7 @@
 
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,8 +21,13 @@ import com.relevantcodes.extentreports.LogCounts;
 import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
-public class Test implements ITest {
+public class Test implements ITest, Serializable {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2685089412285339081L;
+
+	/**
      * Attribute to mark the test as a child node<br>
      * Top-most test will always have this attribute as false<br>
      * eg:<br>
@@ -110,6 +116,8 @@ public class Test implements ITest {
             
             return false;
         }
+		
+		public void remove(){}
 
         public Log next() {
             if (hasNext()) {
@@ -144,6 +152,8 @@ public class Test implements ITest {
                 list = authorsList;
             }
         }
+		
+		public void remove(){}
         
         public boolean hasNext() {
             if (list != null && list.size() >= attrIterIndex + 1) {
