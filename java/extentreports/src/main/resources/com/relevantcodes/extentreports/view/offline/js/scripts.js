@@ -53,6 +53,9 @@ i.style.opacity=tweenedOpacity}function h(){var a,b,c,d;a=Date.now(),b=a-B,B=a,c
  * ExtentReports
 */
 
+/* current view */
+var currentView = 0;
+
 /* counts */
 var totalTests, passedTests, failedTests, fatalTests, warningTests, errorTests, skippedTests, unknownTests;
 var totalSteps, passedSteps, failedSteps, fatalSteps, warningSteps, errorSteps, infoSteps, skippedSteps, unknownSteps;
@@ -102,22 +105,30 @@ $(function() {
 
 /* -- Check if current page is test or category --*/
 function _updateCurrentStage(n) {
-	window.scrollTo(0,0);
-
+    currentView = n;
+    
+    if (n === -1) {
+        $('body').removeClass('default');
+        return;
+    }
+    
+    $('body').addClass('default');
+    
+    window.scrollTo(0,0);
+    
     chartHeight = 0;
     
     if (n == 0){
         ct = $('#test-view');
         
-        if ($('.charts').is(':visible'))
-            chartHeight = 275;
+        setTimeout(function() {
+            if ($('.charts').is(':visible'))
+                chartHeight = 275;
+        }, 200);
     }
-    if (n == 1) {
-        ct = $('#categories-view');
-    }
-    if (n == 2){
-        ct = $('#exceptions-view');
-    }
+    else if (n == 1) ct = $('#categories-view');
+    else if (n == 2) ct = $('#exceptions-view');
+    else return;
     
     var timer = setTimeout(function() {
         _adjustSize();
@@ -132,19 +143,16 @@ function _adjustSize(){
     ct.find('._addedCell1, ._addedCell2').css({'height':($(window).height() - 50 - chartHeight)+'px'});
     ct.find('._addedCell1 .contents, ._addedCell2 .contents').css({'height':($(window).height() - 65 - chartHeight)+'px'});
     
-    if ($(window).width() < 992) {
-        ct.find('._addedCell2').css({'width':Math.round($(window).width() - 18 - ct.find('._addedCell1').width())+'px'});
-    }
-    else {
-        ct.find('._addedCell2').css({'width':Math.round($(window).width() - 70 - 18 - ct.find('._addedCell1').width())+'px'});
-    }
+    if ($(window).width() < 992) ct.find('._addedCell2').css({'width':Math.round($(window).width() - 5 - ct.find('._addedCell1').width())+'px'});
+    else ct.find('._addedCell2').css({'width':Math.round($(window).width() - 45 - 18 - ct.find('._addedCell1').width())+'px'});
     
     _restrictSize();
 }
 
 function _restrictSize(){
-    if(ct.find('._addedCell1').width() > Math.round($(window).width() * 0.6)){
-        ct.find('._addedCell1').css({'width': Math.round($(window).width() * 0.6) +'px'});
+    var cell = ct.find('._addedCell1');
+    if (cell.width() > Math.round($(window).width() * 0.6)){
+        cell.css({'width': Math.round($(window).width() * 0.6) +'px'});
         _adjustSize();
     }
 }
@@ -189,21 +197,23 @@ $('.theme-selector').click(function() {
 /* enable dashboard checkbox [TOPNAV] */
 $('#enableDashboard').click(function() {
     var t = $(this);
-    t.toggleClass('enabled').children('i').toggleClass('active');
+    t.toggleClass('enabled enabled darken-3 darken-4 blue grey').children('i').toggleClass('active');
     $('#dashboard-view').toggleClass('hide').children('div').toggleClass('hide').siblings('.charts').toggleClass('hide');
     t.hasClass('enabled') ? redrawCharts() : null;
     
-    _updateCurrentStage(0);
+    setTimeout(function() {
+        _updateCurrentStage(0);
+    }, 200);
 });
 
 /* enable dashboard checkbox [TOPNAV] */
 $('#refreshCharts').click(function() {
-    $(this).toggleClass('enabled').children('i').toggleClass('active');
+    $(this).toggleClass('enabled enabled darken-3 darken-4 blue grey').children('i').toggleClass('active');
 });
 
 /* side-nav navigation [SIDE-NAV] */
 $('.analysis').click(function() {
-	$('body').addClass('hide-overflow');
+    $('body').addClass('hide-overflow');
     $('.container > .row').addClass('hide');
     
     var el = $(this);
@@ -212,15 +222,13 @@ $('.analysis').click(function() {
     $('#' + cls).removeClass('hide');
     
     if (cls == 'test-view') { 
-        if ($('#enableDashboard').hasClass('enabled') && $('#dashboard-view').hasClass('hide')) {
+        if ($('#enableDashboard').hasClass('enabled') && $('#dashboard-view').hasClass('hide'))
             $('#enableDashboard').click().addClass('enabled');
-        }
     }
     else {
-    	if (cls == 'dashboard-view' || cls == 'testrunner-logs-view') {
-	        $('body').removeClass('hide-overflow');
-	    }
-	    
+        if (cls == 'dashboard-view' || cls == 'testrunner-logs-view')
+            $('body').removeClass('hide-overflow');
+        
         // if any other view besides test-view, show all divs of dashboard-view
         $('#dashboard-view > div').removeClass('hide');
         
@@ -300,19 +308,6 @@ $('.exception-item').click(function(evt) {
     $('#exception-details-wrapper .exception-container').append($(el));
 });
 
-/* toggle steps by status in details container */
-$('.step-filters').click(function(evt) {
-    $('.details-container').find('tbody > tr').removeClass('displayed hide');
-    
-    var cls = $(evt.target).parent().attr('class');
-    if (cls.indexOf('clear') < 0) {
-        $('.details-container').find('tbody > tr').removeClass('displayed hide');
-
-        $('.details-container td.status.' + cls).parent().addClass('displayed');
-        $('.details-container tbody > tr').not('.displayed').addClass('hide');
-    }
-});
-
 /* view test info [TEST] */
 $('.test').click(function() {
     var t = $(this);
@@ -330,11 +325,38 @@ $('.test').click(function() {
     }
 });
 
+/* move up and down to browse tests */
+$(window).keydown(function(e) {
+	var target = null, sibling = null;
+	
+	(currentView === 0) && (target = $('li.test.displayed.active'), sibling = '.test.displayed');
+	(currentView === 1) && (target = $('li.category-item.displayed.active'), sibling = '.category-item.displayed');
+	(currentView === 2) && (target = $('li.exception-item.displayed.active'), sibling = '.exception-item.displayed');
+	
+	if (target !== null) {
+		(e.which === 40) && target.nextAll(sibling).first().click();
+		(e.which === 38) && target.prevAll(sibling).first().click();
+	}
+});
+
+/* toggle steps by status in details container */
+$('.step-filters').click(function(evt) {
+    $('.details-container').find('tbody > tr').removeClass('displayed hide');
+    
+    var cls = $(evt.target).parent().attr('status');
+    if (cls.indexOf('clear') < 0) {
+        $('.details-container').find('tbody > tr').removeClass('displayed hide');
+
+        $('.details-container td.status.' + cls).parent().addClass('displayed');
+        $('.details-container tbody > tr').not('.displayed').addClass('hide');
+    }
+});
+
 /* toggle search */
 $('.mdi-action-search, .fa-search').click(function() {
     $(this).toggleClass('active');
     var s = $('.search > .input-field');
-    s.animate({ width: s.css('width') == '0px' ? '240px' : '0px'}, 200);
+    s.animate({ width: s.css('width') == '0px' ? '200px' : '0px'}, 200).toggleClass('enabled', 200);
 });
 
 /* filter tests by text in test and categories view */
@@ -346,13 +368,15 @@ $.fn.dynamicTestSearch = function(id){
         pattern = RegExp(searchBox.val(), 'gi');
         
         if (searchBox.val() == '') {
-            target.removeClass('hide');
+            target.removeClass('hide').addClass('displayed');
         }
         else {
-            target.addClass('hide').each(function() {
+            target.each(function() {
                 var t = $(this);
                 if (pattern.test(t.html())) {
-                    t.removeClass('hide');
+                    t.removeClass('hide').addClass('displayed');
+                } else {
+                    t.removeClass('displayed').addClass('hide');
                 }
             });
         }
@@ -563,14 +587,14 @@ function redrawCharts() {
 function refreshData() {
 	var el = $('#test-count-setting');
 	
-	totalTests = $('.test:not(:has(.test-node)), .test-node').length;
-	passedTests = $('.test.displayed .node-list > li.pass.displayed, .test.displayed.pass:not(.hasChildren)').length;
-	failedTests = $('.test.displayed .node-list > li.fail.displayed, .test.displayed.fail:not(.hasChildren)').length;
-	fatalTests = $('.test.displayed .node-list > li.fatal.displayed, .test.displayed.fatal:not(.hasChildren)').length;
-	warningTests = $('.test.displayed .node-list > li.warning.displayed, .test.displayed.warning:not(.hasChildren)').length;
-	errorTests = $('.test.displayed .node-list > li.error.displayed, .test.displayed.error:not(.hasChildren)').length;
-	skippedTests = $('.test.displayed .node-list > li.skip.displayed, .test.displayed.skip:not(.hasChildren)').length;
-	unknownTests = $('.test.displayed .node-list > li.unknown.displayed, .test.displayed.unknown:not(.hasChildren)').length;
+	totalTests = $('#test-collection .test:not(.hasChildren), #test-collection .test-node').length;
+	passedTests = $('#test-collection .test.displayed .node-list > li.pass.displayed, #test-collection .test.displayed.pass:not(.hasChildren)').length;
+	failedTests = $('#test-collection .test.displayed .node-list > li.fail.displayed, #test-collection .test.displayed.fail:not(.hasChildren)').length;
+	fatalTests = $('#test-collection .test.displayed .node-list > li.fatal.displayed, #test-collection .test.displayed.fatal:not(.hasChildren)').length;
+	warningTests = $('#test-collection .test.displayed .node-list > li.warning.displayed, #test-collection .test.displayed.warning:not(.hasChildren)').length;
+	errorTests = $('#test-collection .test.displayed .node-list > li.error.displayed, #test-collection .test.displayed.error:not(.hasChildren)').length;
+	skippedTests = $('#test-collection .test.displayed .node-list > li.skip.displayed, #test-collection .test.displayed.skip:not(.hasChildren)').length;
+	unknownTests = $('#test-collection .test.displayed .node-list > li.unknown.displayed, #test-collection .test.displayed.unknown:not(.hasChildren)').length;
 	
 	if (el.hasClass('parentWithoutNodes')) {
 		totalTests = $('#test-collection .test.displayed').length;
@@ -639,7 +663,7 @@ var options = {
 	segmentShowStroke : false, 
 	percentageInnerCutout : 55, 
 	animationSteps : 1,
-	legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+	legendTemplate : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++) {%><li><%if(segments[i].label && segments[i].value){%><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%=segments[i].label%><%}%></li><%}%></ul>'
 };
 
 /* tests view chart [DASHBOARD] */
@@ -674,7 +698,6 @@ function stepsChart() {
 	var ctx = $('#step-analysis').get(0).getContext('2d');
 	stepChart = new Chart(ctx).Doughnut(data, options);
 }
-
   
 testsChart(); stepsChart();
-$('ul.doughnut-legend').addClass('right');
+
