@@ -134,19 +134,16 @@ function _adjustSize(){
     ct.find('._addedCell1, ._addedCell2').css({'height':($(window).height() - 50 - chartHeight)+'px'});
     ct.find('._addedCell1 .contents, ._addedCell2 .contents').css({'height':($(window).height() - 65 - chartHeight)+'px'});
     
-    if ($(window).width() < 992) {
-        ct.find('._addedCell2').css({'width':Math.round($(window).width() - 5 - ct.find('._addedCell1').width())+'px'});
-    }
-    else {
-        ct.find('._addedCell2').css({'width':Math.round($(window).width() - 45 - 18 - ct.find('._addedCell1').width())+'px'});
-    }
+    if ($(window).width() < 992) ct.find('._addedCell2').css({'width':Math.round($(window).width() - 5 - ct.find('._addedCell1').width())+'px'});
+    else ct.find('._addedCell2').css({'width':Math.round($(window).width() - 45 - 18 - ct.find('._addedCell1').width())+'px'});
     
     _restrictSize();
 }
 
 function _restrictSize(){
-    if(ct.find('._addedCell1').width() > Math.round($(window).width() * 0.6)){
-        ct.find('._addedCell1').css({'width': Math.round($(window).width() * 0.6) +'px'});
+    var cell = ct.find('._addedCell1');
+    if (cell.width() > Math.round($(window).width() * 0.6)){
+        cell.css({'width': Math.round($(window).width() * 0.6) +'px'});
         _adjustSize();
     }
 }
@@ -216,14 +213,12 @@ $('.analysis').click(function() {
     $('#' + cls).removeClass('hide');
     
     if (cls == 'test-view') { 
-        if ($('#enableDashboard').hasClass('enabled') && $('#dashboard-view').hasClass('hide')) {
+        if ($('#enableDashboard').hasClass('enabled') && $('#dashboard-view').hasClass('hide'))
             $('#enableDashboard').click().addClass('enabled');
-        }
     }
     else {
-        if (cls == 'dashboard-view' || cls == 'testrunner-logs-view') {
+        if (cls == 'dashboard-view' || cls == 'testrunner-logs-view')
             $('body').removeClass('hide-overflow');
-        }
         
         // if any other view besides test-view, show all divs of dashboard-view
         $('#dashboard-view > div').removeClass('hide');
