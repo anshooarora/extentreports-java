@@ -228,7 +228,7 @@ abstract class Report extends LogSettings {
     
     protected SuiteTimeInfo suiteTimeInfo;
     protected SystemInfo systemInfo;
-    protected List<ExtentTest> testList;
+    protected List<ExtentTest> testList = new ArrayList<ExtentTest>();
     protected File configFile = null;
     
     protected List<ExtentTest> getTestList() {

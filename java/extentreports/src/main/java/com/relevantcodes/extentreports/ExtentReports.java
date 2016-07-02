@@ -785,14 +785,8 @@ public class ExtentReports extends Report implements Serializable {
      *      An {@link ExtentTest} object
      */
     public synchronized ExtentTest startTest(String testName, String description) {
-        if (testList == null) {
-            testList = new ArrayList<ExtentTest>();
-        }
-        
-        ExtentTest test = new ExtentTest(testName, description);
-        
+        ExtentTest test = new ExtentTest(testName, description);        
         updateTestQueue(test);
-        
         return test;
     }
     
