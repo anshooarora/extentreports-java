@@ -25,7 +25,8 @@ public class Writer {
         } 
         finally {
             try {
-              writer.close();
+            	if(writer != null)
+            		writer.close();
             } 
             catch (Exception e) {
             	e.printStackTrace();
