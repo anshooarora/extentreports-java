@@ -32,6 +32,11 @@ public class ChildTestConverter extends LogSettings {
                 extentNode.isChildNode = true;
                 
                 extentNode.setName(node.select(".test-node-name").first().html());
+
+                Element description = node.select(".test-node-desc").first();
+                if (description != null) {
+                    extentNode.setDescription(description.html());
+                }
                 
                 extentNode.setStatus(
                         ExtentUtil.toLogStatus(
