@@ -133,7 +133,7 @@
     <value>otro(s)</value>
   </data>
   <data name="dashboard_panel_label_stepsFailed" xml:space="preserve">
-    <value>step(s) failed</value>
+    <value>paso(s) fallados</value>
   </data>
   <data name="dashboard_panel_label_stepsPassed" xml:space="preserve">
     <value>paso(s) correcto</value>
@@ -178,7 +178,7 @@
     <value>Nombre</value>
   </data>
   <data name="dashboard_panel_th_param" xml:space="preserve">
-    <value>Parámetro</value>
+    <value>Parámetro(s)</value>
   </data>
   <data name="dashboard_panel_th_value" xml:space="preserve">
     <value>Valor</value>
@@ -259,7 +259,7 @@
     <value>Activar Dashboard</value>
   </data>
   <data name="tests_filters_refreshCharts" xml:space="preserve">
-    <value>Refrescar gráficos con filtro</value>
+    <value>Refrescar gráficos con filtro(s)</value>
   </data>
   <data name="tests_filters_searchTests" xml:space="preserve">
     <value>Buscar test(s)</value>
@@ -283,15 +283,15 @@
     <value>Hora</value>
   </data>
   <data name="exceptions_heading" xml:space="preserve">
-    <value>Exceptions</value>
+    <value>Excepciones</value>
   </data>
   <data name="exceptions_th_exception" xml:space="preserve">
-    <value>Exception</value>
+    <value>Excepción</value>
   </data>
   <data name="exceptions_th_runDate" xml:space="preserve">
-    <value>Run Date</value>
+    <value>Fecha de ejecución</value>
   </data>
   <data name="exceptions_th_testName" xml:space="preserve">
-    <value>Test Name</value>
+    <value>Nombre de Test</value>
   </data>
 </root>
