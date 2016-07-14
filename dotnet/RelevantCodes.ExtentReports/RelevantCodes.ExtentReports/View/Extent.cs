@@ -460,15 +460,40 @@
                                                 <h5 class='details-name'></h5>
 
                                                 <div class='step-filters right'>
-								                    <span class='info' alt='info' title='info'><i class='mdi-action-info-outline'></i></span> 
-								                    <span class='pass' alt='pass' title='pass'><i class='mdi-action-check-circle'></i></span> 
-								                    <span class='fail' alt='fail' title='fail'><i class='mdi-navigation-cancel'></i></span> 
-								                    <span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span> 
-								                    <span class='error' alt='error' title='error'><i class='mdi-alert-error'></i></span> 
-								                    <span class='warning' alt='warning' title='warning'><i class='mdi-alert-warning'></i></span> 
-								                    <span class='skip' alt='skip' title='skip'><i class='mdi-content-redo'></i></span> 
-								                    <span class='clear-step-filter' alt='Clear filters' title='Clear filters'><i class='mdi-content-clear'></i></span>
-							                    </div>
+                                                				@if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Info)).Count() > 0)
+                                                				{
+ 								                    <span class='info' alt='info' title='info'><i class='mdi-action-info-outline'></i></span> 
+                                                				}
+                                                				@if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Pass)).Count() > 0)
+                                                				{
+ 								                    <span class='pass' alt='pass' title='pass'><i class='mdi-action-check-circle'></i></span> 
+                                                				}
+                                                				@if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Fail)).Count() > 0)
+                                                				{
+ 								                    <span class='fail' alt='fail' title='fail'><i class='mdi-navigation-cancel'></i></span> 
+-								                    <span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span> 
+                                                				}
+                                                				@if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Fatal)).Count() > 0)
+                                                				{
+								                    <span class='fatal' alt='fatal' title='fatal'><i class='mdi-navigation-cancel'></i></span>
+                                                				}
+                                                				@if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Error)).Count() > 0)
+                                                				{
+ 								                    <span class='error' alt='error' title='error'><i class='mdi-alert-error'></i></span> 
+                                                				}
+                                                				@if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Warning)).Count() > 0)
+                                                				{
+ 								                    <span class='warning' alt='warning' title='warning'><i class='mdi-alert-warning'></i></span> 
+                                                				}
+                                                				@if (Model.TestList.Where(x => x.GetTest().Status.Equals(LogStatus.Skip)).Count() > 0)
+                                                				{
+ 								                    <span class='skip' alt='skip' title='skip'><i class='mdi-content-redo'></i></span> 
+                                                				}
+                                                				@if (Model.TestList.Where(x => x.GetTest()).Count() > 0)
+                                                				{
+ 								                    <span class='clear-step-filter' alt='Clear filters' title='Clear filters'><i class='mdi-content-clear'></i></span>
+                                                				}
+						</div>
 
                                                 <div class='details-container'>
                                                 </div>
