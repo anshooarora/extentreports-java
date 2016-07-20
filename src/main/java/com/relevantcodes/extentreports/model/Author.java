@@ -9,6 +9,9 @@
 package com.relevantcodes.extentreports.model;
 
 public class Author extends TestAttribute {
+
+    private static final long serialVersionUID = 1222430253660995548L;
+
     public Author(String name) {
         super(name.trim());
     }

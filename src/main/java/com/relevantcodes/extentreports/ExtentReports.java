@@ -11,7 +11,6 @@ package com.relevantcodes.extentreports;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +28,8 @@ import com.relevantcodes.extentreports.converters.TestConverter;
 import com.relevantcodes.extentreports.model.Test;
 
 public class ExtentReports extends Report implements Serializable {
+
+    private static final long serialVersionUID = -6996595703916138742L;
     private static final Logger logger = Logger.getLogger(ExtentReports.class.getName());
     
     /**
