@@ -2,13 +2,13 @@
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.aventstack</groupId>
-    <artifactId>extent8</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <groupId>com.relevantcodes</groupId>
+    <artifactId>extentreports</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>ExtentReports API</name>
-    <url>http://relevantcodes.com/extentreports-for-selenium/</url>
+    <name>Extent API</name>
+    <url>http://extentreports.relevantcodes.com</url>
 
     <description>
         An open-source reporting library for Java and .NET. 
