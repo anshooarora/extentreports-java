@@ -24,7 +24,7 @@ public abstract class BaseExample {
 	
 	@AfterMethod
 	protected void afterEachTest(ITestResult result) {
-		if (!result.isSuccess()) {
+		if (!result.isSuccess() && test != null) {
 			test.log(LogStatus.FAIL, result.getThrowable());
 		}
 		
