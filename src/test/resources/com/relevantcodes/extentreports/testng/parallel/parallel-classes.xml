@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Extent Parallel Test" parallel="classes" thread-count="2">
+    <test name="ExtentWithParallelClasses">
+        <classes>
+            <class name="com.aventstack.extentreports.ParallelClass1" />
+            <class name="com.aventstack.extentreports.ParallelClass2" />
+        </classes>
+    </test>
+</suite>
