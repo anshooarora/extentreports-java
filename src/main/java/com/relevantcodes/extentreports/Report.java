@@ -47,12 +47,12 @@ abstract class Report implements IReport {
         
         testList.add(test);
         
-        reporterList.forEach(x -> ((ExtentReporter) x).onTestStarted(test));
+        reporterList.forEach(x -> x.onTestStarted(test));
     }
     
     synchronized void addNode(Test node) {
         reporterList.forEach(x -> {
-            ((ExtentReporter) x).onNodeStarted(node);
+            x.onNodeStarted(node);
         });
     }
     
@@ -60,25 +60,25 @@ abstract class Report implements IReport {
         collectRunInfo();
         
         reporterList.forEach(x -> {
-            ((ExtentReporter) x).onLogAdded(test, log);
+            x.onLogAdded(test, log);
         });
     }
     
     synchronized void assignCategory(Test test, Category category) {
         reporterList.forEach(x -> {
-            ((ExtentReporter) x).onCategoryAssigned(test, category);
+            x.onCategoryAssigned(test, category);
         });
     }
     
     synchronized void assignAuthor(Test test, Author author) {
         reporterList.forEach(x -> {
-            ((ExtentReporter) x).onAuthorAssigned(test, author);
+            x.onAuthorAssigned(test, author);
         });
     }
     
     synchronized void addScreenCapture(Test test, ScreenCapture sc) {
         reporterList.forEach(x -> {
-            ((ExtentReporter) x).onScreenCaptureAdded(test, sc);
+            x.onScreenCaptureAdded(test, sc);
         });
     }
     
@@ -146,13 +146,13 @@ abstract class Report implements IReport {
     
     protected synchronized void notifyReporters() {
         reporterList.forEach(x -> {
-            ((ExtentReporter) x).setTestList(testList);
+            x.setTestList(testList);
             
-            ((ExtentReporter) x).setCategoryContextInfo(testAttrCategoryContext);
-            ((ExtentReporter) x).setExceptionContextInfo(exContextBuilder);
-            ((ExtentReporter) x).setSystemAttributeContext(saContext);
-            ((ExtentReporter) x).setTestRunnerLogs(testRunnerLogs);
-            ((ExtentReporter) x).setStatusCount(stats);
+            x.setCategoryContextInfo(testAttrCategoryContext);
+            x.setExceptionContextInfo(exContextBuilder);
+            x.setSystemAttributeContext(saContext);
+            x.setTestRunnerLogs(testRunnerLogs);
+            x.setStatusCount(stats);
         });
         
         reporterList.forEach(ExtentReporter::flush);
