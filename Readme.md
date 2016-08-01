@@ -4,6 +4,8 @@ Branch for v3 of Extent. Java8 only. Java7 and lower versions, use Extent v2.
 
 Note: This is a development branch, so there are several features still broken and yet to be developed.
 
+Note: Use [0.2.10 branch](https://github.com/anshooarora/extentx/tree/0.2.10-alpha-extent3) of ExtentX with this version.
+
 ### Samples
 
  * <a href='http://relevantcodes.com/Tools/extent-3/Extent.html'>Standard</a>
@@ -12,8 +14,9 @@ Note: This is a development branch, so there are several features still broken a
 #### What doesn't work
 
  * Email Reporter - in progress
- * ExtentX report level stats need to be fixed (new ExtentX version will be released)
+ * ~~ExtentX report level stats need to be fixed (new ExtentX version will be released)~~
  * ExtentHTMLReporter - search functionality not yet integrated
+ * ExtentX still does not show images (base64 will work but their use is highly discouraged)
  * you tell me..  
 
 ### Shortcuts
