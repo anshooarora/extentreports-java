@@ -304,7 +304,7 @@ abstract class Report extends LogSettings {
     protected Map<String, String> getSystemInfoMap() {
         return getSystemInfo().getInfo();
     }
-    
+
     protected void attach(IReporter reporter) {
         if (reporters == null) {
             reporters = new ArrayList<IReporter>();
@@ -313,7 +313,7 @@ abstract class Report extends LogSettings {
         reporters.add(reporter);
         reporter.start(this);
     }
-    
+
     protected void detach(IReporter reporter) {
         reporter.stop();
         reporters.remove(reporter);
@@ -379,8 +379,8 @@ abstract class Report extends LogSettings {
         String ex = exceptionInfo.getExceptionName();
         if (!exceptionTestMap.containsKey(ex)) {
             exceptionTestMap.put(ex, new ArrayList<ExceptionInfo>());
-            exceptionTestMap.get(ex).add(exceptionInfo);
         }
+        exceptionTestMap.get(ex).add(exceptionInfo);
     }
     
     private void updateTestStatusList(Test test) {
