@@ -1,3 +1,5 @@
 target/
 test-output/
 .idea/
+.settings/
+extentreports.iml
