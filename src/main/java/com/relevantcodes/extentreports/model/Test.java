@@ -144,7 +144,7 @@ public class Test implements Serializable {
             testStatus = Status.PASS;
     }
     
-    void updateStatus(Status logStatus) {
+    private synchronized void updateStatus(Status logStatus) {
         int logStatusIndex = Status.getStatusHierarchy().indexOf(logStatus);        
         int testStatusIndex = Status.getStatusHierarchy().indexOf(testStatus);
         
@@ -159,14 +159,14 @@ public class Test implements Serializable {
         testStatus = testStatus == Status.INFO ? Status.PASS : testStatus;
     }
 
-    void updateTestStatusRecursive(Test test) {
+    private synchronized void updateTestStatusRecursive(Test test) {
         test.getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
 
         if (test.hasChildren())
             test.node.getAll().forEach(this::updateTestStatusRecursive);
     }
     
-    void endChildrenRecursive(Test test) {
+    private void endChildrenRecursive(Test test) {
         test.getNodeContext().getAll().forEach(Test::end);
     }
 

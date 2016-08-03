@@ -1,6 +1,7 @@
 package com.relevantcodes.extentreports.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -10,7 +11,7 @@ public class LogStructure {
     private List<Log> logList;
 
     LogStructure() {
-        logList = new ArrayList<>();
+        logList = Collections.synchronizedList(new ArrayList<>());
     }
     
     public void add(Log log) {

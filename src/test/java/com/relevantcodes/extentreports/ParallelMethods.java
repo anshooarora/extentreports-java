@@ -2,7 +2,7 @@ package com.relevantcodes.extentreports;
 
 import java.lang.reflect.Method;
 
-import org.junit.Assert;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -18,11 +18,12 @@ public class ParallelMethods extends Base {
     @BeforeClass
     public void beforeClass() {
         ExtentManager.createInstance(filePath);
+        ExtentTestManager.setReporter(ExtentManager.getInstance());;
     }
     
     @AfterClass
     public void afterClass() {
-        ExtentManager.getInstance().collectRunInfo();
+        ExtentManager.getInstance().flush();
     }
     
     @Test
