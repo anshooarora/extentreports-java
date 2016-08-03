@@ -28,7 +28,7 @@ public class TestWithoutLogsHasUnknownStatus extends Base {
         extent.attachReporter(htmlReporter);
         
         test = extent.createTest(testName);
-        extent.collectRunInfo();
+        extent.flush();
     }
     
     @Test

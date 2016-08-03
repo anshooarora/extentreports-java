@@ -36,7 +36,7 @@ public class TestAttributesTest extends Base {
         test = extent.createTest(testName);
         test.pass(testName);
 
-        extent.collectRunInfo();
+        extent.flush();
         
         String html = Reader.readAllText(filePath);
         Document doc = Jsoup.parse(html);

@@ -35,7 +35,7 @@ public class TestNodeAttributesTest extends Base {
         node = test.createNode(testName + ".Node");
         node.pass(testName + ".Node");
         
-        extent.collectRunInfo();
+        extent.flush();
         
         String html = Reader.readAllText(filePath);
         Document doc = Jsoup.parse(html);

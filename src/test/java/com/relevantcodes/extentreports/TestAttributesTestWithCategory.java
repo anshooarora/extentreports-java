@@ -38,7 +38,7 @@ public class TestAttributesTestWithCategory extends Base {
         test = extent.createTest(testName).assignCategory(categoryName);
         test.pass(testName);
 
-        extent.collectRunInfo();
+        extent.flush();
         
         String html = Reader.readAllText(filePath);
         doc = Jsoup.parse(html);
