@@ -18,7 +18,7 @@ public abstract class ParallelClassesBase extends Base {
     
     @AfterSuite
     public void tearDown() {
-        ExtentManager.getInstance().collectRunInfo();
+        ExtentManager.getInstance().flush();
     }
     
 }

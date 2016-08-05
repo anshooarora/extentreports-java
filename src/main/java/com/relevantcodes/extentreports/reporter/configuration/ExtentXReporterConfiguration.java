@@ -6,6 +6,13 @@ public class ExtentXReporterConfiguration extends BasicConfiguration implements 
 
     private ObjectId id;
     private String projectName;
+    private String url;
+    
+    public void setServerUrl(String url) {
+        usedConfigs.put("serverUrl", url);
+        this.url = url;
+    }
+    public String getServerUrl() { return url; }
     
     public void setProjectName(String projectName) {
         usedConfigs.put("projectName", projectName);

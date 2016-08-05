@@ -12,18 +12,20 @@ public class BuildsReportWithoutTests extends Base {
     final String filePath = getOutputFolder() + getClass().getName() + ".html";
     
     @Test
-    public void buildReportWithoutTests() {       
+    public void buildReportWithoutTests() {
+        File f = new File(filePath);
+        if (f.exists())
+            f.delete();
+        
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(filePath);
         
         ExtentReports extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
         
-        extent.collectRunInfo();
-        
-        File f = new File(filePath);
-        
+        extent.flush();
+
         // if no tests are added and flush is called,
-        // no report should be created
+        // an empty report should be created
         Assert.assertEquals(f.exists(), false);
     }
 }

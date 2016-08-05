@@ -1,5 +1,6 @@
 package com.relevantcodes.extentreports;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import com.relevantcodes.extentreports.gherkin.model.IGherkinFormatterModel;
@@ -8,6 +9,7 @@ import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.ExceptionInfo;
 import com.relevantcodes.extentreports.model.IAddsMedia;
 import com.relevantcodes.extentreports.model.Log;
+import com.relevantcodes.extentreports.model.MediaType;
 import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.utils.ExceptionUtil;
@@ -164,20 +166,26 @@ public class ExtentTest implements IAddsMedia, Serializable {
     }
 
     @Override
-    public ExtentTest addScreenCaptureFromPath(String imagePath, String title) {
+    public ExtentTest addScreenCaptureFromPath(String imagePath, String title) throws IOException {
         ScreenCapture sc = new ScreenCapture();
         sc.setPath(imagePath);
         sc.setName(title);
+        sc.setMediaType(MediaType.IMG);
         
         test.setScreenCapture(sc);
+
+        if (test.getObjectId() != null) {
+            int sequence = test.getScreenCaptureList().size();
+            sc.setTestObjectId(test.getObjectId());
+            sc.setSequence(sequence);
+        }
         
         extent.addScreenCapture(test, sc);
-        
         return this;
     }
     
     @Override
-    public ExtentTest addScreenCaptureFromPath(String imagePath) {
+    public ExtentTest addScreenCaptureFromPath(String imagePath) throws IOException {
         return addScreenCaptureFromPath(imagePath, null);
     }
 

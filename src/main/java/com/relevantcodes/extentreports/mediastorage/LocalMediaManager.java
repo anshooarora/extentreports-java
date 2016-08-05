@@ -1,31 +1,31 @@
-package com.relevantcodes.extentreports.media;
+package com.relevantcodes.extentreports.mediastorage;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.relevantcodes.extentreports.model.Media;
-import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.utils.FileUtil;
 
-public class MediaFilesManager {
+class LocalMediaManager implements MediaStorage {
     
-    private static final Logger logger = Logger.getLogger(MediaFilesManager.class.getName());
+    private static final Logger logger = Logger.getLogger(LocalMediaManager.class.getName());
 
     private String reporterGeneratedFilePath;
     private String targetPath;
     private String relativePath;
     
-    public MediaFilesManager(String reporterGeneratedFilePath) {
+    public void init(String reporterGeneratedFilePath) {
         this.reporterGeneratedFilePath = reporterGeneratedFilePath;
-
         mkDirs();
+    }
+    
+    public void storeMedia(Media screenCapture) throws IOException {
+        storeMediaFileLocal(screenCapture);
     }
     
     private void mkDirs() {
@@ -49,11 +49,7 @@ public class MediaFilesManager {
         }
     }
     
-    public void storeMediaInformationLocal(ScreenCapture screenCapture) {
-        storeMediaFile(screenCapture);
-    }
-    
-    private void storeMediaFile(Media sc) {
+    private void storeMediaFileLocal(Media sc) throws IOException {
         File f = new File(sc.getPath());
         if (!f.exists()) {
             logger.warning("Unable to locate media file: " + sc.getPath());
@@ -77,15 +73,9 @@ public class MediaFilesManager {
             cnt ++;
         }
         
-        try {
-            Path p = Paths.get(copyToPath);
-            Files.copy(new FileInputStream(f), p);
-            sc.setPath(relativePath + mediaFileName);
-        } catch (FileNotFoundException e) {
-            logger.log(Level.SEVERE, "File Not Found", e);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "", e);
-        }
+        Path p = Paths.get(copyToPath);
+        Files.copy(new FileInputStream(f), p);
+        sc.setPath(relativePath + mediaFileName);
     }
     
 }

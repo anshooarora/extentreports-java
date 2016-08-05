@@ -1,5 +1,7 @@
 package com.relevantcodes.extentreports;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,34 +53,30 @@ abstract class Report implements IReport {
     }
     
     synchronized void addNode(Test node) {
-        reporterList.forEach(x -> {
-            x.onNodeStarted(node);
-        });
+        reporterList.forEach(x -> x.onNodeStarted(node));
     }
     
     synchronized void addLog(Test test, Log log) {
         collectRunInfo();
         
-        reporterList.forEach(x -> {
-            x.onLogAdded(test, log);
-        });
+        reporterList.forEach(x -> x.onLogAdded(test, log));
     }
     
     synchronized void assignCategory(Test test, Category category) {
-        reporterList.forEach(x -> {
-            x.onCategoryAssigned(test, category);
-        });
+        reporterList.forEach(x -> x.onCategoryAssigned(test, category));
     }
     
     synchronized void assignAuthor(Test test, Author author) {
-        reporterList.forEach(x -> {
-            x.onAuthorAssigned(test, author);
-        });
+        reporterList.forEach(x -> x.onAuthorAssigned(test, author));
     }
     
-    synchronized void addScreenCapture(Test test, ScreenCapture sc) {
+    synchronized void addScreenCapture(Test test, ScreenCapture sc) throws IOException {
         reporterList.forEach(x -> {
-            x.onScreenCaptureAdded(test, sc);
+            try {
+                x.onScreenCaptureAdded(test, sc);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
         });
     }
     
@@ -116,7 +114,12 @@ abstract class Report implements IReport {
         updateReportStatus(test.getStatus());
     }
 
-    protected synchronized void collectRunInfo() {
+    protected synchronized void flush() {
+        collectRunInfo();
+        notifyReporters();
+    }
+    
+    private synchronized void collectRunInfo() {
         if (testList == null || testList.isEmpty())
             return;
         
@@ -144,7 +147,7 @@ abstract class Report implements IReport {
         });
     }
     
-    protected synchronized void notifyReporters() {
+    private synchronized void notifyReporters() {
         reporterList.forEach(x -> {
             x.setTestList(testList);
             
@@ -159,7 +162,7 @@ abstract class Report implements IReport {
     }
     
     protected void end() {
-        collectRunInfo();
+        flush();
         
         reporterList.forEach(ExtentReporter::stop);
         reporterList.clear();
@@ -175,4 +178,5 @@ abstract class Report implements IReport {
         
         testRunnerLogs.add(log);
     }
+    
 }

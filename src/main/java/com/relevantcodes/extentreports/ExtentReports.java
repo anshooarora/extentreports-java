@@ -23,8 +23,7 @@ public class ExtentReports extends Report {
     }
     
     public synchronized void flush() {
-        collectRunInfo();
-        notifyReporters();
+        super.flush();
     }
     
     public void close() {

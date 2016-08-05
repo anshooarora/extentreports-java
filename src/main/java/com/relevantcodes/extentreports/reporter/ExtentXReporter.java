@@ -1,5 +1,6 @@
 package com.relevantcodes.extentreports.reporter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -17,8 +18,11 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+
 import com.relevantcodes.extentreports.configuration.Config;
 import com.relevantcodes.extentreports.configuration.ConfigMap;
+import com.relevantcodes.extentreports.mediastorage.MediaStorage;
+import com.relevantcodes.extentreports.mediastorage.MediaStorageManagerFactory;
 import com.relevantcodes.extentreports.model.Author;
 import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.Log;
@@ -32,6 +36,8 @@ public class ExtentXReporter extends AbstractReporter {
     private static final String DEFAULT_CONFIG_FILE = "extentx-config.properties";
     private static final String DEFAULT_PROJECT_NAME = "Default";
     
+    private String url;
+    
     private ObjectId reportId;
     private ObjectId projectId;
     
@@ -44,11 +50,13 @@ public class ExtentXReporter extends AbstractReporter {
     private MongoCollection<Document> testCollection;
     private MongoCollection<Document> nodeCollection;
     private MongoCollection<Document> logCollection;
+    private MongoCollection<Document> mediaCollection;
     private MongoCollection<Document> categoryCollection;
     private MongoCollection<Document> authorCollection;
     private MongoCollection<Document> categoryTestsTestCategories;
     private MongoCollection<Document> authorTestsTestAuthors;
     
+    private MediaStorage media;
     private ExtentXReporterConfiguration userConfig;
     
     static {
@@ -137,6 +145,7 @@ public class ExtentXReporter extends AbstractReporter {
         testCollection = db.getCollection("test");
         nodeCollection = db.getCollection("node");
         logCollection = db.getCollection("log");
+        mediaCollection = db.getCollection("media");
         categoryCollection = db.getCollection("category");
         authorCollection = db.getCollection("author");
         
@@ -170,7 +179,7 @@ public class ExtentXReporter extends AbstractReporter {
 
     private void setupProject() {
         String projectName = configContext.getValue("projectName").toString().trim();
-        if (projectName.equals(null) || projectName.isEmpty())
+        if (projectName == null || projectName.isEmpty())
             projectName = DEFAULT_PROJECT_NAME;
 
         Document doc = new Document("name", projectName);
@@ -191,7 +200,7 @@ public class ExtentXReporter extends AbstractReporter {
     
     private void setupReport(String projectName) {
         String reportName = configContext.getValue("reportName").toString().trim();
-        if (reportName.equals(null) || reportName.isEmpty())
+        if (reportName == null || reportName.isEmpty())
             reportName = projectName + " - " + Calendar.getInstance().getTimeInMillis();
         
         Object id = configContext.getValue("reportId");
@@ -371,7 +380,43 @@ public class ExtentXReporter extends AbstractReporter {
     }
     
     @Override
-    public void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) {}
+    public void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) throws IOException {
+        storeUrl();
+        screenCapture.setReportObjectId(reportId);
+        
+        createMedia(test, screenCapture);
+        
+        if (media == null) {
+            media = new MediaStorageManagerFactory().getManager("http");
+            media.init(url);
+        }
+        
+        media.storeMedia(screenCapture);
+    }
+    
+    private void storeUrl() throws IOException {
+        if (this.url == null) {
+            Object url = configContext.getValue("serverUrl");
+            
+            if (url == null) {
+                throw new IOException("server url cannot be null, use extentxConfig.setServerUrl(url)");
+            }
+            
+            this.url = url.toString().trim();
+        }
+    }
+    
+    private void createMedia(Test test, ScreenCapture screenCapture) {
+        Document doc = new Document("test", test.getObjectId())
+                .append("report", reportId)
+                .append("testName", test.getName())
+                .append("sequence", screenCapture.getSequence());
+
+        mediaCollection.insertOne(doc);
+        
+        ObjectId mediaId = MongoUtil.getId(doc);
+        screenCapture.setObjectId(mediaId);
+    }
     
     @Override
     public void setTestList(List<Test> reportTestList) {
