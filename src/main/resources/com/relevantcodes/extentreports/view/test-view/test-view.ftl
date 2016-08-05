@@ -55,12 +55,12 @@
 
 			<!-- search -->
 			<div class='chip transparent' alt='Search Tests' title='Search Tests'>
-				<a href="#" class=''>
+				<a href="#" class='search-div'>
 					<i class='material-icons'>search</i> Search
 				</a>
 
 				<div class='input-field left hide'>
-					<input id='search-tests' type='text' class='validate' placeholder='Search Tests...'>
+					<input id='search-tests' type='text' class='validate browser-default' placeholder='Search Tests...'>
 				</div>
 				
 			</div>

@@ -18,8 +18,8 @@ Note: Use [0.2.10 branch](https://github.com/anshooarora/extentx/tree/0.2.10-alp
 
  * Email Reporter - in progress
  * ~~ExtentX report level stats need to be fixed (new ExtentX version will be released)~~
- * ExtentHTMLReporter - search functionality not yet integrated
- * ExtentX still does not show images (base64 will work but their use is highly discouraged)
+ * ~~ExtentHTMLReporter - search functionality not yet integrated~~
+ * ~~ExtentX still does not show images (base64 will work but their use is highly discouraged)~~
  * you tell me..  
 
 ### Shortcuts
