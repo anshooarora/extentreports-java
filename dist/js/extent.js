@@ -58,6 +58,10 @@ j+="translateY("+(F[0].clientHeight-item_width)/2+"px)"),i=n[f(p)],i.style[z]=j+
 
 $(document).ready(function() {
     $('#category-collection > .category:first-child, #exception-collection > .exception:first-child, #test-collection > .test:first-child').click();
+
+    $('#test-collection .test').dynamicTestSearch('#test-view #search-tests');
+	$('#cat-collection .category-item').dynamicTestSearch('#categories-view #search-tests');
+	$('#exception-collection .exception-item').dynamicTestSearch('#exceptions-view #search-tests');  
 });
 
 /* -- [ sidenav - toggle views ] -- */
@@ -74,39 +78,42 @@ $('.side-nav a').click(function() {
 $(window).keydown(function(e) {
 	var target = null, sibling = null;
 	
-	(currentView === 0) && (target = $('li.test.displayed.active'), sibling = '.test.displayed');
-	(currentView === 1) && (target = $('li.category.displayed.active'), sibling = '.category.displayed');
-	(currentView === 2) && (target = $('li.exception.displayed.active'), sibling = '.exception.displayed');
+    if ($('input').is(':focus')) {
+    } else {
+        (currentView === 0) && (target = $('li.test.displayed.active'), sibling = '.test.displayed');
+        (currentView === 1) && (target = $('li.category.displayed.active'), sibling = '.category.displayed');
+        (currentView === 2) && (target = $('li.exception.displayed.active'), sibling = '.exception.displayed');
 
-    function goToView(view) {
-        $('#slide-out a').filter(function() {
-            return ($(this).attr('view') === view + '-view');
-        }).click();
-    }
+        function goToView(view) {
+            $('#slide-out a').filter(function() {
+                return ($(this).attr('view') === view + '-view');
+            }).click();
+        }
 
-    (e.which === 67) && goToView('category');
-    (e.which === 68) && goToView('dashboard');
-    (e.which === 88) && goToView('exception');
-    (e.which === 84) && goToView('test');
+        (e.which === 67) && goToView('category');
+        (e.which === 68) && goToView('dashboard');
+        (e.which === 88) && goToView('exception');
+        (e.which === 84) && goToView('test');
 
-	if (target !== null) {
-		(e.which === 40) && target.nextAll(sibling).first().click();
-		(e.which === 38) && target.prevAll(sibling).first().click();
-	}
+        if (target !== null) {
+            (e.which === 40) && target.nextAll(sibling).first().click();
+            (e.which === 38) && target.prevAll(sibling).first().click();
+        }
 
-    function toggleByStatus(status) {
-        $('#tests-toggle li').filter(function() {
-            return ($(this).attr('status') == status)
-        }).click();
-    }
+        function toggleByStatus(status) {
+            $('#tests-toggle li').filter(function() {
+                return ($(this).attr('status') == status)
+            }).click();
+        }
 
-    if (currentView === 0) {
-        (e.which === 27) && toggleByStatus('clear');
-        (e.which === 69) && toggleByStatus('error');
-        (e.which === 70) && toggleByStatus('fail');
-        (e.which === 80) && toggleByStatus('pass');
-        (e.which === 83) && toggleByStatus('skip');
-        (e.which === 87) && toggleByStatus('warning');
+        if (currentView === 0) {
+            (e.which === 27) && toggleByStatus('clear');
+            (e.which === 69) && toggleByStatus('error');
+            (e.which === 70) && toggleByStatus('fail');
+            (e.which === 80) && toggleByStatus('pass');
+            (e.which === 83) && toggleByStatus('skip');
+            (e.which === 87) && toggleByStatus('warning');
+        }
     }
 });
 
@@ -373,6 +380,35 @@ $('#step-filters span').click(function() {
             return ($(this).attr('status') === status);
         }).removeClass('hide');
 });
+
+/* -- [ toggle search-box ] -- */
+$('.search-div').click(function() {
+    $(this).toggleClass('enabled').parent().find('.input-field').toggleClass('hide');
+})
+
+/* -- [ filter tests by text in test and categories view ] -- */
+$.fn.dynamicTestSearch = function(id){ 
+    var target = $(this);
+    var searchBox = $(id);
+    
+    searchBox.off('keyup').on('keyup', function() {
+        pattern = RegExp(searchBox.val(), 'gi');
+        
+        if (searchBox.val() == '') {
+            target.removeClass('hide');
+        }
+        else {
+            target.addClass('hide').each(function() {
+                var t = $(this);
+                if (pattern.test(t.html())) {
+                    t.removeClass('hide');
+                }
+            });
+        }
+    });
+    
+    return target;
+}
 
 /* -- [ chart options ] -- */
 var options = {

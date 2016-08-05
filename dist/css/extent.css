@@ -339,6 +339,20 @@ nav ul i {
         font-size: 16px;
         width: 100% !important;
     }
+    input.browser-default {
+        height: initial;
+        margin: 0;
+        border-bottom: 1px solid #039be5;
+        padding: 5px;
+        font-size: 12px;
+        width: 200px;
+    }
+    .input-field {
+        margin-top: 0;
+    }
+    .search-div.enabled {
+        margin-left: 20px;
+    }
     .test-name.bdd + #step-filters {
         display: none;
     }
