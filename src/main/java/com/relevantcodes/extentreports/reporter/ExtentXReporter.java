@@ -3,7 +3,9 @@ package com.relevantcodes.extentreports.reporter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +39,8 @@ public class ExtentXReporter extends AbstractReporter {
     private static final String DEFAULT_PROJECT_NAME = "Default";
     
     private String url;
+    
+    private Map<String, ObjectId> categoryNameObjectIdCollection;
     
     private ObjectId reportId;
     private ObjectId projectId;
@@ -334,16 +338,35 @@ public class ExtentXReporter extends AbstractReporter {
     }
 
     @Override
-    public void onCategoryAssigned(Test test, Category category) { 
-        Document doc = new Document("tests", test.getObjectId())
-                .append("report", reportId)
-                .append("name", category.getName())
-                .append("status", test.getStatus().toString())
-                .append("testName", test.getName());
+    public void onCategoryAssigned(Test test, Category category) {
+        if (categoryNameObjectIdCollection == null)
+            categoryNameObjectIdCollection = new HashMap<>();
         
-        categoryCollection.insertOne(doc);
+        Document doc;
         
-        ObjectId categoryId = MongoUtil.getId(doc);
+        if (!categoryNameObjectIdCollection.containsKey(category.getName())) {
+            doc = new Document("report", reportId)
+                    .append("name", category.getName());
+                    
+            FindIterable<Document> iterable = categoryCollection.find(doc);
+            Document docCategory = iterable.first();
+            
+            if (docCategory != null) {
+                categoryNameObjectIdCollection.put(category.getName(), docCategory.getObjectId("_id"));
+            } else {
+                doc = new Document("tests", test.getObjectId())
+                        .append("report", reportId)
+                        .append("name", category.getName())
+                        .append("status", test.getStatus().toString())
+                        .append("testName", test.getName());
+                
+                categoryCollection.insertOne(doc);
+                
+                ObjectId categoryId = MongoUtil.getId(doc);
+                
+                categoryNameObjectIdCollection.put(category.getName(), categoryId);
+            }
+        }
         
         /* create association with category
          * tests (many) <-> categories (many)
@@ -352,7 +375,7 @@ public class ExtentXReporter extends AbstractReporter {
          *   - a category can have one or more tests
          */
         doc = new Document("test_categories", test.getObjectId())
-                .append("category_tests", categoryId)
+                .append("category_tests", categoryNameObjectIdCollection.get(category.getName()))
                 .append("category", category.getName())
                 .append("test", test.getName());
         
