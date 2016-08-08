@@ -3,3 +3,4 @@ test-output/
 .idea/
 .settings/
 extentreports.iml
+src/main/java/com/relevantcodes/extentreports/App.java
