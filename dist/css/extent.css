@@ -36,7 +36,7 @@ body {
     font-family: 'Source Sans Pro';
     font-size: 14px;
 } body.default { background: #fff; }
-pre {
+pre, .code-block {
     background-color: #f8f9fa;
     border: 1px solid #ebedef;
     border-radius: 4px;

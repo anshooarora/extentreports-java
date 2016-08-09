@@ -5,11 +5,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.relevantcodes.extentreports.Status;
+import com.relevantcodes.extentreports.markuputils.Markup;
 
 public class Log implements Serializable {
 
     private static final long serialVersionUID = 1594512136869286425L;
     
+    private Markup markup;
     private Date timestamp;
     private Status logStatus;
     private String stepName;
@@ -45,6 +47,13 @@ public class Log implements Serializable {
     }
     public String getDetails() {
         return details;
+    }
+    
+    public void setMarkup(Markup markup) {
+        this.markup = markup;
+    }
+    public Markup getMarkup() {
+        return markup;
     }
     
     public void setSequence(int sequence) {

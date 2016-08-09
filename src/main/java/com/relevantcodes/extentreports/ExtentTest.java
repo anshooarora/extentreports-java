@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import com.relevantcodes.extentreports.gherkin.model.IGherkinFormatterModel;
+import com.relevantcodes.extentreports.markuputils.Markup;
 import com.relevantcodes.extentreports.model.Author;
 import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.ExceptionInfo;
@@ -61,6 +62,18 @@ public class ExtentTest implements IAddsMedia, Serializable {
     public synchronized ExtentTest createNode(String name) {
         return createNode(name, null);
     }
+
+    public synchronized void log(Status logStatus, Markup markup) {
+        Log evt = new Log();
+        evt.setStatus(logStatus);
+        evt.setDetails(markup.getMarkup());
+        evt.setSequence(test.getLogContext().getAll().size() + 1);
+        
+        test.getLogContext().add(evt);
+        test.end();
+        
+        extent.addLog(test, evt);
+    }
     
     public synchronized void log(Status logStatus, String details) {
         Log evt = new Log();
@@ -95,12 +108,20 @@ public class ExtentTest implements IAddsMedia, Serializable {
         log(Status.INFO, t);
     }
     
+    public void info(Markup m) {
+        log(Status.INFO, m);
+    }
+    
     public void pass(String details) {
         log(Status.PASS, details);
     }
     
     public void pass(Throwable t) {
         log(Status.PASS, t);
+    }
+    
+    public void pass(Markup m) {
+        log(Status.PASS, m);
     }
     
     public void fail(String details) {
@@ -111,12 +132,20 @@ public class ExtentTest implements IAddsMedia, Serializable {
         log(Status.FAIL, t);
     }
     
+    public void fail(Markup m) {
+        log(Status.FAIL, m);
+    }
+    
     public void fatal(String details) {
         log(Status.FATAL, details);
     }
     
     public void fatal(Throwable t) {
         log(Status.FATAL, t);
+    }
+    
+    public void fatal(Markup m) {
+        log(Status.FATAL, m);
     }
     
     public void warning(String details) {
@@ -127,6 +156,10 @@ public class ExtentTest implements IAddsMedia, Serializable {
         log(Status.WARNING, t);
     }
     
+    public void warning(Markup m) {
+        log(Status.WARNING, m);
+    }
+    
     public void error(String details) {
         log(Status.ERROR, details);
     }
@@ -135,12 +168,20 @@ public class ExtentTest implements IAddsMedia, Serializable {
         log(Status.ERROR, t);
     }
     
+    public void error(Markup m) {
+        log(Status.ERROR, m);
+    }
+    
     public void skip(String details) {
         log(Status.SKIP, details);
     }
     
     public void skip(Throwable t) {
         log(Status.SKIP, t);
+    }
+    
+    public void skip(Markup m) {
+        log(Status.SKIP, m);
     }
 
     public ExtentTest assignCategory(String category) {
