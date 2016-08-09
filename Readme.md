@@ -62,7 +62,16 @@ ExtentReports extent = new ExtentReports();
 extent.attachReporter(htmlReporter, extentxReporter, emailReporter);
 ```
 
-### Simple Test
+### Creating Tests
+
+```
+ExtentTest test = extent.createTest("My First Test");
+test.log(Status.PASS, "pass");
+// or, shorthand:
+test.pass("pass");
+```
+
+The above can also be written in a single line:
 
 ```
 extent.createTest("My First Test").pass("pass");
@@ -79,7 +88,18 @@ test.log(Status.FAIL, "fail");
 test.fail("fail");
 ```
 
+#### Logging exceptions
+
+To log exceptions, simply pass the exception:
+
+```
+Exception e;
+test.fail(e);
+```
+
 ### Assign Category
+
+Assigning a category will enable the category-view.
 
 ```
 extent.createTest("My First Test").assignCategory("Category").pass("pass");
@@ -146,6 +166,18 @@ scenario.createNode(new GherkinKeyword("Then"), "Jeff should be refunded $100").
 extent.flush();
 ```
 
+### Test-runner output
+
+Passing any output from your test-runner to extent will enable the test-runner logs view.
+
+```
+ExtentReports extent = new ExtentReports();
+
+extent.setTestRunnerOutput("log 1");
+extent.setTestRunnerOutput("<pre>Log 2</pre>");
+extent.setTestRunnerOutput("<h2>heading 2</h2>");
+```
+
 ### Reporter Configuration
 
 To access configuration of each reporter, use `config()`:
@@ -198,6 +230,43 @@ ExtentXReporter extentx = new ExtentXReporter("hostName");
 extentx.config().setProjectName("Project");
 extentx.config().setReportName("ReportName");
 
+// server-url must be supplied otherwise images will not be uploaded
+// not setting a url for tests that add screen-shots wil result in a IOException
+extentx.config().setServerUrl("http://localhost:1337/");
+
+// if appending to an existing report
+extentx.config().setReportObjectId(id);
+
 extent.attach(extentx);
+```
+
+### Markup Helpers
+
+A few helpers are provided to allow:
+
+ * Code block
+ * Table
+ * Label
+
+#### Code block
+
+```
+String code = "<xml>\n\t<node>\n\t\tText\n\t</node>\n</xml>";
+Markup m = MarkupHelper.createCodeBlock(code);
+
+test.pass(m);
+// or
+test.log(Status.PASS, m);
+```
+
+#### Label
+
+```
+String text = "extent";
+Markup m = MarkupHelper.createLabel(text, ExtentColor.BLUE);
+
+test.pass(m);
+// or
+test.log(Status.PASS, m);
 ```
 
