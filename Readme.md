@@ -3,7 +3,9 @@
 [![Join the chat at https://gitter.im/anshooarora/extentreports](https://badges.gitter.im/anshooarora/extentreports.svg)](https://gitter.im/anshooarora/extentreports?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/anshooarora/extentreports-java.svg?branch=3.0.0-dev)](https://travis-ci.org/anshooarora/extentreports-java)
 
-Branch for v3 of Extent. Java8 only. Java7 and lower versions, use Extent v2. 
+Branch for v3 of Extent. Java8 only. Java7 and lower versions, use Extent v2.
+
+For v2, most complete and up-to-date documentation is available at [extentreports.relevantcodes.com](http://extentreports.relevantcodes.com).
 
 Note: This is a development branch, so there are several features still broken and yet to be developed.
 
