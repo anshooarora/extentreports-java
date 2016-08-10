@@ -1,7 +1,7 @@
 # Extent - v3 Java Pre-Release
 
 [![Join the chat at https://gitter.im/anshooarora/extentreports](https://badges.gitter.im/anshooarora/extentreports.svg)](https://gitter.im/anshooarora/extentreports?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/anshooarora/extentreports-java.svg?branch=3.0.0-dev)](https://travis-ci.org/anshooarora/extentreports-java)
+[![Build Status](https://travis-ci.org/anshooarora/extentreports-java.svg)](https://travis-ci.org/anshooarora/extentreports-java)
 
 Java8 only. Java7 and lower versions, use Extent v2. 
 
