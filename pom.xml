@@ -22,9 +22,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     </licenses>
     
     <scm>
-        <connection>scm:git:https://github.com/anshooarora/extentreports.git</connection>
-        <developerConnection>scm:git:https://github.com/anshooarora/extentreports.git</developerConnection>
-        <url>https://github.com/anshooarora/extentreports</url>
+        <connection>scm:git:https://github.com/anshooarora/extentreports-java.git</connection>
+        <developerConnection>scm:git:https://github.com/anshooarora/extentreports-java.git</developerConnection>
+        <url>https://github.com/anshooarora/extentreports-java</url>
     </scm>
     
     <developers>

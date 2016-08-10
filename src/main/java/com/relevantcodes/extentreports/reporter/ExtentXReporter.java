@@ -1,6 +1,7 @@
 package com.relevantcodes.extentreports.reporter;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -164,7 +165,9 @@ public class ExtentXReporter extends AbstractReporter {
         configContext = new ConfigMap();
         userConfig = new ExtentXReporterConfiguration();
         
-        loadConfig(getClass().getClassLoader().getResource(DEFAULT_CONFIG_FILE).getPath());
+        ClassLoader loader = getClass().getClassLoader();
+        InputStream is = loader.getResourceAsStream(DEFAULT_CONFIG_FILE);
+        loadConfig(is);
     }
     
     private void loadUserConfig() {

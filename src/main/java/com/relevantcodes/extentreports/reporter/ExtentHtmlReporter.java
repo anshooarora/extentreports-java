@@ -2,6 +2,7 @@ package com.relevantcodes.extentreports.reporter;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,7 +50,9 @@ public class ExtentHtmlReporter extends BasicFileReporter {
         configContext = new ConfigMap();
         userConfig = new HtmlReporterConfiguration();
         
-        loadConfig(getClass().getClassLoader().getResource(DEFAULT_CONFIG_FILE).getPath());
+        ClassLoader loader = getClass().getClassLoader();
+        InputStream is = loader.getResourceAsStream(DEFAULT_CONFIG_FILE);
+        loadConfig(is);
     }
     
     public ExtentHtmlReporter(File file) {

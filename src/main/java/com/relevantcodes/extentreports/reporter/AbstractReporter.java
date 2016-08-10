@@ -70,18 +70,25 @@ public abstract class AbstractReporter implements ExtentReporter {
         });
     }
     
-    public void loadConfig(String filePath) { 
+    public void loadConfig(InputStream stream) {
         Properties properties = new Properties();
         
         try {
-            InputStream is = new FileInputStream(filePath);
-            properties.load(is);
-            
+            properties.load(stream);
             loadConfig(properties);
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, "Default Properties file not found", e);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Unable to load properties file", e);
+        }
+    }
+    
+    public void loadConfig(String filePath) { 
+        try {
+            InputStream is = new FileInputStream(filePath);
+            loadConfig(is);
+        } catch (FileNotFoundException e) {
+            logger.log(Level.SEVERE, "Default Properties file not found", e);
         }
     }
     

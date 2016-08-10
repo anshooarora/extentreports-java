@@ -7,7 +7,7 @@
 
 	<link href='${ config.getValue('protocol') }://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
 	<link href="${ config.getValue('protocol') }://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/3.0.0-dev/dist/css/extent.css' type='text/css' rel='stylesheet' />
+	<link href='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/master/dist/css/extent.css' type='text/css' rel='stylesheet' />
 
 	<title>${ config.getValue('documentTitle') }</title>
 </head>
