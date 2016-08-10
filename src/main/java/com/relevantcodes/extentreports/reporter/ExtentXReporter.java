@@ -304,7 +304,12 @@ public class ExtentXReporter extends AbstractReporter {
 
     @Override
     public synchronized void onLogAdded(Test test, Log log) {
-        Document doc = new Document("test", test.getObjectId())
+        String model = "test";
+        
+        if (test.getLevel() > 0)
+            model = "node";
+        
+        Document doc = new Document(model, test.getObjectId())
                 .append("report", reportId)
                 .append("testName", test.getName())
                 .append("logSequence", log.getSequence())
