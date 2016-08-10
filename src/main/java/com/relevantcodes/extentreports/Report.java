@@ -29,7 +29,7 @@ abstract class Report implements IReport {
     protected Report() {
         saContext = new SystemAttributeContext();
     }
-    
+
     protected void attach(ExtentReporter reporter) {
         if (reporterList == null)
             reporterList = new ArrayList<>();
