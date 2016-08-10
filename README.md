@@ -5,7 +5,7 @@
 
 Java8 only. Java7 and lower versions, use Extent v2. 
 
-Note: Use [0.2.10 branch](https://github.com/anshooarora/extentx/tree/0.2.10-alpha-extent3) of ExtentX with this version.
+Note: Use [0.2.10 branch](https://github.com/anshooarora/extentx/tree/0.2.1-alpha) of ExtentX with this version.
 
 ### Samples
 
