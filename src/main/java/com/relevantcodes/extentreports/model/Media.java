@@ -1,33 +1,59 @@
 package com.relevantcodes.extentreports.model;
 
-import java.util.UUID;
+import org.bson.types.ObjectId;
 
-public abstract class Media {
-    public void setSource(String source) {
-        this.source = source;
-    }
+public class Media {
     
-    public String getSource() {
-        return source;
-    }
+    private ObjectId id;
+    private ObjectId reportId;
+    private ObjectId testId;
     
-    public void setTestName(String testName) {
-        this.testName = testName;
-    }
+    private String name;
+    private String description;
+    private String path;   
     
-    public String getTestName() {
-        return testName;
-    }
+    private int seq;
+
+    private MediaType mediaType;
     
-    public void setTestId(UUID id) {
+    public void setObjectId(ObjectId id) {
         this.id = id;
     }
+    public ObjectId getObjectId() { return id; }
     
-    public UUID getTestId() {
-        return id;
+    public void setName(String name) {
+        this.name = name;
+    }    
+    public String getName() { return name; }
+    
+    protected void setDescription(String description) {
+        this.description = description;
     }
+    protected String getDescription() { return description; }
     
-    private UUID id;
-    private String source;
-    private String testName;
+    public void setPath(String path) {
+        this.path = path;
+    }
+    public String getPath() { return path; }
+
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
+    }
+    public MediaType getMediaType() { return mediaType; }
+    
+    public void setReportObjectId(ObjectId reportId) {
+        this.reportId = reportId;
+    }
+    public ObjectId getReportObjectId() { return reportId; }
+
+    public void setTestObjectId(ObjectId testId) {
+        this.testId = testId;
+    }
+    public ObjectId getTestObjectId() { return testId; }
+
+    public void setSequence(int seq) {
+        this.seq = seq;
+    }
+    public int getSequence() { return seq; }
+
 }

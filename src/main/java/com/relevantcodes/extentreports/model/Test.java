@@ -1,277 +1,215 @@
-/*
-* Copyright (c) 2015, Anshoo Arora (Relevant Codes).  All rights reserved.
-* 
-* Copyrights licensed under the New BSD License.
-* 
-* See the accompanying LICENSE file for terms.
-*/
-
 package com.relevantcodes.extentreports.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import com.relevantcodes.extentreports.LogCounts;
-import com.relevantcodes.extentreports.LogStatus;
-import com.relevantcodes.extentreports.utils.DateTimeUtil;
+import org.bson.types.ObjectId;
 
-public class Test implements ITest, Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2685089412285339081L;
+import com.relevantcodes.extentreports.Status;
+import com.relevantcodes.extentreports.gherkin.model.IGherkinFormatterModel;
 
-	/**
-     * Attribute to mark the test as a child node<br>
-     * Top-most test will always have this attribute as false<br>
-     * eg:<br>
-     *     Parent             - false<br>
-     *         Child          - true<br>
-     *             GrandChild - true<br>
-     */
-    public boolean isChildNode = false;
-    
+public class Test implements Serializable {
+
+    static final long serialVersionUID = 5590943223572254960L;
+
     /**
-     * Attribute to mark if the test ended safely<br>
-     * It is marked TRUE when extent.endTest(test) is called
+     * <p>
+     *     Default level of this test, using the numeric hierarchy with 0 indicating
+     *     the top-most test, followed by 1, 2, and so on
+     * </p>
      */
-    public boolean hasEnded = false;
+    private int level = 0;
     
-    /**
-     *  Attribute to denote if the current test has child tests<br>
-     *  Default = false<br>
-     *  When test.appendChild(child) is called, the flag becomes true
-     */
-    public boolean hasChildNodes = false;
+    private Test parent;
+    private Status testStatus;
     
-    // test categories
-    // parent test contains all categories from child tests
-    private List<TestAttribute> categoryList;
+    private NodeStructure node;
+    private LogStructure log;
     
-    // assign author(s) of the test
-    private List<TestAttribute> authorsList;
-    
-    // list of exceptions occurred for the test
-    private List<ExceptionInfo> exceptionList;
-    
-    // logs
-    private List<Log> logList;
-    
-    // screencapture list <img />
-    private List<ScreenCapture> screenCaptureList;
-    
-    // screencast / video <video />
-    private List<Screencast> screencastList;
-    
-    // child test list
-    private List<Test> nodeList;
-    
-    // detailed log counts for each status type
-    // eg:  LogStatus.PASS, 2 -> denotes 2 steps passed in the test
-    // eg:  LogStatus.FAIL, 0 -> denotes 0 steps failed in the test
-    private HashMap<LogStatus, Integer> logCounts;
-    
-    // test started time
+    private Date endTime;
     private Date startTime;
     
-    // test ended time
-    private Date endTime;
+    private int testID;
     
-    // default status when the test starts
-    private LogStatus status = LogStatus.UNKNOWN;
-
-    // test description string
+    private static final AtomicInteger id = new AtomicInteger(0);
+    private ObjectId mongoId;
+    
+    private Class<? extends IGherkinFormatterModel> bddType;
+    
+    private transient List<ScreenCapture> scList;
+    private transient List<ExceptionInfo> exceptionList;
+    private transient List<TestAttribute> authorList;
+    private transient List<TestAttribute> categoryList;
+    
+    private String name;
+    private String hierarchicalName;
     private String description;
     
-    // internal warning - only enabled if the test is not ended safely
-    private String internalWarning = null;
+    private boolean ended = false;
     
-    // test name
-    private String name;
+    public Test() {
+        setStartTime(Calendar.getInstance().getTime());
+        setStatus(Status.UNKNOWN);
+        
+        setID(id.incrementAndGet());
+    }   
+    
+    public boolean isChildNode() {
+        return level > 0;
+    }
+    
+    public int getLevel() {
+        return level;
+    }
+    
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
-    // this test's parent, if this is a child node
-    private Test parentTest;
+    // parent    
+    public void setParent(Test parent) {
+        hierarchicalName = parent.getHierarchicalName() + "." + getName();
+        this.parent = parent;
+    }
     
-    // unique id assigned when the test starts
-    private UUID id;
-    
-    // log iterator
-    private class LogIterator implements Iterator<Log> {
-        private int logIterIndex;
-        
-        public LogIterator() {
-            logIterIndex = 0;
-        }
-        
-        public boolean hasNext() {
-            if (logList != null && logList.size() >= logIterIndex + 1) {
-                return true;
-            }
-            
-            return false;
-        }
-		
-		public void remove(){}
+    public Test getParent() { return parent; }
 
-        public Log next() {
-            if (hasNext()) {
-                return logList.get(logIterIndex++);
-            }
-            
-            return null; 
+    // nodes
+    public NodeStructure getNodeContext() {
+        if (node == null) {
+            node = new NodeStructure();
         }
+
+        return node;
     }
     
-    /**
-     * Returns a LogIterator instance
-     * 
-     * @return {@link LogIterator}
-     */
-    public LogIterator logIterator() {
-        return new LogIterator();
+    public boolean hasChildren() {
+        return node != null && node.getAll() != null && node.getAll().size() > 0;
     }
-    
-    // TestAttribute (category, author) iterator
-    private class TestAttributeIterator<T extends TestAttribute> implements Iterator<TestAttribute> {
-        private int attrIterIndex;
-        private List<TestAttribute> list;
-        
-        public TestAttributeIterator(Class<T> type) {
-            attrIterIndex = 0;
-            
-            if (type == Category.class) {
-                list = categoryList;
-            }
-            else {
-                list = authorsList;
-            }
-        }
-		
-		public void remove(){}
-        
-        public boolean hasNext() {
-            if (list != null && list.size() >= attrIterIndex + 1) {
-                return true;
-            }
-            
-            return false;
-        }
-        
-        public TestAttribute next() {
-            if (hasNext()) {
-                return list.get(attrIterIndex++);
-            }
-            
-            return null;
-        }
-    }
-    
-    /**
-     * Returns a TestAttributeIterator instance
-     * 
-     * @return {@link TestAttributeIterator}
-     */
-    public TestAttributeIterator<Author> authorIterator() {
-        return new TestAttributeIterator<Author>(Author.class);
-    }
-    
-    /**
-     * Returns a TestAttributeIterator instance
-     * 
-     * @return {@link TestAttributeIterator}
-     */
-    public TestAttributeIterator<Category> categoryIterator() {
-        return new TestAttributeIterator<Category>(Category.class);
-    }
-    
-    private void setLogCounts() {
-        this.logCounts = new LogCounts().getLogCounts(this);
-    }
-    
-    public HashMap<LogStatus, Integer> getLogCounts() {
-        return logCounts;
-    }
-    
+
     // started time
-    public void setStartedTime(Date startedTime) {
-        this.startTime = startedTime;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
-    
-    public Date getStartedTime() {
+
+    public Date getStartTime() {
         return startTime;
     }
-    
-    public String getRunDuration() {
-        return DateTimeUtil.getDiff(endTime, startTime);
-    }
-    
+
     // ended time
-    public void setEndedTime(Date endedTime) {
-        this.endTime = endedTime;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
-    
-    public Date getEndedTime() {
+
+    public Date getEndTime() {
         return endTime;
     }
+    
+    // has test ended already?
+    public boolean hasEnded() {
+        return ended;
+    }
+    
+    // run duration as string
+    public String getRunDuration() {
+        long diff = endTime.getTime() - startTime.getTime();
+        
+        long secs = diff / 1000;
+        long millis = diff % 1000;
+        long mins = secs / 60;
+        secs = secs % 60;
+        long hours = mins / 60;
+        mins = mins % 60;
+        
+        return hours + "h " + mins + "m " + secs + "s+" + millis + "ms";
+    }
 
-    /**
-     * Set the status of the test
-     * @param status
-     *          The status ({@link LogStatus}) to be set
-     */
-    public void setStatus(LogStatus status) {
-        this.status = status;
+    // default status when the test starts
+    public void setStatus(Status status) {
+        this.testStatus = status;
+    }
+
+    public Status getStatus() {
+        return testStatus;
+    }
+
+    public void trackLastRunStatus() {
+        getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
+
+        if (testStatus == Status.INFO) 
+            testStatus = Status.PASS;
     }
     
-    public LogStatus getStatus() {
-        return status;
+    private synchronized void updateStatus(Status logStatus) {
+        int logStatusIndex = Status.getStatusHierarchy().indexOf(logStatus);        
+        int testStatusIndex = Status.getStatusHierarchy().indexOf(testStatus);
+        
+        testStatus = logStatusIndex < testStatusIndex ? logStatus : testStatus;
+    }
+
+    public void end() {
+        setEndTime(Calendar.getInstance().getTime());
+        updateTestStatusRecursive(this);
+        endChildrenRecursive(this);
+        
+        testStatus = testStatus == Status.INFO ? Status.PASS : testStatus;
+    }
+
+    private synchronized void updateTestStatusRecursive(Test test) {
+        test.getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
+
+        if (test.hasChildren())
+            test.node.getAll().forEach(this::updateTestStatusRecursive);
     }
     
-    // description
-    public void setDescription(String description) {
-        this.description = description;
+    private void endChildrenRecursive(Test test) {
+        test.getNodeContext().getAll().forEach(Test::end);
+    }
+
+    // logs
+    public LogStructure getLogContext() {
+        if (log == null) {
+            log = new LogStructure();
+        }
+
+        return log;
     }
     
-    public String getDescription() {
-        return description;
+    public boolean hasLogs() {
+        return log != null && log.getAll() != null && log.getAll().size() > 0;
     }
-    
-    // internal warning
-    public void setInternalWarning(String warning) {
-        this.internalWarning = warning;
+
+    public void setDescription(String description) { 
+        this.description = description; 
     }
-    
-    public String getInternalWarning() {
-        return internalWarning;
-    }
-    
-    // name
+
+    public String getDescription() { return description; }
+
+    // test name
     public void setName(String name) {
         this.name = name;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    // id
-    public UUID getId() {
-        return id;
-    }
-    
-    @Override
-    public void setUUID(UUID id) {
-    this.id = id;
+        
+        if (hierarchicalName == null)
+            hierarchicalName = name;
     }
 
+    public String getName() { return name; }
+
+    public String getHierarchicalName() { return hierarchicalName; }
+    
     // categories
+    public boolean hasCategory() {
+        return categoryList != null && !categoryList.isEmpty();
+    }
+    
     public void setCategory(TestAttribute category) {
+        if (categoryList == null) 
+            categoryList = new ArrayList<>();
+        
         categoryList.add(category);
     }
     
@@ -280,195 +218,63 @@ public class Test implements ITest, Serializable {
     }
     
     // authors
+    public boolean hasAuthor() {
+        return authorList != null && !authorList.isEmpty();
+    }
+    
     public void setAuthor(TestAttribute author) {
-        authorsList.add(author);
+        if (authorList == null) 
+            authorList = new ArrayList<>();
+        
+        authorList.add(author);
     }
     
-    public List<TestAttribute> getAuthorsList() {
-        return authorsList;
-    }
-    
+    public List<TestAttribute> getAuthorList() { return authorList; }
+
     // exceptions
-    public void setException(ExceptionInfo exceptionInfo) {
-    if (exceptionList == null) {
-        exceptionList = new ArrayList<ExceptionInfo>();
-    }
-    exceptionList.add(exceptionInfo);
-    }
-    
-    public List<ExceptionInfo> getExceptionList() {
-        return exceptionList;
-    }
-    
-    // logs
-    public void setLog(List<Log> logList) {
-        this.logList = logList;
-    }
-    
-    public void setLog(Log log) {
-        logList.add(log);
-    }
-    
-    public List<Log> getLogList() {
-        return logList;
-    }
-    
-    public int getLogColumnSize() {
-        int logSize = 3;
+    public void setExceptionInfo(ExceptionInfo ei) {
+        if (exceptionList == null)
+            exceptionList = new ArrayList<>();
         
-        if (logList.size() > 0 && logList.get(0).getStepName() != "") {
-            logSize = 4;
-        }
-        
-        return logSize;
+        exceptionList.add(ei);
     }
     
-    // screencapture
-    public void setScreenCaptureList(List<ScreenCapture> screenCaptureList) {
-        this.screenCaptureList = screenCaptureList;
+    public List<ExceptionInfo> getExceptionInfoList() { return exceptionList; }
+    
+    public boolean hasException() {
+        return exceptionList != null && !exceptionList.isEmpty();
     }
     
-    public void setScreenCapture(ScreenCapture screenCapture) {
-        screenCaptureList.add(screenCapture);
+    // media - screenshots
+    public boolean hasMedia() {
+        return scList != null && !scList.isEmpty();
     }
     
-    public List<ScreenCapture> getScreenCaptureList() {
-        return screenCaptureList;
+    public void setScreenCapture(ScreenCapture sc) {
+        if (scList == null)
+            scList = new ArrayList<>();
+        
+        scList.add(sc);
     }
     
-    // screencast
-    public void setScreencastList(List<Screencast> screencastList) {
-        this.screencastList = screencastList;
-    }
+    public List<ScreenCapture> getScreenCaptureList() { return scList; }
     
-    public void setScreencast(Screencast screencast) {
-        screencastList.add(screencast);
-    }
+    // bdd
+    public boolean isBehaviorDrivenType() { return bddType != null; }
     
-    public List<Screencast> getScreencastList() {
-        return screencastList;
-    }
+    public void setBehaviorDrivenType(IGherkinFormatterModel type) { bddType = type.getClass(); }
     
-    // nodes
-    @Override
-    public void hasChildNodes(boolean val) {
-        hasChildNodes = val;
-    }
+    public void setBehaviorDrivenType(Class<? extends IGherkinFormatterModel> type) { bddType = type; }
     
-    public void setNodeList(List<Test> nodeList) {
-        this.nodeList = nodeList;
-        updateTestStatusRecursively(this); 
-    }
+    public Class<? extends IGherkinFormatterModel> getBehaviorDrivenType() { return bddType; }
     
-    public void setNode(Test node) {
-        nodeList.add(node);
-    }
+    // test-id    
+    void setID(int id) { testID = id; }
     
-    public List<Test> getNodeList() {
-        return nodeList;
-    }
+    public int getID() { return testID; }
     
-    public void setParentTest(Test test) {
-        parentTest = test;
-    }
+    // mongo-db id
+    public void setObjectId(ObjectId id) { mongoId = id; }
     
-    public Test getParentTest() {
-        return parentTest;
-    }
-    
-    public void prepareFinalize() {
-        setLogCounts();
-        updateTestStatusRecursively(this);
-        
-        if (status == LogStatus.INFO) {
-            status = LogStatus.PASS;
-        }
-    }
-    
-    public void trackLastRunStatus() {
-        for (Log l : logList) {
-            findStatus(l.getLogStatus());
-        }
-        
-        if (status == LogStatus.INFO) {
-            status = LogStatus.PASS;
-        }
-    }
-    
-    private void updateTestStatusRecursively(Test test) {
-        for (Log log : test.logList) {
-            findStatus(log.getLogStatus());
-        }
-        
-        if (test.hasChildNodes) {
-            for (Test node : test.nodeList) {
-                updateTestStatusRecursively(node);
-            }
-        }
-    }
-    
-    private void findStatus(LogStatus logStatus) {
-        if (status == LogStatus.FATAL) return;
-        
-        if (logStatus == LogStatus.FATAL) {
-            status = logStatus;
-            return;
-        }
-        
-        if (status == LogStatus.FAIL) return;
-        
-        if (logStatus == LogStatus.FAIL) {
-            status = logStatus;
-            return;
-        }
-        
-        if (status == LogStatus.ERROR) return;
-        
-        if (logStatus == LogStatus.ERROR) {
-            status = logStatus;
-            return;
-        }
-        
-        if (status == LogStatus.WARNING) return;
-        
-        if (logStatus == LogStatus.WARNING) {
-            status = logStatus;
-            return;
-        }
-        
-        if (status == LogStatus.SKIP) return;
-        
-        if (logStatus == LogStatus.SKIP) {
-            status = LogStatus.SKIP;
-            return;
-        }
-        
-        if (status == LogStatus.PASS) return;
-        
-        if (logStatus == LogStatus.PASS) {
-            status = LogStatus.PASS;
-            return;
-        }        
-        
-        if (status == LogStatus.INFO) return;
-        
-        if (logStatus == LogStatus.INFO) {
-            status = LogStatus.INFO;
-            return;
-        }
-        
-        status = LogStatus.UNKNOWN;
-    }
-    
-    public Test() {
-        id = UUID.randomUUID();
-        setStartedTime(Calendar.getInstance().getTime());
-        
-        logList = new ArrayList<Log>();
-        categoryList = new ArrayList<TestAttribute>();
-        authorsList = new ArrayList<TestAttribute>();
-        screenCaptureList = new ArrayList<ScreenCapture>();
-        screencastList = new ArrayList<Screencast>();
-        nodeList = new ArrayList<Test>();
-    }
+    public ObjectId getObjectId() { return mongoId; }
 }

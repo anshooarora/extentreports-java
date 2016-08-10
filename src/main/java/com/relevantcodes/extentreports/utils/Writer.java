@@ -1,46 +1,34 @@
-/*
-* Copyright (c) 2015, Anshoo Arora (Relevant Codes).  All rights reserved.
-* 
-* Copyrights licensed under the New BSD License.
-* 
-* See the accompanying LICENSE file for terms.
-*/
-
 package com.relevantcodes.extentreports.utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Writer {
+
+    private static class WriterInstance {
+        static final Writer INSTANCE = new Writer();
+        
+        private WriterInstance() { }
+    }
+    
+    static final Logger logger = Logger.getLogger(Writer.class.getName());
+    
+    private Writer() { }
+    
     public synchronized void write(final File f, String text) {
-    	BufferedWriter writer = null;
-    	
-        try {
-            writer = new BufferedWriter(new FileWriter(f));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(f))) {
             writer.write(text);
         } 
         catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, f.getPath(), e);
         } 
-        finally {
-            try {
-            	if(writer != null)
-            		writer.close();
-            } 
-            catch (Exception e) {
-            	e.printStackTrace();
-            }
-        }
     }
     
-    private Writer() { }
-	
-	private static class Instance {
-        static final Writer INSTANCE = new Writer();
+    public static Writer getInstance() {
+        return WriterInstance.INSTANCE;
     }
-	
-	public static Writer getInstance() {
-		return Instance.INSTANCE;
-	}
+
 }

@@ -1,29 +1,31 @@
 package com.relevantcodes.extentreports.common;
 
-import java.io.File;
-
 import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.NetworkMode;
-import com.relevantcodes.extentreports.ReporterType;
+import com.relevantcodes.extentreports.reporter.ExtentHtmlReporter;
+import com.relevantcodes.extentreports.reporter.configuration.ChartLocation;
+import com.relevantcodes.extentreports.reporter.configuration.Theme;
 
 public class ExtentManager {
-	private static ExtentReports extent;
     
-    public synchronized static ExtentReports getReporter(String filePath) {
-        if (extent == null) {
-        	extent = new ExtentReports(filePath, true, NetworkMode.ONLINE);
-        	extent.startReporter(ReporterType.DB, (new File(filePath)).getParent() + File.separator + "extent.db");
-        	extent.x();
-        	
-        	extent
-                .addSystemInfo("Host Name", "Anshoo")
-                .addSystemInfo("Environment", "QA");
-        }
+    static ExtentReports extent;
+    
+    public static ExtentReports getInstance() {
+        return extent;
+    }
+    
+    public static ExtentReports createInstance(String fileName) {
+        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(fileName);
+        htmlReporter.config().setTestViewChartLocation(ChartLocation.BOTTOM);
+        htmlReporter.config().setChartVisibilityOnOpen(true);
+        htmlReporter.config().setTheme(Theme.STANDARD);
+        htmlReporter.config().setDocumentTitle(fileName);
+        htmlReporter.config().setEncoding("utf-8");
+        htmlReporter.config().setReportName(fileName);
+        
+        extent = new ExtentReports();
+        extent.attachReporter(htmlReporter);
         
         return extent;
     }
     
-    public synchronized static ExtentReports getReporter() {
-    	return extent;
-    }
 }
