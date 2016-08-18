@@ -501,7 +501,7 @@ nav ul i {
     color: #32cd32;
 }
 .test-status.fail, .status.fail {
-    color: #c64444;
+    color: red;
 }
 .test-status.fatal, .status.fatal {
     color: darkred;
