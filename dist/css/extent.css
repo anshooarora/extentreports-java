@@ -378,7 +378,7 @@ nav ul i {
     .test-attributes {
         padding-top: 10px;
     }
-    .test-steps, .category-tests, .exception-tests, .node-list {
+    .test-steps, .category-tests, .exception-tests, .test-content > .node-list {
         margin-top: 30px;
     }
     .test-steps th:first-child, .test-steps td:first-child, .node-steps th:first-child, .node-steps td:first-child {
@@ -425,12 +425,9 @@ nav ul i {
         .node.level-1 {
             margin-top: 10px;
         }
-        .node.level-2 {
-            margin-top: 4px;
-            margin-left: 30px;
-        }
-        .node.level-3 {
-            margin-left: 60px;
+        .node.level-2, .node.level-3 {
+            margin-left: 20px;
+            margin-right: 20px;
         }
         /* -- [ bdd ] -- */
         .bdd-report #step-filters { 
