@@ -95,7 +95,7 @@ public class ExtentTest implements IExtentTestClass, Serializable {
         evt.setLogStatus(logStatus);
         evt.setStepName(stepName == null ? null : stepName.trim()); 
         evt.setDetails(details == null ? "" : details.trim());
-                
+
         test.setLog(evt);
         
         test.trackLastRunStatus();
@@ -129,7 +129,14 @@ public class ExtentTest implements IExtentTestClass, Serializable {
     public void log(LogStatus logStatus, String stepName, Throwable t) {
         ExceptionInfo exceptionInfo = ExceptionUtil.createExceptionInfo(t, (Test) getTest());
         getInternalTest().setException(exceptionInfo);
-        log(logStatus, stepName, "<pre>" + exceptionInfo.getStackTrace() + "</pre>");
+        
+        System.out.println(exceptionInfo.getStackTrace());
+        String tag = "pre";
+        String s = exceptionInfo.getStackTrace();
+        if (s.contains("<") || s.contains(">"))
+            tag = "textarea";
+        
+        log(logStatus, stepName, "<" + tag + ">" + exceptionInfo.getStackTrace() + "</" + tag + ">");
     }
     
     /**

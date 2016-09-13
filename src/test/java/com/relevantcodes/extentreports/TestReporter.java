@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class TestReporter implements IReporter {
     private Report report;
+    @SuppressWarnings("unused")
     private TestReporter testReporter;
 
     @Override
