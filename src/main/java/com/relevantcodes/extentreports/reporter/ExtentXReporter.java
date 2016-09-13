@@ -438,7 +438,11 @@ public class ExtentXReporter extends AbstractReporter {
     }
     
     private void createMedia(Test test, ScreenCapture screenCapture) {
-        Document doc = new Document("test", test.getObjectId())
+        String model = "test";
+        if (test.getLevel() > 0)
+            model = "node";
+        
+        Document doc = new Document(model, test.getObjectId())
                 .append("report", reportId)
                 .append("testName", test.getName())
                 .append("sequence", screenCapture.getSequence());
