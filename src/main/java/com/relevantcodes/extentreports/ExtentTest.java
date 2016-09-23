@@ -22,12 +22,22 @@ public class ExtentTest implements IAddsMedia, Serializable {
     private ExtentReports extent;
     private Test test;
 
-    public ExtentTest(ExtentReports extent, String testName, String description) {
+    ExtentTest(ExtentReports extent, Class<? extends IGherkinFormatterModel> type, String testName, String description) {
+        if (testName == null || testName.isEmpty())
+            throw new IllegalArgumentException("testName cannot be null or empty");
+        
         this.extent = extent;
         
         test = new Test();
-        test.setName(testName == null ? "" : testName.trim()); 
+        test.setName(testName.trim()); 
         test.setDescription(description == null ? "" : description.trim());
+        
+        if (type != null)
+            test.setBehaviorDrivenType(type);
+    }
+    
+    ExtentTest(ExtentReports extent, String testName, String description) {
+        this(extent, null, testName, description);
     }
     
     public synchronized ExtentTest createNode(String name, String description) {

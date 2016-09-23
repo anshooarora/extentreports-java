@@ -3,6 +3,7 @@ package com.relevantcodes.extentreports;
 import java.util.Arrays;
 import java.util.List;
 
+import com.relevantcodes.extentreports.gherkin.model.IGherkinFormatterModel;
 import com.relevantcodes.extentreports.model.SystemAttribute;
 
 public class ExtentReports extends Report {
@@ -11,9 +12,31 @@ public class ExtentReports extends Report {
         Arrays.stream(reporter).forEach(this::attach);
     }
 
+    public synchronized ExtentTest createTest(Class<? extends IGherkinFormatterModel> type, String testName, String description) {
+        ExtentTest t = new ExtentTest(this, type, testName, description);
+        
+        createTest(t.getInternalTest());
+        
+        return t;
+    }
+    
+    public synchronized ExtentTest createTest(Class<? extends IGherkinFormatterModel> type, String testName) {
+        return createTest(type, testName, null);
+    }
+    
+    public synchronized ExtentTest createTest(GherkinKeyword gherkinKeyword, String testName, String description) {
+        Class<? extends IGherkinFormatterModel> clazz = gherkinKeyword.getKeyword().getClass();
+        return createTest(clazz, testName, description);
+    }
+    
+    public synchronized ExtentTest createTest(GherkinKeyword gherkinKeyword, String testName) {
+        return createTest(gherkinKeyword, testName, null);
+    }
+    
     public synchronized ExtentTest createTest(String testName, String description) {
         ExtentTest t = new ExtentTest(this, testName, description);
-        super.createTest(t.getInternalTest());
+        
+        createTest(t.getInternalTest());
         
         return t;
     }
