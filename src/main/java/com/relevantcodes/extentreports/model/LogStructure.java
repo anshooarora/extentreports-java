@@ -1,12 +1,15 @@
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class LogStructure {
+public class LogStructure implements Serializable {
+
+    private static final long serialVersionUID = -1686653145739099897L;
     
     private List<Log> logList;
 

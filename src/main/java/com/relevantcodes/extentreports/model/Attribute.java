@@ -1,7 +1,11 @@
 package com.relevantcodes.extentreports.model;
 
-abstract class Attribute {
-    
+import java.io.Serializable;
+
+abstract class Attribute implements Serializable {
+
+    private static final long serialVersionUID = 6491172989326625178L;
+
     protected String k;
     protected String v;
     

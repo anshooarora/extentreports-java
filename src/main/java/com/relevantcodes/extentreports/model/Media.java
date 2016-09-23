@@ -1,8 +1,12 @@
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
+
 import org.bson.types.ObjectId;
 
-public class Media {
+public class Media implements Serializable {
+
+    private static final long serialVersionUID = -5706630485211806728L;
     
     private ObjectId id;
     private ObjectId reportId;

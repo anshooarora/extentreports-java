@@ -1,13 +1,16 @@
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class NodeStructure {
+public class NodeStructure implements Serializable {
 
-    List<Test> nodeList;
+    private static final long serialVersionUID = -8874294911453542325L;
+
+    private List<Test> nodeList;
 
     NodeStructure() {
         nodeList = new ArrayList<>();

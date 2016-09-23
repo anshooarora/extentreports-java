@@ -1,7 +1,11 @@
 package com.relevantcodes.extentreports.model;
 
-public class ExceptionInfo {
-        
+import java.io.Serializable;
+
+public class ExceptionInfo implements Serializable {
+
+    private static final long serialVersionUID = 2672123037706464734L;
+    
     String exceptionName;
     String stackTrace;
     Throwable t;

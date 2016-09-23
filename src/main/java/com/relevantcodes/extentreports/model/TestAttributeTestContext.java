@@ -1,16 +1,20 @@
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.relevantcodes.extentreports.Status;
 
-public class TestAttributeTestContext<T extends TestAttribute> {
-    T ta;
-    List<Test> testList;
-    int passed = 0;
-    int failed = 0;
-    int others = 0;
+public class TestAttributeTestContext<T extends TestAttribute> implements Serializable {
+
+    private static final long serialVersionUID = 2595632998970711190L;
+    
+    private T ta;
+    private List<Test> testList;
+    private int passed = 0;
+    private int failed = 0;
+    private int others = 0;
     
     public TestAttributeTestContext(T ta) { this.ta = ta; }
     

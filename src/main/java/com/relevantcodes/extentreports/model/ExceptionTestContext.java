@@ -1,10 +1,13 @@
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExceptionTestContext {
-    
+public class ExceptionTestContext implements Serializable {
+
+    private static final long serialVersionUID = -2516200535748363722L;
+
     ExceptionInfo ei;
     List<Test> testList;
     
