@@ -88,6 +88,12 @@
 			});
 		</script>
 		</#if>
+		
+		<#if config.containsKey('js')>
+		<script type='text/javascript'>
+			${ config.getValue('js') }
+		</script>
+		</#if>
 	</body>
 	
 </html>
