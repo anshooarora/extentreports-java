@@ -1,8 +1,11 @@
 package com.relevantcodes.extentreports.reporter;
 
+import java.io.IOException;
+
 import com.relevantcodes.extentreports.model.Author;
 import com.relevantcodes.extentreports.model.Category;
 import com.relevantcodes.extentreports.model.Log;
+import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Test;
 
 public abstract class BasicFileReporter extends AbstractReporter {
@@ -21,5 +24,8 @@ public abstract class BasicFileReporter extends AbstractReporter {
 
     @Override
     public void onAuthorAssigned(Test test, Author author) { }
+    
+    @Override
+    public void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) throws IOException { }
     
 }

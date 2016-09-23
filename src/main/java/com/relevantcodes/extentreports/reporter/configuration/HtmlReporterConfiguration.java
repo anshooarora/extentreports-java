@@ -25,10 +25,4 @@ public class HtmlReporterConfiguration extends BasicFileConfiguration implements
     }   
     public boolean getChartVisibilityOnOpen() { return chartVisibileOnOpen; }
 
-    public void setAutoCreateRelativePathMedia(boolean v) {
-        usedConfigs.put("autoCreateRelativePathMedia", String.valueOf(v));
-        autoCreateRelativePathMedia = v;
-    }
-    public boolean getAutoCreateRelativePathMedia() { return autoCreateRelativePathMedia; }
-
 }

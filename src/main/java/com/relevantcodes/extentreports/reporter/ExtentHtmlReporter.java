@@ -16,9 +16,6 @@ import com.relevantcodes.extentreports.InvalidFileException;
 import com.relevantcodes.extentreports.Status;
 import com.relevantcodes.extentreports.configuration.Config;
 import com.relevantcodes.extentreports.configuration.ConfigMap;
-import com.relevantcodes.extentreports.mediastorage.MediaStorage;
-import com.relevantcodes.extentreports.mediastorage.MediaStorageManagerFactory;
-import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.reporter.configuration.HtmlReporterConfiguration;
 import com.relevantcodes.extentreports.utils.Writer;
@@ -40,7 +37,6 @@ public class ExtentHtmlReporter extends BasicFileReporter {
     private static final String DEFAULT_CONFIG_FILE = "html-config.properties";
     
     private HtmlReporterConfiguration userConfig;
-    private MediaStorage media;
     
     ExtentHtmlReporter() {
         loadDefaultConfig();
@@ -159,25 +155,7 @@ public class ExtentHtmlReporter extends BasicFileReporter {
         
         return cfg;
     }
-    
-    @Override
-    public void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) throws IOException {
-        autoCreateRelativePathMedia(screenCapture);
-    }
-    
-    private void autoCreateRelativePathMedia(ScreenCapture screenCapture) throws IOException {
-        String autoCreateRelativePathMedia = userConfig.getConfigMap().get("autoCreateRelativePathMedia");
-        
-        if (Boolean.valueOf(autoCreateRelativePathMedia)) {
-            if (media == null) {
-                media = new MediaStorageManagerFactory().getManager("local");
-                media.init(filePath);
-            }
-            
-            media.storeMedia(screenCapture);
-        }
-    }
-    
+
     @Override
     public void onTestStarted(Test test) { }
 
