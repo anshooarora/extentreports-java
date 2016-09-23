@@ -40,7 +40,7 @@ public class BasicFileConfiguration extends BasicConfiguration {
     public String getDocumentTitle() { return docTitle; }
     
     public void setCSS(String css) { 
-        usedConfigs.put("css", encoding);
+        usedConfigs.put("css", css);
         this.css = css; 
     }    
     public String getCSS() { return css; }

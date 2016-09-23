@@ -10,4 +10,10 @@
 	<link href='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/master/dist/css/extent.css' type='text/css' rel='stylesheet' />
 
 	<title>${ config.getValue('documentTitle') }</title>
+	
+	<#if config.containsKey('css')>
+	<style type='text/css'>
+		${ config.getValue('css') }
+	</style>
+	</#if>
 </head>
