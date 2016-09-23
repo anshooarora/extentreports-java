@@ -34,7 +34,7 @@ public class BasicFileConfiguration extends BasicConfiguration {
     public String getEncoding() { return encoding; }
 
     public void setDocumentTitle(String docTitle) {
-        usedConfigs.put("docTitle", docTitle);
+        usedConfigs.put("documentTitle", docTitle);
         this.docTitle = docTitle; 
     }
     public String getDocumentTitle() { return docTitle; }
