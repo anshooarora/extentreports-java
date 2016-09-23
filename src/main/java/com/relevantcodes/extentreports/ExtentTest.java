@@ -42,18 +42,18 @@ public class ExtentTest implements IAddsMedia, Serializable {
     
     public synchronized ExtentTest createNode(String name, String description) {
         ExtentTest t = new ExtentTest(extent, name, description);
-        t.getInternalTest().setLevel(test.getLevel() + 1);
-        t.getInternalTest().setParent(getInternalTest());
-        test.getNodeContext().add(t.getInternalTest());
+        t.getModel().setLevel(test.getLevel() + 1);
+        t.getModel().setParent(getModel());
+        test.getNodeContext().add(t.getModel());
         
-        extent.addNode(t.getInternalTest());
+        extent.addNode(t.getModel());
         
         return t;
     }
     
     public synchronized ExtentTest createNode(Class<? extends IGherkinFormatterModel> type, String name, String description) {
         ExtentTest t = createNode(name, description);
-        t.getInternalTest().setBehaviorDrivenType(type);
+        t.getModel().setBehaviorDrivenType(type);
         return t;
     }
     
@@ -73,125 +73,158 @@ public class ExtentTest implements IAddsMedia, Serializable {
         return createNode(name, null);
     }
 
-    public synchronized void log(Status logStatus, Markup markup) {
-        Log evt = new Log();
-        evt.setStatus(logStatus);
-        evt.setDetails(markup.getMarkup());
-        evt.setSequence(test.getLogContext().getAll().size() + 1);
-        
-        test.getLogContext().add(evt);
-        test.end();
-        
-        extent.addLog(test, evt);
+    public synchronized ExtentTest log(Status status, String details) {       
+        Log evt = createLog(status, details);
+        return addLog(evt);
     }
     
-    public synchronized void log(Status logStatus, String details) {
-        Log evt = new Log();
-        evt.setStatus(logStatus);
-        evt.setDetails(details == null ? "" : details.trim());
-        evt.setSequence(test.getLogContext().getAll().size() + 1);
-        
+    public synchronized ExtentTest log(Status status, Markup markup) {
+        String details = markup.getMarkup();
+        return log(status, details);
+    }
+    
+    private synchronized ExtentTest addLog(Log evt) {
         test.getLogContext().add(evt);
         test.end();
         
         extent.addLog(test, evt);
+        
+        return this;
+    }
+    
+    private Log createLog(Status status) {
+        Log evt = new Log();
+        evt.setStatus(status);
+        evt.setSequence(test.getLogContext().getAll().size() + 1);
+        
+        return evt;
+    }
+    
+    private Log createLog(Status status, String details) {
+        Log evt = createLog(status);
+        evt.setDetails(details == null ? "" : details.trim());
+        
+        return evt;
     }
 
-    public synchronized void log(Status logStatus, Throwable t) {
+    public synchronized ExtentTest log(Status logStatus, Throwable t) {
         ExceptionInfo exInfo = new ExceptionInfo();
         exInfo.setException(t);
         exInfo.setExceptionName(ExceptionUtil.getExceptionHeadline(t));
         exInfo.setStackTrace(ExceptionUtil.getStackTrace(t));
         
-        getInternalTest().setExceptionInfo(exInfo);
-        if (getInternalTest().getLevel() > 1)
-            getInternalTest().getParent().setExceptionInfo(exInfo);
+        getModel().setExceptionInfo(exInfo);
+        if (getModel().getLevel() > 1)
+            getModel().getParent().setExceptionInfo(exInfo);
         
-        log(logStatus, "<pre>" + exInfo.getStackTrace() + "</pre>");
+        log(logStatus, exInfo.getStackTrace());
+        
+        return this;
     }
     
-    public void info(String details) {
+    public ExtentTest info(String details) {
         log(Status.INFO, details);
+        return this;
     }
     
-    public void info(Throwable t) {
+    public ExtentTest info(Throwable t) {
         log(Status.INFO, t);
+        return this;
     }
     
-    public void info(Markup m) {
+    public ExtentTest info(Markup m) {
         log(Status.INFO, m);
+        return this;
     }
     
-    public void pass(String details) {
+    public ExtentTest pass(String details) {
         log(Status.PASS, details);
+        return this;
     }
     
-    public void pass(Throwable t) {
+    public ExtentTest pass(Throwable t) {
         log(Status.PASS, t);
+        return this;
     }
     
-    public void pass(Markup m) {
+    public ExtentTest pass(Markup m) {
         log(Status.PASS, m);
+        return this;
     }
     
-    public void fail(String details) {
+    public ExtentTest fail(String details) {
         log(Status.FAIL, details);
+        return this;
     }
     
-    public void fail(Throwable t) {
+    public ExtentTest fail(Throwable t) {
         log(Status.FAIL, t);
+        return this;
     }
     
-    public void fail(Markup m) {
+    public ExtentTest fail(Markup m) {
         log(Status.FAIL, m);
+        return this;
     }
     
-    public void fatal(String details) {
+    public ExtentTest fatal(String details) {
         log(Status.FATAL, details);
+        return this;
     }
     
-    public void fatal(Throwable t) {
+    public ExtentTest fatal(Throwable t) {
         log(Status.FATAL, t);
+        return this;
     }
     
-    public void fatal(Markup m) {
+    public ExtentTest fatal(Markup m) {
         log(Status.FATAL, m);
+        return this;
     }
     
-    public void warning(String details) {
+    public ExtentTest warning(String details) {
         log(Status.WARNING, details);
+        return this;
     }
     
-    public void warning(Throwable t) {
+    public ExtentTest warning(Throwable t) {
         log(Status.WARNING, t);
+        return this;
     }
     
-    public void warning(Markup m) {
+    public ExtentTest warning(Markup m) {
         log(Status.WARNING, m);
+        return this;
     }
     
-    public void error(String details) {
+    public ExtentTest error(String details) {
         log(Status.ERROR, details);
+        return this;
     }
     
-    public void error(Throwable t) {
+    public ExtentTest error(Throwable t) {
         log(Status.ERROR, t);
+        return this;
     }
     
-    public void error(Markup m) {
+    public ExtentTest error(Markup m) {
         log(Status.ERROR, m);
+        return this;
     }
     
-    public void skip(String details) {
+    public ExtentTest skip(String details) {
         log(Status.SKIP, details);
+        return this;
     }
     
-    public void skip(Throwable t) {
+    public ExtentTest skip(Throwable t) {
         log(Status.SKIP, t);
+        return this;
     }
     
-    public void skip(Markup m) {
+    public ExtentTest skip(Markup m) {
         log(Status.SKIP, m);
+        return this;
     }
 
     public ExtentTest assignCategory(String category) {
@@ -240,11 +273,11 @@ public class ExtentTest implements IAddsMedia, Serializable {
         return addScreenCaptureFromPath(imagePath, null);
     }
 
-    public Status getRunStatus() {
-        return getInternalTest().getStatus();
+    public Status getStatus() {
+        return getModel().getStatus();
     }
 
-    Test getInternalTest() {        
+    public Test getModel() {        
         return test;
     }
 }

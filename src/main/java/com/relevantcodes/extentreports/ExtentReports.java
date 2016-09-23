@@ -15,7 +15,7 @@ public class ExtentReports extends Report {
     public synchronized ExtentTest createTest(Class<? extends IGherkinFormatterModel> type, String testName, String description) {
         ExtentTest t = new ExtentTest(this, type, testName, description);
         
-        createTest(t.getInternalTest());
+        createTest(t.getModel());
         
         return t;
     }
@@ -36,7 +36,7 @@ public class ExtentReports extends Report {
     public synchronized ExtentTest createTest(String testName, String description) {
         ExtentTest t = new ExtentTest(this, testName, description);
         
-        createTest(t.getInternalTest());
+        createTest(t.getModel());
         
         return t;
     }

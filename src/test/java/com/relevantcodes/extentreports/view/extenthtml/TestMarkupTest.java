@@ -1,4 +1,4 @@
-package com.relevantcodes.extentreports;
+package com.relevantcodes.extentreports.view.extenthtml;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -8,13 +8,14 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import com.relevantcodes.extentreports.Base;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.Status;
 import com.relevantcodes.extentreports.reporter.ExtentHtmlReporter;
 import com.relevantcodes.extentreports.utils.Reader;
 
-public class TestAttributesTest extends Base {
+public class TestMarkupTest extends Base {
     
     final String filePath = getOutputFolder() + getClass().getName() + ".html";
     final String testName = getClass().getName();
@@ -43,11 +44,6 @@ public class TestAttributesTest extends Base {
         
         htmlTest = doc.select("#test-collection .test");
     }
-    
-    @Test(groups={"test-attributes-base"})
-    public void validatesTestStatus() {
-        Assert.assertEquals(Status.PASS, test.getRunStatus());
-    }
 
     @Test
     public void validatesTestsCountView() {        
@@ -58,13 +54,13 @@ public class TestAttributesTest extends Base {
     @Test
     public void validatesTestIDView() {
         String testId = htmlTest.attr("test-id");
-        Assert.assertEquals(String.valueOf(test.getInternalTest().getID()), testId);
+        Assert.assertEquals(String.valueOf(test.getModel().getID()), testId);
     }
     
     @Test
     public void validatesTestStatusView() {
         String status = htmlTest.attr("status");
-        Assert.assertEquals(String.valueOf(test.getRunStatus()).toLowerCase(), status);
+        Assert.assertEquals(String.valueOf(test.getStatus()).toLowerCase(), status);
     }
     
     @Test
@@ -90,7 +86,7 @@ public class TestAttributesTest extends Base {
     public void validatesLogStatusView() {
         Elements log = htmlTest.select(".log");
         String logStatus = log.first().select(".status").first().className();
-        Status logStatusStatus = test.getInternalTest().getLogContext().get(0).getStatus();
+        Status logStatusStatus = test.getModel().getLogContext().get(0).getStatus();
         Assert.assertTrue(logStatus.indexOf(logStatusStatus.toString().toLowerCase()) > 0); 
     }
     

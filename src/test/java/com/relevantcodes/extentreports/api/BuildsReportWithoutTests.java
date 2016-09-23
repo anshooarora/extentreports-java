@@ -1,10 +1,11 @@
-package com.relevantcodes.extentreports;
+package com.relevantcodes.extentreports.api;
 
 import java.io.File;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.relevantcodes.extentreports.Base;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.reporter.ExtentHtmlReporter;
 
@@ -18,10 +19,9 @@ public class BuildsReportWithoutTests extends Base {
             f.delete();
         
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(filePath);
-        
         ExtentReports extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
-        
+
         extent.flush();
 
         // if no tests are added and flush is called,

@@ -29,6 +29,13 @@ public class LogStructure implements Serializable {
         return logList;
     }
 
+    public Integer size() {
+        if (logList != null)
+            return logList.size();
+        
+        return 0;
+    }
+    
     public LogIterator getIterator() { return new LogIterator(); }
 
     // log iterator

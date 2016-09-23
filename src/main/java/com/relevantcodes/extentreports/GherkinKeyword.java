@@ -4,15 +4,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.relevantcodes.extentreports.gherkin.model.IGherkinFormatterModel;
+import com.relevantcodes.extentreports.utils.StringUtil;
 
 public class GherkinKeyword {
 
-    private static final Logger logger = Logger.getLogger(GherkinKeyword.class.getName());
+private static final Logger logger = Logger.getLogger(GherkinKeyword.class.getName());
     
     private Class<IGherkinFormatterModel> clazz = IGherkinFormatterModel.class;
     private IGherkinFormatterModel keywordClazz;
     
     public GherkinKeyword(String keyword) throws ClassNotFoundException {
+        keyword = StringUtil.capitalize(keyword);
         String refPath = clazz.getPackage().getName();
         Class<?> c = Class.forName(refPath + "." + keyword);
         

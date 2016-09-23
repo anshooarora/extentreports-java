@@ -1,4 +1,4 @@
-package com.relevantcodes.extentreports;
+package com.relevantcodes.extentreports.view.extenthtml;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -7,13 +7,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.relevantcodes.extentreports.Base;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.Status;
 import com.relevantcodes.extentreports.reporter.ExtentHtmlReporter;
 import com.relevantcodes.extentreports.utils.Reader;
 
-public class TestNodeAttributesTest extends Base {
+public class TestAndNodeAttributesTest extends Base {
     
     final String filePath = getOutputFolder() + getClass().getName() + ".html";
     final String testName = getClass().getName();
@@ -43,16 +43,6 @@ public class TestNodeAttributesTest extends Base {
         htmlTest = doc.select("#test-collection .test");
         htmlNode = htmlTest.select(".node");
     }
-    
-    @Test
-    public void validatesTestStatus() {
-        Assert.assertEquals(Status.PASS, test.getRunStatus());
-    }
-    
-    @Test
-    public void validatesNodeStatus() {
-        Assert.assertEquals(Status.PASS, test.getInternalTest().getNodeContext().get(0).getStatus());
-    }
 
     @Test
     public void validatesTestsCountView() {        
@@ -63,31 +53,31 @@ public class TestNodeAttributesTest extends Base {
     @Test
     public void validatesNodesCountView() {
         int nodeCount = htmlNode.size();
-        Assert.assertEquals(test.getInternalTest().getNodeContext().getAll().size(), nodeCount);
+        Assert.assertEquals(test.getModel().getNodeContext().getAll().size(), nodeCount);
     }
 
     @Test
     public void validatesTestIDView() {
         String testId = htmlTest.attr("test-id");
-        Assert.assertEquals(String.valueOf(test.getInternalTest().getID()), testId);
+        Assert.assertEquals(String.valueOf(test.getModel().getID()), testId);
     }
     
     @Test
     public void validatesNodeIDView() {
         String nodeId = htmlNode.first().attr("test-id");
-        Assert.assertEquals(String.valueOf(test.getInternalTest().getNodeContext().get(0).getID()), nodeId);
+        Assert.assertEquals(String.valueOf(test.getModel().getNodeContext().get(0).getID()), nodeId);
     }
     
     @Test
     public void validatesTestStatusView() {
         String status = htmlTest.attr("status");
-        Assert.assertEquals(String.valueOf(test.getRunStatus()).toLowerCase(), status);
+        Assert.assertEquals(String.valueOf(test.getStatus()).toLowerCase(), status);
     }
     
     @Test
     public void validatesNodeStatusView() {
         String status = htmlNode.first().attr("status");
-        Assert.assertEquals(String.valueOf(test.getInternalTest().getNodeContext().get(0).getStatus()).toLowerCase(), status);
+        Assert.assertEquals(String.valueOf(test.getModel().getNodeContext().get(0).getStatus()).toLowerCase(), status);
     }
     
     @Test
@@ -105,7 +95,7 @@ public class TestNodeAttributesTest extends Base {
     @Test
     public void validatesNodeNameView() {
         String nodeName = htmlNode.first().select(".node-name").first().html();
-        Assert.assertEquals(test.getInternalTest().getNodeContext().get(0).getName(), nodeName);
+        Assert.assertEquals(test.getModel().getNodeContext().get(0).getName(), nodeName);
     }
     
     @Test
@@ -119,6 +109,6 @@ public class TestNodeAttributesTest extends Base {
     public void validatesNodeLogSizeView() {
         Elements log = htmlNode.select(".log");
         int logSize = log.size();
-        Assert.assertEquals(test.getInternalTest().getNodeContext().get(0).getLogContext().getAll().size(), logSize);
+        Assert.assertEquals(test.getModel().getNodeContext().get(0).getLogContext().getAll().size(), logSize);
     }
 }

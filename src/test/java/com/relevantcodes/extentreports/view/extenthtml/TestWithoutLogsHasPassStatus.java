@@ -1,4 +1,4 @@
-package com.relevantcodes.extentreports;
+package com.relevantcodes.extentreports.view.extenthtml;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -7,13 +7,14 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.relevantcodes.extentreports.Base;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.Status;
 import com.relevantcodes.extentreports.reporter.ExtentHtmlReporter;
 import com.relevantcodes.extentreports.utils.Reader;
 
-public class TestWithoutLogsHasUnknownStatus extends Base {
+public class TestWithoutLogsHasPassStatus extends Base {
     
     final String filePath = getOutputFolder() + getClass().getName() + ".html";
     final String testName = getClass().getName();
@@ -29,11 +30,6 @@ public class TestWithoutLogsHasUnknownStatus extends Base {
         
         test = extent.createTest(testName);
         extent.flush();
-    }
-    
-    @Test
-    public void testShowsUnknownStatusIfNoLogsAreAddedAPI() {
-        Assert.assertEquals(test.getRunStatus(), Status.UNKNOWN);
     }
     
     @Test

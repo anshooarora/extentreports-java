@@ -15,7 +15,7 @@ public class ParallelClass1 extends ParallelClassesBase {
         ExtentTestManager.createTest(method.getName()).info("Log from threadId: " + Thread.currentThread().getId());
         ExtentTestManager.getTest().pass("Log from threadId: " + Thread.currentThread().getId());
         
-        Assert.assertEquals(ExtentTestManager.getTest().getRunStatus(), Status.PASS);
+        Assert.assertEquals(ExtentTestManager.getTest().getStatus(), Status.PASS);
     }
     
     @Test
@@ -23,7 +23,7 @@ public class ParallelClass1 extends ParallelClassesBase {
         ExtentTestManager.createTest(method.getName()).error("Log from threadId: " + Thread.currentThread().getId());
         ExtentTestManager.getTest().fail("Log from threadId: " + Thread.currentThread().getId());
         
-        Assert.assertEquals(ExtentTestManager.getTest().getRunStatus(), Status.FAIL);
+        Assert.assertEquals(ExtentTestManager.getTest().getStatus(), Status.FAIL);
     }
     
 }

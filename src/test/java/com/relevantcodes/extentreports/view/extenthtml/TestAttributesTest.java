@@ -1,4 +1,4 @@
-package com.relevantcodes.extentreports;
+package com.relevantcodes.extentreports.view.extenthtml;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -9,12 +9,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import com.relevantcodes.extentreports.Base;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.reporter.ExtentHtmlReporter;
 import com.relevantcodes.extentreports.utils.Reader;
 
-public class TestAttributesTestWithCategory extends Base {
+public class TestAttributesTest extends Base {
 
     final String filePath = getOutputFolder() + getClass().getName() + ".html";
     final String testName = getClass().getName();
@@ -34,7 +35,7 @@ public class TestAttributesTestWithCategory extends Base {
     }
     
     @BeforeClass
-    public void beforeClass() {
+    public void setup() {
         test = extent.createTest(testName).assignCategory(categoryName);
         test.pass(testName);
 
@@ -46,7 +47,7 @@ public class TestAttributesTestWithCategory extends Base {
         htmlTest = doc.select("#test-collection .test");
     }
     
-    @Test(dependsOnGroups={"test-attributes-base"})
+    @Test
     public void validateCategoryName() {
         String categoryNameView = htmlTest.select(".category").first().html().trim();
         
@@ -80,7 +81,7 @@ public class TestAttributesTestWithCategory extends Base {
     @Test
     public void validateCategoryViewTestID() {
         int testIDCategoryView = Integer.valueOf(doc.select("#category-collection").first().select(".category").first().select(".linked").first().attr("test-id"));
-        Assert.assertEquals(testIDCategoryView, test.getInternalTest().getID());
+        Assert.assertEquals(testIDCategoryView, test.getModel().getID());
     }
     
     @Test
