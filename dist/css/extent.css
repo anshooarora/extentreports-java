@@ -411,6 +411,20 @@ nav ul i {
         top: 3px;
         left: 3px;
     }
+    .author-list > .author {
+        background: #b4b4b4;
+        position: relative;
+        padding-left: 20px;
+        margin-right: 2px;
+        font-weight: 400;
+    }
+    .author-list > .author:before {
+        font-family: 'material icons';
+        content: 'person';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+    }
         /* -- [ screenshots ] -- */
         .screenshots {
             margin-top: 30px;

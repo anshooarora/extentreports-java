@@ -1,6 +1,7 @@
 package com.relevantcodes.extentreports;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,9 @@ import com.relevantcodes.extentreports.model.ScreenCapture;
 import com.relevantcodes.extentreports.model.SystemAttribute;
 import com.relevantcodes.extentreports.model.Test;
 
-abstract class Report implements IReport {
+abstract class Report implements IReport, Serializable {
+
+    private static final long serialVersionUID = -6302628790953442220L;
 
     private Status reportStatus = Status.UNKNOWN;
     
@@ -127,6 +130,7 @@ abstract class Report implements IReport {
 
         stats = new SessionStatusStats(testList);
         testAttrCategoryContext = new TestAttributeTestContextProvider<>();
+        testAttrAuthorContext = new TestAttributeTestContextProvider<>();
         exContextBuilder = new ExceptionTestContextImpl();
         
         testList.forEach(test -> {

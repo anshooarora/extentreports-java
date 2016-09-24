@@ -7,7 +7,9 @@ import com.relevantcodes.extentreports.gherkin.model.IGherkinFormatterModel;
 import com.relevantcodes.extentreports.model.SystemAttribute;
 
 public class ExtentReports extends Report {
-    
+
+    private static final long serialVersionUID = 2722419612318167707L;
+
     public void attachReporter(ExtentReporter... reporter) {
         Arrays.stream(reporter).forEach(this::attach);
     }
