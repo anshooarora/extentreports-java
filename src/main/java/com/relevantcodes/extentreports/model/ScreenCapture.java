@@ -9,5 +9,7 @@
 package com.relevantcodes.extentreports.model;
 
 public class ScreenCapture extends Media {   
-    public ScreenCapture() { }
+
+    private static final long serialVersionUID = 1393833481297841796L;
+
 }

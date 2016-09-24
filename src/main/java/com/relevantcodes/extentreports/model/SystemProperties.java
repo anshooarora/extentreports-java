@@ -8,10 +8,14 @@
 
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class SystemProperties {
+public class SystemProperties implements Serializable {
+
+    private static final long serialVersionUID = 8115692530725523101L;
+
     public void setSystemInfo(Map<String, String> info) {
         //if (this.info.size() > 0)
             //info.putAll(this.info);

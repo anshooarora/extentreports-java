@@ -1,8 +1,12 @@
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Media {
+public abstract class Media implements Serializable {
+    
+    private static final long serialVersionUID = 7703803003727779654L;
+
     public void setSource(String source) {
         this.source = source;
     }

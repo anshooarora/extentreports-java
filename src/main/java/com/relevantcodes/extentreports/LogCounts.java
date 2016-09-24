@@ -1,12 +1,16 @@
 package com.relevantcodes.extentreports;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import com.relevantcodes.extentreports.model.Log;
 import com.relevantcodes.extentreports.model.Test;
 
-public class LogCounts {
+public class LogCounts implements Serializable {
+
+    private static final long serialVersionUID = 7223073485367007508L;
+    
     private int pass = 0;
     private int fail = 0;
     private int fatal = 0;

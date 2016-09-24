@@ -46,6 +46,7 @@ import com.relevantcodes.extentreports.view.ScreenshotHtml;
 public class ExtentTest implements IExtentTestClass, Serializable {
     
     private static final long serialVersionUID = 6551590667557434115L;
+    
     private LogStatus runStatus = LogStatus.UNKNOWN;
     private Test test;
     

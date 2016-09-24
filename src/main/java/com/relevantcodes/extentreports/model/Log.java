@@ -15,10 +15,9 @@ import java.util.Date;
 import com.relevantcodes.extentreports.LogStatus;
 
 public class Log implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 889252425952501333L;
+	
 	private Date timestamp;
     private LogStatus logStatus;
     private String stepName;

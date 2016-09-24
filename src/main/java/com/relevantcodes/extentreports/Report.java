@@ -10,6 +10,7 @@ package com.relevantcodes.extentreports;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,7 +34,10 @@ import com.relevantcodes.extentreports.model.TestAttribute;
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
 // Report abstract
-abstract class Report extends LogSettings {
+abstract class Report extends LogSettings implements Serializable {
+
+    private static final long serialVersionUID = 888931414131302753L;
+    
     private static final Logger LOGGER = Logger.getLogger(Report.class.getName());
     private static final String INTERNAL_WARNING = "Close was called before test could end safely using EndTest.";
     

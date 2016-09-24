@@ -9,5 +9,7 @@
 package com.relevantcodes.extentreports.model;
 
 public class Screencast extends Media {
-    public Screencast() { }
+
+    private static final long serialVersionUID = 3033855666909976949L;
+    
 }

@@ -8,11 +8,15 @@
 
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import com.relevantcodes.extentreports.utils.DateTimeUtil;
 
-public class SuiteTimeInfo {
+public class SuiteTimeInfo implements Serializable {
+    
+    private static final long serialVersionUID = 8022352003976339338L;
+    
     private long startedAt;
     private long endedAt;
     

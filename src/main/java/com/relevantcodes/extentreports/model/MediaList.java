@@ -8,9 +8,13 @@
 
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MediaList {
+public class MediaList implements Serializable {
+    
+    private static final long serialVersionUID = -6657968172160749394L;
+    
     private ArrayList<ScreenCapture> screenCaptureList;
     private ArrayList<Screencast> screencastList;
     

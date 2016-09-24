@@ -8,10 +8,14 @@
 
 package com.relevantcodes.extentreports.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class CategoryList {
+public class CategoryList implements Serializable {
+
+    private static final long serialVersionUID = -5196084944683521927L;
+    
     private ArrayList<String> categoryList;
     
     public void setCategoryList(ArrayList<String> categoryList) {
