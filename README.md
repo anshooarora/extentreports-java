@@ -12,14 +12,6 @@ Note: Use [0.2.10 branch](https://github.com/anshooarora/extentx/tree/0.2.1-alph
  * <a href='http://relevantcodes.com/Tools/extent-3/Extent.html'>Standard</a>
  * <a href='http://relevantcodes.com/Tools/extent-3/ExtentBDD.html'>BDD</a>
 
-#### What doesn't work
-
- * Email Reporter - in progress
- * ~~ExtentX report level stats need to be fixed (new ExtentX version will be released)~~
- * ~~ExtentHTMLReporter - search functionality not yet integrated~~
- * ~~ExtentX still does not show images (base64 will work but their use is highly discouraged)~~
- * you tell me..  
-
 ### Shortcuts
 
 #### Views
@@ -54,10 +46,9 @@ up-arrow - scroll up
 ```
 ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("filePath");
 ExtentXReporter extentxReporter = new ExtentXReporter("host");
-ExtentEmailReporter emailReporter = new ExtentEmailReporter("filePath");
 
 ExtentReports extent = new ExtentReports();
-extent.attachReporter(htmlReporter, extentxReporter, emailReporter);
+extent.attachReporter(htmlReporter, extentxReporter);
 ```
 
 ### Creating Tests
@@ -88,7 +79,9 @@ test.fail("fail");
 
 #### Logging exceptions
 
-To log exceptions, simply pass the exception:
+To log exceptions, simply pass the exception.
+
+> Note: doing this will also enable the defect/bug tab in the report.
 
 ```
 Exception e;
@@ -182,7 +175,6 @@ To access configuration of each reporter, use `config()`:
 
 ```
 htmlReporter.config()
-emailReporter.config()
 extentxReporter.config()
 ```
 
