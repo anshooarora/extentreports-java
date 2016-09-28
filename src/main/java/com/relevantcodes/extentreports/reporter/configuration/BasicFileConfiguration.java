@@ -6,8 +6,7 @@ import java.io.File;
  * Common configuration for file reporters:
  * 
  * <ul>
- *  <li>{@link ExtentHtmlReporter}</li>
- *  <li>{@link ExtentEmailReporter}</li>
+ *  <li>{@link com.relevantcodes.extentreports.reporter.ExtentHtmlReporter}</li>
  * </ul>
  */
 public class BasicFileConfiguration extends BasicConfiguration {
@@ -81,7 +80,7 @@ public class BasicFileConfiguration extends BasicConfiguration {
     /**
      * Adds custom JavaScript
      * 
-     * @param js
+     * @param js JavaScript string
      */
     public void setJS(String js) { 
         usedConfigs.put("js", js);

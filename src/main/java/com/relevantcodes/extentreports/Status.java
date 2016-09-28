@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * List of allowed status for {@link Log}
+ * List of allowed status for {@link com.relevantcodes.extentreports.model.Log}
  */
 public enum Status implements Serializable {
     PASS,

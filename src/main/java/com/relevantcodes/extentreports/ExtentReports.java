@@ -39,10 +39,10 @@ import com.relevantcodes.extentreports.model.SystemAttribute;
  *  <li>You can create standard and BDD-style tests using the <code>createTest</code> method</li>
  * </ul>
  * 
- * @see {@link ExtentTest}
- * @see {@link GherkinKeyword}
- * @see {@link IGherkinFormatterModel}
- * @see {@link Status}
+ * @see ExtentTest
+ * @see GherkinKeyword
+ * @see IGherkinFormatterModel
+ * @see Status
  */
 public class ExtentReports extends Report {
 
@@ -73,13 +73,13 @@ public class ExtentReports extends Report {
      * classes such as:
      * 
      * <ul>
-     *  <li>{@link Feature}</li>
-     *  <li>{@link Background}</li>
-     *  <li>{@link Scenario}</li>
-     *  <li>{@link Given}</li>
-     *  <li>{@link When}</li>
-     *  <li>{@link Then}</li>
-     *  <li>{@link And}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Feature}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Background}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Scenario}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Given}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.When}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Then}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -113,13 +113,13 @@ public class ExtentReports extends Report {
      * Creates a BDD-style test representing one of the {@link IGherkinFormatterModel} classes such as:
      * 
      * <ul>
-     *  <li>{@link Feature}</li>
-     *  <li>{@link Background}</li>
-     *  <li>{@link Scenario}</li>
-     *  <li>{@link Given}</li>
-     *  <li>{@link When}</li>
-     *  <li>{@link Then}</li>
-     *  <li>{@link And}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Feature}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Background}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Scenario}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Given}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.When}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Then}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -148,13 +148,13 @@ public class ExtentReports extends Report {
      * Creates a BDD-style test with description using name of the Gherkin model such as:
      * 
      * <ul>
-     *  <li>{@link Feature}</li>
-     *  <li>{@link Background}</li>
-     *  <li>{@link Scenario}</li>
-     *  <li>{@link Given}</li>
-     *  <li>{@link When}</li>
-     *  <li>{@link Then}</li>
-     *  <li>{@link And}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Feature}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Background}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Scenario}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Given}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.When}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Then}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -185,13 +185,13 @@ public class ExtentReports extends Report {
      * Creates a BDD-style test using name of the Gherkin model such as:
      * 
      * <ul>
-     *  <li>{@link Feature}</li>
-     *  <li>{@link Background}</li>
-     *  <li>{@link Scenario}</li>
-     *  <li>{@link Given}</li>
-     *  <li>{@link When}</li>
-     *  <li>{@link Then}</li>
-     *  <li>{@link And}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Feature}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Background}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Scenario}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Given}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.When}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Then}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>

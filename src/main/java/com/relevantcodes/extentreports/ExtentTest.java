@@ -86,13 +86,13 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * classes such as:
      * 
      * <ul>
-     *  <li>{@link Feature}</li>
-     *  <li>{@link Background}</li>
-     *  <li>{@link Scenario}</li>
-     *  <li>{@link Given}</li>
-     *  <li>{@link When}</li>
-     *  <li>{@link Then}</li>
-     *  <li>{@link And}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Feature}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Background}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Scenario}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Given}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.When}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Then}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -119,13 +119,13 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * Creates a BDD-style node representing one of the {@link IGherkinFormatterModel} classes such as:
      * 
      * <ul>
-     *  <li>{@link Feature}</li>
-     *  <li>{@link Background}</li>
-     *  <li>{@link Scenario}</li>
-     *  <li>{@link Given}</li>
-     *  <li>{@link When}</li>
-     *  <li>{@link Then}</li>
-     *  <li>{@link And}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Feature}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Background}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Scenario}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Given}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.When}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Then}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -149,13 +149,13 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * Creates a BDD-style node with description using name of the Gherkin model such as:
      * 
      * <ul>
-     *  <li>{@link Feature}</li>
-     *  <li>{@link Background}</li>
-     *  <li>{@link Scenario}</li>
-     *  <li>{@link Given}</li>
-     *  <li>{@link When}</li>
-     *  <li>{@link Then}</li>
-     *  <li>{@link And}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Feature}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Background}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Scenario}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Given}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.When}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Then}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -180,13 +180,13 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * Creates a BDD-style node using name of the Gherkin model such as:
      * 
      * <ul>
-     *  <li>{@link Feature}</li>
-     *  <li>{@link Background}</li>
-     *  <li>{@link Scenario}</li>
-     *  <li>{@link Given}</li>
-     *  <li>{@link When}</li>
-     *  <li>{@link Then}</li>
-     *  <li>{@link And}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Feature}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Background}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Scenario}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Given}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.When}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.Then}</li>
+     *  <li>{@link com.relevantcodes.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>

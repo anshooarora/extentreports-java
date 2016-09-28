@@ -13,7 +13,7 @@ public interface IAddsMedia {
      * 
      * @return Object this method is called from, generally {@link ExtentTest} or {@link Log}
      * 
-     * @throws IOException
+     * @throws IOException thrown if the supplied image from <code>imagePath</code> is not found
      */
     ExtentTest addScreenCaptureFromPath(String imagePath, String title) throws IOException;
     
@@ -24,7 +24,7 @@ public interface IAddsMedia {
      * 
      * @return Object this method is called from, generally {@link ExtentTest} or {@link Log}
      * 
-     * @throws IOException
+     * @throws IOException thrown if the supplied image from <code>imagePath</code> is not found
      */
     ExtentTest addScreenCaptureFromPath(String imagePath) throws IOException;
 }

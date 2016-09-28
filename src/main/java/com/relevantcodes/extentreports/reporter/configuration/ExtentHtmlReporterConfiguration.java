@@ -26,7 +26,7 @@ public class ExtentHtmlReporterConfiguration extends BasicFileConfiguration impl
     public Protocol getProtocol() {return protocol; }
 
     /**
-     * For {@link ExtentHtmlReporter}, sets the location of charts 
+     * For {@link com.relevantcodes.extentreports.reporter.ExtentHtmlReporter}, sets the location of charts 
      * 
      * @param chartLocation Location
      */
@@ -37,9 +37,9 @@ public class ExtentHtmlReporterConfiguration extends BasicFileConfiguration impl
     public ChartLocation getTestViewChartLocation() {return chartLocation; }
 
     /**
-     * For {@link ExtentHtmlReporter}, sets the configuration to allow viewing or hiding charts on report open
+     * For {@link com.relevantcodes.extentreports.reporter.ExtentHtmlReporter}, sets the configuration to allow viewing or hiding charts on report open
      * 
-     * @param chartVisibilityOnOpen
+     * @param chartVisibilityOnOpen true for visible, false for hidden
      */
     public void setChartVisibilityOnOpen(boolean chartVisibilityOnOpen) { 
         usedConfigs.put("chartVisibilityOnOpen", String.valueOf(chartVisibilityOnOpen).toLowerCase());
