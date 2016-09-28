@@ -34,6 +34,10 @@ import com.relevantcodes.extentreports.model.Test;
 import com.relevantcodes.extentreports.reporter.configuration.ExtentXReporterConfiguration;
 import com.relevantcodes.extentreports.utils.MongoUtil;
 
+/**
+ * ExtentXReporter is a NoSQL database reporter (MongoDB by default), which updates information in
+ * the database which is then used by the ExtentX server to display in-depth analysis. 
+ */
 public class ExtentXReporter extends AbstractReporter {
 
     private static final String DEFAULT_CONFIG_FILE = "extentx-config.properties";

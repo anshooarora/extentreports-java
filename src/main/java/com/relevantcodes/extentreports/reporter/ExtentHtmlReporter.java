@@ -17,7 +17,7 @@ import com.relevantcodes.extentreports.Status;
 import com.relevantcodes.extentreports.configuration.Config;
 import com.relevantcodes.extentreports.configuration.ConfigMap;
 import com.relevantcodes.extentreports.model.Test;
-import com.relevantcodes.extentreports.reporter.configuration.HtmlReporterConfiguration;
+import com.relevantcodes.extentreports.reporter.configuration.ExtentHtmlReporterConfiguration;
 import com.relevantcodes.extentreports.utils.Writer;
 import com.relevantcodes.extentreports.viewdefs.Icon;
 
@@ -29,6 +29,10 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
 
+/**
+ * The ExtentHtmlReporter creates a rich standalone HTML file. It allows several configuration options
+ * via the <code>config()</code> method.
+ */
 public class ExtentHtmlReporter extends BasicFileReporter {
     
     private static final Logger logger = Logger.getLogger(ExtentHtmlReporter.class.getName());
@@ -36,7 +40,7 @@ public class ExtentHtmlReporter extends BasicFileReporter {
     private static final String TEMPLATE_NAME = "extent.ftl";
     private static final String DEFAULT_CONFIG_FILE = "html-config.properties";
     
-    private HtmlReporterConfiguration userConfig;
+    private ExtentHtmlReporterConfiguration userConfig;
     
     ExtentHtmlReporter() {
         loadDefaultConfig();
@@ -44,7 +48,7 @@ public class ExtentHtmlReporter extends BasicFileReporter {
     
     private void loadDefaultConfig() {
         configContext = new ConfigMap();
-        userConfig = new HtmlReporterConfiguration();
+        userConfig = new ExtentHtmlReporterConfiguration();
         
         ClassLoader loader = getClass().getClassLoader();
         InputStream is = loader.getResourceAsStream(DEFAULT_CONFIG_FILE);
@@ -63,7 +67,7 @@ public class ExtentHtmlReporter extends BasicFileReporter {
         this.filePath = filePath;
     }
     
-    public HtmlReporterConfiguration config() {
+    public ExtentHtmlReporterConfiguration config() {
         return userConfig;
     }
     

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Anshoo on 4/21/2016.
+ * List of allowed status for {@link Log}
  */
 public enum Status implements Serializable {
     PASS,
@@ -15,7 +15,6 @@ public enum Status implements Serializable {
     WARNING,
     INFO,
     SKIP,
-    DEBUG,
     UNKNOWN;
 
     private static List<Status> statusHierarchy = Arrays.asList(
@@ -29,6 +28,21 @@ public enum Status implements Serializable {
             Status.UNKNOWN
     );
     
+    /**
+     * Returns the hierarchical list of status, in the below order:
+     * 
+     * <ul>
+     *  <li>FATAL</li>
+     *  <li>FAIL</li>
+     *  <li>ERROR</li>
+     *  <li>WARNING</li>
+     *  <li>SKIP</li>
+     *  <li>PASS</li>
+     *  <li>INFO</li>
+     * </ul>
+     * 
+     * @return Hierarchical list of status
+     */
     public static List<Status> getStatusHierarchy() {
         return statusHierarchy;
     }
@@ -43,7 +57,6 @@ public enum Status implements Serializable {
             case WARNING: return "warning";
             case INFO: return "info";
             case SKIP: return "skip";
-            case DEBUG: return "debug";
             default: return "unknown";
         }
     }
