@@ -472,6 +472,15 @@ nav ul i {
         ul.steps > .skip {
             background: #cbdefb;
         }
+        ul.steps > .warning {
+        	background: #fffbdd;
+        }
+        ul.steps > .fatal {
+        	background: rgba(193, 66, 66, .7);
+        }
+        ul.steps > .error {
+        	background: rgba(227, 180, 208, .7);
+       	}
         .scenario b {
             padding-right: 5px;
         }
