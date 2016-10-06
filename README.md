@@ -5,7 +5,7 @@
 
 Java8 only. Java7 and lower versions, use Extent v2. 
 
-Note: Use [0.2.10 branch](https://github.com/anshooarora/extentx/tree/0.2.1-alpha) of ExtentX with this version.
+Note: Use [0.2.2 version](https://github.com/anshooarora/extentx/tree/0.2.2-alpha) of ExtentX with this version.
 
 ### Samples
 
@@ -199,9 +199,6 @@ htmlReporter.config().setChartVisibilityOnOpen(false);
 
 // set theme
 htmlReporter.config().setTheme(Theme.STANDARD);
-
-// allow automatic saving of media files relative to the report
-htmlReporter.config().setAutoCreateRelativePathMedia(true);
 
 // protocol for resources (http, https)
 htmlReporter.config().setProtocol(Protocol.HTTPS);
