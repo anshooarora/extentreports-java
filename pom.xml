@@ -2,13 +2,12 @@
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.relevantcodes</groupId>
+    <groupId>com.aventstack</groupId>
     <artifactId>extentreports</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
 
     <name>ExtentReports API</name>
-    <url>http://extentreports.relevantcodes.com</url>
 
     <description>
         An open-source reporting library for Java and .NET. 
@@ -30,7 +29,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <developers>
         <developer>
             <name>Anshoo Arora</name>
-            <url>http://relevantcodes.com</url>
+            <url>https://github.com/anshooarora</url>
             <id>anshoo.arora</id>
             <roles>
                 <role>Owner</role>

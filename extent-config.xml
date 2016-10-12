@@ -14,7 +14,7 @@
         <protocol>https</protocol>
         
         <!-- title of the document -->
-        <documentTitle>RelevantCodes - Extent</documentTitle>
+        <documentTitle>Extent</documentTitle>
         
         <!-- report name - displayed at top-nav -->
         <reportName>Automation Report</reportName>

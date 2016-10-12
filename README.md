@@ -1,16 +1,16 @@
-# Extent - v3 Java Pre-Release
+# Extent - v3 Java
 
 [![Join the chat at https://gitter.im/anshooarora/extentreports](https://badges.gitter.im/anshooarora/extentreports.svg)](https://gitter.im/anshooarora/extentreports?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/anshooarora/extentreports-java.svg)](https://travis-ci.org/anshooarora/extentreports-java)
 
 Java8 only. Java7 and lower versions, use Extent v2. 
 
-Note: Use [0.2.2 version](https://github.com/anshooarora/extentx/tree/0.2.2-alpha) of ExtentX with this version.
+Note: Use [the latest version](https://github.com/anshooarora/extentx) of ExtentX with this version.
 
 ### Samples
 
- * <a href='http://relevantcodes.com/Tools/extent-3/Extent.html'>Standard</a>
- * <a href='http://relevantcodes.com/Tools/extent-3/ExtentBDD.html'>BDD</a>
+ * <a href='http://extentreports.com/os/3/extent.html'>Standard</a>
+ * <a href='http://extentreports.com/os/3/bdd.html'>BDD</a>
 
 ### Shortcuts
 
