@@ -11,7 +11,7 @@ import com.aventstack.extentreports.model.TestAttributeTestContext;
 @SuppressWarnings("rawtypes")
 public class TestAttributeTestContextProvider<T extends TestAttribute> {
     
-    List<TestAttributeTestContext> taContextList;
+    private List<TestAttributeTestContext> taContextList;
     
     public TestAttributeTestContextProvider() { 
         taContextList = new ArrayList<>();
