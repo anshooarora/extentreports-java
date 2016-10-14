@@ -16,7 +16,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -48,21 +50,15 @@ class HttpMediaManager implements MediaStorage {
     
     @SuppressWarnings("rawtypes")
     private void storeCsrfCookie() throws IOException {
-        logger.info("host -> " + host);
-        logger.info("route -> " + csrfRoute);
-        logger.info("host+csrfRoute -> " + host + "" + csrfRoute);
         HttpGet get = new HttpGet(host + csrfRoute);
         HttpClient client = HttpClients.createDefault();
         HttpResponse response = client.execute(get);
         
         int responseCode = response.getStatusLine().getStatusCode();
-        logger.info("responseCode -> " + responseCode);
         boolean isValid = isResponseValid(responseCode); 
-        logger.info("isValid -> " + isValid);
         
         if (isValid) {
             cookie = response.getHeaders("set-cookie")[0].getValue();
-            logger.info("cookie -> " + cookie);
             
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     response.getEntity().getContent(), "UTF-8"));
@@ -73,7 +69,6 @@ class HttpMediaManager implements MediaStorage {
                 s = s.append(sResponse);
             }
             
-            logger.info("response -> " + s);
             
             ScriptEngineManager sem = new ScriptEngineManager();
             ScriptEngine engine = sem.getEngineByName("javascript");
@@ -84,7 +79,6 @@ class HttpMediaManager implements MediaStorage {
                 Object result = engine.eval(script);
                 Map contents = (Map) result;
                 csrf = contents.get("_csrf").toString();
-                logger.info("csrf -> " + csrf);
             } 
             catch (ScriptException e) {
                 logger.log(Level.SEVERE, "Unable to parse x-csrf-token", e);
@@ -104,20 +98,20 @@ class HttpMediaManager implements MediaStorage {
 
         String ext = FileUtil.getExtension(m.getPath());
         
-        MultipartEntity entity = new MultipartEntity();
-        entity.addPart("name", new StringBody(m.getSequence() + "." + ext));
-        entity.addPart("id", new StringBody(m.getObjectId().toString()));
-        entity.addPart("reportId", new StringBody(m.getReportObjectId().toString()));
-        entity.addPart("testId", new StringBody(m.getTestObjectId().toString()));
-        entity.addPart("mediaType", new StringBody(String.valueOf(m.getMediaType()).toLowerCase()));
-        entity.addPart("f", new FileBody(new File(m.getPath())));
-        post.setEntity(entity);
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();        
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        builder.addPart("name",new StringBody(m.getSequence() + "." + ext, ContentType.TEXT_PLAIN));
+        builder.addPart("id", new StringBody(m.getObjectId().toString(), ContentType.TEXT_PLAIN));
+        builder.addPart("reportId", new StringBody(m.getReportObjectId().toString(), ContentType.TEXT_PLAIN));
+        builder.addPart("testId", new StringBody(m.getTestObjectId().toString(), ContentType.TEXT_PLAIN));
+        builder.addPart("mediaType", new StringBody(String.valueOf(m.getMediaType()).toLowerCase(), ContentType.TEXT_PLAIN));
+        builder.addPart("f", new FileBody(new File(m.getPath())));
+        post.setEntity(builder.build());
         
         HttpClient client = HttpClientBuilder.create().build();
         HttpResponse response = client.execute(post);
 
         int responseCode = response.getStatusLine().getStatusCode();
-        logger.info("responseCode -> " + responseCode);
         boolean isValid = isResponseValid(responseCode);
         
         if (!isValid) {

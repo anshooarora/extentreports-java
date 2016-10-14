@@ -8,10 +8,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <packaging>jar</packaging>
 
     <name>ExtentReports API</name>
-
-    <description>
-        An open-source reporting library for Java and .NET. 
-    </description>
+	<url>www.extentreports.com</url>
+    <description>An open-source reporting library for Java and .NET. </description>
     
     <licenses>
         <license>
@@ -60,7 +58,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<dependency>
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpmime</artifactId>
-		    <version>4.1</version>
+		    <version>4.5.2</version>
 		</dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -91,6 +89,20 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.7</version>
             </plugin>
+			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-gpg-plugin</artifactId>
+			<version>1.6</version>
+			<executions>
+			  <execution>
+				<id>sign-artifacts</id>
+				<phase>verify</phase>
+				<goals>
+				  <goal>sign</goal>
+				</goals>
+			  </execution>
+			</executions>
+		  </plugin>
         </plugins>
     </build>
     <profiles>
@@ -103,7 +115,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 </property>
             </activation>
             <properties>
-                <gpg.keyname>1C85C082</gpg.keyname>    <!-- GPG Key ID to use for signing -->
+                <gpg.keyname>CB4A22B0</gpg.keyname>    <!-- GPG Key ID to use for signing -->
                 <release.username>anshooarora</release.username> <!-- username for our svn repository -->
             </properties>
             <build>
@@ -130,27 +142,24 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                     -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.4</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <configuration>
-                                    <sources>
-                                        <source>src/</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
 						<version>2.3</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.3</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
