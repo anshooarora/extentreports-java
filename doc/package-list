@@ -1,0 +1,14 @@
+com.aventstack.extentreports
+com.aventstack.extentreports.api
+com.aventstack.extentreports.common
+com.aventstack.extentreports.configuration
+com.aventstack.extentreports.gherkin.model
+com.aventstack.extentreports.listenertests
+com.aventstack.extentreports.markuputils
+com.aventstack.extentreports.mediastorage
+com.aventstack.extentreports.model
+com.aventstack.extentreports.reporter
+com.aventstack.extentreports.reporter.configuration
+com.aventstack.extentreports.utils
+com.aventstack.extentreports.view.extenthtml
+com.aventstack.extentreports.viewdefs
