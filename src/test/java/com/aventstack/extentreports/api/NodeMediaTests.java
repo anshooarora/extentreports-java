@@ -2,40 +2,18 @@ package com.aventstack.extentreports.api;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.URL;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.Base;
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 public class NodeMediaTests extends Base {
 
-    private final String filePath = getOutputFolder() + getClass().getName() + ".html";
     private final String imgName = "img";
     
-    private ExtentReports extent;
     private String imgPath;
-    
-    @BeforeClass
-    public void setup() {
-        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(filePath);
-        extent = new ExtentReports();
-        extent.attachReporter(htmlReporter);
-        
-        URL url = getClass().getClassLoader().getResource("1.png");
-        imgPath = url.getPath();
-    }
-    
-    @AfterClass
-    public void tearDown() {
-        extent.flush();
-    }
     
     @Test
     public void verifyIfScreenCaptureAdded(Method method) throws IOException {

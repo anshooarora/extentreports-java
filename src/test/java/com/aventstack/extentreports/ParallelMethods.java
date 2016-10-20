@@ -13,11 +13,9 @@ import com.aventstack.extentreports.common.ExtentTestManager;
 
 public class ParallelMethods extends Base {
     
-    final String filePath = getOutputFolder() + getClass().getName() + ".html";
-    
     @BeforeClass
     public void beforeClass() {
-        ExtentManager.createInstance(filePath);
+        ExtentManager.createInstance(htmlFilePath);
         ExtentTestManager.setReporter(ExtentManager.getInstance());;
     }
     

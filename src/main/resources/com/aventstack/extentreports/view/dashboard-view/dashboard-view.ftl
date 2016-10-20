@@ -43,7 +43,7 @@
 			</div>
 			<#if systemAttributeContext?size != 0>
 			<div class='col s4'>
-				<div class='card-panel'>
+				<div class='card-panel environment'>
 					<span class='right label cyan white-text'>Environment</span><p>&nbsp;</p>
 					
 					<table>
@@ -52,10 +52,12 @@
 							<th>Value</th>
 						</tr>
 						<#list systemAttributeContext as sa>
-						<tr>
-							<td>${ sa.name }</td>
-							<td>${ sa.value }</td>
-						</tr>
+							<#if sa?? && sa.name?? && sa.value??>
+							<tr>
+								<td>${ sa.name }</td>
+								<td>${ sa.value }</td>
+							</tr>
+							</#if>
 						</#list>
 					</table>
 				</div>

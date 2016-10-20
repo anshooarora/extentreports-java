@@ -3,12 +3,9 @@ package com.aventstack.extentreports.api;
 import java.lang.reflect.Method;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.Base;
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.GherkinKeyword;
 import com.aventstack.extentreports.Status;
@@ -17,25 +14,8 @@ import com.aventstack.extentreports.gherkin.model.Given;
 import com.aventstack.extentreports.gherkin.model.Scenario;
 import com.aventstack.extentreports.gherkin.model.Then;
 import com.aventstack.extentreports.gherkin.model.When;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 public class BddWithStepStatusHierarchyTests extends Base {
-    
-    private final String filePath = getOutputFolder() + getClass().getName() + ".html";
-    
-    private ExtentReports extent;
-
-    @BeforeClass
-    public void setup() {
-        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(filePath);
-        extent = new ExtentReports();
-        extent.attachReporter(htmlReporter);
-    }
-    
-    @AfterClass
-    public void tearDown() {
-        extent.flush();
-    }
     
     @Test(expectedExceptions = ClassNotFoundException.class)
     public void throwClassNotFoundExceptionWithInvalidKeyword(Method method) throws ClassNotFoundException {
