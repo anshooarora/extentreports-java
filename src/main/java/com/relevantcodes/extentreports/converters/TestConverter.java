@@ -72,7 +72,7 @@ public class TestConverter extends LogSettings {
             }
         }
 
-		Elements allTests = doc.select(".test");
+		Elements allTests = doc.select("#test-collection > li.test");
 		
         ExtentTest extentTest;
 		
