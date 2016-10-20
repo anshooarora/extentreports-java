@@ -426,6 +426,8 @@ public class ExtentReports extends Report implements Serializable {
      * 
      * @param name
      *      Project name
+     *      
+     * @return {@link ExtentReports} object     
      */
     public ExtentReports assignProject(String name) {
         setProjectName(name);

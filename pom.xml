@@ -4,7 +4,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
     <groupId>com.relevantcodes</groupId>
     <artifactId>extentreports</artifactId>
-    <version>2.41.1</version>
+    <version>2.41.2</version>
     <packaging>jar</packaging>
 
     <name>ExtentReports for Selenium</name>
@@ -75,24 +75,25 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <scope>test</scope>
         </dependency>
     </dependencies>
+	
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.4</version>
-            </plugin>
-        </plugins>
-    </build>
+		<plugins>
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-gpg-plugin</artifactId>
+			<version>1.6</version>
+			<executions>
+			  <execution>
+				<id>sign-artifacts</id>
+				<phase>verify</phase>
+				<goals>
+				  <goal>sign</goal>
+				</goals>
+			  </execution>
+			</executions>
+		  </plugin>
+		</plugins>
+	  </build>
     
     <profiles>
         <profile>
@@ -104,7 +105,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 </property>
             </activation>
             <properties>
-                <gpg.keyname>1C85C082</gpg.keyname>    <!-- GPG Key ID to use for signing -->
+                <gpg.keyname>6ACA22FD</gpg.keyname>    <!-- GPG Key ID to use for signing -->
                 <release.username>anshooarora</release.username> <!-- username for our svn repository -->
             </properties>
             <build>
@@ -130,21 +131,19 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                         gpg:sign" instead; see the issue MGPG-18
                     -->
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.4</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <configuration>
-                                    <sources>
-                                        <source>src/</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>2.3.2</version>
+						<configuration>
+							<source>1.8</source>
+							<target>1.8</target>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.7</version>
+					</plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
