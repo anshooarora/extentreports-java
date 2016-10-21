@@ -36,6 +36,9 @@ body {
     font-family: 'Source Sans Pro';
     font-size: 14px;
 } body.default { background: #fff; }
+body:not(.default) {
+    overflow: scroll !important;
+}
 pre, .code-block {
     background-color: #f8f9fa;
     border: 1px solid #ebedef;
