@@ -400,6 +400,9 @@ nav ul i {
     .log > .status > i {
         font-size: 1rem;
     }
+    .step-details > img {
+		display: block;
+	}
     .category-list > .category {
         background: #b4b4b4;
         position: relative;

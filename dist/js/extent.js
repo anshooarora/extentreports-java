@@ -268,6 +268,9 @@ $('#toggle-test-view-charts').click(function() {
 /* -- [ test ] -- */
 $('.test').click(function() {
     showCollectionElement('test', $(this));
+    $('.subview-right img').each(function() {
+    	$(this).attr('src', $(this).attr('data-src'));
+    })
 });
 
 /* -- [ category ] -- */
