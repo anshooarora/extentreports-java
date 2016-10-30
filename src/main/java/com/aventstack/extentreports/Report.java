@@ -47,6 +47,9 @@ abstract class Report implements IReport, Serializable {
     }
     
     protected synchronized void createTest(Test test) {
+    	if (reporterCollection == null || reporterCollection.isEmpty())
+            throw new IllegalStateException("No reporters were started. Atleast 1 reporter must be started to flush results.");
+    	
     	if (testList == null)
             testList = new ArrayList<>();
         
