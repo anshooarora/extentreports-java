@@ -2,6 +2,7 @@ package com.aventstack.extentreports;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 
 import com.aventstack.extentreports.gherkin.model.IGherkinFormatterModel;
 import com.aventstack.extentreports.markuputils.Markup;
@@ -14,6 +15,7 @@ import com.aventstack.extentreports.model.MediaType;
 import com.aventstack.extentreports.model.ScreenCapture;
 import com.aventstack.extentreports.model.Test;
 import com.aventstack.extentreports.utils.ExceptionUtil;
+import com.aventstack.extentreports.utils.StringUtil;
 
 /**
  * Defines a test. You can add logs, snapshots, assign author and categories to a test and its children.
@@ -217,6 +219,16 @@ public class ExtentTest implements IAddsMedia, Serializable {
         return createNode(name, null);
     }
 
+    public synchronized ExtentTest log(Status status, String details, MediaEntityModelProvider provider) {
+    	Log evt = createLog(status, details);
+    	
+    	if (provider != null) {
+    		evt.setScreenCapture((ScreenCapture) provider.getMedia());
+    	}
+    	
+    	return addLog(evt);
+    }
+    
     /**
      * Logs an event with {@link Status} and details
      * 
@@ -226,17 +238,16 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public synchronized ExtentTest log(Status status, String details) {       
-        Log evt = createLog(status, details);
-        return addLog(evt);
+        return log(status, details, null);
     }
     
     /**
      * Logs an event with {@link Status} and custom {@link Markup} such as:
      * 
      * <ul>
-     *  <li>Code block</li>
-     *  <li>Label</li>
-     *  <li>Table</li>
+     * 	<li>Code block</li>
+     * 	<li>Label</li>
+     * 	<li>Table</li>
      * </ul>
      * 
      * @param status {@link Status}
@@ -259,7 +270,7 @@ public class ExtentTest implements IAddsMedia, Serializable {
     }
     
     private Log createLog(Status status) {
-        Log evt = new Log();
+        Log evt = new Log(this);
         evt.setStatus(status);
         evt.setSequence(test.getLogContext().getAll().size() + 1);
         
@@ -273,15 +284,7 @@ public class ExtentTest implements IAddsMedia, Serializable {
         return evt;
     }
 
-    /**
-     * Logs an event with {@link Status} and exception
-     * 
-     * @param logStatus {@link Status}
-     * @param t {@link Throwable}
-     * 
-     * @return {@link ExtentTest} object
-     */
-    public synchronized ExtentTest log(Status logStatus, Throwable t) {
+    public synchronized ExtentTest log(Status status, Throwable t, MediaEntityModelProvider provider) {
         ExceptionInfo exInfo = new ExceptionInfo();
         exInfo.setException(t);
         exInfo.setExceptionName(ExceptionUtil.getExceptionHeadline(t));
@@ -291,9 +294,26 @@ public class ExtentTest implements IAddsMedia, Serializable {
         if (getModel().getLevel() > 1)
             getModel().getParent().setExceptionInfo(exInfo);
         
-        log(logStatus, exInfo.getStackTrace());
+        log(status, exInfo.getStackTrace(), provider);
         
         return this;
+    }
+    
+    /**
+     * Logs an event with {@link Status} and exception
+     * 
+     * @param status {@link Status}
+     * @param t {@link Throwable}
+     * 
+     * @return {@link ExtentTest} object
+     */
+    public synchronized ExtentTest log(Status status, Throwable t) {
+        return log(status, t, null);
+    }
+    
+    public ExtentTest info(String details, MediaEntityModelProvider provider) {
+    	log(Status.INFO, details, provider);
+    	return this;
     }
     
     /**
@@ -304,8 +324,12 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest info(String details) {
-        log(Status.INFO, details);
-        return this;
+        return info(details, null);
+    }
+    
+    public ExtentTest info(Throwable t, MediaEntityModelProvider provider) {
+    	log(Status.INFO, t, provider);
+    	return this;
     }
     
     /**
@@ -316,17 +340,16 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest info(Throwable t) {
-        log(Status.INFO, t);
-        return this;
+        return info(t, null);
     }
     
     /**
      * Logs an event with <code>Status.INFO</code> and custom {@link Markup} such as:
      * 
      * <ul>
-     *  <li>Code block</li>
-     *  <li>Label</li>
-     *  <li>Table</li>
+     * 	<li>Code block</li>
+     * 	<li>Label</li>
+     * 	<li>Table</li>
      * </ul>
      * 
      * @param m {@link Markup}
@@ -338,6 +361,11 @@ public class ExtentTest implements IAddsMedia, Serializable {
         return this;
     }
     
+    public ExtentTest pass(String details, MediaEntityModelProvider provider) {
+    	log(Status.PASS, details, provider);
+    	return this;
+    }
+    
     /**
      * Logs an event <code>Status.PASS</code> with details
      * 
@@ -346,8 +374,12 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest pass(String details) {
-        log(Status.PASS, details);
-        return this;
+        return pass(details, null);
+    }
+    
+    public ExtentTest pass(Throwable t, MediaEntityModelProvider provider) {
+    	log(Status.PASS, t, provider);
+    	return this;
     }
     
     /**
@@ -358,17 +390,16 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest pass(Throwable t) {
-        log(Status.PASS, t);
-        return this;
+        return pass(t, null);
     }
     
     /**
      * Logs an event with <code>Status.PASS</code> and custom {@link Markup} such as:
      * 
      * <ul>
-     *  <li>Code block</li>
-     *  <li>Label</li>
-     *  <li>Table</li>
+     * 	<li>Code block</li>
+     * 	<li>Label</li>
+     * 	<li>Table</li>
      * </ul>
      * 
      * @param m {@link Markup}
@@ -380,6 +411,11 @@ public class ExtentTest implements IAddsMedia, Serializable {
         return this;
     }
     
+    public ExtentTest fail(String details, MediaEntityModelProvider provider) {
+    	log(Status.FAIL, details, provider);
+    	return this;
+    }
+    
     /**
      * Logs an event <code>Status.FAIL</code> with details
      * 
@@ -388,8 +424,12 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest fail(String details) {
-        log(Status.FAIL, details);
-        return this;
+        return fail(details, null);
+    }
+    
+    public ExtentTest fail(Throwable t, MediaEntityModelProvider provider) {
+    	log(Status.FAIL, t, provider);
+    	return this;
     }
     
     /**
@@ -400,17 +440,16 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest fail(Throwable t) {
-        log(Status.FAIL, t);
-        return this;
+        return fail(t, null);
     }
     
     /**
      * Logs an event with <code>Status.FAIL</code> and custom {@link Markup} such as:
      * 
      * <ul>
-     *  <li>Code block</li>
-     *  <li>Label</li>
-     *  <li>Table</li>
+     * 	<li>Code block</li>
+     * 	<li>Label</li>
+     * 	<li>Table</li>
      * </ul>
      * 
      * @param m {@link Markup}
@@ -420,6 +459,11 @@ public class ExtentTest implements IAddsMedia, Serializable {
     public ExtentTest fail(Markup m) {
         log(Status.FAIL, m);
         return this;
+    }
+    
+    public ExtentTest fatal(String details, MediaEntityModelProvider provider) {
+    	log(Status.FATAL, details, provider);
+    	return this;
     }
     
     /**
@@ -432,6 +476,11 @@ public class ExtentTest implements IAddsMedia, Serializable {
     public ExtentTest fatal(String details) {
         log(Status.FATAL, details);
         return this;
+    }
+    
+    public ExtentTest fatal(Throwable t, MediaEntityModelProvider provider) {
+    	log(Status.FATAL, t, provider);
+    	return this;
     }
     
     /**
@@ -450,9 +499,9 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * Logs an event with <code>Status.FATAL</code> and custom {@link Markup} such as:
      * 
      * <ul>
-     *  <li>Code block</li>
-     *  <li>Label</li>
-     *  <li>Table</li>
+     * 	<li>Code block</li>
+     * 	<li>Label</li>
+     * 	<li>Table</li>
      * </ul>
      * 
      * @param m {@link Markup}
@@ -464,6 +513,11 @@ public class ExtentTest implements IAddsMedia, Serializable {
         return this;
     }
     
+    public ExtentTest warning(String details, MediaEntityModelProvider provider) {
+    	log(Status.WARNING, details, provider);
+    	return this;
+    }
+    
     /**
      * Logs an event <code>Status.WARNING</code> with details
      * 
@@ -472,8 +526,12 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest warning(String details) {
-        log(Status.WARNING, details);
-        return this;
+        return warning(details, null);
+    }
+    
+    public ExtentTest warning(Throwable t, MediaEntityModelProvider provider) {
+    	log(Status.WARNING, t, provider);
+    	return this;
     }
     
     /**
@@ -484,17 +542,16 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest warning(Throwable t) {
-        log(Status.WARNING, t);
-        return this;
+        return warning(t, null);
     }
     
     /**
      * Logs an event with <code>Status.WARNING</code> and custom {@link Markup} such as:
      * 
      * <ul>
-     *  <li>Code block</li>
-     *  <li>Label</li>
-     *  <li>Table</li>
+     * 	<li>Code block</li>
+     * 	<li>Label</li>
+     * 	<li>Table</li>
      * </ul>
      * 
      * @param m {@link Markup}
@@ -506,6 +563,11 @@ public class ExtentTest implements IAddsMedia, Serializable {
         return this;
     }
     
+    public ExtentTest error(String details, MediaEntityModelProvider provider) {
+    	log(Status.ERROR, details, provider);
+    	return this;
+    }
+    
     /**
      * Logs an event <code>Status.ERROR</code> with details
      * 
@@ -514,8 +576,12 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest error(String details) {
-        log(Status.ERROR, details);
-        return this;
+        return error(details, null);
+    }
+    
+    public ExtentTest error(Throwable t, MediaEntityModelProvider provider) {
+    	log(Status.ERROR, t, provider);
+    	return this;
     }
     
     /**
@@ -526,17 +592,16 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest error(Throwable t) {
-        log(Status.ERROR, t);
-        return this;
+        return error(t, null);
     }
     
     /**
      * Logs an event with <code>Status.ERROR</code> and custom {@link Markup} such as:
      * 
      * <ul>
-     *  <li>Code block</li>
-     *  <li>Label</li>
-     *  <li>Table</li>
+     * 	<li>Code block</li>
+     * 	<li>Label</li>
+     * 	<li>Table</li>
      * </ul>
      * 
      * @param m {@link Markup}
@@ -548,6 +613,11 @@ public class ExtentTest implements IAddsMedia, Serializable {
         return this;
     }
     
+    public ExtentTest skip(String details, MediaEntityModelProvider provider) {
+    	log(Status.SKIP, details, provider);
+    	return this;
+    }
+    
     /**
      * Logs an event <code>Status.SKIP</code> with details
      * 
@@ -556,8 +626,12 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest skip(String details) {
-        log(Status.SKIP, details);
-        return this;
+        return skip(details, null);
+    }
+    
+    public ExtentTest skip(Throwable t, MediaEntityModelProvider provider) {
+    	log(Status.SKIP, t, provider);
+    	return this;
     }
     
     /**
@@ -568,17 +642,16 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * @return {@link ExtentTest} object
      */
     public ExtentTest skip(Throwable t) {
-        log(Status.SKIP, t);
-        return this;
+        return skip(t, null);
     }
     
     /**
      * Logs an event with <code>Status.SKIP</code> and custom {@link Markup} such as:
      * 
      * <ul>
-     *  <li>Code block</li>
-     *  <li>Label</li>
-     *  <li>Table</li>
+     * 	<li>Code block</li>
+     * 	<li>Label</li>
+     * 	<li>Table</li>
      * </ul>
      * 
      * @param m {@link Markup}
@@ -597,15 +670,14 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * 
      * @return {@link ExtentTest} object
      */
-    public ExtentTest assignCategory(String category) {
-        String cat = category.replace(" ", "");
-        
-        Category c = new Category();
-        c.setName(cat);
-        test.setCategory(c);
-        
-        extent.assignCategory(test, c);
-        
+    public ExtentTest assignCategory(String... category) {
+    	Arrays.stream(category).filter(StringUtil::isNotNullOrEmpty).forEach(c -> {
+    		Category objCategory = new Category(c.replace(" ", ""));
+	        test.setCategory(objCategory);
+	        
+	        extent.assignCategory(test, objCategory);
+    	});
+
         return this;
     }
     
@@ -616,12 +688,13 @@ public class ExtentTest implements IAddsMedia, Serializable {
      * 
      * @return {@link ExtentTest} object
      */
-    public ExtentTest assignAuthor(String author) {
-        Author a = new Author();
-        a.setName(author);        
-        test.setAuthor(a);
-
-        extent.assignAuthor(test, a);
+    public ExtentTest assignAuthor(String... author) {
+    	Arrays.stream(author).filter(StringUtil::isNotNullOrEmpty).forEach(a -> {
+    		Author objAuthor = new Author(a.replace(" ", ""));
+	        test.setAuthor(objAuthor);
+	        
+	        extent.assignAuthor(test, objAuthor);
+    	});
         
         return this;
     }
@@ -630,7 +703,8 @@ public class ExtentTest implements IAddsMedia, Serializable {
     public ExtentTest addScreenCaptureFromPath(String imagePath, String title) throws IOException {
         ScreenCapture sc = new ScreenCapture();
         sc.setPath(imagePath);
-        sc.setName(title);
+        if (title != null)
+            sc.setName(title);
         sc.setMediaType(MediaType.IMG);
         
         test.setScreenCapture(sc);
@@ -642,6 +716,7 @@ public class ExtentTest implements IAddsMedia, Serializable {
         }
         
         extent.addScreenCapture(test, sc);
+        
         return this;
     }
     
@@ -649,7 +724,7 @@ public class ExtentTest implements IAddsMedia, Serializable {
     public ExtentTest addScreenCaptureFromPath(String imagePath) throws IOException {
         return addScreenCaptureFromPath(imagePath, null);
     }
-
+    
     /**
      * Provides the current run status of the test or node
      * 

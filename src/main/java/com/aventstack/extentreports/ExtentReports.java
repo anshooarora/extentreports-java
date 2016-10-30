@@ -276,10 +276,7 @@ public class ExtentReports extends Report {
      * @param v Value of system variable
      */
     public void setSystemInfo(String k, String v) {
-        SystemAttribute sa = new SystemAttribute();
-        sa.setName(k);
-        sa.setValue(v);
-        
+        SystemAttribute sa = new SystemAttribute(k, v);        
         super.setSystemInfo(sa);
     }
     

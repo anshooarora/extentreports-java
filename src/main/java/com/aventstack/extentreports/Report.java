@@ -25,7 +25,7 @@ abstract class Report implements IReport, Serializable {
     private SessionStatusStats stats;
     private SystemAttributeContext saContext;
     
-    private List<ExtentReporter> reporterList;
+    private List<ExtentReporter> reporterCollection;
     private List<String> testRunnerLogs;
     private List<Test> testList;
 
@@ -34,16 +34,16 @@ abstract class Report implements IReport, Serializable {
     }
     
     protected void attach(ExtentReporter reporter) {
-        if (reporterList == null)
-            reporterList = new ArrayList<>();
+        if (reporterCollection == null)
+            reporterCollection = new ArrayList<>();
         
-        reporterList.add(reporter);
+        reporterCollection.add(reporter);
         reporter.start();
     }
     
     protected void detach(ExtentReporter reporter) {
         reporter.stop();
-        reporterList.remove(reporter);
+        reporterCollection.remove(reporter);
     }
     
     protected synchronized void createTest(Test test) {
@@ -52,29 +52,29 @@ abstract class Report implements IReport, Serializable {
         
         testList.add(test);
         
-        reporterList.forEach(x -> x.onTestStarted(test));
+        reporterCollection.forEach(x -> x.onTestStarted(test));
     }
     
     synchronized void addNode(Test node) {
-        reporterList.forEach(x -> x.onNodeStarted(node));
+        reporterCollection.forEach(x -> x.onNodeStarted(node));
     }
     
     synchronized void addLog(Test test, Log log) {
         collectRunInfo();
         
-        reporterList.forEach(x -> x.onLogAdded(test, log));
+        reporterCollection.forEach(x -> x.onLogAdded(test, log));
     }
     
     synchronized void assignCategory(Test test, Category category) {
-        reporterList.forEach(x -> x.onCategoryAssigned(test, category));
+        reporterCollection.forEach(x -> x.onCategoryAssigned(test, category));
     }
     
     synchronized void assignAuthor(Test test, Author author) {
-        reporterList.forEach(x -> x.onAuthorAssigned(test, author));
+        reporterCollection.forEach(x -> x.onAuthorAssigned(test, author));
     }
     
     synchronized void addScreenCapture(Test test, ScreenCapture sc) throws IOException {
-        reporterList.forEach(x -> {
+        reporterCollection.forEach(x -> {
             try {
                 x.onScreenCaptureAdded(test, sc);
             } catch (IOException e) {
@@ -118,6 +118,9 @@ abstract class Report implements IReport, Serializable {
     }
 
     protected synchronized void flush() {
+    	if (reporterCollection == null || reporterCollection.isEmpty())
+            throw new IllegalStateException("No reporters were started. Atleast 1 reporter must be started to flush results.");
+    	
         collectRunInfo();
         notifyReporters();
     }
@@ -152,7 +155,7 @@ abstract class Report implements IReport, Serializable {
     }
     
     private synchronized void notifyReporters() {
-        reporterList.forEach(x -> {
+        reporterCollection.forEach(x -> {
             x.setTestList(testList);
             
             x.setCategoryContextInfo(testAttrCategoryContext);
@@ -162,14 +165,14 @@ abstract class Report implements IReport, Serializable {
             x.setStatusCount(stats);
         });
         
-        reporterList.forEach(ExtentReporter::flush);
+        reporterCollection.forEach(ExtentReporter::flush);
     }
     
     protected void end() {
         flush();
         
-        reporterList.forEach(ExtentReporter::stop);
-        reporterList.clear();
+        reporterCollection.forEach(ExtentReporter::stop);
+        reporterCollection.clear();
     }
     
     protected void setSystemInfo(SystemAttribute sa) {

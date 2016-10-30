@@ -6,9 +6,18 @@ abstract class Attribute implements Serializable {
 
     private static final long serialVersionUID = 6491172989326625178L;
 
-    protected String k;
-    protected String v;
+    private String k;
+    private String v;
     
+    public Attribute(String k, String v) {
+        this.k = k;
+        this.v = v;
+    }
+    
+    public Attribute(String k) {
+        this(k, null);
+    }
+
     protected String getKey() {
         return k;
     }

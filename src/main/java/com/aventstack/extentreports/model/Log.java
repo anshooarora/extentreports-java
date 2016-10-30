@@ -4,22 +4,39 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.RunResult;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.Markup;
 
-public class Log implements Serializable {
+public class Log implements RunResult, Serializable {
 
     private static final long serialVersionUID = 1594512136869286425L;
     
+    private AbstractStructure<ScreenCapture> screenCaptureContext;
+    
+    private ExtentTest parent;
+    private Test parentModel;
     private Markup markup;
     private Date timestamp;
     private Status logStatus;
     private String stepName;
     private String details;
-    
     private int sequence;
     
-    public Log() { timestamp = Calendar.getInstance().getTime(); }
+    private Log() {
+    	timestamp = Calendar.getInstance().getTime();
+    }
+    
+    public Log(Test test) { 
+    	this();
+    	this.parentModel = test;
+    }
+    
+    public Log(ExtentTest test) {
+    	this();
+    	this.parent = test;
+    }
     
     public Date getTimestamp() {
         return timestamp;
@@ -63,4 +80,29 @@ public class Log implements Serializable {
         return sequence;
     }
     
+    public void setScreenCapture(ScreenCapture sc) {
+        if (screenCaptureContext == null)
+            screenCaptureContext = new AbstractStructure<>();
+        
+        screenCaptureContext.add(sc);
+        
+        String details = getDetails().isEmpty() 
+        		? sc.getSource() 
+				: getDetails() + sc.getSource();
+        setDetails(details);
+    }
+    public AbstractStructure<ScreenCapture> getScreenCaptureContext() {
+        return screenCaptureContext;
+    }
+    
+    public ExtentTest getParent() {
+        return parent;
+    }
+    
+    public Test getParentModel() {
+    	if (parent == null)
+    		return parentModel;
+    		
+        return parent.getModel();
+    }
 }

@@ -11,4 +11,8 @@ public class StringUtil {
         return Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();
     }
     
+    public static boolean isNotNullOrEmpty (String str) {
+    	return str != null && !str.isEmpty();
+    }
+    
 }

@@ -6,6 +6,10 @@ public abstract class TestAttribute extends Attribute implements Serializable {
 
     static final long serialVersionUID = 1010210091204302766L;
 
+    public TestAttribute(String k) {
+        super(k);
+    }
+    
     public String getName() {
         return getKey();
     }

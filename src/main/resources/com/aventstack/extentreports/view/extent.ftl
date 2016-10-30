@@ -78,7 +78,7 @@
 			};
 		</script>
 
-		<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/master/dist/js/extent.js' type='text/javascript'></script>
+		<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/9fa70d0ed9c34a8ed445ceee3494d3d7de7f8918/dist/js/extent.js' type='text/javascript'></script>
 		
 		<#assign hide=(chartVisibleOnOpen=='true')?then(false, true)>
 		<#if hide>
