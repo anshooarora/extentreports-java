@@ -307,4 +307,10 @@ public class ExtentReports extends Report {
         usesManualConfiguration = b;
     }
     
+    /**
+     * Provides common report configurations
+     */
+    public ReportConfigurator config() {
+        return ReportConfigurator.getInstance();
+    }
 }

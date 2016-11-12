@@ -48,6 +48,10 @@ public enum Status implements Serializable {
         return statusHierarchy;
     }
     
+    static void setStatusHierarchy(List<Status> statusHierarchy) {
+        Status.statusHierarchy = statusHierarchy;
+    }
+    
     @Override
     public String toString() {
         switch (this) {
