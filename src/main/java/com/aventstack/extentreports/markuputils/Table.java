@@ -15,7 +15,7 @@ class Table implements Markup {
         sb.append("<table>");
         for(int row = 0; row < data.length; row++){
             sb.append("<tr>");
-            for(int col = 0; col < data[0].length; col++){
+            for(int col = 0; col < data[row].length; col++){
                 sb.append("<td>" + data[row][col] + "</td>");
             }
             sb.append("</tr>");
