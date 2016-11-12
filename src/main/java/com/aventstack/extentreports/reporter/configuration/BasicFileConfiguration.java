@@ -7,7 +7,6 @@ import java.io.File;
  * 
  * <ul>
  * 	<li>{@link com.aventstack.extentreports.reporter.ExtentHtmlReporter}</li>
- * 	<li>{@link com.aventstack.extentreports.reporter.ExtentEmailReporter}</li>
  * </ul>
  */
 public class BasicFileConfiguration extends BasicConfiguration {
