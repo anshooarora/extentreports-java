@@ -109,11 +109,19 @@ test.createNode("Node 2").warning("warning");
 
 ### Screenshots
 
+To attach screenshots to test, use:
+
 ```
 extent.createTest("Media").addScreenCaptureFromPath("file.png").fail("fail");
 ```
 
-To automatically create relative paths from the report, use configuration:
+To attach screenshots to logs, use `MediaEntityBuilder`:
+
+```
+test.fail("message", MediaEntityBuilder.createScreenCaptureFromPath("file.png").build());
+```
+
+To automatically create relative paths from the report, use configuration (pro-only):
 
 ```
 reporter.config().setAutoCreateRelativePathMedia(true);
