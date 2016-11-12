@@ -61,6 +61,7 @@ public class ExtentTestNGIReporterListener implements IReporter {
         
         extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
+        extent.setReportUsesManualConfiguration(true);
     }
     
     private void buildTestNodes(IResultMap tests, Status status) {

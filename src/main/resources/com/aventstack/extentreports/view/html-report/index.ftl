@@ -3,6 +3,7 @@
 <#assign theme=config.containsKey('theme')?then(config.getValue('theme')?lower_case, 'standard')>
 <#assign testViewChartLocation=config.containsKey('chartLocation')?then(config.getValue('chartLocation')?lower_case, 'top')>
 <#assign chartVisibleOnOpen=config.containsKey('chartVisibilityOnOpen')?then(config.getValue('chartVisibilityOnOpen'), 'false')>
+<#assign extentxUrl=config.containsKey('extentx-url')?then(config.getValue('extentx-url'), '')>
 
 <#assign systemAttributeContext=report.getSystemAttributeContext().getSystemAttributeList()>
 <#assign categoryContext=report.getCategoryContextInfo().getCategoryTestContextList()>
@@ -56,7 +57,7 @@
 				errorParent: ${ report.statusCount.parentCountError },
 				warningParent: ${ report.statusCount.parentCountWarning },
 				skipParent: ${ report.statusCount.parentCountSkip },
-				unknownParent: ${ report.statusCount.parentCountUnknown },
+				exceptionsParent: ${ report.statusCount.parentCountExceptions },
 				
 				passChild: ${ report.statusCount.childCountPass },
 				failChild: ${ report.statusCount.childCountFail },
@@ -64,8 +65,8 @@
 				errorChild: ${ report.statusCount.childCountError },
 				warningChild: ${ report.statusCount.childCountWarning },
 				skipChild: ${ report.statusCount.childCountSkip },
-				unknownChild: ${ report.statusCount.childCountUnknown },
 				infoChild: ${ report.statusCount.childCountInfo },
+				exceptionsChild: ${ report.statusCount.childCountExceptions },
 				
 				passGrandChild: ${ report.statusCount.grandChildCountPass },
 				failGrandChild: ${ report.statusCount.grandChildCountFail },
@@ -73,15 +74,15 @@
 				errorGrandChild: ${ report.statusCount.grandChildCountError },
 				warningGrandChild: ${ report.statusCount.grandChildCountWarning },
 				skipGrandChild: ${ report.statusCount.grandChildCountSkip },
-				unknownGrandChild: ${ report.statusCount.grandChildCountUnknown },
-				infoGrandChild: ${ report.statusCount.grandChildCountInfo }
+				infoGrandChild: ${ report.statusCount.grandChildCountInfo },
+				exceptionsGrandChild: ${ report.statusCount.grandChildCountExceptions },
 			};
 		</script>
 
 		<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/9fa70d0ed9c34a8ed445ceee3494d3d7de7f8918/dist/js/extent.js' type='text/javascript'></script>
-		
-		<#assign hide=(chartVisibleOnOpen=='true')?then(false, true)>
-		<#if hide>
+
+		<#assign hideChart=(chartVisibleOnOpen=='true')?then(false, true)>
+		<#if hideChart>
 		<script type='text/javascript'>
 			$(document).ready(function() {
 				$('#test-view-charts').addClass('hide');
@@ -90,10 +91,10 @@
 		</#if>
 		
 		<#if config.containsKey('js')>
-		<script type='text/javascript'>
-			${ config.getValue('js') }
-		</script>
-		</#if>
+ 		<script type='text/javascript'>
+ 			${ config.getValue('js') }
+ 		</script>
+ 		</#if>
 	</body>
 	
 </html>

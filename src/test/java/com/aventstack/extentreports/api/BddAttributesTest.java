@@ -11,7 +11,7 @@ import com.aventstack.extentreports.gherkin.model.Feature;
 import com.aventstack.extentreports.gherkin.model.Scenario;
 
 public class BddAttributesTest extends Base {
-    
+
     @Test
     public void initialTestIsOfBddType(Method method) {
         ExtentTest feature = extent.createTest(Feature.class, method.getName());

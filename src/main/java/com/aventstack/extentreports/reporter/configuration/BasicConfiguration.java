@@ -24,7 +24,7 @@ abstract class BasicConfiguration {
         if (levels == null)
             levels = new ArrayList<>();
         
-        Arrays.stream(level).forEach(x -> levels.add(x));
+        Arrays.stream(level).forEach(levels::add);
     }
     public List<Status> getLevel() { return levels; }
     

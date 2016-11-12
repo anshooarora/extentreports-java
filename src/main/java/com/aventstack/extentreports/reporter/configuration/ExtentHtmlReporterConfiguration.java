@@ -5,10 +5,10 @@ package com.aventstack.extentreports.reporter.configuration;
  */
 public class ExtentHtmlReporterConfiguration extends BasicFileConfiguration implements IReporterConfiguration {
 
-    boolean chartVisibileOnOpen;
+    private boolean chartVisibileOnOpen;
     
-    Protocol protocol;
-    ChartLocation chartLocation;
+    private Protocol protocol;
+    private ChartLocation chartLocation;
     
     /**
      * Sets the protocol of accessing CSS/JS resources from CDN
@@ -39,12 +39,12 @@ public class ExtentHtmlReporterConfiguration extends BasicFileConfiguration impl
     /**
      * For {@link com.aventstack.extentreports.reporter.ExtentHtmlReporter}, sets the configuration to allow viewing or hiding charts on report open
      * 
-     * @param chartVisibilityOnOpen true for visible, false for hidden
+     * @param chartVisibilityOnOpen true to view charts on report open, false to hide
      */
     public void setChartVisibilityOnOpen(boolean chartVisibilityOnOpen) { 
         usedConfigs.put("chartVisibilityOnOpen", String.valueOf(chartVisibilityOnOpen).toLowerCase());
         this.chartVisibileOnOpen = chartVisibilityOnOpen; 
     }   
     public boolean getChartVisibilityOnOpen() { return chartVisibileOnOpen; }
-
+    
 }

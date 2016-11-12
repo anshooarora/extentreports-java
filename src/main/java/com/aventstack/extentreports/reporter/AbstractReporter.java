@@ -98,10 +98,12 @@ public abstract class AbstractReporter implements ExtentReporter {
     }
     
     public SessionStatusStats getStatusCount() {
-        if (levels == null)
+        if (sc != null)
             return sc;
         
-        return new SessionStatusStats(testList);
+        sc = new SessionStatusStats();
+        sc.refresh(testList);
+        return sc;
     }
     
     @Override
@@ -146,6 +148,7 @@ public abstract class AbstractReporter implements ExtentReporter {
         return endTime; 
     }
 
+    @Override
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }

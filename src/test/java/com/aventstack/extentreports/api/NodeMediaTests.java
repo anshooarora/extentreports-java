@@ -2,6 +2,7 @@ package com.aventstack.extentreports.api;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.URL;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -12,8 +13,8 @@ import com.aventstack.extentreports.ExtentTest;
 public class NodeMediaTests extends Base {
 
     private final String imgName = "img";
-    
-    private String imgPath;
+    private URL url = getClass().getClassLoader().getResource("1.png");
+    private String imgPath = url.getPath();
     
     @Test
     public void verifyIfScreenCaptureAdded(Method method) throws IOException {

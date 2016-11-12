@@ -6,37 +6,69 @@ import com.aventstack.extentreports.model.Test;
 
 public class SessionStatusStats {
     
-    List<Test> testList;
+    private List<Test> testCollection;
     
-    int parentPass = 0; 
-    int parentFail = 0;
-    int parentFatal = 0;
-    int parentError = 0;
-    int parentWarning = 0;
-    int parentSkip = 0;
-    int parentUnknown = 0;
-                
-    int childPass = 0; 
-    int childFail = 0;
-    int childFatal = 0;
-    int childError = 0;
-    int childWarning = 0;
-    int childSkip = 0;
-    int childUnknown = 0;
-    int childInfo = 0;
+    private int parentPass = 0; 
+    private int parentFail = 0;
+    private int parentFatal = 0;
+    private int parentError = 0;
+    private int parentWarning = 0;
+    private int parentSkip = 0;
+    private int parentExceptions = 0;
     
-    int grandChildPass = 0; 
-    int grandChildFail = 0;
-    int grandChildFatal = 0;
-    int grandChildError = 0;
-    int grandChildWarning = 0;
-    int grandChildSkip = 0;
-    int grandChildUnknown = 0;
-    int grandChildInfo = 0;
+    private int childPass = 0; 
+    private int childFail = 0;
+    private int childFatal = 0;
+    private int childError = 0;
+    private int childWarning = 0;
+    private int childSkip = 0;
+    private int childInfo = 0;
+    private int childExceptions = 0;
     
-    public SessionStatusStats(List<Test> testList) { 
-        this.testList = testList;
+    private int grandChildPass = 0; 
+    private int grandChildFail = 0;
+    private int grandChildFatal = 0;
+    private int grandChildError = 0;
+    private int grandChildWarning = 0;
+    private int grandChildSkip = 0;
+    private int grandChildInfo = 0;
+    private int grandChildExceptions = 0;
+    
+    public SessionStatusStats() { }
+
+    public void refresh(List<Test> testCollection) {
+        reset();
+        
+        this.testCollection = testCollection;
         updateCounts();
+    }
+
+    private void reset() {
+        parentPass = 0; 
+        parentFail = 0;
+        parentFatal = 0;
+        parentError = 0;
+        parentWarning = 0;
+        parentSkip = 0;
+        parentExceptions = 0;
+        
+        childPass = 0; 
+        childFail = 0;
+        childFatal = 0;
+        childError = 0;
+        childWarning = 0;
+        childSkip = 0;
+        childInfo = 0;
+        childExceptions = 0;
+        
+        grandChildPass = 0; 
+        grandChildFail = 0;
+        grandChildFatal = 0;
+        grandChildError = 0;
+        grandChildWarning = 0;
+        grandChildSkip = 0;
+        grandChildInfo = 0;
+        grandChildExceptions = 0;
     }
     
     public int getParentCount() { 
@@ -45,8 +77,7 @@ public class SessionStatusStats {
             getParentCountFatal() +
             getParentCountError() +
             getParentCountWarning() +
-            getParentCountSkip() +
-            getParentCountUnknown(); 
+            getParentCountSkip(); 
     }
     public int getParentCountPass() { return parentPass; }
     public int getParentCountFail() { return parentFail; }
@@ -54,7 +85,7 @@ public class SessionStatusStats {
     public int getParentCountError() { return parentError; }
     public int getParentCountWarning() { return parentWarning; }
     public int getParentCountSkip() { return parentSkip; }
-    public int getParentCountUnknown() { return parentUnknown; }
+    public int getParentCountExceptions() { return parentExceptions; }
     
     public int getChildCount() { 
         return getChildCountPass() + 
@@ -63,8 +94,7 @@ public class SessionStatusStats {
             getChildCountError() +
             getChildCountWarning() +
             getChildCountSkip() +
-            getChildCountInfo() +
-            getChildCountUnknown(); 
+            getChildCountInfo(); 
     }
     public int getChildCountPass() { return childPass; }
     public int getChildCountFail() { return childFail; }
@@ -72,8 +102,8 @@ public class SessionStatusStats {
     public int getChildCountError() { return childError; }
     public int getChildCountWarning() { return childWarning; }
     public int getChildCountSkip() { return childSkip; }
-    public int getChildCountUnknown() { return childUnknown; }
     public int getChildCountInfo() { return childInfo; }
+    public int getChildCountExceptions() { return childExceptions; }
     
     public int getGrandChildCount() { 
         return getGrandChildCountPass() + 
@@ -82,8 +112,7 @@ public class SessionStatusStats {
             getGrandChildCountError() +
             getGrandChildCountWarning() +
             getGrandChildCountSkip() +
-            getGrandChildCountInfo() +
-            getGrandChildCountUnknown(); 
+            getGrandChildCountInfo();
     }
     public int getGrandChildCountPass() { return grandChildPass; }
     public int getGrandChildCountFail() { return grandChildFail; }
@@ -91,11 +120,11 @@ public class SessionStatusStats {
     public int getGrandChildCountError() { return grandChildError; }
     public int getGrandChildCountWarning() { return grandChildWarning; }
     public int getGrandChildCountSkip() { return grandChildSkip; }
-    public int getGrandChildCountUnknown() { return grandChildUnknown; }
     public int getGrandChildCountInfo() { return grandChildInfo; }
+    public int getGrandChildCountExceptions() { return grandChildExceptions; }
     
     void updateCounts() {
-        testList.forEach(this::addTestForStatusStatsUpdate);
+        testCollection.forEach(this::addTestForStatusStatsUpdate);
     }
     
     void addTestForStatusStatsUpdate(Test test) {
@@ -159,7 +188,7 @@ public class SessionStatusStats {
         switch (status) {
             case PASS: 
                 parentPass++; 
-                break;
+                return;
             case FAIL: 
                 parentFail++; 
                 break;
@@ -175,12 +204,11 @@ public class SessionStatusStats {
             case SKIP: 
                 parentSkip++; 
                 break;
-            case UNKNOWN: 
-                parentUnknown++; 
-                break;
             default: 
                 break;
         }
+        
+        parentExceptions++;
     }
 
     void incrementChild(Status status) {
@@ -203,15 +231,15 @@ public class SessionStatusStats {
             case SKIP: 
                 childSkip++; 
                 break;
-            case UNKNOWN: 
-                childUnknown++; 
-                break;
             case INFO: 
                 childInfo++; 
                 break;
             default: 
                 break;
         }
+        
+        if (status != Status.PASS && status != Status.INFO)
+            childExceptions++;
     }
     
     void incrementGrandChild(Status status) {
@@ -234,14 +262,15 @@ public class SessionStatusStats {
             case SKIP: 
                 grandChildSkip++; 
                 break;
-            case UNKNOWN: 
-                grandChildUnknown++; 
-                break;
             case INFO: 
                 grandChildInfo++; 
                 break;
             default: 
                 break;
         }
+        
+        if (status != Status.PASS && status != Status.INFO)
+            grandChildExceptions++;
     }
 }
+

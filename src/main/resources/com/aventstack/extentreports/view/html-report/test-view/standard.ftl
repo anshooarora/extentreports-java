@@ -10,21 +10,21 @@
 	<div class='test-attributes'>
 		<#if test.hasCategory()>
 			<div class='category-list'>
-				<#list test.categoryList as category>
+				<#list test.categoryContext.all as category>
 				<span class='category label white-text'>${ category.name }</span>
 				</#list>
 			</div>
 		</#if>
 		<#if test.hasAuthor()>
 			<div class='author-list'>
-				<#list test.getAuthorList() as author>
+				<#list test.authorContext.all as author>
 				<span class='author label white-text'>${ author.name }</span>
 				</#list>
 			</div>
 		</#if>
 	</div>
 </#if>
-<#if test.hasLogs()>
+<#if test.hasLog()>
 	<div class='test-steps'>
 		<table class='bordered table-results'>
 			<thead>
@@ -61,15 +61,26 @@
 					<div class='collapsible-header'>
 						<div class='node-name'>${ node.name }</div>						
 						<span class='node-time'>${ node.startTime?datetime?string }</span>
+						<span class='node-duration'>${ node.runDuration }</span>
 						<span class='test-status right ${ node.status }'>${ node.status }</span>
 					</div>
-					<#if node.hasLogs()>
+					<#if node.hasLog()>
 						<div class='collapsible-body'>
-							<#if node.hasLogs()>
+							<#if node.hasLog()>
 								<#if node.hasCategory()>
 									<div class='category-list right'>
-										<#list node.categoryList as category>
+										<#list node.categoryContext.all as category>
 											<span class='category label white-text'>${ category.name }</span>
+										</#list>
+									</div>
+								</#if>
+								<#if node.description?? && node.description?has_content>
+									<div class='node-desc'>${ node.description}</div>
+								</#if>
+								<#if node.hasAuthor()>
+									<div class='author-list right'>
+										<#list node.authorContext.all as author>
+											<span class='author label white-text'>${ author.name }</span>
 										</#list>
 									</div>
 								</#if>

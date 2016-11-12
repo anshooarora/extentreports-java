@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class ExceptionInfo implements Serializable {
 
     private static final long serialVersionUID = 2672123037706464734L;
-    
-    String exceptionName;
-    String stackTrace;
-    Throwable t;
+
+    private String exceptionName;
+    private String stackTrace;
+    private Throwable t;
     
     // exception-name
     public String getExceptionName() { return exceptionName; }
@@ -18,7 +18,11 @@ public class ExceptionInfo implements Serializable {
     // stack-trace
     public String getStackTrace() { return stackTrace; }
     
-    public void setStackTrace(String stackTrace) { this.stackTrace = stackTrace; }
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = "<pre>" + stackTrace + "</pre>";
+        if (stackTrace.contains(">") || stackTrace.contains("<"))
+            this.stackTrace = "<textarea>" + stackTrace + "</textarea>";
+    }
     
     // exception
     public void setException(Throwable t) { this.t = t; }

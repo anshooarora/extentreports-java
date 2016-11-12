@@ -6,42 +6,29 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.Base;
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.utils.Reader;
 
 public class TestAttributesTest extends Base {
 
-    final String filePath = getOutputFolder() + getClass().getName() + ".html";
     final String testName = getClass().getName();
     final String categoryName = "Extent";
-    
-    ExtentReports extent;
-    ExtentTest test;  
-    Document doc;
-    Elements htmlTest;
-    
-    @BeforeSuite
-    public void beforeSuite() {
-        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(filePath);
-        
-        extent = new ExtentReports();
-        extent.attachReporter(htmlReporter);
-    }
+
+    private ExtentTest test;
+    private Document doc;
+    private Elements htmlTest;
     
     @BeforeClass
-    public void setup() {
+    public void localSetup() {
         test = extent.createTest(testName).assignCategory(categoryName);
         test.pass(testName);
 
         extent.flush();
         
-        String html = Reader.readAllText(filePath);
+        String html = Reader.readAllText(htmlFilePath);
         doc = Jsoup.parse(html);
         
         htmlTest = doc.select("#test-collection .test");

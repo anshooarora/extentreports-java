@@ -1,6 +1,6 @@
 <nav>
 	<div class="nav-wrapper">
-		<a href="http://extentreports.relevantcodes.com" class="brand-logo blue darken-3">Extent</a>
+		<a href="#!" class="brand-logo blue darken-3">Extent</a>
 
 		<!-- slideout menu -->
 		<ul id='slide-out' class='side-nav fixed hide-on-med-and-down'>
@@ -25,11 +25,16 @@
 
 		<!-- nav-right -->
 		<ul id='nav-mobile' class='right hide-on-med-and-down nav-right'>
-			<a>
-				<span class='suite-start-time'>${ report.startTime?datetime?string }</span>
+			<#if extentxUrl!=''>
+			<a href='${ extentxUrl }'>
+				<span class='label blue darken-3'>ExtentX</span>
 			</a>
-			<a>
-				<span>v3.0.0</span>
+			</#if>
+			<a href='#!'>
+				<span class='label blue darken-3 suite-start-time'>${ report.startTime?datetime?string }</span>
+			</a>
+			<a href='#!'>
+				<span class='label blue darken-3'>v3.0.0</span>
 			</a>
 		</ul>
 	</div>

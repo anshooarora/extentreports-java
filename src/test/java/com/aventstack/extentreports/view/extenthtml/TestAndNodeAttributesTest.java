@@ -14,14 +14,14 @@ import com.aventstack.extentreports.utils.Reader;
 public class TestAndNodeAttributesTest extends Base {
     
     final String testName = getClass().getName();
-
+    
     ExtentTest test;
     ExtentTest node;
     Elements htmlTest;
     Elements htmlNode;
 
     @BeforeClass
-    public void classSetup() {
+    public void localSetup() {
         test = extent.createTest(testName);
         node = test.createNode(testName + ".Node");
         node.pass(testName + ".Node");

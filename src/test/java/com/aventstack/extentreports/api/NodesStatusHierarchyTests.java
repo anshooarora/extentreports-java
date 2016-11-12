@@ -10,7 +10,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
 public class NodesStatusHierarchyTests extends Base {
-    
+
     @Test
     public void verifyPassHasHigherPriorityThanInfoLevelsShallow(Method method) {
         ExtentTest parent = extent.createTest(method.getName());

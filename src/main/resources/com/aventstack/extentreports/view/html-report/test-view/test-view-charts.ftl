@@ -15,7 +15,7 @@
 					<span><span class='strong'>${ report.statusCount.parentCountPass }</span> test(s) passed</span>
 				</div>
 				<div class='block text-small'>
-					<span class='strong'>${ report.statusCount.parentCountFail + report.statusCount.parentCountFatal }</span> test(s) failed, <span class='strong'>${ report.statusCount.parentCountError + report.statusCount.parentCountWarning + report.statusCount.parentCountSkip + report.statusCount.parentCountUnknown }</span> others
+					<span class='strong'>${ report.statusCount.parentCountFail + report.statusCount.parentCountFatal }</span> test(s) failed, <span class='strong'>${ report.statusCount.parentCountError + report.statusCount.parentCountWarning + report.statusCount.parentCountSkip }</span> others
 				</div>
 			</div>
 		</div>

@@ -13,9 +13,11 @@ import com.aventstack.extentreports.common.ExtentTestManager;
 
 public class ParallelMethods extends Base {
     
+    final String filePath = getOutputFolder() + getClass().getName() + ".html";
+    
     @BeforeClass
     public void beforeClass() {
-        ExtentManager.createInstance(htmlFilePath);
+        ExtentManager.createInstance(filePath);
         ExtentTestManager.setReporter(ExtentManager.getInstance());;
     }
     
@@ -63,7 +65,7 @@ public class ParallelMethods extends Base {
     @Test
     public void method7(Method method) {
         ExtentTestManager.createTest(method.getName());
-        Assert.assertEquals(ExtentTestManager.getTest().getStatus(), Status.UNKNOWN);
+        Assert.assertEquals(ExtentTestManager.getTest().getStatus(), Status.PASS);
     }
     
 }

@@ -9,55 +9,62 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bson.types.ObjectId;
 
+import com.aventstack.extentreports.RunResult;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.gherkin.model.IGherkinFormatterModel;
 
-public class Test implements Serializable {
+public class Test implements RunResult, Serializable {
 
-    static final long serialVersionUID = 5590943223572254960L;
+    private static final long serialVersionUID = 5590943223572254960L;
 
     /**
-     * <p>
-     *     Default level of this test, using the numeric hierarchy with 0 indicating
-     *     the top-most test, followed by 1, 2, and so on
-     * </p>
+     * Default level of this test, using the numeric hierarchy with 0 indicating
+     * the top-most test, followed by 1, 2, and so on
      */
     private int level = 0;
+    private int testID;
     
     private Test parent;
     private Status testStatus;
     
-    private NodeStructure node;
-    private LogStructure log;
+    private AbstractStructure<Test> node;
+    private AbstractStructure<Log> log;
+    private AbstractStructure<TestAttribute> category;
+    private AbstractStructure<TestAttribute> author;
     
     private Date endTime;
     private Date startTime;
-    
-    private int testID;
     
     private static final AtomicInteger id = new AtomicInteger(0);
     private ObjectId mongoId;
     
     private Class<? extends IGherkinFormatterModel> bddType;
     
-    private transient List<ScreenCapture> scList;
+    private transient List<ScreenCapture> screenCaptureList;
+    private transient List<Screencast> screencastList;
     private transient List<ExceptionInfo> exceptionList;
-    private transient List<TestAttribute> authorList;
-    private transient List<TestAttribute> categoryList;
     
     private String name;
     private String hierarchicalName;
     private String description;
     
     private boolean ended = false;
+    private boolean usesManualConfiguration = false;
     
     public Test() {
         setStartTime(Calendar.getInstance().getTime());
-        setStatus(Status.UNKNOWN);
+        setEndTime(getStartTime());
+        setStatus(Status.PASS);
         
         setID(id.incrementAndGet());
-    }   
-    
+    }
+
+    // if used via listener, allow manual configuration of model
+    public void setUseManualConfiguration(boolean b) {
+        this.usesManualConfiguration = b;
+    }
+
+    // child
     public boolean isChildNode() {
         return level > 0;
     }
@@ -79,9 +86,9 @@ public class Test implements Serializable {
     public Test getParent() { return parent; }
 
     // nodes
-    public NodeStructure getNodeContext() {
+    public AbstractStructure<Test> getNodeContext() {
         if (node == null) {
-            node = new NodeStructure();
+            node = new AbstractStructure<>();
         }
 
         return node;
@@ -104,12 +111,25 @@ public class Test implements Serializable {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
+    
+    private void setEndTimeFromChildren() {
+        if (hasLog()) {
+            int logSize = getLogContext().size();
+            Date lastLogEndTime = getLogContext().get(logSize - 1).getTimestamp(); 
+            setEndTime(lastLogEndTime);
+        }
+        
+        if (hasChildren()) {
+            int nodeSize = getNodeContext().size();
+            Date lastNodeEndTime = getNodeContext().get(nodeSize - 1).getEndTime();
+            setEndTime(lastNodeEndTime);
+        }
+    }
 
     public Date getEndTime() {
         return endTime;
     }
-    
-    // has test ended already?
+
     public boolean hasEnded() {
         return ended;
     }
@@ -126,6 +146,11 @@ public class Test implements Serializable {
         mins = mins % 60;
         
         return hours + "h " + mins + "m " + secs + "s+" + millis + "ms";
+    }
+    
+    public Long getRunDurationMillis() {
+    	long diff = endTime.getTime() - startTime.getTime();
+    	return diff;
     }
 
     // default status when the test starts
@@ -152,11 +177,13 @@ public class Test implements Serializable {
     }
 
     public void end() {
-        setEndTime(Calendar.getInstance().getTime());
         updateTestStatusRecursive(this);
         endChildrenRecursive(this);
         
         testStatus = testStatus == Status.INFO ? Status.PASS : testStatus;
+        
+        if (!usesManualConfiguration || endTime == null)
+            setEndTimeFromChildren();
     }
 
     private synchronized void updateTestStatusRecursive(Test test) {
@@ -171,18 +198,19 @@ public class Test implements Serializable {
     }
 
     // logs
-    public LogStructure getLogContext() {
+    public AbstractStructure<Log> getLogContext() {
         if (log == null) {
-            log = new LogStructure();
+            log = new AbstractStructure<>();
         }
 
         return log;
     }
     
-    public boolean hasLogs() {
-        return log != null && log.getAll() != null && log.getAll().size() > 0;
+    public boolean hasLog() {
+        return log != null && log.getAll() != null && log.size() > 0;
     }
-
+    
+    // test description
     public void setDescription(String description) { 
         this.description = description; 
     }
@@ -202,34 +230,50 @@ public class Test implements Serializable {
     public String getHierarchicalName() { return hierarchicalName; }
     
     // categories
+    public AbstractStructure<TestAttribute> getCategoryContext() {
+        if (category == null)
+            category = new AbstractStructure<>();
+        
+        return category;
+    }
+    
     public boolean hasCategory() {
-        return categoryList != null && !categoryList.isEmpty();
+        return category != null && category.getAll() != null && category.size() > 0;
     }
     
     public void setCategory(TestAttribute category) {
-        if (categoryList == null) 
-            categoryList = new ArrayList<>();
-        
-        categoryList.add(category);
+        getCategoryContext().add(category);
     }
     
-    public List<TestAttribute> getCategoryList() {
-        return categoryList;
+    public TestAttribute getCategory(Integer index) {
+        if (hasCategory() && index >= category.size() - 1)
+            return category.get(index);
+            
+        return null;
     }
     
     // authors
+    public AbstractStructure<TestAttribute> getAuthorContext() {
+        if (author == null)
+            author = new AbstractStructure<>();
+        
+        return author;
+    }
+    
     public boolean hasAuthor() {
-        return authorList != null && !authorList.isEmpty();
+        return author != null && author.getAll() != null && author.size() > 0;
     }
     
     public void setAuthor(TestAttribute author) {
-        if (authorList == null) 
-            authorList = new ArrayList<>();
-        
-        authorList.add(author);
+        getAuthorContext().add(author);
     }
     
-    public List<TestAttribute> getAuthorList() { return authorList; }
+    public TestAttribute getAuthor(Integer index) {
+        if (hasAuthor() && index >= author.size() - 1)
+            return author.get(index);
+            
+        return null;
+    }
 
     // exceptions
     public void setExceptionInfo(ExceptionInfo ei) {
@@ -247,17 +291,30 @@ public class Test implements Serializable {
     
     // media - screenshots
     public boolean hasMedia() {
-        return scList != null && !scList.isEmpty();
+        return screenCaptureList != null 
+                && !screenCaptureList.isEmpty()
+                && screencastList != null
+                && !screencastList.isEmpty();
     }
     
     public void setScreenCapture(ScreenCapture sc) {
-        if (scList == null)
-            scList = new ArrayList<>();
+        if (screenCaptureList == null)
+            screenCaptureList = new ArrayList<>();
         
-        scList.add(sc);
+        screenCaptureList.add(sc);
     }
     
-    public List<ScreenCapture> getScreenCaptureList() { return scList; }
+    public List<ScreenCapture> getScreenCaptureList() { return screenCaptureList; }
+    
+    // media - screencast
+    public void setScreencast(Screencast screencast) {
+        if (screencastList == null)
+            screencastList = new ArrayList<>();
+        
+        screencastList.add(screencast);
+    }
+    
+    public List<Screencast> getScreencastList() { return screencastList; }
     
     // bdd
     public boolean isBehaviorDrivenType() { return bddType != null; }

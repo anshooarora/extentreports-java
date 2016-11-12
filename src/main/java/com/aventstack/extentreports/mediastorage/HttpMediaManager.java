@@ -31,8 +31,8 @@ class HttpMediaManager implements MediaStorage {
 
     private static final Logger logger = Logger.getLogger(HttpMediaManager.class.getName());
     
-    private final String route = "upload";
-    private final String csrfRoute = "csrfToken";
+    private static final String ROUTE = "upload";
+    private static final String CSRF_ROUTE = "csrfToken";
     private String csrf;
     private String host;
     private String cookie;
@@ -41,7 +41,7 @@ class HttpMediaManager implements MediaStorage {
     public void init(String host) throws IOException {
         this.host = host;
 
-        if (host.lastIndexOf("/") != host.length() - 1) {
+        if (host.lastIndexOf('/') != host.length() - 1) {
             this.host = host + "/";
         }
         
@@ -50,7 +50,7 @@ class HttpMediaManager implements MediaStorage {
     
     @SuppressWarnings("rawtypes")
     private void storeCsrfCookie() throws IOException {
-        HttpGet get = new HttpGet(host + csrfRoute);
+        HttpGet get = new HttpGet(host + CSRF_ROUTE);
         HttpClient client = HttpClients.createDefault();
         HttpResponse response = client.execute(get);
         
@@ -68,8 +68,7 @@ class HttpMediaManager implements MediaStorage {
             while ((sResponse = reader.readLine()) != null) {
                 s = s.append(sResponse);
             }
-            
-            
+
             ScriptEngineManager sem = new ScriptEngineManager();
             ScriptEngine engine = sem.getEngineByName("javascript");
             String json = s.toString();
@@ -88,7 +87,12 @@ class HttpMediaManager implements MediaStorage {
     
     @Override
     public void storeMedia(Media m) throws IOException {
-        HttpPost post = new HttpPost(host + route);
+        File f = new File(m.getPath());
+        if (!f.exists()) {
+            throw new IOException("The system cannot find the file specified " + m.getPath());
+        }
+        
+        HttpPost post = new HttpPost(host + ROUTE);
 
         post.addHeader("X-CSRF-TOKEN", csrf);
         post.addHeader("Connection", "keep-alive");

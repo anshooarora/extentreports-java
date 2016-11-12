@@ -15,8 +15,7 @@ class CodeBlock implements Markup {
         String lhs = "<textarea disabled class='code-block'>";
         String rhs = "</textarea>";
         
-        String s = lhs + code + rhs;
-        return s;
+        return lhs + code + rhs;
     }
 
 }

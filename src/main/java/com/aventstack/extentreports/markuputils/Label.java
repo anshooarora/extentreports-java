@@ -19,7 +19,6 @@ class Label implements Markup {
         String lhs = "<span class='label white-text " + String.valueOf(color).toLowerCase() + "'>";
         String rhs = "</span>";
         
-        String s = lhs + text + rhs;
-        return s;
+        return lhs + text + rhs;
     }
 }

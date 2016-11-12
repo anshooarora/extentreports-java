@@ -14,8 +14,7 @@ public enum Status implements Serializable {
     ERROR,
     WARNING,
     INFO,
-    SKIP,
-    UNKNOWN;
+    SKIP;
 
     private static List<Status> statusHierarchy = Arrays.asList(
             Status.FATAL,
@@ -24,21 +23,20 @@ public enum Status implements Serializable {
             Status.WARNING,
             Status.SKIP,
             Status.PASS,
-            Status.INFO,
-            Status.UNKNOWN
+            Status.INFO
     );
     
     /**
      * Returns the hierarchical list of status, in the below order:
      * 
      * <ul>
-     *  <li>FATAL</li>
-     *  <li>FAIL</li>
-     *  <li>ERROR</li>
-     *  <li>WARNING</li>
-     *  <li>SKIP</li>
-     *  <li>PASS</li>
-     *  <li>INFO</li>
+     * 	<li>FATAL</li>
+     * 	<li>FAIL</li>
+     * 	<li>ERROR</li>
+     * 	<li>WARNING</li>
+     * 	<li>SKIP</li>
+     * 	<li>PASS</li>
+     * 	<li>INFO</li>
      * </ul>
      * 
      * @return Hierarchical list of status

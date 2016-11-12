@@ -16,7 +16,7 @@ import com.aventstack.extentreports.utils.Reader;
 public class SystemAttributeTests extends Base {
 
     @BeforeClass
-    public void classSetup() {
+    public void beforeClass() {
         extent.createTest("Test").pass("Pass");
     }
     

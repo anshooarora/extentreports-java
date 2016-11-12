@@ -10,14 +10,15 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 public class BuildsReportWithoutTests extends Base {
-	
+    final String filePath = getOutputFolder() + getClass().getName() + ".html";
+    
     @Test
     public void buildReportWithoutTests() {
-        File f = new File(htmlFilePath);
+        File f = new File(filePath);
         if (f.exists())
             f.delete();
         
-        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(htmlFilePath);
+        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(filePath);
         ExtentReports extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
 

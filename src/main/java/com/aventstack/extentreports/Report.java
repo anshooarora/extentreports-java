@@ -1,36 +1,46 @@
 package com.aventstack.extentreports;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
 import com.aventstack.extentreports.model.Log;
 import com.aventstack.extentreports.model.ScreenCapture;
+import com.aventstack.extentreports.model.Screencast;
 import com.aventstack.extentreports.model.SystemAttribute;
 import com.aventstack.extentreports.model.Test;
 
-abstract class Report implements IReport, Serializable {
+abstract class Report implements IReport {
 
-    private static final long serialVersionUID = -6302628790953442220L;
-
-    private Status reportStatus = Status.UNKNOWN;
+    protected boolean usesManualConfiguration = false;
     
-    private TestAttributeTestContextProvider<Category> testAttrCategoryContext;
-    private TestAttributeTestContextProvider<Author> testAttrAuthorContext;
-    private ExceptionTestContextImpl exContextBuilder;
+    private Date reportStartDate;
+    
+    private Status reportStatus = Status.PASS;
+    
+    private TestAttributeTestContextProvider<Category> categoryContext;
+    private TestAttributeTestContextProvider<Author> authorContext;
+    private ExceptionTestContextImpl exceptionContextBuilder;
     private SessionStatusStats stats;
-    private SystemAttributeContext saContext;
+    private SystemAttributeContext systemAttributeContext;
     
     private List<ExtentReporter> reporterCollection;
     private List<String> testRunnerLogs;
-    private List<Test> testList;
-
+    private List<Test> testCollection;    
+    
     protected Report() {
-        saContext = new SystemAttributeContext();
+        systemAttributeContext = new SystemAttributeContext();
+        stats = new SessionStatusStats();
+        categoryContext = new TestAttributeTestContextProvider<>();
+        authorContext = new TestAttributeTestContextProvider<>();
+        exceptionContextBuilder = new ExceptionTestContextImpl();
+        
+        reportStartDate = Calendar.getInstance().getTime();
     }
     
     protected void attach(ExtentReporter reporter) {
@@ -47,13 +57,13 @@ abstract class Report implements IReport, Serializable {
     }
     
     protected synchronized void createTest(Test test) {
-    	if (reporterCollection == null || reporterCollection.isEmpty())
-            throw new IllegalStateException("No reporters were started. Atleast 1 reporter must be started to flush results.");
-    	
-    	if (testList == null)
-            testList = new ArrayList<>();
+        if (reporterCollection == null || reporterCollection.isEmpty())
+            throw new IllegalStateException("No reporters were started. Atleast 1 reporter must be started to create tests.");
         
-        testList.add(test);
+    	if (testCollection == null)
+            testCollection = new ArrayList<>();
+        
+        testCollection.add(test);
         
         reporterCollection.forEach(x -> x.onTestStarted(test));
     }
@@ -86,32 +96,26 @@ abstract class Report implements IReport, Serializable {
         });
     }
     
-    void setNodeAttributes(Test node) {
-        if (node.hasCategory())
-            node.getCategoryList().forEach(x -> testAttrCategoryContext.setAttributeContext((Category) x, node));
-        
-        if (node.hasAuthor())
-            node.getAuthorList().forEach(x -> testAttrAuthorContext.setAttributeContext((Author) x, node));
-        
-        if (node.hasChildren())
-            node.getNodeContext().getAll().forEach(this::setNodeAttributes);
-    }
-    
-    void setNodeExceptionInfo(Test node) {
-        if (node.hasException())
-            node.getExceptionInfoList().forEach(x -> exContextBuilder.setExceptionContext(x, node));
+    synchronized void addScreencast(Test test, Screencast screencast) throws IOException {
+        reporterCollection.forEach(x -> {
+            try {
+                x.onScreencastAdded(test, screencast);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        });
     }
 
     protected TestAttributeTestContextProvider<Author> getAuthorContextInfo() { 
-    	return testAttrAuthorContext; 
+    	return authorContext; 
 	}
     
-    private void updateReportStatus(Status logStatus) {
-        int logStatusIndex = Status.getStatusHierarchy().indexOf(logStatus);        
+    private void updateReportStatus(Status status) {
+        int statusIndex = Status.getStatusHierarchy().indexOf(status);        
         int reportStatusIndex = Status.getStatusHierarchy().indexOf(reportStatus);
         
-        reportStatus = logStatusIndex < reportStatusIndex 
-                ? logStatus 
+        reportStatus = statusIndex < reportStatusIndex 
+                ? status 
                 : reportStatus;
     }
 
@@ -129,43 +133,72 @@ abstract class Report implements IReport, Serializable {
     }
     
     private synchronized void collectRunInfo() {
-        if (testList == null || testList.isEmpty())
+        if (testCollection == null || testCollection.isEmpty())
             return;
         
-        testList.forEach(this::endTest);
-
-        stats = new SessionStatusStats(testList);
-        testAttrCategoryContext = new TestAttributeTestContextProvider<>();
-        testAttrAuthorContext = new TestAttributeTestContextProvider<>();
-        exContextBuilder = new ExceptionTestContextImpl();
+        testCollection.forEach(this::endTest);
         
-        testList.forEach(test -> {
+        stats.refresh(testCollection);
+        
+        testCollection.forEach(test -> {
             if (test.hasCategory())
-                test.getCategoryList().forEach(x -> testAttrCategoryContext.setAttributeContext((Category) x, test));
+                test.getCategoryContext().getAll().forEach(x -> categoryContext.setAttributeContext((Category) x, test));
                         
             if (test.hasAuthor()) 
-                test.getAuthorList().forEach(x -> testAttrAuthorContext.setAttributeContext((Author) x, test));
+                test.getAuthorContext().getAll().forEach(x -> authorContext.setAttributeContext((Author) x, test));
             
             if (test.hasException())
-                test.getExceptionInfoList().forEach(x -> exContextBuilder.setExceptionContext(x, test));
+                test.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, test));
             
             if (test.hasChildren())
                 test.getNodeContext().getAll().forEach(x -> {
-                    setNodeAttributes(x);
-                    setNodeExceptionInfo(x);
+                    copyNodeAttributeInfoToAttributeContext(x);
+                    copyNodeExceptionInfoToExceptionContext(x);
                 });
         });
+        
+        updateReportStartTimeForManualConfigurationSetting();
+    }
+    
+    private void updateReportStartTimeForManualConfigurationSetting() {
+        if (usesManualConfiguration) {
+            testCollection.forEach(test -> {
+                Date testStartDate = test.getStartTime();
+                long testStartTime = testStartDate.getTime();
+                
+                if (reportStartDate.getTime() > testStartTime) {
+                    reportStartDate = testStartDate;
+                }
+            });
+        }
+    }
+    
+    private void copyNodeAttributeInfoToAttributeContext(Test node) {
+        if (node.hasCategory())
+            node.getCategoryContext().getAll().forEach(x -> categoryContext.setAttributeContext((Category) x, node));
+        
+        if (node.hasAuthor())
+            node.getAuthorContext().getAll().forEach(x -> authorContext.setAttributeContext((Author) x, node));
+        
+        if (node.hasChildren())
+            node.getNodeContext().getAll().forEach(this::copyNodeAttributeInfoToAttributeContext);
+    }
+    
+    private void copyNodeExceptionInfoToExceptionContext(Test node) {
+        if (node.hasException())
+            node.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, node));
     }
     
     private synchronized void notifyReporters() {
         reporterCollection.forEach(x -> {
-            x.setTestList(testList);
+            x.setTestList(testCollection);
             
-            x.setCategoryContextInfo(testAttrCategoryContext);
-            x.setExceptionContextInfo(exContextBuilder);
-            x.setSystemAttributeContext(saContext);
+            x.setCategoryContextInfo(categoryContext);
+            x.setExceptionContextInfo(exceptionContextBuilder);
+            x.setSystemAttributeContext(systemAttributeContext);
             x.setTestRunnerLogs(testRunnerLogs);
             x.setStatusCount(stats);
+            x.setStartTime(reportStartDate);
         });
         
         reporterCollection.forEach(ExtentReporter::flush);
@@ -179,7 +212,7 @@ abstract class Report implements IReport, Serializable {
     }
     
     protected void setSystemInfo(SystemAttribute sa) {
-        saContext.setSystemAttribute(sa);
+        systemAttributeContext.setSystemAttribute(sa);
     }
 
     protected void setTestRunnerLogs(String log) {

@@ -21,7 +21,7 @@
 	<div class='subview-left left'>
 		
 		<div class='view-summary'>
-			<h5>Exceptions</h5>
+			<h5>Exceptions</h3>
 			<ul id='exception-collection' class='exception-collection'>
 				
 				<#list exceptionContext as exception>

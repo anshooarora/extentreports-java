@@ -21,7 +21,7 @@
 	<div class='subview-left left'>
 		
 		<div class='view-summary'>
-			<h5>Categories</h5>
+			<h5>Categories</h3>
 			<ul id='category-collection' class='category-collection'>
 				
 				<#list categoryContext as category>

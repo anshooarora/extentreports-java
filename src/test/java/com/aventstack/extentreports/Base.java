@@ -16,15 +16,10 @@ public abstract class Base {
     protected final String emailFilePath = getOutputFolder() + "email-" + fileName + ".html";
     protected ExtentReports extent;
     
-    public Base() {
-        File folder = new File(getOutputFolder());
-        folder.mkdirs();
-    }
-    
     @BeforeClass
-    public void baseSetup() {
+    public void setup() {
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(htmlFilePath);
-        
+
         ExtentXReporter extentx = new ExtentXReporter("localhost");
         extentx.config().setProjectName("extentreports-pro");
         extentx.config().setReportName(fileName);
@@ -43,4 +38,8 @@ public abstract class Base {
         return "test-output/";
     }
     
+    public Base() {
+        File folder = new File(getOutputFolder());
+        folder.mkdirs();
+    }
 }

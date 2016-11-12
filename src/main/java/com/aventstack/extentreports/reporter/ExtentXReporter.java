@@ -21,6 +21,7 @@ import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
 import com.aventstack.extentreports.model.Log;
 import com.aventstack.extentreports.model.ScreenCapture;
+import com.aventstack.extentreports.model.Screencast;
 import com.aventstack.extentreports.model.Test;
 import com.aventstack.extentreports.reporter.configuration.ExtentXReporterConfiguration;
 import com.aventstack.extentreports.utils.MongoUtil;
@@ -249,7 +250,6 @@ public class ExtentXReporter extends AbstractReporter {
                         .append("errorParentLength", sc.getParentCountError())
                         .append("warningParentLength", sc.getParentCountWarning())
                         .append("skipParentLength", sc.getParentCountSkip())
-                        .append("unknownParentLength", sc.getParentCountUnknown())
                         .append("childLength", sc.getChildCount())
                         .append("passChildLength", sc.getChildCountPass())
                         .append("failChildLength", sc.getChildCountFail())
@@ -257,7 +257,6 @@ public class ExtentXReporter extends AbstractReporter {
                         .append("errorChildLength", sc.getChildCountError())
                         .append("warningChildLength", sc.getChildCountWarning())
                         .append("skipChildLength", sc.getChildCountSkip())
-                        .append("unknownChildLength", sc.getChildCountUnknown())
                         .append("infoChildLength", sc.getChildCountInfo())
                         .append("grandChildLength", sc.getGrandChildCount())
                         .append("passGrandChildLength", sc.getGrandChildCountPass())
@@ -266,7 +265,6 @@ public class ExtentXReporter extends AbstractReporter {
                         .append("errorGrandChildLength", sc.getGrandChildCountError())
                         .append("warningGrandChildLength", sc.getGrandChildCountWarning())
                         .append("skipGrandChildLength", sc.getGrandChildCountSkip())
-                        .append("unknownGrandChildLength", sc.getGrandChildCountUnknown())
                         .append("infoGrandChildLength", sc.getGrandChildCountInfo());
         
         reportCollection.updateOne(
@@ -414,6 +412,9 @@ public class ExtentXReporter extends AbstractReporter {
     }
     
     @Override
+    public void onScreencastAdded(Test test, Screencast screencast) throws IOException { }
+    
+    @Override
     public void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) throws IOException {
         storeUrl();
         screenCapture.setReportObjectId(reportId);
@@ -467,4 +468,5 @@ public class ExtentXReporter extends AbstractReporter {
         
         return testList;
     }
+
 }

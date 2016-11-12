@@ -5,14 +5,10 @@ public class StringUtil {
     private StringUtil() { }
     
     public static String capitalize(String s) {
-        if (s.isEmpty())
-            return "";
-        
-        return Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();
+        return Character.toLowerCase(s.charAt(0)) + s.substring(1);
     }
     
     public static boolean isNotNullOrEmpty (String str) {
-    	return str != null && !str.isEmpty();
+		return str != null && !str.isEmpty();
     }
-    
 }

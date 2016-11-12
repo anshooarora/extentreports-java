@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExceptionTestContext implements Serializable {
-
+    
     private static final long serialVersionUID = -2516200535748363722L;
-
-    ExceptionInfo ei;
-    List<Test> testList;
+    
+    private ExceptionInfo ei;
+    private List<Test> testList;
     
     public ExceptionTestContext(ExceptionInfo ei) { this.ei = ei; }
     

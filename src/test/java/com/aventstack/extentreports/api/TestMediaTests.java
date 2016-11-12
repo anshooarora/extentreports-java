@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.net.URL;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.Base;
@@ -14,14 +13,9 @@ import com.aventstack.extentreports.ExtentTest;
 public class TestMediaTests extends Base {
 
     private final String imgName = "img";
+    private URL url = getClass().getClassLoader().getResource("1.png");
+    private String imgPath = url.getPath();
     
-    private String imgPath;
-    
-    @BeforeClass
-    public void setup() {   
-        URL url = getClass().getClassLoader().getResource("1.png");
-        imgPath = url.getPath();
-    }
     @Test
     public void verifyIfScreenCaptureAdded(Method method) throws IOException {
         ExtentTest test = extent

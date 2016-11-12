@@ -2,15 +2,15 @@
 <div class='${ node.getBehaviorDrivenType().getSimpleName()?lower_case } node' test-id='${ node.getID() }' status='${ node.status }'>
 	<#if node.hasCategory()>
 	<div class='category-list'>
-		<#list node.categoryList as category>
+		<#list node.categoryContext.all as category>
 		<span class='category label white-text'>${ category.name }</span>
 		</#list>
 	</div>
 	</#if>
-	<span class='${ node.getBehaviorDrivenType().getSimpleName()?lower_case }-duration right label'>${ node.runDuration }</span>
-	<div class='${ node.getBehaviorDrivenType().getSimpleName()?lower_case }-desc'>
+	<span class='duration right label'>${ node.runDuration }</span>
+	<div class='desc'>
 		<b>${ node.getBehaviorDrivenType().getSimpleName()?capitalize }</b>
-		${ node.name }
+		<span class="desc-text">${ node.name }</span>
 		<#if node.screenCaptureList?? && node.screenCaptureList?size != 0>
 		<ul class='screenshots right'>
 			<#list node.screenCaptureList as sc>
@@ -26,7 +26,7 @@
 	<ul class='steps'>
 		<#list node.nodeContext.all as child>
 		<li test-id='${ child.getID() }' class='node ${ child.getBehaviorDrivenType().getSimpleName()?lower_case } ${ child.status }' status='${ child.status }'><b>${ child.getBehaviorDrivenType().getSimpleName()?string }</b>
-			${ child.name }
+			<span class="bdd-step-name">${ child.name }</span>
 			<#if child.screenCaptureList?? && child.screenCaptureList?size != 0>
 			<ul class='screenshots right'>
 				<#list child.screenCaptureList as sc>

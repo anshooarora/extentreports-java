@@ -6,6 +6,7 @@ import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
 import com.aventstack.extentreports.model.Log;
 import com.aventstack.extentreports.model.ScreenCapture;
+import com.aventstack.extentreports.model.Screencast;
 import com.aventstack.extentreports.model.Test;
 
 /**
@@ -65,5 +66,14 @@ public interface TestListener {
      * @throws IOException Exception thrown if the media object is not found
      */
     void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) throws IOException;
+    
+    /**
+     * Invoked each time a screencast is added
+     * 
+     * @param test {@link com.aventstack.extentreports.model.Test} object
+     * @param screencast {@link com.aventstack.extentreports.model.Screencast} object
+     * @throws IOException Exception thrown if the media object is not found
+     */
+    void onScreencastAdded(Test test, Screencast screencast) throws IOException;
     
 }

@@ -12,8 +12,9 @@ import com.aventstack.extentreports.markuputils.Markup;
 public class Log implements RunResult, Serializable {
 
     private static final long serialVersionUID = 1594512136869286425L;
-    
+
     private AbstractStructure<ScreenCapture> screenCaptureContext;
+    private AbstractStructure<Screencast> screencastContext;
     
     private ExtentTest parent;
     private Test parentModel;
@@ -95,6 +96,21 @@ public class Log implements RunResult, Serializable {
         return screenCaptureContext;
     }
     
+    public void setScreencast(Screencast sc) {
+    	if (screencastContext == null)
+    		screencastContext = new AbstractStructure<>();
+    	
+    	screencastContext.add(sc);
+    	
+    	String details = getDetails().isEmpty()
+    			? sc.getSource()
+				: getDetails() + sc.getSource();
+		setDetails(details);
+    }
+    public AbstractStructure<Screencast> getScreencastContext() {
+    	return screencastContext;
+    }
+    
     public ExtentTest getParent() {
         return parent;
     }
@@ -105,4 +121,5 @@ public class Log implements RunResult, Serializable {
     		
         return parent.getModel();
     }
+    
 }

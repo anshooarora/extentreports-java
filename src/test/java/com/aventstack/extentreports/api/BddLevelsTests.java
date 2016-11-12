@@ -15,7 +15,7 @@ import com.aventstack.extentreports.gherkin.model.Then;
 import com.aventstack.extentreports.gherkin.model.When;
 
 public class BddLevelsTests extends Base {
-
+    
     @Test
     public void verifyLevelsUsingGherkinKeyword(Method method) throws ClassNotFoundException {
         ExtentTest feature = extent.createTest(method.getName());

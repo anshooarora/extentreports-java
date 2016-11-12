@@ -8,11 +8,24 @@
 					<i class='material-icons'>warning</i> Status
 				</a>
 				<ul id='tests-toggle' class='dropdown-content'>
-					<li status='pass'><a href='#!'>Pass <i class='material-icons green-text'>check_circle</i></a></li>
-					<li status='fail'><a href='#!'>Fail <i class='material-icons red-text'>cancel</i></a></li>
-					<li status='error'><a href='#!'>Error <i class='material-icons red-text lighten-2'>error</i></a></li>
-					<li status='warning'><a href='#!'>Warning <i class='material-icons orange-text'>warning</i></a></li>
-					<li status='skip'><a href='#!'>Skip <i class='material-icons cyan-text'>redo</i></a></li>
+					<#if report.containsStatus(Status.PASS)>
+						<li status='pass'><a href='#!'>Pass <i class='material-icons green-text'>check_circle</i></a></li>
+					</#if>
+					<#if report.containsStatus(Status.FATAL)>
+						<li status='fatal'><a href='#!'>Fatal <i class='material-icons red-text darken-3'>cancel</i></a></li>
+					</#if>
+					<#if report.containsStatus(Status.FAIL)>
+						<li status='fail'><a href='#!'>Fail <i class='material-icons red-text'>cancel</i></a></li>
+					</#if>
+					<#if report.containsStatus(Status.ERROR)>
+						<li status='error'><a href='#!'>Error <i class='material-icons red-text lighten-2'>error</i></a></li>
+					</#if>
+					<#if report.containsStatus(Status.WARNING)>
+						<li status='warning'><a href='#!'>Warning <i class='material-icons orange-text'>warning</i></a></li>
+					</#if>
+					<#if report.containsStatus(Status.SKIP)>
+						<li status='skip'><a href='#!'>Skip <i class='material-icons cyan-text'>redo</i></a></li>
+					</#if>
 					<li class='divider'></li>
 					<li status='clear' clear='true'><a href='#!'>Clear Filters <i class='material-icons'>clear</i></a></li>
 				</ul>
@@ -20,7 +33,7 @@
 			<!-- test toggle -->
 
 			<!-- category toggle -->
-			<#if categoryContext??>
+			<#if categoryContext?? && categoryContext?size != 0>
 			<div class='chip transparent'>
 				<a class='dropdown-button category-toggle' data-activates='category-toggle' data-constrainwidth='false' data-beloworigin='true' data-hover='true' href='#'>
 					<i class='material-icons'>local_offer</i> Category
@@ -75,8 +88,7 @@
 	<div class='subview-left left'>
 		
 		<div class='view-summary'>
-			<h5>Tests</h5>
-
+			<h5>Tests</h3>
 			<ul id='test-collection' class='test-collection'>
 				<#list report.testList as test>
 				

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public class ConfigMap {
     
-    List<Config> configList;
+    private List<Config> configList;
     
     public ConfigMap() { 
         configList = new ArrayList<>();

@@ -13,5 +13,5 @@ public class MediaEntityModelProvider {
 	public Media getMedia() {
 		return m;
 	}
-	
+
 }

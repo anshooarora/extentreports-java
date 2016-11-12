@@ -36,7 +36,7 @@ import com.aventstack.extentreports.model.SystemAttribute;
  * <ul>
  *  <li>It is mandatory to call the <code>flush</code> method to ensure information is written to the started
  * reporters.</li>
- *  <li>You can create standard and BDD-style tests using the <code>createTest</code> method</li>
+ * 	<li>You can create standard and BDD-style tests using the <code>createTest</code> method</li>
  * </ul>
  * 
  * @see ExtentTest
@@ -45,9 +45,7 @@ import com.aventstack.extentreports.model.SystemAttribute;
  * @see Status
  */
 public class ExtentReports extends Report {
-
-    private static final long serialVersionUID = 2722419612318167707L;
-
+    
     /**
      * Attach a {@link ExtentReporter} reporter, allowing it to access all started tests, nodes and logs 
      * 
@@ -56,10 +54,10 @@ public class ExtentReports extends Report {
      * </p>
      * 
      * <ul>
-     *  <li>ExtentHtmlReporter</li>
-     *  <li>ExtentEmailReporter</li>
-     *  <li>ExtentXReporter</li>
-     *  <li>ExtentLogger</li>
+     *  <li>com.aventstack.extentreports.gherkin.model.ExtentHtmlReporter</li>
+     *  <li>com.aventstack.extentreports.gherkin.model.ExtentEmailReporter</li>
+     *  <li>com.aventstack.extentreports.gherkin.model.ExtentXReporter</li>
+     *  <li>com.aventstack.extentreports.gherkin.model.ExtentLogger</li>
      * </ul>
      * 
      * @param reporter {@link ExtentReporter} reporter
@@ -103,6 +101,7 @@ public class ExtentReports extends Report {
      */
     public synchronized ExtentTest createTest(Class<? extends IGherkinFormatterModel> type, String testName, String description) {
         ExtentTest t = new ExtentTest(this, type, testName, description);
+        applyCommonTestSettings(t);
         
         createTest(t.getModel());
         
@@ -226,6 +225,7 @@ public class ExtentReports extends Report {
      */
     public synchronized ExtentTest createTest(String testName, String description) {
         ExtentTest t = new ExtentTest(this, testName, description);
+        applyCommonTestSettings(t);
         
         createTest(t.getModel());
         
@@ -243,6 +243,10 @@ public class ExtentReports extends Report {
         return createTest(testName, null);
     }
     
+    private synchronized void applyCommonTestSettings(ExtentTest extentTest) {
+        extentTest.setUseManualConfiguration(usesManualConfiguration);
+    }
+    
     /**
      * Writes test information from the started reporters to their output view
      * 
@@ -256,11 +260,7 @@ public class ExtentReports extends Report {
     public synchronized void flush() {
         super.flush();
     }
-    
-    public void close() {
-    	end();
-    }
-    
+
     /**
      * Adds any applicable system information to all started reporters
      * 
@@ -276,7 +276,7 @@ public class ExtentReports extends Report {
      * @param v Value of system variable
      */
     public void setSystemInfo(String k, String v) {
-        SystemAttribute sa = new SystemAttribute(k, v);        
+        SystemAttribute sa = new SystemAttribute(k, v);       
         super.setSystemInfo(sa);
     }
     
@@ -297,5 +297,14 @@ public class ExtentReports extends Report {
     public void setTestRunnerOutput(String log) {
         setTestRunnerLogs(log);
     }
-
+    
+    /**
+     * Use this setting when building post-execution reports, such as from TestNG IReporter   
+     * 
+     * @param b Set to true if building reports at the end of execution with manual configuration
+     */
+    public void setReportUsesManualConfiguration(boolean b) {
+        usesManualConfiguration = b;
+    }
+    
 }

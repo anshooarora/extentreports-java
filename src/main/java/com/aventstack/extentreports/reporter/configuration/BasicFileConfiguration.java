@@ -6,20 +6,20 @@ import java.io.File;
  * Common configuration for file reporters:
  * 
  * <ul>
- *  <li>{@link com.aventstack.extentreports.reporter.ExtentHtmlReporter}</li>
+ * 	<li>{@link com.aventstack.extentreports.reporter.ExtentHtmlReporter}</li>
+ * 	<li>{@link com.aventstack.extentreports.reporter.ExtentEmailReporter}</li>
  * </ul>
  */
 public class BasicFileConfiguration extends BasicConfiguration {
 
-    String filePath;
-    String encoding;
-    String docTitle;
-    String css;
-    String js;
+    private String filePath;
+    private String encoding;
+    private String docTitle;
+    private String css;
+    private String js;
+    private String url;
     
-    boolean autoCreateRelativePathMedia = false;
-    
-    Theme theme;
+    private Theme theme;
     
     /**
      * Sets file-path of the report file
@@ -80,7 +80,7 @@ public class BasicFileConfiguration extends BasicConfiguration {
     /**
      * Adds custom JavaScript
      * 
-     * @param js JavaScript string
+     * @param js JavaScript
      */
     public void setJS(String js) { 
         usedConfigs.put("js", js);
@@ -88,4 +88,15 @@ public class BasicFileConfiguration extends BasicConfiguration {
     }
     public String getJS() { return js; }
     
+    /**
+     * Informs the file reporters of the ExtentX url, so the server can be accessed directly from
+     * the report itself 
+     * 
+     * @param url ExtentX url
+     */
+    public void setExtentXUrl(String url) {
+        usedConfigs.put("extentx-url", url);
+        this.url = url;
+    }
+    public String getExtentXUrl() { return url; }
 }

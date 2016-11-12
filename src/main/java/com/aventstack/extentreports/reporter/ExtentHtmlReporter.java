@@ -16,8 +16,10 @@ import com.aventstack.extentreports.InvalidFileException;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.configuration.Config;
 import com.aventstack.extentreports.configuration.ConfigMap;
+import com.aventstack.extentreports.model.ScreenCapture;
 import com.aventstack.extentreports.model.Test;
 import com.aventstack.extentreports.reporter.configuration.ExtentHtmlReporterConfiguration;
+import com.aventstack.extentreports.reporter.converters.ExtentHtmlReporterConverter;
 import com.aventstack.extentreports.utils.Writer;
 import com.aventstack.extentreports.viewdefs.Icon;
 
@@ -33,17 +35,33 @@ import freemarker.template.TemplateModelException;
  * The ExtentHtmlReporter creates a rich standalone HTML file. It allows several configuration options
  * via the <code>config()</code> method.
  */
-public class ExtentHtmlReporter extends BasicFileReporter {
+public class ExtentHtmlReporter extends BasicFileReporter implements ReportAppendable {
     
     private static final Logger logger = Logger.getLogger(ExtentHtmlReporter.class.getName());
 
-    private static final String TEMPLATE_NAME = "extent.ftl";
+    private static final String TEMPLATE_LOCATION = "view/html-report";
+    private static final String TEMPLATE_NAME = "index.ftl";
     private static final String DEFAULT_CONFIG_FILE = "html-config.properties";
+
+    private static String ENCODING = "UTF-8";
     
+    private Boolean appendExisting = false;
+    
+    private List<Test> parsedTestCollection;
     private ExtentHtmlReporterConfiguration userConfig;
     
     ExtentHtmlReporter() {
         loadDefaultConfig();
+    }
+    
+    public ExtentHtmlReporter(String filePath) {
+        this();
+        this.filePath = filePath;
+        config().setFilePath(filePath);
+    }
+    
+    public ExtentHtmlReporter(File file) {
+    	this(file.getAbsolutePath());
     }
     
     private void loadDefaultConfig() {
@@ -53,18 +71,6 @@ public class ExtentHtmlReporter extends BasicFileReporter {
         ClassLoader loader = getClass().getClassLoader();
         InputStream is = loader.getResourceAsStream(DEFAULT_CONFIG_FILE);
         loadConfig(is);
-    }
-    
-    public ExtentHtmlReporter(File file) {
-        this();
-        
-        this.filePath = file.getAbsolutePath();
-    }
-    
-    public ExtentHtmlReporter(String filePath) {
-        this();
-        
-        this.filePath = filePath;
     }
     
     public ExtentHtmlReporterConfiguration config() {
@@ -86,17 +92,25 @@ public class ExtentHtmlReporter extends BasicFileReporter {
         
         try {
             TemplateHashModel fieldTypeModel = (TemplateHashModel)beansWrapper.getEnumModels().get(Status.class.getName());
-            templateMap.put("LogStatus", fieldTypeModel);
             templateMap.put("Status", fieldTypeModel);
         } 
         catch (TemplateModelException e) {
             logger.log(Level.SEVERE, "", e);
         }
+        
+        if (appendExisting && filePath != null)
+        	parseReportBuildTestCollection();
     }
 
-    @Override
-    public void stop() { }
-
+    private void parseReportBuildTestCollection() {
+    	File f = new File(filePath);
+    	if (!f.exists())
+    		return;
+    	
+    	ExtentHtmlReporterConverter converter = new ExtentHtmlReporterConverter(filePath);
+    	parsedTestCollection = converter.parseAndGetModelCollection();
+    }
+    
     @Override
     public synchronized void flush() {
         if (testList == null || testList.size() == 0)
@@ -108,6 +122,12 @@ public class ExtentHtmlReporter extends BasicFileReporter {
             logger.log(Level.SEVERE, "", e);
             return;
         }
+        
+        if (parsedTestCollection != null && parsedTestCollection.size() > 0)
+        	for (int ix = 0; ix < parsedTestCollection.size(); ix++)
+        		testList.add(ix, parsedTestCollection.get(ix));
+        
+        parsedTestCollection = null;
         
         setEndTime(Calendar.getInstance().getTime());
         
@@ -134,7 +154,7 @@ public class ExtentHtmlReporter extends BasicFileReporter {
         String filePath = userConfig.getConfigMap().get("filePath");
         
         if (filePath == null && this.filePath == null)
-            throw new InvalidFileException("No file specified");
+            throw new InvalidFileException("No file specified.");
         
         userConfig.setFilePath(this.filePath);
         
@@ -154,14 +174,14 @@ public class ExtentHtmlReporter extends BasicFileReporter {
     private Configuration getConfig() {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
 
-        cfg.setClassForTemplateLoading(ExtentReports.class, "view");
-        cfg.setDefaultEncoding("UTF-8");
+        cfg.setClassForTemplateLoading(ExtentReports.class, TEMPLATE_LOCATION);
+        cfg.setDefaultEncoding(ENCODING);
         
         return cfg;
     }
-
+    
     @Override
-    public void onTestStarted(Test test) { }
+    public void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) throws IOException { }
 
     @Override
     public void setTestList(List<Test> reportTestList) {
@@ -175,8 +195,18 @@ public class ExtentHtmlReporter extends BasicFileReporter {
         return testList;
     }
     
+    public boolean containsStatus(Status status) {
+        boolean b = statusCollection == null || statusCollection.isEmpty() ? false : statusCollection.contains(status);
+        return b;
+    }
+    
     public ConfigMap getConfigContext() { 
         return configContext; 
     }
+
+	@Override
+	public void setAppendExisting(Boolean b) {
+		this.appendExisting = b;
+	}
     
 }

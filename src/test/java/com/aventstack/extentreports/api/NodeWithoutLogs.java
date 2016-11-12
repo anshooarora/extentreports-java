@@ -17,9 +17,9 @@ public class NodeWithoutLogs extends Base {
         ExtentTest node = test.createNode("Child");
         
         Assert.assertEquals(node.getModel().getLevel(), 1);
-        Assert.assertEquals(test.getModel().getLogContext().getAll().size(), 0);
-        Assert.assertEquals(test.getStatus(), Status.UNKNOWN);
-        Assert.assertEquals(node.getModel().getLogContext().getAll().size(), 0);
-        Assert.assertEquals(node.getStatus(), Status.UNKNOWN);
+        Assert.assertEquals(test.getModel().getLogContext().size(), 0);
+        Assert.assertEquals(test.getStatus(), Status.PASS);
+        Assert.assertEquals(node.getModel().getLogContext().size(), 0);
+        Assert.assertEquals(node.getStatus(), Status.PASS);
     }
 }
