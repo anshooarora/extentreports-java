@@ -309,6 +309,8 @@ public class ExtentReports extends Report {
     
     /**
      * Provides common report configurations
+     * 
+     * @return an instance of {@link ReportConfigurator}
      */
     public ReportConfigurator config() {
         return ReportConfigurator.getInstance();
