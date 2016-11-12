@@ -660,6 +660,8 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
     }
     
     /**
+     * Logs an <code>Status.DATAL</code> event with an exception and a media object: 
+     * {@link Screencast} or {@link ScreenCapture}
      * 
      * @param details Details
      * @param provider A {@link MediaEntityModelProvider} object
@@ -737,6 +739,8 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
     }
     
     /**
+     * Logs an <code>Status.WARNING</code> event with an exception and a media object: 
+     * {@link Screencast} or {@link ScreenCapture}
      * 
      * @param details Details
      * @param provider A {@link MediaEntityModelProvider} object
@@ -812,6 +816,8 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
     }
     
     /**
+     * Logs an <code>Status.ERROR</code> event with an exception and a media object: 
+     * {@link Screencast} or {@link ScreenCapture}
      * 
      * @param details Details
      * @param provider A {@link MediaEntityModelProvider} object
@@ -960,6 +966,83 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
         log(Status.SKIP, m);
         return this;
     }
+    
+    /**
+     * Logs an <code>Status.DEBUG</code> event with an exception and a media object: 
+     * {@link Screencast} or {@link ScreenCapture}
+     * 
+     * @param details Details
+     * @param provider A {@link MediaEntityModelProvider} object
+     * 
+     * @return An {@link ExtentTest} object
+     */
+    public ExtentTest debug(String details, MediaEntityModelProvider provider) {
+        log(Status.DEBUG, details, provider);
+        return this;
+    }
+    
+    /**
+     * Logs an event <code>Status.DEBUG</code> with details
+     * 
+     * @param details Details
+     * 
+     * @return {@link ExtentTest} object
+     */
+    public ExtentTest debug(String details) {
+        return debug(details, null);
+    }
+    
+    /**
+     * Logs an <code>Status.DEBUG</code> event with an exception and a media object: 
+     * {@link Screencast} or {@link ScreenCapture}
+     * 
+     * <p>
+     * Example:
+     * </p>
+     * 
+     * <pre>
+     * Exception exception = new NullPointerException();
+     * test.debug(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
+     * </pre>
+     * 
+     * @param t {@link Throwable}
+     * @param provider A {@link MediaEntityModelProvider} object
+     * 
+     * @return An {@link ExtentTest} object 
+     */
+    public ExtentTest debug(Throwable t, MediaEntityModelProvider provider) {
+        log(Status.DEBUG, t, provider);
+        return this;
+    }
+    
+    /**
+     * Logs an event with <code>Status.SKIP</code> and exception
+     * 
+     * @param t {@link Throwable}
+     * 
+     * @return {@link ExtentTest} object
+     */
+    public ExtentTest debug(Throwable t) {
+        return debug(t, null);
+    }
+    
+    /**
+     * Logs an event with <code>Status.DEBUG</code> and custom {@link Markup} such as:
+     * 
+     * <ul>
+     *  <li>Code block</li>
+     *  <li>Label</li>
+     *  <li>Table</li>
+     * </ul>
+     * 
+     * @param m {@link Markup}
+     * 
+     * @return {@link ExtentTest} object
+     */
+    public ExtentTest debug(Markup m) {
+        log(Status.DEBUG, m);
+        return this;
+    }    
 
     /**
      * Assigns a category or group

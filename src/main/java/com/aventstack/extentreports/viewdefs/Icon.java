@@ -31,6 +31,8 @@ public class Icon {
                 return "redo";
             case "pass":
                 return "check_circle";
+            case "debug":
+                return "low_priority";
             case "info":
                 return "info_outline";
             default:
