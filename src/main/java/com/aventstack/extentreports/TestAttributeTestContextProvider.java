@@ -17,16 +17,24 @@ public class TestAttributeTestContextProvider<T extends TestAttribute> {
         testAttrCollection = new ArrayList<>();
     }
     
+    @SuppressWarnings("unchecked")
     public void setAttributeContext(T attr, Test test) {
-        reset();
-        
         Optional<TestAttributeTestContext> testOptionalTestContext = testAttrCollection
                 .stream()
                 .filter(x -> x.getName().equals(attr.getName()))
                 .findFirst();
         
         if (testOptionalTestContext.isPresent()) {
-            testOptionalTestContext.get().setTest(test);
+            List<Test> testList = testOptionalTestContext.get().getTestList();
+            
+            boolean b = testList
+                    .stream()
+                    .filter(t -> t.getID() == test.getID())
+                    .findFirst()
+                    .isPresent();
+            
+            if (!b)
+                testOptionalTestContext.get().setTest(test);
         }
         else {
             TestAttributeTestContext testAttrContext = new TestAttributeTestContext<T>(attr);
@@ -34,10 +42,6 @@ public class TestAttributeTestContextProvider<T extends TestAttribute> {
             
             testAttrCollection.add(testAttrContext);
         }
-    }
-    
-    private void reset() {
-        testAttrCollection.clear();
     }
     
     public List<TestAttributeTestContext> getCategoryTestContextList() {

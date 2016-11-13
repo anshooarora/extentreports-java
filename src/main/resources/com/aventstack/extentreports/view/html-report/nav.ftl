@@ -25,16 +25,11 @@
 
 		<!-- nav-right -->
 		<ul id='nav-mobile' class='right hide-on-med-and-down nav-right'>
-			<#if extentxUrl!=''>
-			<a href='${ extentxUrl }'>
-				<span class='label blue darken-3'>ExtentX</span>
-			</a>
-			</#if>
 			<a href='#!'>
-				<span class='label blue darken-3 suite-start-time'>${ report.startTime?datetime?string }</span>
+				<span class='label suite-start-time'>${ report.startTime?datetime?string }</span>
 			</a>
 			<a href='#!'>
-				<span class='label blue darken-3'>v3.0.0</span>
+				<span class='label'>v3.0.1</span>
 			</a>
 		</ul>
 	</div>

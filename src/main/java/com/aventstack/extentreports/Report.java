@@ -182,6 +182,12 @@ abstract class Report implements IReport {
         
         if (node.hasChildren())
             node.getNodeContext().getAll().forEach(this::copyNodeAttributeInfoToAttributeContext);
+        
+        if (node.hasChildren())
+            node.getNodeContext().getAll().forEach(x -> {
+                copyNodeAttributeInfoToAttributeContext(x);
+                copyNodeExceptionInfoToExceptionContext(x);
+            });
     }
     
     private void copyNodeExceptionInfoToExceptionContext(Test node) {
