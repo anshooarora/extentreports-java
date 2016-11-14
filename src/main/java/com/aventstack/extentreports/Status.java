@@ -52,6 +52,20 @@ public enum Status implements Serializable {
         Status.statusHierarchy = statusHierarchy;
     }
     
+    static void resetStatusHierarchy() {
+        List<Status> statusHierarchy = Arrays.asList(
+                Status.FATAL,
+                Status.FAIL,
+                Status.ERROR,
+                Status.WARNING,
+                Status.SKIP,
+                Status.PASS,
+                Status.INFO
+        );
+        
+        setStatusHierarchy(statusHierarchy);
+    }
+    
     @Override
     public String toString() {
         switch (this) {

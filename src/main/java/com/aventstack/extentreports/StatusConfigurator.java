@@ -23,4 +23,7 @@ public class StatusConfigurator {
         Status.setStatusHierarchy(statusHierarchy);
     }
     
+    public void resetStatusHierarchy() {
+        Status.resetStatusHierarchy();
+    }
 }
