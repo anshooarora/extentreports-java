@@ -9,7 +9,7 @@ import com.aventstack.extentreports.ExtentTest;
 
 public class ExtentTestNGITestListener implements ITestListener {
 
-	private static ExtentReports extent = ExtentManager.createInstance("extent.html");
+	private static ExtentReports extent = ExtentManager.createInstance("test-output/ITestListener.html");
 	private static ThreadLocal<ExtentTest> parentTest = new ThreadLocal<ExtentTest>();
     private static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
 	
