@@ -10,14 +10,28 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.common.ExtentManager;
 import com.aventstack.extentreports.common.ExtentTestManager;
+import com.aventstack.extentreports.reporter.ExtentXReporter;
 
-public class ParallelMethods extends Base {
+public class ParallelMethods {
     
-    final String filePath = getOutputFolder() + getClass().getName() + ".html";
+    private final String filePath = getOutputFolder() + getClass().getName() + ".html";
+    private final String fileName = getClass().getSimpleName();
+    
+    private String getOutputFolder() {
+        return "test-output/";
+    }
     
     @BeforeClass
     public void beforeClass() {
         ExtentManager.createInstance(filePath);
+        
+        ExtentXReporter extentx = new ExtentXReporter("localhost");
+        extentx.config().setProjectName("extentreports-pro");
+        extentx.config().setReportName(fileName);
+        extentx.config().setServerUrl("http://localhost:1337/");
+        
+        ExtentManager.getInstance().attachReporter(extentx);
+        
         ExtentTestManager.setReporter(ExtentManager.getInstance());;
     }
     
