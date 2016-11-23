@@ -19,12 +19,15 @@ import com.aventstack.extentreports.mediastorage.MediaStorage;
 import com.aventstack.extentreports.mediastorage.MediaStorageManagerFactory;
 import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
+import com.aventstack.extentreports.model.ExceptionInfo;
 import com.aventstack.extentreports.model.Log;
+import com.aventstack.extentreports.model.Media;
 import com.aventstack.extentreports.model.ScreenCapture;
 import com.aventstack.extentreports.model.Screencast;
 import com.aventstack.extentreports.model.Test;
 import com.aventstack.extentreports.reporter.configuration.ExtentXReporterConfiguration;
 import com.aventstack.extentreports.utils.MongoUtil;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
@@ -38,14 +41,16 @@ import com.mongodb.client.MongoDatabase;
  * ExtentXReporter is a NoSQL database reporter (MongoDB by default), which updates information in
  * the database which is then used by the ExtentX server to display in-depth analysis. 
  */
-public class ExtentXReporter extends AbstractReporter {
+public class ExtentXReporter extends AbstractReporter implements ReportAppendable {
 
     private static final String DEFAULT_CONFIG_FILE = "extentx-config.properties";
     private static final String DEFAULT_PROJECT_NAME = "Default";
     
+    private Boolean appendExisting;
     private String url;
     
     private Map<String, ObjectId> categoryNameObjectIdCollection;
+    private Map<String, ObjectId> exceptionNameObjectIdCollection;
     
     private ObjectId reportId;
     private ObjectId projectId;
@@ -57,8 +62,8 @@ public class ExtentXReporter extends AbstractReporter {
     private MongoCollection<Document> projectCollection;
     private MongoCollection<Document> reportCollection;
     private MongoCollection<Document> testCollection;
-    private MongoCollection<Document> nodeCollection;
     private MongoCollection<Document> logCollection;
+    private MongoCollection<Document> exceptionCollection;
     private MongoCollection<Document> mediaCollection;
     private MongoCollection<Document> categoryCollection;
     private MongoCollection<Document> authorCollection;
@@ -152,12 +157,12 @@ public class ExtentXReporter extends AbstractReporter {
         projectCollection = db.getCollection("project");
         reportCollection = db.getCollection("report");
         testCollection = db.getCollection("test");
-        nodeCollection = db.getCollection("node");
         logCollection = db.getCollection("log");
+        exceptionCollection = db.getCollection("exception");
         mediaCollection = db.getCollection("media");
         categoryCollection = db.getCollection("category");
         authorCollection = db.getCollection("author");
-        
+
         // many-to-many
         categoryTestsTestCategories = db.getCollection("category_tests__test_categories");
         authorTestsTestAuthors = db.getCollection("author_tests__test_authors");
@@ -194,9 +199,7 @@ public class ExtentXReporter extends AbstractReporter {
             projectName = DEFAULT_PROJECT_NAME;
 
         Document doc = new Document("name", projectName);
-        FindIterable<Document> iterable = projectCollection.find(doc);
-        
-        Document project = iterable.first();
+        Document project = projectCollection.find(doc).first();
         
         if (project != null) {
             projectId = project.getObjectId("_id");
@@ -215,7 +218,7 @@ public class ExtentXReporter extends AbstractReporter {
             reportName = projectName + " - " + Calendar.getInstance().getTimeInMillis();
         
         Object id = configContext.getValue("reportId");
-        if (id != null && !id.toString().isEmpty()) {
+        if (id != null && !id.toString().isEmpty() && appendExisting) {
             FindIterable<Document> iterable = reportCollection.find(new Document("_id", new ObjectId(id.toString())));
             Document report = iterable.first();
             
@@ -225,7 +228,7 @@ public class ExtentXReporter extends AbstractReporter {
             }
         }
         
-        Document doc = new Document("fileName", reportName)
+        Document doc = new Document("name", reportName)
                 .append("startTime", getStartTime())
                 .append("project", projectId);
 
@@ -242,7 +245,11 @@ public class ExtentXReporter extends AbstractReporter {
     public synchronized void flush() {
         setEndTime(Calendar.getInstance().getTime());
         
+        if (testList == null || testList.size() == 0)
+            return;
+        
         Document doc = new Document("endTime", getEndTime())
+                        .append("duration", getRunDuration())
                         .append("parentLength", sc.getParentCount())
                         .append("passParentLength", sc.getParentCountPass())
                         .append("failParentLength", sc.getParentCountFail())
@@ -250,6 +257,8 @@ public class ExtentXReporter extends AbstractReporter {
                         .append("errorParentLength", sc.getParentCountError())
                         .append("warningParentLength", sc.getParentCountWarning())
                         .append("skipParentLength", sc.getParentCountSkip())
+                        .append("exceptionsParentLength", sc.getChildCountExceptions())
+                        
                         .append("childLength", sc.getChildCount())
                         .append("passChildLength", sc.getChildCountPass())
                         .append("failChildLength", sc.getChildCountFail())
@@ -258,6 +267,8 @@ public class ExtentXReporter extends AbstractReporter {
                         .append("warningChildLength", sc.getChildCountWarning())
                         .append("skipChildLength", sc.getChildCountSkip())
                         .append("infoChildLength", sc.getChildCountInfo())
+                        .append("exceptionsChildLength", sc.getChildCountExceptions())
+                        
                         .append("grandChildLength", sc.getGrandChildCount())
                         .append("passGrandChildLength", sc.getGrandChildCountPass())
                         .append("failGrandChildLength", sc.getGrandChildCountFail())
@@ -265,7 +276,7 @@ public class ExtentXReporter extends AbstractReporter {
                         .append("errorGrandChildLength", sc.getGrandChildCountError())
                         .append("warningGrandChildLength", sc.getGrandChildCountWarning())
                         .append("skipGrandChildLength", sc.getGrandChildCountSkip())
-                        .append("infoGrandChildLength", sc.getGrandChildCountInfo());
+                        .append("exceptionsGrandChildLength", sc.getGrandChildCountExceptions());
         
         reportCollection.updateOne(
                 new Document("_id", reportId), 
@@ -274,13 +285,19 @@ public class ExtentXReporter extends AbstractReporter {
     
     @Override
     public void onTestStarted(Test test) {
-        Document doc = new Document("report", reportId)
+        Document doc = new Document("project", projectId)
+                .append("report", reportId)
+                .append("level", test.getLevel())
                 .append("name", test.getName())
                 .append("status", test.getStatus().toString())
                 .append("description", test.getDescription())
                 .append("startTime", test.getStartTime())
                 .append("endTime", test.getEndTime())
-                .append("childNodesCount", test.getNodeContext().getAll().size());
+                .append("bdd", test.isBehaviorDrivenType())
+                .append("childNodesLength", test.getNodeContext().size());
+        
+        if (test.isBehaviorDrivenType())
+            doc.append("bddType", test.getBehaviorDrivenType().getSimpleName());
         
         testCollection.insertOne(doc);
     
@@ -290,60 +307,115 @@ public class ExtentXReporter extends AbstractReporter {
     
     @Override
     public synchronized void onNodeStarted(Test node) {
-        Document doc = new Document("test", node.getParent().getObjectId())
-                .append("parentTestName", node.getParent().getName())
+        Document doc = new Document("parent", node.getParent().getObjectId())
+                .append("parentName", node.getParent().getName())
+                .append("project", projectId)
                 .append("report", reportId)
-                .append("name", node.getName())
                 .append("level", node.getLevel())
+                .append("name", node.getName())
                 .append("status", node.getStatus().toString())
                 .append("description", node.getDescription())
                 .append("startTime", node.getStartTime())
-                .append("endTime", node.getEndTime());
+                .append("endTime", node.getEndTime())
+                .append("childNodesCount", node.getNodeContext().getAll().size())
+                .append("bdd", node.isBehaviorDrivenType())
+                .append("childNodesLength", node.getNodeContext().size());
+
+        if (node.isBehaviorDrivenType())
+            doc.append("bddType", node.getBehaviorDrivenType().getSimpleName());
         
-        nodeCollection.insertOne(doc);
+        testCollection.insertOne(doc);
         
         ObjectId nodeId = MongoUtil.getId(doc);
         node.setObjectId(nodeId);
+        
+        // update parent test stats
+        updateTestBasedOnNode(node.getParent());
+    }
+    
+    private void updateTestBasedOnNode(Test test) {
+        Document doc = new Document("childNodesLength", test.getNodeContext().size());
+        
+        testCollection.updateOne(
+                new Document("_id", test.getObjectId()),
+                new Document("$set", doc));
     }
 
     @Override
     public synchronized void onLogAdded(Test test, Log log) {
-        String model = "test";
-        
-        if (test.getLevel() > 0)
-            model = "node";
-        
-        Document doc = new Document(model, test.getObjectId())
+        Document doc = new Document("test", test.getObjectId())
+                .append("project", projectId)
                 .append("report", reportId)
                 .append("testName", test.getName())
-                .append("logSequence", log.getSequence())
+                .append("sequence", log.getSequence())
                 .append("status", log.getStatus().toString())
                 .append("timestamp", log.getTimestamp())
-                .append("stepName", log.getStepName())
                 .append("details", log.getDetails());
 
         logCollection.insertOne(doc);
+        
+        if (test.hasException()) {
+            if (exceptionNameObjectIdCollection == null)
+                exceptionNameObjectIdCollection = new HashMap<>();
+            
+            ExceptionInfo ex = test.getExceptionInfoList().get(0);
+            
+            ObjectId exceptionId;
+            doc = new Document("report", reportId)
+                    .append("project", projectId)
+                    .append("name", ex.getExceptionName());
+                    
+            FindIterable<Document> iterable = exceptionCollection.find(doc);
+            Document docException = iterable.first();
+            
+            if (!exceptionNameObjectIdCollection.containsKey(ex.getExceptionName())) {               
+                if (docException != null) {
+                    exceptionNameObjectIdCollection.put(ex.getExceptionName(), docException.getObjectId("_id"));
+                } else {
+                    doc = new Document("project", projectId)
+                            .append("report", reportId)
+                            .append("name", ex.getExceptionName())
+                            .append("stacktrace", ex.getStackTrace())
+                            .append("testCount", 0);
+                    
+                    exceptionCollection.insertOne(doc);
+                    
+                    exceptionId = MongoUtil.getId(doc);
+                    docException = exceptionCollection.find(new Document("_id", exceptionId)).first();
+                    
+                    exceptionNameObjectIdCollection.put(ex.getExceptionName(), exceptionId);
+                }
+            }
 
+            Integer testCount = ((Integer) (docException.get("testCount"))) + 1;
+            doc = new Document("testCount", testCount);
+            
+            exceptionCollection.updateOne(
+                    new Document("_id", docException.getObjectId("_id")),
+                    new Document("$set", doc));
+            
+            doc = new Document("exception", exceptionNameObjectIdCollection.get(ex.getExceptionName()));
+            
+            testCollection.updateOne(
+                    new Document("_id", test.getObjectId()),
+                    new Document("$set", doc));
+        }
+        
         endTestRecursive(test);
     }
     
     private void endTestRecursive(Test test) {
         Document doc = new Document("status", test.getStatus().toString())
-                .append("endTime", test.getEndTime());
+                .append("endTime", test.getEndTime())
+                .append("duration", test.getRunDurationMillis())
+                .append("categorized", test.hasCategory());
         
-        if (test.getLevel() == 0) {
-            testCollection.updateOne(
-                    new Document("_id", test.getObjectId()),
-                    new Document("$set", doc));
-        }
-        else {
-            nodeCollection.updateOne(
-                    new Document("_id", test.getObjectId()), 
-                    new Document("$set", doc));
-            
+        testCollection.updateOne(
+                new Document("_id", test.getObjectId()),
+                new Document("$set", doc));
+
+        if (test.getLevel() > 0)
             endTestRecursive(test.getParent());
-        }
-        
     }
 
     @Override
@@ -355,6 +427,7 @@ public class ExtentXReporter extends AbstractReporter {
         
         if (!categoryNameObjectIdCollection.containsKey(category.getName())) {
             doc = new Document("report", reportId)
+                    .append("project", projectId)
                     .append("name", category.getName());
                     
             FindIterable<Document> iterable = categoryCollection.find(doc);
@@ -364,6 +437,7 @@ public class ExtentXReporter extends AbstractReporter {
                 categoryNameObjectIdCollection.put(category.getName(), docCategory.getObjectId("_id"));
             } else {
                 doc = new Document("tests", test.getObjectId())
+                        .append("project", projectId)
                         .append("report", reportId)
                         .append("name", category.getName())
                         .append("status", test.getStatus().toString())
@@ -394,6 +468,7 @@ public class ExtentXReporter extends AbstractReporter {
     @Override
     public void onAuthorAssigned(Test test, Author author) { 
         Document doc = new Document("tests", test.getObjectId())
+                .append("project", projectId)
                 .append("report", reportId)
                 .append("name", author.getName())
                 .append("status", test.getStatus().toString())
@@ -412,19 +487,13 @@ public class ExtentXReporter extends AbstractReporter {
     }
     
     @Override
-    public void onScreencastAdded(Test test, Screencast screencast) throws IOException { }
-    
-    @Override
     public void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) throws IOException {
         storeUrl();
         screenCapture.setReportObjectId(reportId);
         
         createMedia(test, screenCapture);
         
-        if (media == null) {
-            media = new MediaStorageManagerFactory().getManager("http");
-            media.init(url);
-        }
+        initMedia();
         
         media.storeMedia(screenCapture);
     }
@@ -434,27 +503,44 @@ public class ExtentXReporter extends AbstractReporter {
             Object url = configContext.getValue("serverUrl");
             
             if (url == null) {
-                throw new IOException("server url cannot be null, use extentxConfig.setServerUrl(url)");
+                throw new IOException("server url cannot be null, use extentx.config().setServerUrl(url)");
             }
             
             this.url = url.toString().trim();
         }
     }
     
-    private void createMedia(Test test, ScreenCapture screenCapture) {
-        String model = "test";
-        if (test.getLevel() > 0)
-            model = "node";
-        
-        Document doc = new Document(model, test.getObjectId())
+    private void createMedia(Test test, Media media) {
+        Document doc = new Document("test", test.getObjectId())
+                .append("project", projectId)
                 .append("report", reportId)
                 .append("testName", test.getName())
-                .append("sequence", screenCapture.getSequence());
+                .append("sequence", media.getSequence())
+                .append("mediaType", media.getMediaType().toString().toLowerCase());
 
         mediaCollection.insertOne(doc);
         
         ObjectId mediaId = MongoUtil.getId(doc);
-        screenCapture.setObjectId(mediaId);
+        media.setObjectId(mediaId);
+    }
+    
+    private void initMedia() throws IOException {
+        if (media == null) {
+            media = new MediaStorageManagerFactory().getManager("http");
+            media.init(url);
+        }
+    }
+    
+    @Override
+    public void onScreencastAdded(Test test, Screencast screencast) throws IOException {
+        storeUrl();
+        screencast.setReportObjectId(reportId);
+        
+        createMedia(test, screencast);
+        
+        initMedia();
+        
+        media.storeMedia(screencast);
     }
     
     @Override
@@ -469,4 +555,8 @@ public class ExtentXReporter extends AbstractReporter {
         return testList;
     }
 
+	@Override
+	public void setAppendExisting(Boolean b) {
+		this.appendExisting = b;
+	}
 }
