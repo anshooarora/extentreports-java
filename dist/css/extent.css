@@ -61,6 +61,9 @@ pre, .code-block {
     background: transparent;
     border: none;
 }
+textarea.code-block {
+	min-height: 5rem;
+}
 
 /* -- [ tables ] -- */
 th, td {
