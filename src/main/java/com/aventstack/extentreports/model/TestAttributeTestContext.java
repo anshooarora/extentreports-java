@@ -23,7 +23,7 @@ public class TestAttributeTestContext<T extends TestAttribute> implements Serial
             testList = new ArrayList<>();
         
         passed += test.getStatus() == Status.PASS ? 1 : 0;
-        failed += test.getStatus() == Status.FAIL ? 1 : 0;
+        failed += test.getStatus() == Status.FAIL || test.getStatus() == Status.FATAL ? 1 : 0;
         others += test.getStatus() != Status.PASS && test.getStatus() != Status.FAIL ? 1 : 0;
         
         testList.add(test);
