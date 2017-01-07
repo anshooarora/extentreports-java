@@ -78,7 +78,7 @@ $('.side-nav a').click(function() {
 $(window).keydown(function(e) {
 	var target = null, sibling = null;
 	
-    if ($('input').is(':focus')) {
+    if ($('input').is(':focus') || $('.featherlight').length > 0) {
     } else {
         (currentView === 0) && (target = $('li.test.displayed.active'), sibling = '.test.displayed');
         (currentView === 1) && (target = $('li.category.displayed.active'), sibling = '.category.displayed');
