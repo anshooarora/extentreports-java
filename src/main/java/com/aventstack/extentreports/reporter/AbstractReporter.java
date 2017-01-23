@@ -98,9 +98,11 @@ public abstract class AbstractReporter implements ExtentReporter {
     }
     
     public SessionStatusStats getStatusCount() {
-        if (sc != null)
+        if (sc != null) {
+            sc.refresh(testList);
             return sc;
-        
+        }
+
         sc = new SessionStatusStats();
         sc.refresh(testList);
         return sc;
