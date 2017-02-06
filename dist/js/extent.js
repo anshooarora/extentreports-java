@@ -375,22 +375,32 @@ $('#category-toggle li a').click(function() {
 $('#step-filters span').click(function() {
     var t = $(this),
         status = t.attr('status');
-    
+
+    selectorBase = '.collapsible-header .test-status.right';
+
     if ($('#step-filters span').hasClass('border-bottom-highlight')) {
         $('#test-view .subview-right tr.log').filter(function() {
             return ($(this).attr('status') === status);
         }).removeClass('hide');
     } else {
         $('#test-view .subview-right tr.log').addClass('hide').filter(function() {
+
+            $(selectorBase).parent().parent().hide();
+
+            selectorAction = selectorBase + '.' + status;
+
+             $(selectorAction).parent().parent().show();
+
             return ($(this).attr('status') === status);
         }).removeClass('hide');
     }
-    
+
     t.addClass('border-bottom-highlight');
 
     if (status === 'clear') {
         $('#step-filters span').removeClass('border-bottom-highlight');
         $('#test-view .subview-right tr.log').removeClass('hide');
+        $(selectorBase).parent().parent().show();
     }
 });
 
