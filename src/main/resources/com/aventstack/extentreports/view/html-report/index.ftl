@@ -78,9 +78,16 @@
 				exceptionsGrandChild: ${ report.statusCount.grandChildCountExceptions?c },
 			};
 		</script>
-
-		<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/9fa70d0ed9c34a8ed445ceee3494d3d7de7f8918/dist/js/extent.js' type='text/javascript'></script>
-
+		
+		<#assign cdn = config.getValue('cdn')>
+		<#if cdn == 'github'>
+			<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/9fa70d0ed9c34a8ed445ceee3494d3d7de7f8918/dist/js/extent.js' type='text/javascript'></script>
+		<#elseif cdn == 'extentreports'>
+			<script src='http://extentreports.com/resx/dist/js/extent.js' type='text/javascript'></script>
+		<#else>
+			<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/9fa70d0ed9c34a8ed445ceee3494d3d7de7f8918/dist/js/extent.js' type='text/javascript'></script>
+		</#if>
+		
 		<#assign hideChart=(chartVisibleOnOpen=='true')?then(false, true)>
 		<#if hideChart>
 		<script type='text/javascript'>

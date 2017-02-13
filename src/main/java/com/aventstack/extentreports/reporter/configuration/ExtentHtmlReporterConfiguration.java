@@ -1,5 +1,7 @@
 package com.aventstack.extentreports.reporter.configuration;
 
+import com.aventstack.extentreports.ResourceCDN;
+
 /**
  * Defines configuration settings for the HTML reporter
  */
@@ -9,7 +11,7 @@ public class ExtentHtmlReporterConfiguration extends BasicFileConfiguration impl
     
     private Protocol protocol;
     private ChartLocation chartLocation;
-    
+    private ResourceCDN resourceCDN;    
     /**
      * Sets the protocol of accessing CSS/JS resources from CDN
      * 
@@ -46,5 +48,13 @@ public class ExtentHtmlReporterConfiguration extends BasicFileConfiguration impl
         this.chartVisibileOnOpen = chartVisibilityOnOpen; 
     }   
     public boolean getChartVisibilityOnOpen() { return chartVisibileOnOpen; }
+    
+    public void setResourceCDN(ResourceCDN cdn) {
+        usedConfigs.put("cdn", String.valueOf(cdn).toLowerCase());
+        resourceCDN = cdn;
+    }
+    public ResourceCDN getResourceCDN() {
+        return resourceCDN;
+    }
     
 }
