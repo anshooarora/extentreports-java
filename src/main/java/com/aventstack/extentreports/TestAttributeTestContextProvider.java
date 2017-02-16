@@ -35,6 +35,8 @@ public class TestAttributeTestContextProvider<T extends TestAttribute> {
             
             if (!b)
                 testOptionalTestContext.get().setTest(test);
+            
+            testOptionalTestContext.get().refreshTestStatusCounts();
         }
         else {
             TestAttributeTestContext testAttrContext = new TestAttributeTestContext<T>(attr);

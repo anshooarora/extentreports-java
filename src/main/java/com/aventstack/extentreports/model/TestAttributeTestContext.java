@@ -29,6 +29,18 @@ public class TestAttributeTestContext<T extends TestAttribute> implements Serial
         testList.add(test);
     }
     
+    public void refreshTestStatusCounts() {
+        passed = 0;
+        failed = 0;
+        others = 0;
+        
+        testList.forEach(x -> {
+            passed += x.getStatus() == Status.PASS ? 1 : 0;
+            failed += x.getStatus() == Status.FAIL || x.getStatus() == Status.FATAL ? 1 : 0;
+            others += x.getStatus() != Status.PASS && x.getStatus() != Status.FAIL ? 1 : 0;
+        });
+    }
+    
     public List<Test> getTestList() { return testList; }
     
     public String getName() { return ta.getName(); }
