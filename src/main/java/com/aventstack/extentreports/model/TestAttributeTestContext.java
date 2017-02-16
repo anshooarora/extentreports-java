@@ -22,11 +22,14 @@ public class TestAttributeTestContext<T extends TestAttribute> implements Serial
         if (testList == null)
             testList = new ArrayList<>();
         
+        updateTestStatusCounts(test);        
+        testList.add(test);
+    }
+    
+    private void updateTestStatusCounts(Test test) {
         passed += test.getStatus() == Status.PASS ? 1 : 0;
         failed += test.getStatus() == Status.FAIL || test.getStatus() == Status.FATAL ? 1 : 0;
         others += test.getStatus() != Status.PASS && test.getStatus() != Status.FAIL ? 1 : 0;
-        
-        testList.add(test);
     }
     
     public void refreshTestStatusCounts() {
@@ -35,9 +38,7 @@ public class TestAttributeTestContext<T extends TestAttribute> implements Serial
         others = 0;
         
         testList.forEach(x -> {
-            passed += x.getStatus() == Status.PASS ? 1 : 0;
-            failed += x.getStatus() == Status.FAIL || x.getStatus() == Status.FATAL ? 1 : 0;
-            others += x.getStatus() != Status.PASS && x.getStatus() != Status.FAIL ? 1 : 0;
+            updateTestStatusCounts(x);
         });
     }
     
