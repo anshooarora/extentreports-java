@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,6 +52,9 @@ public class ExtentHtmlReporter extends BasicFileReporter implements ReportAppen
     private ExtentHtmlReporterConfiguration userConfig;
     
     ExtentHtmlReporter() {
+        // Required to parse the start and end times in the HTML report.
+        Locale.setDefault(Locale.ENGLISH);
+        
         loadDefaultConfig();
     }
     
