@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.aventstack.extentreports.Status;
 
 abstract class BasicConfiguration {
@@ -13,6 +15,7 @@ abstract class BasicConfiguration {
     List<Status> levels;
     String reportName;
     Map<String, String> usedConfigs;
+	List<String> mainTestGroups;
 
     public BasicConfiguration() {
         usedConfigs = new HashMap<>();
@@ -33,5 +36,21 @@ abstract class BasicConfiguration {
         this.reportName = reportName; 
     }    
     public String getReportName() { return reportName; }
+    
+    public List<String> getMainTestGroups() {
+		return mainTestGroups;
+	}
+
+	/**
+	 * Set main test groups. Main test groups are group which would be consider
+	 * when drawing the test pyramid
+	 * 
+	 * @param mainTestGroups
+	 */
+	public void setMainTestGroups(List<String> mainTestGroups) {
+		usedConfigs.put("mainTestGroups", StringUtils.join(mainTestGroups, ','));
+		this.mainTestGroups = mainTestGroups;
+	}
+
 
 }
