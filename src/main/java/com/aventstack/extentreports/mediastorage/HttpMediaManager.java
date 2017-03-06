@@ -104,7 +104,7 @@ class HttpMediaManager implements MediaStorage {
         
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();        
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        builder.addPart("name",new StringBody(m.getSequence() + "." + ext, ContentType.TEXT_PLAIN));
+        builder.addPart("name", new StringBody(m.getSequence() + "." + ext, ContentType.TEXT_PLAIN));
         builder.addPart("id", new StringBody(m.getObjectId().toString(), ContentType.TEXT_PLAIN));
         builder.addPart("reportId", new StringBody(m.getReportObjectId().toString(), ContentType.TEXT_PLAIN));
         builder.addPart("testId", new StringBody(m.getTestObjectId().toString(), ContentType.TEXT_PLAIN));
