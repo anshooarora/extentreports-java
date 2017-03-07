@@ -102,7 +102,7 @@
 				<li class='test displayed active ${ hasChildrenClass } ${ test.status }' status='${ test.status }' bdd='${ isBdd?string }' test-id='${ test.getID() }'>
 					<div class='test-heading'>
 						<span class='test-name'>${ test.name }</span>
-						<span class='test-time'>${ test.startTime?datetime?string }</span>
+						<span class='test-time'>${ test.startTime?datetime?string["${timeStampFormat}"] }</span>
 						<span class='test-status right ${ test.status }'>${ test.status }</span>
 					</div>
 					<div class='test-content hide'>

@@ -26,7 +26,7 @@
 		<!-- nav-right -->
 		<ul id='nav-mobile' class='right hide-on-med-and-down nav-right'>
 			<a href='#!'>
-				<span class='label suite-start-time'>${ report.startTime?datetime?string }</span>
+				<span class='label suite-start-time'>${ report.startTime?datetime?string["${timeStampFormat}"] }</span>
 			</a>
 			<a href='#!'>
 				<span class='label'>v3.0.3</span>

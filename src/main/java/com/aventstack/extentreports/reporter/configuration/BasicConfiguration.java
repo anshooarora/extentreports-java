@@ -12,26 +12,54 @@ abstract class BasicConfiguration {
 
     List<Status> levels;
     String reportName;
+    String timeStampFormat;
     Map<String, String> usedConfigs;
 
     public BasicConfiguration() {
         usedConfigs = new HashMap<>();
     }
-    
-    public Map<String, String> getConfigMap() { return usedConfigs; }
-    
+
+    public Map<String, String> getConfigMap() {
+        return usedConfigs;
+    }
+
     public void setLevel(Status... level) {
         if (levels == null)
             levels = new ArrayList<>();
-        
+
         Arrays.stream(level).forEach(levels::add);
     }
-    public List<Status> getLevel() { return levels; }
-    
+
+    public List<Status> getLevel() {
+        return levels;
+    }
+
+    /**
+     * Gets the timestamp format
+     *
+     * @return The time stamp format
+     */
+    public String getTimeStampFormat() {
+        return timeStampFormat;
+    }
+
+    /**
+     * Sets the timestamp format
+     *
+     * @param timeStampFormat The desired time stamp format
+     *                        See http://freemarker.org/docs/ref_builtins_date.html#ref_builtin_string_for_date
+     */
+    public void setTimeStampFormat(String timeStampFormat) {
+        this.timeStampFormat = timeStampFormat;
+    }
+
     public void setReportName(String reportName) {
         usedConfigs.put("reportName", reportName);
-        this.reportName = reportName; 
-    }    
-    public String getReportName() { return reportName; }
+        this.reportName = reportName;
+    }
+
+    public String getReportName() {
+        return reportName;
+    }
 
 }
