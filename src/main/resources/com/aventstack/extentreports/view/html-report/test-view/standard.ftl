@@ -1,6 +1,6 @@
 <div class='test-time-info'>
-	<span class='label start-time'>${ test.startTime?datetime?string }</span>
-	<span class='label end-time'>${ test.endTime?datetime?string }</span>
+	<span class='label start-time'>${ test.startTime?datetime?string["${timeStampFormat}"] }</span>
+	<span class='label end-time'>${ test.endTime?datetime?string["${timeStampFormat}"] }</span>
 	<span class='label time-taken grey lighten-1 white-text'>${ test.getRunDuration()?string }</span>
 </div>
 <#if test.description?? && test.description?has_content>
@@ -60,7 +60,7 @@
 				<li class='node level-${ node.level } ${ leaf } ${ node.status }' status='${ node.status }' test-id='${ node.getID() }'>
 					<div class='collapsible-header'>
 						<div class='node-name'>${ node.name }</div>						
-						<span class='node-time'>${ node.startTime?datetime?string }</span>
+						<span class='node-time'>${ node.startTime?datetime?string["${timeStampFormat}"] }</span>
 						<span class='node-duration'>${ node.runDuration }</span>
 						<span class='test-status right ${ node.status }'>${ node.status }</span>
 					</div>

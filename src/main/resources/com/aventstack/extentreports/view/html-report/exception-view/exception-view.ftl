@@ -43,7 +43,7 @@
 								<tbody>
 									<#list exception.getTestList() as test>
 									<tr>
-										<td>${ test.startTime?datetime?string }</td>
+										<td>${ test.startTime?datetime?string["${timeStampFormat}"] }</td>
 										<td class='linked' test-id='${ test.getID() }'>${ test.hierarchicalName }</td>
 										<td><pre>${ exception.exceptionInfo.getStackTrace() }</pre></td>
 									</tr>
