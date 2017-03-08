@@ -29,7 +29,7 @@
 				<span class='label suite-start-time'>${ report.startTime?datetime?string["${timeStampFormat}"] }</span>
 			</a>
 			<a href='#!'>
-				<span class='label'>v3.0.3</span>
+				<span class='label blue darken-3'>v3.0.3</span>
 			</a>
 		</ul>
 	</div>
