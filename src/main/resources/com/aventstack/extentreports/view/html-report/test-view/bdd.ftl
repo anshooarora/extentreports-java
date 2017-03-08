@@ -38,9 +38,7 @@
 			<div class='pre'>${ child.description }</div>
 			</#if>
 			<#list child.logContext.all as log>
-				<#if log.status?string?lower_case != 'pass' && log.status?string?lower_case != 'info'>
 				<div class='pre'>${ log.details }</div>
-				</#if>
 			</#list>
 		</li>
 		</#list>
