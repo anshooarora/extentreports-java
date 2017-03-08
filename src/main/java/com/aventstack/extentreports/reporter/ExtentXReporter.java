@@ -559,4 +559,13 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
 	public void setAppendExisting(Boolean b) {
 		this.appendExisting = b;
 	}
+	
+	public ObjectId getProjectId() {
+	    return projectId;
+	}
+	
+	public ObjectId getReportId() {
+	    return reportId;
+	}
+	
 }
