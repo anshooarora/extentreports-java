@@ -593,6 +593,10 @@ body.dark, .dark .collapsible-header {
     background: #075D90;
 }
 
+.dark #search-tests {
+    color: white;
+}
+
 /* -- [ media queries ] -- */
 @media all and (max-width: 992px) {
 	nav .brand-logo {
