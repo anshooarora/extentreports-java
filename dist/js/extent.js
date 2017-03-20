@@ -60,8 +60,8 @@ $(document).ready(function() {
     $('#category-collection > .category:first-child, #exception-collection > .exception:first-child, #test-collection > .test:first-child').click();
 
     $('#test-collection .test').dynamicTestSearch('#test-view #search-tests');
-	$('#cat-collection .category-item').dynamicTestSearch('#categories-view #search-tests');
-	$('#exception-collection .exception-item').dynamicTestSearch('#exceptions-view #search-tests');  
+	$('#category-collection .category').dynamicTestSearch('#category-view #search-tests');
+	$('#exception-collection .exception').dynamicTestSearch('#exception-view #search-tests');  
 });
 
 /* -- [ sidenav - toggle views ] -- */
