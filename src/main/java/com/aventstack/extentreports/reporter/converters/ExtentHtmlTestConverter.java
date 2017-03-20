@@ -90,21 +90,25 @@ class ExtentHtmlTestConverter {
 	}
 	
 	private void buildStandardTestDeps(Element testElement, Test test) {
-	    List<TestAttribute> categoryCollection = parserUtils.getAttributes(Category.class, testElement);
-        if (categoryCollection != null && !categoryCollection.isEmpty())
-            for (TestAttribute c : categoryCollection)
-                test.setCategory(c);
-        
-        List<TestAttribute> authorCollection = parserUtils.getAttributes(Author.class, testElement);
-        if (authorCollection != null && !authorCollection.isEmpty())
-            for (TestAttribute a : authorCollection)
-                test.setAuthor(a);
-        
-        ExtentHtmlLogConverter logConverter = new ExtentHtmlLogConverter(test, testElement);
+	    extractCategoryandAuthor(testElement, test);
+		ExtentHtmlLogConverter logConverter = new ExtentHtmlLogConverter(test, testElement);
         logConverter.parseAndAddLogsToTest();
         
         ExtentHtmlNodeConverter nodeConverter = new ExtentHtmlNodeConverter(test, testElement, 1);
         nodeConverter.parseAndAddNodes();
+	}
+
+	private void extractCategoryandAuthor(Element testElement, Test test) {
+		List<TestAttribute> categoryCollection = parserUtils.getAttributes(Category.class, testElement);
+		if (categoryCollection != null && !categoryCollection.isEmpty())
+			for (TestAttribute c : categoryCollection) {
+				test.setCategory(c);
+			}
+		List<TestAttribute> authorCollection = parserUtils.getAttributes(Author.class, testElement);
+		if (authorCollection != null && !authorCollection.isEmpty())
+			for (TestAttribute a : authorCollection) {
+				test.setAuthor(a);
+			}
 	}
 	
 	private void buildBddTestsDeps(Element testElement, Test test) {
