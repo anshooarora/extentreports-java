@@ -25,15 +25,15 @@ import com.aventstack.extentreports.utils.Reader;
 class ExtentHtmlTestConverter {
 	
 	private static final Logger logger = Logger.getLogger(ExtentHtmlTestConverter.class.getName());
-	private static final String DATE_FORMAT = "MMM dd, yyyy hh:mm:ss a";
-	
+
 	private Document doc;
 	private TestParserUtils parserUtils;
+	private String docTimeStampFormat;
 	
 	public ExtentHtmlTestConverter(String filePath) {
 		String html = Reader.readAllText(filePath);
 		doc = Jsoup.parse(html);
-		
+		docTimeStampFormat = doc.body().getElementById("timeStampFormat").text();
 		parserUtils = new TestParserUtils();
 	}
 	
@@ -135,7 +135,7 @@ class ExtentHtmlTestConverter {
 			Element startTime = test.select(".start-time").first();
 			
 			if (startTime != null)
-			    return DateUtil.parse(startTime.text(), DATE_FORMAT);
+			    return DateUtil.parse(startTime.text(), docTimeStampFormat);
 			
 			return Calendar.getInstance().getTime();
 		}
@@ -144,7 +144,7 @@ class ExtentHtmlTestConverter {
 			Element endTime = test.select(".end-time").first();
 			
 			if (endTime != null)
-			    return DateUtil.parse(endTime.text(), DATE_FORMAT);
+			    return DateUtil.parse(endTime.text(), docTimeStampFormat);
 			
 			return Calendar.getInstance().getTime();
 		}

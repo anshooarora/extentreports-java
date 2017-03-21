@@ -26,13 +26,13 @@
 			<div class='col s2'>
 				<div class='card-panel r'>
 					Start
-					<div class='panel-lead'>${ report.startTime?datetime?string }</div>
+					<div class='panel-lead'>${ report.startTime?datetime?string["${timeStampFormat}"] }</div>
 				</div>
 			</div>
 			<div class='col s2'>
 				<div class='card-panel r'>
 			 		End
-			 		<div class='panel-lead'>${ report.endTime?datetime?string }</div>
+			 		<div class='panel-lead'>${ report.endTime?datetime?string["${timeStampFormat}"] }</div>
 				</div>
 			</div>
 			<div class='col s2'>
