@@ -12,6 +12,7 @@
 			<li class='waves-effect'><a href='#!' view='exception-view' onclick="configureView(2)"><i class='material-icons'>bug_report</i></a></li>
 			</#if>
 			<li class='waves-effect'><a href='#!' onclick="configureView(-1);chartsView('dashboard');" view='dashboard-view'><i class='material-icons'>track_changes</i></i></a></li>
+				<li class='waves-effect'><a href='#!' onclick="configureView(-1);pyramidView();" view='pyramid-view'><i class='material-icons'>Pyramid</i></i></a></li>
 			<#if report.testRunnerLogs?? && report.testRunnerLogs?size != 0>
 			<li class='waves-effect'><a href='#!' onclick="configureView(-1)" view='testrunner-logs-view'><i class='material-icons'>note</i></a></li>
 			</#if>

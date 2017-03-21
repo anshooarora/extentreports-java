@@ -1,4 +1,5 @@
 <#assign config=report.getConfigContext()>
+<#assign mainTestGroups = config.containsKey('mainTestGroups')?then(config.getValue('mainTestGroups')?lower_case,'')>
 
 <#assign theme=config.containsKey('theme')?then(config.getValue('theme')?lower_case, 'standard')>
 <#assign testViewChartLocation=config.containsKey('chartLocation')?then(config.getValue('chartLocation')?lower_case, 'top')>
@@ -44,6 +45,7 @@
 			<#include 'category-view/category-view.ftl'>
 			<#include 'exception-view/exception-view.ftl'>			
 			<#include 'dashboard-view/dashboard-view.ftl'>
+			<#include 'pyramid-view/pyramid-view.ftl'>
 			<#include 'logs-view/testrunner-logs-view.ftl'>
 
 		</div>
@@ -102,6 +104,25 @@
  			${ config.getValue('js') }
  		</script>
  		</#if>
+ 		<script type='text/javascript'>
+ 		function pyramidView() {
+        $('#pyramid-view h5');
+        <#if mainTestGroups??>
+    	  <#if categoryContext?? && categoryContext?size != 0>
+              	var testGroups=[];
+        		var mainTestGroupsAsString ="${mainTestGroups}";
+               	<#list categoryContext as category>
+                  	var catName="${ category.name }";
+                  	if(mainTestGroupsAsString.indexOf(catName.toLowerCase())>=0){
+                  		var anzahl =${ category.passed }+ ${ category.failed }+${ category.others };
+                    	testGroups.push(new TestGroup(catName,anzahl));
+                  	 }
+				</#list>
+		        drawn(testGroups);
+             </#if>
+           </#if>
+		}
+ 		</script>
 	</body>
 	
 </html>

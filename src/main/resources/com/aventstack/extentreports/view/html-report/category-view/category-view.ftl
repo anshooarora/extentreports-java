@@ -53,6 +53,7 @@
 									<tr>
 										<th>Timestamp</th>
 										<th>TestName</th>
+										<th>Description</th>
 										<th>Status</th>
 									</tr>
 								</thead>
@@ -61,6 +62,7 @@
 									<tr>
 										<td>${ test.startTime?datetime?string }</td>
 										<td class='linked' test-id='${ test.getID() }'>${ test.hierarchicalName }</td>
+										<td>${ test.description?html}</td>
 										<td><span class='test-status ${ test.status }'>${ test.status }</span></td>
 									</tr>
 									</#list>
