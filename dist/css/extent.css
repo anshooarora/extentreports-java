@@ -337,10 +337,14 @@ nav ul i {
     .test {
         cursor: default;
     }
-    .subview-left .test-name, .subview-left  .category-name, .node-name {
+    .subview-left .test-name, .subview-left  .category-name, .exception-name, .node-name {
         display: inline-block;
         word-break: break-all;
     }
+	.category-name, .exception-name {
+		max-width: 80%;
+		word-break: break-all;
+	}
     .subview-left .test-name, .node-name {
         font-size: 16px;
         width: 100% !important;
