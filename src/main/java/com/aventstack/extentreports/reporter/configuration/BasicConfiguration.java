@@ -12,7 +12,6 @@ abstract class BasicConfiguration {
 
     List<Status> levels;
     String reportName;
-    String timeStampFormat;
     Map<String, String> usedConfigs;
 
     public BasicConfiguration() {
@@ -40,7 +39,7 @@ abstract class BasicConfiguration {
      * @return The time stamp format
      */
     public String getTimeStampFormat() {
-        return timeStampFormat;
+        return usedConfigs.get("timeStampFormat");
     }
 
     /**
@@ -50,7 +49,7 @@ abstract class BasicConfiguration {
      *                        See http://freemarker.org/docs/ref_builtins_date.html#ref_builtin_string_for_date
      */
     public void setTimeStampFormat(String timeStampFormat) {
-        this.timeStampFormat = timeStampFormat;
+        usedConfigs.put("timeStampFormat", timeStampFormat);
     }
 
     public void setReportName(String reportName) {
