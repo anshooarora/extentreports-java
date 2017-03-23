@@ -6,7 +6,7 @@
 	<meta name='description' content='' />
 	<meta name='robots' content='noodp, noydir' />
 	<meta name='viewport' content='width=device-width, initial-scale=1' />
-	<meta id="timeStampFormat">${timeStampFormat}</meta>
+	<meta id="timeStampFormat" name="timeStampFormat" content='${timeStampFormat}'/>
 	
 	<link href='${ config.getValue('protocol') }://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
 	<link href="${ config.getValue('protocol') }://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
