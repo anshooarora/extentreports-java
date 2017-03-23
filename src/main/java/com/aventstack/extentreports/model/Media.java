@@ -11,10 +11,11 @@ public class Media implements Serializable {
     private ObjectId id;
     private ObjectId reportId;
     private ObjectId testId;
+    private ObjectId logId;
     
     private String name;
     private String description;
-    private String path;   
+    private String path;
     
     private int seq;
 
@@ -24,6 +25,21 @@ public class Media implements Serializable {
         this.id = id;
     }
     public ObjectId getObjectId() { return id; }
+    
+    public void setReportObjectId(ObjectId reportId) {
+        this.reportId = reportId;
+    }
+    public ObjectId getReportObjectId() { return reportId; }
+
+    public void setTestObjectId(ObjectId testId) {
+        this.testId = testId;
+    }
+    public ObjectId getTestObjectId() { return testId; }
+    
+    public void setLogObjectId(ObjectId logId) {
+        this.logId = logId;
+    }
+    public ObjectId getLogObjectId() { return logId; }
     
     public void setName(String name) {
         this.name = name;
@@ -44,16 +60,6 @@ public class Media implements Serializable {
         this.mediaType = mediaType;
     }
     public MediaType getMediaType() { return mediaType; }
-    
-    public void setReportObjectId(ObjectId reportId) {
-        this.reportId = reportId;
-    }
-    public ObjectId getReportObjectId() { return reportId; }
-
-    public void setTestObjectId(ObjectId testId) {
-        this.testId = testId;
-    }
-    public ObjectId getTestObjectId() { return testId; }
 
     public void setSequence(int seq) {
         this.seq = seq;

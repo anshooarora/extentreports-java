@@ -97,6 +97,16 @@ abstract class Report implements IReport {
         });
     }
     
+    synchronized void addScreenCapture(Log log, ScreenCapture sc) throws IOException {
+        reporterCollection.forEach(x -> {
+            try {
+                x.onScreenCaptureAdded(log, sc);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        });
+    }
+    
     synchronized void addScreencast(Test test, Screencast screencast) throws IOException {
         reporterCollection.forEach(x -> {
             try {

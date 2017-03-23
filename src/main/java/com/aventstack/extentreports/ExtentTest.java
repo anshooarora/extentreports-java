@@ -348,6 +348,13 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
         
         extent.addLog(test, evt);
         
+        if (evt.hasScreenCapture())
+        try {
+            extent.addScreenCapture(evt, evt.getScreenCaptureContext().getLast());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    
         return this;
     }
     

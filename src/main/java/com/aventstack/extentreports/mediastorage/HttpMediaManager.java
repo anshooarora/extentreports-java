@@ -111,6 +111,8 @@ class HttpMediaManager implements MediaStorage {
         builder.addPart("id", new StringBody(m.getObjectId().toString(), ContentType.TEXT_PLAIN));
         builder.addPart("reportId", new StringBody(m.getReportObjectId().toString(), ContentType.TEXT_PLAIN));
         builder.addPart("testId", new StringBody(m.getTestObjectId().toString(), ContentType.TEXT_PLAIN));
+        if (m.getLogObjectId() != null) 
+            builder.addPart("logId", new StringBody(m.getLogObjectId().toString(), ContentType.TEXT_PLAIN));
         builder.addPart("mediaType", new StringBody(String.valueOf(m.getMediaType()).toLowerCase(), ContentType.TEXT_PLAIN));
         builder.addPart("f", new FileBody(new File(m.getPath())));
         post.setEntity(builder.build());

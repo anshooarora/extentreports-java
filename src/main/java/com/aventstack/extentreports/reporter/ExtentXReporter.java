@@ -18,12 +18,14 @@ import com.aventstack.extentreports.configuration.ConfigMap;
 import com.aventstack.extentreports.mediastorage.MediaStorage;
 import com.aventstack.extentreports.mediastorage.MediaStorageManagerFactory;
 import com.aventstack.extentreports.model.Author;
+import com.aventstack.extentreports.model.BasicReportElement;
 import com.aventstack.extentreports.model.Category;
 import com.aventstack.extentreports.model.ExceptionInfo;
 import com.aventstack.extentreports.model.Log;
 import com.aventstack.extentreports.model.Media;
 import com.aventstack.extentreports.model.ScreenCapture;
 import com.aventstack.extentreports.model.Screencast;
+import com.aventstack.extentreports.model.SystemAttribute;
 import com.aventstack.extentreports.model.Test;
 import com.aventstack.extentreports.reporter.configuration.ExtentXReporterConfiguration;
 import com.aventstack.extentreports.utils.MongoUtil;
@@ -69,6 +71,7 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
     private MongoCollection<Document> authorCollection;
     private MongoCollection<Document> categoryTestsTestCategories;
     private MongoCollection<Document> authorTestsTestAuthors;
+    private MongoCollection<Document> environmentCollection;
     
     private MediaStorage media;
     private ExtentXReporterConfiguration userConfig;
@@ -162,7 +165,8 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
         mediaCollection = db.getCollection("media");
         categoryCollection = db.getCollection("category");
         authorCollection = db.getCollection("author");
-
+        environmentCollection = db.getCollection("environment");
+        
         // many-to-many
         categoryTestsTestCategories = db.getCollection("category_tests__test_categories");
         authorTestsTestAuthors = db.getCollection("author_tests__test_authors");
@@ -281,6 +285,35 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
         reportCollection.updateOne(
                 new Document("_id", reportId), 
                 new Document("$set", doc));
+        
+        insertUpdateSystemAttribute();
+    }
+    
+    private void insertUpdateSystemAttribute() {
+    	Document doc;
+    	
+    	List<SystemAttribute> systemAttrList = getSystemAttributeContext().getSystemAttributeList();
+        for (SystemAttribute sysAttr : systemAttrList) {
+        	doc = new Document("project", projectId)
+        			.append("report", reportId)
+        			.append("name", sysAttr.getName());
+        	
+        	Document envSingle = environmentCollection.find(doc).first();
+        	
+        	if (envSingle == null) {
+	        	doc.append("value", sysAttr.getValue());
+	        	environmentCollection.insertOne(doc);
+        	} else {
+        		ObjectId id = envSingle.getObjectId("_id");
+        		
+        		doc = new Document("_id", id)
+        				.append("value", sysAttr.getValue());
+        		
+        		environmentCollection.updateOne(
+        				new Document("_id", id),
+        				new Document("$set", doc));
+        	}
+        }
     }
     
     @Override
@@ -354,6 +387,10 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
 
         logCollection.insertOne(doc);
         
+        ObjectId logId = MongoUtil.getId(doc);
+        log.setObjectId(logId);
+        
+        // check for exceptions..
         if (test.hasException()) {
             if (exceptionNameObjectIdCollection == null)
                 exceptionNameObjectIdCollection = new HashMap<>();
@@ -368,6 +405,8 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
             FindIterable<Document> iterable = exceptionCollection.find(doc);
             Document docException = iterable.first();
             
+            // check if a matching exception name is available in 'Exception' collection (MongoDB)
+            // if a matching exception name is found, associate with this exception's ObjectId
             if (!exceptionNameObjectIdCollection.containsKey(ex.getExceptionName())) {               
                 if (docException != null) {
                     exceptionNameObjectIdCollection.put(ex.getExceptionName(), docException.getObjectId("_id"));
@@ -488,14 +527,28 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
     
     @Override
     public void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) throws IOException {
+        initOnScreenCaptureAdded(screenCapture);
+        createMedia(test, screenCapture);
+        storeMedia(screenCapture);
+    }
+    
+    @Override
+    public void onScreenCaptureAdded(Log log, ScreenCapture screenCapture) throws IOException {
+        screenCapture.setLogObjectId(log.getObjectId());
+        
+        initOnScreenCaptureAdded(screenCapture);
+        createMedia(log, screenCapture);
+        storeMedia(screenCapture);
+    }
+    
+    private void storeMedia(ScreenCapture screenCapture) throws IOException {
+        media.storeMedia(screenCapture);
+    }
+    
+    private void initOnScreenCaptureAdded(ScreenCapture screenCapture) throws IOException {
         storeUrl();
         screenCapture.setReportObjectId(reportId);
-        
-        createMedia(test, screenCapture);
-        
         initMedia();
-        
-        media.storeMedia(screenCapture);
     }
     
     private void storeUrl() throws IOException {
@@ -510,14 +563,19 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
         }
     }
     
-    private void createMedia(Test test, Media media) {
-        Document doc = new Document("test", test.getObjectId())
-                .append("project", projectId)
+    private void createMedia(BasicReportElement el, Media media) {
+        Document doc = new Document("project", projectId)
                 .append("report", reportId)
-                .append("testName", test.getName())
                 .append("sequence", media.getSequence())
                 .append("mediaType", media.getMediaType().toString().toLowerCase());
 
+        if (el.getClass() == Test.class) {
+            doc.append("test", el.getObjectId())
+                .append("testName", ((Test) el).getName());
+        } else {
+            doc.append("log", el.getObjectId());
+        }
+        
         mediaCollection.insertOne(doc);
         
         ObjectId mediaId = MongoUtil.getId(doc);
@@ -559,13 +617,4 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
 	public void setAppendExisting(Boolean b) {
 		this.appendExisting = b;
 	}
-	
-	public ObjectId getProjectId() {
-	    return projectId;
-	}
-	
-	public ObjectId getReportId() {
-	    return reportId;
-	}
-	
 }

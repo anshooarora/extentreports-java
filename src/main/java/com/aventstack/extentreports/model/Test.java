@@ -9,11 +9,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bson.types.ObjectId;
 
+import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.RunResult;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.gherkin.model.IGherkinFormatterModel;
 
-public class Test implements RunResult, Serializable {
+public class Test implements RunResult, Serializable, BasicReportElement {
 
     private static final long serialVersionUID = 5590943223572254960L;
 
@@ -24,6 +25,7 @@ public class Test implements RunResult, Serializable {
     private int level = 0;
     private int testID;
     
+    private ExtentReports extent;
     private Test parent;
     private Status testStatus;
     
@@ -62,6 +64,14 @@ public class Test implements RunResult, Serializable {
     // if used via listener, allow manual configuration of model
     public void setUseManualConfiguration(boolean b) {
         this.usesManualConfiguration = b;
+    }
+    
+    public ExtentReports getExtentInstance() {
+        return extent;
+    }
+    
+    public void setExtentInstance(ExtentReports extent) {
+        this.extent = extent;
     }
 
     // child

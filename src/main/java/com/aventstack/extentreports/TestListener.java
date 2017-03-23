@@ -59,13 +59,22 @@ public interface TestListener {
     void onAuthorAssigned(Test test, Author author);
     
     /**
-     * Invoked each time a screencapture is added
+     * Invoked each time a screencapture is added to test
      * 
      * @param test {@link com.aventstack.extentreports.model.Test} object
      * @param screenCapture {@link com.aventstack.extentreports.model.ScreenCapture} object
      * @throws IOException Exception thrown if the media object is not found
      */
     void onScreenCaptureAdded(Test test, ScreenCapture screenCapture) throws IOException;
+    
+    /**
+     * Invoked each time a screencapture is added to log
+     * 
+     * @param log {@link com.aventstack.extentreports.model.Log} object
+     * @param screenCapture {@link com.aventstack.extentreports.model.ScreenCapture} object
+     * @throws IOException Exception thrown if the media object is not found
+     */
+    void onScreenCaptureAdded(Log log, ScreenCapture screenCapture) throws IOException;
     
     /**
      * Invoked each time a screencast is added

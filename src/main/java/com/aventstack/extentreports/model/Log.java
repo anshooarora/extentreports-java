@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.bson.types.ObjectId;
+
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.RunResult;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.Markup;
 
-public class Log implements RunResult, Serializable {
+public class Log implements RunResult, Serializable, BasicReportElement {
 
     private static final long serialVersionUID = 1594512136869286425L;
 
@@ -24,6 +26,7 @@ public class Log implements RunResult, Serializable {
     private String stepName;
     private String details;
     private int sequence;
+    private ObjectId objectId;
     
     private Log() {
     	timestamp = Calendar.getInstance().getTime();
@@ -91,9 +94,15 @@ public class Log implements RunResult, Serializable {
         		? sc.getSource() 
 				: getDetails() + sc.getSource();
         setDetails(details);
+        sc.setTestObjectId(getParent().getModel().getObjectId());
     }
     public AbstractStructure<ScreenCapture> getScreenCaptureContext() {
         return screenCaptureContext;
+    }
+    
+    public boolean hasScreenCapture() {
+        return screenCaptureContext != null 
+                && screenCaptureContext.size() > 0;
     }
     
     public void setScreencast(Screencast sc) {
@@ -120,6 +129,16 @@ public class Log implements RunResult, Serializable {
     		return parentModel;
     		
         return parent.getModel();
+    }
+    
+    @Override
+    public ObjectId getObjectId() {
+        return objectId;
+    }
+
+    @Override
+    public void setObjectId(ObjectId id) {
+        objectId = id;
     }
     
 }
