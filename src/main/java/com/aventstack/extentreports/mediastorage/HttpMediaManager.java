@@ -58,6 +58,9 @@ class HttpMediaManager implements MediaStorage {
         boolean isValid = isResponseValid(responseCode); 
         
         if (isValid) {
+            if (response.getHeaders("set-cookie").length == 0)
+                throw new AssertionError("set-cookie was not returned from the server");
+            
             cookie = response.getHeaders("set-cookie")[0].getValue();
             
             BufferedReader reader = new BufferedReader(new InputStreamReader(
