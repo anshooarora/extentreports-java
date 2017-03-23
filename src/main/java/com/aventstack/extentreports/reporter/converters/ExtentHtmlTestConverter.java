@@ -103,7 +103,7 @@ class ExtentHtmlTestConverter {
         ExtentHtmlLogConverter logConverter = new ExtentHtmlLogConverter(test, testElement);
         logConverter.parseAndAddLogsToTest();
         
-        ExtentHtmlNodeConverter nodeConverter = new ExtentHtmlNodeConverter(test, testElement, 1);
+        ExtentHtmlNodeConverter nodeConverter = new ExtentHtmlNodeConverter(test, testElement, 1, docTimeStampFormat);
         nodeConverter.parseAndAddNodes();
 	}
 	

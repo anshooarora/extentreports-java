@@ -20,17 +20,18 @@ import com.aventstack.extentreports.utils.DateUtil;
 class ExtentHtmlNodeConverter {
     
     private static final Logger logger = Logger.getLogger(ExtentHtmlNodeConverter.class.getName());
-    private static final String DATE_FORMAT = "MMM dd, yyyy hh:mm:ss a";
     
     private Test test;
     private Element testElement;
     private NodeParserUtils parserUtils;
     private Integer level;
+    private String docTimeStampFormat;
     
-    public ExtentHtmlNodeConverter(Test test, Element testElement, Integer level) {
+    public ExtentHtmlNodeConverter(Test test, Element testElement, Integer level, String docTimeStampFormat) {
     	this.test = test;
     	this.testElement = testElement;
     	this.level = level;
+    	this.docTimeStampFormat = docTimeStampFormat;
     	
     	parserUtils = new NodeParserUtils();
     }
@@ -79,7 +80,7 @@ class ExtentHtmlNodeConverter {
             logConverter.parseAndAddLogsToTest();
         }
         
-        ExtentHtmlNodeConverter nodeConverter = new ExtentHtmlNodeConverter(node, nodeElement, level + 1);
+        ExtentHtmlNodeConverter nodeConverter = new ExtentHtmlNodeConverter(node, nodeElement, level + 1, docTimeStampFormat);
         nodeConverter.parseAndAddNodes();
         node.end();
         
@@ -110,7 +111,7 @@ class ExtentHtmlNodeConverter {
 	    
 	    private Date getStartTime(Element node) {
 	        String startTime = node.select(".node-time").first().text();
-	        return DateUtil.parse(startTime, DATE_FORMAT);
+	        return DateUtil.parse(startTime, docTimeStampFormat);
 	    }
 	    
 	    private List<TestAttribute> getAttributes(@SuppressWarnings("rawtypes") Class clazz, Element node) {
