@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -132,8 +131,6 @@ public class ExtentHtmlReporter extends BasicFileReporter implements ReportAppen
         		testList.add(ix, parsedTestCollection.get(ix));
         
         parsedTestCollection = null;
-        
-        setEndTime(Calendar.getInstance().getTime());
         
         String extentSource = null;
         

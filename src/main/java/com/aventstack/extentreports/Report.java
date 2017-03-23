@@ -20,6 +20,7 @@ abstract class Report implements IReport {
     protected boolean usesManualConfiguration = false;
     
     private Date reportStartDate;
+    private Date reportEndDate;
     
     private Status reportStatus = Status.PASS;
     
@@ -136,6 +137,8 @@ abstract class Report implements IReport {
         if (testCollection == null || testCollection.isEmpty())
             return;
         
+        reportEndDate = Calendar.getInstance().getTime();
+        
         testCollection.forEach(this::endTest);
         
         stats.refresh(testCollection);
@@ -164,10 +167,16 @@ abstract class Report implements IReport {
         if (usesManualConfiguration) {
             testCollection.forEach(test -> {
                 Date testStartDate = test.getStartTime();
+                Date testEndDate = test.getEndTime();
                 long testStartTime = testStartDate.getTime();
+                long testEndTime = testEndDate.getTime();
                 
                 if (reportStartDate.getTime() > testStartTime) {
                     reportStartDate = testStartDate;
+                }
+
+                if (reportEndDate.getTime() > testEndTime) {
+                    reportEndDate = testEndDate;
                 }
             });
         }
@@ -205,6 +214,7 @@ abstract class Report implements IReport {
             x.setTestRunnerLogs(testRunnerLogs);
             x.setStatusCount(stats);
             x.setStartTime(reportStartDate);
+            x.setEndTime(reportEndDate);
         });
         
         reporterCollection.forEach(ExtentReporter::flush);

@@ -27,4 +27,9 @@ public interface ExtentReporter extends TestListener, ReportAggregatesListener {
      * Time of when ExtentReports instance was created
      */
     void setStartTime(Date d);
+    
+    /*    
+     * Time when the last log event occurred to determine the time report was ended
+     */
+    void setEndTime(Date d);
 }

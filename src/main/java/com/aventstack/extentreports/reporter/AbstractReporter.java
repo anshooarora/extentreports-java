@@ -142,6 +142,7 @@ public abstract class AbstractReporter implements ExtentReporter {
         return exceptionContext; 
     }
     
+    @Override
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
