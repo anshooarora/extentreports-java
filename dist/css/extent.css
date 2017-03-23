@@ -572,7 +572,7 @@ body.dark, .dark .collapsible-header {
 .dark .pre pre {
     background: transparent !important;
 }
-.dark .side-nav.fixed a, .dark pre, .dark .category, .dark .dropdown-content a {
+.dark .side-nav.fixed a, .dark pre, .dark .category, .dark .dropdown-content a, .dark #search-tests {
     color: #bbb !important;
 }
 .dark pre, .dark #test-view-charts .card-panel, .dark .scenario, .dark .background, .dark ul.steps, .dark .collapsible > li, .dark #charts-row .card-panel {
@@ -598,10 +598,6 @@ body.dark, .dark .collapsible-header {
 }
 .dark ul.steps > .skip {
     background: #075D90;
-}
-
-.dark #search-tests {
-    color: white;
 }
 
 /* -- [ media queries ] -- */
