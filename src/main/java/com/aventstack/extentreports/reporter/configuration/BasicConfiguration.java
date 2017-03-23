@@ -10,9 +10,10 @@ import com.aventstack.extentreports.Status;
 
 abstract class BasicConfiguration {
 
-    List<Status> levels;
-    String reportName;
-    Map<String, String> usedConfigs;
+    protected List<Status> levels;
+    protected String reportName;
+    protected String timeStampFormat;
+    protected Map<String, String> usedConfigs;
 
     public BasicConfiguration() {
         usedConfigs = new HashMap<>();
@@ -50,6 +51,7 @@ abstract class BasicConfiguration {
      */
     public void setTimeStampFormat(String timeStampFormat) {
         usedConfigs.put("timeStampFormat", timeStampFormat);
+        this.timeStampFormat = timeStampFormat;
     }
 
     public void setReportName(String reportName) {

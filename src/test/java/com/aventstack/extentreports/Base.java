@@ -21,7 +21,7 @@ public abstract class Base {
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(htmlFilePath);
 
         ExtentXReporter extentx = new ExtentXReporter("localhost");
-        extentx.config().setProjectName("extentreports-pro");
+        extentx.config().setProjectName("extentreports");
         extentx.config().setReportName(fileName);
         extentx.config().setServerUrl("http://localhost:1337/");
         

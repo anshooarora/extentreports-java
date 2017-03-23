@@ -31,7 +31,6 @@
 	<#include 'head.ftl'>
 
 	<body class='extent ${ theme } default hide-overflow ${ bddClass }'>
-		<span id="timeStampFormat" style="display: none;">${timeStampFormat}</span>
 		<div id='theme-selector' alt='Click to toggle theme. To enable by default, use theme configuration.' title='Click to toggle theme. To enable by default, use theme configuration.'>
 			<span><i class='material-icons'>desktop_windows</i></span>
 		</div>

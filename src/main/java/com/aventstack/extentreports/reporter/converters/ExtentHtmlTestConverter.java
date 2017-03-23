@@ -33,7 +33,7 @@ class ExtentHtmlTestConverter {
 	public ExtentHtmlTestConverter(String filePath) {
 		String html = Reader.readAllText(filePath);
 		doc = Jsoup.parse(html);
-		docTimeStampFormat = doc.body().getElementById("timeStampFormat").text();
+		docTimeStampFormat = doc.getElementById("timeStampFormat").text();
 		parserUtils = new TestParserUtils();
 	}
 	
