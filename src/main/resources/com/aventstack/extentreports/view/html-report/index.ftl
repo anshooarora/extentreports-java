@@ -9,21 +9,28 @@
 <#assign categoryContext=report.getCategoryContextInfo().getCategoryTestContextList()>
 <#assign exceptionContext=report.getExceptionContextInfo().getExceptionTestContextList()>
 
+<#assign parentCount=report.statusCount.parentCount>
+<#assign childCount=report.statusCount.childCount>
+<#assign grandChildCount=report.statusCount.grandChildCount>
+
 <#assign bddReport=false>
 <#assign bddClass=''>
 <#if report.testList?? && report.testList?size != 0>
 	<#assign firstTest=report.testList[0]>
 	<#assign bddReport = (firstTest.hasChildren() && firstTest.nodeContext.get(0).isBehaviorDrivenType())?then(true, false)>
 </#if>
-<#assign testsViewChartsHeading='Tests' stepsViewChartsHeading='Steps'>
+<#assign testsViewChartsHeading='Classes' stepsViewChartsHeading='Tests'>
 <#if bddReport>
 	<#assign testsViewChartsHeading='Features' stepsViewChartsHeading='Scenarios'>
 	<#assign bddClass='bdd-report'>
+<#else>
+	<#if childCount == 0>
+		<#assign testsViewChartsHeading='Tests' stepsViewChartsHeading=''>
+	<#else>
+	
+	</#if>
 </#if>
 
-<#assign parentCount=report.statusCount.parentCount>
-<#assign childCount=report.statusCount.childCount>
-<#assign grandChildCount=report.statusCount.grandChildCount>
 
 <!DOCTYPE html>
 <html>
@@ -80,12 +87,10 @@
 		</script>
 		
 		<#assign cdn = config.getValue('cdn')>
-		<#if cdn == 'github'>
-			<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/9fa70d0ed9c34a8ed445ceee3494d3d7de7f8918/dist/js/extent.js' type='text/javascript'></script>
-		<#elseif cdn == 'extentreports'>
+		<#if cdn == 'extentreports'>
 			<script src='http://extentreports.com/resx/dist/js/extent.js' type='text/javascript'></script>
 		<#else>
-			<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/9fa70d0ed9c34a8ed445ceee3494d3d7de7f8918/dist/js/extent.js' type='text/javascript'></script>
+			<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/29d2d3ec024c953e6341cb3e19e31b1035a8f556/dist/js/extent.js' type='text/javascript'></script>
 		</#if>
 		
 		<#assign hideChart=(chartVisibleOnOpen=='true')?then(false, true)>

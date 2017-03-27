@@ -1,5 +1,5 @@
 <#assign sizeLarge='s12 m6 l6'>
-<#if bddReport>
+<#if bddReport || report.statusCount.childCount != 0>
 	<#assign sizeLarge='s12 m4 l4'>
 </#if>
 
@@ -20,6 +20,7 @@
 			</div>
 		</div>
 		
+		<#if report.statusCount.childCount != 0>
 		<div class='col ${ sizeLarge } np-h'>
 			<div class='card-panel nm-v'>
 				<div class='left panel-name'>${ stepsViewChartsHeading }</div>
@@ -34,8 +35,9 @@
 				</div>
 			</div>
 		</div>
+		</#if>
 		
-		<#if bddReport>
+		<#if report.statusCount.grandChildCount != 0>
 		<div class='col ${ sizeLarge } np-h'>
 			<div class='card-panel nm-v'>
 				<div class='left panel-name'>Steps</div>

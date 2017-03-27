@@ -123,11 +123,11 @@ public class SessionStatusStats {
     public int getGrandChildCountInfo() { return grandChildInfo; }
     public int getGrandChildCountExceptions() { return grandChildExceptions; }
     
-    void updateCounts() {
+    private void updateCounts() {
         testCollection.forEach(this::addTestForStatusStatsUpdate);
     }
     
-    void addTestForStatusStatsUpdate(Test test) {
+    private void addTestForStatusStatsUpdate(Test test) {
         if (test.isBehaviorDrivenType() || (test.hasChildren() && test.getNodeContext().get(0).isBehaviorDrivenType())) {
             updateGroupCountsBDD(test);
             return;
@@ -136,26 +136,47 @@ public class SessionStatusStats {
         updateGroupCounts(test);
     }
     
-    void updateGroupCountsBDD(Test test) {
+    private void updateGroupCountsBDD(Test test) {
         incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
         
         if (test.hasChildren()) {
             test.getNodeContext().getAll().forEach(x -> {
                 incrementItemCountByStatus(ItemLevel.CHILD, x.getStatus());
 
-                if (x.getNodeContext() != null && x.getNodeContext().getAll().size() > 0)
-                    x.getNodeContext().getAll().forEach(n -> n.getLogContext().getAll().forEach(l -> incrementItemCountByStatus(ItemLevel.GRANDCHILD, l.getStatus())));
+                if (x.hasChildren()) {
+                    x.getNodeContext().getAll().forEach(n -> {
+                        incrementItemCountByStatus(ItemLevel.GRANDCHILD, n.getStatus());
+                    });
+                }
             });
         }
     }
     
-    void updateGroupCounts(Test test) {
-        if (!test.hasChildren()) {
-            incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
-            test.getLogContext().getAll().forEach(x -> incrementItemCountByStatus(ItemLevel.CHILD, x.getStatus()));
+    private void updateGroupCounts(Test test) {
+        incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
+        
+        if (test.hasLog())
+            test.getLogContext().getAll().forEach(x -> incrementItemCountByStatus(ItemLevel.GRANDCHILD, x.getStatus()));
+        
+        if (test.hasChildren())
+            updateGroupCountsForChildrenRecursive(test);
+        
+    }
+    
+    private void updateGroupCountsForChildrenRecursive(Test test) {
+        if (test.hasLog()) {
+            test.getLogContext().getAll().forEach(l -> {
+                incrementItemCountByStatus(ItemLevel.GRANDCHILD, l.getStatus());
+            });
+        }
+        
+        if (test.hasChildren()) {
+            test.getNodeContext().getAll().forEach(n -> {
+                updateGroupCountsForChildrenRecursive(n);
+            });
         }
         else {
-            test.getNodeContext().getAll().forEach(this::updateGroupCounts);
+            incrementItemCountByStatus(ItemLevel.CHILD, test.getStatus());
         }
     }
     
@@ -165,7 +186,7 @@ public class SessionStatusStats {
         GRANDCHILD
     }
     
-    void incrementItemCountByStatus(ItemLevel item, Status status) {
+    private void incrementItemCountByStatus(ItemLevel item, Status status) {
         switch (item) {
             case PARENT:
                 incrementParent(status);
@@ -184,7 +205,7 @@ public class SessionStatusStats {
         }
     }
     
-    void incrementParent(Status status) {
+    private void incrementParent(Status status) {
         switch (status) {
             case PASS: 
                 parentPass++; 
@@ -211,7 +232,7 @@ public class SessionStatusStats {
         parentExceptions++;
     }
 
-    void incrementChild(Status status) {
+    private void incrementChild(Status status) {
         switch (status) {
             case PASS: 
                 childPass++; 
@@ -242,7 +263,7 @@ public class SessionStatusStats {
             childExceptions++;
     }
     
-    void incrementGrandChild(Status status) {
+    private void incrementGrandChild(Status status) {
         switch (status) {
             case PASS: 
                 grandChildPass++; 
