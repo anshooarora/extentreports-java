@@ -480,9 +480,11 @@ function drawParentChart() {
         { value: statusGroup.infoChild, color: '#46BFBD', highlight: '#5AD3D1', label: 'Info' }
 	];
 	
-	var ctx = $('#child-analysis').get(0).getContext('2d');
-	stepChart = new Chart(ctx).Doughnut(data, options);
-	drawLegend(stepChart, 'child-analysis');
+    if ($('#child-analysis').length > 0) {
+	    var ctx = $('#child-analysis').get(0).getContext('2d');
+	    stepChart = new Chart(ctx).Doughnut(data, options);
+	    drawLegend(stepChart, 'child-analysis');
+    }
 })();
 
 /* -- [ grand-children chart ] -- */
