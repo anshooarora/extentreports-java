@@ -24,8 +24,8 @@
 	<#assign testsViewChartsHeading='Features' stepsViewChartsHeading='Scenarios'>
 	<#assign bddClass='bdd-report'>
 <#else>
-	<#if childCount == 0>
-		<#assign testsViewChartsHeading='Tests' stepsViewChartsHeading=''>
+	<#if (childCount == 0 || grandChildCount == 0)>
+		<#assign testsViewChartsHeading='Tests' stepsViewChartsHeading='Steps'>
 	<#else>
 	
 	</#if>

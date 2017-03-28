@@ -1,5 +1,5 @@
 <#assign sizeLarge='s12 m6 l6'>
-<#if bddReport || report.statusCount.childCount != 0>
+<#if bddReport || (report.statusCount.childCount != 0 && report.statusCount.grandChildCount != 0)>
 	<#assign sizeLarge='s12 m4 l4'>
 </#if>
 

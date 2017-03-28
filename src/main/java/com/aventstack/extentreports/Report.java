@@ -18,6 +18,7 @@ import com.aventstack.extentreports.model.Test;
 abstract class Report implements IReport {
 
     protected boolean usesManualConfiguration = false;
+    protected AnalysisStrategy strategy = AnalysisStrategy.TEST;
     
     private Date reportStartDate;
     private Date reportEndDate;
@@ -36,7 +37,7 @@ abstract class Report implements IReport {
     
     protected Report() {
         systemAttributeContext = new SystemAttributeContext();
-        stats = new SessionStatusStats();
+        stats = new SessionStatusStats(strategy);
         categoryContext = new TestAttributeTestContextProvider<>();
         authorContext = new TestAttributeTestContextProvider<>();
         exceptionContextBuilder = new ExceptionTestContextImpl();
@@ -222,6 +223,7 @@ abstract class Report implements IReport {
             x.setExceptionContextInfo(exceptionContextBuilder);
             x.setSystemAttributeContext(systemAttributeContext);
             x.setTestRunnerLogs(testRunnerLogs);
+            x.setAnalysisStrategy(strategy);
             x.setStatusCount(stats);
             x.setStartTime(reportStartDate);
             x.setEndTime(reportEndDate);
@@ -246,6 +248,11 @@ abstract class Report implements IReport {
             testRunnerLogs = new ArrayList<>();
         
         testRunnerLogs.add(log);
+    }
+    
+    protected void setAnalysisStrategy(AnalysisStrategy strategy) {
+        this.strategy = strategy;
+        stats = new SessionStatusStats(strategy);
     }
     
 }

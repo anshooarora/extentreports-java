@@ -7,6 +7,7 @@ import com.aventstack.extentreports.model.Test;
 public class SessionStatusStats {
     
     private List<Test> testCollection;
+    private AnalysisStrategy strategy = AnalysisStrategy.TEST;
     
     private int parentPass = 0; 
     private int parentFail = 0;
@@ -23,6 +24,7 @@ public class SessionStatusStats {
     private int childWarning = 0;
     private int childSkip = 0;
     private int childInfo = 0;
+    private int childDebug = 0;
     private int childExceptions = 0;
     
     private int grandChildPass = 0; 
@@ -32,9 +34,12 @@ public class SessionStatusStats {
     private int grandChildWarning = 0;
     private int grandChildSkip = 0;
     private int grandChildInfo = 0;
+    private int grandChildDebug = 0;
     private int grandChildExceptions = 0;
     
-    public SessionStatusStats() { }
+    public SessionStatusStats(AnalysisStrategy strategy) { 
+    	this.strategy = strategy;
+    }
 
     public void refresh(List<Test> testCollection) {
         reset();
@@ -103,6 +108,7 @@ public class SessionStatusStats {
     public int getChildCountWarning() { return childWarning; }
     public int getChildCountSkip() { return childSkip; }
     public int getChildCountInfo() { return childInfo; }
+    public int getChildCountDebug() { return childDebug; }
     public int getChildCountExceptions() { return childExceptions; }
     
     public int getGrandChildCount() { 
@@ -121,6 +127,7 @@ public class SessionStatusStats {
     public int getGrandChildCountWarning() { return grandChildWarning; }
     public int getGrandChildCountSkip() { return grandChildSkip; }
     public int getGrandChildCountInfo() { return grandChildInfo; }
+    public int getGrandChildCountDebug() { return grandChildDebug; }
     public int getGrandChildCountExceptions() { return grandChildExceptions; }
     
     private void updateCounts() {
@@ -133,7 +140,12 @@ public class SessionStatusStats {
             return;
         }
         
-        updateGroupCounts(test);
+        if (strategy == AnalysisStrategy.TEST) {
+        	updateGroupCountsTestStrategy(test);
+        	return;
+        }
+        
+        updateGroupCountsClassStrategy(test);
     }
     
     private void updateGroupCountsBDD(Test test) {
@@ -152,14 +164,17 @@ public class SessionStatusStats {
         }
     }
     
-    private void updateGroupCounts(Test test) {
-        incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
-        
+    private void updateGroupCountsClassStrategy(Test test) {
         if (test.hasLog())
             test.getLogContext().getAll().forEach(x -> incrementItemCountByStatus(ItemLevel.GRANDCHILD, x.getStatus()));
-        
-        if (test.hasChildren())
-            updateGroupCountsForChildrenRecursive(test);
+
+        if (test.hasChildren()) {
+            incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
+            updateGroupCountsForChildrenRecursive(test);          
+        }
+        else {
+            incrementItemCountByStatus(ItemLevel.CHILD, test.getStatus());
+        }
         
     }
     
@@ -178,6 +193,16 @@ public class SessionStatusStats {
         else {
             incrementItemCountByStatus(ItemLevel.CHILD, test.getStatus());
         }
+    }
+    
+    private void updateGroupCountsTestStrategy(Test test) {
+	    if (!test.hasChildren()) {
+	        incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
+	        test.getLogContext().getAll().forEach(x -> incrementItemCountByStatus(ItemLevel.CHILD, x.getStatus()));
+	    }
+	    else {
+	        test.getNodeContext().getAll().forEach(this::updateGroupCountsTestStrategy);
+	    }
     }
     
     enum ItemLevel {
@@ -255,6 +280,9 @@ public class SessionStatusStats {
             case INFO: 
                 childInfo++; 
                 break;
+            case DEBUG: 
+                childDebug++; 
+                break;
             default: 
                 break;
         }
@@ -286,6 +314,9 @@ public class SessionStatusStats {
             case INFO: 
                 grandChildInfo++; 
                 break;
+            case DEBUG: 
+                grandChildDebug++; 
+                break;
             default: 
                 break;
         }
@@ -294,4 +325,3 @@ public class SessionStatusStats {
             grandChildExceptions++;
     }
 }
-

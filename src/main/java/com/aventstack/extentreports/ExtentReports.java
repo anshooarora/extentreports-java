@@ -308,6 +308,24 @@ public class ExtentReports extends Report {
     }
     
     /**
+     * Type of AnalysisStrategy for the reporter. Not all reporters support this setting.
+     * 
+     * <p>
+     * There are 2 types of strategies available:
+     * 
+     * <ul>
+     *  <li>CLASS: Shows analysis in 3 different charts: Class, Test and Step (log) </li>
+     *  <li>TEST: Shows analysis in 2 different charts: Test and Step (log)s</li>
+     * </ul>
+     * 
+     * @param strategy {@link AnalysisStrategy} determines the type of analysis (dashboard)
+     * created for the reporter. Not all reporters will support this setting.
+     */
+    public void setAnalysisStrategy(AnalysisStrategy strategy) {
+        super.setAnalysisStrategy(strategy);
+    }
+    
+    /**
      * Provides common report configurations
      * 
      * @return an instance of {@link ReportConfigurator}

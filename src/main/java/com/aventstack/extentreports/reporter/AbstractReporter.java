@@ -13,6 +13,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.aventstack.extentreports.AnalysisStrategy;
 import com.aventstack.extentreports.ExceptionTestContextImpl;
 import com.aventstack.extentreports.ExtentReporter;
 import com.aventstack.extentreports.SessionStatusStats;
@@ -28,6 +29,8 @@ import com.aventstack.extentreports.model.Test;
 public abstract class AbstractReporter implements ExtentReporter {
 
     private static final Logger logger = Logger.getLogger(AbstractReporter.class.getName());
+    
+    private AnalysisStrategy strategy;
     
     protected Date startTime;
     protected Date endTime;
@@ -103,7 +106,7 @@ public abstract class AbstractReporter implements ExtentReporter {
             return sc;
         }
 
-        sc = new SessionStatusStats();
+        sc = new SessionStatusStats(strategy);
         sc.refresh(testList);
         return sc;
     }
@@ -163,5 +166,16 @@ public abstract class AbstractReporter implements ExtentReporter {
     public long getRunDuration() { 
         return getEndTime().getTime() - getStartTime().getTime(); 
     }
+    
+    @Override
+    public void setAnalysisStrategy(AnalysisStrategy strategy){
+      this.strategy = strategy;
+    }
+    
+    @Override
+    public AnalysisStrategy getAnalysisStrategy() {
+      return strategy;
+    }
+    
 
 }

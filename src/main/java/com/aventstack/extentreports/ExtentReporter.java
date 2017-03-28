@@ -6,7 +6,7 @@ import java.util.Date;
  * Primary interface implemented by each reporter. This interface implements {@link TestListener} and 
  * {@link ReportAggregatesListener} interface to provide additional functionality to each reporter.
  */
-public interface ExtentReporter extends TestListener, ReportAggregatesListener {
+public interface ExtentReporter extends TestListener, ReportAggregatesListener, IAnalysisStrategy {
     
     /**
      * Starts passing run information to the reporter
