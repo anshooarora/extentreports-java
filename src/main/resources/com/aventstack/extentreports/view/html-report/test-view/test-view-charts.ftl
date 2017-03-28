@@ -12,10 +12,10 @@
 					<canvas id='parent-analysis' width='100' height='80'></canvas>
 				</div>
 				<div class='block text-small'>
-					<span><span class='strong'>${ report.statusCount.parentCountPass }</span> test(s) passed</span>
+					<span class='tooltipped' data-position='top' data-tooltip='${report.statusCount.parentPercentagePass}%'><span class='strong'>${ report.statusCount.parentCountPass }</span> test(s) passed</span>
 				</div>
 				<div class='block text-small'>
-					<span class='strong'>${ report.statusCount.parentCountFail + report.statusCount.parentCountFatal }</span> test(s) failed, <span class='strong'>${ report.statusCount.parentCountError + report.statusCount.parentCountWarning + report.statusCount.parentCountSkip }</span> others
+					<span class='strong tooltipped' data-position='top' data-tooltip='${report.statusCount.parentPercentageFail}%'>${ report.statusCount.parentCountFail + report.statusCount.parentCountFatal }</span> test(s) failed, <span class='strong tooltipped' data-position='top' data-tooltip='${report.statusCount.parentPercentageOthers}%'>${ report.statusCount.parentCountError + report.statusCount.parentCountWarning + report.statusCount.parentCountSkip }</span> others
 				</div>
 			</div>
 		</div>
@@ -28,10 +28,10 @@
 					<canvas id='child-analysis' width='100' height='80'></canvas>
 				</div>
 				<div class='block text-small'>
-					<span><span class='strong'>${ report.statusCount.childCountPass }</span> step(s) passed</span>
+					<span class='tooltipped' data-position='top' data-tooltip='${report.statusCount.childPercentagePass}%'><span class='strong'>${ report.statusCount.childCountPass }</span> step(s) passed</span>
 				</div>
 				<div class='block text-small'>
-					<span class='strong'>${ report.statusCount.childCountFail + report.statusCount.childCountFatal }</span> step(s) failed, <span class='strong'>${ report.statusCount.childCountError + report.statusCount.childCountWarning + report.statusCount.childCountSkip + report.statusCount.childCountInfo }</span> others
+					<span class='strong tooltipped' data-position='top' data-tooltip='${report.statusCount.childPercentageFail}%'>${ report.statusCount.childCountFail + report.statusCount.childCountFatal }</span> step(s) failed, <span class='strong tooltipped' data-position='top' data-tooltip='${report.statusCount.childPercentageOthers}%'>${ report.statusCount.childCountError + report.statusCount.childCountWarning + report.statusCount.childCountSkip + report.statusCount.childCountInfo }</span> others
 				</div>
 			</div>
 		</div>
@@ -45,10 +45,10 @@
 					<canvas id='grandchild-analysis' width='100' height='80'></canvas>
 				</div>
 				<div class='block text-small'>
-					<span><span class='strong'>${ report.statusCount.grandChildCountPass }</span> step(s) passed</span>
+					<span class='tooltipped' data-position='top' data-tooltip='${report.statusCount.grandChildPercentagePass}%'><span class='strong'>${ report.statusCount.grandChildCountPass }</span> step(s) passed</span>
 				</div>
 				<div class='block text-small'>
-					<span class='strong'>${ report.statusCount.grandChildCountFail + report.statusCount.grandChildCountFatal }</span> step(s) failed, <span class='strong'>${ report.statusCount.grandChildCountSkip + report.statusCount.grandChildCountError + report.statusCount.grandChildCountWarning + report.statusCount.grandChildCountInfo }</span> others
+					<span class='strong tooltipped' data-position='top' data-tooltip='${report.statusCount.grandChildPercentageFail}%'>${ report.statusCount.grandChildCountFail + report.statusCount.grandChildCountFatal }</span> step(s) failed, <span class='strong tooltipped' data-position='top' data-tooltip='${report.statusCount.grandChildPercentageOthers}%'>${ report.statusCount.grandChildCountSkip + report.statusCount.grandChildCountError + report.statusCount.grandChildCountWarning + report.statusCount.grandChildCountInfo }</span> others
 				</div>
 			</div>
 		</div>

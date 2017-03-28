@@ -92,6 +92,19 @@ public class SessionStatusStats {
     public int getParentCountSkip() { return parentSkip; }
     public int getParentCountExceptions() { return parentExceptions; }
     
+    public float getParentPercentagePass() {
+        float p = getParentCount() > 0 ? (float)getParentCountPass()/(float)getParentCount() : 0; 
+        return p*100;
+    }
+    public float getParentPercentageFail() {
+        float p = getParentCount() > 0 ? ((float)getParentCountFail()+(float)getParentCountFatal())/(float)getParentCount() : 0; 
+        return p*100;
+    }
+    public float getParentPercentageOthers() {
+        float p = getParentCount() > 0 ? ((float)getParentCountWarning()+(float)getParentCountError()+(float)getParentCountSkip())/(float)getParentCount() : 0; 
+        return p*100;
+    }
+    
     public int getChildCount() { 
         return getChildCountPass() + 
             getChildCountFail() + 
@@ -111,6 +124,19 @@ public class SessionStatusStats {
     public int getChildCountDebug() { return childDebug; }
     public int getChildCountExceptions() { return childExceptions; }
     
+    public float getChildPercentagePass() {
+        float p = getChildCount() > 0 ? (float)getChildCountPass()/(float)getChildCount() : 0; 
+        return p*100;
+    }
+    public float getChildPercentageFail() {
+        float p = getChildCount() > 0 ? ((float)getChildCountFail()+(float)getChildCountFatal())/(float)getChildCount() : 0; 
+        return p*100;
+    }
+    public float getChildPercentageOthers() {
+        float p = getChildCount() > 0 ? (((float)getChildCountWarning()+(float)getChildCountError()+(float)getChildCountSkip()+(float)getChildCountInfo())/(float)getChildCount()) : 0;
+        return p*100;
+    }
+    
     public int getGrandChildCount() { 
         return getGrandChildCountPass() + 
             getGrandChildCountFail() + 
@@ -129,6 +155,19 @@ public class SessionStatusStats {
     public int getGrandChildCountInfo() { return grandChildInfo; }
     public int getGrandChildCountDebug() { return grandChildDebug; }
     public int getGrandChildCountExceptions() { return grandChildExceptions; }
+    
+    public float getGrandChildPercentagePass() {
+        float p = getGrandChildCount() > 0 ? (float)getGrandChildCountPass()/(float)getGrandChildCount() : 0; 
+        return p*100;
+    }
+    public float getGrandChildPercentageFail() {
+        float p = getGrandChildCount() > 0 ? ((float)getGrandChildCountFail()+(float)getGrandChildCountFatal())/(float)getGrandChildCount() : 0; 
+        return p*100;
+    }
+    public float getGrandChildPercentageOthers() {
+        float p = getGrandChildCount() > 0 ? (((float)getGrandChildCountWarning()+(float)getGrandChildCountError()+(float)getGrandChildCountSkip()+(float)getGrandChildCountInfo())/(float)getGrandChildCount()) : 0;
+        return p*100;
+    }
     
     private void updateCounts() {
         testCollection.forEach(this::addTestForStatusStatsUpdate);
