@@ -155,6 +155,11 @@ td {
     line-height: normal !important;
 }
 
+/* -- [ tooltip ] -- */
+.material-tooltip {
+    font-size: 13px;
+}
+
 /* -- [ chips ] -- */
 .chip {
     cursor: pointer;
