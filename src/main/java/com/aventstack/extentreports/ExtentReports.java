@@ -248,6 +248,15 @@ public class ExtentReports extends Report {
     }
     
     /**
+     * Removes a test
+     * 
+     * @param test {@link ExtentTest} object
+     */
+    public synchronized void removeTest(ExtentTest test) {
+        super.removeTest(test.getModel());
+    }    
+    
+    /**
      * Writes test information from the started reporters to their output view
      * 
      * <ul>

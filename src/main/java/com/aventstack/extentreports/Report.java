@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
@@ -70,6 +71,30 @@ abstract class Report implements IReport {
         reporterCollection.forEach(x -> x.onTestStarted(test));
     }
     
+    protected synchronized void removeTest(Test test) {
+        List<Test> testList = testCollection
+            .stream()
+            .filter(x -> x.getID() == test.getID())
+            .collect(Collectors.toList());
+        
+        if (testList.size() == 1) {
+            testCollection.remove(testList.get(0));
+            return;
+        }
+        
+        for (Test t : testCollection) {
+            testList = t.getNodeContext().getAll()
+                .stream()
+                .filter(n -> n.getID() == test.getID())
+                .collect(Collectors.toList());
+            
+            if (testList.size() == 1) {
+                t.getNodeContext().getAll().remove(testList.get(0));
+                return;
+            }
+        }
+    }
+        
     synchronized void addNode(Test node) {
         reporterCollection.forEach(x -> x.onNodeStarted(node));
     }
