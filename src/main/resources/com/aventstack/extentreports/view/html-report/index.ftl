@@ -19,15 +19,16 @@
 	<#assign firstTest=report.testList[0]>
 	<#assign bddReport = (firstTest.hasChildren() && firstTest.nodeContext.get(0).isBehaviorDrivenType())?then(true, false)>
 </#if>
-<#assign testsViewChartsHeading='Classes' stepsViewChartsHeading='Tests'>
+<#assign parentViewChartsHeading='Classes' childViewChartsHeading='Tests' grandChildViewChartsHeading='Steps'>
 <#if bddReport>
-	<#assign testsViewChartsHeading='Features' stepsViewChartsHeading='Scenarios'>
+	<#assign parentViewChartsHeading='Features' childViewChartsHeading='Scenarios' grandChildViewChartsHeading='Steps'>
 	<#assign bddClass='bdd-report'>
 <#else>
 	<#if (childCount == 0 || grandChildCount == 0)>
-		<#assign testsViewChartsHeading='Tests' stepsViewChartsHeading='Steps'>
-	<#else>
-	
+		<#assign parentViewChartsHeading='Tests' childViewChartsHeading='Steps' grandChildViewChartsHeading=''>
+	</#if>
+	<#if report.analysisStrategy?string == 'SUITE'>
+		<#assign parentViewChartsHeading='Suites' childViewChartsHeading='Tests' grandChildViewChartsHeading='Test Methods'>
 	</#if>
 </#if>
 

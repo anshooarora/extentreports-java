@@ -7,7 +7,7 @@
 	<div id='charts-row' class='row nm-v nm-h'>
 		<div class='col ${ sizeLarge } np-h'>
 			<div class='card-panel nm-v'>
-				<div class='left panel-name'>${ testsViewChartsHeading }</div>
+				<div class='left panel-name'>${ parentViewChartsHeading }</div>
 				<div class='chart-box'>
 					<canvas id='parent-analysis' width='100' height='80'></canvas>
 				</div>
@@ -23,7 +23,7 @@
 		<#if report.statusCount.childCount != 0>
 		<div class='col ${ sizeLarge } np-h'>
 			<div class='card-panel nm-v'>
-				<div class='left panel-name'>${ stepsViewChartsHeading }</div>
+				<div class='left panel-name'>${ childViewChartsHeading }</div>
 				<div class='chart-box'>
 					<canvas id='child-analysis' width='100' height='80'></canvas>
 				</div>
@@ -40,7 +40,7 @@
 		<#if report.statusCount.grandChildCount != 0>
 		<div class='col ${ sizeLarge } np-h'>
 			<div class='card-panel nm-v'>
-				<div class='left panel-name'>Steps</div>
+				<div class='left panel-name'>${ grandChildViewChartsHeading }</div>
 				<div class='chart-box'>
 					<canvas id='grandchild-analysis' width='100' height='80'></canvas>
 				</div>
