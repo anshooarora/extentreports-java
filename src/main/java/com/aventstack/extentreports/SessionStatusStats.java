@@ -183,8 +183,17 @@ public class SessionStatusStats {
         	updateGroupCountsTestStrategy(test);
         	return;
         }
+
+        if (strategy == AnalysisStrategy.SUITE) {
+            updateGroupCountsSuiteStrategy(test);
+            return;
+        }
         
         updateGroupCountsClassStrategy(test);
+    }
+
+    private void updateGroupCountsSuiteStrategy(Test test) {
+        updateGroupCountsBDD(test);
     }
     
     private void updateGroupCountsBDD(Test test) {

@@ -5,20 +5,20 @@
 		<div class='row'>
 			<div class='col s2'>
 				<div class='card-panel r'>
-					<#if bddReport>Features<#else>Tests</#if>
+					${ parentViewChartsHeading }
 					<div class='panel-lead'>${ parentCount }</div>
 				</div>
 			</div>
 			<div class='col s2'>
 				<div class='card-panel r'>
-					<#if bddReport>Scenarios<#else>Steps</#if>
+					${ childViewChartsHeading }
 					<div class='panel-lead'>${ childCount  }</div>
 				</div>
 			</div>
-			<#if bddReport>
+			<#if grandChildViewChartsHeading != ''>
 			<div class='col s2'>
 				<div class='card-panel r'>
-					Steps
+					${ grandChildViewChartsHeading }
 					<div class='panel-lead'>${ grandChildCount }</div>
 				</div>
 			</div>
