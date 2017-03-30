@@ -2,14 +2,6 @@
 <#if bddReport || (report.statusCount.childCount != 0 && report.statusCount.grandChildCount != 0)>
 	<#assign sizeLarge='s12 m4 l4'>
 </#if>
-<#if parentViewChartsHeading=='Suites'>
-	<#assign parentLabel='suite(s)' childLabel='test(s)' grandChildLabel='method(s)'>
-<#elseif parentViewChartsHeading=='Tests'>
-	<#assign parentLabel='test(s)' childLabel='step(s)' grandChildLabel=''>
-<#elseif  parentViewChartsHeading=='Classes'>
-	<#assign parentLabel='class(es)' childLabel='test(s)' grandChildLabel='log(s)'>
-</#if>
-
 
 <div id='test-view-charts' class='subview-full'>
 	<div id='charts-row' class='row nm-v nm-h'>

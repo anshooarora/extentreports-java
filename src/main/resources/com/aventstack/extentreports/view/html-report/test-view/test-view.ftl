@@ -88,7 +88,7 @@
 	<div class='subview-left left'>
 		
 		<div class='view-summary'>
-			<h5>Tests</h3>
+			<h5>${ parentViewChartsHeading }</h5>
 			<ul id='test-collection' class='test-collection'>
 				<#list report.testList as test>
 				
