@@ -100,8 +100,6 @@ abstract class Report implements IReport {
     }
     
     synchronized void addLog(Test test, Log log) {
-        collectRunInfo();
-        
         reporterCollection.forEach(x -> x.onLogAdded(test, log));
     }
     
