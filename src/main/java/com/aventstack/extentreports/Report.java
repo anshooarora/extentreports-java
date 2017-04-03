@@ -192,7 +192,6 @@ abstract class Report implements IReport {
             if (test.hasChildren())
                 test.getNodeContext().getAll().forEach(x -> {
                     copyNodeAttributeInfoToAttributeContext(x);
-                    copyNodeExceptionInfoToExceptionContext(x);
                 });
         });
         
@@ -231,15 +230,9 @@ abstract class Report implements IReport {
         if (node.hasChildren())
             node.getNodeContext().getAll().forEach(x -> {
                 copyNodeAttributeInfoToAttributeContext(x);
-                copyNodeExceptionInfoToExceptionContext(x);
             });
     }
-    
-    private void copyNodeExceptionInfoToExceptionContext(Test node) {
-        if (node.hasException())
-            node.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, node));
-    }
-    
+        
     private synchronized void notifyReporters() {
         reporterCollection.forEach(x -> {
             x.setTestList(testCollection);

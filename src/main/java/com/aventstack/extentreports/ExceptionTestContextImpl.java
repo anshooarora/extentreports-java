@@ -16,15 +16,22 @@ public class ExceptionTestContextImpl {
     }   
     
     public void setExceptionContext(ExceptionInfo ei, Test test) {
-        reset();
-        
         Optional<ExceptionTestContext> exOptionalTestContext = exTestContextList
                 .stream()
                 .filter(x -> x.getExceptionInfo().getExceptionName().equals(ei.getExceptionName()))
                 .findFirst();
         
         if (exOptionalTestContext.isPresent()) {
-            exOptionalTestContext.get().setTest(test);
+            List<Test> testList = exOptionalTestContext.get().getTestList();
+            
+            boolean b = testList
+                    .stream()
+                    .filter(t -> t.getID() == test.getID())
+                    .findFirst()
+                    .isPresent();
+            
+            if (!b)
+                exOptionalTestContext.get().setTest(test);
         }
         else {
             ExceptionTestContext exTestContext = new ExceptionTestContext(ei);
@@ -32,10 +39,6 @@ public class ExceptionTestContextImpl {
             
             exTestContextList.add(exTestContext);
         }
-    }
-    
-    private void reset() {
-        exTestContextList.clear();
     }
 
     public List<ExceptionTestContext> getExceptionTestContextList() { 
