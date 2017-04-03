@@ -395,10 +395,10 @@ nav ul i {
     .test-steps, .category-tests, .exception-tests, .test-content > .node-list {
         margin-top: 30px;
     }
-    .test-steps th:first-child, tr.log > td:first-child, .node-steps th:first-child, .node-steps td:first-child {
+    .test-steps th:first-child, tr.log > td:first-child, .node-steps > .table-results > thead > tr > th:first-child, .node-steps > .table-results > tbody > tr > td:first-child {
         width: 60px;
     }
-    .test-steps th:nth-child(2), tr.log > td:nth-child(2), .node-steps th:nth-child(2), .node-steps td:nth-child(2) {
+    .test-steps th:nth-child(2), tr.log > td:nth-child(2), .node-steps > .table-results > thead > tr > th:nth-child(2), .node-steps > .table-results > tbody > tr > td:nth-child(2) {
         width: 110px;
     }
     .bdd + #step-filters {
