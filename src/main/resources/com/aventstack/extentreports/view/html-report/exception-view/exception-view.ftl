@@ -42,11 +42,15 @@
 								</thead>
 								<tbody>
 									<#list exception.getTestList() as test>
-									<tr>
-										<td>${ test.startTime?datetime?string["${timeStampFormat}"] }</td>
-										<td class='linked' test-id='${ test.getID() }'>${ test.hierarchicalName }</td>
-										<td><pre>${ exception.exceptionInfo.getStackTrace() }</pre></td>
-									</tr>
+										<#list test.getExceptionInfoList() as testException>
+											<#if testException.getExceptionName() == exception.exceptionInfo.getExceptionName()>
+												<tr>
+													<td>${ test.startTime?datetime?string["${timeStampFormat}"] }</td>
+													<td class='linked' test-id='${ test.getID() }'>${ test.hierarchicalName }</td>
+													<td><pre>${ testException.getStackTrace() }</pre></td>
+												</tr>
+											</#if>
+										</#list>
 									</#list>
 								</tbody>
 							</table>

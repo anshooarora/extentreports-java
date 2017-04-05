@@ -20,7 +20,7 @@ public class ExceptionTestContextImpl {
                 .stream()
                 .filter(x -> x.getExceptionInfo().getExceptionName().equals(ei.getExceptionName()))
                 .findFirst();
-        
+
         if (exOptionalTestContext.isPresent()) {
             List<Test> testList = exOptionalTestContext.get().getTestList();
             
@@ -41,7 +41,7 @@ public class ExceptionTestContextImpl {
         }
     }
 
-    public List<ExceptionTestContext> getExceptionTestContextList() { 
-        return exTestContextList; 
+    public List<ExceptionTestContext> getExceptionTestContextList() {
+        return exTestContextList;
     }
 }

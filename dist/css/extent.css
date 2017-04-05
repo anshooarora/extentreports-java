@@ -560,6 +560,10 @@ nav ul i {
     color: #22a1c4;
 }
 
+ul#exception-collection > li.exception {
+    cursor: pointer;
+}
+
 /* -- [ theme, dark ] -- */
 body.dark, .dark .collapsible-header {
     background: #111 !important;
