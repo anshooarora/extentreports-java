@@ -190,7 +190,7 @@ abstract class Report implements IReport {
                 test.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, test));
             
             if (test.hasChildren())
-                test.getNodeContext().getAll().forEach(this::copyNodeAttributeInfoToAttributeContext);
+                test.getNodeContext().getAll().forEach(this::copyNodeAttributeAndRunTimeInfoToAttributeContexts);
         });
         
         updateReportStartTimeForManualConfigurationSetting();
@@ -215,7 +215,7 @@ abstract class Report implements IReport {
         }
     }
     
-    private void copyNodeAttributeInfoToAttributeContext(Test node) {
+    private void copyNodeAttributeAndRunTimeInfoToAttributeContexts(Test node) {
         if (node.hasCategory())
             node.getCategoryContext().getAll().forEach(x -> categoryContext.setAttributeContext((Category) x, node));
         
@@ -226,7 +226,7 @@ abstract class Report implements IReport {
             node.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, node));
         
         if (node.hasChildren())
-            node.getNodeContext().getAll().forEach(this::copyNodeAttributeInfoToAttributeContext);
+            node.getNodeContext().getAll().forEach(this::copyNodeAttributeAndRunTimeInfoToAttributeContexts);
     }
         
     private synchronized void notifyReporters() {
