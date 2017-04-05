@@ -400,8 +400,6 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
         exInfo.setStackTrace(ExceptionUtil.getStackTrace(t));
         
         getModel().setExceptionInfo(exInfo);
-        if (getModel().getLevel() > 1)
-            getModel().getParent().setExceptionInfo(exInfo);
         
         log(status, exInfo.getStackTrace(), provider);
         
