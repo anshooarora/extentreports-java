@@ -190,10 +190,7 @@ abstract class Report implements IReport {
                 test.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, test));
             
             if (test.hasChildren())
-                test.getNodeContext().getAll().forEach(x -> {
-                    copyNodeAttributeInfoToAttributeContext(x);
-                    copyNodeExceptionInfoToExceptionContext(x);
-                });
+                test.getNodeContext().getAll().forEach(this::copyNodeAttributeInfoToAttributeContext);
         });
         
         updateReportStartTimeForManualConfigurationSetting();
@@ -224,20 +221,12 @@ abstract class Report implements IReport {
         
         if (node.hasAuthor())
             node.getAuthorContext().getAll().forEach(x -> authorContext.setAttributeContext((Author) x, node));
+
+        if (node.hasException())
+            node.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, node));
         
         if (node.hasChildren())
             node.getNodeContext().getAll().forEach(this::copyNodeAttributeInfoToAttributeContext);
-        
-        if (node.hasChildren())
-            node.getNodeContext().getAll().forEach(x -> {
-                copyNodeAttributeInfoToAttributeContext(x);
-                copyNodeExceptionInfoToExceptionContext(x);
-            });
-    }
-    
-    private void copyNodeExceptionInfoToExceptionContext(Test node) {
-        if (node.hasException())
-            node.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, node));
     }
         
     private synchronized void notifyReporters() {
