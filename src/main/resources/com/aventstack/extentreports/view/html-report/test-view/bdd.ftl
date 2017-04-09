@@ -14,7 +14,7 @@
 		<#if node.screenCaptureList?? && node.screenCaptureList?size != 0>
 		<ul class='screenshots right'>
 			<#list node.screenCaptureList as sc>
-			<li><a data-featherlight="image" href="${ sc.path }"><i class='material-icons'>panorama</i></a></li>
+			<li><a data-featherlight="image" data-featherlight-content="${sc.name!''}" href="${ sc.path }"><i class='material-icons'>panorama</i></a></li>
 			</#list>
 		</ul>
 		</#if>
@@ -30,7 +30,7 @@
 			<#if child.screenCaptureList?? && child.screenCaptureList?size != 0>
 			<ul class='screenshots right'>
 				<#list child.screenCaptureList as sc>
-				<li><a data-featherlight="image" href="${ sc.path }"><i class='material-icons'>panorama</i></a></li>
+				<li><a data-featherlight="image" data-featherlight-content="${sc.name!''}" href="${ sc.path }"><i class='material-icons'>panorama</i></a></li>
 				</#list>
 			</ul>
 			</#if>

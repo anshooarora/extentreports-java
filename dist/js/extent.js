@@ -61,7 +61,12 @@ $(document).ready(function() {
 
     $('#test-collection .test').dynamicTestSearch('#test-view #search-tests');
 	$('#category-collection .category').dynamicTestSearch('#category-view #search-tests');
-	$('#exception-collection .exception').dynamicTestSearch('#exception-view #search-tests');  
+	$('#exception-collection .exception').dynamicTestSearch('#exception-view #search-tests');
+
+    $.featherlight.prototype.beforeContent = function () {
+        var title = this.content;
+        if (title) (this.$instance.find('.featherlight-content > span')).after($("<h5 class='center-align'>" + title + "</h5>"));
+    };
 });
 
 /* -- [ sidenav - toggle views ] -- */
