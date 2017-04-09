@@ -2,8 +2,6 @@ package com.aventstack.extentreports.markuputils;
 
 public class MarkupHelper {
     
-    private MarkupHelper() { }
-    
     public static Markup createLabel(String text, ExtentColor color) {
         Label l = new Label();
         l.setText(text);
