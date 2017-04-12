@@ -8,6 +8,9 @@
 			<#if categoryContext?? && categoryContext?size != 0>
 			<li class='waves-effect'><a href='#!' view='category-view' onclick="configureView(1)"><i class='material-icons'>label_outline</i></a></li>
 			</#if>
+			<#if authorContext?? && authorContext?size != 0>
+				<li class='waves-effect'><a href='#!' view='author-view' onclick="configureView(3)"><i class='material-icons'>person</i></a></li>
+			</#if>
 			<#if exceptionContext?? && exceptionContext?size != 0>
 			<li class='waves-effect'><a href='#!' view='exception-view' onclick="configureView(2)"><i class='material-icons'>bug_report</i></a></li>
 			</#if>

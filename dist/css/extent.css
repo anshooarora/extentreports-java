@@ -319,15 +319,15 @@ nav ul i {
 }
 
     /* -- [ collections ] -- */
-    #test-collection li, #category-collection li, #exception-collection li {
+    #test-collection li, #category-collection li, #author-collection li, #exception-collection li {
         border-bottom: 1px solid #eee;
         margin: 0 -20px;
         padding: 10px 20px;
     }
-    #test-collection li:first-child, #category-collection li:first-child, #exception-collection li:first-child {
+    #test-collection li:first-child, #category-collection li:first-child, #author-collection li:first-child,  #exception-collection li:first-child {
         border-top: 1px solid #eee;
     }
-    #test-collection li.active, #category-collection li.active, #exception-collection li.active {
+    #test-collection li.active, #category-collection li.active, #author-collection li.active,  #exception-collection li.active {
         background: #f7f7f7;
         font-weight: 600;
     }
@@ -342,7 +342,7 @@ nav ul i {
     .test {
         cursor: default;
     }
-    .subview-left .test-name, .subview-left  .category-name, .exception-name, .node-name {
+    .subview-left .test-name, .subview-left  .category-name, .author-name, .exception-name, .node-name {
         display: inline-block;
         word-break: break-all;
     }
@@ -377,22 +377,22 @@ nav ul i {
     .test-desc {
         padding-top: 7px;
     }
-    .start-time, .category-status > .pass, .end-time, .category-status > .fail, .category-status > .others {
+    .start-time, .category-status > .pass, .end-time, .category-status > .fail, .category-status > .others, .author-status > .pass, .author-status > .fail, .author-status > .others {
         color: #fff;
     }
-    .start-time, .category-status > .pass {
+    .start-time, .category-status > .pass, .author-status > .pass {
         background: #00c853;
     }
-    .end-time, .category-status > .fail {
+    .end-time, .category-status > .fail, .author-status > .fail {
         background: #ef5350;
     }
-    .category-status > .others {
+    .category-status > .others, .author-status > .others {
             background: #fbc02d;
     }
     .test-attributes {
         padding-top: 10px;
     }
-    .test-steps, .category-tests, .exception-tests, .test-content > .node-list {
+    .test-steps, .category-tests, .author-tests, .exception-tests, .test-content > .node-list {
         margin-top: 30px;
     }
     .test-steps th:first-child, tr.log > td:first-child, .node-steps > .table-results > thead > tr > th:first-child, .node-steps > .table-results > tbody > tr > td:first-child {
@@ -442,7 +442,7 @@ nav ul i {
         top: 3px;
         left: 3px;
     }
-	.category-name, .exception-name {
+	.category-name, .author-name, .exception-name {
 		max-width: 80%;
 		word-break: break-all;
 	}
@@ -509,14 +509,14 @@ nav ul i {
             margin: 0;
         }
 
-    /* -- [ category-view ] -- */
-    .category-tests th:first-child, .category-tests td:first-child, .exception-tests th:first-child, .exception-tests td:first-child {
+    /* -- [ category-view and author-view ] -- */
+    .category-tests th:first-child, .category-tests td:first-child, .exception-tests th:first-child, .exception-tests td:first-child, .author-tests th:first-child, .author-tests td:first-child {
         width: 180px;
     }
-    .category-tests th:nth-child(2), .category-tests td:nth-child(2) {
+    .category-tests th:nth-child(2), .category-tests td:nth-child(2), .author-tests th:nth-child(2), .author-tests td:nth-child(2) {
         min-width: 50%;
     }
-    .category.active .category-status { 
+    .category.active .category-status, .author.active .author-status {
         display: none;
     }
     .linked {
@@ -560,7 +560,7 @@ nav ul i {
     color: #22a1c4;
 }
 
-ul#exception-collection > li.exception {
+ul#exception-collection > li.exception, ul#category-collection > li.category, ul#author-collection > li.author {
     cursor: pointer;
 }
 
@@ -572,7 +572,7 @@ body.dark, .dark .collapsible-header {
 .dark nav {
     background: #000 !important;
 }
-.dark .grey.lighten-4, .dark .side-nav, .dark #test-collection li.active, .dark #category-collection li.active, .dark #exception-collection li.active, .dark .card-panel:not(.transparent), .dark .dropdown-content, .dark pre {
+.dark .grey.lighten-4, .dark .side-nav, .dark #test-collection li.active, .dark #category-collection li.active, .dark #author-collection li.active, .dark #exception-collection li.active, .dark .card-panel:not(.transparent), .dark .dropdown-content, .dark pre {
     background: #222 !important;
 }
 .dark .category-list > .category, .dark .dropdown-content a:hover, .dark .divider {
@@ -590,10 +590,10 @@ body.dark, .dark .collapsible-header {
 .dark .side-nav {
     border-right: 1px solid #333 !important;
 }
-.dark #test-collection li, .dark #category-collection li, .dark #exception-collection li, .dark th, .dark td, .dark .collapsible-body {
+.dark #test-collection li, .dark #category-collection li, .dark #author-collection li, .dark #exception-collection li, .dark th, .dark td, .dark .collapsible-body {
     border-bottom: 1px solid #333 !important;
 }
-.dark #test-collection li:first-child, .dark #category-collection li:first-child, .dark #exception-collection li:first-child {
+.dark #test-collection li:first-child, .dark #category-collection li:first-child, .dark #author-collection li:first-child, .dark #exception-collection li:first-child {
     border-top: 1px solid #333 !important;
 }
 .dark .subview-left {
