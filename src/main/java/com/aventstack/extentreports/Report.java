@@ -143,7 +143,7 @@ abstract class Report implements IReport {
         });
     }
 
-    protected TestAttributeTestContextProvider<Author> getAuthorContextInfo() { 
+    protected TestAttributeTestContextProvider<Author> getAuthorContextInfo() {
     	return authorContext; 
 	}
     
@@ -234,6 +234,7 @@ abstract class Report implements IReport {
             x.setTestList(testCollection);
             
             x.setCategoryContextInfo(categoryContext);
+            x.setAuthorContextInfo(authorContext);
             x.setExceptionContextInfo(exceptionContextBuilder);
             x.setSystemAttributeContext(systemAttributeContext);
             x.setTestRunnerLogs(testRunnerLogs);

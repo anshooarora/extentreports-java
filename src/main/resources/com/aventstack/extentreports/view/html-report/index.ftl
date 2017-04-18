@@ -6,7 +6,8 @@
 <#assign extentxUrl=config.containsKey('extentx-url')?then(config.getValue('extentx-url'), '')>
 
 <#assign systemAttributeContext=report.getSystemAttributeContext().getSystemAttributeList()>
-<#assign categoryContext=report.getCategoryContextInfo().getCategoryTestContextList()>
+<#assign categoryContext=report.getCategoryContextInfo().getTestAttributeTestContextList()>
+<#assign authorContext=report.getAuthorContextInfo().getTestAttributeTestContextList()>
 <#assign exceptionContext=report.getExceptionContextInfo().getExceptionTestContextList()>
 
 <#assign parentCount=report.statusCount.parentCount>
@@ -53,6 +54,7 @@
 
 			<#include 'test-view/test-view.ftl'>
 			<#include 'category-view/category-view.ftl'>
+			<#include 'author-view/author-view.ftl'>
 			<#include 'exception-view/exception-view.ftl'>			
 			<#include 'dashboard-view/dashboard-view.ftl'>
 			<#include 'logs-view/testrunner-logs-view.ftl'>
