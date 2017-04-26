@@ -416,6 +416,7 @@ nav ul i {
 	}
     .category-list > .category {
         background: #b4b4b4;
+        cursor: pointer;
         position: relative;
         padding-left: 20px;
         margin-right: 2px;

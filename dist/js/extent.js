@@ -346,6 +346,16 @@ $('.view-summary').click(function(evt) {
         var id = t.attr('test-id');
         findTestById(id);
     }
+	
+	if (t.is('span.category')) {
+		var name = t.text();
+		
+		$('.test').removeClass('displayed').addClass('hide').filter(function() {
+			return ($(this).find('.category').text().indexOf(name) >= 0)
+		}).addClass('displayed').removeClass('hide');
+
+		$('.test.displayed').first().click();
+	}
 });
 
 /* -- [ tests-toggle ] -- */
