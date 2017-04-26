@@ -96,7 +96,7 @@
 		<#if cdn == 'extentreports'>
 			<script src='http://extentreports.com/resx/dist/js/extent.js' type='text/javascript'></script>
 		<#else>
-			<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/29d2d3ec024c953e6341cb3e19e31b1035a8f556/dist/js/extent.js' type='text/javascript'></script>
+			<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/d317b7421fddf8e8faa514af18896c2c8a56e3ad/dist/js/extent.js' type='text/javascript'></script>
 		</#if>
 		
 		<#assign hideChart=(chartVisibleOnOpen=='true')?then(false, true)>
