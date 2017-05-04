@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
+import com.aventstack.extentreports.model.Media;
+import com.aventstack.extentreports.model.ScreenCapture;
 import com.aventstack.extentreports.model.Test;
 import com.aventstack.extentreports.model.TestAttribute;
 import com.aventstack.extentreports.utils.DateUtil;
@@ -100,6 +102,11 @@ class ExtentHtmlTestConverter {
             for (TestAttribute a : authorCollection)
                 test.setAuthor(a);
         
+        List<ScreenCapture> mediaList = parserUtils.getMediaElements(testElement);
+        if (mediaList != null && !mediaList.isEmpty())
+            for (Media m : mediaList)
+                test.setScreenCapture((ScreenCapture) m); 
+        
         ExtentHtmlLogConverter logConverter = new ExtentHtmlLogConverter(test, testElement);
         logConverter.parseAndAddLogsToTest();
         
@@ -147,6 +154,26 @@ class ExtentHtmlTestConverter {
 			    return DateUtil.parse(endTime.text(), docTimeStampFormat);
 			
 			return Calendar.getInstance().getTime();
+		}
+		
+		public List<ScreenCapture> getMediaElements(Element test) {
+		    String selector = ":root > .test-content > .screenshots img";
+		    Elements elements = test.select(selector);
+		    List<ScreenCapture> scList = null;
+		    ScreenCapture sc = null;
+		    
+		    if (!elements.isEmpty()) {
+		        scList = new ArrayList<ScreenCapture>();
+		        
+		        for (Element element : elements) {
+		            String src = element.attr("data-src");
+		            sc = new ScreenCapture();		            
+		            sc.setPath(src);
+		            scList.add(sc);
+		        }
+		    }
+		    
+		    return scList;
 		}
 		
 		@SuppressWarnings("unchecked")

@@ -412,7 +412,9 @@ nav ul i {
         font-size: 1rem;
     }
     .step-details > img {
+    	border: 1px solid #ccc;
 		display: block;
+		margin-top: 5px;
 	}
     .category-list > .category {
         background: #b4b4b4;
