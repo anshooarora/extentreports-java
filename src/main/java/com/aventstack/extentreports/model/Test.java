@@ -175,8 +175,9 @@ public class Test implements RunResult, Serializable, BasicReportElement {
     public void trackLastRunStatus() {
         getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
 
-        if (testStatus == Status.INFO) 
-            testStatus = Status.PASS;
+        testStatus = (testStatus == Status.INFO || testStatus == Status.DEBUG)
+                ? Status.PASS
+                : testStatus;
     }
     
     private synchronized void updateStatus(Status logStatus) {
@@ -190,7 +191,9 @@ public class Test implements RunResult, Serializable, BasicReportElement {
         updateTestStatusRecursive(this);
         endChildrenRecursive(this);
         
-        testStatus = testStatus == Status.INFO ? Status.PASS : testStatus;
+        testStatus = (testStatus == Status.INFO || testStatus == Status.DEBUG)
+                ? Status.PASS
+                : testStatus;
         
         if (!usesManualConfiguration || endTime == null)
             setEndTimeFromChildren();
