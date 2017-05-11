@@ -210,6 +210,8 @@ public class SessionStatusStats {
     }
     
     private void updateGroupCountsBDD(Test test) {
+        incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
+        
         if (test.hasChildren()) {
             test.getNodeContext().getAll().forEach(x -> {
                 if (x.getBehaviorDrivenType() == Scenario.class)
@@ -217,8 +219,11 @@ public class SessionStatusStats {
 
                 if (x.hasChildren()) {
                     x.getNodeContext().getAll().forEach(n -> {
-                        if (n.getBehaviorDrivenType() == Scenario.class)
-                            incrementItemCountByStatus(ItemLevel.CHILD, x.getStatus());                            
+                        if (n.getBehaviorDrivenType() == Scenario.class) {
+                            incrementItemCountByStatus(ItemLevel.CHILD, x.getStatus());
+                            
+                            n.getNodeContext().getAll().forEach(z -> incrementItemCountByStatus(ItemLevel.GRANDCHILD, z.getStatus()));
+                        }
                         else
                             incrementItemCountByStatus(ItemLevel.GRANDCHILD, n.getStatus());
                     });

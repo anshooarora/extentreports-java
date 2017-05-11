@@ -25,7 +25,17 @@
 	<#if node.hasChildren()>
 	<ul class='steps'>
 		<#list node.nodeContext.all as child>
-		<li test-id='${ child.getID() }' class='node ${ child.getBehaviorDrivenType().getSimpleName()?lower_case } ${ child.status }' status='${ child.status }'><b>${ child.getBehaviorDrivenType().getSimpleName()?string }</b>
+		<li test-id='${ child.getID() }' class='node ${ child.getBehaviorDrivenType().getSimpleName()?lower_case } ${ child.status }' status='${ child.status }'>
+			<#if child.hasCategory()>
+			<div class='category-list'>
+				<#list child.categoryContext.all as category>
+				<span class='category label white-text'>${ category.name }</span>
+				</#list>
+			</div>
+			</#if>
+			
+			<b>${ child.getBehaviorDrivenType().getSimpleName()?string }</b>
+			
 			<span class="bdd-step-name">${ child.name }</span>
 			<#if child.screenCaptureList?? && child.screenCaptureList?size != 0>
 			<ul class='screenshots right'>

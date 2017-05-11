@@ -482,6 +482,10 @@ nav ul i {
             margin-bottom: 20px;
             display: inline-block;
         }
+		.node > .category-list {
+			margin-bottom: 20px;
+			display: block;
+		}
 		.node.scenario {
 			padding: 20px;
 		}
