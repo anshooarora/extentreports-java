@@ -41,9 +41,9 @@ public class GherkinKeyword {
     public GherkinKeyword(String keyword) throws ClassNotFoundException {
         keyword = StringUtil.capitalize(keyword);
         String refPath = clazz.getPackage().getName();
-        Class<?> c = Class.forName(refPath + "." + keyword);
         
         try {
+            Class<?> c = Class.forName(refPath + "." + keyword);
             keywordClazz = (IGherkinFormatterModel) c.newInstance();
         } catch (InstantiationException|IllegalAccessException e) {
             logger.log(Level.SEVERE, "", e);

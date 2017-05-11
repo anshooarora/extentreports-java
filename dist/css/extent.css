@@ -471,15 +471,20 @@ nav ul i {
         .bdd-report #step-filters { 
             display: none;
         }
-        .scenario, .background {
+        .scenario, .background, .scenariooutline {
             border: 1px solid #eee;
             padding: 20px;
-            margin-top: 30px;
         }
+		.scenariooutline {
+			margin-top: 30px;
+		}
         .scenario .category-list {
             margin-bottom: 20px;
             display: inline-block;
         }
+		.node.scenario {
+			padding: 20px;
+		}
         ul.steps {
             border: 1px solid #eee;
             border-radius: 4px;
