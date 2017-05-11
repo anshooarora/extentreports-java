@@ -630,7 +630,7 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
 	/**
 	 * Returns the active Report ID 
 	 * 
-	 * @return A {@link ObjectId) object
+	 * @return A {@link ObjectId} object
 	 */
     public ObjectId getReportId() {     
         return reportId;        
