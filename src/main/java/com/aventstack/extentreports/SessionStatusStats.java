@@ -2,6 +2,7 @@ package com.aventstack.extentreports;
 
 import java.util.List;
 
+import com.aventstack.extentreports.gherkin.model.Scenario;
 import com.aventstack.extentreports.model.Test;
 
 public class SessionStatusStats {
@@ -193,10 +194,6 @@ public class SessionStatusStats {
     }
 
     private void updateGroupCountsSuiteStrategy(Test test) {
-        updateGroupCountsBDD(test);
-    }
-    
-    private void updateGroupCountsBDD(Test test) {
         incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
         
         if (test.hasChildren()) {
@@ -206,6 +203,24 @@ public class SessionStatusStats {
                 if (x.hasChildren()) {
                     x.getNodeContext().getAll().forEach(n -> {
                         incrementItemCountByStatus(ItemLevel.GRANDCHILD, n.getStatus());
+                    });
+                }
+            });
+        }
+    }
+    
+    private void updateGroupCountsBDD(Test test) {
+        if (test.hasChildren()) {
+            test.getNodeContext().getAll().forEach(x -> {
+                if (x.getBehaviorDrivenType() == Scenario.class)
+                    incrementItemCountByStatus(ItemLevel.CHILD, x.getStatus());
+
+                if (x.hasChildren()) {
+                    x.getNodeContext().getAll().forEach(n -> {
+                        if (n.getBehaviorDrivenType() == Scenario.class)
+                            incrementItemCountByStatus(ItemLevel.CHILD, x.getStatus());                            
+                        else
+                            incrementItemCountByStatus(ItemLevel.GRANDCHILD, n.getStatus());
                     });
                 }
             });
