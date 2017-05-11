@@ -39,7 +39,7 @@ public class GherkinKeyword {
     private IGherkinFormatterModel keywordClazz;
     
     public GherkinKeyword(String keyword) throws ClassNotFoundException {
-        keyword = StringUtil.capitalize(keyword);
+        keyword = StringUtil.capitalize(keyword.trim());
         String refPath = clazz.getPackage().getName();
         
         try {
