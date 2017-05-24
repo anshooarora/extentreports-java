@@ -624,7 +624,8 @@ body.dark, .dark .collapsible-header {
 /* -- [ media queries ] -- */
 @media all and (max-width: 992px) {
 	nav .brand-logo {
-        left: 55px;
+        left: 35px;
+		height: 50px;
     }
 	.container {
 		padding-left: 0;
