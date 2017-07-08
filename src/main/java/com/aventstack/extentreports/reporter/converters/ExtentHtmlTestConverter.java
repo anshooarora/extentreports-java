@@ -1,6 +1,8 @@
 package com.aventstack.extentreports.reporter.converters;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,6 +37,26 @@ class ExtentHtmlTestConverter {
 	public ExtentHtmlTestConverter(String filePath) {
 		String html = Reader.readAllText(filePath);
 		doc = Jsoup.parse(html);
+		
+		Element meta = doc.select("meta[http-equiv=content-type], meta[charset]").first();
+        if (meta != null) { // if not found, will keep utf-8 as best attempt
+            String foundCharset = null;
+            if (meta.hasAttr("http-equiv")) {
+                foundCharset = meta.attr("content");
+            }
+            if (foundCharset == null && meta.hasAttr("charset")) {
+                try {
+                    if (Charset.isSupported(meta.attr("charset"))) {
+                        foundCharset = meta.attr("charset");
+                    }
+                } catch (IllegalCharsetNameException e) {
+                    foundCharset = null;
+                }
+            }
+            
+            doc = Jsoup.parse(html, foundCharset);
+        }
+        
 		docTimeStampFormat = doc.getElementById("timeStampFormat").attr("content");
 		parserUtils = new TestParserUtils();
 	}
