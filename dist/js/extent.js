@@ -358,6 +358,8 @@ $('.view-summary').click(function(evt) {
 	}
 });
 
+/* -- [ tests-toggle ] -- */$('#tests-toggle li').click(function() {    var t = $(this),        status = t.attr('status'),        clear = t.attr('clear');        if (clear || status == 'clear')         $('.test').addClass('displayed').removeClass('hide');    else {        $('.test,.leaf').addClass('hide').removeClass('displayed');          $('.test:has(.leaf.' + status + '), .test.' + status).removeClass('hide').addClass('displayed');  $('.leaf.' + status).removeClass('hide').addClass('displayed');    }        $('.test.displayed').first().click();});
+
 /* -- [ tests-toggle ] -- */
 $('#tests-toggle li').click(function() {
     var t = $(this),
@@ -365,10 +367,11 @@ $('#tests-toggle li').click(function() {
         clear = t.attr('clear');
     
     if (clear || status == 'clear') 
-        $('.test').addClass('displayed').removeClass('hide');
+        $('.test,.leaf').addClass('displayed').removeClass('hide');
     else {
-        $('.test').addClass('hide').removeClass('displayed');    
+        $('.test,.leaf').addClass('hide').removeClass('displayed');
         $('.test:has(.leaf.' + status + '), .test.' + status).removeClass('hide').addClass('displayed');
+        $('.leaf.' + status).removeClass('hide').addClass('displayed');
     }
     
     $('.test.displayed').first().click();
