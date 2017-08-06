@@ -208,7 +208,7 @@ abstract class Report implements IReport {
                     reportStartDate = testStartDate;
                 }
 
-                if (reportEndDate.getTime() > testEndTime) {
+                if (reportEndDate.getTime() < testEndTime) {
                     reportEndDate = testEndDate;
                 }
             });
