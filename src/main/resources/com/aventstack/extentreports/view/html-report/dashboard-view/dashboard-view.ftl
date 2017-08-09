@@ -43,7 +43,7 @@
 			</div>
 			<#if systemAttributeContext?size != 0>
 			<div class='col s4'>
-				<div class='card-panel environment'>
+				<div class='card-panel dashboard-environment'>
 					<span class='right label cyan white-text'>Environment</span><p>&nbsp;</p>
 					
 					<table>
@@ -65,7 +65,7 @@
 			</#if>
 			<#if categoryContext?? && categoryContext?size != 0>
 			<div class='col s4'>
-				<div class='card-panel'>
+				<div class='card-panel dashboard-categories'>
 					<span class='right label cyan white-text'>Categories</span><p>&nbsp;</p>
 					
 					<table>
