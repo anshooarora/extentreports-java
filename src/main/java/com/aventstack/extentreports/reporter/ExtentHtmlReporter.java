@@ -112,6 +112,7 @@ public class ExtentHtmlReporter extends BasicFileReporter implements ReportAppen
     	
     	ExtentHtmlReporterConverter converter = new ExtentHtmlReporterConverter(filePath);
     	parsedTestCollection = converter.parseAndGetModelCollection();
+    	userConfig.setEncoding(converter.getCharset());
     }
     
     @Override
