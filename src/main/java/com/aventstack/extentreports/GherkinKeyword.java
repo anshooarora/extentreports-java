@@ -1,8 +1,14 @@
 package com.aventstack.extentreports;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.aventstack.extentreports.gherkin.GherkinDialect;
+import com.aventstack.extentreports.gherkin.GherkinDialectProvider;
 import com.aventstack.extentreports.gherkin.model.IGherkinFormatterModel;
 
 import freemarker.template.utility.StringUtil;
@@ -39,13 +45,27 @@ public class GherkinKeyword {
     private IGherkinFormatterModel keywordClazz;
     
     public GherkinKeyword(String keyword) throws ClassNotFoundException {
-        keyword = StringUtil.capitalize(keyword.trim());
+        GherkinDialect dialect =  null;
+        String apiKeyword = StringUtil.capitalize(keyword.trim());
         String refPath = clazz.getPackage().getName();
         
         try {
-            Class<?> c = Class.forName(refPath + "." + keyword);
+            dialect = new GherkinDialectProvider().getDialect();
+            if (!dialect.getLanguage().equals("en")) {
+                Map<String, List<String>> keywords = dialect.getKeywords();
+                
+                for (Entry<String, List<String>> key : keywords.entrySet()) {
+                    boolean b = key.getValue().stream().anyMatch(x -> x.trim().equalsIgnoreCase(keyword));
+                    if (b) {
+                        apiKeyword = StringUtil.capitalize(key.getKey());
+                        break;
+                    }
+                }
+            }
+            
+            Class<?> c = Class.forName(refPath + "." + apiKeyword);
             keywordClazz = (IGherkinFormatterModel) c.newInstance();
-        } catch (InstantiationException|IllegalAccessException e) {
+        } catch (UnsupportedEncodingException | InstantiationException | IllegalAccessException e) {
             logger.log(Level.SEVERE, "", e);
         }
     }

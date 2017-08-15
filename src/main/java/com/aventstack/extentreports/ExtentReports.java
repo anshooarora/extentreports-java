@@ -1,8 +1,10 @@
 package com.aventstack.extentreports;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
+import com.aventstack.extentreports.gherkin.GherkinDialectProvider;
 import com.aventstack.extentreports.gherkin.model.IGherkinFormatterModel;
 import com.aventstack.extentreports.model.SystemAttribute;
 
@@ -45,7 +47,7 @@ import com.aventstack.extentreports.model.SystemAttribute;
  * @see Status
  */
 public class ExtentReports extends Report {
-    
+     
     /**
      * Attach a {@link ExtentReporter} reporter, allowing it to access all started tests, nodes and logs 
      * 
@@ -176,7 +178,7 @@ public class ExtentReports extends Report {
      * @return {@link ExtentTest} object
      */
     public synchronized ExtentTest createTest(GherkinKeyword gherkinKeyword, String testName, String description) {
-        Class<? extends IGherkinFormatterModel> clazz = gherkinKeyword.getKeyword().getClass();
+        Class<? extends IGherkinFormatterModel> clazz = gherkinKeyword.getKeyword().getClass();;
         return createTest(clazz, testName, description);
     }
     
@@ -342,4 +344,18 @@ public class ExtentReports extends Report {
     public ReportConfigurator config() {
         return ReportConfigurator.getInstance();
     }
+    
+    /**
+     * Allows setting the target language for Gherkin keywords
+     * 
+     * @param language A valid dialect from 
+     * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a>
+     * 
+     * @throws UnsupportedEncodingException Thrown if the language is one of the supported languaged from
+     * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a> 
+     */
+    public void setGherkinDialect(String language) throws UnsupportedEncodingException {
+        new GherkinDialectProvider(language);
+    }
+    
 }
