@@ -1,6 +1,5 @@
 package com.aventstack.extentreports;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -52,6 +51,7 @@ public class GherkinKeyword {
         try {
             dialect = new GherkinDialectProvider().getDialect();
             if (!dialect.getLanguage().equals("en")) {
+                apiKeyword = null;
                 Map<String, List<String>> keywords = dialect.getKeywords();
                 
                 for (Entry<String, List<String>> key : keywords.entrySet()) {
@@ -65,7 +65,7 @@ public class GherkinKeyword {
             
             Class<?> c = Class.forName(refPath + "." + apiKeyword);
             keywordClazz = (IGherkinFormatterModel) c.newInstance();
-        } catch (UnsupportedEncodingException | InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             logger.log(Level.SEVERE, "", e);
         }
     }

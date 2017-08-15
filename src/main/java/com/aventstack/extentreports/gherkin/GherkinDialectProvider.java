@@ -21,9 +21,9 @@ import com.google.gson.Gson;
 public class GherkinDialectProvider {
 
     private static Map<String, Map<String, List<String>>> DIALECTS;
-    private Map<String, List<String>> map;
+    private static Map<String, List<String>> map;
     private final String GHERKIN_LANGUAGES_JSON_URL = "https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json";
-    private static String language;
+    private static String language = "en";
     
     static {
         Gson gson = new Gson();
@@ -35,20 +35,27 @@ public class GherkinDialectProvider {
         }
     }
     
+    /**
+     * Sets/changes the default language
+     * 
+     * @param language A valid dialect from 
+     * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a>
+     * 
+     * @throws UnsupportedEncodingException Thrown if the language is one of the supported language from
+     * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a>
+     */
     public GherkinDialectProvider(String language) throws UnsupportedEncodingException {
-        if (GherkinDialectProvider.language == null)
-            GherkinDialectProvider.language = language;
-        
-        map = DIALECTS.get(GherkinDialectProvider.language);
-        
+        GherkinDialectProvider.language = language;
+        map = DIALECTS.get(GherkinDialectProvider.language);        
         if (map == null)
             throw new UnsupportedEncodingException("Invalid language [" + language + "]. See list of supported languages: " + GHERKIN_LANGUAGES_JSON_URL);
     }
     
-    public GherkinDialectProvider() throws UnsupportedEncodingException {
-        this("en");
-    }
-    
+    /**
+     * Uses default language
+     */
+    public GherkinDialectProvider() { }
+
     public GherkinDialect getDialect() {
         return new GherkinDialect(language, map);
     }

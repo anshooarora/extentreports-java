@@ -346,12 +346,15 @@ public class ExtentReports extends Report {
     }
     
     /**
-     * Allows setting the target language for Gherkin keywords
+     * Allows setting the target language for Gherkin keywords.
+     * 
+     * <p>
+     * Default setting is "en"
      * 
      * @param language A valid dialect from 
      * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a>
      * 
-     * @throws UnsupportedEncodingException Thrown if the language is one of the supported languaged from
+     * @throws UnsupportedEncodingException Thrown if the language is one of the supported language from
      * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a> 
      */
     public void setGherkinDialect(String language) throws UnsupportedEncodingException {
