@@ -108,11 +108,14 @@
 		</script>
 		</#if>
 		
-		<#if config.containsKey('js')>
  		<script type='text/javascript'>
- 			${ config.getValue('js') }
+ 			<#if config.containsKey('js')>
+	 			${ config.getValue('js') }
+ 			</#if>
+ 			<#if config.containsKey('scripts')>
+ 			${ config.getValue('scripts') }
+			</#if>
  		</script>
- 		</#if>
 	</body>
 	
 </html>

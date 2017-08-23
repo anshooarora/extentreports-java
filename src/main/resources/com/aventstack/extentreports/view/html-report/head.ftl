@@ -19,9 +19,12 @@
 	
 	<title>${ config.getValue('documentTitle') }</title>
 
-	<#if config.containsKey('css')>
 	<style type='text/css'>
-		${ config.getValue('css') }
+		<#if config.containsKey('css')>
+			${ config.getValue('css') }
+		</#if>
+		<#if config.containsKey('styles')>
+			${ config.getValue('styles') }
+		</#if>
 	</style>
-	</#if>
 </head>
