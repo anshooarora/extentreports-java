@@ -55,7 +55,7 @@ public class GherkinKeyword {
                 Map<String, List<String>> keywords = dialect.getKeywords();
                 
                 for (Entry<String, List<String>> key : keywords.entrySet()) {
-                    boolean b = key.getValue().stream().anyMatch(x -> x.trim().equalsIgnoreCase(keyword));
+                    boolean b = key.getValue().stream().anyMatch(x -> x.trim().equalsIgnoreCase(keyword.trim()));
                     if (b) {
                         apiKeyword = StringUtil.capitalize(key.getKey());
                         break;
