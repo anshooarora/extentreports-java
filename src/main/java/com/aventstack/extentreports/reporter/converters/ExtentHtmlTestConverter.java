@@ -33,7 +33,6 @@ class ExtentHtmlTestConverter {
 	private Document doc;
 	private TestParserUtils parserUtils;
 	private String docTimeStampFormat;
-	private String charset;
 	
 	public ExtentHtmlTestConverter(String filePath) {
 		String html = Reader.readAllText(filePath);
@@ -56,7 +55,6 @@ class ExtentHtmlTestConverter {
             }
             
             foundCharset = foundCharset == null ? "utf-8" : foundCharset;
-            setCharset(foundCharset);
             
             doc = Jsoup.parse(html, foundCharset);
         }
@@ -64,14 +62,7 @@ class ExtentHtmlTestConverter {
 		docTimeStampFormat = doc.getElementById("timeStampFormat").attr("content");
 		parserUtils = new TestParserUtils();
 	}
-	
-	private void setCharset(String charset) {
-	    this.charset = charset;
-	}
-	public String getCharset() {
-	    return charset;
-	}
-	
+
 	public List<Test> parseAndGetTests() {
 		Elements allTests = doc.select("#test-collection > .test");
 		
