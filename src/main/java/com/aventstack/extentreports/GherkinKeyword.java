@@ -38,7 +38,7 @@ import freemarker.template.utility.StringUtil;
  */
 public class GherkinKeyword {
 
-    private static final Logger logger = Logger.getLogger(GherkinKeyword.class.getName());
+private static final Logger logger = Logger.getLogger(GherkinKeyword.class.getName());
     
     private Class<IGherkinFormatterModel> clazz = IGherkinFormatterModel.class;
     private IGherkinFormatterModel keywordClazz;
@@ -49,8 +49,8 @@ public class GherkinKeyword {
         String refPath = clazz.getPackage().getName();
         
         try {
-            dialect = new GherkinDialectProvider().getDialect();
-            if (!dialect.getLanguage().equals("en")) {
+            dialect = GherkinDialectProvider.getDialect();
+            if (dialect != null && !dialect.getLanguage().equalsIgnoreCase(GherkinDialectProvider.getDefaultLanguage())) {
                 apiKeyword = null;
                 Map<String, List<String>> keywords = dialect.getKeywords();
                 

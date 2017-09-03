@@ -358,7 +358,7 @@ public class ExtentReports extends Report {
      * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a> 
      */
     public void setGherkinDialect(String language) throws UnsupportedEncodingException {
-        new GherkinDialectProvider(language);
+        GherkinDialectProvider.setLanguage(language);
     }
     
 }
