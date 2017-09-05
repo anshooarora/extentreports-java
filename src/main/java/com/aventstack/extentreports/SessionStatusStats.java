@@ -233,12 +233,10 @@ public class SessionStatusStats {
     }
     
     private void updateGroupCountsClassStrategy(Test test) {
-        if (test.hasLog())
-            test.getLogContext().getAll().forEach(x -> incrementItemCountByStatus(ItemLevel.GRANDCHILD, x.getStatus()));
-
         if (test.hasChildren()) {
             incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
-            updateGroupCountsForChildrenRecursive(test);          
+            
+            test.getNodeContext().getAll().forEach(x -> updateGroupCountsClassStrategy(x));
         }
         else {
             incrementItemCountByStatus(ItemLevel.CHILD, test.getStatus());
@@ -246,6 +244,7 @@ public class SessionStatusStats {
         
     }
     
+    @SuppressWarnings("unused")
     private void updateGroupCountsForChildrenRecursive(Test test) {
         if (test.hasLog()) {
             test.getLogContext().getAll().forEach(l -> {
