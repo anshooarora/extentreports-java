@@ -233,9 +233,8 @@ public class SessionStatusStats {
     }
     
     private void updateGroupCountsClassStrategy(Test test) {
-        if (test.hasChildren()) {
-            incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
-            
+        if (test.getLevel() == 0) {
+            incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());            
             test.getNodeContext().getAll().forEach(x -> updateGroupCountsClassStrategy(x));
         }
         else {
