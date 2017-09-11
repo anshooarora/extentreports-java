@@ -2,6 +2,7 @@ com.aventstack.extentreports
 com.aventstack.extentreports.api
 com.aventstack.extentreports.common
 com.aventstack.extentreports.configuration
+com.aventstack.extentreports.gherkin
 com.aventstack.extentreports.gherkin.model
 com.aventstack.extentreports.listenertests
 com.aventstack.extentreports.markuputils
