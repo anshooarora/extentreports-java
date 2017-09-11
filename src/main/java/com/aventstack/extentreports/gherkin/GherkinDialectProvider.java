@@ -56,7 +56,7 @@ public class GherkinDialectProvider {
     /**
      * Sets/changes the default language
      * 
-     * @param language A valid dialect from 
+     * @param lang A valid dialect from 
      * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a>
      * 
      * @throws UnsupportedEncodingException Thrown if the language is one of the supported language from
