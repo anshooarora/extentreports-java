@@ -1,13 +1,13 @@
-# ExtentAPI v3 Java
+# ExtentAPI 3 Java
 
 [![Join the chat at https://gitter.im/anshooarora/extentreports](https://badges.gitter.im/anshooarora/extentreports.svg)](https://gitter.im/anshooarora/extentreports?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/anshooarora/extentreports-java.svg)](https://travis-ci.org/anshooarora/extentreports-java)
 
-#### Current Version: 3.0.6
+#### Current Version: 3.0.7
 
-Java8 only. Java7 and lower versions, use Extent v2. 
+This version is Java8 only. Version 2 and lower are no longer supported. 
 
-Note: Use [version 1.0.0+](https://github.com/anshooarora/extentx) of ExtentX with this version.
+Note: Use [version 1.0.2+](https://github.com/anshooarora/extentx) of ExtentX with this version.
 
 ### Documentation
 
