@@ -90,6 +90,9 @@ class HttpMediaManager implements MediaStorage {
     
     @Override
     public void storeMedia(Media m) throws IOException {
+        if (m.getBase64String() != null)
+            return;
+            
         File f = new File(m.getPath());
         if (!f.exists()) {
             throw new IOException("The system cannot find the file specified " + m.getPath());
