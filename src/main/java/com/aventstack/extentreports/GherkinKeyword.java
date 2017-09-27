@@ -63,7 +63,7 @@ private static final Logger logger = Logger.getLogger(GherkinKeyword.class.getNa
                 }
             }
             
-            Class<?> c = Class.forName(refPath + "." + apiKeyword);
+            Class<?> c = Class.forName(refPath + "." + apiKeyword.replace(" ", ""));
             keywordClazz = (IGherkinFormatterModel) c.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             logger.log(Level.SEVERE, "", e);
