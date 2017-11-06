@@ -35,7 +35,7 @@
 			</li>
 			<li>
                 <a href='#!'>
-                    <span class='label blue darken-3'>v3.0.7</span>
+                    <span class='label blue darken-3'>v3.1.0</span>
 				</a>
 			</li>
 		</ul>

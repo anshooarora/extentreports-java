@@ -544,7 +544,8 @@ public class KlovReporter extends AbstractReporter {
                 .append("duration", test.getRunDurationMillis())
                 .append("leaf", test.getNodeContext().size()==0)
                 .append("childNodesLength", test.getNodeContext().size())
-                .append("categorized", test.hasCategory());
+                .append("categorized", test.hasCategory())
+                .append("description", test.getDescription());
         
         if (test.hasCategory()) {
             List<String> categoryNameList = test.getCategoryContext().getAll()

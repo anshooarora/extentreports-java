@@ -4,11 +4,11 @@
 [![Join the chat at https://gitter.im/anshooarora/extentreports](https://badges.gitter.im/anshooarora/extentreports.svg)](https://gitter.im/anshooarora/extentreports?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/anshooarora/extentreports-java.svg)](https://travis-ci.org/anshooarora/extentreports-java) [![Maven Central](https://img.shields.io/maven-central/v/com.aventstack/extentreports.svg?maxAge=300)](http://search.maven.org/#search|ga|1|g:"com.aventstack")
 
-#### Current Version: 3.0.7
+#### Current Version: 3.1.0
 
 This version is Java8 only. Version 2 and lower are no longer supported.
 
-Note: Use [version 1.0.2+](https://github.com/anshooarora/extentx) of ExtentX with this version.
+Note: Klov is supported with ExtentAPI version 3.1.0 onwards.
 
 ### Documentation
 
