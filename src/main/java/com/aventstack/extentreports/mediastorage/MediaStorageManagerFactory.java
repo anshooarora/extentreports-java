@@ -5,6 +5,8 @@ public class MediaStorageManagerFactory {
         switch (location.trim().toLowerCase()) {
             case "http":
                 return new HttpMediaManager();
+            case "http-klov":
+                return new HttpMediaManagerKlov();
             default:
                 return null;
         }

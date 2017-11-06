@@ -42,6 +42,10 @@ public class TestAttributeTestContext<T extends TestAttribute> implements Serial
         });
     }
     
+    public T getContextKey() {
+        return ta;
+    }
+    
     public List<Test> getTestList() { return testList; }
     
     public String getName() { return ta.getName(); }
