@@ -220,7 +220,7 @@ public class SessionStatusStats {
                 if (x.hasChildren()) {
                     x.getNodeContext().getAll().forEach(n -> {
                         if (n.getBehaviorDrivenType() == Scenario.class) {
-                            incrementItemCountByStatus(ItemLevel.CHILD, x.getStatus());
+                            incrementItemCountByStatus(ItemLevel.CHILD, n.getStatus());
                             
                             n.getNodeContext().getAll().forEach(z -> incrementItemCountByStatus(ItemLevel.GRANDCHILD, z.getStatus()));
                         }
