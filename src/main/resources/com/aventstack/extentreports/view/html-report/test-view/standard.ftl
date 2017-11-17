@@ -60,8 +60,9 @@
 				<li class='node level-${ node.level } ${ leaf } ${ node.status }' status='${ node.status }' test-id='${ node.getID() }'>
 					<div class='collapsible-header'>
 						<h5 class='node-name'>${ node.name }</h5>
-						<span class='test-status right ${ node.status }'>${ node.status }</span>
+						<span class="node-time label grey lighten-1 white-text">${ node.endTime?datetime?string["${timeStampFormat}"] }</span>
 						<span class='node-duration label grey lighten-1 white-text'>${ node.runDuration }</span>
+						<span class='test-status right ${ node.status }'>${ node.status }</span>
 						<#if node.hasCategory()>
 							<#list node.categoryContext.all as category>
 								<span class='category label white-text'>${ category.name }</span>
