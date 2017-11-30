@@ -56,6 +56,8 @@ public class TestAttributeTestContext<T extends TestAttribute> implements Serial
     
     public int getOthers() { return others; }
     
+    public int size() { return testList == null ? 0 : testList.size(); }
+    
     public T getAttribute() { return ta; }
 }
 
