@@ -1,0 +1,207 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.aventstack</groupId>
+    <artifactId>extentreports</artifactId>
+    <version>3.1.1</version>
+    <packaging>jar</packaging>
+
+    <name>ExtentAPI Community Version</name>
+    <url>www.extentreports.com</url>
+    <description>An open-source reporting library for Java and .NET.</description>
+    
+    <licenses>
+        <license>
+            <name>The BSD 3-Clause License</name>
+            <url>http://opensource.org/licenses/BSD-3-Clause</url>
+        </license>
+    </licenses>
+    
+    <scm>
+        <connection>scm:git:https://github.com/anshooarora/extentreports-java.git</connection>
+        <developerConnection>scm:git:https://github.com/anshooarora/extentreports-java.git</developerConnection>
+        <url>https://github.com/anshooarora/extentreports-java</url>
+    </scm>
+    
+    <developers>
+        <developer>
+            <name>Anshoo Arora</name>
+            <url>https://github.com/anshooarora</url>
+            <id>anshoo.arora</id>
+            <roles>
+                <role>Owner</role>
+            </roles> 
+        </developer>
+    </developers>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.23</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.16</version>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>checkstyle</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
+      </plugins>
+    </reporting>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <gpg.keyname>CB4A22B0</gpg.keyname>    <!-- GPG Key ID to use for signing -->
+                <release.username>anshooarora</release.username> <!-- username for our svn repository -->
+            </properties>
+            <build>
+                <resources>
+                    <!--<resource>
+                        <directory>src/</directory>
+                    </resource>-->
+                </resources>
+                <plugins>
+                    <!--
+                        Enable signing of the artifacts For gpg:sign-and-deploy-file it's
+                        necessary to have a <server> with the repositoryId provided or
+                        id="remote-repository" defined in settings.xml (it contains the
+                        repository's login, psw) Signing: mvn gpg:sign-and-deploy-file
+                        -DpomFile=target/myapp-1.0.pom \ > -Dfile=target/myapp-1.0.jar \ >
+                        -Durl=http://oss.sonatype.org/content/repositories/malyvelky/ \ >
+                        -DrepositoryId=sonatype_oss Note normally it uses the defaul key
+                        but we can ovveride it by either setting the property gpg.keyname
+                        (done in this POM) or by providing -Dkeyname=66AE163A on the
+                        command line. OR directly w/ gpg: gpg -u 66AE163A - -sign -
+                        -detach-sign -a target/dbunit-embeddedderby-parenttest.jar Note:
+                        "mvn gpg:sign" results in NPE with v 1.o-a.-4, use "mvn package
+                        gpg:sign" instead; see the issue MGPG-18
+                    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.3</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.3</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+</project>
