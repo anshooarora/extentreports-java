@@ -178,7 +178,7 @@ public class ExtentReports extends Report {
      * @return {@link ExtentTest} object
      */
     public synchronized ExtentTest createTest(GherkinKeyword gherkinKeyword, String testName, String description) {
-        Class<? extends IGherkinFormatterModel> clazz = gherkinKeyword.getKeyword().getClass();;
+        Class<? extends IGherkinFormatterModel> clazz = gherkinKeyword.getKeyword().getClass();
         return createTest(clazz, testName, description);
     }
     

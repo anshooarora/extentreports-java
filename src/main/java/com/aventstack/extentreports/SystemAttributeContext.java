@@ -6,7 +6,7 @@ import java.util.List;
 import com.aventstack.extentreports.model.SystemAttribute;
 
 public class SystemAttributeContext {
-    List<SystemAttribute> sysAttrCollection;
+    private List<SystemAttribute> sysAttrCollection;
 
     public SystemAttributeContext() { 
         sysAttrCollection = new ArrayList<>();

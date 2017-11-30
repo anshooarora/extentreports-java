@@ -2,8 +2,8 @@ package com.aventstack.extentreports.configuration;
 
 public class Config {
     
-    String k;
-    Object v;
+    private String k;
+    private Object v;
 
     public void setKey(String k) {
         this.k = k;

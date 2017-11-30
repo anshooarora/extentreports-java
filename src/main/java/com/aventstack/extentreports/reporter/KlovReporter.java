@@ -58,8 +58,6 @@ public class KlovReporter extends AbstractReporter {
     
     private MongoClient mongoClient;
     
-    private MongoDatabase db;
-    
     private MongoCollection<Document> projectCollection;
     private MongoCollection<Document> reportCollection;
     private MongoCollection<Document> testCollection;
@@ -264,7 +262,7 @@ public class KlovReporter extends AbstractReporter {
     
     @Override
     public void start() {
-        db = mongoClient.getDatabase(DB_NAME);
+        MongoDatabase db = mongoClient.getDatabase(DB_NAME);
         
         // collections
         projectCollection = db.getCollection("project");
