@@ -6,7 +6,7 @@
 
 This version is Java8 only. Version 2 and lower are no longer supported.
 
-Note: Klov is supported with ExtentAPI version 3.1.0 onwards.
+Note: [Klov](https://github.com/anshooarora/klov) report server is supported with ExtentAPI version 3.1.0 onwards.
 
 ### Documentation
 
