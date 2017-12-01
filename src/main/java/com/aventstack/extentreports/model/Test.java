@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import org.bson.types.ObjectId;
 
@@ -202,8 +203,20 @@ public class Test implements RunResult, Serializable, BasicReportElement {
     private synchronized void updateTestStatusRecursive(Test test) {
         test.getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
 
-        if (test.hasChildren())
-            test.node.getAll().forEach(this::updateTestStatusRecursive);
+        if (test.hasChildren()) {
+            // if not all children are marked SKIP, then:
+            // ensure the parent has a status that is not SKIP
+            if (testStatus == Status.SKIP && test.getNodeContext().getAll().stream().anyMatch(x -> x.getStatus() != Status.SKIP)) {
+                // reset status
+                testStatus = Status.PASS;
+                
+                // compute status
+                Stream<Test> stream = test.getNodeContext().getAll().stream().filter(x -> x.getStatus() != Status.SKIP);
+                stream.forEach(this::updateTestStatusRecursive);
+            } else {
+                test.getNodeContext().getAll().forEach(this::updateTestStatusRecursive);
+            }
+        }
     }
     
     private void endChildrenRecursive(Test test) {
