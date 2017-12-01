@@ -488,6 +488,7 @@ nav ul i {
 		}
 		.node.scenario {
 			padding: 20px;
+			margin-bottom: 15px;
 		}
         ul.steps {
             border: 1px solid #eee;
