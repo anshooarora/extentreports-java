@@ -203,15 +203,19 @@ public class Test implements RunResult, Serializable, BasicReportElement {
     private synchronized void updateTestStatusRecursive(Test test) {
         test.getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
 
-        if (test.hasChildren())
-            test.node.getAll().forEach(this::updateTestStatusRecursive);
-        
-        // if not all children are marked SKIP, then:
-        // ensure the parent has a status that is not SKIP
-        if (testStatus == Status.SKIP && test.getNodeContext().getAll().stream().anyMatch(x -> x.getStatus() != Status.SKIP)) {
-            testStatus = Status.PASS;
-            Stream<Test> stream = test.getNodeContext().getAll().stream().filter(x -> x.getStatus() != Status.SKIP);
-            stream.forEach(this::updateTestStatusRecursive);
+        if (test.hasChildren()) {
+            // if not all children are marked SKIP, then:
+            // ensure the parent has a status that is not SKIP
+            if (testStatus == Status.SKIP && test.getNodeContext().getAll().stream().anyMatch(x -> x.getStatus() != Status.SKIP)) {
+                // reset status
+                testStatus = Status.PASS;
+                
+                // compute status
+                Stream<Test> stream = test.getNodeContext().getAll().stream().filter(x -> x.getStatus() != Status.SKIP);
+                stream.forEach(this::updateTestStatusRecursive);
+            } else {
+                test.getNodeContext().getAll().forEach(this::updateTestStatusRecursive);
+            }
         }
     }
     
