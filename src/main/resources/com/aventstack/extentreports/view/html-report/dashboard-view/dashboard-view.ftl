@@ -38,7 +38,7 @@
 			<div class='col s2'>
 				<div class='card-panel r'>
 					Time Taken
-					<div class='panel-lead'>${ report.runDuration }ms</div>
+					<div class='panel-lead'>${ report.fullRunDuration }</div>
 				</div>
 			</div>
 			<#if systemAttributeContext?size != 0>

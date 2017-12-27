@@ -47,4 +47,6 @@ public abstract class BasicFileReporter extends AbstractReporter {
     @Override
     public void stop() { }
     
+    public abstract String getFullRunDuration();
+    
 }

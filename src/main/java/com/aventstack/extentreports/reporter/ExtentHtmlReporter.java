@@ -209,5 +209,19 @@ public class ExtentHtmlReporter extends BasicFileReporter implements ReportAppen
 	public void setAppendExisting(Boolean b) {
 		this.appendExisting = b;
 	}
+
+    @Override
+    public String getFullRunDuration() {
+        long millis = getRunDuration();
+        
+        long secs = millis / 1000;
+        long ms = millis % 1000;
+        long mins = secs / 60;
+        secs = (secs % 60);
+        long hours = mins / 60;
+        mins = mins % 60;
+        
+        return hours + "h " + mins + "m " + secs + "s+" + ms + "ms";  
+    }
     
 }
