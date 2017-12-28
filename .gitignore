@@ -7,7 +7,7 @@
 uiDesigner.xml
 .vscode/launch.json
 /target/
-/test-output/
+test-output/
 /.idea/
 .settings/
 extent.html
