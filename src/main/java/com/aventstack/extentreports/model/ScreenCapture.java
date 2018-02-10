@@ -6,7 +6,7 @@ public class ScreenCapture extends Media {
 
     public String getSource() {
         if (getBase64String() != null)
-            return "<a href='" + getScreenCapturePath() + "' data-featherlight='image'><img src='" + getScreenCapturePath() + "' /></a>";
+            return "<br/><a href='" + getScreenCapturePath() + "' data-featherlight='image'><span class='label grey white-text'>base64-img</span></a>";
 
         return "<img data-featherlight='" + getScreenCapturePath() + "' width='10%' src='" + getScreenCapturePath() + "' data-src='" + getScreenCapturePath() + "'>";
     }
