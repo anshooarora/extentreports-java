@@ -35,7 +35,7 @@
 			</li>
 			<li>
                 <a href='#!'>
-                    <span class='label blue darken-3'>3.1.2</span>
+                    <span class='label blue darken-3'>3.1.3</span>
 				</a>
 			</li>
 		</ul>
