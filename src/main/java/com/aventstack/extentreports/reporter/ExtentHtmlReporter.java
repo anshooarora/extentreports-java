@@ -197,7 +197,9 @@ public class ExtentHtmlReporter extends BasicFileReporter implements ReportAppen
     }
     
     public boolean containsStatus(Status status) {
-        boolean b = statusCollection == null || statusCollection.isEmpty() ? false : statusCollection.contains(status);
+        boolean b = getStatusCollection() == null || getStatusCollection().isEmpty() 
+        		? false 
+				: getStatusCollection().contains(status);
         return b;
     }
     
@@ -211,7 +213,7 @@ public class ExtentHtmlReporter extends BasicFileReporter implements ReportAppen
 	}
 
     @Override
-    public String getFullRunDuration() {
+    public String getLongRunDuration() {
         long millis = getRunDuration();
         
         long secs = millis / 1000;

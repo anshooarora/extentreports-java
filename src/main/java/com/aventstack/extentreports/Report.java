@@ -15,6 +15,7 @@ import com.aventstack.extentreports.model.ScreenCapture;
 import com.aventstack.extentreports.model.Screencast;
 import com.aventstack.extentreports.model.SystemAttribute;
 import com.aventstack.extentreports.model.Test;
+import com.aventstack.extentreports.reporter.BasicFileReporter;
 
 abstract class Report implements IReport {
 
@@ -54,6 +55,10 @@ abstract class Report implements IReport {
         reporter.start();
     }
     
+    protected List<ExtentReporter> getReporterCollection() {
+    	return reporterCollection;
+    }
+    
     protected void detach(ExtentReporter reporter) {
         reporter.stop();
         reporterCollection.remove(reporter);
@@ -70,7 +75,7 @@ abstract class Report implements IReport {
         
         reporterCollection.forEach(x -> x.onTestStarted(test));
     }
-    
+
     protected synchronized void removeTest(Test test) {
         List<Test> testList = testCollection
             .stream()
@@ -79,6 +84,7 @@ abstract class Report implements IReport {
         
         if (testList.size() == 1) {
             testCollection.remove(testList.get(0));
+            renewStatusCollection();
             return;
         }
         
@@ -90,9 +96,19 @@ abstract class Report implements IReport {
             
             if (testList.size() == 1) {
                 t.getNodeContext().getAll().remove(testList.get(0));
+                renewStatusCollection();
                 return;
             }
         }
+    }
+    
+    private void renewStatusCollection() {
+    	List<BasicFileReporter> collection = reporterCollection
+	        	.stream()
+	        	.filter(x -> x instanceof BasicFileReporter)
+	        	.map(x -> (BasicFileReporter)x)
+	        	.collect(Collectors.toList());
+        collection.forEach(x -> x.refreshStatusCollection(testCollection, true));
     }
         
     synchronized void addNode(Test node) {

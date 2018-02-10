@@ -67,6 +67,15 @@ public class ExtentReports extends Report {
     public void attachReporter(ExtentReporter... reporter) {
         Arrays.stream(reporter).forEach(this::attach);
     }
+    
+    /**
+     * Gets a list of started reporters
+     * 
+     * @return A List<ExtentReporter> object 
+     */
+    public List<ExtentReporter> getStartedReporters() {
+    	return getReporterCollection();
+    }
 
     /**
      * Creates a BDD-style test with description representing one of the {@link IGherkinFormatterModel}
@@ -248,7 +257,7 @@ public class ExtentReports extends Report {
     private synchronized void applyCommonTestSettings(ExtentTest extentTest) {
         extentTest.setUseManualConfiguration(usesManualConfiguration);
     }
-    
+      
     /**
      * Removes a test
      * 

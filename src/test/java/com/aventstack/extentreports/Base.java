@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeClass;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.aventstack.extentreports.reporter.ExtentXReporter;
 
 public abstract class Base {
     
@@ -18,13 +17,7 @@ public abstract class Base {
     
     @BeforeClass
     public void setup() {
-        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(htmlFilePath);
-
-        ExtentXReporter extentx = new ExtentXReporter("localhost");
-        extentx.config().setProjectName("extentreports");
-        extentx.config().setReportName(fileName);
-        extentx.config().setServerUrl("http://localhost:1337/");
-        
+        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(htmlFilePath);        
         extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
     }
