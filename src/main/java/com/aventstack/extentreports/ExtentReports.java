@@ -71,7 +71,7 @@ public class ExtentReports extends Report {
     /**
      * Gets a list of started reporters
      * 
-     * @return A List<ExtentReporter> object 
+     * @return A list of {@link ExtentReporter}
      */
     public List<ExtentReporter> getStartedReporters() {
     	return getReporterCollection();
