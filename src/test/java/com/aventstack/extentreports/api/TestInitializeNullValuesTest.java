@@ -11,7 +11,7 @@ import com.aventstack.extentreports.GherkinKeyword;
 import com.aventstack.extentreports.gherkin.model.Given;
 import com.aventstack.extentreports.gherkin.model.Scenario;
 
-public class TestInitializeNullValuesTests extends Base {
+public class TestInitializeNullValuesTest extends Base {
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testNameNull() {

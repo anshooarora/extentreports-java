@@ -7,10 +7,10 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.common.ExtentTestNGITestListener;
+import com.aventstack.extentreports.common.ExtentTestNGIReporterListener;
 
-@Listeners(ExtentTestNGITestListener.class)
-public class ListenerTestsITestListener {
+@Listeners(ExtentTestNGIReporterListener.class)
+public class ListenerTestsIReporterTest {
 
     @Test(groups = "pass")
     public void passTest() {

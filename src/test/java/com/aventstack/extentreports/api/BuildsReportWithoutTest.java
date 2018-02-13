@@ -9,7 +9,7 @@ import com.aventstack.extentreports.Base;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
-public class BuildsReportWithoutTests extends Base {
+public class BuildsReportWithoutTest extends Base {
     final String filePath = getOutputFolder() + getClass().getName() + ".html";
     
     @Test

@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.Base;
 import com.aventstack.extentreports.Status;
 
-public class StatusHierarchyConfiguratorTests extends Base {
+public class StatusHierarchyConfiguratorTest extends Base {
 
     @Test
     public void skipHasHigherPriorityThanPass() {

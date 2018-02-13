@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.ExtentReports;
 
-public class BuildReportWithoutAttachedReportersTests {
+public class BuildReportWithoutAttachedReportersTest {
 
 	private ExtentReports extent;
 	

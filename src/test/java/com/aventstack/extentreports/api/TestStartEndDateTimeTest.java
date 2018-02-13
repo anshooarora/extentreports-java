@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.Base;
 import com.aventstack.extentreports.ExtentTest;
 
-public class TestStartEndDateTimeTests extends Base {
+public class TestStartEndDateTimeTest extends Base {
     
     @Test
     public void verifyStartTime(Method method) {

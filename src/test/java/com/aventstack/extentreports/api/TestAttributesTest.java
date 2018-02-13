@@ -11,7 +11,7 @@ import com.aventstack.extentreports.Base;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.model.TestAttribute;
 
-public class TestAttributesTests extends Base {
+public class TestAttributesTest extends Base {
 
     private final String[] categories = {
             "extent",

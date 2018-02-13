@@ -11,7 +11,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.utils.Reader;
 
-public class CategoryViewVisibilityTests {
+public class CategoryViewVisibilityTest {
 
     private static String PATH = "test-output/";
     private static String EXT = ".html";

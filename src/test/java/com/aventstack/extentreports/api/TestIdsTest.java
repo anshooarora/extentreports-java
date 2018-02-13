@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.Base;
 
-public class TestIdsTests extends Base {
+public class TestIdsTest extends Base {
 
     private final int times = 100;
     

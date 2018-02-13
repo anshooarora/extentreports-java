@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.Base;
 import com.aventstack.extentreports.utils.Reader;
 
-public class SystemAttributeTests extends Base {
+public class SystemAttributeTest extends Base {
 
     @BeforeClass
     public void beforeClass() {
@@ -60,7 +60,7 @@ public class SystemAttributeTests extends Base {
         String html = Reader.readAllText(htmlFilePath);
         Document doc = Jsoup.parse(html);
         
-        Elements tdColl = doc.select(".environment td");
+        Elements tdColl = doc.select(".dashboard-environment td");
         
         for (Element td : tdColl) {
             if (td.text().equals(key))

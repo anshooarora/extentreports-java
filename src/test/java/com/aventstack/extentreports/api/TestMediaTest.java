@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.Base;
 import com.aventstack.extentreports.ExtentTest;
 
-public class NodeMediaTests extends Base {
+public class TestMediaTest extends Base {
 
     private final String imgName = "img";
     private URL url = getClass().getClassLoader().getResource("1.png");
@@ -18,43 +18,40 @@ public class NodeMediaTests extends Base {
     
     @Test
     public void verifyIfScreenCaptureAdded(Method method) throws IOException {
-        ExtentTest node = extent
+        ExtentTest test = extent
                 .createTest(method.getName())
-                .createNode("Child")
                 .addScreenCaptureFromPath(imgPath)
                 .fail("fail");
         
-        Assert.assertEquals(node.getModel().getScreenCaptureList().size(), 1);
+        Assert.assertEquals(test.getModel().getScreenCaptureList().size(), 1);
     }
     
     @Test
     public void verifyScreenCaptureTitle(Method method) throws IOException {
-        ExtentTest node = extent
+        ExtentTest test = extent
                 .createTest(method.getName())
-                .createNode("Child")
                 .addScreenCaptureFromPath(imgPath, imgName)
                 .fail("fail");
         
-        Assert.assertEquals(node.getModel().getScreenCaptureList().size(), 1);
-        Assert.assertEquals(node.getModel().getScreenCaptureList().get(0).getName(), imgName);
+        Assert.assertEquals(test.getModel().getScreenCaptureList().size(), 1);
+        Assert.assertEquals(test.getModel().getScreenCaptureList().get(0).getName(), imgName);
     }
     
     @Test
     public void verifyMultipleScreenCaptures(Method method) throws IOException {
         int times = 4;
         
-        ExtentTest node = extent
+        ExtentTest test = extent
                 .createTest(method.getName())
-                .createNode("Child")
                 .fail("fail");
 
         for (int ix = 0; ix < times; ix++) {
-            node.addScreenCaptureFromPath(imgPath, imgName);
+            test.addScreenCaptureFromPath(imgPath, imgName);
         }
         
-        Assert.assertEquals(node.getModel().getScreenCaptureList().size(), times);
+        Assert.assertEquals(test.getModel().getScreenCaptureList().size(), times);
         for (int ix = 0; ix < times; ix++) {
-            Assert.assertEquals(node.getModel().getScreenCaptureList().get(ix).getName(), imgName);
+            Assert.assertEquals(test.getModel().getScreenCaptureList().get(ix).getName(), imgName);
         }
     }
     

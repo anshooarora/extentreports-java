@@ -12,7 +12,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.utils.Reader;
 
-public class TestWithoutLogsHasPassStatus extends Base {
+public class TestWithoutLogsHasPassStatusTest extends Base {
     
     final String testName = getClass().getName();
     

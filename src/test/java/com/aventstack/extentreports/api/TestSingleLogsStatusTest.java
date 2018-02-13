@@ -9,7 +9,7 @@ import com.aventstack.extentreports.Base;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
-public class TestSingleLogsStatusTests extends Base {
+public class TestSingleLogsStatusTest extends Base {
     
     @Test
     public void verifyIfTestHasStatusPass(Method method) {

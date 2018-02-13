@@ -15,7 +15,7 @@ import com.aventstack.extentreports.gherkin.model.Scenario;
 import com.aventstack.extentreports.gherkin.model.Then;
 import com.aventstack.extentreports.gherkin.model.When;
 
-public class GherkinKeywordTests extends Base {
+public class GherkinKeywordTest extends Base {
 
     @Test
     public void testEnglishGherkinKeywords() throws ClassNotFoundException, UnsupportedEncodingException {

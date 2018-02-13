@@ -9,7 +9,7 @@ import com.aventstack.extentreports.Base;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
-public class NodesStatusHierarchyTests extends Base {
+public class NodesStatusHierarchyTest extends Base {
 
     @Test
     public void verifyPassHasHigherPriorityThanInfoLevelsShallow(Method method) {

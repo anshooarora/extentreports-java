@@ -15,7 +15,7 @@ import com.aventstack.extentreports.gherkin.model.Scenario;
 import com.aventstack.extentreports.gherkin.model.Then;
 import com.aventstack.extentreports.gherkin.model.When;
 
-public class BddWithStepStatusHierarchyTests extends Base {
+public class BddWithStepStatusHierarchyTest extends Base {
     
     @Test(expectedExceptions = ClassNotFoundException.class)
     public void throwClassNotFoundExceptionWithInvalidKeyword(Method method) throws ClassNotFoundException {

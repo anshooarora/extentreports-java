@@ -1,5 +1,6 @@
 package com.aventstack.extentreports.api;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 
 import org.testng.Assert;
@@ -14,10 +15,11 @@ import com.aventstack.extentreports.gherkin.model.Scenario;
 import com.aventstack.extentreports.gherkin.model.Then;
 import com.aventstack.extentreports.gherkin.model.When;
 
-public class BddLevelsTests extends Base {
+public class BddLevelsTest extends Base {
     
     @Test
-    public void verifyLevelsUsingGherkinKeyword(Method method) throws ClassNotFoundException {
+    public void verifyLevelsUsingGherkinKeyword(Method method) throws ClassNotFoundException, UnsupportedEncodingException {
+    	extent.setGherkinDialect("en");
         ExtentTest feature = extent.createTest(method.getName());
         ExtentTest scenario = feature.createNode(new GherkinKeyword("Scenario"), "Child");
         ExtentTest given = scenario.createNode(new GherkinKeyword("Given"), "Given").info("info");

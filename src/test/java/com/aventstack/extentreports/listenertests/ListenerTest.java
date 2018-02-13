@@ -10,7 +10,7 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.common.ExtentTestNGListener;
 
 @Listeners(ExtentTestNGListener.class)
-public class ListenerTests {
+public class ListenerTest {
 
     @Test(groups = "pass")
     public void passTest() {
