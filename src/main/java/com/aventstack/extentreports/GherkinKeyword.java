@@ -63,6 +63,9 @@ private static final Logger logger = Logger.getLogger(GherkinKeyword.class.getNa
                 }
             }
             
+            if (apiKeyword == null)
+            	throw new ClassNotFoundException("Keyword " + keyword + " not available");
+            
             Class<?> c = Class.forName(refPath + "." + apiKeyword.replace(" ", ""));
             keywordClazz = (IGherkinFormatterModel) c.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
