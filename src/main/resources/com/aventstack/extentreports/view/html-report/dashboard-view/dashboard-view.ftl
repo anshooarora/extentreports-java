@@ -38,12 +38,12 @@
 			<div class='col s2'>
 				<div class='card-panel r'>
 					Time Taken
-					<div class='panel-lead'>${ report.runDuration }ms</div>
+					<div class='panel-lead'>${ report.longRunDuration }</div>
 				</div>
 			</div>
 			<#if systemAttributeContext?size != 0>
 			<div class='col s4'>
-				<div class='card-panel environment'>
+				<div class='card-panel dashboard-environment'>
 					<span class='right label cyan white-text'>Environment</span><p>&nbsp;</p>
 					
 					<table>
@@ -64,8 +64,8 @@
 			</div>
 			</#if>
 			<#if categoryContext?? && categoryContext?size != 0>
-			<div class='col s4'>
-				<div class='card-panel'>
+			<div class='col s6'>
+				<div class='card-panel dashboard-categories'>
 					<span class='right label cyan white-text'>Categories</span><p>&nbsp;</p>
 					
 					<table>
@@ -74,13 +74,21 @@
 							<th>Passed</th>
 							<th>Failed</th>
 							<th>Others</th>
+							<th>Passed %</th>
 						</tr>
 						<#list categoryContext as category>
 						<tr>
-							<td>${ category.name }</td>
-							<td>${ category.passed }</td>
-							<td>${ category.failed }</td>
-							<td>${ category.others }</td>
+							<td>${category.name}</td>
+							<td>${category.passed}</td>
+							<td>${category.failed}</td>
+							<td>${category.others}</td>
+							<td>
+								<#if category.size()!=0>
+									${(category.passed/category.size())*100}%
+								<#else>
+									0%
+								</#if>
+							</td>
 						</tr>
 						</#list>
 					</table>

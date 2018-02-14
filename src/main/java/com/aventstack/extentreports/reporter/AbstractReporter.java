@@ -23,6 +23,7 @@ import com.aventstack.extentreports.TestAttributeTestContextProvider;
 import com.aventstack.extentreports.configuration.Config;
 import com.aventstack.extentreports.configuration.ConfigLoader;
 import com.aventstack.extentreports.configuration.ConfigMap;
+import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
 import com.aventstack.extentreports.model.Test;
 
@@ -47,9 +48,10 @@ public abstract class AbstractReporter implements ExtentReporter {
     protected ConfigMap configContext;
     protected ExceptionTestContextImpl exceptionContext;
     protected TestAttributeTestContextProvider<Category> categoryContext;
+    protected TestAttributeTestContextProvider<Author> authorContext;
     protected SystemAttributeContext systemAttributeContext;
     protected SessionStatusStats sc;
-    
+
     public AbstractReporter() {
         setStartTime(Calendar.getInstance().getTime());
     }
@@ -127,6 +129,14 @@ public abstract class AbstractReporter implements ExtentReporter {
     
     public TestAttributeTestContextProvider<Category> getCategoryContextInfo() { 
         return categoryContext; 
+    }
+
+    public void setAuthorContextInfo(TestAttributeTestContextProvider<Author> authorContext) {
+        this.authorContext = authorContext;
+    }
+
+    public TestAttributeTestContextProvider<Author> getAuthorContextInfo() {
+        return authorContext;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.aventstack.extentreports;
 
 import java.util.List;
 
+import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
 import com.aventstack.extentreports.model.Test;
 
@@ -38,6 +39,13 @@ public interface ReportAggregatesListener {
      * @param categoryContext collection containing categories and all associated tests
      */
     void setCategoryContextInfo(TestAttributeTestContextProvider<Category> categoryContext);
+
+    /**
+     * Allows sharing the complete list of author and associated tests with the reporter
+     *
+     * @param authorContext collection containing author and all associated tests
+     */
+    void setAuthorContextInfo(TestAttributeTestContextProvider<Author> authorContext);
     
     /**
      * Allows sharing the complete list of exceptions and associated tests with the reporter

@@ -2,6 +2,7 @@ package com.aventstack.extentreports;
 
 import java.util.List;
 
+import com.aventstack.extentreports.gherkin.model.Scenario;
 import com.aventstack.extentreports.model.Test;
 
 public class SessionStatusStats {
@@ -193,10 +194,6 @@ public class SessionStatusStats {
     }
 
     private void updateGroupCountsSuiteStrategy(Test test) {
-        updateGroupCountsBDD(test);
-    }
-    
-    private void updateGroupCountsBDD(Test test) {
         incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
         
         if (test.hasChildren()) {
@@ -212,13 +209,33 @@ public class SessionStatusStats {
         }
     }
     
-    private void updateGroupCountsClassStrategy(Test test) {
-        if (test.hasLog())
-            test.getLogContext().getAll().forEach(x -> incrementItemCountByStatus(ItemLevel.GRANDCHILD, x.getStatus()));
-
+    private void updateGroupCountsBDD(Test test) {
+        incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
+        
         if (test.hasChildren()) {
-            incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());
-            updateGroupCountsForChildrenRecursive(test);          
+            test.getNodeContext().getAll().forEach(x -> {
+                if (x.getBehaviorDrivenType() == Scenario.class)
+                    incrementItemCountByStatus(ItemLevel.CHILD, x.getStatus());
+
+                if (x.hasChildren()) {
+                    x.getNodeContext().getAll().forEach(n -> {
+                        if (n.getBehaviorDrivenType() == Scenario.class) {
+                            incrementItemCountByStatus(ItemLevel.CHILD, n.getStatus());
+                            
+                            n.getNodeContext().getAll().forEach(z -> incrementItemCountByStatus(ItemLevel.GRANDCHILD, z.getStatus()));
+                        }
+                        else
+                            incrementItemCountByStatus(ItemLevel.GRANDCHILD, n.getStatus());
+                    });
+                }
+            });
+        }
+    }
+    
+    private void updateGroupCountsClassStrategy(Test test) {
+        if (test.getLevel() == 0) {
+            incrementItemCountByStatus(ItemLevel.PARENT, test.getStatus());            
+            test.getNodeContext().getAll().forEach(x -> updateGroupCountsClassStrategy(x));
         }
         else {
             incrementItemCountByStatus(ItemLevel.CHILD, test.getStatus());
@@ -226,6 +243,7 @@ public class SessionStatusStats {
         
     }
     
+    @SuppressWarnings("unused")
     private void updateGroupCountsForChildrenRecursive(Test test) {
         if (test.hasLog()) {
             test.getLogContext().getAll().forEach(l -> {

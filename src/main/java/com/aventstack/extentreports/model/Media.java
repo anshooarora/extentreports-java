@@ -16,6 +16,7 @@ public class Media implements Serializable {
     private String name;
     private String description;
     private String path;
+    private String base64String;
     
     private int seq;
 
@@ -66,4 +67,12 @@ public class Media implements Serializable {
     }
     public int getSequence() { return seq; }
 
+    public void setBase64String(String string) {
+        string = "data:image/gif;base64," + string;
+        this.base64String = string;
+    }
+    public String getBase64String() { 
+        return base64String;
+    }
+    
 }

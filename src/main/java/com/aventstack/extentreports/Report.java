@@ -15,6 +15,7 @@ import com.aventstack.extentreports.model.ScreenCapture;
 import com.aventstack.extentreports.model.Screencast;
 import com.aventstack.extentreports.model.SystemAttribute;
 import com.aventstack.extentreports.model.Test;
+import com.aventstack.extentreports.reporter.BasicFileReporter;
 
 abstract class Report implements IReport {
 
@@ -54,6 +55,10 @@ abstract class Report implements IReport {
         reporter.start();
     }
     
+    protected List<ExtentReporter> getReporterCollection() {
+    	return reporterCollection;
+    }
+    
     protected void detach(ExtentReporter reporter) {
         reporter.stop();
         reporterCollection.remove(reporter);
@@ -70,7 +75,7 @@ abstract class Report implements IReport {
         
         reporterCollection.forEach(x -> x.onTestStarted(test));
     }
-    
+
     protected synchronized void removeTest(Test test) {
         List<Test> testList = testCollection
             .stream()
@@ -79,6 +84,7 @@ abstract class Report implements IReport {
         
         if (testList.size() == 1) {
             testCollection.remove(testList.get(0));
+            renewStatusCollection();
             return;
         }
         
@@ -90,9 +96,19 @@ abstract class Report implements IReport {
             
             if (testList.size() == 1) {
                 t.getNodeContext().getAll().remove(testList.get(0));
+                renewStatusCollection();
                 return;
             }
         }
+    }
+    
+    private void renewStatusCollection() {
+    	List<BasicFileReporter> collection = reporterCollection
+	        	.stream()
+	        	.filter(x -> x instanceof BasicFileReporter)
+	        	.map(x -> (BasicFileReporter)x)
+	        	.collect(Collectors.toList());
+        collection.forEach(x -> x.refreshStatusCollection(testCollection, true));
     }
         
     synchronized void addNode(Test node) {
@@ -143,7 +159,7 @@ abstract class Report implements IReport {
         });
     }
 
-    protected TestAttributeTestContextProvider<Author> getAuthorContextInfo() { 
+    protected TestAttributeTestContextProvider<Author> getAuthorContextInfo() {
     	return authorContext; 
 	}
     
@@ -190,7 +206,7 @@ abstract class Report implements IReport {
                 test.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, test));
             
             if (test.hasChildren())
-                test.getNodeContext().getAll().forEach(this::copyNodeAttributeInfoToAttributeContext);
+                test.getNodeContext().getAll().forEach(this::copyNodeAttributeAndRunTimeInfoToAttributeContexts);
         });
         
         updateReportStartTimeForManualConfigurationSetting();
@@ -208,14 +224,14 @@ abstract class Report implements IReport {
                     reportStartDate = testStartDate;
                 }
 
-                if (reportEndDate.getTime() > testEndTime) {
+                if (reportEndDate.getTime() < testEndTime) {
                     reportEndDate = testEndDate;
                 }
             });
         }
     }
     
-    private void copyNodeAttributeInfoToAttributeContext(Test node) {
+    private void copyNodeAttributeAndRunTimeInfoToAttributeContexts(Test node) {
         if (node.hasCategory())
             node.getCategoryContext().getAll().forEach(x -> categoryContext.setAttributeContext((Category) x, node));
         
@@ -226,7 +242,7 @@ abstract class Report implements IReport {
             node.getExceptionInfoList().forEach(x -> exceptionContextBuilder.setExceptionContext(x, node));
         
         if (node.hasChildren())
-            node.getNodeContext().getAll().forEach(this::copyNodeAttributeInfoToAttributeContext);
+            node.getNodeContext().getAll().forEach(this::copyNodeAttributeAndRunTimeInfoToAttributeContexts);
     }
         
     private synchronized void notifyReporters() {
@@ -234,6 +250,7 @@ abstract class Report implements IReport {
             x.setTestList(testCollection);
             
             x.setCategoryContextInfo(categoryContext);
+            x.setAuthorContextInfo(authorContext);
             x.setExceptionContextInfo(exceptionContextBuilder);
             x.setSystemAttributeContext(systemAttributeContext);
             x.setTestRunnerLogs(testRunnerLogs);

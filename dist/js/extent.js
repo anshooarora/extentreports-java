@@ -57,10 +57,11 @@ j+="translateY("+(F[0].clientHeight-item_width)/2+"px)"),i=n[f(p)],i.style[z]=j+
  */
 
 $(document).ready(function() {
-    $('#category-collection > .category:first-child, #exception-collection > .exception:first-child, #test-collection > .test:first-child').click();
+    $('#category-collection > .category:first-child, #exception-collection > .exception:first-child, #test-collection > .test:first-child, #author-collection > .author:first-child').click();
 
     $('#test-collection .test').dynamicTestSearch('#test-view #search-tests');
 	$('#category-collection .category').dynamicTestSearch('#category-view #search-tests');
+    $('#author-collection .author').dynamicTestSearch('#author-view #search-tests');
 	$('#exception-collection .exception').dynamicTestSearch('#exception-view #search-tests');  
 });
 
@@ -82,6 +83,7 @@ $(window).keydown(function(e) {
     } else {
         (currentView === 0) && (target = $('li.test.displayed.active'), sibling = '.test.displayed');
         (currentView === 1) && (target = $('li.category.displayed.active'), sibling = '.category.displayed');
+        (currentView === 3) && (target = $('li.author.displayed.active'), sibling = '.author.displayed');
         (currentView === 2) && (target = $('li.exception.displayed.active'), sibling = '.exception.displayed');
 
         function goToView(view) {
@@ -90,8 +92,9 @@ $(window).keydown(function(e) {
             }).click();
         }
 
-        if (!e.ctrlKey && !e.altKey && !e.shiftKey) {
+        if (!e.ctrlKey && !e.altKey && !e.shiftKey && e.which!==91 && e.which!==93 && e.which!==224) {
             (e.which === 67) && goToView('category');
+            (e.which === 65) && goToView('author');
             (e.which === 68) && goToView('dashboard');
             (e.which === 88) && goToView('exception');
             (e.which === 84) && goToView('test');
@@ -186,6 +189,7 @@ $('#theme-selector').click(function() {
         }
         else if (n == 1) ct = $('#category-view');
         else if (n == 2) ct = $('#exception-view');
+        else if (n == 3) ct = $('#author-view');
         else return;
         
         var timer = setTimeout(function() {
@@ -280,6 +284,11 @@ $('.category').click(function() {
     showCollectionElement('category', $(this));
 });
 
+/* -- [ author ] -- */
+$('.author').click(function() {
+    showCollectionElement('author', $(this));
+});
+
 /* -- [ exception ] -- */
 $('.exception').click(function() {
     showCollectionElement('exception', $(this));
@@ -337,7 +346,19 @@ $('.view-summary').click(function(evt) {
         var id = t.attr('test-id');
         findTestById(id);
     }
+	
+	if (t.is('span.category')) {
+		var name = t.text();
+		
+		$('.test').removeClass('displayed').addClass('hide').filter(function() {
+			return ($(this).find('.category').text().indexOf(name) >= 0)
+		}).addClass('displayed').removeClass('hide');
+
+		$('.test.displayed').first().click();
+	}
 });
+
+/* -- [ tests-toggle ] -- */$('#tests-toggle li').click(function() {    var t = $(this),        status = t.attr('status'),        clear = t.attr('clear');        if (clear || status == 'clear')         $('.test').addClass('displayed').removeClass('hide');    else {        $('.test,.leaf').addClass('hide').removeClass('displayed');          $('.test:has(.leaf.' + status + '), .test.' + status).removeClass('hide').addClass('displayed');  $('.leaf.' + status).removeClass('hide').addClass('displayed');    }        $('.test.displayed').first().click();});
 
 /* -- [ tests-toggle ] -- */
 $('#tests-toggle li').click(function() {
@@ -346,10 +367,11 @@ $('#tests-toggle li').click(function() {
         clear = t.attr('clear');
     
     if (clear || status == 'clear') 
-        $('.test').addClass('displayed').removeClass('hide');
+        $('.test,.leaf').addClass('displayed').removeClass('hide');
     else {
-        $('.test').addClass('hide').removeClass('displayed');    
+        $('.test,.leaf').addClass('hide').removeClass('displayed');
         $('.test:has(.leaf.' + status + '), .test.' + status).removeClass('hide').addClass('displayed');
+        $('.leaf.' + status).removeClass('hide').addClass('displayed');
     }
     
     $('.test.displayed').first().click();
@@ -365,7 +387,23 @@ $('#category-toggle li a').click(function() {
         $('.test').addClass('displayed').removeClass('hide');
     else
         $('.test').removeClass('displayed').addClass('hide').filter(function() {
-            return ($(this).find('.category').text() === name)
+            return ($(this).find('.category').text().indexOf(name) >= 0)
+        }).addClass('displayed').removeClass('hide');
+
+    $('.test.displayed').first().click();
+});
+
+/* -- [ author-toggle ] -- */
+$('#author-toggle li a').click(function() {
+    var t = $(this),
+        name = t.text(),
+        clear = t.attr('clear');
+
+    if (clear === 'true')
+        $('.test').addClass('displayed').removeClass('hide');
+    else
+        $('.test').removeClass('displayed').addClass('hide').filter(function() {
+            return ($(this).find('.author').text() === name)
         }).addClass('displayed').removeClass('hide');
 
     $('.test.displayed').first().click();

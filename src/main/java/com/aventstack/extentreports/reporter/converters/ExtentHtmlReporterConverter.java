@@ -7,7 +7,7 @@ import com.aventstack.extentreports.model.Test;
 public class ExtentHtmlReporterConverter {
 	
 	private String filePath;
-	
+
 	public ExtentHtmlReporterConverter(String filePath) {
 		this.filePath = filePath;
 	}

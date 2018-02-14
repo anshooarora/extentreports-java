@@ -6,7 +6,8 @@
 <#assign extentxUrl=config.containsKey('extentx-url')?then(config.getValue('extentx-url'), '')>
 
 <#assign systemAttributeContext=report.getSystemAttributeContext().getSystemAttributeList()>
-<#assign categoryContext=report.getCategoryContextInfo().getCategoryTestContextList()>
+<#assign categoryContext=report.getCategoryContextInfo().getTestAttributeTestContextList()>
+<#assign authorContext=report.getAuthorContextInfo().getTestAttributeTestContextList()>
 <#assign exceptionContext=report.getExceptionContextInfo().getExceptionTestContextList()>
 
 <#assign parentCount=report.statusCount.parentCount>
@@ -53,6 +54,7 @@
 
 			<#include 'test-view/test-view.ftl'>
 			<#include 'category-view/category-view.ftl'>
+			<#include 'author-view/author-view.ftl'>
 			<#include 'exception-view/exception-view.ftl'>			
 			<#include 'dashboard-view/dashboard-view.ftl'>
 			<#include 'logs-view/testrunner-logs-view.ftl'>
@@ -94,7 +96,7 @@
 		<#if cdn == 'extentreports'>
 			<script src='http://extentreports.com/resx/dist/js/extent.js' type='text/javascript'></script>
 		<#else>
-			<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/29d2d3ec024c953e6341cb3e19e31b1035a8f556/dist/js/extent.js' type='text/javascript'></script>
+			<script src='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/fca20fb7653aade98810546ab96a2a4360e3e712/dist/js/extent.js' type='text/javascript'></script>
 		</#if>
 		
 		<#assign hideChart=(chartVisibleOnOpen=='true')?then(false, true)>
@@ -106,11 +108,14 @@
 		</script>
 		</#if>
 		
-		<#if config.containsKey('js')>
  		<script type='text/javascript'>
- 			${ config.getValue('js') }
+ 			<#if config.containsKey('js')>
+	 			${ config.getValue('js') }
+ 			</#if>
+ 			<#if config.containsKey('scripts')>
+ 			${ config.getValue('scripts') }
+			</#if>
  		</script>
- 		</#if>
 	</body>
 	
 </html>

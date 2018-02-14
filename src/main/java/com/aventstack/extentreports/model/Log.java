@@ -24,7 +24,7 @@ public class Log implements RunResult, Serializable, BasicReportElement {
     private Date timestamp;
     private Status logStatus;
     private String stepName;
-    private String details;
+    private String details = "";
     private int sequence;
     private ObjectId objectId;
     

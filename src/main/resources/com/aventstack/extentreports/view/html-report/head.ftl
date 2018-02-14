@@ -14,14 +14,17 @@
 	<#if cdn == 'extentreports'>
 		<link href='http://extentreports.com/resx/dist/css/extent.css' type='text/css' rel='stylesheet' />
 	<#else>
-		<link href='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/0ef94479b1fc7c18041d6bbf1a8cfbfa321edc0a/dist/css/extent.css' type='text/css' rel='stylesheet' />
+		<link href='${ config.getValue('protocol') }://cdn.rawgit.com/anshooarora/extentreports-java/b4a58fcfd1e137bd9287244035a7c80d3d73b3af/dist/css/extent.css' type='text/css' rel='stylesheet' />
 	</#if>
 	
 	<title>${ config.getValue('documentTitle') }</title>
 
-	<#if config.containsKey('css')>
 	<style type='text/css'>
-		${ config.getValue('css') }
+		<#if config.containsKey('css')>
+			${ config.getValue('css') }
+		</#if>
+		<#if config.containsKey('styles')>
+			${ config.getValue('styles') }
+		</#if>
 	</style>
-	</#if>
 </head>

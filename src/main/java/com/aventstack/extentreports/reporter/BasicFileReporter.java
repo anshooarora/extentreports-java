@@ -13,7 +13,7 @@ import com.aventstack.extentreports.model.Test;
 
 public abstract class BasicFileReporter extends AbstractReporter {
 
-    protected List<Status> statusCollection;
+    private List<Status> statusCollection;
     
     @Override
     public void onTestStarted(Test test) { }
@@ -28,7 +28,32 @@ public abstract class BasicFileReporter extends AbstractReporter {
         
         Status status = log.getStatus() == Status.INFO ? Status.PASS : log.getStatus();
 
-        if (!statusCollection.contains(status))
+        trackUsedStatus(status);
+    }
+    
+    public List<Status> getStatusCollection() {
+    	return statusCollection;
+    }
+    
+    public synchronized void refreshStatusCollection(List<Test> testCollection, Boolean renew) {
+    	if (renew)
+    		statusCollection.clear();
+    	
+    	testCollection.forEach(x -> {
+    		if (x.hasLog())
+    			x.getLogContext().getAll().forEach(this::trackUsedStatus);
+			
+    		if (x.hasChildren())
+    			refreshStatusCollection(x.getNodeContext().getAll(), false);
+    	});
+    }
+    
+    private void trackUsedStatus(Log log) {
+    	trackUsedStatus(log.getStatus());
+    }
+    
+    private void trackUsedStatus(Status status) {
+    	if (!statusCollection.contains(status))
             statusCollection.add(status);
     }
     
@@ -46,5 +71,7 @@ public abstract class BasicFileReporter extends AbstractReporter {
     
     @Override
     public void stop() { }
+    
+    public abstract String getLongRunDuration();
     
 }

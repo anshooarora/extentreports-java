@@ -27,24 +27,38 @@ public class MediaEntityBuilder {
 	}
 	
 	public static MediaEntityBuilder createScreenCaptureFromPath(String path, String title) throws IOException {
-		if (path == null || path.isEmpty())
-			throw new IOException("ScreenCapture path cannot be null or empty.");
-		
-		ScreenCapture sc = new ScreenCapture();
-		sc.setMediaType(MediaType.IMG);
-		sc.setPath(path);
-		
-		if (title != null)
-			sc.setName(title);
-		
-		media = new ThreadLocal<Media>();
-		media.set(sc);
-		
-		return getInstance();
-	}
-	
-	public static MediaEntityBuilder createScreenCaptureFromPath(String path) throws IOException {
-		return createScreenCaptureFromPath(path, null);
-	}
+        if (path == null || path.isEmpty())
+            throw new IOException("ScreenCapture path cannot be null or empty.");
+        
+        return createScreenCapture(path, title, false);
+    }
+    
+    public static MediaEntityBuilder createScreenCaptureFromPath(String path) throws IOException {
+        return createScreenCaptureFromPath(path, null);
+    }
+    
+    public static MediaEntityBuilder createScreenCaptureFromBase64String(String base64String) throws IOException {
+        if (base64String == null || base64String.trim().equals(""))
+            throw new IOException("Base64 string cannot be null or empty.");
+        
+        return createScreenCapture(base64String, null, true);
+    }
+    
+    private static MediaEntityBuilder createScreenCapture(String pathOrBase64String, String title, boolean isBase64String) {
+        ScreenCapture sc = new ScreenCapture();
+        sc.setMediaType(MediaType.IMG);
+        if (isBase64String)
+            sc.setBase64String(pathOrBase64String);
+        else
+            sc.setPath(pathOrBase64String);
+        
+        if (title != null)
+            sc.setName(title);
+        
+        media = new ThreadLocal<Media>();
+        media.set(sc);
+        
+        return getInstance();
+    }
 	
 }

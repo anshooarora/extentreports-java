@@ -24,8 +24,8 @@ public enum Status implements Serializable {
             Status.WARNING,
             Status.SKIP,
             Status.PASS,
-            Status.DEBUG,
-            Status.INFO
+            Status.INFO,
+            Status.DEBUG
     );
     
     /**
@@ -60,7 +60,8 @@ public enum Status implements Serializable {
                 Status.WARNING,
                 Status.SKIP,
                 Status.PASS,
-                Status.INFO
+                Status.INFO,
+                Status.DEBUG
         );
         
         setStatusHierarchy(statusHierarchy);

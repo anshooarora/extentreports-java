@@ -1,6 +1,8 @@
 package com.aventstack.extentreports.reporter.converters;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,6 +19,8 @@ import java.util.logging.Logger;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
+import com.aventstack.extentreports.model.Media;
+import com.aventstack.extentreports.model.ScreenCapture;
 import com.aventstack.extentreports.model.Test;
 import com.aventstack.extentreports.model.TestAttribute;
 import com.aventstack.extentreports.utils.DateUtil;
@@ -33,10 +37,32 @@ class ExtentHtmlTestConverter {
 	public ExtentHtmlTestConverter(String filePath) {
 		String html = Reader.readAllText(filePath);
 		doc = Jsoup.parse(html);
+		
+		Element meta = doc.select("meta[http-equiv=content-type], meta[charset]").first();
+        if (meta != null) { // if not found, will keep utf-8 as best attempt
+            String foundCharset = null;
+            if (meta.hasAttr("http-equiv")) {
+                foundCharset = meta.attr("content");
+            }
+            if (foundCharset == null && meta.hasAttr("charset")) {
+                try {
+                    if (Charset.isSupported(meta.attr("charset"))) {
+                        foundCharset = meta.attr("charset");
+                    }
+                } catch (IllegalCharsetNameException e) {
+                    foundCharset = null;
+                }
+            }
+            
+            foundCharset = foundCharset == null ? "utf-8" : foundCharset;
+            
+            doc = Jsoup.parse(html, foundCharset);
+        }
+        
 		docTimeStampFormat = doc.getElementById("timeStampFormat").attr("content");
 		parserUtils = new TestParserUtils();
 	}
-	
+
 	public List<Test> parseAndGetTests() {
 		Elements allTests = doc.select("#test-collection > .test");
 		
@@ -100,6 +126,11 @@ class ExtentHtmlTestConverter {
             for (TestAttribute a : authorCollection)
                 test.setAuthor(a);
         
+        List<ScreenCapture> mediaList = parserUtils.getMediaElements(testElement);
+        if (mediaList != null && !mediaList.isEmpty())
+            for (Media m : mediaList)
+                test.setScreenCapture((ScreenCapture) m); 
+        
         ExtentHtmlLogConverter logConverter = new ExtentHtmlLogConverter(test, testElement);
         logConverter.parseAndAddLogsToTest();
         
@@ -147,6 +178,26 @@ class ExtentHtmlTestConverter {
 			    return DateUtil.parse(endTime.text(), docTimeStampFormat);
 			
 			return Calendar.getInstance().getTime();
+		}
+		
+		public List<ScreenCapture> getMediaElements(Element test) {
+		    String selector = ":root > .test-content > .screenshots img";
+		    Elements elements = test.select(selector);
+		    List<ScreenCapture> scList = null;
+		    ScreenCapture sc = null;
+		    
+		    if (!elements.isEmpty()) {
+		        scList = new ArrayList<ScreenCapture>();
+		        
+		        for (Element element : elements) {
+		            String src = element.attr("data-src");
+		            sc = new ScreenCapture();		            
+		            sc.setPath(src);
+		            scList.add(sc);
+		        }
+		    }
+		    
+		    return scList;
 		}
 		
 		@SuppressWarnings("unchecked")

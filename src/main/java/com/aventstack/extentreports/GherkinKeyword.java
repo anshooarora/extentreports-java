@@ -1,8 +1,13 @@
 package com.aventstack.extentreports;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.aventstack.extentreports.gherkin.GherkinDialect;
+import com.aventstack.extentreports.gherkin.GherkinDialectProvider;
 import com.aventstack.extentreports.gherkin.model.IGherkinFormatterModel;
 
 import freemarker.template.utility.StringUtil;
@@ -33,19 +38,37 @@ import freemarker.template.utility.StringUtil;
  */
 public class GherkinKeyword {
 
-    private static final Logger logger = Logger.getLogger(GherkinKeyword.class.getName());
+private static final Logger logger = Logger.getLogger(GherkinKeyword.class.getName());
     
     private Class<IGherkinFormatterModel> clazz = IGherkinFormatterModel.class;
     private IGherkinFormatterModel keywordClazz;
     
     public GherkinKeyword(String keyword) throws ClassNotFoundException {
-        keyword = StringUtil.capitalize(keyword);
+        GherkinDialect dialect =  null;
+        String apiKeyword = StringUtil.capitalize(keyword.trim());
         String refPath = clazz.getPackage().getName();
-        Class<?> c = Class.forName(refPath + "." + keyword);
         
         try {
+            dialect = GherkinDialectProvider.getDialect();
+            if (dialect != null && !dialect.getLanguage().equalsIgnoreCase(GherkinDialectProvider.getDefaultLanguage())) {
+                apiKeyword = null;
+                Map<String, List<String>> keywords = dialect.getKeywords();
+                
+                for (Entry<String, List<String>> key : keywords.entrySet()) {
+                    boolean b = key.getValue().stream().anyMatch(x -> x.trim().equalsIgnoreCase(keyword.trim()));
+                    if (b) {
+                        apiKeyword = StringUtil.capitalize(key.getKey());
+                        break;
+                    }
+                }
+            }
+            
+            if (apiKeyword == null)
+            	throw new ClassNotFoundException("Keyword " + keyword + " not available");
+            
+            Class<?> c = Class.forName(refPath + "." + apiKeyword.replace(" ", ""));
             keywordClazz = (IGherkinFormatterModel) c.newInstance();
-        } catch (InstantiationException|IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             logger.log(Level.SEVERE, "", e);
         }
     }

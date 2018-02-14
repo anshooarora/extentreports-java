@@ -1,8 +1,10 @@
 package com.aventstack.extentreports;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
+import com.aventstack.extentreports.gherkin.GherkinDialectProvider;
 import com.aventstack.extentreports.gherkin.model.IGherkinFormatterModel;
 import com.aventstack.extentreports.model.SystemAttribute;
 
@@ -45,7 +47,7 @@ import com.aventstack.extentreports.model.SystemAttribute;
  * @see Status
  */
 public class ExtentReports extends Report {
-    
+     
     /**
      * Attach a {@link ExtentReporter} reporter, allowing it to access all started tests, nodes and logs 
      * 
@@ -64,6 +66,15 @@ public class ExtentReports extends Report {
      */
     public void attachReporter(ExtentReporter... reporter) {
         Arrays.stream(reporter).forEach(this::attach);
+    }
+    
+    /**
+     * Gets a list of started reporters
+     * 
+     * @return A list of {@link ExtentReporter}
+     */
+    public List<ExtentReporter> getStartedReporters() {
+    	return getReporterCollection();
     }
 
     /**
@@ -246,7 +257,7 @@ public class ExtentReports extends Report {
     private synchronized void applyCommonTestSettings(ExtentTest extentTest) {
         extentTest.setUseManualConfiguration(usesManualConfiguration);
     }
-    
+      
     /**
      * Removes a test
      * 
@@ -342,4 +353,21 @@ public class ExtentReports extends Report {
     public ReportConfigurator config() {
         return ReportConfigurator.getInstance();
     }
+    
+    /**
+     * Allows setting the target language for Gherkin keywords.
+     * 
+     * <p>
+     * Default setting is "en"
+     * 
+     * @param language A valid dialect from 
+     * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a>
+     * 
+     * @throws UnsupportedEncodingException Thrown if the language is one of the supported language from
+     * <a href="https://github.com/cucumber/cucumber/blob/master/gherkin/java/src/main/resources/gherkin/gherkin-languages.json">gherkin-languages.json</a> 
+     */
+    public void setGherkinDialect(String language) throws UnsupportedEncodingException {
+        GherkinDialectProvider.setLanguage(language);
+    }
+    
 }

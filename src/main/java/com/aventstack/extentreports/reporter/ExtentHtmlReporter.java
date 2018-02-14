@@ -197,7 +197,9 @@ public class ExtentHtmlReporter extends BasicFileReporter implements ReportAppen
     }
     
     public boolean containsStatus(Status status) {
-        boolean b = statusCollection == null || statusCollection.isEmpty() ? false : statusCollection.contains(status);
+        boolean b = getStatusCollection() == null || getStatusCollection().isEmpty() 
+        		? false 
+				: getStatusCollection().contains(status);
         return b;
     }
     
@@ -209,5 +211,19 @@ public class ExtentHtmlReporter extends BasicFileReporter implements ReportAppen
 	public void setAppendExisting(Boolean b) {
 		this.appendExisting = b;
 	}
+
+    @Override
+    public String getLongRunDuration() {
+        long millis = getRunDuration();
+        
+        long secs = millis / 1000;
+        long ms = millis % 1000;
+        long mins = secs / 60;
+        secs = (secs % 60);
+        long hours = mins / 60;
+        mins = mins % 60;
+        
+        return hours + "h " + mins + "m " + secs + "s+" + ms + "ms";  
+    }
     
 }

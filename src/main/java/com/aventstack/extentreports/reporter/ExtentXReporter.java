@@ -59,8 +59,6 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
     
     private MongoClient mongoClient;
     
-    private MongoDatabase db;
-    
     private MongoCollection<Document> projectCollection;
     private MongoCollection<Document> reportCollection;
     private MongoCollection<Document> testCollection;
@@ -154,7 +152,7 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
     public void start() {
         loadUserConfig();
         
-        db = mongoClient.getDatabase("extent");
+        MongoDatabase db = mongoClient.getDatabase("extent");
         
         // collections
         projectCollection = db.getCollection("project");
@@ -617,4 +615,23 @@ public class ExtentXReporter extends AbstractReporter implements ReportAppendabl
 	public void setAppendExisting(Boolean b) {
 		this.appendExisting = b;
 	}
+	
+	/**
+	 * Returns the active Project ID
+	 * 
+	 * @return A {@link ObjectId} object
+	 */
+	public ObjectId getProjectId() {       
+        return projectId;       
+	}      
+    
+	/**
+	 * Returns the active Report ID 
+	 * 
+	 * @return A {@link ObjectId} object
+	 */
+    public ObjectId getReportId() {     
+        return reportId;        
+    }
+    
 }

@@ -9,7 +9,7 @@ import com.aventstack.extentreports.model.ExceptionTestContext;
 import com.aventstack.extentreports.model.Test;
 
 public class ExceptionTestContextImpl {
-    List<ExceptionTestContext> exTestContextList;
+    private List<ExceptionTestContext> exTestContextList;
     
     public ExceptionTestContextImpl() { 
         exTestContextList = new ArrayList<>();

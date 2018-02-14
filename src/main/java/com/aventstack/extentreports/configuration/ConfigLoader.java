@@ -24,8 +24,8 @@ public class ConfigLoader {
     
     private static final Logger logger = Logger.getLogger(ConfigLoader.class.getName());
     
-	ConfigMap configContext;
-	InputStream stream;
+	private ConfigMap configContext;
+	private InputStream stream;
 
 	ConfigLoader() {
         configContext = new ConfigMap();

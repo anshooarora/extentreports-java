@@ -29,9 +29,7 @@ public class TestAttributeTestContextProvider<T extends TestAttribute> {
             
             boolean b = testList
                     .stream()
-                    .filter(t -> t.getID() == test.getID())
-                    .findFirst()
-                    .isPresent();
+                    .anyMatch(t -> t.getID() == test.getID());
             
             if (!b)
                 testOptionalTestContext.get().setTest(test);
@@ -46,7 +44,7 @@ public class TestAttributeTestContextProvider<T extends TestAttribute> {
         }
     }
     
-    public List<TestAttributeTestContext> getCategoryTestContextList() {
+    public List<TestAttributeTestContext> getTestAttributeTestContextList() {
         return testAttrCollection;
     }
     

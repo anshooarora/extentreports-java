@@ -59,31 +59,27 @@
 				<#assign leaf=(node.hasChildren())?then('','leaf')>
 				<li class='node level-${ node.level } ${ leaf } ${ node.status }' status='${ node.status }' test-id='${ node.getID() }'>
 					<div class='collapsible-header'>
-						<div class='node-name'>${ node.name }</div>						
-						<span class='node-time'>${ node.startTime?datetime?string["${timeStampFormat}"] }</span>
-						<span class='node-duration'>${ node.runDuration }</span>
+						<h5 class='node-name'>${ node.name }</h5>
+						<span class="node-time label grey lighten-1 white-text">${ node.endTime?datetime?string["${timeStampFormat}"] }</span>
+						<span class='node-duration label grey lighten-1 white-text'>${ node.runDuration }</span>
 						<span class='test-status right ${ node.status }'>${ node.status }</span>
+						<#if node.hasCategory()>
+							<#list node.categoryContext.all as category>
+								<span class='category label white-text'>${ category.name }</span>
+							</#list>
+						</#if>
+						<#if node.hasAuthor()>
+							<#list node.authorContext.all as author>
+								<span class='author label white-text'>${ author.name }</span>
+							</#list>
+						</#if>
+						<#if node.description?? && node.description?has_content>
+							<div class='node-desc'>${ node.description}</div>
+						</#if>
 					</div>
 					<#if node.hasLog()>
 						<div class='collapsible-body'>
 							<#if node.hasLog()>
-								<#if node.hasCategory()>
-									<div class='category-list right'>
-										<#list node.categoryContext.all as category>
-											<span class='category label white-text'>${ category.name }</span>
-										</#list>
-									</div>
-								</#if>
-								<#if node.description?? && node.description?has_content>
-									<div class='node-desc'>${ node.description}</div>
-								</#if>
-								<#if node.hasAuthor()>
-									<div class='author-list right'>
-										<#list node.authorContext.all as author>
-											<span class='author label white-text'>${ author.name }</span>
-										</#list>
-									</div>
-								</#if>
 								<div class='node-steps'>
 									<table class='bordered table-results'>
 										<thead>

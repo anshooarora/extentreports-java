@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import org.bson.types.ObjectId;
 
@@ -175,8 +176,9 @@ public class Test implements RunResult, Serializable, BasicReportElement {
     public void trackLastRunStatus() {
         getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
 
-        if (testStatus == Status.INFO) 
-            testStatus = Status.PASS;
+        testStatus = (testStatus == Status.INFO || testStatus == Status.DEBUG)
+                ? Status.PASS
+                : testStatus;
     }
     
     private synchronized void updateStatus(Status logStatus) {
@@ -190,7 +192,9 @@ public class Test implements RunResult, Serializable, BasicReportElement {
         updateTestStatusRecursive(this);
         endChildrenRecursive(this);
         
-        testStatus = testStatus == Status.INFO ? Status.PASS : testStatus;
+        testStatus = (testStatus == Status.INFO || testStatus == Status.DEBUG)
+                ? Status.PASS
+                : testStatus;
         
         if (!usesManualConfiguration || endTime == null)
             setEndTimeFromChildren();
@@ -199,8 +203,21 @@ public class Test implements RunResult, Serializable, BasicReportElement {
     private synchronized void updateTestStatusRecursive(Test test) {
         test.getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
 
-        if (test.hasChildren())
-            test.node.getAll().forEach(this::updateTestStatusRecursive);
+        if (test.hasChildren()) {
+            test.getNodeContext().getAll().forEach(this::updateTestStatusRecursive);
+        }
+        
+        if (!test.isBehaviorDrivenType()) {
+	        // if not all children are marked SKIP, then:
+	        // ensure the parent has a status that is not SKIP
+	        if (testStatus == Status.SKIP && test.getNodeContext().getAll().stream().anyMatch(x -> x.getStatus() != Status.SKIP)) {
+	            // reset status
+	            testStatus = Status.PASS;
+	            // compute new status
+	            Stream<Test> stream = test.getNodeContext().getAll().stream().filter(x -> x.getStatus() != Status.SKIP);
+	            stream.forEach(this::updateTestStatusRecursive);
+	        }
+        }
     }
     
     private void endChildrenRecursive(Test test) {

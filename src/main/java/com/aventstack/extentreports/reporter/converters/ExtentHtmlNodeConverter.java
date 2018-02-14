@@ -1,5 +1,6 @@
 package com.aventstack.extentreports.reporter.converters;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -114,13 +115,14 @@ class ExtentHtmlNodeConverter {
 	        return DateUtil.parse(startTime, docTimeStampFormat);
 	    }
 	    
-	    private List<TestAttribute> getAttributes(@SuppressWarnings("rawtypes") Class clazz, Element node) {
+	    @SuppressWarnings("unchecked")
+        private List<TestAttribute> getAttributes(@SuppressWarnings("rawtypes") Class clazz, Element node) {
 	        List<TestAttribute> attrCollection = null;
 	        TestAttribute attr;
 	        
 	        String selector = clazz == Category.class
-	                ? ":root > .category-list > .category"
-	                : ":root > .author-list > .author";
+	                ? ":root > .collapsible-body > .category-list > .category"
+	                : ":root > .collapsible-body > .author-list > .author";
 	        
 	        Elements elements = node.select(selector);
 	        
@@ -130,10 +132,10 @@ class ExtentHtmlNodeConverter {
 	            for (Element element : elements) {
 	                String attrName = element.text();
 	                try {
-                        attr = (TestAttribute) clazz.newInstance();
+                        attr = (TestAttribute) clazz.getDeclaredConstructor(String.class).newInstance(attrName);
                         attr.setName(attrName);
                         attrCollection.add(attr);
-                    } catch (InstantiationException|IllegalAccessException e) {
+                    } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                         e.printStackTrace();
                     }
 	            }
