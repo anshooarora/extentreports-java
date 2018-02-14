@@ -16,7 +16,8 @@ class Label implements Markup {
     public ExtentColor getColor() { return color; }
 
     public String getMarkup() {
-        String lhs = "<span class='label white-text " + String.valueOf(color).toLowerCase() + "'>";
+        String textColor = color != ExtentColor.WHITE ? "white-text" : "black-text";
+        String lhs = "<span class='label " + textColor + " " + String.valueOf(color).toLowerCase() + "'>";
         String rhs = "</span>";
         
         return lhs + text + rhs;
