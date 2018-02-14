@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<suite name="Extent Parallel Test" parallel="methods">
-    <test name="ExtentWithParallelMethods" allow-return-values="true">
-        <classes>
-            <class name="com.relevantcodes.extentreports.testngexamples.ParallelMethodsTest" />
-        </classes>
-    </test>
-</suite>
