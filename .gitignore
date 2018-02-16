@@ -11,3 +11,5 @@ test-output/
 /.idea/
 .settings/
 extent.html
+.project
+.classpath
