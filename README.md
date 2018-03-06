@@ -6,13 +6,13 @@
 
 This version is Java8 only. Version 2 and lower are no longer supported.
 
-Note: [Klovv](https://github.com/anshooarora/klovv) report server is supported with ExtentAPI version 3.1.0 onwards.
+[Klov](https://github.com/anshooarora/klov) report server is supported with version 3.1.0+.
+
+> Note: ExtentX is deprecated, please use Klov instead.
 
 ### Documentation
 
 View [extentreports.com](http://extentreports.com/docs/versions/3/java/) for complete documentation.
-
-Note: Documentation is in progress and will be regularly updated. Please let me know if you find anything missing or incorrect.
 
 ### Samples
 
