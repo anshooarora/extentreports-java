@@ -12,7 +12,7 @@
 						<li status='pass'><a href='#!'>Pass <i class='material-icons green-text'>check_circle</i></a></li>
 					</#if>
 					<#if report.containsStatus(Status.FATAL)>
-						<li status='fatal'><a href='#!'>Fatal <i class='material-icons red-text darken-3'>cancel</i></a></li>
+						<li status='fatal'><a href='#!'>Fatal <i class='material-icons red-text text-darken-3'>cancel</i></a></li>
 					</#if>
 					<#if report.containsStatus(Status.FAIL)>
 						<li status='fail'><a href='#!'>Fail <i class='material-icons red-text'>cancel</i></a></li>
