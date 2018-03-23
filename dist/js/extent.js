@@ -92,7 +92,7 @@ $(window).keydown(function(e) {
             }).click();
         }
 
-        if (!e.ctrlKey && !e.altKey && !e.shiftKey && e.which!==91 && e.which!==93 && e.which!==224) {
+        if (!e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey) {
             (e.which === 67) && goToView('category');
             (e.which === 65) && goToView('author');
             (e.which === 68) && goToView('dashboard');
