@@ -4,7 +4,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
     <groupId>com.aventstack</groupId>
     <artifactId>extentreports</artifactId>
-    <version>3.1.3</version>
+    <version>3.1.4</version>
     <packaging>jar</packaging>
 
     <name>ExtentAPI Community Version</name>
@@ -138,8 +138,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 </property>
             </activation>
             <properties>
-                <gpg.keyname>CB4A22B0</gpg.keyname>    <!-- GPG Key ID to use for signing -->
-                <release.username>anshooarora</release.username> <!-- username for our svn repository -->
+                <gpg.keyname>2F3B1C64</gpg.keyname>    <!-- GPG Key ID to use for signing -->
+                <release.username>anshoo</release.username> <!-- username for our svn repository -->
             </properties>
             <build>
                 <resources>
