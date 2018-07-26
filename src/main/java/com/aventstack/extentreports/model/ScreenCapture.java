@@ -8,7 +8,7 @@ public class ScreenCapture extends Media {
         if (getBase64String() != null)
             return "<br/><a href='" + getScreenCapturePath() + "' data-featherlight='image'><span class='label grey white-text'>base64-img</span></a>";
 
-        return "<img data-featherlight='" + getScreenCapturePath() + "' width='10%' src='" + getScreenCapturePath() + "' data-src='" + getScreenCapturePath() + "'>";
+        return "<img onerror='this.style.display=\"none\"' data-featherlight='" + getScreenCapturePath() + "' width='10%' src='" + getScreenCapturePath() + "' data-src='" + getScreenCapturePath() + "'>";
     }
     
     public String getSourceWithIcon() {

@@ -641,7 +641,7 @@ public class KlovReporter extends AbstractReporter {
     }
     
     private void createMedia(BasicReportElement el, Media media) {
-        Document doc = new Document("project", projectId)
+    	Document doc = new Document("project", projectId)
                 .append("report", reportId)
                 .append("sequence", media.getSequence())
                 .append("mediaType", media.getMediaType().toString().toLowerCase())
@@ -649,6 +649,8 @@ public class KlovReporter extends AbstractReporter {
 
         if (el.getClass() != Test.class) {
             doc.append("log", el.getObjectId());
+        } else {
+            doc.append("testName", ((Test)el).getName());
         }
         
         mediaCollection.insertOne(doc);

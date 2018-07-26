@@ -67,6 +67,9 @@ public class Log implements RunResult, Serializable, BasicReportElement {
         this.details = details;
     }
     public String getDetails() {
+    	if (hasScreenCapture())
+    		return details + screenCaptureContext.getLast().getSource();
+    	
         return details;
     }
     
@@ -89,13 +92,9 @@ public class Log implements RunResult, Serializable, BasicReportElement {
             screenCaptureContext = new AbstractStructure<>();
         
         screenCaptureContext.add(sc);
-        
-        String details = getDetails().isEmpty() 
-        		? sc.getSource() 
-				: getDetails() + sc.getSource();
-        setDetails(details);
         sc.setTestObjectId(getParent().getModel().getObjectId());
     }
+    
     public AbstractStructure<ScreenCapture> getScreenCaptureContext() {
         return screenCaptureContext;
     }
@@ -116,8 +115,14 @@ public class Log implements RunResult, Serializable, BasicReportElement {
 				: getDetails() + sc.getSource();
 		setDetails(details);
     }
+    
     public AbstractStructure<Screencast> getScreencastContext() {
     	return screencastContext;
+    }
+    
+    public boolean hasScreencast() {
+        return screencastContext != null 
+                && screencastContext.size() > 0;
     }
     
     public ExtentTest getParent() {
@@ -130,7 +135,7 @@ public class Log implements RunResult, Serializable, BasicReportElement {
     		
         return parent.getModel();
     }
-    
+
     @Override
     public ObjectId getObjectId() {
         return objectId;

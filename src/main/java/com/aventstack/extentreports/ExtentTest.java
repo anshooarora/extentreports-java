@@ -297,13 +297,15 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
      * @return An {@link ExtentTest} object
      */
     public synchronized ExtentTest log(Status status, String details, MediaEntityModelProvider provider) {
-    	Log evt = createLog(status, details);
+Log evt = createLog(status, details);
     	
     	if (provider != null) {
 	    	Class<? extends Media> clazz = provider.getMedia().getClass();
 	    	
-	    	if (clazz.equals(ScreenCapture.class))
-	    		evt.setScreenCapture((ScreenCapture) provider.getMedia());
+	    	if (clazz.equals(ScreenCapture.class)) {
+	    	    ScreenCapture sc = (ScreenCapture) provider.getMedia();
+	    		evt.setScreenCapture(sc);
+	    	}
 			else
 				evt.setScreencast((Screencast) provider.getMedia());
     	}
@@ -394,13 +396,13 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
      * @return An {@link ExtentTest} object
      */
     public synchronized ExtentTest log(Status status, Throwable t, MediaEntityModelProvider provider) {
-        ExceptionInfo exInfo = new ExceptionInfo();
+    	ExceptionInfo exInfo = new ExceptionInfo();
         exInfo.setException(t);
         exInfo.setExceptionName(ExceptionUtil.getExceptionHeadline(t));
         exInfo.setStackTrace(ExceptionUtil.getStackTrace(t));
         
         getModel().setExceptionInfo(exInfo);
-
+        
         log(status, exInfo.getStackTrace(), provider);
         
         return this;
@@ -1088,21 +1090,28 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
 
     @Override
     public ExtentTest addScreenCaptureFromPath(String imagePath, String title) throws IOException {
-        ScreenCapture sc = new ScreenCapture();
+    	ScreenCapture sc = new ScreenCapture();
         sc.setPath(imagePath);
         if (title != null)
             sc.setName(title);
         sc.setMediaType(MediaType.IMG);
         
-        test.setScreenCapture(sc);
+        if (test.getObjectId() != null)
+            sc.setTestObjectId(test.getObjectId());
+        
+        extent.addScreenCapture(test, sc);
+        
+        return addScreenCapture(sc);
+    }
+    
+    private ExtentTest addScreenCapture(ScreenCapture sc) {
+    	test.setScreenCapture(sc);
 
         if (test.getObjectId() != null) {
             int sequence = test.getScreenCaptureList().size();
             sc.setTestObjectId(test.getObjectId());
             sc.setSequence(sequence);
         }
-        
-        extent.addScreenCapture(test, sc);
         
         return this;
     }
