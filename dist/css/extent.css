@@ -194,10 +194,14 @@ nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
 }
 nav ul a {
     font-size: inherit;
+    padding: 0 5px !important;
 }
 nav ul i {
     font-size: 14px !important;
     line-height: 45px !important;
+}
+.nav-right {
+	margin-right: 10px;
 }
 
 /* -- [ side-nav ] -- */
