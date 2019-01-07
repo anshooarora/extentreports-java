@@ -1,6 +1,6 @@
 ### Important
 
-With the release of version 4, the office repository for [Extent Framework](https://github.com/extent-framework) project has moved to its [dedicated org](https://github.com/extent-framework).
+With the release of version 4, the official repository for [Extent Framework](https://github.com/extent-framework) project has moved to its [dedicated org](https://github.com/extent-framework).
 
 
 ## ExtentAPI 3 Java 
