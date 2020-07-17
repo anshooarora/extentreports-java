@@ -1,0 +1,1 @@
+<script type="text/javascript">${config.js}</script>

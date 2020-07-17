@@ -1,6 +1,5 @@
 package com.aventstack.extentreports;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -8,19 +7,20 @@ import com.aventstack.extentreports.gherkin.model.IGherkinFormatterModel;
 import com.aventstack.extentreports.markuputils.Markup;
 import com.aventstack.extentreports.model.Author;
 import com.aventstack.extentreports.model.Category;
+import com.aventstack.extentreports.model.Device;
 import com.aventstack.extentreports.model.ExceptionInfo;
-import com.aventstack.extentreports.model.IAddsMedia;
 import com.aventstack.extentreports.model.Log;
 import com.aventstack.extentreports.model.Media;
-import com.aventstack.extentreports.model.MediaType;
+import com.aventstack.extentreports.model.RunResult;
 import com.aventstack.extentreports.model.ScreenCapture;
-import com.aventstack.extentreports.model.Screencast;
 import com.aventstack.extentreports.model.Test;
-import com.aventstack.extentreports.utils.ExceptionUtil;
-import com.aventstack.extentreports.utils.StringUtil;
+import com.aventstack.extentreports.model.service.ExceptionInfoService;
+
+import lombok.Getter;
 
 /**
- * Defines a test. You can add logs, snapshots, assign author and categories to a test and its children.
+ * Defines a test. You can add logs, snapshots, assign author and categories to
+ * a test and its children.
  * 
  * <p>
  * The below log types will all be logged with <code>Status.PASS</code>:
@@ -37,29 +37,40 @@ import com.aventstack.extentreports.utils.StringUtil;
  * </p>
  * 
  * <ul>
- * 	<li>Tests started with the <code>createTest</code> method are parent-level, always level 0</li>
- * 	<li>Tests started with the <code>createNode</code> method are children, always level 1 and greater</li>
+ * <li>Tests started with the <code>createTest</code> method are parent-level,
+ * always level 0</li>
+ * <li>Tests started with the <code>createNode</code> method are children,
+ * always level 1 and greater</li>
  * </ul>
  */
-public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializable {
-    
-    private static final long serialVersionUID = 9199820968410788862L;
-    
-    private ExtentReports extent;
-    private Test test;
+@Getter
+public class ExtentTest implements RunResult, Serializable {
+    private static final long serialVersionUID = 5846031786305901993L;
 
     /**
-     * Creates a BDD style parent test representing one of the {@link IGherkinFormatterModel}
-     * classes. This method would ideally be used for creating the parent, ie {@link Feature). 
+     * An instance of {@link ExtentReports} to which this {@link ExtentTest}
+     * belongs
+     */
+    private transient ExtentReports extent;
+
+    /**
+     * Internal model
+     */
+    private Test model;
+
+    /**
+     * Creates a BDD style parent test representing one of the
+     * {@link IGherkinFormatterModel} classes. This method would ideally be used
+     * for creating the parent, ie {@link Feature).
      * 
      * <ul>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -70,48 +81,53 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
      * extent.createTest(Feature.class, "Feature Name", "Description");
      * </pre>
      * 
-     * @param extent An {@link ExtentReports} object
-     * @param type A {@link IGherkinFormatterModel} type
-     * @param testName Test name
-     * @param description Test description
+     * @param extent
+     *            An {@link ExtentReports} object
+     * @param type
+     *            A {@link IGherkinFormatterModel} type
+     * @param name
+     *            Test name
+     * @param description
+     *            Test description
      */
-    ExtentTest(ExtentReports extent, Class<? extends IGherkinFormatterModel> type, String testName, String description) {
-        if (testName == null || testName.isEmpty())
-            throw new IllegalArgumentException("testName cannot be null or empty");
-        
+    ExtentTest(ExtentReports extent, Class<? extends IGherkinFormatterModel> type, String name, String description) {
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("Test name cannot be null or empty");
+        model = Test.builder()
+                .bddType(type)
+                .name(name)
+                .description(description)
+                .useNaturalConf(extent.isUsingNaturalConf())
+                .build();
         this.extent = extent;
-        
-        test = new Test();
-        test.setName(testName.trim()); 
-        test.setDescription(description == null ? "" : description.trim());
-        
-        if (type != null)
-            test.setBehaviorDrivenType(type);
     }
-    
+
     /**
      * Create a test with description
      * 
-     * @param extent An {@link ExtentReports} object
-     * @param testName Test name
-     * @param description Test description
+     * @param extent
+     *            An {@link ExtentReports} object
+     * @param testName
+     *            Test name
+     * @param description
+     *            Test description
      */
     ExtentTest(ExtentReports extent, String testName, String description) {
         this(extent, null, testName, description);
     }
-    
+
     /**
-     * Creates a BDD-style node with description representing one of the {@link IGherkinFormatterModel}
-     * classes:
+     * Creates a BDD-style node with description representing one of the
+     * {@link IGherkinFormatterModel} classes:
      * 
      * <ul>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -122,60 +138,52 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
      * test.createNode(Scenario.class, "bddNode", "description");
      * </pre>
      * 
-     * @param type A {@link IGherkinFormatterModel} type
-     * @param name Name of node
-     * @param description A short description
+     * @param type
+     *            A {@link IGherkinFormatterModel} type
+     * @param name
+     *            Name of node
+     * @param description
+     *            A short description
      * 
      * @return {@link ExtentTest} object
      */
-    public synchronized ExtentTest createNode(Class<? extends IGherkinFormatterModel> type, String name, String description) {
-        if (name == null || name.isEmpty())
-            throw new IllegalArgumentException("nodeName cannot be null or empty");
-        
-        ExtentTest t;
-        if (type == null) {
-            t = new ExtentTest(extent, name, description);
-        }
-        else {
-            t = new ExtentTest(extent, type, name, description);
-        }
-        
-        applyCommonNodeSettings(t);
-        addNodeToReport(t);
-                
-        return t;
-    }
-    
-    /**
-     * Creates a node with description
-     * 
-     * @param name Name of node
-     * @param description A short description
-     * 
-     * @return {@link ExtentTest} object
-     */
-    public synchronized ExtentTest createNode(String name, String description) {
-        if (name == null || name.isEmpty())
-            throw new IllegalArgumentException("nodeName cannot be null or empty");
-        
-        ExtentTest t = new ExtentTest(extent, name, description);
-        applyCommonNodeSettings(t);
-        addNodeToReport(t);
-        
+    public synchronized ExtentTest createNode(Class<? extends IGherkinFormatterModel> type, String name,
+            String description) {
+        ExtentTest t = new ExtentTest(extent, type, name, description);
+        model.addChild(t.getModel());
+        extent.onNodeCreated(t.getModel());
         return t;
     }
 
     /**
-     * Creates a BDD-style node representing one of the {@link IGherkinFormatterModel} classes such as:
+     * Creates a node with description
+     * 
+     * @param name
+     *            Name of node
+     * @param description
+     *            A short description
+     * 
+     * @return {@link ExtentTest} object
+     */
+    public synchronized ExtentTest createNode(String name, String description) {
+        ExtentTest t = new ExtentTest(extent, name, description);
+        model.addChild(t.getModel());
+        extent.onNodeCreated(t.getModel());
+        return t;
+    }
+
+    /**
+     * Creates a BDD-style node representing one of the
+     * {@link IGherkinFormatterModel} classes such as:
      * 
      * <ul>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -186,26 +194,29 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
      * test.createNode(Scenario.class, "bddNode");
      * </pre>
      * 
-     * @param type A {@link IGherkinFormatterModel} type
-     * @param name Name of node
+     * @param type
+     *            A {@link IGherkinFormatterModel} type
+     * @param name
+     *            Name of node
      * 
      * @return {@link ExtentTest} object
      */
-    public synchronized ExtentTest createNode(Class<? extends IGherkinFormatterModel> type, String name) {
+    public ExtentTest createNode(Class<? extends IGherkinFormatterModel> type, String name) {
         return createNode(type, name, null);
     }
-    
+
     /**
-     * Creates a BDD-style node with description using name of the Gherkin model such as:
+     * Creates a BDD-style node with description using name of the Gherkin model
+     * such as:
      * 
      * <ul>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -216,28 +227,30 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
      * test.createNode(new GherkinKeyword("Scenario"), "bddTest", "description");
      * </pre>
      * 
-     * @param gherkinKeyword Name of the {@link GherkinKeyword}
-     * @param name Name of node
-     * @param description A short description
+     * @param gherkinKeyword
+     *            Name of the {@link GherkinKeyword}
+     * @param name
+     *            Name of node
+     * @param description
+     *            A short description
      * 
      * @return {@link ExtentTest}
      */
-    public synchronized ExtentTest createNode(GherkinKeyword gherkinKeyword, String name, String description) {
-        Class<? extends IGherkinFormatterModel> clazz = gherkinKeyword.getKeyword().getClass();
-        return createNode(clazz, name, description);
+    public ExtentTest createNode(GherkinKeyword gherkinKeyword, String name, String description) {
+        return createNode(gherkinKeyword.getKeyword().getClass(), name, description);
     }
-    
+
     /**
      * Creates a BDD-style node using name of the Gherkin model such as:
      * 
      * <ul>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
-     *  <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Feature}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Background}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Scenario}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Given}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.When}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.Then}</li>
+     * <li>{@link com.aventstack.extentreports.gherkin.model.And}</li>
      * </ul>
      * 
      * <p>
@@ -248,38 +261,53 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
      * test.createNode(new GherkinKeyword("Scenario"), "bddTest");
      * </pre>
      * 
-     * @param gherkinKeyword Name of the {@link GherkinKeyword}
-     * @param name Name of node
+     * @param gherkinKeyword
+     *            Name of the {@link GherkinKeyword}
+     * @param name
+     *            Name of node
      * 
      * @return {@link ExtentTest} object
      */
-    public synchronized ExtentTest createNode(GherkinKeyword gherkinKeyword, String name) {
+    public ExtentTest createNode(GherkinKeyword gherkinKeyword, String name) {
         return createNode(gherkinKeyword, name, null);
     }
-    
+
     /**
      * Creates a node
      * 
-     * @param name Name of node
+     * @param name
+     *            Name of node
      * 
      * @return {@link ExtentTest} object
      */
-    public synchronized ExtentTest createNode(String name) {
+    public ExtentTest createNode(String name) {
         return createNode(name, null);
     }
-    
-    private void applyCommonNodeSettings(ExtentTest extentTest) {
-        extentTest.getModel().setLevel(test.getLevel() + 1);
-        extentTest.getModel().setParent(getModel());
-        test.getNodeContext().add(extentTest.getModel());
-    }
-    
-    private void addNodeToReport(ExtentTest extentNode) {
-        extent.addNode(extentNode.getModel());
-    }
-    
+
     /**
-     * Logs an event with {@link Status}, details and a media object: {@link Screencast} or
+     * 
+     * @param status
+     * @param details
+     * @return
+     */
+    public ExtentTest generateLog(Status status, String details) {
+        Log log = Log.builder().status(status).details(details).build();
+        model.addGeneratedLog(log);
+        return this;
+    }
+
+    /**
+     * 
+     * @param status
+     * @param markup
+     * @return
+     */
+    public ExtentTest generateLog(Status status, Markup markup) {
+        return generateLog(status, markup.getMarkup());
+    }
+
+    /**
+     * Logs an event with {@link Status}, details and a media object:
      * {@link ScreenCapture}
      * 
      * <p>
@@ -290,94 +318,115 @@ public class ExtentTest implements IAddsMedia<ExtentTest>, RunResult, Serializab
      * test.log(Status.FAIL, "details", MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
      * </pre>
      * 
-     * @param status {@link Status}
-     * @param details Details
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param status
+     *            {@link Status}
+     * @param details
+     *            Details
+     * @param media
+     *            A {@link Media} object
      * 
      * @return An {@link ExtentTest} object
      */
-    public synchronized ExtentTest log(Status status, String details, MediaEntityModelProvider provider) {
-Log evt = createLog(status, details);
-    	
-    	if (provider != null) {
-	    	Class<? extends Media> clazz = provider.getMedia().getClass();
-	    	
-	    	if (clazz.equals(ScreenCapture.class)) {
-	    	    ScreenCapture sc = (ScreenCapture) provider.getMedia();
-	    		evt.setScreenCapture(sc);
-	    	}
-			else
-				evt.setScreencast((Screencast) provider.getMedia());
-    	}
-    	
-    	return addLog(evt);
+    public ExtentTest log(Status status, String details, Throwable t, Media media) {
+        if (status == null)
+            throw new IllegalArgumentException("Status must not be null");
+        Log log = Log.builder()
+                .status(status)
+                .details(details == null ? "" : details)
+                .build();
+        ExceptionInfo exceptionInfo = ExceptionInfoService.createExceptionInfo(t);
+        log.setException(exceptionInfo);
+        log.addMedia(media);
+        model.addLog(log);
+        extent.onLogCreated(log, model);
+        return this;
     }
-    
+
+    /**
+     * Logs an event with {@link Status}, details and a media object:
+     * {@link ScreenCapture}
+     * 
+     * <p>
+     * Example:
+     * </p>
+     * 
+     * <pre>
+     * test.log(Status.FAIL, "details", MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
+     * </pre>
+     * 
+     * @param status
+     *            {@link Status}
+     * @param details
+     *            Details
+     * @param media
+     *            A {@link Media} object
+     * 
+     * @return An {@link ExtentTest} object
+     */
+    public ExtentTest log(Status status, String details, Media media) {
+        return log(status, details, null, media);
+    }
+
+    /**
+     * Logs an event with {@link Status}, details and a media object:
+     * {@link ScreenCapture}
+     * 
+     * <p>
+     * Example:
+     * </p>
+     * 
+     * <pre>
+     * test.log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
+     * </pre>
+     * 
+     * @param status
+     *            {@link Status}
+     * @param media
+     *            A {@link Media} object
+     * 
+     * @return An {@link ExtentTest} object
+     */
+    public ExtentTest log(Status status, Media media) {
+        return log(status, null, null, media);
+    }
+
     /**
      * Logs an event with {@link Status} and details
      * 
-     * @param status {@link Status}
-     * @param details Details
+     * @param status
+     *            {@link Status}
+     * @param details
+     *            Details
      * 
      * @return An {@link ExtentTest} object
      */
-    public synchronized ExtentTest log(Status status, String details) {       
+    public ExtentTest log(Status status, String details) {
         return log(status, details, null);
     }
-    
+
     /**
      * Logs an event with {@link Status} and custom {@link Markup} such as:
      * 
      * <ul>
-     * 	<li>Code block</li>
-     * 	<li>Label</li>
-     * 	<li>Table</li>
+     * <li>Code block</li>
+     * <li>Label</li>
+     * <li>Table</li>
      * </ul>
      * 
-     * @param status {@link Status}
-     * @param markup {@link Markup}
+     * @param status
+     *            {@link Status}
+     * @param markup
+     *            {@link Markup}
      * 
      * @return An {@link ExtentTest} object
      */
-    public synchronized ExtentTest log(Status status, Markup markup) {
+    public ExtentTest log(Status status, Markup markup) {
         String details = markup.getMarkup();
         return log(status, details);
     }
-    
-    private synchronized ExtentTest addLog(Log evt) {
-        test.getLogContext().add(evt);
-        test.end();
-        
-        extent.addLog(test, evt);
-        
-        if (evt.hasScreenCapture()) {
-            try {
-                extent.addScreenCapture(evt, evt.getScreenCaptureContext().getLast());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    
-        return this;
-    }
-    
-    private Log createLog(Status status) {
-        Log evt = new Log(this);
-        evt.setStatus(status);
-        evt.setSequence(test.getLogContext().getAll().size() + 1);
-        
-        return evt;
-    }
-    
-    private Log createLog(Status status, String details) {
-        Log evt = createLog(status);
-        evt.setDetails(details == null ? "" : details.trim());
-        
-        return evt;
-    }
 
     /**
-     * Logs an event with {@link Status}, an exception and a media object: {@link Screencast} or
+     * Logs an event with {@link Status}, an exception and a media object:
      * {@link ScreenCapture}
      * 
      * <p>
@@ -389,40 +438,36 @@ Log evt = createLog(status, details);
      * test.log(Status.FAIL, exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
      * </pre>
      * 
-     * @param status {@link Status}
-     * @param t {@link Throwable}
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param status
+     *            {@link Status}
+     * @param t
+     *            {@link Throwable}
+     * @param media
+     *            A {@link Media} object
      * 
      * @return An {@link ExtentTest} object
      */
-    public synchronized ExtentTest log(Status status, Throwable t, MediaEntityModelProvider provider) {
-    	ExceptionInfo exInfo = new ExceptionInfo();
-        exInfo.setException(t);
-        exInfo.setExceptionName(ExceptionUtil.getExceptionHeadline(t));
-        exInfo.setStackTrace(ExceptionUtil.getStackTrace(t));
-        
-        getModel().setExceptionInfo(exInfo);
-        
-        log(status, exInfo.getStackTrace(), provider);
-        
-        return this;
+    public ExtentTest log(Status status, Throwable t, Media media) {
+        return log(status, null, t, media);
     }
-    
+
     /**
      * Logs an event with {@link Status} and exception
      * 
-     * @param status {@link Status}
-     * @param t {@link Throwable}
+     * @param status
+     *            {@link Status}
+     * @param t
+     *            {@link Throwable}
      * 
      * @return An {@link ExtentTest} object
      */
-    public synchronized ExtentTest log(Status status, Throwable t) {
+    public ExtentTest log(Status status, Throwable t) {
         return log(status, t, null);
     }
-    
+
     /**
-     * Logs an <code>Status.INFO</code> event with details and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an <code>Status.INFO</code> event with details and a media object:
+     * {@link ScreenCapture}
      * 
      * <p>
      * Example:
@@ -432,30 +477,33 @@ Log evt = createLog(status, details);
      * test.info("details", MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
      * </pre>
      * 
-     * @param details Details 
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param details
+     *            Details
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
-     * @return An {@link ExtentTest} object 
+     * @return An {@link ExtentTest} object
      */
-    public ExtentTest info(String details, MediaEntityModelProvider provider) {
-    	log(Status.INFO, details, provider);
-    	return this;
+    public ExtentTest info(String details, Media media) {
+        log(Status.INFO, details, media);
+        return this;
     }
-    
+
     /**
      * Logs an event with <code>Status.INFO</code> with details
      * 
-     * @param details Details
+     * @param details
+     *            Details
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest info(String details) {
         return info(details, null);
     }
-    
+
     /**
-     * Logs an <code>Status.INFO</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an <code>Status.INFO</code> event with an exception and a media
+     * object: {@link ScreenCapture}
      * 
      * <p>
      * Example:
@@ -463,40 +511,45 @@ Log evt = createLog(status, details);
      * 
      * <pre>
      * Exception exception = new NullPointerException();
-	 * test.info(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
+     * test.info(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
      * </pre>
      * 
-     * @param t {@link Throwable}
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param t
+     *            {@link Throwable}
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
      * @return An {@link ExtentTest} object
      */
-    public ExtentTest info(Throwable t, MediaEntityModelProvider provider) {
-    	log(Status.INFO, t, provider);
-    	return this;
+    public ExtentTest info(Throwable t, Media media) {
+        log(Status.INFO, t, media);
+        return this;
     }
-    
+
     /**
      * Logs an event with <code>Status.INFO</code> and exception
      * 
-     * @param t {@link Throwable}
+     * @param t
+     *            {@link Throwable}
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest info(Throwable t) {
         return info(t, null);
     }
-    
+
     /**
-     * Logs an event with <code>Status.INFO</code> and custom {@link Markup} such as:
+     * Logs an event with <code>Status.INFO</code> and custom {@link Markup}
+     * such as:
      * 
      * <ul>
-     * 	<li>Code block</li>
-     * 	<li>Label</li>
-     * 	<li>Table</li>
+     * <li>Code block</li>
+     * <li>Label</li>
+     * <li>Table</li>
      * </ul>
      * 
-     * @param m {@link Markup}
+     * @param m
+     *            {@link Markup}
      * 
      * @return {@link ExtentTest} object
      */
@@ -504,10 +557,23 @@ Log evt = createLog(status, details);
         log(Status.INFO, m);
         return this;
     }
-    
+
     /**
-     * Logs an <code>Status.PASS</code> event with details and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an event with <code>Status.INFO</code> and {@link ScreenCapture}
+     * 
+     * @param media
+     *            {@link Media}
+     * 
+     * @return {@link ExtentTest} object
+     */
+    public ExtentTest info(Media media) {
+        log(Status.INFO, media);
+        return this;
+    }
+
+    /**
+     * Logs an <code>Status.PASS</code> event with details and a media object:
+     * {@link ScreenCapture}
      * 
      * <p>
      * Example:
@@ -517,30 +583,33 @@ Log evt = createLog(status, details);
      * test.pass("details", MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
      * </pre>
      * 
-     * @param details Details
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param details
+     *            Details
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
-     * @return An {@link ExtentTest} object 
+     * @return An {@link ExtentTest} object
      */
-    public ExtentTest pass(String details, MediaEntityModelProvider provider) {
-    	log(Status.PASS, details, provider);
-    	return this;
+    public ExtentTest pass(String details, Media media) {
+        log(Status.PASS, details, media);
+        return this;
     }
-    
+
     /**
      * Logs an event <code>Status.PASS</code> with details
      * 
-     * @param details Details
+     * @param details
+     *            Details
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest pass(String details) {
         return pass(details, null);
     }
-    
+
     /**
-     * Logs an <code>Status.PASS</code> event with an exception and a media object:
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an <code>Status.PASS</code> event with an exception and a media
+     * object: {@link ScreenCapture}
      * 
      * <p>
      * Example:
@@ -548,40 +617,45 @@ Log evt = createLog(status, details);
      * 
      * <pre>
      * Exception exception = new NullPointerException();
-	 * test.pass(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
+     * test.pass(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
      * </pre>
      * 
-     * @param t {@link Throwable}
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param t
+     *            {@link Throwable}
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
      * @return An {@link ExtentTest} object
      */
-    public ExtentTest pass(Throwable t, MediaEntityModelProvider provider) {
-    	log(Status.PASS, t, provider);
-    	return this;
+    public ExtentTest pass(Throwable t, Media media) {
+        log(Status.PASS, t, media);
+        return this;
     }
-    
+
     /**
      * Logs an event with <code>Status.PASS</code> and exception
      * 
-     * @param t {@link Throwable}
+     * @param t
+     *            {@link Throwable}
      * 
      * @return An {@link ExtentTest} object
      */
     public ExtentTest pass(Throwable t) {
         return pass(t, null);
     }
-    
+
     /**
-     * Logs an event with <code>Status.PASS</code> and custom {@link Markup} such as:
+     * Logs an event with <code>Status.PASS</code> and custom {@link Markup}
+     * such as:
      * 
      * <ul>
-     * 	<li>Code block</li>
-     * 	<li>Label</li>
-     * 	<li>Table</li>
+     * <li>Code block</li>
+     * <li>Label</li>
+     * <li>Table</li>
      * </ul>
      * 
-     * @param m {@link Markup}
+     * @param m
+     *            {@link Markup}
      * 
      * @return An {@link ExtentTest} object
      */
@@ -589,35 +663,51 @@ Log evt = createLog(status, details);
         log(Status.PASS, m);
         return this;
     }
-    
+
     /**
-     * Logs an <code>Status.FAIL</code> event with details and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an event with <code>Status.PASS</code> and {@link ScreenCapture}
      * 
-     * @param details Details
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param media
+     *            {@link Media}
+     * 
+     * @return {@link ExtentTest} object
+     */
+    public ExtentTest pass(Media media) {
+        log(Status.PASS, media);
+        return this;
+    }
+
+    /**
+     * Logs an <code>Status.FAIL</code> event with details and a media object:
+     * {@link ScreenCapture}
+     * 
+     * @param details
+     *            Details
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
      * @return An {@link ExtentTest} object
      */
-    public ExtentTest fail(String details, MediaEntityModelProvider provider) {
-    	log(Status.FAIL, details, provider);
-    	return this;
+    public ExtentTest fail(String details, Media media) {
+        log(Status.FAIL, details, media);
+        return this;
     }
-    
+
     /**
      * Logs an event <code>Status.FAIL</code> with details
      * 
-     * @param details Details
+     * @param details
+     *            Details
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest fail(String details) {
         return fail(details, null);
     }
-    
+
     /**
-     * Logs an <code>Status.FAIL</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an <code>Status.FAIL</code> event with an exception and a media
+     * object: {@link ScreenCapture}
      * 
      * <p>
      * Example:
@@ -625,40 +715,45 @@ Log evt = createLog(status, details);
      * 
      * <pre>
      * Exception exception = new NullPointerException();
-	 * test.fail(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
+     * test.fail(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
      * </pre>
      * 
-     * @param t {@link Throwable}
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param t
+     *            {@link Throwable}
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
-     * @return An {@link ExtentTest} object 
+     * @return An {@link ExtentTest} object
      */
-    public ExtentTest fail(Throwable t, MediaEntityModelProvider provider) {
-    	log(Status.FAIL, t, provider);
-    	return this;
+    public ExtentTest fail(Throwable t, Media media) {
+        log(Status.FAIL, t, media);
+        return this;
     }
-    
+
     /**
      * Logs an event with <code>Status.FAIL</code> and exception
      * 
-     * @param t {@link Throwable}
+     * @param t
+     *            {@link Throwable}
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest fail(Throwable t) {
         return fail(t, null);
     }
-    
+
     /**
-     * Logs an event with <code>Status.FAIL</code> and custom {@link Markup} such as:
+     * Logs an event with <code>Status.FAIL</code> and custom {@link Markup}
+     * such as:
      * 
      * <ul>
-     * 	<li>Code block</li>
-     * 	<li>Label</li>
-     * 	<li>Table</li>
+     * <li>Code block</li>
+     * <li>Label</li>
+     * <li>Table</li>
      * </ul>
      * 
-     * @param m {@link Markup}
+     * @param m
+     *            {@link Markup}
      * 
      * @return {@link ExtentTest} object
      */
@@ -666,114 +761,51 @@ Log evt = createLog(status, details);
         log(Status.FAIL, m);
         return this;
     }
-    
+
     /**
-     * Logs an <code>Status.DATAL</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an event with <code>Status.FAIL</code> and {@link ScreenCapture}
      * 
-     * @param details Details
-     * @param provider A {@link MediaEntityModelProvider} object
-     * 
-     * @return An {@link ExtentTest} object
-     */
-    public ExtentTest fatal(String details, MediaEntityModelProvider provider) {
-    	log(Status.FATAL, details, provider);
-    	return this;
-    }
-    
-    /**
-     * Logs an event <code>Status.FATAL</code> with details
-     * 
-     * @param details Details
-     * 
-     * @return An {@link ExtentTest} object
-     */
-    public ExtentTest fatal(String details) {
-        log(Status.FATAL, details);
-        return this;
-    }
-    
-    /**
-     * Logs an <code>Status.FATAL</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
-     * 
-     * <p>
-     * Example:
-     * </p>
-     * 
-     * <pre>
-     * Exception exception = new NullPointerException();
-	 * test.fatal(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
-     * </pre>
-     * 
-     * @param t {@link Throwable}
-     * @param provider A {@link MediaEntityModelProvider} object
-     * 
-     * @return An {@link ExtentTest} object 
-     */
-    public ExtentTest fatal(Throwable t, MediaEntityModelProvider provider) {
-    	log(Status.FATAL, t, provider);
-    	return this;
-    }
-    
-    /**
-     * Logs an event with <code>Status.FATAL</code> and exception
-     * 
-     * @param t {@link Throwable}
+     * @param media
+     *            {@link Media}
      * 
      * @return {@link ExtentTest} object
      */
-    public ExtentTest fatal(Throwable t) {
-        log(Status.FATAL, t);
+    public ExtentTest fail(Media media) {
+        log(Status.FAIL, media);
         return this;
     }
-    
+
     /**
-     * Logs an event with <code>Status.FATAL</code> and custom {@link Markup} such as:
+     * Logs an <code>Status.WARNING</code> event with an exception and a media
+     * object: {@link ScreenCapture}
      * 
-     * <ul>
-     * 	<li>Code block</li>
-     * 	<li>Label</li>
-     * 	<li>Table</li>
-     * </ul>
-     * 
-     * @param m {@link Markup}
+     * @param details
+     *            Details
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
      * @return An {@link ExtentTest} object
      */
-    public ExtentTest fatal(Markup m) {
-        log(Status.FATAL, m);
+    public ExtentTest warning(String details, Media media) {
+        log(Status.WARNING, details, media);
         return this;
     }
-    
-    /**
-     * Logs an <code>Status.WARNING</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
-     * 
-     * @param details Details
-     * @param provider A {@link MediaEntityModelProvider} object
-     * 
-     * @return An {@link ExtentTest} object
-     */
-    public ExtentTest warning(String details, MediaEntityModelProvider provider) {
-    	log(Status.WARNING, details, provider);
-    	return this;
-    }
-    
+
     /**
      * Logs an event <code>Status.WARNING</code> with details
      * 
-     * @param details Details
+     * @param details
+     *            Details
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest warning(String details) {
         return warning(details, null);
     }
-    
+
     /**
-     * Logs an <code>Status.WARNING</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an <code>Status.WARNING</code> event with an exception and a media
+     * object: {@link ScreenCapture}
      * 
      * <p>
      * Example:
@@ -781,40 +813,45 @@ Log evt = createLog(status, details);
      * 
      * <pre>
      * Exception exception = new NullPointerException();
-	 * test.warning(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
+     * test.warning(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
      * </pre>
      * 
-     * @param t {@link Throwable}
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param t
+     *            {@link Throwable}
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
-     * @return An {@link ExtentTest} object 
+     * @return An {@link ExtentTest} object
      */
-    public ExtentTest warning(Throwable t, MediaEntityModelProvider provider) {
-    	log(Status.WARNING, t, provider);
-    	return this;
+    public ExtentTest warning(Throwable t, Media media) {
+        log(Status.WARNING, t, media);
+        return this;
     }
-    
+
     /**
      * Logs an event with <code>Status.WARNING</code> and exception
      * 
-     * @param t {@link Throwable}
+     * @param t
+     *            {@link Throwable}
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest warning(Throwable t) {
         return warning(t, null);
     }
-    
+
     /**
-     * Logs an event with <code>Status.WARNING</code> and custom {@link Markup} such as:
+     * Logs an event with <code>Status.WARNING</code> and custom {@link Markup}
+     * such as:
      * 
      * <ul>
-     * 	<li>Code block</li>
-     * 	<li>Label</li>
-     * 	<li>Table</li>
+     * <li>Code block</li>
+     * <li>Label</li>
+     * <li>Table</li>
      * </ul>
      * 
-     * @param m {@link Markup}
+     * @param m
+     *            {@link Markup}
      * 
      * @return An {@link ExtentTest} object
      */
@@ -822,110 +859,49 @@ Log evt = createLog(status, details);
         log(Status.WARNING, m);
         return this;
     }
-    
+
     /**
-     * Logs an <code>Status.ERROR</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an event with <code>Status.WARNING</code> and {@link ScreenCapture}
      * 
-     * @param details Details
-     * @param provider A {@link MediaEntityModelProvider} object
-     * 
-     * @return An {@link ExtentTest} object
-     */
-    public ExtentTest error(String details, MediaEntityModelProvider provider) {
-    	log(Status.ERROR, details, provider);
-    	return this;
-    }
-    
-    /**
-     * Logs an event <code>Status.ERROR</code> with details
-     * 
-     * @param details Details
+     * @param media
+     *            {@link Media}
      * 
      * @return {@link ExtentTest} object
      */
-    public ExtentTest error(String details) {
-        return error(details, null);
-    }
-    
-    /**
-     * Logs an <code>Status.ERROR</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
-     * 
-     * <p>
-     * Example:
-     * </p>
-     * 
-     * <pre>
-     * Exception exception = new NullPointerException();
-	 * test.error(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
-     * </pre>
-     * 
-     * @param t {@link Throwable}
-     * @param provider  A {@link MediaEntityModelProvider} object
-     * 
-     * @return An {@link ExtentTest} object 
-     */
-    public ExtentTest error(Throwable t, MediaEntityModelProvider provider) {
-    	log(Status.ERROR, t, provider);
-    	return this;
-    }
-    
-    /**
-     * Logs an event with <code>Status.ERROR</code> and exception
-     * 
-     * @param t {@link Throwable}
-     * 
-     * @return {@link ExtentTest} object
-     */
-    public ExtentTest error(Throwable t) {
-        return error(t, null);
-    }
-    
-    /**
-     * Logs an event with <code>Status.ERROR</code> and custom {@link Markup} such as:
-     * 
-     * <ul>
-     * 	<li>Code block</li>
-     * 	<li>Label</li>
-     * 	<li>Table</li>
-     * </ul>
-     * 
-     * @param m {@link Markup}
-     * 
-     * @return {@link ExtentTest} object
-     */
-    public ExtentTest error(Markup m) {
-        log(Status.ERROR, m);
+    public ExtentTest warning(Media media) {
+        log(Status.WARNING, media);
         return this;
     }
-    
+
     /**
      * 
-     * @param details Details
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param details
+     *            Details
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
      * @return An {@link ExtentTest} object
      */
-    public ExtentTest skip(String details, MediaEntityModelProvider provider) {
-    	log(Status.SKIP, details, provider);
-    	return this;
+    public ExtentTest skip(String details, Media media) {
+        log(Status.SKIP, details, media);
+        return this;
     }
-    
+
     /**
      * Logs an event <code>Status.SKIP</code> with details
      * 
-     * @param details Details
+     * @param details
+     *            Details
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest skip(String details) {
         return skip(details, null);
     }
-    
+
     /**
-     * Logs an <code>Status.SKIP</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an <code>Status.SKIP</code> event with an exception and a media
+     * object: {@link ScreenCapture}
      * 
      * <p>
      * Example:
@@ -933,40 +909,45 @@ Log evt = createLog(status, details);
      * 
      * <pre>
      * Exception exception = new NullPointerException();
-	 * test.skip(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
+     * test.skip(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
      * </pre>
      * 
-     * @param t {@link Throwable}
-     * @param provider A {@link MediaEntityModelProvider} object
+     * @param t
+     *            {@link Throwable}
+     * @param provider
+     *            A {@link MediaEntityModelProvider} object
      * 
-     * @return An {@link ExtentTest} object 
+     * @return An {@link ExtentTest} object
      */
-    public ExtentTest skip(Throwable t, MediaEntityModelProvider provider) {
-    	log(Status.SKIP, t, provider);
-    	return this;
+    public ExtentTest skip(Throwable t, Media media) {
+        log(Status.SKIP, t, media);
+        return this;
     }
-    
+
     /**
      * Logs an event with <code>Status.SKIP</code> and exception
      * 
-     * @param t {@link Throwable}
+     * @param t
+     *            {@link Throwable}
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest skip(Throwable t) {
         return skip(t, null);
     }
-    
+
     /**
-     * Logs an event with <code>Status.SKIP</code> and custom {@link Markup} such as:
+     * Logs an event with <code>Status.SKIP</code> and custom {@link Markup}
+     * such as:
      * 
      * <ul>
-     * 	<li>Code block</li>
-     * 	<li>Label</li>
-     * 	<li>Table</li>
+     * <li>Code block</li>
+     * <li>Label</li>
+     * <li>Table</li>
      * </ul>
      * 
-     * @param m {@link Markup}
+     * @param m
+     *            {@link Markup}
      * 
      * @return {@link ExtentTest} object
      */
@@ -974,192 +955,110 @@ Log evt = createLog(status, details);
         log(Status.SKIP, m);
         return this;
     }
-    
+
     /**
-     * Logs an <code>Status.DEBUG</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
+     * Logs an event with <code>Status.SKIP</code> and {@link ScreenCapture}
      * 
-     * @param details Details
-     * @param provider A {@link MediaEntityModelProvider} object
-     * 
-     * @return An {@link ExtentTest} object
-     */
-    public ExtentTest debug(String details, MediaEntityModelProvider provider) {
-        log(Status.DEBUG, details, provider);
-        return this;
-    }
-    
-    /**
-     * Logs an event <code>Status.DEBUG</code> with details
-     * 
-     * @param details Details
+     * @param media
+     *            {@link Media}
      * 
      * @return {@link ExtentTest} object
      */
-    public ExtentTest debug(String details) {
-        return debug(details, null);
-    }
-    
-    /**
-     * Logs an <code>Status.DEBUG</code> event with an exception and a media object: 
-     * {@link Screencast} or {@link ScreenCapture}
-     * 
-     * <p>
-     * Example:
-     * </p>
-     * 
-     * <pre>
-     * Exception exception = new NullPointerException();
-     * test.debug(exception, MediaEntityBuilder.createScreenCaptureFromPath("screen.png").build());
-     * </pre>
-     * 
-     * @param t {@link Throwable}
-     * @param provider A {@link MediaEntityModelProvider} object
-     * 
-     * @return An {@link ExtentTest} object 
-     */
-    public ExtentTest debug(Throwable t, MediaEntityModelProvider provider) {
-        log(Status.DEBUG, t, provider);
+    public ExtentTest skip(Media media) {
+        log(Status.SKIP, media);
         return this;
     }
-    
-    /**
-     * Logs an event with <code>Status.SKIP</code> and exception
-     * 
-     * @param t {@link Throwable}
-     * 
-     * @return {@link ExtentTest} object
-     */
-    public ExtentTest debug(Throwable t) {
-        return debug(t, null);
-    }
-    
-    /**
-     * Logs an event with <code>Status.DEBUG</code> and custom {@link Markup} such as:
-     * 
-     * <ul>
-     *  <li>Code block</li>
-     *  <li>Label</li>
-     *  <li>Table</li>
-     * </ul>
-     * 
-     * @param m {@link Markup}
-     * 
-     * @return {@link ExtentTest} object
-     */
-    public ExtentTest debug(Markup m) {
-        log(Status.DEBUG, m);
-        return this;
-    }    
 
     /**
      * Assigns a category or group
      * 
-     * @param category Category name
+     * @param category
+     *            Category name
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest assignCategory(String... category) {
-    	Arrays.stream(category).filter(StringUtil::isNotNullOrEmpty).forEach(c -> {
-    		Category objCategory = new Category(c.replace(" ", ""));
-	        test.setCategory(objCategory);
-	        
-	        extent.assignCategory(test, objCategory);
-    	});
-
+        if (category == null || category.length == 0)
+            return this;
+        Arrays.stream(category)
+                .forEach(x -> {
+                    Category c = new Category(x.replaceAll("\\s+", ""));
+                    model.getCategorySet().add(c);
+                    extent.onCategoryAdded(c, model);
+                });
         return this;
     }
 
     /**
      * Assigns an author
      * 
-     * @param author Author name
+     * @param author
+     *            Author name
      * 
      * @return {@link ExtentTest} object
      */
     public ExtentTest assignAuthor(String... author) {
-    	Arrays.stream(author).filter(StringUtil::isNotNullOrEmpty).forEach(a -> {
-    		Author objAuthor = new Author(a.replace(" ", ""));
-	        test.setAuthor(objAuthor);
-	        
-	        extent.assignAuthor(test, objAuthor);
-    	});
-        
+        if (author == null || author.length == 0)
+            return this;
+        Arrays.stream(author)
+                .forEach(x -> {
+                    Author a = new Author(x.replaceAll("\\s+", ""));
+                    model.getAuthorSet().add(a);
+                    extent.onAuthorAdded(a, model);
+                });
         return this;
     }
 
-    @Override
-    public ExtentTest addScreenCaptureFromPath(String imagePath, String title) throws IOException {
-    	ScreenCapture sc = new ScreenCapture();
-        sc.setPath(imagePath);
-        if (title != null)
-            sc.setName(title);
-        sc.setMediaType(MediaType.IMG);
-        
-        if (test.getObjectId() != null)
-            sc.setTestObjectId(test.getObjectId());
-        
-        extent.addScreenCapture(test, sc);
-        
-        return addScreenCapture(sc);
-    }
-    
-    private ExtentTest addScreenCapture(ScreenCapture sc) {
-    	test.setScreenCapture(sc);
-
-        if (test.getObjectId() != null) {
-            int sequence = test.getScreenCaptureList().size();
-            sc.setTestObjectId(test.getObjectId());
-            sc.setSequence(sequence);
-        }
-        
-        return this;
-    }
-    
-    @Override
-    public ExtentTest addScreenCaptureFromPath(String imagePath) throws IOException {
-        return addScreenCaptureFromPath(imagePath, null);
-    }
-
-    @Override
-    public ExtentTest addScreencastFromPath(String screencastPath) throws IOException {
-        Screencast sc = new Screencast();
-        sc.setPath(screencastPath);
-        sc.setMediaType(MediaType.VID);
-        
-        test.setScreencast(sc);
-        
-        if (test.getObjectId() != null) {
-            int sequence = test.getScreencastList().size();
-            sc.setTestObjectId(test.getObjectId());
-            sc.setSequence(sequence);
-        }
-        
-        extent.addScreencast(test, sc);
-        
-        return this;
-    }
-    
     /**
-     * Provides the current run status of the test or node
+     * Assign a device
      * 
-     * @return {@link Status}
+     * @param device
+     *            Device name
+     * 
+     * @return {@link ExtentTest} object
      */
+    public ExtentTest assignDevice(String... device) {
+        if (device == null || device.length == 0)
+            return this;
+        Arrays.stream(device)
+                .forEach(x -> {
+                    Device d = new Device(x.replaceAll("\\s+", ""));
+                    model.getDeviceSet().add(d);
+                    extent.onDeviceAdded(d, model);
+                });
+        return this;
+    }
+
+    @Override
     public Status getStatus() {
-        return getModel().getStatus();
+        return model.getStatus();
     }
 
-    /**
-     * Returns the underlying test which controls the internal model
-     * 
-     * @return {@link Test} object
-     */
-    public Test getModel() {
-        return test;
+    public ExtentTest addScreenCaptureFromPath(String path, String title) {
+        if (path == null || path.isEmpty())
+            throw new IllegalArgumentException("ScreenCapture path cannot be null or empty");
+        Media m = ScreenCapture.builder().path(path).title(title).build();
+        model.addMedia(m);
+        extent.onMediaAdded(m, model);
+        return this;
     }
-    
-    void setUseManualConfiguration(Boolean b) {
-        getModel().setUseManualConfiguration(b);
+
+    public ExtentTest addScreenCaptureFromPath(String path) {
+        return addScreenCaptureFromPath(path, null);
     }
-    
+
+    public ExtentTest addScreenCaptureFromBase64String(String base64, String title) {
+        if (base64 == null || base64.isEmpty())
+            throw new IllegalArgumentException("Base64 string cannot be null or empty");
+        if (!base64.startsWith("data:"))
+            base64 = "data:image/png;base64," + base64;
+        Media m = ScreenCapture.builder().base64(base64).title(title).build();
+        model.addMedia(m);
+        extent.onMediaAdded(m, model);
+        return this;
+    }
+
+    public ExtentTest addScreenCaptureFromBase64String(String base64) {
+        return addScreenCaptureFromBase64String(base64, null);
+    }
 }

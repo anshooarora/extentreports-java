@@ -1,23 +1,21 @@
 package com.aventstack.extentreports.model;
 
-public class ScreenCapture extends Media { 
+import java.io.Serializable;
 
-    private static final long serialVersionUID = -3413285738443448335L;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-    public String getSource() {
-        if (getBase64String() != null)
-            return "<br/><a href='" + getScreenCapturePath() + "' data-featherlight='image'><span class='label grey white-text'>base64-img</span></a>";
+@Getter
+@Setter
+public class ScreenCapture extends Media implements Serializable {
+    private static final long serialVersionUID = -3047762572007885369L;
 
-        return "<img onerror='this.style.display=\"none\"' data-featherlight='" + getScreenCapturePath() + "' width='10%' src='" + getScreenCapturePath() + "' data-src='" + getScreenCapturePath() + "'>";
+    private String base64;
+
+    @Builder
+    public ScreenCapture(String path, String title, String resolvedPath, String base64) {
+        super(path, title, resolvedPath);
+        this.base64 = base64;
     }
-    
-    public String getSourceWithIcon() {
-        return "<a href='#' data-featherlight='" + getScreenCapturePath() + "'><i class='material-icons'>photo</i></a>";
-    }
-    
-    private String getScreenCapturePath() {
-        String path = getPath() != null ? getPath() : getBase64String();
-        return path;
-    }
-
 }

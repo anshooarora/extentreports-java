@@ -1,8 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Extent Parallel Test" parallel="methods">
-    <test name="ExtentWithParallelMethods" allow-return-values="true">
-        <classes>
-            <class name="com.aventstack.extentreports.ParallelMethods" />
-        </classes>
-    </test>
-</suite>

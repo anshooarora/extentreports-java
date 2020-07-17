@@ -1,9 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="ExtentTestNGComponentsParallel" parallel="classes" thread-count="2">
-    <test name="ExtentTestNGComponentsParallel">
-        <classes>
-            <class name="com.aventstack.extentreports.testng.components.ParallelTest1" />
-            <class name="com.aventstack.extentreports.testng.components.ParallelTest2" />
-        </classes>
-    </test>
-</suite>

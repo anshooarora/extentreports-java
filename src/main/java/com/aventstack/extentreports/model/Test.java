@@ -3,362 +3,211 @@ package com.aventstack.extentreports.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
-import org.bson.types.ObjectId;
-
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.RunResult;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.gherkin.model.IGherkinFormatterModel;
+import com.aventstack.extentreports.gherkin.model.ScenarioOutline;
 
-public class Test implements RunResult, Serializable, BasicReportElement {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    private static final long serialVersionUID = 5590943223572254960L;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public final class Test implements RunResult, Serializable, BaseEntity {
+    private static final long serialVersionUID = -4896520724677957845L;
+    private static final AtomicInteger atomicInt = new AtomicInteger(0);
 
-    /**
-     * Default level of this test, using the numeric hierarchy with 0 indicating
-     * the top-most test, followed by 1, 2, and so on
-     */
-    private int level = 0;
-    private int testID;
-    
-    private ExtentReports extent;
-    private Test parent;
-    private Status testStatus;
-    
-    private AbstractStructure<Test> node;
-    private AbstractStructure<Log> log;
-    private AbstractStructure<TestAttribute> category;
-    private AbstractStructure<TestAttribute> author;
-    
-    private Date endTime;
-    private Date startTime;
-    
-    private static final AtomicInteger id = new AtomicInteger(0);
-    private ObjectId mongoId;
-    
-    private Class<? extends IGherkinFormatterModel> bddType;
-    
-    private transient List<ScreenCapture> screenCaptureList;
-    private transient List<Screencast> screencastList;
-    private transient List<ExceptionInfo> exceptionList;
-    
+    private final transient int id = atomicInt.incrementAndGet();
+    private final transient StatusDeterminator determinator = new StatusDeterminator();
+    @Builder.Default
+    private boolean useNaturalConf = true;
+    @Builder.Default
+    private Date startTime = Calendar.getInstance().getTime();
+    @Builder.Default
+    private Date endTime = Calendar.getInstance().getTime();
+    @Builder.Default
+    private Status status = Status.PASS;
+    @Builder.Default
+    private Integer level = 0;
+    @Builder.Default
+    private boolean isLeaf = true;
     private String name;
-    private String hierarchicalName;
     private String description;
-    
-    private boolean ended = false;
-    private boolean usesManualConfiguration = false;
-    
-    public Test() {
-        setStartTime(Calendar.getInstance().getTime());
-        setEndTime(getStartTime());
-        setStatus(Status.PASS);
-        
-        setID(id.incrementAndGet());
+    private transient Test parent;
+    private Class<? extends IGherkinFormatterModel> bddType;
+    private final Map<String, Object> infoMap = new HashMap<>();
+    private final List<Test> children = Collections.synchronizedList(new ArrayList<>());
+    private final List<Log> logs = Collections.synchronizedList(new ArrayList<>());
+    private final List<Media> media = Collections.synchronizedList(new ArrayList<>());
+    private final List<ExceptionInfo> exceptions = new ArrayList<>();
+    private final Set<Author> authorSet = ConcurrentHashMap.newKeySet();
+    private final Set<Category> categorySet = ConcurrentHashMap.newKeySet();
+    private final Set<Device> deviceSet = ConcurrentHashMap.newKeySet();
+    private final List<Log> generatedLog = Collections.synchronizedList(new ArrayList<>());
+
+    public final void addChild(Test child) {
+        if (child == null)
+            throw new IllegalArgumentException("Node must not be null");
+        child.setLevel(level + 1);
+        child.setParent(this);
+        child.setLeaf(true);
+        isLeaf = false;
+        end(child.getStatus());
+        children.add(child);
     }
 
-    // if used via listener, allow manual configuration of model
-    public void setUseManualConfiguration(boolean b) {
-        this.usesManualConfiguration = b;
-    }
-    
-    public ExtentReports getExtentInstance() {
-        return extent;
-    }
-    
-    public void setExtentInstance(ExtentReports extent) {
-        this.extent = extent;
+    private void end(Status evtStatus) {
+        setStatus(Status.max(status, evtStatus));
+        if (useNaturalConf)
+            propogateTime();
     }
 
-    // child
-    public boolean isChildNode() {
-        return level > 0;
-    }
-    
-    public int getLevel() {
-        return level;
-    }
-    
-    public void setLevel(int level) {
-        this.level = level;
+    private void propogateTime() {
+        setEndTime(Calendar.getInstance().getTime());
+        if (parent != null)
+            parent.propogateTime();
     }
 
-    // parent    
-    public void setParent(Test parent) {
-        hierarchicalName = parent.getHierarchicalName() + "." + getName();
-        this.parent = parent;
+    public final void addLog(Log log) {
+        addLog(log, logs);
     }
-    
-    public Test getParent() { return parent; }
 
-    // nodes
-    public AbstractStructure<Test> getNodeContext() {
-        if (node == null) {
-            node = new AbstractStructure<>();
+    public final void addGeneratedLog(Log log) {
+        addLog(log, generatedLog);
+    }
+
+    private final void addLog(Log log, List<Log> list) {
+        if (log == null)
+            throw new IllegalArgumentException("Log must not be null");
+        log.setSeq(list.size());
+        list.add(log);
+        end(log.getStatus());
+        updateResult();
+    }
+
+    public final boolean isBDD() {
+        return getBddType() != null;
+    }
+
+    public final boolean hasLog() {
+        return !logs.isEmpty();
+    }
+
+    public final boolean hasAnyLog() {
+        return !logs.isEmpty() || !generatedLog.isEmpty();
+    }
+
+    public final boolean hasChildren() {
+        return !children.isEmpty();
+    }
+
+    public final boolean hasAttributes() {
+        return hasAuthor() || hasCategory() || hasDevice();
+    }
+
+    public final boolean hasAuthor() {
+        return !authorSet.isEmpty();
+    }
+
+    public final boolean hasCategory() {
+        return !categorySet.isEmpty();
+    }
+
+    public final boolean hasDevice() {
+        return !deviceSet.isEmpty();
+    }
+
+    public final boolean hasException() {
+        return !exceptions.isEmpty();
+    }
+
+    public final String getFullName() {
+        Test test = this;
+        StringBuilder sb = new StringBuilder(test.getName());
+        while (test.getParent() != null) {
+            test = test.getParent();
+            if (test.getBddType() == null || test.getBddType() != ScenarioOutline.class)
+                sb.insert(0, test.getName() + ".");
+        }
+        return sb.toString();
+    }
+
+    public final void addMedia(Media m) {
+        if (m != null && (m.getPath() != null || m.getResolvedPath() != null
+                || ((ScreenCapture) m).getBase64() != null))
+            media.add(m);
+        end(status);
+    }
+
+    public final boolean hasScreenCapture() {
+        return !media.isEmpty() && media.stream().anyMatch(x -> x instanceof ScreenCapture);
+    }
+
+    public final long timeTaken() {
+        return endTime.getTime() - startTime.getTime();
+    }
+
+    public final Test getAncestor() {
+        Test test = this;
+        while (test.getParent() != null)
+            test = test.getParent();
+        return test;
+    }
+
+    public final void updateResult() {
+        determinator.computeTestStatus();
+    }
+
+    private class StatusDeterminator {
+        public void computeTestStatus() {
+            List<Test> leafList = getLeafList(Test.this);
+            computeStatus(leafList);
         }
 
-        return node;
-    }
-    
-    public boolean hasChildren() {
-        return node != null && node.getAll() != null && node.getAll().size() > 0;
-    }
-
-    // started time
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    // ended time
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-    
-    private void setEndTimeFromChildren() {
-        if (hasLog()) {
-            int logSize = getLogContext().size();
-            Date lastLogEndTime = getLogContext().get(logSize - 1).getTimestamp(); 
-            setEndTime(lastLogEndTime);
-        }
-        
-        if (hasChildren()) {
-            int nodeSize = getNodeContext().size();
-            Date lastNodeEndTime = getNodeContext().get(nodeSize - 1).getEndTime();
-            setEndTime(lastNodeEndTime);
-        }
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public boolean hasEnded() {
-        return ended;
-    }
-    
-    // run duration as string
-    public String getRunDuration() {
-        long diff = endTime.getTime() - startTime.getTime();
-        
-        long secs = diff / 1000;
-        long millis = diff % 1000;
-        long mins = secs / 60;
-        secs = secs % 60;
-        long hours = mins / 60;
-        mins = mins % 60;
-        
-        return hours + "h " + mins + "m " + secs + "s+" + millis + "ms";
-    }
-    
-    public Long getRunDurationMillis() {
-    	long diff = endTime.getTime() - startTime.getTime();
-    	return diff;
-    }
-
-    // default status when the test starts
-    public void setStatus(Status status) {
-        this.testStatus = status;
-    }
-
-    public Status getStatus() {
-        return testStatus;
-    }
-
-    public void trackLastRunStatus() {
-        getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
-
-        testStatus = (testStatus == Status.INFO || testStatus == Status.DEBUG)
-                ? Status.PASS
-                : testStatus;
-    }
-    
-    private synchronized void updateStatus(Status logStatus) {
-        int logStatusIndex = Status.getStatusHierarchy().indexOf(logStatus);        
-        int testStatusIndex = Status.getStatusHierarchy().indexOf(testStatus);
-        
-        testStatus = logStatusIndex < testStatusIndex ? logStatus : testStatus;
-    }
-
-    public void end() {
-        updateTestStatusRecursive(this);
-        endChildrenRecursive(this);
-        
-        testStatus = (testStatus == Status.INFO || testStatus == Status.DEBUG)
-                ? Status.PASS
-                : testStatus;
-        
-        if (!usesManualConfiguration || endTime == null)
-            setEndTimeFromChildren();
-    }
-
-    private synchronized void updateTestStatusRecursive(Test test) {
-        test.getLogContext().getAll().forEach(x -> updateStatus(x.getStatus()));
-
-        if (test.hasChildren()) {
-            test.getNodeContext().getAll().forEach(this::updateTestStatusRecursive);
-        }
-        
-        if (!test.isBehaviorDrivenType()) {
-	        // if not all children are marked SKIP, then:
-	        // ensure the parent has a status that is not SKIP
-	        if (testStatus == Status.SKIP && test.getNodeContext().getAll().stream().anyMatch(x -> x.getStatus() != Status.SKIP)) {
-	            // reset status
-	            testStatus = Status.PASS;
-	            // compute new status
-	            Stream<Test> stream = test.getNodeContext().getAll().stream().filter(x -> x.getStatus() != Status.SKIP);
-	            stream.forEach(this::updateTestStatusRecursive);
-	        }
-        }
-    }
-    
-    private void endChildrenRecursive(Test test) {
-        test.getNodeContext().getAll().forEach(Test::end);
-    }
-
-    // logs
-    public AbstractStructure<Log> getLogContext() {
-        if (log == null) {
-            log = new AbstractStructure<>();
+        private List<Test> getLeafList(Test test) {
+            List<Test> testList = new ArrayList<>();
+            if (test.isLeaf())
+                testList.add(test);
+            else
+                for (Test t : test.getChildren())
+                    if (t.isLeaf())
+                        testList.add(t);
+                    else
+                        testList.addAll(getLeafList(t));
+            return testList;
         }
 
-        return log;
-    }
-    
-    public boolean hasLog() {
-        return log != null && log.getAll() != null && log.size() > 0;
-    }
-    
-    // test description
-    public void setDescription(String description) { 
-        this.description = description; 
-    }
+        private void computeStatus(List<Test> testList) {
+            testList.forEach(this::computeStatus);
+        }
 
-    public String getDescription() { return description; }
-
-    // test name
-    public void setName(String name) {
-        this.name = name;
-        
-        if (hierarchicalName == null)
-            hierarchicalName = name;
+        private void computeStatus(Test t) {
+            Set<Status> set = new HashSet<>();
+            Iterator<Log> iter = new ArrayList<>(t.getLogs()).iterator();
+            while (iter.hasNext())
+                set.add(iter.next().getStatus());
+            set.add(t.getStatus());
+            t.setStatus(Status.max(set));
+            if (t.getParent() != null) {
+                t.getParent().setStatus(Status.max(t.getStatus(), t.getParent().getStatus()));
+                computeStatus(t.getParent());
+            }
+        }
     }
-
-    public String getName() { return name; }
-
-    public String getHierarchicalName() { return hierarchicalName; }
-    
-    // categories
-    public AbstractStructure<TestAttribute> getCategoryContext() {
-        if (category == null)
-            category = new AbstractStructure<>();
-        
-        return category;
-    }
-    
-    public boolean hasCategory() {
-        return category != null && category.getAll() != null && category.size() > 0;
-    }
-    
-    public void setCategory(TestAttribute category) {
-        getCategoryContext().add(category);
-    }
-    
-    public TestAttribute getCategory(Integer index) {
-        if (hasCategory() && index >= category.size() - 1)
-            return category.get(index);
-            
-        return null;
-    }
-    
-    // authors
-    public AbstractStructure<TestAttribute> getAuthorContext() {
-        if (author == null)
-            author = new AbstractStructure<>();
-        
-        return author;
-    }
-    
-    public boolean hasAuthor() {
-        return author != null && author.getAll() != null && author.size() > 0;
-    }
-    
-    public void setAuthor(TestAttribute author) {
-        getAuthorContext().add(author);
-    }
-    
-    public TestAttribute getAuthor(Integer index) {
-        if (hasAuthor() && index >= author.size() - 1)
-            return author.get(index);
-            
-        return null;
-    }
-
-    // exceptions
-    public void setExceptionInfo(ExceptionInfo ei) {
-        if (exceptionList == null)
-            exceptionList = new ArrayList<>();
-        
-        exceptionList.add(ei);
-    }
-    
-    public List<ExceptionInfo> getExceptionInfoList() { return exceptionList; }
-    
-    public boolean hasException() {
-        return exceptionList != null && !exceptionList.isEmpty();
-    }
-    
-    // media - screenshots
-    public boolean hasMedia() {
-        return screenCaptureList != null 
-                && !screenCaptureList.isEmpty()
-                && screencastList != null
-                && !screencastList.isEmpty();
-    }
-    
-    public void setScreenCapture(ScreenCapture sc) {
-        if (screenCaptureList == null)
-            screenCaptureList = new ArrayList<>();
-        
-        screenCaptureList.add(sc);
-    }
-    
-    public List<ScreenCapture> getScreenCaptureList() { return screenCaptureList; }
-    
-    // media - screencast
-    public void setScreencast(Screencast screencast) {
-        if (screencastList == null)
-            screencastList = new ArrayList<>();
-        
-        screencastList.add(screencast);
-    }
-    
-    public List<Screencast> getScreencastList() { return screencastList; }
-    
-    // bdd
-    public boolean isBehaviorDrivenType() { return bddType != null; }
-    
-    public void setBehaviorDrivenType(IGherkinFormatterModel type) { bddType = type.getClass(); }
-    
-    public void setBehaviorDrivenType(Class<? extends IGherkinFormatterModel> type) { bddType = type; }
-    
-    public Class<? extends IGherkinFormatterModel> getBehaviorDrivenType() { return bddType; }
-    
-    // test-id    
-    void setID(int id) { testID = id; }
-    
-    public int getID() { return testID; }
-    
-    // mongo-db id
-    public void setObjectId(ObjectId id) { mongoId = id; }
-    
-    public ObjectId getObjectId() { return mongoId; }
 }

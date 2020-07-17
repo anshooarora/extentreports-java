@@ -1,3 +1,6 @@
 package com.aventstack.extentreports.gherkin.model;
 
-public interface IGherkinFormatterModel { }
+import java.io.Serializable;
+
+public interface IGherkinFormatterModel extends Serializable {
+}

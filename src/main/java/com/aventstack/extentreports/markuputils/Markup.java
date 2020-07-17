@@ -1,6 +1,8 @@
 package com.aventstack.extentreports.markuputils;
 
+import java.io.Serializable;
+
 @FunctionalInterface
-public interface Markup {
+public interface Markup extends Serializable {
     String getMarkup();
 }

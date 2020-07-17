@@ -1,0 +1,12 @@
+{
+  "theme": "DARK",
+  "encoding": "utf-16",
+  "protocol": "HTTP",
+  "timelineEnabled": true,
+  "offlineMode": true,
+  "documentTitle": "Test1",
+  "reportName": "Test2",
+  "timeStampFormat": "MMM dd, yyyy HH:mm:ss a",
+  "js": "js1",
+  "css": "css1"
+}
